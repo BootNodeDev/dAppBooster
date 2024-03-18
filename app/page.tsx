@@ -6,25 +6,14 @@ import { useReadContract } from "wagmi";
 import ERC20 from "@/app/_constants/abis/ERC20";
 import { Suspense, use, useEffect, useState } from "react";
 import { mainnet } from "viem/chains";
-
-const Balance = () => {
-  const res = useReadContract({
-    chainId: mainnet.id,
-    address: "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
-    abi: ERC20,
-    functionName: "balanceOf",
-    args: ["0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"],
-  });
-
-  return <div>{res.data?.toString()}</div>;
-};
+import ERC20BalanceExample from "@/app/_examples/BalanceExample";
 
 export default function Home() {
   return (
     <main className={styles.main}>
       <div className={styles.description}>
         <Suspense fallback="Loading...">
-          <Balance />
+          <ERC20BalanceExample />
         </Suspense>
 
         <p>
