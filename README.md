@@ -1,6 +1,6 @@
 ## Opinionated Libs
 
-TODO pnpm, Wagmi, TansTank, Nextjs, React
+TODO pnpm, Wagmi, TanStack, Nextjs, React
 
 ## Folder structure
 

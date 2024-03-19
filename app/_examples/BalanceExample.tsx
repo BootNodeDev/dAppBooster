@@ -3,7 +3,7 @@ import { mainnet } from "viem/chains";
 import { useReadContract } from "wagmi";
 
 export default function ERC20BalanceExample() {
-  const daiInfo = getContractInfo(ContractKeys.DAI, mainnet.id);
+  const daiInfo = getContractInfo("DAI", mainnet.id);
   const res = useReadContract({
     chainId: mainnet.id,
     address: daiInfo.address,
