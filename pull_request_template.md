@@ -6,7 +6,7 @@ Closes #
 
 # Steps
 
-(Required steps to reproduce or test the issue / feature)
+(Required steps to reproduce or test the fix / feature)
 
 ## Type of change
 
