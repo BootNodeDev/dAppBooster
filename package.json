@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "code-gen": "wagmi generate"
+    "code-gen": "wagmi generate",
+    "postinstall": "pnpm run code-gen"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.28.4",
