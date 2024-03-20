@@ -1,14 +1,14 @@
 Closes #
 
-# Description
+# Description:
 
 (Please include a summary of the changes and the related issue)
 
-# Steps
+# Steps:
 
 (Required steps to reproduce or test the fix / feature)
 
-## Type of change
+## Type of change:
 
 - [ ] New feature
 - [ ] Bug fix
@@ -22,13 +22,13 @@ Closes #
 - [ ] Automated tests
 - [ ] Other (explain)
 
-# Checklist
+# Remember to check that:
 
-- [ ] My code follows the style guidelines of this project
-- [ ] I have performed a self-review of my code
-- [ ] I have commented my code in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
+- Your code follows the style guidelines of this project
+- You have performed a self-review of your code
+- You have commented your code in hard-to-understand areas
+- You have made corresponding changes to the documentation
+- Your changes generate no new warnings
 
 # Screenshots
 
