@@ -1,6 +1,10 @@
 import { mainnet, sepolia } from "viem/chains";
 import { http, createConfig } from "wagmi";
 
+export const supportedChains = [mainnet, sepolia] as const;
+
+export type ChainKeys = (typeof supportedChains)[number]["id"];
+
 const INFURA_TOKEN = process.env.NEXT_PUBLIC_INFURA_TOKEN;
 
 if (!INFURA_TOKEN) throw new Error("INFURA_TOKEN is not set");
