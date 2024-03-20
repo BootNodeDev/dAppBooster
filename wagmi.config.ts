@@ -20,7 +20,7 @@ const globals: ContractConfig<number, undefined>[] = [
 
 
 export default defineConfig({
-  out: 'app/generated/hooks.ts',
+  out: 'app/_generated/hooks.ts',
   contracts: [...parsedContracts, ...globals],
   plugins: [
     react(),

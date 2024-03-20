@@ -1,4 +1,4 @@
-import { useReadErc20BalanceOf, useReadErc20Decimals, useReadErc20Name, useReadErc20Symbol } from "@/app/generated/hooks"
+import { useReadErc20BalanceOf, useReadErc20Decimals, useReadErc20Name, useReadErc20Symbol } from "@/app/_generated/hooks"
 import { Suspense, useState } from "react"
 import { Address } from "viem"
 import { mainnet } from "viem/chains"
