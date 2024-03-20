@@ -12,6 +12,9 @@ interface Props {
   onCopy?: () => void;
 }
 
+// TODO: add toast when the user clicks the button.
+// perhaps we can use an animation to replace the toast.
+
 export const Hash: React.FC<Props> = ({
   chainId,
   address,
