@@ -2,11 +2,10 @@
 
 import Image from "next/image";
 import styles from "./page.module.css";
-import { useReadContract } from "wagmi";
-import ERC20 from "@/app/_constants/abis/ERC20";
-import { Suspense, use, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { mainnet } from "viem/chains";
 import ERC20BalanceExample from "@/app/_examples/BalanceExample";
+import { Hash } from "@/app/_components/Hash";
 
 export default function Home() {
   return (
@@ -16,6 +15,10 @@ export default function Home() {
           <ERC20BalanceExample />
         </Suspense>
 
+        <Hash
+          chainId={mainnet.id}
+          address="0x6b175474e89094c44da98b954eedeac495271d0f"
+        />
         <p>
           Get started by editing&nbsp;
           <code className={styles.code}>app/page.tsx</code>
