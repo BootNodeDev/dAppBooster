@@ -1,5 +1,7 @@
-import { ChainKeys } from "@/app/_lib/wagmi.config";
+
+
 import { Abi, Address, erc20Abi } from "viem";
+import { ChainKeys } from "@/app/_lib/wagmi.config";
 import { mainnet, sepolia } from "viem/chains";
 
 const contractNames = ["DAI"] as const;
@@ -16,8 +18,7 @@ export const contracts = {
   },
 } satisfies Record<
   ContractKeys,
-  { address: Record<ChainKeys, Address>; abi: Abi; autoGenerateHooks: boolean }
->;
+  { address: Record<ChainKeys, Address>; abi: Abi; autoGenerateHooks: boolean }>;
 
 export function getContractInfo(contractKey: ContractKeys, chain: ChainKeys) {
   return {
