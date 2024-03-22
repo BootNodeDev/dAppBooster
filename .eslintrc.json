@@ -1,34 +1,7 @@
 {
-  "env": {
-    "browser": true,
-    "node": true,
-    "es2020": true
-  },
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": 2020,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
-  "plugins": ["react-hooks", "@typescript-eslint", "sort-destructure-keys", "jsx-a11y", "prettier"],
-  "extends": [
-    "next/core-web-vitals",
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:import/typescript",
-    "plugin:jsx-a11y/recommended",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
+  "plugins": ["sort-destructure-keys", "prettier"],
   "rules": {
-    "import/no-unresolved": 0,
     "import/order": [
       "error",
       {
@@ -50,19 +23,12 @@
       }
     ],
     "prettier/prettier": "error",
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
-    "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
-    "sort-destructure-keys/sort-destructure-keys": 2,
-    "@typescript-eslint/no-use-before-define": [
-      "error",
-      { "functions": false, "classes": false, "variables": true }
-    ],
+    "sort-destructure-keys/sort-destructure-keys": "error",
     "no-constant-binary-expression": "error",
-    "react/react-in-jsx-scope": "off",
     "react/no-unescaped-entities": "off",
-    "react/prop-types": "off",
-    "react/jsx-sort-props": 2,
-    "react/jsx-label-has-associated-control": 0
+    "react/jsx-uses-react": "off",
+    "react/jsx-sort-props": "error",
+    "jsx-a11y/label-has-associated-control": "off"
   }
 }
