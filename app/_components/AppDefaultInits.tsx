@@ -9,15 +9,9 @@ import { queryClientConfig } from '@/app/_lib/queryClient.config'
 import { wagmiConfig } from '@/app/_lib/wagmi.config'
 
 export default function AppDefaultInits({
-  aGreatProp,
-  anotherProp,
   children,
-  someOtherProp,
 }: Readonly<{
-  aGreatProp: string
   children: React.ReactNode
-  someOtherProp: number
-  anotherProp: boolean
 }>) {
   return (
     <ErrorBoundary>
