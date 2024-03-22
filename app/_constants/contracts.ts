@@ -14,15 +14,16 @@ export const contracts = {
       [sepolia.id]: "0x82fb927676b53b6ee07904780c7be9b4b50db80b",
     },
     abi: erc20Abi,
-    autoGenerateHooks: false,
   },
 } satisfies Record<
   ContractKeys,
-  { address: Record<ChainKeys, Address>; abi: Abi; autoGenerateHooks: boolean }>;
+  { address: Record<ChainKeys, Address>; abi: Abi; }>;
+
 
 export function getContractInfo(contractKey: ContractKeys, chain: ChainKeys) {
   return {
     address: contracts[contractKey]["address"][chain],
     abi: contracts[contractKey].abi,
+    chainId: chain,
   };
 }
