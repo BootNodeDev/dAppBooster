@@ -1,3 +1,34 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
+  "plugins": ["sort-destructure-keys", "prettier"],
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "alphabetize": { "order": "asc" },
+        "groups": [
+          ["builtin", "external"],
+          ["internal", "parent", "sibling", "index"]
+        ],
+        "newlines-between": "always",
+        "pathGroups": [
+          { "group": "builtin", "pattern": "react", "position": "before" },
+          {
+            "group": "external",
+            "pattern": "{styled-components,polished,next,next/*,react-dom,sanitize.css}",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": ["builtin"]
+      }
+    ],
+    "prettier/prettier": "error",
+    "react-hooks/exhaustive-deps": "error",
+    "sort-destructure-keys/sort-destructure-keys": "error",
+    "no-constant-binary-expression": "error",
+    "react/no-unescaped-entities": "off",
+    "react/jsx-uses-react": "off",
+    "react/jsx-sort-props": "error",
+    "jsx-a11y/label-has-associated-control": "off"
+  }
 }
