@@ -18,9 +18,8 @@ const Balance = () => {
     args: ['0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'],
   })
 
-  return <div>{res.data.toString()}</div>;
-};
-
+  return <div>{res.data.toString()}</div>
+}
 
 export default function Home() {
   return (
