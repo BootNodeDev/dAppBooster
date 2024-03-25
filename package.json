@@ -15,7 +15,7 @@
     "react": "^18",
     "react-dom": "^18",
     "viem": "2.x",
-    "wagmi": "2.5.7"
+    "wagmi": "2.5.12"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.28.4",
@@ -32,7 +32,7 @@
   },
   "pnpm": {
     "patchedDependencies": {
-      "wagmi@2.5.7": "patches/wagmi@2.5.7.patch"
+      "wagmi@2.5.12": "patches/wagmi@2.5.12.patch"
     }
   }
 }
