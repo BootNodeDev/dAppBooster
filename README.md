@@ -18,7 +18,7 @@ Interacting with smart contracts is key in any dApp. Although Wagmi makes it eas
 
 - **Contract Details**: For each contract, we store its address and ABI per chain in the `contracts` object. This approach maintains consistency by requiring entries for each `ContractKeys` and an address for each `ChainKeys`.
 
-| Note: We assume that a contract's ABI remains the same across blockchains. If your contracts have different ABIs on different blockchains, consider using unique names for each version.
+> Note: We assume that a contract's ABI remains the same across blockchains. If your contracts have different ABIs on different blockchains, consider using unique names for each version.
 
 ```tsx
 import { mainnet } from "viem/chains";
