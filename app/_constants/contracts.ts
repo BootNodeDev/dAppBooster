@@ -19,6 +19,7 @@ export const contracts = {
 
 export function getContractInfo(contractKey: ContractKeys, chain: ChainKeys) {
   return {
+    chainId: chain,
     address: contracts[contractKey]['address'][chain],
     abi: contracts[contractKey].abi,
   }
