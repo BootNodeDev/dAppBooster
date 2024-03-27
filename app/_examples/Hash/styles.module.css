@@ -1,0 +1,47 @@
+.wrapper {
+  --button-size: 24px;
+
+  align-items: center;
+  column-gap: 8px;
+  display: flex;
+}
+
+.copyButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  height: var(--button-size);
+  width: var(--button-size);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.copyButton:hover {
+  background-color: transparent;
+}
+
+.copyButton:active {
+  opacity: 0.7;
+}
+
+.linkButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  height: var(--button-size);
+  width: var(--button-size);
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.linkButton:hover {
+  border: none;
+}
+
+.linkButton:active {
+  opacity: 0.7;
+}
