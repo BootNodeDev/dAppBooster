@@ -5,8 +5,12 @@ const INFURA_TOKEN = process.env.NEXT_PUBLIC_INFURA_TOKEN
 
 if (!INFURA_TOKEN) throw new Error('INFURA_TOKEN is not set')
 
+export const supportedChains = [mainnet, sepolia] as const
+
+export type ChainKeys = (typeof supportedChains)[number]['id']
+
 export const wagmiConfig = createConfig({
-  chains: [mainnet, sepolia],
+  chains: supportedChains,
   ssr: true,
   transports: {
     [mainnet.id]: http(`https://mainnet.infura.io/v3/${INFURA_TOKEN}`),
