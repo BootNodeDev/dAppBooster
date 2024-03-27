@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 
-import ERC20BalanceExample from '@/app/_examples/BalanceExample'
+import ERC20BalanceExample from '@/app/_examples/Balance'
 
 export default function Home() {
   return (
