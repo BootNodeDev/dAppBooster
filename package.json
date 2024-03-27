@@ -15,7 +15,7 @@
     "react": "^18",
     "react-dom": "^18",
     "viem": "2.x",
-    "wagmi": "2.5.12"
+    "wagmi": "2.5.13"
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.28.4",
@@ -29,10 +29,5 @@
     "eslint-plugin-sort-destructure-keys": "^1.5.0",
     "prettier": "^3.2.5",
     "typescript": "^5"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "wagmi@2.5.12": "patches/wagmi@2.5.12.patch"
-    }
   }
 }
