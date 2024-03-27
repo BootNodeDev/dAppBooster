@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
-
-import { Inter } from 'next/font/google'
-
-import './globals.css'
 import AppDefaultInits from '@/app/_components/AppDefaultInits'
 
-const inter = Inter({ subsets: ['latin'] })
+// CSS reset.
+import 'modern-normalize/modern-normalize.css'
+// Just a general CSS beautifier. You can remove this if you want.
+import '@/app/sakura.css'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <AppDefaultInits>{children}</AppDefaultInits>
       </body>
     </html>
