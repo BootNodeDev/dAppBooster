@@ -2,6 +2,7 @@
 
 import { mainnet } from 'viem/chains'
 import { useReadContracts } from 'wagmi'
+
 import { getContractInfo } from '@/app/_constants/contracts'
 
 interface Props {

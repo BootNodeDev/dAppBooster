@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+
 import AppDefaultInits from '@/app/_components/AppDefaultInits'
 
 // CSS reset.
