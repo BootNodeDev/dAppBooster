@@ -7,15 +7,15 @@
 }
 
 .copyButton {
+  align-items: center;
   background: transparent;
   border: none;
   cursor: pointer;
-  height: var(--button-size);
-  width: var(--button-size);
-  padding: 0;
   display: flex;
-  align-items: center;
+  height: var(--button-size);
   justify-content: center;
+  padding: 0;
+  width: var(--button-size);
 }
 
 .copyButton:hover {
@@ -27,15 +27,15 @@
 }
 
 .linkButton {
+  align-items: center;
   background: transparent;
   border: none;
   cursor: pointer;
-  height: var(--button-size);
-  width: var(--button-size);
-  padding: 0;
   display: flex;
-  align-items: center;
+  height: var(--button-size);
   justify-content: center;
+  padding: 0;
+  width: var(--button-size);
 }
 
 .linkButton:hover {

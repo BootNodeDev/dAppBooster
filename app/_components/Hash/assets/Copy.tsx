@@ -1,9 +1,6 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes } from 'react'
 
-export const Copy: React.FC<HTMLAttributes<SVGElement>> = ({
-  className,
-  ...restProps
-}) => (
+export const Copy: React.FC<HTMLAttributes<SVGElement>> = ({ className, ...restProps }) => (
   <svg
     className={`copy ${className}`}
     fill="#000"
@@ -20,4 +17,4 @@ export const Copy: React.FC<HTMLAttributes<SVGElement>> = ({
       fillRule="evenodd"
     />
   </svg>
-);
+)

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Suspense } from 'react'
+
 import BaseBalance from '@/app/_components/Balance'
 import styles from '@/app/_examples/Balance/styles.module.css'
 

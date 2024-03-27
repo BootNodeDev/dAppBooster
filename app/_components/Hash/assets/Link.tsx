@@ -1,9 +1,6 @@
-import { HTMLAttributes } from "react";
+import { HTMLAttributes } from 'react'
 
-export const Link: React.FC<HTMLAttributes<SVGElement>> = ({
-  className,
-  ...restProps
-}) => (
+export const Link: React.FC<HTMLAttributes<SVGElement>> = ({ className, ...restProps }) => (
   <svg
     className={`link ${className}`}
     fill="#000"
@@ -20,4 +17,4 @@ export const Link: React.FC<HTMLAttributes<SVGElement>> = ({
       fillRule="evenodd"
     />
   </svg>
-);
+)

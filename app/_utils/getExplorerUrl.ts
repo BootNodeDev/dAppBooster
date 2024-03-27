@@ -1,13 +1,14 @@
-import { ChainKeys, supportedChains } from "@/app/_lib/wagmi.config";
-import { extractChain, isAddress } from "viem";
+import { extractChain, isAddress } from 'viem'
+
+import { ChainKeys, supportedChains } from '@/app/_lib/wagmi.config'
 
 export const getExplorerUrl = (chainId: ChainKeys, hash: string) => {
-  const chain = extractChain({ chains: supportedChains, id: chainId });
+  const chain = extractChain({ chains: supportedChains, id: chainId })
 
-  const url = chain.blockExplorers?.default.url;
+  const url = chain.blockExplorers?.default.url
 
-  if (!isAddress(hash)) throw new Error("Invalid hash");
+  if (!isAddress(hash)) throw new Error('Invalid hash')
 
-  const type = hash.length > 42 ? "tx" : "address";
-  return `${url}/${type}/${hash}`;
-};
+  const type = hash.length > 42 ? 'tx' : 'address'
+  return `${url}/${type}/${hash}`
+}

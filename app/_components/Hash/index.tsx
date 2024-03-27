@@ -1,10 +1,10 @@
 'use client'
 
-import { truncateStringInTheMiddle } from '@/app/_utils/strings'
 import { Copy } from '@/app/_components/Hash/assets/Copy'
 import { Link } from '@/app/_components/Hash/assets/Link'
 import { ChainKeys } from '@/app/_lib/wagmi.config'
 import { getExplorerUrl } from '@/app/_utils/getExplorerUrl'
+import { truncateStringInTheMiddle } from '@/app/_utils/strings'
 
 interface Props {
   address: string
