@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix",
-    "prepare": "husky"
+    "lint:fix": "next lint --fix"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.28.4",
