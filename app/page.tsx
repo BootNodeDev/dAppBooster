@@ -1,8 +1,8 @@
 import Image from 'next/image'
 import { Suspense } from 'react'
 
-import styles from './page.module.css'
 import ERC20BalanceExample from '@/app/_examples/BalanceExample'
+import styles from '@/app/_styles/page.module.css'
 
 export default function Home() {
   return (
