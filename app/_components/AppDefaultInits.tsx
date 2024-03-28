@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import React from 'react'
 
 import { QueryClientProvider } from '@tanstack/react-query'
 import { QueryClient } from '@tanstack/react-query'
@@ -26,8 +27,15 @@ export default function AppDefaultInits({
       },
     }),
   )
+  const a: any = 1
+
+  console.log(a)
   return (
     <ErrorBoundary>
+      <form>
+        <label>asd</label>
+        <input type="text" />
+      </form>
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClientConfig}>
           {children}
