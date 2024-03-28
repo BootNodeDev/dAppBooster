@@ -5,25 +5,6 @@ import { useReadContracts } from 'wagmi'
 
 import { getContractInfo } from '@/app/_constants/contracts'
 
-/**
- * Handles the response data and returns the result.
- * Just an example of how to handle the response data.
- * @template T - The type of the result.
- * @param {any} data - The response data to handle.
- * @returns {T} - The result of the response data.
- * @throws {Error} - If any item in the data array has an error property.
- */
-function handleResponseData<T>(data: any) {
-  if (Array.isArray(data)) {
-    if (data.some((item) => item.error)) {
-      throw new Error(data.map((item) => item.error).join('\n'))
-    }
-
-    return data.map((item) => item.result) as T
-  }
-  return data as T
-}
-
 export default function ERC20BalanceExample() {
   const daiContractInfo = getContractInfo('DAI', mainnet.id)
   const { data } = useReadContracts({
@@ -46,7 +27,7 @@ export default function ERC20BalanceExample() {
 
   if (!data) return <p>Loading...</p>
 
-  const [balanceOf, decimals, symbol] = handleResponseData<[bigint, number, string]>(data)
+  const [balanceOf, decimals, symbol] = [data[0]?.result, data[1]?.result, data[2]?.result]
 
   return (
     <div>
