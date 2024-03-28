@@ -27,15 +27,8 @@ export default function AppDefaultInits({
       },
     }),
   )
-  const a: any = 1
-
-  console.log(a)
   return (
     <ErrorBoundary>
-      <form>
-        <label>asd</label>
-        <input type="text" />
-      </form>
       <WagmiProvider config={wagmiConfig}>
         <QueryClientProvider client={queryClientConfig}>
           {children}
