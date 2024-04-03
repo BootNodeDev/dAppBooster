@@ -1,15 +1,10 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:import/typescript",
-    "plugin:jsx-a11y/recommended",
-    "prettier",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["react-hooks", "@typescript-eslint", "sort-destructure-keys", "jsx-a11y", "prettier"],
+  "plugins": ["@typescript-eslint", "sort-destructure-keys", "prettier"],
   "rules": {
     "import/order": [
       "error",
@@ -32,10 +27,8 @@
       }
     ],
     "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/no-use-before-define": [
-      "error",
-      { "functions": false, "classes": false, "variables": true }
-    ],
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-use-before-define": "error",
     "jsx-a11y/label-has-associated-control": "warn",
     "no-constant-binary-expression": "error",
     "prettier/prettier": "error",
@@ -50,7 +43,6 @@
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "off",
     "react/no-unescaped-entities": "off",
-    "sort-destructure-keys/sort-destructure-keys": "error",
-    "@typescript-eslint/no-unused-vars": "warn"
+    "sort-destructure-keys/sort-destructure-keys": "error"
   }
 }
