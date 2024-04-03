@@ -3,8 +3,8 @@
 import { useState } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { WagmiProvider } from 'wagmi'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { WagmiProvider } from 'wagmi'
 
 import ErrorBoundary from '@/app/_components/ErrorBoundary'
 import { queryClientConfig, wagmiConfig } from '@/app/_lib/wagmi.config'
