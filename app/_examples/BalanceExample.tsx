@@ -7,7 +7,7 @@ import { getContractInfo } from '@/app/_constants/contracts'
 
 export default function ERC20BalanceExample() {
   const daiContractInfo = getContractInfo('DAI', mainnet.id)
-  const res = useReadContracts({
+  const { data } = useReadContracts({
     contracts: [
       {
         ...daiContractInfo,
@@ -25,7 +25,9 @@ export default function ERC20BalanceExample() {
     ],
   })
 
-  const [{ result: balanceOf }, { result: decimals }, { result: symbol }] = res.data
+  if (!data) return <p>Loading...</p>
+
+  const [balanceOf, decimals, symbol] = [data[0]?.result, data[1]?.result, data[2]?.result]
 
   return (
     <div>
