@@ -1,6 +1,10 @@
 {
-  "extends": ["next/core-web-vitals", "plugin:prettier/recommended"],
-  "plugins": ["sort-destructure-keys", "prettier"],
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "sort-destructure-keys", "prettier"],
   "rules": {
     "import/order": [
       "error",
@@ -22,13 +26,23 @@
         "pathGroupsExcludedImportTypes": ["builtin"]
       }
     ],
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-use-before-define": "error",
+    "jsx-a11y/label-has-associated-control": "warn",
+    "no-constant-binary-expression": "error",
     "prettier/prettier": "error",
     "react-hooks/exhaustive-deps": "error",
-    "sort-destructure-keys/sort-destructure-keys": "error",
-    "no-constant-binary-expression": "error",
-    "react/no-unescaped-entities": "off",
-    "react/jsx-uses-react": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ],
     "react/jsx-sort-props": "error",
-    "jsx-a11y/label-has-associated-control": "off"
+    "react/jsx-uses-react": "off",
+    "react/no-unescaped-entities": "off",
+    "sort-destructure-keys/sort-destructure-keys": "error"
   }
 }
