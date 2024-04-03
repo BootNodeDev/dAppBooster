@@ -6,7 +6,7 @@ import {
   transports,
   testTransports,
   supportedChains,
-} from '@/app/_lib/chains.config'
+} from '@/app/_constants/chains'
 
 if (!process.env.NEXT_PUBLIC_WC_PROJECT_ID) {
   throw new Error('Missing NEXT_PUBLIC_WC_PROJECT_ID env variable')

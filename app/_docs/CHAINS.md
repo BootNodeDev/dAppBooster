@@ -1,14 +1,16 @@
 # Adding New Chains and Testnets to Your dApp
 
-This doc describes how to add new testnets and blockchain networks to your dApp using dAppBooster. Follow these instructions whether you're using default providers or integrating a custom RPC URL.
+Your decentralized application's (dApp) accessibility and interoperability within the blockchain ecosystem are improved by integrating it with numerous blockchain networks and testnets. dAppBooster makes this connection easier, making it possible for your dApp to effectively link with several chains. It is essential to manage connections to both mainnets and testnets for development, and production purposes.
 
-## Prerequisites
+In your dApp's settings, separating testnets (`DevChains`) from mainnets (`Chains`) facilitates development workflows by encouraging a clear structure. Testnets provide safe, economical interactions without the danger of actual asset loss during the development stage. It also helps to avoid typical deployment errors, like connecting to a testnet in a production build, by clearly identifying different environments in your configuration files.
 
-Before moving forward, make sure you have the following:
+There are several benefits to storing RPC URLs as environment variables:
 
-- A fundamental knowledge of environment variables and TypeScript.
-- The capacity to modify and access the dApp's codebase.
-- Have the RPC URLs for the chains you want to add on hand if you're going to use custom RPCs.
+- Prevents sensitive data from entering your application, thereby lowering the risk of security flaws.
+- Facilitates maintenance and updates by making it simple to update RPC URLs without having to change the code.
+- Allows distinct RPC URLs to be used in development and production environments, ensuring that the right networks are utilized at every stage of development.
+
+Following these guidelines ensures your dApp remains adaptable, secure, and easy to maintain as it scales across different networks.
 
 ## Update the Chain Configuration
 

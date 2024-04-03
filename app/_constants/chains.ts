@@ -12,12 +12,6 @@ export type supportedTestChainsIds = (typeof supportedTestChains)[number]['id']
 
 export type ChainKeys = supportedChainsIds | supportedTestChainsIds
 
-if (!process.env.NEXT_PUBLIC_RPC_URL_MAINNET) {
-  console.warn(
-    'Missing NEXT_PUBLIC_RPC_URL_MAINNET env variable. consider adding it to your .env file to avoid limitations with default rpc',
-  )
-}
-
 // build transports for wagmi. RPC url value can be null and will be handled by wagmi using the default providers.
 // consider using a .env var for customs rpc urls and use them here to avoid limitation with default providers.
 export const transports: Record<supportedChainsIds, HttpTransport> = {
