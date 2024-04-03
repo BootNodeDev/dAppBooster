@@ -2,7 +2,7 @@ import { Abi, Address } from 'viem'
 import { mainnet, sepolia } from 'viem/chains'
 
 import ERC_20_abi from '@/app/_constants/abis/ERC20'
-import { ChainKeys } from '@/app/_lib/wagmi.config'
+import { ChainKeys } from '@/app/_lib/chains.config'
 
 const contractNames = ['DAI'] as const
 export type ContractKeys = (typeof contractNames)[number]

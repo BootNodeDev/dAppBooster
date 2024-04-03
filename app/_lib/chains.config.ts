@@ -10,6 +10,8 @@ export const supportedTestChains = [sepolia] as const
 export type supportedChainsIds = (typeof supportedChains)[number]['id']
 export type supportedTestChainsIds = (typeof supportedTestChains)[number]['id']
 
+export type ChainKeys = supportedChainsIds | supportedTestChainsIds
+
 if (!process.env.NEXT_PUBLIC_RPC_URL_MAINNET) {
   console.warn(
     'Missing NEXT_PUBLIC_RPC_URL_MAINNET env variable. consider adding it to your .env file to avoid limitations with default rpc',
