@@ -13,6 +13,7 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,scss}": [
       "eslint --cache --fix",
+      "prettier --write",
       "bash -c tsc"
     ]
   },
