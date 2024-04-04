@@ -58,6 +58,6 @@ You can enable testnets by setting the `NEXT_PUBLIC_ENABLE_TESTNETS` in your `.e
 
 ## Troubleshooting
 
-**Fixing Missing RPC URLs**: Verify that `app/_lib/chains.config.ts` appropriately references and includes all custom RPC URLs that are specified in the `.env` file.  
+**Fixing Missing RPC URLs**: Verify that `app/_constants/chains.ts` appropriately references and includes all custom RPC URLs that are specified in the `.env` file.  
 **Not loaded environment variables:** Make sure the variables are loaded appropriately by checking your deployment setup and environment configuration twice.  
 **Problems with Chain Interaction**: Ensure that the blockchain network is up and running, and that the chain IDs and RPC URLs are accurate.
