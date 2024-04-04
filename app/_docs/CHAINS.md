@@ -14,7 +14,7 @@ Following these guidelines ensures your dApp remains adaptable, secure, and easy
 
 ## Update the Chain Configuration
 
-Open your project and navigate to `app/_lib/chains.config.ts`. The configurations for the testnets and chains that your dApp presently supports are contained in this file.
+Open your project and navigate to `app/_constants/chains.ts`. The configurations for the testnets and chains that your dApp presently supports are contained in this file.
 
 ### Adding a New Chain
 
