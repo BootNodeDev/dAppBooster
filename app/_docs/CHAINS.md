@@ -39,7 +39,7 @@ Open your project and navigate to `app/_lib/chains.config.ts`. The configuration
    NEXT_PUBLIC_RPC_URL_POLYGON=https://polygon.llamarpc.com
    ```
 
-2. In `app/_lib/chains.config.ts`, add a new entry to `transports` or `testTransports` using the chain's ID and your custom RPC URL. If no custom RPC is provided, the default provider will be used. For example:
+2. In `app/_constants/chains.ts`, add a new entry to `transports` or `testTransports` using the chain's ID and your custom RPC URL. If no custom RPC is provided, the default provider will be used. For example:
 
    ```ts
    export const transports: Record<supportedChainsIds, HttpTransport> = {
