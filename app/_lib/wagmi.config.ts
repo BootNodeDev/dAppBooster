@@ -16,13 +16,13 @@ if (!process.env.NEXT_PUBLIC_APP_NAME) {
   throw new Error('Missing NEXT_PUBLIC_APP_NAME env variable')
 }
 
-const isEnableTestnets = process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
+const areTestnetsEnabled = process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
 
 export const wagmiConfig = createConfig({
-  chains: [...supportedChains, ...(isEnableTestnets ? supportedTestChains : [])],
+  chains: [...supportedChains, ...(areTestnetsEnabled ? supportedTestChains : [])],
   transports: {
     ...transports,
-    ...(isEnableTestnets ? testTransports : ({} as Record<number, HttpTransport>)),
+    ...(areTestnetsEnabled ? testTransports : ({} as Record<number, HttpTransport>)),
   },
   ssr: true,
 })

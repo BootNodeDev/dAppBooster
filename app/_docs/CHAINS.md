@@ -6,7 +6,6 @@ In your dApp's settings, separating testnets (`DevChains`) from mainnets (`Chain
 
 There are several benefits to storing RPC URLs as environment variables:
 
-- Prevents sensitive data from entering your application, thereby lowering the risk of security flaws.
 - Facilitates maintenance and updates by making it simple to update RPC URLs without having to change the code.
 - Allows distinct RPC URLs to be used in development and production environments, ensuring that the right networks are utilized at every stage of development.
 
