@@ -1,3 +1,0 @@
-The examples in this folder use the base components and add some styling using CSS Modules, which is native to Next.js
-
-However, you're free to use any way you like to style the base components (SASS, CSS classes, etc.).
