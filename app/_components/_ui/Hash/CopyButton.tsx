@@ -1,9 +1,10 @@
-import { HTMLAttributes } from 'react'
+'use client'
 
-export const Copy: React.FC<HTMLAttributes<SVGElement>> = ({ className, ...restProps }) => (
+import { ButtonHTMLAttributes, MouseEventHandler, SVGProps } from 'react'
+
+const Copy: React.FC<SVGProps<SVGSVGElement>> = ({ ...restProps }) => (
   <svg
-    className={`copy ${className}`}
-    fill="#000"
+    fill="currentColor"
     height="15"
     viewBox="0 0 24 24"
     width="15"
@@ -18,3 +19,22 @@ export const Copy: React.FC<HTMLAttributes<SVGElement>> = ({ className, ...restP
     />
   </svg>
 )
+
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  value: string
+}
+
+const CopyButton: React.FC<Props> = ({ children, onClick, value, ...restProps }) => {
+  const onCopy: MouseEventHandler<HTMLButtonElement> = (e) => {
+    navigator.clipboard.writeText(value)
+    onClick && onClick(e)
+  }
+
+  return (
+    <button onClick={onCopy} {...restProps}>
+      {children ? children : <Copy />}
+    </button>
+  )
+}
+
+export default CopyButton

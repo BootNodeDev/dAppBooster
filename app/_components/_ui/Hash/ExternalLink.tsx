@@ -1,9 +1,10 @@
-import { HTMLAttributes } from 'react'
+'use client'
 
-export const Link: React.FC<HTMLAttributes<SVGElement>> = ({ className, ...restProps }) => (
+import { AnchorHTMLAttributes, SVGProps } from 'react'
+
+const Link: React.FC<SVGProps<SVGSVGElement>> = ({ ...restProps }) => (
   <svg
-    className={`link ${className}`}
-    fill="#000"
+    fill="currentColor"
     height="12.5"
     viewBox="0 0 10 10"
     width="12.5"
@@ -18,3 +19,17 @@ export const Link: React.FC<HTMLAttributes<SVGElement>> = ({ className, ...restP
     />
   </svg>
 )
+
+const ExternalLink: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({
+  children,
+  target = '_blank',
+  ...restProps
+}) => {
+  return (
+    <a target={target} {...restProps}>
+      {children ? children : <Link />}
+    </a>
+  )
+}
+
+export default ExternalLink

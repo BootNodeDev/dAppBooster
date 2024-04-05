@@ -1,5 +1,7 @@
 .wrapper {
   --button-size: 24px;
+  --icon-color: #000;
+  --icon-color-hover: #982c61;
 
   align-items: center;
   column-gap: 8px;
@@ -10,6 +12,7 @@
   align-items: center;
   background: transparent;
   border: none;
+  color: var(--icon-color);
   cursor: pointer;
   display: flex;
   height: var(--button-size);
@@ -20,16 +23,18 @@
 
 .copyButton:hover {
   background-color: transparent;
+  color: var(--icon-color-hover);
 }
 
 .copyButton:active {
   opacity: 0.7;
 }
 
-.linkButton {
+.externalLink {
   align-items: center;
   background: transparent;
   border: none;
+  color: var(--icon-color);
   cursor: pointer;
   display: flex;
   height: var(--button-size);
@@ -38,10 +43,11 @@
   width: var(--button-size);
 }
 
-.linkButton:hover {
+.externalLink:hover {
   border: none;
+  color: var(--icon-color-hover);
 }
 
-.linkButton:active {
+.externalLink:active {
   opacity: 0.7;
 }
