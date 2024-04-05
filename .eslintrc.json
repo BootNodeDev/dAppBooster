@@ -43,7 +43,7 @@
     "react/jsx-sort-props": "error",
     "react/jsx-uses-react": "off",
     "react/no-unescaped-entities": "off",
-    "sort-destructure-keys/sort-destructure-keys": "error",
-    "ignorePatterns": ["**/*.css", "**/*.scss"]
-  }
+    "sort-destructure-keys/sort-destructure-keys": "error"
+  },
+  "ignorePatterns": ["**/*.css", "**/*.scss"]
 }
