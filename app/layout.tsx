@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 
-import AppDefaultInits from '@/app/_components/AppDefaultInits'
+import AppDefaultInits from '@/app/_components/_helpers/AppDefaultInits'
 
 // CSS reset.
 import 'modern-normalize/modern-normalize.css'
