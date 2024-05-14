@@ -1,11 +1,44 @@
-# React + TypeScript + Vite
+# dApp👻ster
+
+## Requirements
+
+- Node v22+
+- pnpm
+
+## Usage
+
+- install dependencies: `pnpm i`
+- serve dev mode: `pnpm dev`
+- build for production: `pnpm build`
+- serve production build: `pnpm preview`
+
+## TanStack
+
+Currently the app uses @tanstack/react-query and @tanstack/react-router.
+
+### Devtools
+
+Devtools are not visible in production mode
+
+### @tanstack/react-router
+
+This setup uses file-based routing.
+
+There're a list of scripts to help in the development process:
+
+- serve dev mode (watching for routes changes): `pnpm dev:watch`
+- manually generate `routeTree.gen` file: `pnpm routes:generate`
+
+---
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+> Keeping the following information, for future check as it wasn't used/followed yet
+
+<details>
+<summary>Expanding the ESLint configuration</summary>
 
 ## Expanding the ESLint configuration
 
@@ -28,3 +61,4 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+</details>
