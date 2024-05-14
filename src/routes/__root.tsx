@@ -6,6 +6,7 @@ import { WagmiProvider } from "wagmi";
 import { config } from "../_lib/wagmi.config";
 import { Profile } from "../_components/Profile";
 import { TanStackRouterDevtools } from "../_components/TanStackRouterDevtools";
+import { TanStackReactQueryDevtools } from "../_components/TanStackReactQueryDevtools";
 
 import "./__root.css";
 
@@ -41,6 +42,7 @@ function Root() {
             <hr />
             <Outlet />
           </>
+          <TanStackReactQueryDevtools />
         </QueryClientProvider>
       </WagmiProvider>
       <TanStackRouterDevtools />

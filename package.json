@@ -30,6 +30,7 @@
     "wagmi": "^2.8.7"
   },
   "devDependencies": {
+    "@tanstack/react-query-devtools": "^5.36.0",
     "@tanstack/router-cli": "^1.32.2",
     "@tanstack/router-devtools": "^1.32.5",
     "@tanstack/router-vite-plugin": "^1.32.2",
