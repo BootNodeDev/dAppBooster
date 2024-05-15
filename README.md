@@ -2,7 +2,7 @@
 
 ## Requirements
 
-- Node v22+
+- Node v20+
 - pnpm
 
 ## Usage
