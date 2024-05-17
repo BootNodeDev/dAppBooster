@@ -5,8 +5,8 @@
 // import React, { PropsWithChildren } from 'react'
 
 // import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi'
-// import { mainnet, sepolia, optimismSepolia } from 'wagmi/chains'
 
+// import { chains, transports } from '@/src/_lib/networks.config'
 // import { env } from '@/src/env'
 
 // export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => children
@@ -25,7 +25,7 @@
 // const projectId = env.PUBLIC_WALLETCONNECT_PROJECT_ID
 
 // export const config = defaultWagmiConfig({
-//   chains: [mainnet, sepolia, optimismSepolia],
+//   chains,
 //   projectId,
 //   metadata: {
 //     // Required App Info
@@ -34,6 +34,7 @@
 //     url: env.PUBLIC_APP_URL ?? '',
 //     icons: [env.PUBLIC_APP_LOGO ?? ''],
 //   },
+//   transports,
 // })
 
 // createWeb3Modal({

@@ -1,7 +1,7 @@
 import { getDefaultConfig, ConnectKitProvider, ConnectKitButton } from 'connectkit'
-import { createConfig, http } from 'wagmi'
-import { mainnet, sepolia, optimismSepolia } from 'wagmi/chains'
+import { createConfig } from 'wagmi'
 
+import { chains, transports } from '@/src/_lib/networks.config'
 import { env } from '@/src/env'
 
 export const WalletProvider = ConnectKitProvider
@@ -9,15 +9,8 @@ export const WalletProvider = ConnectKitProvider
 export const ConnectWalletButton = ConnectKitButton
 
 const defaultConfig = {
-  chains: [mainnet, sepolia, optimismSepolia],
-  transports: {
-    [mainnet.id]: http(
-      env.PUBLIC_ALCHEMY_ID
-        ? `https://eth-mainnet.g.alchemy.com/v2/${env.PUBLIC_ALCHEMY_ID}`
-        : undefined,
-    ),
-    [optimismSepolia.id]: http('https://sepolia.optimism.io'),
-  },
+  chains,
+  transports,
 
   // Required API Keys
   walletConnectProjectId: env.PUBLIC_WALLETCONNECT_PROJECT_ID,
