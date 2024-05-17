@@ -1,8 +1,8 @@
 import { getDefaultConfig, ConnectKitProvider, ConnectKitButton } from 'connectkit'
 import { createConfig } from 'wagmi'
 
-import { chains, transports } from '@/src/_lib/networks.config'
 import { env } from '@/src/env'
+import { chains, transports } from '@/src/lib/networks.config'
 
 export const WalletProvider = ConnectKitProvider
 
