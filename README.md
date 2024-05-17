@@ -19,7 +19,7 @@ The current setup allows to seamlessly switch between [`connectkit`](#connectkit
 We chose `connectkit` because it is open source, lightweight, has easily adaptable styles, and is easy to use.
 
 ![image](https://github.com/BootNodeDev/dAppBooster/assets/3315606/81e793e5-8e09-4447-bb21-f0477f26bb0e)
-(*) The tool used to compare package sizes: [npm-download-size](https://arve0.github.io/npm-download-size)
+(\*) The tool used to compare package sizes: [npm-download-size](https://arve0.github.io/npm-download-size)
 
 ### Networks
 
@@ -43,18 +43,32 @@ To add/remove/edit a network supported by the dApp you can do it directly in the
 ```diff
 export const transports: RestrictedTransports = {
     ...
-+   [base.id]: http(),
++   [base.id]: http(env.PUBLIC_RPC_BASE),
 }
 ```
 
-or you can set your own RPC url if you will:
+#### Specifying the RPC
+
+If you want to use an RPC different from the one provided by wagmi
+
+1. Define the env variable
 
 ```diff
-export const transports: RestrictedTransports = {
-    ...
-+   [base.id]: http('https://base.llamarpc.com'),
-}
++ PUBLIC_RPC_BASE=https://base.llamarpc.com
 ```
+
+2. Import it in the [`src/env.ts`](src/env.ts) file
+
+```diff
+export const env = createEnv({
+  client: {
+    ...
++   PUBLIC_RPC_BASE: z.string().optional(),
+  },
+})
+```
+
+> Note: if not specified, it will be `undefined` making the app to use the wagmi-defined RPC.
 
 ### Libraries
 

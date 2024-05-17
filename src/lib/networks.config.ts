@@ -8,11 +8,7 @@ export const chains = [mainnet, optimismSepolia, sepolia] as const
 type RestrictedTransports = Record<(typeof chains)[number]['id'], Transport>
 
 export const transports: RestrictedTransports = {
-  [mainnet.id]: http(
-    env.PUBLIC_ALCHEMY_ID
-      ? `https://eth-mainnet.g.alchemy.com/v2/${env.PUBLIC_ALCHEMY_ID}`
-      : undefined,
-  ),
-  [optimismSepolia.id]: http('https://sepolia.optimism.io'),
-  [sepolia.id]: http(),
+  [mainnet.id]: http(env.PUBLIC_RPC_MAINNET),
+  [optimismSepolia.id]: http(env.PUBLIC_RPC_OP_SEPOLIA),
+  [sepolia.id]: http(env.PUBLIC_RPC_SEPOLIA),
 }

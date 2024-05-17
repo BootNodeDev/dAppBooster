@@ -3,10 +3,10 @@ import './__root.css'
 
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 
-import { Profile } from '@/src/_components/Profile'
-import { TanStackReactQueryDevtools } from '@/src/_components/TanStackReactQueryDevtools'
-import { TanStackRouterDevtools } from '@/src/_components/TanStackRouterDevtools'
-import { Web3Provider, ConnectWalletButton } from '@/src/_components/Web3Provider'
+import { Profile } from '@/src/components/Profile'
+import { TanStackReactQueryDevtools } from '@/src/components/TanStackReactQueryDevtools'
+import { TanStackRouterDevtools } from '@/src/components/TanStackRouterDevtools'
+import { Web3Provider, ConnectWalletButton } from '@/src/components/Web3Provider'
 
 export const Route = createRootRoute({
   component: Root,
