@@ -9,7 +9,8 @@ import { TanStackReactQueryDevtools } from '@/src/_components/TanStackReactQuery
 import { TanStackRouterDevtools } from '@/src/_components/TanStackRouterDevtools'
 import { config } from '@/src/_lib/wagmi.config'
 
-import '@/src/routes/__root.css'
+// CSS reset.
+import 'modern-normalize/modern-normalize.css'
 
 export const Route = createRootRoute({
   component: Root,
