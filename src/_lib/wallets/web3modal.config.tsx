@@ -1,5 +1,6 @@
 /**
  * Uncomment to use dAppBooster with web3Modal
+ * version used: 4.2.1
  */
 
 // import React, { PropsWithChildren } from 'react'

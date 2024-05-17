@@ -1,5 +1,6 @@
 /**
  * Uncomment to use dAppBooster with RainbowKit
+ * version used: 2.0.8
  */
 
 // import { getDefaultConfig, RainbowKitProvider, ConnectButton } from '@rainbow-me/rainbowkit'
