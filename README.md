@@ -143,9 +143,9 @@ export default {
 
 ## Styled Components
 
-We use [Styled Components](https://styled-components.com/) a popular, powerful, and easy to use CSS-in-JS solution in dAppBoster to add style to our components.
+We use [Styled Components](https://styled-components.com/) a popular, powerful, and easy to use CSS-in-JS solution in dAppBoster to add styles to our components.
 
-Additionally, several other Styled Components related tools are provided to facilitate code maintenance and legibility:
+Additionally, several other Styled Components-related tools are provided to facilitate code maintenance and legibility:
 
 - [Stylelint](https://stylelint.io/), for component linting. The `.stylelintrc` file contains all of Stylelint's related rules.
 - [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard), extends the standard Stylelint configuration.
