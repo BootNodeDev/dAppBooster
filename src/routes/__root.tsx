@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import 'modern-normalize/modern-normalize.css'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 
