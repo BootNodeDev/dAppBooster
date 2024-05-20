@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './__root.css'
+import 'modern-normalize/modern-normalize.css'
 
 import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
 

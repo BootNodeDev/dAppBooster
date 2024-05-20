@@ -22,7 +22,7 @@ module.exports = {
     },
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['react-refresh', 'sort-destructure-keys'],
+  plugins: ['react-refresh', 'sort-destructure-keys', 'no-relative-import-paths'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'import/order': [
@@ -63,5 +63,9 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/no-unescaped-entities': 'off',
     'sort-destructure-keys/sort-destructure-keys': 'error',
+    'no-relative-import-paths/no-relative-import-paths': [
+      'error',
+      { allowSameFolder: false, prefix: '@' },
+    ],
   },
 }
