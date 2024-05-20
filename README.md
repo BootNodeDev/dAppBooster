@@ -90,6 +90,14 @@ Official docs: [implementation](https://docs.walletconnect.com/web3modal/react/a
 <br>
 Setup file: [`web3modal.config.tsx`](src/_lib/wallets/web3modal.config.tsx)
 
+## Number Formatting
+
+We're using a subset of [@uniswap/conedison (v1.8.0)](https://github.com/Uniswap/conedison) formatters.
+
+See [`format.ts`](src/utils/format.ts)
+
+For a detailed view on what to expect or how to use the formatters, you can refer to the tests at [`format.test.ts](src/utils/format.test.ts)
+
 ## TanStack
 
 Currently the app uses @tanstack/react-query and @tanstack/react-router.
