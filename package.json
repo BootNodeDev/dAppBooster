@@ -13,14 +13,20 @@
     "preview": "vite preview",
     "routes:generate": "tsr generate",
     "routes:watch": "tsr watch",
-    "prepare": "husky"
+    "prepare": "husky",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "lint-staged": {
+    "src/**/*.{js,ts,jsx,tsx,css,scss}": [
+      "prettier --write --ignore-unknown"
+    ],
     "src/**/*.{js,ts,jsx,tsx}": [
       "eslint --fix"
     ],
-    "src/**/*.{js,ts,jsx,tsx,css,scss}": [
-      "prettier --write --ignore-unknown"
+    "src/**/*.{ts,tsx}": [
+      "vitest related --run --coverage=false"
     ]
   },
   "dependencies": {
@@ -45,6 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^7.9.0",
     "@typescript-eslint/parser": "^7.9.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
+    "@vitest/coverage-v8": "^1.6.0",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -59,6 +66,7 @@
     "lint-staged": "^15.2.2",
     "prettier": "^3.2.5",
     "typescript": "^5.4.5",
-    "vite": "^5.2.11"
+    "vite": "^5.2.11",
+    "vitest": "^1.6.0"
   }
 }
