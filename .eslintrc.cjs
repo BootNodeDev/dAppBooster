@@ -67,5 +67,9 @@ module.exports = {
       'error',
       { allowSameFolder: false, prefix: '@' },
     ],
+    'padding-line-between-statements': [
+      'error',
+      { blankLine: 'always', prev: 'multiline-const', next: '*' },
+    ],
   },
 }
