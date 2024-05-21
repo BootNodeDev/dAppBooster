@@ -1,0 +1,15 @@
+{
+  "extends": "stylelint-config-standard",
+  "customSyntax": "postcss-styled-syntax",
+  "plugins": ["stylelint-order"],
+  "rules": {
+    "number-max-precision": 8,
+    "selector-class-pattern": [
+      "^[a-z][a-zA-Z0-9]+$",
+      {
+        "message": "Class selectors should be in camelCase (e.g., myClassName)"
+      }
+    ],
+    "order/order": ["custom-properties", "declarations", "rules", "at-rules"]
+  }
+}
