@@ -17,7 +17,8 @@
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
-      "eslint --fix"
+      "eslint --fix",
+      "stylelint --fix"
     ],
     "src/**/*.{js,ts,jsx,tsx,css,scss}": [
       "prettier --write --ignore-unknown"
@@ -31,6 +32,7 @@
     "modern-normalize": "^2.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "styled-components": "^6.1.11",
     "viem": "~2.10.9",
     "wagmi": "^2.9.2",
     "zod": "^3.23.8"
@@ -57,7 +59,11 @@
     "eslint-plugin-sort-destructure-keys": "^2.0.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
+    "postcss-styled-syntax": "^0.6.4",
     "prettier": "^3.2.5",
+    "stylelint": "^16.5.0",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-order": "^6.0.4",
     "typescript": "^5.4.5",
     "vite": "^5.2.11"
   }

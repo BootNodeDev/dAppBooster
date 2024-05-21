@@ -11,7 +11,7 @@ module.exports = {
     'plugin:eslint-plugin-jsx-a11y/recommended',
     'prettier',
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
+  ignorePatterns: ['dist', '.eslintrc.cjs', '**/*.css', '**/*.scss'],
   settings: {
     react: {
       version: 'detect',
