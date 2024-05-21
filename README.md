@@ -147,6 +147,6 @@ We use [Styled Components](https://styled-components.com/) a popular, powerful, 
 
 Additionally, several other Styled Components-related tools are provided to facilitate code maintenance and legibility:
 
-- [Stylelint](https://stylelint.io/), for component linting. The `.stylelintrc` file contains all of Stylelint's related rules.
+- [Stylelint](https://stylelint.io/), for component linting. The `.stylelintrc` file contains all of Stylelint's related rules. The [official extension](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) is recommended if you're using VSCode (check the "Extension Settings" section if you want errors to be fixed on save, etc.).
 - [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard), extends the standard Stylelint configuration.
 - [postcss-styled-syntax](https://github.com/hudochenkov/postcss-styled-syntax), parses the components and extracts the CSS from them.
