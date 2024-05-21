@@ -19,12 +19,12 @@
     "test:watch": "vitest"
   },
   "lint-staged": {
-    "src/**/*.{js,ts,jsx,tsx,css,scss}": [
-      "prettier --write --ignore-unknown"
-    ],
     "src/**/*.{js,ts,jsx,tsx}": [
       "eslint --fix",
       "stylelint --fix"
+    ],
+    "src/**/*.{js,ts,jsx,tsx,css,scss}": [
+      "prettier --write --ignore-unknown"
     ],
     "src/**/*.{ts,tsx}": [
       "vitest related --run --coverage=false"
