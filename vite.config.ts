@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { TanStackRouterVite } from '@tanstack/router-vite-plugin'
 import react from '@vitejs/plugin-react-swc'
 import path from 'path'
@@ -13,4 +14,5 @@ export default defineConfig({
       '@/src': path.resolve(__dirname, './src'),
     },
   },
+  test: {},
 })
