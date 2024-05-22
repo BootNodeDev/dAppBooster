@@ -10,6 +10,7 @@
         "message": "Class selectors should be in camelCase (e.g., myClassName)"
       }
     ],
-    "order/order": ["custom-properties", "declarations", "rules", "at-rules"]
+    "order/order": ["custom-properties", "declarations", "rules", "at-rules"],
+    "custom-property-empty-line-before": null
   }
 }
