@@ -8,6 +8,7 @@ import { Profile } from '@/src/components/Profile'
 import { TanStackReactQueryDevtools } from '@/src/components/TanStackReactQueryDevtools'
 import { TanStackRouterDevtools } from '@/src/components/TanStackRouterDevtools'
 import { Web3Provider, ConnectWalletButton } from '@/src/components/Web3Provider'
+import { GlobalStyles } from '@/src/styles/globalStyles'
 
 const Wrapper = styled.div`
   align-items: center;
@@ -31,27 +32,30 @@ function Root() {
   const [count, setCount] = useState(0)
 
   return (
-    <Wrapper>
-      <Web3Provider>
-        <ConnectWalletButton />
-        <Profile />
-        <hr />
-        <Links>
-          <Link to="/">Home</Link>
-          {' | '}
-          <Link to="/about">About</Link>
-          {' | '}
-          <Link to="/contact">Contact</Link>
-        </Links>
-        <hr />
-        <div className="card">
-          <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        </div>
-        <hr />
-        <Outlet />
-        <TanStackReactQueryDevtools />
-      </Web3Provider>
-      <TanStackRouterDevtools />
-    </Wrapper>
+    <>
+      <GlobalStyles />
+      <Wrapper>
+        <Web3Provider>
+          <ConnectWalletButton />
+          <Profile />
+          <hr />
+          <Links>
+            <Link to="/">Home</Link>
+            {' | '}
+            <Link to="/about">About</Link>
+            {' | '}
+            <Link to="/contact">Contact</Link>
+          </Links>
+          <hr />
+          <div className="card">
+            <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
+          </div>
+          <hr />
+          <Outlet />
+          <TanStackReactQueryDevtools />
+        </Web3Provider>
+        <TanStackRouterDevtools />
+      </Wrapper>
+    </>
   )
 }
