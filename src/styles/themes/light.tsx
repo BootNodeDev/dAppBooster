@@ -9,12 +9,11 @@ import { css } from 'styled-components'
  * Use a --theme prefix to indicate that these variables are theme-specific.
  */
 export const lightTheme = css`
-  & {
-    /* Note: Im disabling this so it works as a default until theme
+  /* Note: Im disabling this so it works as a default until theme
     switching is implemented
 
-    &[data-theme='light']  { */
-
+  &[data-theme='light']  { */
+  & {
     /**
      * Colors.
      *
@@ -32,6 +31,8 @@ export const lightTheme = css`
     --theme-color-5: #f7f7f7;
     --theme-color-6: #e2e0e7;
     --theme-color-7: #c5c2cb;
+    --theme-color-8: #f6f6f6;
+    --theme-color-9: #f8f8f8;
 
     /**
      * From here on put the variables that you will use in your CSS elsewhere.
@@ -41,12 +42,18 @@ export const lightTheme = css`
     --theme-color-text: var(--theme-color-3);
 
     /* Main body */
-    --theme-body-background: linear-gradient(257deg, #f6f6f6 0%, #f8f8f8 100%);
-    --theme-body-background-image: url('/images/bg-body-light.svg');
+    --theme-body-background: linear-gradient(
+      257deg,
+      var(--theme-color-8) 0%,
+      var(--theme-color-9) 100%
+    );
 
     /* Header */
     --theme-header-background-color: transparent;
     --theme-header-text-color: var(--theme-color-1);
+
+    /* Main Menu */
+    --theme-main-menu-item-color: var(--theme-color-1);
 
     /* Button Primary */
     --theme-button-primary-background-color: var(--theme-color-4);
@@ -61,9 +68,6 @@ export const lightTheme = css`
     --theme-button-primary-background-disabled: var(--theme-color-5);
     --theme-button-primary-border-disabled: var(--theme-color-6);
     --theme-button-primary-color-disabled: var(--theme-color-7);
-
-    /* Main Menu */
-    --theme-main-menu-item-color: var(--theme-color-1);
 
     /* Modal */
     --theme-dialog-background: var(--theme-color-5);

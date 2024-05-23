@@ -37,11 +37,13 @@ export const darkTheme = css`
 
     /* Main body */
     --theme-body-background: var(--theme-color-1);
-    --theme-body-background-image: url('/images/bg-body-dark.svg');
 
     /* Header */
     --theme-header-background-color: transparent;
     --theme-header-text-color: var(--theme-color-0);
+
+    /* Main Menu */
+    --theme-main-menu-item-color: var(--theme-color-0);
 
     /* Button Primary */
     --theme-button-primary-background-color: var(--theme-color-4);
@@ -56,9 +58,6 @@ export const darkTheme = css`
     --theme-button-primary-background-disabled: var(--theme-color-5);
     --theme-button-primary-border-disabled: var(--theme-color-6);
     --theme-button-primary-color-disabled: var(--theme-color-7);
-
-    /* Main Menu */
-    --theme-main-menu-item-color: var(--theme-color-0);
 
     /* Modal */
     --theme-dialog-background: var(--theme-color-3);
