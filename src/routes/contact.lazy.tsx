@@ -1,13 +1,11 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
 
+import { Contact } from '@/src/pageComponents/contact'
+
 export const Route = createLazyFileRoute('/contact')({
-  component: Contact,
+  component: ContactPage,
 })
 
-function Contact() {
-  return (
-    <div>
-      <h3>Hello from Contact!</h3>
-    </div>
-  )
+function ContactPage() {
+  return <Contact />
 }
