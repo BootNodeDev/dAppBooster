@@ -1,12 +1,12 @@
 import { createGlobalStyle } from 'styled-components'
 
-import { common } from '@/src/styles/common'
+import { base } from '@/src/styles/base'
 // import { darkTheme } from '@/src/styles/themes/dark'
 import { lightTheme } from '@/src/styles/themes/light'
 
 export const GlobalStyles = createGlobalStyle`
   :root {
-    ${common}
+    ${base}
    }
 
 
@@ -23,18 +23,17 @@ export const GlobalStyles = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     background: var(--theme-body-background);
-    background-image: var(--theme-body-background-image);
+    background-image: url('/images/bg-body.svg');
     background-position: 100% 0;
     background-repeat: no-repeat;
     color: var(--theme-color-text);
-    font-family: var(--common-font-family);
+    font-family: var(--base-font-family);
     font-size: 1.6rem;
-    min-height: 100vh;
     outline-color: var(--theme-color-secondary);
   }
 
   code {
-    font-family: var(--common-font-family-code);
+    font-family: var(--base-font-family-code);
   }
 
   h1,
@@ -65,6 +64,6 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   a {
-    color: var(--theme-color-text);
+    color: var(--theme-color-primary);
   }
 `
