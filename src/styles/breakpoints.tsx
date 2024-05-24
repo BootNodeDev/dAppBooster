@@ -9,13 +9,9 @@ export const breakpoints = {
   desktopWideStart: '1281px',
   tabletLandscapeStart: '769px',
   tabletPortraitStart: '481px',
-}
+} as const
 
-type Breakpoint =
-  | 'desktopStart'
-  | 'desktopWideStart'
-  | 'tabletLandscapeStart'
-  | 'tabletPortraitStart'
+type Breakpoint = keyof typeof breakpoints
 
 /**
  *
