@@ -1,57 +1,35 @@
-import { useState } from 'react'
+import { createRootRoute, Outlet } from '@tanstack/react-router'
+
+import { TanStackReactQueryDevtools } from '@/src/sharedComponents/helpers/TanStackReactQueryDevtools'
+import { TanStackRouterDevtools } from '@/src/sharedComponents/helpers/TanStackRouterDevtools'
+import { Footer } from '@/src/sharedComponents/ui/Footer'
+import { Header } from '@/src/sharedComponents/ui/Header'
+import { Main } from '@/src/sharedComponents/ui/Main'
+import { Wrapper } from '@/src/sharedComponents/ui/Wrapper'
+import { Web3Provider } from '@/src/sharedComponents/web3/Web3Provider'
+import { GlobalStyles } from '@/src/styles/globalStyles'
+
 import 'modern-normalize/modern-normalize.css'
-import styled from 'styled-components'
-
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router'
-
-import { Profile } from '@/src/components/Profile'
-import { TanStackReactQueryDevtools } from '@/src/components/TanStackReactQueryDevtools'
-import { TanStackRouterDevtools } from '@/src/components/TanStackRouterDevtools'
-import { Web3Provider, ConnectWalletButton } from '@/src/components/Web3Provider'
-
-const Wrapper = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  height: 100vh;
-  justify-content: center;
-`
-
-const Links = styled.div`
-  column-gap: 16px;
-  display: flex;
-`
 
 export const Route = createRootRoute({
   component: Root,
 })
 
 function Root() {
-  const [count, setCount] = useState(0)
-
   return (
-    <Wrapper>
-      <Web3Provider>
-        <ConnectWalletButton />
-        <Profile />
-        <hr />
-        <Links>
-          <Link to="/">Home</Link>
-          {' | '}
-          <Link to="/about">About</Link>
-          {' | '}
-          <Link to="/contact">Contact</Link>
-        </Links>
-        <hr />
-        <div className="card">
-          <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        </div>
-        <hr />
-        <Outlet />
-        <TanStackReactQueryDevtools />
-      </Web3Provider>
-      <TanStackRouterDevtools />
-    </Wrapper>
+    <>
+      <GlobalStyles />
+      <Wrapper>
+        <Web3Provider>
+          <Header />
+          <Main>
+            <Outlet />
+          </Main>
+          <Footer />
+          <TanStackReactQueryDevtools />
+          <TanStackRouterDevtools />
+        </Web3Provider>
+      </Wrapper>
+    </>
   )
 }

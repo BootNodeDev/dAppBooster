@@ -149,6 +149,8 @@ export default {
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 </details>
 
+# Styles
+
 ## Styled Components
 
 We use [Styled Components](https://styled-components.com/) a popular, powerful, and easy to use CSS-in-JS solution in dAppBoster to add styles to our components.
@@ -158,3 +160,15 @@ Additionally, several other Styled Components-related tools are provided to faci
 - [Stylelint](https://stylelint.io/), for component linting. The `.stylelintrc` file contains all of Stylelint's related rules. The [official extension](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) is recommended if you're using VSCode (check the "Extension Settings" section if you want errors to be fixed on save, etc.).
 - [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard), extends the standard Stylelint configuration.
 - [postcss-styled-syntax](https://github.com/hudochenkov/postcss-styled-syntax), parses the components and extracts the CSS from them.
+
+## Styles implementation
+
+We use [modern-normalize](https://github.com/sindresorhus/modern-normalize) to normalize the browsers' default styles.
+
+You can find all the general app's styles in the `src/styles` folder:
+
+- `base.tsx` global CSS vars, used everywhere in the app.
+- `themes/light.tsx` light theme CSS vars.
+- `themes/dark.tsx` dark theme CSS vars.
+- `breakpoints.tsx` utility functions for responsive, mobile-first CSS.
+- `globalStyles.tsx` global app's CSS.
