@@ -1,7 +1,7 @@
 import { css } from 'styled-components'
 
 /**
- * Dark theme variables.
+ * Light theme variables.
  *
  * It should be mainly colors, probably some background images too. Things that
  * change when you change themes, nothing else.
