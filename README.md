@@ -172,3 +172,11 @@ You can find all the general app's styles in the `src/styles` folder:
 - `themes/dark.tsx` dark theme CSS vars.
 - `breakpoints.tsx` utility functions for responsive, mobile-first CSS.
 - `globalStyles.tsx` global app's CSS.
+
+## Control Version System
+
+As a best practice, we follow and enforce the usage of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) for commit messages' and pull requests' titles.
+
+PR's titles are validated with the help of Github actions. See https://github.com/marketplace/actions/conventional-commit-in-pull-requests for more info.
+
+Commit messages' are validated using a [Husky](https://typicode.github.io/husky/) `commit-msg` hook and [commitlint](https://commitlint.js.org/). See https://commitlint.js.org/guides/local-setup.html for more info.
