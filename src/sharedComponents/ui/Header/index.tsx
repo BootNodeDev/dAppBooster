@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import { Link } from '@tanstack/react-router'
 
-import { ContainerPadding } from '@/src/sharedComponents/ui/ContainerPadding'
 import { Logo } from '@/src/sharedComponents/ui/Header/assets/Logo'
 import { InnerContainer } from '@/src/sharedComponents/ui/InnerContainer'
 import { MainMenu } from '@/src/sharedComponents/ui/MainMenu'
