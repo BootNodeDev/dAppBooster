@@ -3,7 +3,6 @@
 import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
-import { ContainerPadding } from '@/src/sharedComponents/ui/ContainerPadding'
 import { Logo } from '@/src/sharedComponents/ui/Footer/assets/Logo'
 import { InnerContainer } from '@/src/sharedComponents/ui/InnerContainer'
 
@@ -22,8 +21,6 @@ const Inner = styled(InnerContainer)`
   flex-direction: row;
   height: 100%;
   justify-content: center;
-
-  ${ContainerPadding}
 `
 
 export const Footer: React.FC<PropsWithChildren> = ({ ...restProps }) => {
