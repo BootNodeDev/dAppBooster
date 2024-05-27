@@ -20,7 +20,7 @@ type Breakpoint = keyof typeof breakpoints
  * @returns string - a media query string
  */
 export const breakpointMediaQuery = (breakpoint: Breakpoint, css: RuleSet<object>): string => {
-  return `@media (min-width: ${breakpoint}) {
+  return `@media (min-width: ${breakpoints[breakpoint]}) {
     ${css}
   }`
 }
