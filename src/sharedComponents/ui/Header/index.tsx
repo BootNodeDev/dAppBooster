@@ -7,6 +7,7 @@ import { ContainerPadding } from '@/src/sharedComponents/ui/ContainerPadding'
 import { Logo } from '@/src/sharedComponents/ui/Header/assets/Logo'
 import { InnerContainer } from '@/src/sharedComponents/ui/InnerContainer'
 import { MainMenu } from '@/src/sharedComponents/ui/MainMenu'
+import { SwitchThemeButton } from '@/src/sharedComponents/ui/SwitchThemeButton'
 import { ConnectWalletButton } from '@/src/sharedComponents/web3/Web3Provider'
 
 export const Wrapper = styled.header`
@@ -30,8 +31,14 @@ const Inner = styled(InnerContainer)`
   flex-direction: row;
   height: 100%;
   justify-content: space-between;
+`
 
-  ${ContainerPadding}
+const End = styled.div`
+  align-items: center;
+  column-gap: calc(var(--base-gap) * 3);
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
 `
 
 export const Header: React.FC<PropsWithChildren> = ({ ...restProps }) => {
@@ -42,7 +49,10 @@ export const Header: React.FC<PropsWithChildren> = ({ ...restProps }) => {
           <Logo />
         </HomeLink>
         <MainMenu />
-        <ConnectWalletButton />
+        <End>
+          <SwitchThemeButton />
+          <ConnectWalletButton />
+        </End>
       </Inner>
     </Wrapper>
   )
