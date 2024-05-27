@@ -1,4 +1,5 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { ThemeProvider } from 'next-themes'
 
 import { TanStackReactQueryDevtools } from '@/src/sharedComponents/helpers/TanStackReactQueryDevtools'
 import { TanStackRouterDevtools } from '@/src/sharedComponents/helpers/TanStackRouterDevtools'
@@ -17,7 +18,7 @@ export const Route = createRootRoute({
 
 function Root() {
   return (
-    <>
+    <ThemeProvider defaultTheme={'light'}>
       <GlobalStyles />
       <Wrapper>
         <Web3Provider>
@@ -30,6 +31,6 @@ function Root() {
           <TanStackRouterDevtools />
         </Web3Provider>
       </Wrapper>
-    </>
+    </ThemeProvider>
   )
 }

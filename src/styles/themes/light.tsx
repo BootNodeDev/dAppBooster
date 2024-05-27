@@ -9,11 +9,7 @@ import { css } from 'styled-components'
  * Use a --theme prefix to indicate that these variables are theme-specific.
  */
 export const lightTheme = css`
-  /* Note: Im disabling this so it works as a default until theme
-    switching is implemented
-
-  &[data-theme='light']  { */
-  & {
+  [data-theme='light'] {
     /**
      * Colors.
      *

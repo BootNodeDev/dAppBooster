@@ -36,6 +36,7 @@
     "@tanstack/react-router": "^1.32.5",
     "connectkit": "^1.7.3",
     "modern-normalize": "^2.0.0",
+    "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "styled-components": "^6.1.11",

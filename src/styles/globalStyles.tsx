@@ -1,22 +1,21 @@
 import { createGlobalStyle } from 'styled-components'
 
 import { base } from '@/src/styles/base'
-// import { darkTheme } from '@/src/styles/themes/dark'
+import { darkTheme } from '@/src/styles/themes/dark'
 import { lightTheme } from '@/src/styles/themes/light'
 
 export const GlobalStyles = createGlobalStyle`
   :root {
     ${base}
-   }
+  }
 
+  ${lightTheme}
+  ${darkTheme}
 
   html {
     font-size: 10px;
     line-height: 1.5;
     scroll-behavior: smooth;
-
-    ${lightTheme}
-    /* Note: Dark theme disabled for now, add it later here */
   }
 
   body {
