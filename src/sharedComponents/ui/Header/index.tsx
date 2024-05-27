@@ -19,12 +19,6 @@ export const Wrapper = styled.header`
   z-index: 10;
 `
 
-const HomeLink = styled(Link)`
-  &:active {
-    opacity: 0.7;
-  }
-`
-
 const Inner = styled(InnerContainer)`
   align-items: center;
   flex-direction: row;
@@ -32,22 +26,41 @@ const Inner = styled(InnerContainer)`
   justify-content: space-between;
 `
 
+const Start = styled.div`
+  flex: 1;
+`
+
+const HomeLink = styled(Link)`
+  &:active {
+    opacity: 0.7;
+  }
+`
+
+const Menu = styled(MainMenu)`
+  display: flex;
+  justify-content: center;
+  flex: 1;
+`
+
 const End = styled.div`
   align-items: center;
   column-gap: calc(var(--base-gap) * 3);
   display: flex;
+  flex: 1;
   height: 100%;
-  justify-content: space-between;
+  justify-content: flex-end;
 `
 
 export const Header: React.FC<PropsWithChildren> = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Inner>
-        <HomeLink href="/">
-          <Logo />
-        </HomeLink>
-        <MainMenu />
+        <Start>
+          <HomeLink href="/">
+            <Logo />
+          </HomeLink>
+        </Start>
+        <Menu />
         <End>
           <SwitchThemeButton />
           <ConnectWalletButton />
