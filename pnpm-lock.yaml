@@ -81,6 +81,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^1.6.0
         version: 1.6.0(vitest@1.6.0(@types/node@20.12.12)(terser@5.31.0))
+      db-ui-toolkit:
+        specifier: github:BootNodeDev/db-ui-toolkit#0.0.1
+        version: git+https://git@github.com:BootNodeDev/db-ui-toolkit.git#bc1beadc0f0bd0a3bd47eb2610725f357272365e
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -2751,6 +2754,11 @@ packages:
 
   dayjs@1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
+
+  db-ui-toolkit@git+https://git@github.com:BootNodeDev/db-ui-toolkit.git#bc1beadc0f0bd0a3bd47eb2610725f357272365e:
+    resolution: {commit: bc1beadc0f0bd0a3bd47eb2610725f357272365e, repo: git@github.com:BootNodeDev/db-ui-toolkit.git, type: git}
+    version: 0.1.0
+    engines: {node: '>=20.0.0'}
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -9237,6 +9245,11 @@ snapshots:
       '@babel/runtime': 7.24.5
 
   dayjs@1.11.11: {}
+
+  db-ui-toolkit@git+https://git@github.com:BootNodeDev/db-ui-toolkit.git#bc1beadc0f0bd0a3bd47eb2610725f357272365e:
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   debounce@1.2.1: {}
 
