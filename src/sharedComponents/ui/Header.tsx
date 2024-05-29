@@ -2,9 +2,8 @@ import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
 import { Link } from '@tanstack/react-router'
-import { InnerContainer as Inner, Header as BaseHeader, Logo as BaseLogo } from 'db-ui-toolkit'
+import { InnerContainer, Header as BaseHeader, Logo, ContainerPadding } from 'db-ui-toolkit'
 
-import { ContainerPadding } from '@/src/sharedComponents/ui/ContainerPadding'
 import { MainMenu } from '@/src/sharedComponents/ui/MainMenu'
 import { SwitchThemeButton } from '@/src/sharedComponents/ui/SwitchThemeButton'
 import { ConnectWalletButton } from '@/src/sharedComponents/web3/Web3Provider'
@@ -14,7 +13,7 @@ const Wrapper = styled(BaseHeader)`
   margin-top: 48px;
 `
 
-const InnerContainer = styled(Inner)`
+const Inner = styled(InnerContainer)`
   align-items: center;
   height: 100%;
   justify-content: space-between;
@@ -29,18 +28,6 @@ const Start = styled.div`
 const HomeLink = styled(Link)`
   &:active {
     opacity: 0.7;
-  }
-`
-
-const Logo = styled(BaseLogo)`
-  .themedColor {
-    [data-theme='light'] & {
-      fill: #2e3048;
-    }
-
-    [data-theme='dark'] & {
-      fill: #fff;
-    }
   }
 `
 
@@ -62,7 +49,7 @@ const End = styled.div`
 export const Header: React.FC<PropsWithChildren> = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
-      <InnerContainer>
+      <Inner>
         <Start>
           <HomeLink href="/">
             <Logo />
@@ -73,7 +60,7 @@ export const Header: React.FC<PropsWithChildren> = ({ ...restProps }) => {
           <SwitchThemeButton />
           <ConnectWalletButton />
         </End>
-      </InnerContainer>
+      </Inner>
     </Wrapper>
   )
 }

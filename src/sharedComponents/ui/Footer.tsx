@@ -1,36 +1,24 @@
 import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
-import { InnerContainer as Inner, Footer as BaseFooter, LogoMini } from 'db-ui-toolkit'
+import { InnerContainer, Footer as BaseFooter, LogoMini, ContainerPadding } from 'db-ui-toolkit'
 
 export const Wrapper = styled(BaseFooter)`
-  align-items: center;
-  display: flex;
   height: 92px;
 `
 
-const InnerContainer = styled(Inner)`
+const Inner = styled(InnerContainer)`
   justify-content: center;
-`
 
-const Logo = styled(LogoMini)`
-  .themedColor {
-    [data-theme='light'] & {
-      fill: #2e3048;
-    }
-
-    [data-theme='dark'] & {
-      fill: #fff;
-    }
-  }
+  ${ContainerPadding}
 `
 
 export const Footer: React.FC<PropsWithChildren> = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
-      <InnerContainer>
-        <Logo />
-      </InnerContainer>
+      <Inner>
+        <LogoMini />
+      </Inner>
     </Wrapper>
   )
 }
