@@ -2,10 +2,16 @@ import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
 import { Link } from '@tanstack/react-router'
-import { InnerContainer, Header as BaseHeader, Logo, ContainerPadding } from 'db-ui-toolkit'
+import {
+  InnerContainer,
+  Header as BaseHeader,
+  Logo,
+  ContainerPadding,
+  SwitchThemeButton,
+} from 'db-ui-toolkit'
+import { useTheme } from 'next-themes'
 
 import { MainMenu } from '@/src/sharedComponents/ui/MainMenu'
-import { SwitchThemeButton } from '@/src/sharedComponents/ui/SwitchThemeButton'
 import { ConnectWalletButton } from '@/src/sharedComponents/web3/Web3Provider'
 
 const Wrapper = styled(BaseHeader)`
@@ -47,6 +53,8 @@ const End = styled.div`
 `
 
 export const Header: React.FC<PropsWithChildren> = ({ ...restProps }) => {
+  const { setTheme, theme } = useTheme()
+
   return (
     <Wrapper {...restProps}>
       <Inner>
@@ -57,7 +65,10 @@ export const Header: React.FC<PropsWithChildren> = ({ ...restProps }) => {
         </Start>
         <Menu />
         <End>
-          <SwitchThemeButton />
+          <SwitchThemeButton
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            theme={theme}
+          />
           <ConnectWalletButton />
         </End>
       </Inner>
