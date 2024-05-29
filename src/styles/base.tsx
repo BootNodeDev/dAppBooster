@@ -19,11 +19,11 @@ export const base = css`
   --base-font-family: 'Manrope', 'Arial', 'Helvetica Neue', 'Helvetica', sans-serif;
   --base-font-family-code: 'Roboto Mono', 'Courier New', monospace;
 
-  --base-padding-xs: 4px;
-  --base-padding-sm: 8px;
-  --base-padding: 16px;
-  --base-padding-xl: 20px;
-  --base-padding-xxl: 24px;
+  --base-padding-mobile: 4px;
+  --base-padding-tablet-portrait: 8px;
+  --base-padding-tablet-landscape: 8px;
+  --base-padding-desktop: 16px;
+  --base-padding-desktop-xl: 16px;
 
   --base-container-max-width: 1360px;
 
