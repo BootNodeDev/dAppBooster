@@ -20,6 +20,9 @@ importers:
       connectkit:
         specifier: ^1.7.3
         version: 1.7.3(@babel/core@7.24.5)(@tanstack/react-query@5.36.2(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(wagmi@2.9.2(@tanstack/query-core@5.36.1)(@tanstack/react-query@5.36.2(react@18.3.1))(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1)(rollup@4.17.2)(typescript@5.4.5)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(zod@3.23.8))
+      db-ui-toolkit:
+        specifier: github:BootNodeDev/db-ui-toolkit#0.0.3
+        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/1bc926efac96b39d14aace8a5da5548824b8d252
       modern-normalize:
         specifier: ^2.0.0
         version: 2.0.0
@@ -81,9 +84,6 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^1.6.0
         version: 1.6.0(vitest@1.6.0(@types/node@20.12.12)(terser@5.31.0))
-      db-ui-toolkit:
-        specifier: link:/Users/gabito/Sites/db-ui-toolkit
-        version: link:../db-ui-toolkit
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -2754,6 +2754,11 @@ packages:
 
   dayjs@1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
+
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/1bc926efac96b39d14aace8a5da5548824b8d252:
+    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/1bc926efac96b39d14aace8a5da5548824b8d252}
+    version: 0.1.0
+    engines: {node: '>=20.0.0'}
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -9240,6 +9245,12 @@ snapshots:
       '@babel/runtime': 7.24.5
 
   dayjs@1.11.11: {}
+
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/1bc926efac96b39d14aace8a5da5548824b8d252:
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      styled-components: 6.1.11(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   debounce@1.2.1: {}
 
