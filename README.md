@@ -173,7 +173,11 @@ You can find all the general app's styles in the `src/styles` folder:
 - `breakpoints.tsx` utility functions for responsive, mobile-first CSS.
 - `globalStyles.tsx` global app's CSS.
 
-## Control Version System
+## Themes
+
+dAppBooster supports themes with the help of https://github.com/pacocoursey/next-themes
+
+# Control Version System
 
 As a best practice, we follow and enforce the usage of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) for commit messages' and pull requests' titles.
 
