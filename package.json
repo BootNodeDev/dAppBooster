@@ -57,7 +57,7 @@
     "@typescript-eslint/parser": "^7.9.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "@vitest/coverage-v8": "^1.6.0",
-    "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit#0.0.1",
+    "db-ui-toolkit": "link:/Users/gabito/Sites/db-ui-toolkit",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
