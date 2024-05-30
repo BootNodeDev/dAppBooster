@@ -14,25 +14,25 @@ export const GlobalStyles = createGlobalStyle`
 
   html {
     font-size: 10px;
-    line-height: 1.5;
     scroll-behavior: smooth;
   }
 
   body {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background: var(--theme-body-background);
+    background: var(--theme-body-background, #fff);
     background-image: url('/images/bg-body.svg');
     background-position: 100% 0;
     background-repeat: no-repeat;
-    color: var(--theme-color-text);
-    font-family: var(--base-font-family);
-    font-size: 1.6rem;
-    outline-color: var(--theme-color-secondary);
+    color: var(--theme-color-text, #000);
+    font-family: var(--base-font-family, 'sans-serif');
+    font-size: var(--base-text-size, 16px);
+    line-height: 1.5;
+    outline-color: var(--theme-color-primary, #ccc);
   }
 
   code {
-    font-family: var(--base-font-family-code);
+    font-family: var(--base-font-family-code, monospace);
   }
 
   h1,
@@ -47,7 +47,8 @@ export const GlobalStyles = createGlobalStyle`
     margin: 0;
   }
 
-  ol, ul {
+  ol,
+  ul {
     list-style: none;
     padding-inline: 0;
   }
@@ -63,6 +64,6 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   a {
-    color: var(--theme-color-primary);
+    color: var(--theme-color-primary, #000);
   }
 `

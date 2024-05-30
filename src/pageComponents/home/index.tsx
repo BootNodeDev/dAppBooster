@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { Title, Text } from 'db-ui-toolkit'
 import { useEnsName } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 
@@ -19,14 +20,18 @@ export const Home = () => {
 
   return (
     <Wrapper>
-      <h1>Welcome to dApp👻ster!</h1>
-      {status === 'pending' ? (
-        <>Loading ENS name</>
-      ) : status === 'error' ? (
-        <>Error fetching ENS name: {error.message}</>
-      ) : (
-        <>ENS name: {data}</>
-      )}
+      <Title>Welcome to dApp👻ster!</Title>
+      <Text>
+        {status === 'pending' ? (
+          <>Loading ENS name</>
+        ) : status === 'error' ? (
+          <>Error fetching ENS name: {error.message}</>
+        ) : (
+          <>
+            <b>ENS name:</b> {data}
+          </>
+        )}
+      </Text>
     </Wrapper>
   )
 }

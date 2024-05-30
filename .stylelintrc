@@ -11,6 +11,7 @@
       }
     ],
     "order/order": ["custom-properties", "declarations", "rules", "at-rules"],
-    "custom-property-empty-line-before": null
+    "custom-property-empty-line-before": null,
+    "no-empty-source": null
   }
 }

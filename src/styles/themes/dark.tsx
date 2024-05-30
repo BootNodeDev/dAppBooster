@@ -55,11 +55,8 @@ export const darkTheme = css`
     --theme-button-primary-color: var(--theme-color-0);
     --theme-button-primary-color-hover: var(--theme-color-0);
 
-    --theme-button-primary-background-disabled: var(--theme-color-5);
-    --theme-button-primary-border-disabled: var(--theme-color-6);
+    --theme-button-primary-background-color-disabled: var(--theme-color-5);
+    --theme-button-primary-border-color-disabled: var(--theme-color-6);
     --theme-button-primary-color-disabled: var(--theme-color-7);
-
-    /* Modal */
-    --theme-dialog-background: var(--theme-color-3);
   }
 `
