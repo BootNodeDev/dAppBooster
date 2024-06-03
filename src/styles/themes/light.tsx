@@ -51,7 +51,7 @@ export const lightTheme = css`
     /* Main Menu */
     --theme-main-menu-item-color: var(--theme-color-1);
 
-    /* Button Primary */
+    /* Primary Button */
     --theme-button-primary-background-color: var(--theme-color-4);
     --theme-button-primary-background-color-hover: var(--theme-color-1);
 
@@ -64,5 +64,19 @@ export const lightTheme = css`
     --theme-button-primary-background-color-disabled: var(--theme-color-5);
     --theme-button-primary-border-color-disabled: var(--theme-color-6);
     --theme-button-primary-color-disabled: var(--theme-color-7);
+
+    /* Connect Button */
+    --theme-button-connect-background-color: #fff;
+    --theme-button-connect-background-color-hover: #fff;
+
+    --theme-button-connect-border-color: #fff;
+    --theme-button-connect-border-color-hover: #fff;
+
+    --theme-button-connect-color: var(--theme-color-1);
+    --theme-button-connect-color-hover: var(--theme-color-4);
+
+    --theme-button-connect-background-color-disabled: #fff;
+    --theme-button-connect-border-color-disabled: #fff;
+    --theme-button-connect-color-disabled: var(--theme-color-7);
   }
 `
