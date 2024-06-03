@@ -3,10 +3,23 @@ import { createConfig } from 'wagmi'
 
 import { env } from '@/src/env'
 import { chains, transports } from '@/src/lib/networks.config'
+import ConnectButton from '@/src/sharedComponents/ui/ConnectButton'
 
 export const WalletProvider = ConnectKitProvider
 
-export const ConnectWalletButton = ConnectKitButton
+export const ConnectWalletButton = () => {
+  return (
+    <ConnectKitButton.Custom>
+      {({ isConnected, isConnecting, show, truncatedAddress }) => {
+        return (
+          <ConnectButton disabled={isConnecting} onClick={show}>
+            {isConnected ? truncatedAddress : 'Connect'}
+          </ConnectButton>
+        )
+      }}
+    </ConnectKitButton.Custom>
+  )
+}
 
 const defaultConfig = {
   chains,
