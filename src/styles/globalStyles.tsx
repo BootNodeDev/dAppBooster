@@ -25,8 +25,8 @@ export const GlobalStyles = createGlobalStyle`
     background-position: 100% 0;
     background-repeat: no-repeat;
     color: var(--theme-color-text, #000);
-    font-family: var(--base-font-family, 'sans-serif');
-    font-size: var(--base-text-size, 16px);
+    font-family: var(--base-font-family, sans-serif);
+    font-size: var(--base-text-font-size, 16px);
     line-height: 1.5;
     outline-color: var(--theme-color-primary, #ccc);
   }

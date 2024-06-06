@@ -27,6 +27,9 @@ export const darkTheme = css`
     --theme-color-5: #f7f7f7;
     --theme-color-6: #e2e0e7;
     --theme-color-7: #c5c2cb;
+    --theme-color-8: #800;
+    --theme-color-9: #080;
+    --theme-color-10: #cc0;
 
     /**
      * From here on put the variables that you will use in your CSS elsewhere.
@@ -34,6 +37,9 @@ export const darkTheme = css`
     --theme-color-primary: #c670e5;
     --theme-color-secondary: #8b46a4;
     --theme-color-text: #e2e0e7;
+    --theme-color-danger: var(--theme-color-8);
+    --theme-color-ok: var(--theme-color-9);
+    --theme-color-warning: var(--theme-color-10);
 
     /* Main body */
     --theme-body-background: var(--theme-color-1);
@@ -72,5 +78,23 @@ export const darkTheme = css`
     --theme-button-connect-background-color-disabled: #fff;
     --theme-button-connect-border-color-disabled: #fff;
     --theme-button-connect-color-disabled: var(--theme-color-7);
+
+    /* Dropdown */
+    --theme-dropdown-background-color: #292b43;
+    --theme-dropdown-border-color: #292b43;
+
+    --theme-dropdown-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
+
+    --theme-dropdown-item-background-color: transparent;
+    --theme-dropdown-item-background-color-hover: transparent;
+    --theme-dropdown-item-background-color-active: rgb(0 0 0 / 10%);
+
+    --theme-dropdown-item-color: #fff;
+    --theme-dropdown-item-color-hover: #fff;
+    --theme-dropdown-item-color-active: #fff;
+
+    --theme-dropdown-item-border-color: #4b4d60;
+    --theme-dropdown-item-border-color-hover: #4b4d60;
+    --theme-dropdown-item-border-color-active: #4b4d60;
   }
 `
