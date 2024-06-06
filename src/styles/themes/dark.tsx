@@ -96,5 +96,10 @@ export const darkTheme = css`
     --theme-dropdown-item-border-color: #4b4d60;
     --theme-dropdown-item-border-color-hover: #4b4d60;
     --theme-dropdown-item-border-color-active: #4b4d60;
+
+    /* Card */
+    --theme-card-background-color: #292b43;
+    --theme-card-border-color: #292b43;
+    --theme-card-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
   }
 `

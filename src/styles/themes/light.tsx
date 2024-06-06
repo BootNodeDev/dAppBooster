@@ -102,5 +102,10 @@ export const lightTheme = css`
     --theme-dropdown-item-border-color: #f0f0f0;
     --theme-dropdown-item-border-color-hover: #f0f0f0;
     --theme-dropdown-item-border-color-active: #f0f0f0;
+
+    /* Card */
+    --theme-card-background-color: #fff;
+    --theme-card-border-color: #fff;
+    --theme-card-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
   }
 `
