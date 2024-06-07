@@ -35,7 +35,7 @@
     "@tanstack/react-query": "^5.36.0",
     "@tanstack/react-router": "^1.32.5",
     "connectkit": "^1.7.3",
-    "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit#0.0.5",
+    "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit#0.0.6",
     "modern-normalize": "^2.0.0",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
