@@ -29,6 +29,7 @@ export const MainMenu = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Item to="/">Home</Item>
+      <Item to="/tokens">Tokens</Item>
       <Item to="/about">About</Item>
       <Item to="/contact">Contact</Item>
     </Wrapper>
