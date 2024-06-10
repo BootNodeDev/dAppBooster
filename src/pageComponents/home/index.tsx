@@ -34,14 +34,12 @@ export const Home = () => {
           </>
         )}
       </Text>
-      <Text>
-        <Hash
-          explorerURL="https://etherscan.io/address/0x87885aaeeded51c7e3858a782644f5d89759f245"
-          hash="0x87885AaEEdED51C7e3858a782644F5d89759f245"
-          onCopy={() => console.log('Copied!')}
-          showCopyButton
-        />
-      </Text>
+      <Hash
+        explorerURL="https://etherscan.io/address/0x87885aaeeded51c7e3858a782644f5d89759f245"
+        hash="0x87885aaeeded51c7e3858a782644f5d89759f245"
+        onCopy={() => console.log('Copied!')}
+        showCopyButton
+      />
     </Wrapper>
   )
 }
