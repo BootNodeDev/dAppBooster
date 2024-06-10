@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { MouseEventHandler } from 'react'
 import styled from 'styled-components'
 
 import { ExternalLink, CopyButton } from 'db-ui-toolkit'
@@ -16,7 +16,7 @@ const HashValue = styled.span``
 interface Props {
   hash: string
   explorerURL?: string
-  onCopy?: () => void
+  onCopy?: MouseEventHandler<HTMLButtonElement>
   showCopyButton?: boolean
 }
 
@@ -25,7 +25,7 @@ interface Props {
  *
  * @param {string} hash - The hash to display.
  * @param {string} [explorerURL] - The URL to the explorer for the hash. If provided, an external link icon will be displayed. Default is an empty string.
- * @param {() => void} [onCopy] - The function to call when the copy button is clicked.
+ * @param {MouseEventHandler<HTMLButtonElement>} [onCopy=undefined] - The function to call when the copy button is clicked. Default is undefined.
  * @param {boolean} [showCopyButton=false] - Whether to show the copy button. Default is false.
  */
 const Hash: React.FC<Props> = ({
