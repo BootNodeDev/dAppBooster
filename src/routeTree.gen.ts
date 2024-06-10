@@ -16,11 +16,17 @@ import { Route as rootRoute } from './routes/__root'
 
 // Create Virtual Routes
 
+const TokensLazyImport = createFileRoute('/tokens')()
 const ContactLazyImport = createFileRoute('/contact')()
 const AboutLazyImport = createFileRoute('/about')()
 const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
+
+const TokensLazyRoute = TokensLazyImport.update({
+  path: '/tokens',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/tokens.lazy').then((d) => d.Route))
 
 const ContactLazyRoute = ContactLazyImport.update({
   path: '/contact',
@@ -62,6 +68,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactLazyImport
       parentRoute: typeof rootRoute
     }
+    '/tokens': {
+      id: '/tokens'
+      path: '/tokens'
+      fullPath: '/tokens'
+      preLoaderRoute: typeof TokensLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -71,6 +84,7 @@ export const routeTree = rootRoute.addChildren({
   IndexLazyRoute,
   AboutLazyRoute,
   ContactLazyRoute,
+  TokensLazyRoute,
 })
 
 /* prettier-ignore-end */
