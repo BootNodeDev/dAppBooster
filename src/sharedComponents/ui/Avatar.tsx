@@ -1,3 +1,5 @@
+import styled from 'styled-components'
+
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 
 interface CustomAvatarProps {
@@ -8,6 +10,16 @@ interface CustomAvatarProps {
   size?: number
 }
 
+const ImageWrapper = styled.div<{
+  radius?: number
+  size?: number
+}>`
+  overflow: hidden;
+  border-radius: ${(props) => `${props.radius}%`};
+  width: ${(props) => `${props.size}px`};
+  height: ${(props) => `${props.size}px`};
+`
+
 /**
  * CustomAvatar component, displays an avatar with an ENS image or Jazzicon based on the provided props.
  * If an ENS image is provided, it will be displayed, otherwise a Jazzicon will be displayed based on the address.
@@ -16,7 +28,7 @@ interface CustomAvatarProps {
  * @param {string} props.address - The address
  * @param {string | null | undefined} props.ensImage - The ENS image URL for the avatar.
  * @param {string | null | undefined} props.ensName - The ENS name.
- * @param {number} [props.radius=96] - The border radius of the avatar.
+ * @param {number} [props.radius=100] - The border radius of the avatar.
  * @param {number} [props.size=96] - The size of the avatar.
  * @example <CustomAvatar address="0x1234567890abcdef1234567890abcdef12345678" ensImage="avatar.png" ensName="test.eth" radius={96} size={96} />
  */
@@ -24,17 +36,11 @@ const CustomAvatar = ({
   address,
   ensImage,
   ensName,
-  radius = 96,
+  radius = 100,
   size = 96,
 }: CustomAvatarProps) => {
   return (
-    <div
-      style={{
-        borderRadius: radius,
-        width: size,
-        height: size,
-      }}
-    >
+    <ImageWrapper radius={radius} size={size}>
       {ensImage ? (
         <img alt={ensName ?? address} height="100%" src={ensImage} width="100%" />
       ) : (
@@ -42,7 +48,7 @@ const CustomAvatar = ({
           <Jazzicon diameter={size} seed={jsNumberForAddress(address)} />
         </div>
       )}
-    </div>
+    </ImageWrapper>
   )
 }
 
