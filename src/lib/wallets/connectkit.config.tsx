@@ -1,11 +1,22 @@
-import { getDefaultConfig, ConnectKitProvider, ConnectKitButton } from 'connectkit'
+import { getDefaultConfig, ConnectKitProvider, ConnectKitButton, Types } from 'connectkit'
 import { createConfig } from 'wagmi'
 
 import { env } from '@/src/env'
 import { chains, transports } from '@/src/lib/networks.config'
+import CustomAvatar from '@/src/sharedComponents/ui/Avatar'
 import ConnectButton from '@/src/sharedComponents/ui/ConnectButton'
 
-export const WalletProvider = ConnectKitProvider
+export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <ConnectKitProvider
+      options={{
+        customAvatar: CustomAvatar as React.FC<Types.CustomAvatarProps>,
+      }}
+    >
+      {children}
+    </ConnectKitProvider>
+  )
+}
 
 export const ConnectWalletButton = () => {
   return (
