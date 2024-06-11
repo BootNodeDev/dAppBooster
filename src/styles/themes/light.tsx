@@ -32,6 +32,8 @@ export const lightTheme = css`
     --theme-color-10: #800;
     --theme-color-11: #080;
     --theme-color-12: #cc0;
+    --theme-color-13: #f0f0f0;
+    --theme-color-14: #000;
 
     /**
      * From here on put the variables that you will use in your CSS elsewhere.
@@ -39,6 +41,8 @@ export const lightTheme = css`
     --theme-color-primary: var(--theme-color-1);
     --theme-color-secondary: var(--theme-color-2);
     --theme-color-text: var(--theme-color-3);
+
+    /* Danger / OK / warning */
     --theme-color-danger: var(--theme-color-10);
     --theme-color-ok: var(--theme-color-11);
     --theme-color-warning: var(--theme-color-12);
@@ -72,22 +76,22 @@ export const lightTheme = css`
     --theme-button-primary-color-disabled: var(--theme-color-7);
 
     /* Connect Button */
-    --theme-button-connect-background-color: #fff;
-    --theme-button-connect-background-color-hover: #fff;
+    --theme-button-connect-background-color: var(--theme-color-0);
+    --theme-button-connect-background-color-hover: var(--theme-color-0);
 
-    --theme-button-connect-border-color: #fff;
-    --theme-button-connect-border-color-hover: #fff;
+    --theme-button-connect-border-color: var(--theme-color-0);
+    --theme-button-connect-border-color-hover: var(--theme-color-0);
 
     --theme-button-connect-color: var(--theme-color-1);
     --theme-button-connect-color-hover: var(--theme-color-4);
 
-    --theme-button-connect-background-color-disabled: #fff;
-    --theme-button-connect-border-color-disabled: #fff;
+    --theme-button-connect-background-color-disabled: var(--theme-color-0);
+    --theme-button-connect-border-color-disabled: var(--theme-color-0);
     --theme-button-connect-color-disabled: var(--theme-color-7);
 
     /* Dropdown */
-    --theme-dropdown-background-color: #fff;
-    --theme-dropdown-border-color: #fff;
+    --theme-dropdown-background-color: var(--theme-color-0);
+    --theme-dropdown-border-color: var(--theme-color-0);
 
     --theme-dropdown-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
 
@@ -95,17 +99,25 @@ export const lightTheme = css`
     --theme-dropdown-item-background-color-hover: transparent;
     --theme-dropdown-item-background-color-active: rgb(0 0 0 / 10%);
 
-    --theme-dropdown-item-color: #2e3048;
-    --theme-dropdown-item-color-hover: #2e3048;
-    --theme-dropdown-item-color-active: #2e3048;
+    --theme-dropdown-item-color: var(--theme-color-1);
+    --theme-dropdown-item-color-hover: var(--theme-color-1);
+    --theme-dropdown-item-color-active: var(--theme-color-1);
 
-    --theme-dropdown-item-border-color: #f0f0f0;
-    --theme-dropdown-item-border-color-hover: #f0f0f0;
-    --theme-dropdown-item-border-color-active: #f0f0f0;
+    --theme-dropdown-item-border-color: var(--theme-color-13);
+    --theme-dropdown-item-border-color-hover: var(--theme-color-13);
+    --theme-dropdown-item-border-color-active: var(--theme-color-13);
 
     /* Card */
-    --theme-card-background-color: #fff;
-    --theme-card-border-color: #fff;
+    --theme-card-background-color: var(--theme-color-0);
+    --theme-card-border-color: var(--theme-color-0);
     --theme-card-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
+
+    /* Copy button */
+    --copy-button-color: var(--theme-color-14);
+    --copy-button-color-hover: var(--theme-color-4);
+
+    /* External link button */
+    --external-link-button-color: var(--theme-color-14);
+    --external-link-button-color-hover: var(--theme-color-4);
   }
 `
