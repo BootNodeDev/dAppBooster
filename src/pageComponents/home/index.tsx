@@ -43,17 +43,17 @@ export const Home = () => {
           </>
         )}
       </Text>
+      <Grid>
+        <b>Avatar: </b>
+        <Avatar address={address || '0x87885AaEEdED51C7e3858a782644F5d89759f245'} size={30} />
+      </Grid>
+      <br />
       <Hash
         explorerURL="https://etherscan.io/address/0x87885aaeeded51c7e3858a782644f5d89759f245"
         hash="0x87885aaeeded51c7e3858a782644f5d89759f245"
         onCopy={() => console.log('Copied!')}
         showCopyButton
       />
-
-      <Grid>
-        <b>Avatar: </b>
-        <Avatar address={address || '0x87885AaEEdED51C7e3858a782644F5d89759f245'} />
-      </Grid>
     </Wrapper>
   )
 }

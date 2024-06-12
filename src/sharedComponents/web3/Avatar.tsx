@@ -6,17 +6,17 @@ import CustomAvatar from '@/src/sharedComponents/ui/Avatar'
 
 interface AvatarProps {
   address: Address
-  size?: number
+  size: number
 }
 
 /**
  * Avatar WEB3 component using wagmi hooks to fetch ENS name and avatar image for the provided address.
  *
  * @param {string} props.address - The address
- * @param {number} [props.size=50] - The size of the avatar
+ * @param {number} props.size - The size of the avatar
  * @example <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
  */
-const Avatar = ({ address, size = 50 }: AvatarProps) => {
+const Avatar = ({ address, size }: AvatarProps) => {
   const { data: ensName } = useEnsName({ address })
 
   const { data: avatarImg } = useEnsAvatar({
