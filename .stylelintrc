@@ -1,7 +1,6 @@
 {
   "extends": "stylelint-config-standard",
   "customSyntax": "postcss-styled-syntax",
-  "plugins": ["stylelint-order"],
   "rules": {
     "number-max-precision": 8,
     "selector-class-pattern": [
@@ -10,7 +9,6 @@
         "message": "Class selectors should be in camelCase (e.g., myClassName)"
       }
     ],
-    "order/order": ["custom-properties", "declarations", "rules", "at-rules"],
     "custom-property-empty-line-before": null,
     "no-empty-source": null
   }

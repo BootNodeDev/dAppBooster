@@ -144,9 +144,6 @@ importers:
       stylelint-config-standard:
         specifier: ^36.0.0
         version: 36.0.0(stylelint@16.5.0(typescript@5.4.5))
-      stylelint-order:
-        specifier: ^6.0.4
-        version: 6.0.4(stylelint@16.5.0(typescript@5.4.5))
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -4755,11 +4752,6 @@ packages:
     resolution: {integrity: sha512-A0RVJrX+IUkVZbW3ClroRWurercFhieevHB38sr2+l9eUClMqome3LmEmnhlNy+5Mr2EYN6B2Kaw9wYdd+VHiw==}
     engines: {node: '>=4'}
 
-  postcss-sorting@8.0.2:
-    resolution: {integrity: sha512-M9dkSrmU00t/jK7rF6BZSZauA5MAaBW4i5EnJXspMwt4iqTh/L9j6fgMnbElEOfyRyfLfVbIHj/R52zHzAPe1Q==}
-    peerDependencies:
-      postcss: ^8.4.20
-
   postcss-styled-syntax@0.6.4:
     resolution: {integrity: sha512-uWiLn+9rKgIghUYmTHvXMR6MnyPULMe9Gv3bV537Fg4FH6CA6cn21WMjKss2Qb98LUhT847tKfnRGG3FhSOgUQ==}
     engines: {node: '>=14.17'}
@@ -5397,11 +5389,6 @@ packages:
     engines: {node: '>=18.12.0'}
     peerDependencies:
       stylelint: ^16.1.0
-
-  stylelint-order@6.0.4:
-    resolution: {integrity: sha512-0UuKo4+s1hgQ/uAxlYU4h0o0HS4NiQDud0NAUNI0aa8FJdmYHA5ZZTFHiV5FpmE3071e9pZx5j0QpVJW5zOCUA==}
-    peerDependencies:
-      stylelint: ^14.0.0 || ^15.0.0 || ^16.0.1
 
   stylelint@16.5.0:
     resolution: {integrity: sha512-IlCBtVrG+qTy3v+tZTk50W8BIomjY/RUuzdrDqdnlCYwVuzXtPbiGfxYqtyYAyOMcb+195zRsuHn6tgfPmFfbw==}
@@ -11758,10 +11745,6 @@ snapshots:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss-sorting@8.0.2(postcss@8.4.38):
-    dependencies:
-      postcss: 8.4.38
-
   postcss-styled-syntax@0.6.4(postcss@8.4.38):
     dependencies:
       postcss: 8.4.38
@@ -12500,12 +12483,6 @@ snapshots:
     dependencies:
       stylelint: 16.5.0(typescript@5.4.5)
       stylelint-config-recommended: 14.0.0(stylelint@16.5.0(typescript@5.4.5))
-
-  stylelint-order@6.0.4(stylelint@16.5.0(typescript@5.4.5)):
-    dependencies:
-      postcss: 8.4.38
-      postcss-sorting: 8.0.2(postcss@8.4.38)
-      stylelint: 16.5.0(typescript@5.4.5)
 
   stylelint@16.5.0(typescript@5.4.5):
     dependencies:
