@@ -51,7 +51,6 @@ const Ghost = styled(BaseGhost)`
 
 const Contents = styled.div`
   flex-grow: 1;
-  max-width: 100%;
   background-color: var(--landing-page-main-background-color);
 `
 

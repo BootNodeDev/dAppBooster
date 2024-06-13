@@ -9,6 +9,7 @@ const Wrapper = styled.div`
   flex-grow: 1;
   margin-top: calc(var(--base-header-height) * -1);
   position: relative;
+  width: 100%;
 `
 
 export const Home = ({ ...restProps }) => {
