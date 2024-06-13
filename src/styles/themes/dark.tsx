@@ -12,7 +12,12 @@ export const darkTheme = css`
   &[data-theme='dark'] {
     /* Few basic colors */
     --theme-color-primary: #8b46a4;
+
+    /* Text color */
+    --theme-color-text-primary: #fff;
     --theme-color-text: #e2e0e7;
+    --theme-color-light: #4b4d60;
+    --theme-color-dark: #4b4d60;
 
     /* Danger / OK / warning */
     --theme-color-danger: #800;
@@ -31,17 +36,31 @@ export const darkTheme = css`
 
     /* Button Primary */
     --theme-button-primary-background-color: #8b46a4;
-    --theme-button-primary-background-color-hover: #2e3048;
+    --theme-button-primary-background-color-hover: #9a4eb5;
 
     --theme-button-primary-border-color: #8b46a4;
-    --theme-button-primary-border-color-hover: #2e3048;
+    --theme-button-primary-border-color-hover: #9a4eb5;
 
     --theme-button-primary-color: #fff;
     --theme-button-primary-color-hover: #fff;
 
-    --theme-button-primary-background-color-disabled: #f7f7f7;
-    --theme-button-primary-border-color-disabled: #e2e0e7;
-    --theme-button-primary-color-disabled: #c5c2cb;
+    --theme-button-primary-background-color-disabled: #8b46a4;
+    --theme-button-primary-border-color-disabled: #8b46a4;
+    --theme-button-primary-color-disabled: #fff;
+
+    /* Secondary Button */
+    --theme-button-secondary-background-color: #5f6178;
+    --theme-button-secondary-background-color-hover: #4a4c5f;
+
+    --theme-button-secondary-border-color: #5f6178;
+    --theme-button-secondary-border-color-hover: #4a4c5f;
+
+    --theme-button-secondary-color: #fff;
+    --theme-button-secondary-color-hover: #fff;
+
+    --theme-button-secondary-background-color-disabled: #5f6178;
+    --theme-button-secondary-border-color-disabled: #5f6178;
+    --theme-button-secondary-color-disabled: #fff;
 
     /* Connect Button */
     --theme-button-connect-background-color: #8b46a4;
