@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-import ImgGhostDark from '@/src/pageComponents/home/WelcomeSection/Ghost/assets/img-ghost-dark.svg'
-import ImgGhostLight from '@/src/pageComponents/home/WelcomeSection/Ghost/assets/img-ghost-light.svg'
+import ImgGhostDark from '@/src/pageComponents/home/Welcome/Ghost/assets/img-ghost-dark.svg'
+import ImgGhostLight from '@/src/pageComponents/home/Welcome/Ghost/assets/img-ghost-light.svg'
 
 const Ghost = styled.img`
   --ghost-image: url(${ImgGhostLight});

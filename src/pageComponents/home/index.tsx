@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import Examples from '@/src/pageComponents/home/Examples'
-import WelcomeSection from '@/src/pageComponents/home/WelcomeSection'
+import Welcome from '@/src/pageComponents/home/Welcome'
 
 const Wrapper = styled.div`
   display: flex;
@@ -14,7 +14,7 @@ const Wrapper = styled.div`
 export const Home = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
-      <WelcomeSection />
+      <Welcome />
       <Examples />
     </Wrapper>
   )

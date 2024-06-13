@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-import ImgCloudsDark from '@/src/pageComponents/home/WelcomeSection/Clouds/assets/img-clouds-dark.svg'
-import ImgCloudsLight from '@/src/pageComponents/home/WelcomeSection/Clouds/assets/img-clouds-light.svg'
+import ImgCloudsDark from '@/src/pageComponents/home/Welcome/Clouds/assets/img-clouds-dark.svg'
+import ImgCloudsLight from '@/src/pageComponents/home/Welcome/Clouds/assets/img-clouds-light.svg'
 
 const Clouds = styled.img`
   display: none;
