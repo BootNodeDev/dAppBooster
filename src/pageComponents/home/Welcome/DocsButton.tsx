@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 
+import { ButtonCSS } from '@/src/pageComponents/home/Welcome/ButtonCSS'
 import { SecondaryButton } from '@/src/sharedComponents/Buttons'
 
 const Icon = () => (
@@ -12,9 +13,7 @@ const Icon = () => (
 )
 
 const Wrapper = styled(SecondaryButton)`
-  column-gap: calc(var(--base-gap) * 2);
-  font-size: 1.8rem;
-  height: 50px;
+  ${ButtonCSS}
 `
 
 const DocsButton = ({ ...restProps }) => {
