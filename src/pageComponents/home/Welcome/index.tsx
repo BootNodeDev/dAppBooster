@@ -11,6 +11,7 @@ import {
 import { LightClouds, DarkClouds } from '@/src/pageComponents/home/Welcome/Clouds'
 import DocsButton from '@/src/pageComponents/home/Welcome/DocsButton'
 import BaseGhost from '@/src/pageComponents/home/Welcome/Ghost'
+import GitClone from '@/src/pageComponents/home/Welcome/GitClone'
 import GithubButton from '@/src/pageComponents/home/Welcome/GithubButton'
 
 const Wrapper = styled.section`
@@ -107,6 +108,7 @@ const Welcome: React.FC = ({ ...restProps }) => {
             <GithubButton />
             <DocsButton />
           </Buttons>
+          <GitClone />
         </InnerContainer>
       </Contents>
     </Wrapper>
