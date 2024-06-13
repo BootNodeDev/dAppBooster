@@ -13,6 +13,13 @@ export const base = css`
   --base-border-radius: 8px;
   --base-border-radius-xl: 16px;
 
+  /* Animation times */
+  --base-animation-time-xs: 0.1s;
+  --base-animation-time-sm: 0.2s;
+  --base-animation-time: 0.3s;
+  --base-animation-time-xl: 0.4s;
+  --base-animation-time-xxl: 0.5s;
+
   /* Grid / flex gap */
   --base-gap-sm: 4px;
   --base-gap: 8px;
@@ -25,6 +32,9 @@ export const base = css`
   /* Font sizes */
   --base-title-font-size: 2.4rem;
   --base-text-font-size: 1.6rem;
+
+  /* Header */
+  --base-header-height: 90px;
 
   /* Padding */
   --base-common-padding-sm: 4px;
