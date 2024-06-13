@@ -27,7 +27,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ConnectKitProvider
       options={{
-        customAvatar: Avatar as React.FC<Types.AvatarProps>,
+        customAvatar: Avatar as React.FC<Types.CustomAvatarProps>,
       }}
     >
       {children}
