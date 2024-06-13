@@ -5,7 +5,7 @@ import { userEvent } from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { describe, it, expect, vi } from 'vitest'
 
-import { BigNumberInput, BigNumberInputProps } from '@/src/sharedComponents/web3/BigNumberInput'
+import { BigNumberInput, BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
 
 // Mocking viem's parseUnits and formatUnits functions
 vi.mock('viem', () => ({

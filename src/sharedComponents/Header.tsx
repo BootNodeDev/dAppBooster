@@ -11,8 +11,8 @@ import {
 } from 'db-ui-toolkit'
 import { useTheme } from 'next-themes'
 
-import { MainMenu } from '@/src/sharedComponents/ui/MainMenu'
-import { ConnectWalletButton } from '@/src/sharedComponents/web3/Web3Provider'
+import { MainMenu } from '@/src/sharedComponents/MainMenu'
+import { ConnectWalletButton } from '@/src/sharedComponents/Web3Provider'
 
 /**
  * Note: you can remove all the custom styles and just use the default Header
