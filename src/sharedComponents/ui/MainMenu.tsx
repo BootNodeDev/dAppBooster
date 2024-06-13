@@ -1,6 +1,8 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Link } from '@tanstack/react-router'
+
+import { menuItems } from '@/src/constants/menuItems'
 
 const Wrapper = styled.nav`
   align-items: center;
@@ -9,7 +11,7 @@ const Wrapper = styled.nav`
   height: 100%;
 `
 
-const Item = styled(Link)`
+const LinkCSS = css`
   color: var(--theme-main-menu-item-color);
   font-size: 1.6rem;
   font-weight: 500;
@@ -25,13 +27,32 @@ const Item = styled(Link)`
   }
 `
 
+const Item = styled(Link)`
+  ${LinkCSS}
+`
+
+const ExternalItem = styled.a`
+  ${LinkCSS}
+`
+
 export const MainMenu = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
-      <Item to="/">Home</Item>
-      <Item to="/tokens">Tokens</Item>
-      <Item to="/about">About</Item>
-      <Item to="/contact">Contact</Item>
+      {menuItems.map(({ href, label, to }, index) => {
+        const key = `menuItem_${index}`
+
+        return to ? (
+          <Item key={key} to={to}>
+            {label}
+          </Item>
+        ) : href ? (
+          <ExternalItem href={href} key={key} rel="noopener noreferrer" target="_blank">
+            {label}
+          </ExternalItem>
+        ) : (
+          <></>
+        )
+      })}
     </Wrapper>
   )
 }

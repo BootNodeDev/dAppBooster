@@ -14,9 +14,15 @@ import { useTheme } from 'next-themes'
 import { MainMenu } from '@/src/sharedComponents/ui/MainMenu'
 import { ConnectWalletButton } from '@/src/sharedComponents/web3/Web3Provider'
 
+/**
+ * Note: you can remove all the custom styles and just use the default Header
+ * component from db-ui-toolkit (or just create your own)
+ */
 const Wrapper = styled(BaseHeader)`
-  height: 48px;
-  margin-top: 48px;
+  height: var(--base-header-height);
+  padding-top: 14px;
+  position: relative;
+  z-index: 10;
 `
 
 const Inner = styled(InnerContainer)`
@@ -65,10 +71,7 @@ export const Header: React.FC<PropsWithChildren> = ({ ...restProps }) => {
         </Start>
         <Menu />
         <End>
-          <SwitchThemeButton
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-            theme={theme}
-          />
+          <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
           <ConnectWalletButton />
         </End>
       </Inner>
