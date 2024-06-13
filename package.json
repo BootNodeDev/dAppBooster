@@ -40,6 +40,7 @@
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-jazzicon": "^1.0.4",
     "styled-components": "^6.1.11",
     "viem": "~2.10.9",
     "wagmi": "^2.9.2",
