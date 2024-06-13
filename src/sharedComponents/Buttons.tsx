@@ -11,3 +11,9 @@ export const PrimaryButton = styled(ThemedButton)``
 PrimaryButton.defaultProps = {
   $cssVarRoot: '--theme-button-primary',
 }
+
+export const SecondaryButton = styled(ThemedButton)``
+
+SecondaryButton.defaultProps = {
+  $cssVarRoot: '--theme-button-secondary',
+}
