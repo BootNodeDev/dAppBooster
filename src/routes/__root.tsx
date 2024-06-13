@@ -1,7 +1,5 @@
-import styled from 'styled-components'
-
 import { createRootRoute, Outlet } from '@tanstack/react-router'
-import { Wrapper, InnerContainer as Inner, Main, ContainerPadding } from 'db-ui-toolkit'
+import { Wrapper, Main } from 'db-ui-toolkit'
 import { ThemeProvider } from 'next-themes'
 
 import { TanStackReactQueryDevtools } from '@/src/sharedComponents/helpers/TanStackReactQueryDevtools'
@@ -17,13 +15,6 @@ export const Route = createRootRoute({
   component: Root,
 })
 
-const InnerContainer = styled(Inner)`
-  flex-direction: column;
-  min-height: 100%;
-
-  ${ContainerPadding}
-`
-
 function Root() {
   return (
     <ThemeProvider defaultTheme={'light'}>
@@ -32,9 +23,7 @@ function Root() {
         <Web3Provider>
           <Header />
           <Main>
-            <InnerContainer>
-              <Outlet />
-            </InnerContainer>
+            <Outlet />
           </Main>
           <Footer />
           <TanStackReactQueryDevtools />
