@@ -6,8 +6,8 @@ import { menuItems } from '@/src/constants/menuItems'
 
 const Wrapper = styled.nav`
   align-items: center;
-  display: flex;
   column-gap: calc(var(--base-gap) * 5);
+  display: flex;
   height: 100%;
 `
 
