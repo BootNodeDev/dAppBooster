@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Button } from 'db-ui-toolkit'
 
-import { BigNumberInput } from '@/src/sharedComponents/web3/BigNumberInput'
+import { BigNumberInput } from '@/src/sharedComponents/BigNumberInput'
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,7 +24,7 @@ const decimals = 6
 const max = '1.999998'
 const min = '0.000001'
 
-export const ADemoInput = () => {
+const DemoInput = () => {
   const [value, setValue] = useState('1.123')
   const [disabled, setDisabled] = useState(false)
   const [error, setError] = useState<{ value: string; message: string } | null>()
@@ -79,3 +79,5 @@ export const ADemoInput = () => {
     </Wrapper>
   )
 }
+
+export default DemoInput

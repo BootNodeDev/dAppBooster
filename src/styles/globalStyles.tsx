@@ -7,7 +7,18 @@ import { lightTheme } from '@/src/styles/themes/light'
 export const GlobalStyles = createGlobalStyle`
   :root {
     ${base}
+
+    /**
+     * Landing page exclusive, can be removed if not needed
+     */
+    --landing-page-main-background-color: #f7f7f7;
+
+    &[data-theme='dark'] {
+      --landing-page-main-background-color: #2e3048;
+    }
   }
+
+
 
   ${lightTheme}
   ${darkTheme}
@@ -20,8 +31,7 @@ export const GlobalStyles = createGlobalStyle`
   body {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    background: var(--theme-body-background, #fff);
-    background-image: url('/images/bg-body.svg');
+    background-color: var(--theme-body-background-color, #fff);
     background-position: 100% 0;
     background-repeat: no-repeat;
     color: var(--theme-color-text, #000);

@@ -1,17 +1,33 @@
+import React from 'react'
+
 import { getDefaultConfig, ConnectKitProvider, ConnectKitButton, Types } from 'connectkit'
-import { createConfig } from 'wagmi'
+import { Address } from 'viem'
+import { normalize } from 'viem/ens'
+import { createConfig, useEnsName, useEnsAvatar } from 'wagmi'
 
 import { env } from '@/src/env'
 import { chains, transports } from '@/src/lib/networks.config'
-import CustomAvatar from '@/src/sharedComponents/ui/Avatar'
-import ConnectButton from '@/src/sharedComponents/ui/ConnectButton'
-import Avatar from '@/src/sharedComponents/web3/Avatar'
+import Avatar from '@/src/sharedComponents/Avatar'
+import ConnectButton from '@/src/sharedComponents/ConnectButton'
+
+const UserAvatar: React.FC<{
+  address: Address
+  size: number
+}> = ({ address, size }) => {
+  const { data: ensName } = useEnsName({ address })
+
+  const { data: avatarImg } = useEnsAvatar({
+    name: ensName ? normalize(ensName) : undefined,
+  })
+
+  return <Avatar address={address} ensImage={avatarImg} ensName={ensName} size={size} />
+}
 
 export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ConnectKitProvider
       options={{
-        customAvatar: CustomAvatar as React.FC<Types.CustomAvatarProps>,
+        customAvatar: Avatar as React.FC<Types.CustomAvatarProps>,
       }}
     >
       {children}
@@ -27,7 +43,7 @@ export const ConnectWalletButton = () => {
           <ConnectButton disabled={isConnecting} onClick={show}>
             {isConnected ? (
               <>
-                {address && <Avatar address={address} size={25} />}
+                {address && <UserAvatar address={address} size={25} />}
                 {truncatedAddress}
               </>
             ) : (
