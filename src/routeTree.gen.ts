@@ -44,3 +44,19 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({ IndexLazyRoute })
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.tsx",
+      "children": [
+        "/"
+      ]
+    },
+    "/": {
+      "filePath": "index.lazy.tsx"
+    }
+  }
+}
+ROUTE_MANIFEST_END */
