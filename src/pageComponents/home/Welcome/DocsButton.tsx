@@ -13,7 +13,9 @@ const Icon = () => (
 )
 
 const Wrapper = styled(SecondaryButton)`
-  ${ButtonCSS}
+  && {
+    ${ButtonCSS}
+  }
 `
 
 const DocsButton = ({ ...restProps }) => {
