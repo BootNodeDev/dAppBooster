@@ -4,7 +4,7 @@ type MenuItem = {
   to?: string
 }
 
-export const menuItems = [
+export const menuItems: MenuItem[] = [
   {
     label: 'Home',
     to: '/#top',
@@ -17,4 +17,4 @@ export const menuItems = [
     label: 'Examples',
     to: '/#examples',
   },
-] as MenuItem[]
+]
