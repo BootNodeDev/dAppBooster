@@ -31,6 +31,8 @@ const addMetaTag = (props: { name?: string; property?: string; content: string }
 
   const meta = document.createElement('meta')
 
+  meta.setAttribute('content', content)
+
   if (property) {
     meta.setAttribute('property', property)
   }
@@ -38,8 +40,6 @@ const addMetaTag = (props: { name?: string; property?: string; content: string }
   if (name) {
     meta.setAttribute('name', name)
   }
-
-  meta.setAttribute('content', content)
 
   document.head.appendChild(meta)
 }
