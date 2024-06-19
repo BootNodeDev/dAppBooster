@@ -31,6 +31,10 @@ export const darkTheme = css`
     --theme-header-background-color: transparent;
     --theme-header-text-color: #fff;
 
+    /* Footer */
+    --theme-footer-background-color: #2e3048;
+    --theme-footer-text-color: #c5c2cb;
+
     /* Main Menu */
     --theme-main-menu-item-color: #fff;
 
