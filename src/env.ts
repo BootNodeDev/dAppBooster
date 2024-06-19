@@ -6,11 +6,8 @@ export const env = createEnv({
   client: {
     PUBLIC_ALCHEMY_KEY: z.string().optional(),
     PUBLIC_APP_DESCRIPTION: z.string().min(1).optional(),
-    PUBLIC_APP_KEYWORDS: z.string().min(1).optional(),
     PUBLIC_APP_LOGO: z.string().optional(),
     PUBLIC_APP_NAME: z.string().min(1),
-    PUBLIC_APP_SHARE_IMAGE: z.string().min(1).optional(),
-    PUBLIC_APP_TWITTER_HANDLE: z.string().min(1).optional(),
     PUBLIC_APP_URL: z.string().optional(),
     PUBLIC_INFURA_KEY: z.string().optional(),
     PUBLIC_RPC_MAINNET: z.string().optional(),
