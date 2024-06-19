@@ -27,6 +27,9 @@ const getSiteURL = () => {
 const addMetaTag = (props: { name?: string; property?: string; content: string }) => {
   const { content, name, property } = props
 
+  /**
+   * You need to provide at least name or property
+   */
   if (!name && !property) return
 
   const meta = document.createElement('meta')
@@ -47,50 +50,32 @@ const addMetaTag = (props: { name?: string; property?: string; content: string }
 /**
  * Get some meta tags from env
  */
-const title = import.meta.env.PUBLIC_APP_NAME
-const description = import.meta.env.PUBLIC_APP_DESCRIPTION
-const twitterHandle = import.meta.env.PUBLIC_APP_TWITTER_HANDLE
 const siteURL = getSiteURL()
-const keywords = import.meta.env.PUBLIC_APP_KEYWORDS
-const shareImage = import.meta.env.PUBLIC_APP_SHARE_IMAGE
+const title = import.meta.env.PUBLIC_APP_NAME
+const description = import.meta.env.PUBLIC_APP_DESCRIPTION || title
+const twitterHandle = import.meta.env.PUBLIC_APP_TWITTER_HANDLE || ''
+const keywords = import.meta.env.PUBLIC_APP_KEYWORDS || ''
+const shareImage = import.meta.env.PUBLIC_APP_SHARE_IMAGE || '/shareable/ogImage.jpg'
 
 /**
  * Mandatory / pre-defined meta tags
  */
 const meta = [
   // Open Graph meta tags
+  { property: 'og:image', content: `${siteURL}${shareImage}` },
   { property: 'og:title', content: title },
   { property: 'og:url', content: siteURL },
   { property: 'og:type', content: 'website' },
+  { property: 'og:description', content: description },
   // Twitter meta tags
+  { name: 'twitter:image', content: `${siteURL}${shareImage}` },
+  { name: 'twitter:creator', content: twitterHandle },
   { name: 'twitter:card', content: 'summary_large_image' },
   { name: 'twitter:site', content: title },
+  // Standard meta tags
+  { name: 'description', content: description },
+  { name: 'keywords', content: keywords },
 ]
-
-/**
- * Optional meta tags
- */
-if (description) {
-  meta.push(
-    { name: 'description', content: description },
-    { property: 'og:description', content: description },
-  )
-}
-
-if (keywords) {
-  meta.push({ name: 'keywords', content: keywords })
-}
-
-if (shareImage) {
-  meta.push(
-    { property: 'og:image', content: `${siteURL}${shareImage}` },
-    { name: 'twitter:image', content: `${siteURL}${shareImage}` },
-  )
-}
-
-if (twitterHandle) {
-  meta.push({ name: 'twitter:creator', content: twitterHandle })
-}
 
 /**
  * Update meta tags and title
