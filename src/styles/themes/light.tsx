@@ -16,8 +16,8 @@ export const lightTheme = css`
     /* Text color */
     --theme-color-text-primary: #2e3048;
     --theme-color-text: #4b4d60;
-    --theme-color-light: #4b4d60;
-    --theme-color-dark: #4b4d60;
+    --theme-color-light: #5f6178;
+    --theme-color-dark: #000;
 
     /* Danger / OK / warning */
     --theme-color-danger: #800;

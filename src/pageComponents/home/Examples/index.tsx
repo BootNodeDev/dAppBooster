@@ -8,6 +8,7 @@ import Avatar from '@/src/pageComponents/home/Examples/Items/Avatar'
 import BigNumberInput from '@/src/pageComponents/home/Examples/Items/BigNumberInput'
 import EnsName from '@/src/pageComponents/home/Examples/Items/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/Items/Hash'
+import List from '@/src/pageComponents/home/Examples/List'
 
 const Wrapper = styled.section`
   background-color: var(--landing-page-main-background-color);
@@ -29,10 +30,12 @@ const Examples: React.FC = ({ ...restProps }) => {
   return (
     <Wrapper id="examples" {...restProps}>
       <InnerContainer>
-        <EnsName address={address} />
-        <Hash hash={address} />
-        <Avatar address={address} size={30} />
-        <BigNumberInput />
+        <List>
+          <EnsName address={address} />
+          <Hash hash={address} />
+          <Avatar address={address} size={30} />
+          <BigNumberInput />
+        </List>
       </InnerContainer>
     </Wrapper>
   )
