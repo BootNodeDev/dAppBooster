@@ -1,6 +1,8 @@
 import React, { HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
+import BaseBadge from '@/src/pageComponents/home/Examples/Item/Badge'
+
 const Wrapper = styled.div`
   [data-theme='light'] & {
     --theme-examples-item-background-color: #f7f7f7;
@@ -62,10 +64,19 @@ const Demo = styled.div`
   border-radius: var(--base-border-radius);
   display: flex;
   flex-direction: column;
+  flex: 1;
   justify-content: center;
   min-height: 205px;
   padding: calc(var(--base-gap) * 3);
-  flex: 1;
+  position: relative;
+`
+
+const Badge = styled(BaseBadge)`
+  --badge-gap: calc(var(--base-gap) + var(--base-gap-sm));
+
+  left: var(--badge-gap);
+  position: absolute;
+  top: var(--badge-gap);
 `
 
 export interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -85,7 +96,10 @@ const Item: React.FC<Props> = ({ demo, href, icon, text, title, ...restProps }) 
         <Text>{text}</Text>
         <a href={href}>Documentation</a>
       </Info>
-      <Demo>{demo}</Demo>
+      <Demo>
+        <Badge />
+        {demo}
+      </Demo>
     </Wrapper>
   )
 }
