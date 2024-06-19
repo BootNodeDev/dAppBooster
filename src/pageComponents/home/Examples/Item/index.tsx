@@ -2,6 +2,7 @@ import React, { HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import BaseBadge from '@/src/pageComponents/home/Examples/Item/Badge'
+import DocumentationButton from '@/src/pageComponents/home/Examples/Item/DocumentationButton'
 
 const Wrapper = styled.div`
   [data-theme='light'] & {
@@ -26,7 +27,7 @@ const Info = styled.div`
   flex-direction: column;
   flex: 1;
   padding: calc(var(--base-gap) * 2) 0 0;
-  row-gap: var(--base-gap);
+  row-gap: calc(var(--base-gap) * 2);
 `
 
 const Icon = styled.div`
@@ -46,7 +47,7 @@ const Title = styled.h2`
   color: var(--theme-color-text-primary);
   font-size: 2.4rem;
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.2;
   margin: 0;
 `
 
@@ -54,7 +55,7 @@ const Text = styled.p`
   color: var(--theme-color-text-primary);
   font-size: 1.6rem;
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.2;
   margin: 0;
 `
 
@@ -94,7 +95,7 @@ const Item: React.FC<Props> = ({ demo, href, icon, text, title, ...restProps }) 
         <Icon>{icon}</Icon>
         <Title>{title}</Title>
         <Text>{text}</Text>
-        <a href={href}>Documentation</a>
+        <DocumentationButton as="a" href={href} target="_blank" />
       </Info>
       <Demo>
         <Badge />
