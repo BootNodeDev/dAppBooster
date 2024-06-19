@@ -10,6 +10,14 @@ import EnsName from '@/src/pageComponents/home/Examples/Items/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/Items/Hash'
 
 const Wrapper = styled.section`
+  [data-theme='light'] & {
+    --landing-page-main-background-color: #f7f7f7;
+  }
+
+  [data-theme='dark'] & {
+    --landing-page-main-background-color: #2e3048;
+  }
+
   background-color: var(--landing-page-main-background-color);
   flex-grow: 1;
 `
