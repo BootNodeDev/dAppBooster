@@ -1,6 +1,8 @@
 import React, { HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
+import Item, { Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
+
 const Wrapper = styled.div`
   [data-theme='light'] & {
     --theme-examples-list-background-color: #e2e0e766;
@@ -37,11 +39,19 @@ const Items = styled.div`
   width: 100%;
 `
 
-const List: React.FC<HTMLAttributes<HTMLDivElement>> = ({ ...restProps }) => {
+interface Props extends HTMLAttributes<HTMLDivElement> {
+  items: ItemProps[]
+}
+
+const List: React.FC<Props> = ({ items, ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Title>Built-in Features</Title>
-      <Items>asdasd</Items>
+      <Items>
+        {items.map((item) => (
+          <Item key={item.title} {...item} />
+        ))}
+      </Items>
     </Wrapper>
   )
 }
