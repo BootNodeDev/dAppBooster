@@ -29,11 +29,19 @@ const Title = styled.h2`
   margin: 0;
 `
 
+const Items = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+  row-gap: calc(var(--base-gap) * 2);
+  width: 100%;
+`
+
 const List: React.FC<HTMLAttributes<HTMLDivElement>> = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Title>Built-in Features</Title>
-      <p>Here are some examples of how you can use the theme system.</p>
+      <Items>asdasd</Items>
     </Wrapper>
   )
 }

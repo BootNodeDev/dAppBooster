@@ -4,11 +4,11 @@ import styled from 'styled-components'
 import { InnerContainer as Inner, ContainerPadding } from 'db-ui-toolkit'
 import { useAccount } from 'wagmi'
 
-import Avatar from '@/src/pageComponents/home/Examples/Items/Avatar'
-import BigNumberInput from '@/src/pageComponents/home/Examples/Items/BigNumberInput'
-import EnsName from '@/src/pageComponents/home/Examples/Items/EnsName'
-import Hash from '@/src/pageComponents/home/Examples/Items/Hash'
 import List from '@/src/pageComponents/home/Examples/List'
+import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
+import BigNumberInput from '@/src/pageComponents/home/Examples/demos/BigNumberInput'
+import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
+import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 
 const Wrapper = styled.section`
   background-color: var(--landing-page-main-background-color);
