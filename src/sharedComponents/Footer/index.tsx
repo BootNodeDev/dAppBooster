@@ -34,7 +34,14 @@ export const Footer: React.FC = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Inner>
-        <LogoMini />
+        <a
+          href="https://www.bootnode.dev/"
+          rel="noreferrer"
+          target="_blank"
+          title="Building the future of Web3"
+        >
+          <LogoMini />
+        </a>
         <Line />
         <Socials />
       </Inner>
