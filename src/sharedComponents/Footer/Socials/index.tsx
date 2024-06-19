@@ -19,7 +19,7 @@ const Link = styled.a`
   text-decoration: none;
 
   &:active {
-    opacity: 0.7;
+    opacity: 0.8;
   }
 `
 
