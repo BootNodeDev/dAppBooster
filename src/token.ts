@@ -7,9 +7,9 @@ const extensionValue = z.string().or(z.number()).or(z.boolean()).or(z.null()).or
 const key = z.string()
 
 export const tokenSchema = z.object({
-  name: z.string(),
+  name: z.string().min(1),
   address,
-  symbol: z.string(),
+  symbol: z.string().min(1),
   decimals: z.number(),
   chainId: z.number().min(1),
   logoURI: z.string().url().optional(),
