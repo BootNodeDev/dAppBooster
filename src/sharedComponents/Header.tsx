@@ -1,4 +1,3 @@
-import { PropsWithChildren } from 'react'
 import styled from 'styled-components'
 
 import { Link } from '@tanstack/react-router'
@@ -58,7 +57,7 @@ const End = styled.div`
   justify-content: flex-end;
 `
 
-export const Header: React.FC<PropsWithChildren> = ({ ...restProps }) => {
+export const Header: React.FC = ({ ...restProps }) => {
   const { setTheme, theme } = useTheme()
 
   return (

@@ -7,18 +7,7 @@ import { lightTheme } from '@/src/styles/themes/light'
 export const GlobalStyles = createGlobalStyle`
   :root {
     ${base}
-
-    /**
-     * Landing page exclusive, can be removed if not needed
-     */
-    --landing-page-main-background-color: #f7f7f7;
-
-    &[data-theme='dark'] {
-      --landing-page-main-background-color: #2e3048;
-    }
   }
-
-
 
   ${lightTheme}
   ${darkTheme}

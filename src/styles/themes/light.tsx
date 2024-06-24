@@ -27,9 +27,13 @@ export const lightTheme = css`
     /* Main body */
     --theme-body-background-color: #e2e0e7;
 
-    /* Hlightr */
+    /* Header */
     --theme-header-background-color: transparent;
     --theme-header-text-color: #2e3048;
+
+    /* Footer */
+    --theme-footer-background-color: #f7f7f7;
+    --theme-footer-text-color: #2e3048;
 
     /* Main Menu */
     --theme-main-menu-item-color: #2e3048;
