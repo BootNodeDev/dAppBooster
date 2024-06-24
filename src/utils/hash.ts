@@ -1,5 +1,5 @@
 import { Address, Chain, Hash, Transaction, createPublicClient, http, isAddress } from 'viem'
-import { getBytecode, getEnsAddress, getEnsName, getTransaction } from 'viem/actions'
+import { getBytecode, getEnsAddress, getTransaction } from 'viem/actions'
 import { normalize } from 'viem/ens'
 
 export type DetectHash = {

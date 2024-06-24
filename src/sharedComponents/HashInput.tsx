@@ -78,6 +78,7 @@ const HashInput: React.FC<HashInputProps> = ({
           value={input}
         />
       )}
+      {loading && <span>Loading...</span>}
     </div>
   )
 }
