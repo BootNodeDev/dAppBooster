@@ -1,5 +1,6 @@
 import React, { useState, ReactElement, HTMLProps, useEffect, useCallback } from 'react'
 
+import { useDebouncedCallback } from 'use-debounce'
 import { Chain } from 'viem'
 
 import detectHash, { DetectedHash } from '@/src/utils/hash'
@@ -8,6 +9,8 @@ interface HashInputProps extends HTMLProps<HTMLInputElement> {
   chain: Chain
   onSearch: (result: DetectedHash | null) => void
   renderInput?: (props: HTMLProps<HTMLInputElement>) => ReactElement
+  value?: string
+  debounceTime?: number
 }
 
 /**
@@ -23,12 +26,15 @@ interface HashInputProps extends HTMLProps<HTMLInputElement> {
  *
  * @param {Object} props - Component props
  * @param {Chain} props.chain - The chain to use for detection (use chains from viem)
+ * @param {string} [props.value] - Optional value for controlled input
+ * @param {number} [props.debounceTime=500] - Optional debounce time for search
  * @param {Function} [props.renderInput] - Optional render function for custom input component
  * @param {Function} [props.onSearch] - Callback function to handle search results
  */
 
 const HashInput: React.FC<HashInputProps> = ({
   chain,
+  debounceTime = 500,
   onSearch,
   renderInput,
   value,
@@ -38,32 +44,34 @@ const HashInput: React.FC<HashInputProps> = ({
 
   const [loading, setLoading] = useState<boolean>(false)
 
-  const handleChange = useCallback(
-    async (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value
-
-      setInput(value)
-
+  const handleSearch = useCallback(
+    async (value: string) => {
       if (value) {
         setLoading(true)
         const detected = await detectHash({ chain, hashOrString: value })
         setLoading(false)
         onSearch(detected)
       } else {
-        if (onSearch) {
-          onSearch(null)
-        }
+        onSearch(null)
       }
     },
     [chain, onSearch],
   )
 
+  const debouncedHandleChange = useDebouncedCallback(handleSearch, debounceTime)
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value
+    setInput(value)
+    debouncedHandleChange(value)
+  }
+
   useEffect(() => {
     if (value !== undefined) {
-      // Update input value when the value prop changes
-      handleChange({ target: { value } } as React.ChangeEvent<HTMLInputElement>)
+      setInput(value)
+      debouncedHandleChange(value)
     }
-  }, [handleChange, value])
+  }, [value, debouncedHandleChange])
 
   return (
     <div>

@@ -1,4 +1,4 @@
-import { Address, Chain, Hash, Transaction, createPublicClient, http, isAddress } from 'viem'
+import { Address, Chain, Hash, Transaction, createPublicClient, http, isAddress, isHex } from 'viem'
 import { getBytecode, getEnsAddress, getTransaction } from 'viem/actions'
 import { normalize } from 'viem/ens'
 
@@ -7,12 +7,7 @@ export type DetectHash = {
   hashOrString: string
 }
 
-export const isHex = (str: string) => /^[0-9a-fA-F]+$/.test(str)
-
-export const isValidEnsName = (str: string) => /^[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/.test(str)
-
-export const isValidTransactionHash = (str: string) =>
-  str.length === 66 && str.startsWith('0x') && isHex(str.slice(2))
+export const isValidTransactionHash = (str: string) => str.length === 66 && isHex(str)
 
 type HashType = 'contract' | 'transaction' | 'ENS' | 'EOA' | null
 
@@ -33,9 +28,20 @@ export const detectEnsName = async (
   publicClient: ReturnType<typeof createPublicClientInstance>,
   ensName: string,
 ): Promise<{ type: HashType; data: HashData }> => {
+  // try to normalize the ENS name
+  let normalizedEnsName
+  try {
+    normalizedEnsName = normalize(ensName)
+  } catch (err) {
+    return {
+      type: null,
+      data: null,
+    }
+  }
+
   try {
     const address = await getEnsAddress(publicClient, {
-      name: normalize(ensName),
+      name: normalizedEnsName,
     })
 
     if (!address) {
@@ -46,7 +52,7 @@ export const detectEnsName = async (
       type: 'ENS',
       data: address,
     }
-  } catch {
+  } catch (err) {
     return {
       type: null,
       data: null,
@@ -71,7 +77,7 @@ export const detectTransactionHash = async (
       type: 'transaction',
       data: transaction,
     }
-  } catch {
+  } catch (err) {
     return {
       type: null,
       data: null,
@@ -92,7 +98,7 @@ export const detectAddressType = async (
       type: code && code !== '0x' ? 'contract' : 'EOA',
       data: address,
     }
-  } catch {
+  } catch (err) {
     return {
       type: null,
       data: null,
@@ -119,24 +125,7 @@ export const detectAddressType = async (
  **/
 
 const detectHash = async ({ chain, hashOrString }: DetectHash): Promise<DetectedHash> => {
-  // Check if the input is a valid address, transaction hash, or ENS name
-  if (
-    !isAddress(hashOrString) &&
-    !isValidTransactionHash(hashOrString) &&
-    !isValidEnsName(hashOrString)
-  ) {
-    return {
-      type: null,
-      data: null,
-    }
-  }
-
   const publicClient = createPublicClientInstance(chain)
-
-  // Check if it's an ENS name
-  if (isValidEnsName(hashOrString)) {
-    return detectEnsName(publicClient, hashOrString)
-  }
 
   // Check if it's a transaction hash
   if (isValidTransactionHash(hashOrString)) {
@@ -148,10 +137,7 @@ const detectHash = async ({ chain, hashOrString }: DetectHash): Promise<Detected
     return detectAddressType(publicClient, hashOrString)
   }
 
-  return {
-    type: null,
-    data: null,
-  }
+  return detectEnsName(publicClient, hashOrString)
 }
 
 export default detectHash

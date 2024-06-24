@@ -14,6 +14,7 @@ vi.mock('viem/actions', async () => {
     isAddress: vi.fn(),
     getTransaction: vi.fn(),
     getBytecode: vi.fn(),
+    normalize: vi.fn(),
   }
 })
 
@@ -25,7 +26,7 @@ describe('detectHash', () => {
 
     const address = '0x1234567890abcdef1234567890abcdef12345678'
 
-    ;(viemActions.getEnsAddress as Mock).mockResolvedValue(address)
+    ;(viemActions.getEnsAddress as Mock).mockResolvedValueOnce(address)
 
     const result = await detectHash({ chain, hashOrString: ensName })
 
@@ -39,7 +40,7 @@ describe('detectHash', () => {
     const txHash = '0xd85ef8c70dc31a4f8d5bf0331e1eac886935905f15d32e71b348df745cd38e19'
     const transaction = { hash: txHash } as unknown as Transaction
 
-    ;(viemActions.getTransaction as Mock).mockResolvedValue(transaction)
+    ;(viemActions.getTransaction as Mock).mockResolvedValueOnce(transaction)
 
     const result = await detectHash({ chain, hashOrString: txHash })
 
@@ -51,7 +52,7 @@ describe('detectHash', () => {
 
   it('should detect a contract address', async () => {
     const contractAddress = '0x1234567890abcdef1234567890abcdef12345678'
-    ;(viemActions.getBytecode as Mock).mockResolvedValue('0x1234')
+    ;(viemActions.getBytecode as Mock).mockResolvedValueOnce('0x1234')
 
     const result = await detectHash({ chain, hashOrString: contractAddress })
 
@@ -66,8 +67,8 @@ describe('detectHash', () => {
 
     const ensName = 'test.eth'
 
-    ;(viemActions.getBytecode as Mock).mockResolvedValue('0x')
-    ;(viemActions.getEnsName as Mock).mockResolvedValue(ensName)
+    ;(viemActions.getBytecode as Mock).mockResolvedValueOnce('0x')
+    ;(viemActions.getEnsName as Mock).mockResolvedValueOnce(ensName)
 
     const result = await detectHash({ chain, hashOrString: eoaAddress })
 
@@ -79,7 +80,6 @@ describe('detectHash', () => {
 
   it('should return null for invalid input', async () => {
     const invalidInput = 'invalid-input'
-
     const result = await detectHash({ chain, hashOrString: invalidInput })
 
     expect(result).toEqual({
