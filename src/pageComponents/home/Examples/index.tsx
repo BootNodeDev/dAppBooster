@@ -8,6 +8,8 @@ import Avatar from '@/src/pageComponents/home/Examples/Items/Avatar'
 import BigNumberInput from '@/src/pageComponents/home/Examples/Items/BigNumberInput'
 import EnsName from '@/src/pageComponents/home/Examples/Items/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/Items/Hash'
+import Tokens from '@/src/pageComponents/home/Examples/Items/Tokens'
+import { TokensProvider } from '@/src/sharedComponents/TokensProvider'
 
 const Wrapper = styled.section`
   background-color: var(--landing-page-main-background-color);
@@ -33,6 +35,9 @@ const Examples: React.FC = ({ ...restProps }) => {
         <Hash hash={address} />
         <Avatar address={address} size={30} />
         <BigNumberInput />
+        <TokensProvider>
+          <Tokens />
+        </TokensProvider>
       </InnerContainer>
     </Wrapper>
   )
