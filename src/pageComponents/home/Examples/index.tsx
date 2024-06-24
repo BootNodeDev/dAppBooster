@@ -18,6 +18,7 @@ import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
 import BigNumberInput from '@/src/pageComponents/home/Examples/demos/BigNumberInput'
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
+import { HashInputDemo } from '@/src/pageComponents/home/Examples/demos/HashInput'
 
 const Wrapper = styled.section`
   [data-theme='light'] & {
@@ -106,6 +107,13 @@ const Examples: React.FC = ({ ...restProps }) => {
       icon: <ImgIpfsImage />,
       text: 'Resolve ENS names',
       title: 'ENS name',
+    },
+    {
+      demo: <HashInputDemo />,
+      href: '#',
+      icon: <ImgHash />,
+      text: 'Detect address, ENS, or transaction hash',
+      title: 'Hash input',
     },
   ]
 
