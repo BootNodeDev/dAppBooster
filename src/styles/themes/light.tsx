@@ -16,8 +16,8 @@ export const lightTheme = css`
     /* Text color */
     --theme-color-text-primary: #2e3048;
     --theme-color-text: #4b4d60;
-    --theme-color-light: #4b4d60;
-    --theme-color-dark: #4b4d60;
+    --theme-color-light: #5f6178;
+    --theme-color-dark: #000;
 
     /* Danger / OK / warning */
     --theme-color-danger: #800;
@@ -27,9 +27,13 @@ export const lightTheme = css`
     /* Main body */
     --theme-body-background-color: #e2e0e7;
 
-    /* Hlightr */
+    /* Header */
     --theme-header-background-color: transparent;
     --theme-header-text-color: #2e3048;
+
+    /* Footer */
+    --theme-footer-background-color: #f7f7f7;
+    --theme-footer-text-color: #2e3048;
 
     /* Main Menu */
     --theme-main-menu-item-color: #2e3048;

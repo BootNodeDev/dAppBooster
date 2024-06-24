@@ -15,6 +15,14 @@ import GitClone from '@/src/pageComponents/home/Welcome/GitClone'
 import GithubButton from '@/src/pageComponents/home/Welcome/GithubButton'
 
 const Wrapper = styled.section`
+  [data-theme='light'] & {
+    --landing-page-main-background-color: #f7f7f7;
+  }
+
+  [data-theme='dark'] & {
+    --landing-page-main-background-color: #2e3048;
+  }
+
   display: flex;
   flex-direction: column;
   max-height: 1080px;
