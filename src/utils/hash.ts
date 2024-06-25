@@ -18,6 +18,11 @@ export type DetectedHash = {
   data: HashData
 }
 
+const invalidHashReturn = {
+  type: null,
+  data: null,
+}
+
 export const createPublicClientInstance = (chain: Chain) =>
   createPublicClient({
     chain,
@@ -33,10 +38,7 @@ export const detectEnsName = async (
   try {
     normalizedEnsName = normalize(ensName)
   } catch (err) {
-    return {
-      type: null,
-      data: null,
-    }
+    return invalidHashReturn
   }
 
   try {
@@ -45,7 +47,7 @@ export const detectEnsName = async (
     })
 
     if (!address) {
-      throw new Error('ENS name not found')
+      return invalidHashReturn
     }
 
     return {
@@ -53,10 +55,7 @@ export const detectEnsName = async (
       data: address,
     }
   } catch (err) {
-    return {
-      type: null,
-      data: null,
-    }
+    return invalidHashReturn
   }
 }
 
@@ -70,7 +69,7 @@ export const detectTransactionHash = async (
     })
 
     if (!transaction) {
-      throw new Error('Transaction not found')
+      return invalidHashReturn
     }
 
     return {
@@ -78,10 +77,7 @@ export const detectTransactionHash = async (
       data: transaction,
     }
   } catch (err) {
-    return {
-      type: null,
-      data: null,
-    }
+    return invalidHashReturn
   }
 }
 
@@ -99,10 +95,7 @@ export const detectAddressType = async (
       data: address,
     }
   } catch (err) {
-    return {
-      type: null,
-      data: null,
-    }
+    return invalidHashReturn
   }
 }
 
