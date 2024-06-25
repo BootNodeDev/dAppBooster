@@ -1,16 +1,13 @@
 import { FC, useRef, useState } from 'react'
-import styled from 'styled-components'
 
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { Title } from 'db-ui-toolkit'
-import { arbitrum, mainnet } from 'viem/chains'
 
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
-import { useTokenSearch, useTokens } from '@/src/sharedComponents/TokensProvider'
-import { type Tokens as TokensList } from '@/src/token'
+import { useTokenSearch } from '@/src/sharedComponents/TokensProvider'
+import { type Tokens } from '@/src/token'
 import { getTruncatedHash } from '@/src/utils/strings'
 
-const TokensList: FC<{ tokenList: TokensList }> = ({ tokenList }) => {
+const TokensList: FC<{ tokenList: Tokens }> = ({ tokenList }) => {
   const [searchTerm, setSearchTerm] = useState('')
   const searchResult = useTokenSearch({ searchTerm, tokens: tokenList })
 
@@ -74,42 +71,4 @@ const TokensList: FC<{ tokenList: TokensList }> = ({ tokenList }) => {
   )
 }
 
-export const TokensMainnet = () => {
-  const { tokensByChainId } = useTokens()
-
-  return (
-    <div>
-      <Title>Mainnet</Title>
-      <TokensList tokenList={tokensByChainId[mainnet.id]} />
-    </div>
-  )
-}
-
-export const TokensArbitrum = () => {
-  const { tokensByChainId } = useTokens()
-
-  return (
-    <div>
-      <Title>Arbitrum</Title>
-      <TokensList tokenList={tokensByChainId[arbitrum.id]} />
-    </div>
-  )
-}
-
-const Wrapper = styled.div`
-  display: flex;
-  direction: row;
-  column-gap: 30px;
-  outline: 1px solid #afafaf;
-  padding: 10px;
-`
-const MultipleTokens = () => {
-  return (
-    <Wrapper>
-      <TokensMainnet />
-      <TokensArbitrum />
-    </Wrapper>
-  )
-}
-
-export default MultipleTokens
+export default TokensList
