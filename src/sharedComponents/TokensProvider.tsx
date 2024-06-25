@@ -22,9 +22,7 @@ import { logger } from '@/src/utils/logger'
 
 export type TokensContextValue = {
   tokens: Tokens
-  tokensByAddress: { [address: Token['address']]: Tokens }
   tokensByChainId: { [chainId: Token['chainId']]: Tokens }
-  tokensBySymbol: { [symbol: Token['symbol']]: Tokens }
 }
 
 const TokensContext = createContext<TokensContextValue | undefined>(undefined)
@@ -70,36 +68,19 @@ const combine = (results: Array<UseSuspenseQueryResult<TokenList>>): TokensConte
   logger.time('building tokens maps')
   const tokensMap = uniqueTokens.reduce<TokensContextValue>(
     (acc, token) => {
-      const lowerCasedAddress = token.address.toLowerCase()
-      const lowerCasedSymbol = token.symbol.toLowerCase()
-
       acc.tokens.push(token)
 
-      if (!acc.tokensByAddress[lowerCasedAddress]) {
-        acc.tokensByAddress[lowerCasedAddress] = [token]
-      } else {
-        acc.tokensByAddress[lowerCasedAddress].push(token)
-      }
-
       if (!acc.tokensByChainId[token.chainId]) {
-        acc.tokensByChainId[token.chainId] = [token]
-      } else {
-        acc.tokensByChainId[token.chainId].push(token)
+        acc.tokensByChainId[token.chainId] = []
       }
 
-      if (!acc.tokensBySymbol[lowerCasedSymbol]) {
-        acc.tokensBySymbol[lowerCasedSymbol] = [token]
-      } else {
-        acc.tokensBySymbol[lowerCasedSymbol].push(token)
-      }
+      acc.tokensByChainId[token.chainId].push(token)
 
       return acc
     },
     {
       tokens: [],
-      tokensByAddress: {},
       tokensByChainId: {},
-      tokensBySymbol: {},
     },
   )
   logger.timeEnd('building tokens maps')
