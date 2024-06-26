@@ -46,7 +46,9 @@ const tokenKey = (token: Token): string => `${token.chainId}-${token.address.toL
  * @param results - list of TokenList returned by the specified endpoints
  * @returns {TokensContextValue} a map of type { tokens, tokensByAddress, tokensByChainId, tokensBySymbol }
  */
-const combine = (results: Array<UseSuspenseQueryResult<TokenList>>): TokensContextValue => {
+const combineTokenLists = (
+  results: Array<UseSuspenseQueryResult<TokenList>>,
+): TokensContextValue => {
   logger.time('combining tokens')
   // combines and removes duplicates from the lists of tokens
   const uniqueTokens = Array.from(
@@ -122,7 +124,7 @@ const useLoadTokens = ({ useDefaultTokens = true }: PreprocessTokensProps): Toke
       queryFn: () => fetchUrl(url),
       staleTime: Infinity,
     })),
-    combine,
+    combine: combineTokenLists,
   })
 }
 
