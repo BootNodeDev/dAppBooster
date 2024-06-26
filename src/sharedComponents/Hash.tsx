@@ -13,6 +13,8 @@ const Wrapper = styled.div`
 `
 
 const HashValue = styled.span`
+  color: inherit;
+  font-size: inherit;
   max-width: fit-content;
   overflow: hidden;
   text-overflow: ellipsis;
