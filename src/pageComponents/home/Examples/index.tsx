@@ -18,6 +18,8 @@ import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
 import BigNumberInput from '@/src/pageComponents/home/Examples/demos/BigNumberInput'
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
+import { HashInputDemo } from '@/src/pageComponents/home/Examples/demos/HashInput'
+import { ConnectWalletButton } from '@/src/sharedComponents/Web3Provider'
 
 const Wrapper = styled.section`
   [data-theme='light'] & {
@@ -45,17 +47,17 @@ const Examples: React.FC = ({ ...restProps }) => {
   const { address = '0x87885AaEEdED51C7e3858a782644F5d89759f245' } = useAccount()
   const items: ItemProps[] = [
     {
-      demo: <div>Wallet</div>,
+      demo: <ConnectWalletButton />,
       href: '#',
       icon: <ImgWallet />,
       text: 'Authenticate using an OP Account',
       title: 'Wallet connectivity',
     },
     {
-      demo: <BigNumberInput />,
+      demo: <HashInputDemo />,
       href: '#',
       icon: <ImgInputAddress />,
-      text: 'Validate address or transaction hash',
+      text: 'Validate address, ENS or transaction hash',
       title: 'Input address',
     },
     {
@@ -66,7 +68,7 @@ const Examples: React.FC = ({ ...restProps }) => {
       title: 'Token list',
     },
     {
-      demo: <div>Token input</div>,
+      demo: <BigNumberInput />,
       href: '#',
       icon: <ImgTokenInput />,
       text: 'Input with max, user balance, decimals',
