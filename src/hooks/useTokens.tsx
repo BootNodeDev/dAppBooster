@@ -41,7 +41,7 @@ export const useTokens = ({
   return useSuspenseQueries({
     queries: tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
       queryKey: ['tokens-list', url],
-      queryFn: () => fetchUrl(url),
+      queryFn: () => fetchTokenList(url),
       staleTime: Infinity,
     })),
     combine: combineTokenLists,
@@ -113,7 +113,7 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
  * @param url - a link to a list of tokens or 'default' to use the list added as a dependency to the project
  * @returns {Promise<TokenList>} a token list
  */
-export async function fetchUrl(url: string): Promise<TokenList> {
+export async function fetchTokenList(url: string): Promise<TokenList> {
   if (url === 'default') {
     return defaultTokens
   }

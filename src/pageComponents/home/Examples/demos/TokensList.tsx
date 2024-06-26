@@ -29,8 +29,7 @@ const TokensList: FC<{ tokenList: Tokens }> = ({ tokenList }) => {
         ref={parentRef}
         style={{
           marginTop: '10px',
-          height: `400px`,
-          width: '300px',
+          height: `200px`,
           overflowY: 'auto',
           overflowX: 'hidden',
           outline: '1px solid #efefef',
