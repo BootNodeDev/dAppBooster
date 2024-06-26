@@ -1,6 +1,7 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { Wrapper, Main } from 'db-ui-toolkit'
 import { ThemeProvider } from 'next-themes'
+import { Toaster } from 'react-hot-toast'
 
 import { Footer } from '@/src/sharedComponents/Footer'
 import { Header } from '@/src/sharedComponents/Header'
@@ -30,6 +31,7 @@ function Root() {
           <TanStackRouterDevtools />
         </Web3Provider>
       </Wrapper>
+      <Toaster />
     </ThemeProvider>
   )
 }
