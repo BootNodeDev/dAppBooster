@@ -2,8 +2,8 @@ import { FC, useRef, useState } from 'react'
 
 import { useVirtualizer } from '@tanstack/react-virtual'
 
+import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
-import { useTokenSearch } from '@/src/sharedComponents/TokensProvider'
 import { type Tokens } from '@/src/token'
 import { getTruncatedHash } from '@/src/utils/strings'
 

@@ -19,7 +19,6 @@ import BigNumberInput from '@/src/pageComponents/home/Examples/demos/BigNumberIn
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import Tokens from '@/src/pageComponents/home/Examples/demos/Tokens'
-import { TokensProvider } from '@/src/sharedComponents/TokensProvider'
 
 const Wrapper = styled.section`
   [data-theme='light'] & {
@@ -61,11 +60,7 @@ const Examples: React.FC = ({ ...restProps }) => {
       title: 'Input address',
     },
     {
-      demo: (
-        <TokensProvider>
-          <Tokens />
-        </TokensProvider>
-      ),
+      demo: <Tokens />,
       href: '#',
       icon: <ImgTokenList />,
       text: 'Dynamic token list modal',

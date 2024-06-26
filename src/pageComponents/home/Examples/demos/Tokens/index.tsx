@@ -1,10 +1,11 @@
+import { Suspense } from 'react'
 import styled from 'styled-components'
 
 import { Title } from 'db-ui-toolkit'
 import { arbitrum, mainnet } from 'viem/chains'
 
+import { useTokens } from '@/src/hooks/useTokens'
 import TokensList from '@/src/pageComponents/home/Examples/demos/TokensList'
-import { useTokens } from '@/src/sharedComponents/TokensProvider'
 
 export const TokensMainnet = () => {
   const { tokensByChainId } = useTokens()
@@ -38,8 +39,12 @@ const Wrapper = styled.div`
 const MultipleTokens = () => {
   return (
     <Wrapper>
-      <TokensMainnet />
-      <TokensArbitrum />
+      <Suspense fallback="loading mainnet tokens...">
+        <TokensMainnet />
+      </Suspense>
+      <Suspense fallback="loading arbitrum tokens...">
+        <TokensArbitrum />
+      </Suspense>
     </Wrapper>
   )
 }
