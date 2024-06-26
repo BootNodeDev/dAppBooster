@@ -110,5 +110,9 @@ export const darkTheme = css`
     /* External link button */
     --theme-external-link-button-color: #e2e0e7;
     --theme-external-link-button-color-hover: #c670e5;
+
+    /* Toast */
+    --theme-toast-background-color: #4b4d60;
+    --theme-toast-color: #fff;
   }
 `
