@@ -27,8 +27,8 @@ importers:
         specifier: ^1.7.3
         version: 1.7.3(@babel/core@7.24.5)(@tanstack/react-query@5.36.2(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(wagmi@2.9.2(@tanstack/query-core@5.36.1)(@tanstack/react-query@5.36.2(react@18.3.1))(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1)(rollup@4.17.2)(typescript@5.4.5)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(zod@3.23.8))
       db-ui-toolkit:
-        specifier: github:BootNodeDev/db-ui-toolkit#ac6519ec8fad985e24ab89bec7a9812446b618ad
-        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/ac6519ec8fad985e24ab89bec7a9812446b618ad
+        specifier: github:BootNodeDev/db-ui-toolkit
+        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/cc48c7a78636ccf653af751848e741ed4ce71750
       modern-normalize:
         specifier: ^2.0.0
         version: 2.0.0
@@ -2014,8 +2014,8 @@ packages:
   '@types/node-forge@1.3.11':
     resolution: {integrity: sha512-FQx220y22OKNTqaByeBGqHWYz4cl94tpcxeFdvBo3wjG6XPBuZ0BNgNZRV5J5TFmmcsJ4IzsLkmGRiQbnYsBEQ==}
 
-  '@types/node@18.19.33':
-    resolution: {integrity: sha512-NR9+KrpSajr2qBVp/Yt5TU/rp+b5Mayi3+OlMlcg2cVCfRmcG5PWZ7S4+MG9PZ5gWBoc9Pd0BKSRViuBCRPu0A==}
+  '@types/node@18.19.39':
+    resolution: {integrity: sha512-nPwTRDKUctxw3di5b4TfT3I0sWDiWoPQCZjXhvdkINntwr8lcoVCKsTgnXeRubKIlfnV+eN/HYk6Jb40tbcEAQ==}
 
   '@types/node@20.12.12':
     resolution: {integrity: sha512-eWLDGF/FOSPtAvEqeRAQ4C8LSA7M1I7i0ky1I8U7kD1J5ITyW3AsRhQrKVoWf5pFKZ2kILsEGJhsI9r93PYnOw==}
@@ -2866,8 +2866,8 @@ packages:
   dayjs@1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/ac6519ec8fad985e24ab89bec7a9812446b618ad:
-    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/ac6519ec8fad985e24ab89bec7a9812446b618ad}
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/cc48c7a78636ccf653af751848e741ed4ce71750:
+    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/cc48c7a78636ccf653af751848e741ed4ce71750}
     version: 0.1.0
     engines: {node: '>=20.0.0'}
 
@@ -3376,8 +3376,8 @@ packages:
   flow-enums-runtime@0.0.6:
     resolution: {integrity: sha512-3PYnM29RFXwvAN6Pc/scUfkI7RwhQ/xqyLUyPNlXUp9S40zI8nup9tUSrTLSVnWGBN38FNiGWbwZOB6uR4OGdw==}
 
-  flow-parser@0.236.0:
-    resolution: {integrity: sha512-0OEk9Gr+Yj7wjDW2KgaNYUypKau71jAfFyeLQF5iVtxqc6uJHag/MT7pmaEApf4qM7u86DkBcd4ualddYMfbLw==}
+  flow-parser@0.238.2:
+    resolution: {integrity: sha512-fs7FSnzzKF6oSzjk14JlBHt82DPchYHVsXtPi4Fkn+qrunVjWaBZY7nSO/mC9X4l9+wRah/R69DRd5NGDOrWqw==}
     engines: {node: '>=0.4.0'}
 
   for-each@0.3.3:
@@ -3969,8 +3969,8 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
-  joi@17.13.1:
-    resolution: {integrity: sha512-vaBlIKCyo4FCUtCm7Eu4QZd/q02bWcxfUO6YSXAZOWF6gzcLBeba8kwotUdYJjDLW8Cz8RywsSOqiNJZW0mNvg==}
+  joi@17.13.3:
+    resolution: {integrity: sha512-otDA4ldcIx+ZXsKHWmp0YizCweVRZG96J10b0FevjfuncLO1oX59THoAmHkNubYJ+9gWsYsp5k8v4ib6oDv1fA==}
 
   js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -4888,8 +4888,8 @@ packages:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
 
-  react-devtools-core@5.2.0:
-    resolution: {integrity: sha512-vZK+/gvxxsieAoAyYaiRIVFxlajb7KXhgBDV7OsoMzaAE+IqGpoxusBjIgq5ibqA2IloKu0p9n7tE68z1xs18A==}
+  react-devtools-core@5.3.0:
+    resolution: {integrity: sha512-IG3T+azv48Oc5VLdHR4XdBNKNZIUOKRtx0sJMRvb++Zom/uqtx73j6u37JCsIBNIaq6vA7RPH5Bbcf/Wj53KXA==}
 
   react-dom@18.3.1:
     resolution: {integrity: sha512-5m4nQKp+rZRb09LNH59GM4BxTh9251/ylbKIbpe7TpGxfJ+9kv6BLkLBXIjjspbgbnIBNqlI23tRnTWT0snUIw==}
@@ -5964,8 +5964,20 @@ packages:
     resolution: {integrity: sha512-+QU2zd6OTD8XWIJCbffaiQeH9U73qIqafo1x6V1snCWYGJf6cVE0cDR4D8xRzcEnfI21IFrUPzPGtcPf8AC+Rw==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
 
-  ws@6.2.2:
-    resolution: {integrity: sha512-zmhltoSR8u1cnDsD43TX59mzoMZsLKqUweyYBAIvTngR3shc0W6aOZylZmq/7hqyVxPdi+5Ud2QInblgyE72fw==}
+  ws@6.2.3:
+    resolution: {integrity: sha512-jmTjYU0j60B+vHey6TfR3Z7RD61z/hmxBS3VMSGIrroOWXQEneK1zNuotOUrGyBHQj0yrpsLHPWtigEFd13ndA==}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: ^5.0.2
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
+
+  ws@7.5.10:
+    resolution: {integrity: sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==}
+    engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1
       utf-8-validate: ^5.0.2
@@ -7654,7 +7666,7 @@ snapshots:
       cosmiconfig: 5.2.1
       deepmerge: 4.3.1
       fast-glob: 3.3.2
-      joi: 17.13.1
+      joi: 17.13.3
     transitivePeerDependencies:
       - encoding
 
@@ -7733,7 +7745,7 @@ snapshots:
       nocache: 3.0.4
       pretty-format: 26.6.2
       serve-static: 1.15.0
-      ws: 6.2.2(bufferutil@4.0.8)
+      ws: 6.2.3(bufferutil@4.0.8)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -7758,7 +7770,7 @@ snapshots:
 
   '@react-native-community/cli-types@13.6.6':
     dependencies:
-      joi: 17.13.1
+      joi: 17.13.3
 
   '@react-native-community/cli@13.6.6(bufferutil@4.0.8)':
     dependencies:
@@ -7894,7 +7906,7 @@ snapshots:
       selfsigned: 2.4.1
       serve-static: 1.15.0
       temp-dir: 2.0.0
-      ws: 6.2.2(bufferutil@4.0.8)
+      ws: 6.2.3(bufferutil@4.0.8)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -7928,7 +7940,7 @@ snapshots:
 
   '@rnx-kit/chromium-edge-launcher@1.0.0':
     dependencies:
-      '@types/node': 18.19.33
+      '@types/node': 18.19.39
       escape-string-regexp: 4.0.0
       is-wsl: 2.2.0
       lighthouse-logger: 1.4.2
@@ -8367,7 +8379,7 @@ snapshots:
     dependencies:
       '@types/node': 20.12.12
 
-  '@types/node@18.19.33':
+  '@types/node@18.19.39':
     dependencies:
       undici-types: 5.26.5
 
@@ -9599,7 +9611,7 @@ snapshots:
 
   dayjs@1.11.11: {}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/ac6519ec8fad985e24ab89bec7a9812446b618ad:
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/cc48c7a78636ccf653af751848e741ed4ce71750:
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -10272,7 +10284,7 @@ snapshots:
 
   flow-enums-runtime@0.0.6: {}
 
-  flow-parser@0.236.0: {}
+  flow-parser@0.238.2: {}
 
   for-each@0.3.3:
     dependencies:
@@ -10870,7 +10882,7 @@ snapshots:
 
   jiti@1.21.0: {}
 
-  joi@17.13.1:
+  joi@17.13.3:
     dependencies:
       '@hapi/hoek': 9.3.0
       '@hapi/topo': 5.1.0
@@ -10909,7 +10921,7 @@ snapshots:
       '@babel/register': 7.23.7(@babel/core@7.24.5)
       babel-core: 7.0.0-bridge.0(@babel/core@7.24.5)
       chalk: 4.1.2
-      flow-parser: 0.236.0
+      flow-parser: 0.238.2
       graceful-fs: 4.2.11
       micromatch: 4.0.5
       neo-async: 2.6.2
@@ -11380,7 +11392,7 @@ snapshots:
       source-map: 0.5.7
       strip-ansi: 6.0.1
       throat: 5.0.0
-      ws: 7.5.9(bufferutil@4.0.8)
+      ws: 7.5.10(bufferutil@4.0.8)
       yargs: 17.7.2
     transitivePeerDependencies:
       - bufferutil
@@ -11901,10 +11913,10 @@ snapshots:
 
   range-parser@1.2.1: {}
 
-  react-devtools-core@5.2.0(bufferutil@4.0.8):
+  react-devtools-core@5.3.0(bufferutil@4.0.8):
     dependencies:
       shell-quote: 1.8.1
-      ws: 7.5.9(bufferutil@4.0.8)
+      ws: 7.5.10(bufferutil@4.0.8)
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -11980,14 +11992,14 @@ snapshots:
       pretty-format: 26.6.2
       promise: 8.3.0
       react: 18.3.1
-      react-devtools-core: 5.2.0(bufferutil@4.0.8)
+      react-devtools-core: 5.3.0(bufferutil@4.0.8)
       react-refresh: 0.14.2
       react-shallow-renderer: 16.15.0(react@18.3.1)
       regenerator-runtime: 0.13.11
       scheduler: 0.24.0-canary-efb381bbf-20230505
       stacktrace-parser: 0.1.10
       whatwg-fetch: 3.6.20
-      ws: 6.2.2(bufferutil@4.0.8)
+      ws: 6.2.3(bufferutil@4.0.8)
       yargs: 17.7.2
     optionalDependencies:
       '@types/react': 18.3.2
@@ -13142,9 +13154,13 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 4.1.0
 
-  ws@6.2.2(bufferutil@4.0.8):
+  ws@6.2.3(bufferutil@4.0.8):
     dependencies:
       async-limiter: 1.0.1
+    optionalDependencies:
+      bufferutil: 4.0.8
+
+  ws@7.5.10(bufferutil@4.0.8):
     optionalDependencies:
       bufferutil: 4.0.8
 

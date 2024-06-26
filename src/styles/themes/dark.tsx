@@ -104,11 +104,11 @@ export const darkTheme = css`
     --theme-card-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
 
     /* Copy button */
-    --copy-button-color: #e2e0e7;
-    --copy-button-color-hover: #c670e5;
+    --theme-copy-button-color: #e2e0e7;
+    --theme-copy-button-color-hover: #c670e5;
 
     /* External link button */
-    --external-link-button-color: #e2e0e7;
-    --external-link-button-color-hover: #c670e5;
+    --theme-external-link-button-color: #e2e0e7;
+    --theme-external-link-button-color-hover: #c670e5;
   }
 `
