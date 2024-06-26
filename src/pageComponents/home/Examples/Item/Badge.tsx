@@ -18,7 +18,7 @@ const Badge = styled.div.attrs({ children: <>Demo</> })`
   font-weight: 500;
   height: 20px;
   line-height: 1;
-  padding: 0 var(--base-gap);
+  padding: 0 var(--base-common-padding);
 `
 
 export default Badge
