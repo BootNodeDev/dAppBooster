@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { InnerContainer as Inner, ContainerPadding } from 'db-ui-toolkit'
+import { mainnet } from 'viem/chains'
 import { useAccount } from 'wagmi'
 
 import { Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
@@ -75,7 +76,7 @@ const Examples: React.FC = ({ ...restProps }) => {
       title: 'Token input',
     },
     {
-      demo: <Hash hash={address} />,
+      demo: <Hash chain={mainnet} hash={address} />,
       href: '#',
       icon: <ImgHash />,
       text: 'Copy, open in explorer',
