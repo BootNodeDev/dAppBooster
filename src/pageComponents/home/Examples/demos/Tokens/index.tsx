@@ -5,7 +5,7 @@ import { Button } from 'db-ui-toolkit'
 import { arbitrum, mainnet, polygon } from 'viem/chains'
 
 import { useTokens } from '@/src/hooks/useTokens'
-import TokensList from '@/src/pageComponents/home/Examples/demos/TokensList'
+import TokenList from '@/src/sharedComponents/Tokens/TokenList'
 import {
   type WithSuspenseAndRetryProps,
   withSuspense,
@@ -18,7 +18,7 @@ const TokensMainnet = withSuspense(() => {
   return (
     <>
       <strong>{mainnet.name}</strong>
-      <TokensList tokenList={tokensByChainId[mainnet.id]} />
+      <TokenList tokenList={tokensByChainId[mainnet.id]} />
     </>
   )
 })
@@ -29,21 +29,23 @@ const TokensArbitrum = withSuspenseAndRetry(() => {
   return (
     <>
       <strong>{arbitrum.name}</strong>
-      <TokensList tokenList={tokensByChainId[arbitrum.id]} />
+      <TokenList tokenList={tokensByChainId[arbitrum.id]} />
     </>
   )
 })
 
-const TokensPolygon = withSuspenseAndRetry(() => {
-  const { tokensByChainId } = useTokens()
+const TokensPolygon = withSuspenseAndRetry<{ searchPlaceholder: string }>(
+  ({ searchPlaceholder }) => {
+    const { tokensByChainId } = useTokens()
 
-  return (
-    <>
-      <strong>{polygon.name}</strong>
-      <TokensList tokenList={tokensByChainId[polygon.id]} />
-    </>
-  )
-})
+    return (
+      <>
+        <strong>{polygon.name}</strong>
+        <TokenList searchPlaceholder={searchPlaceholder} tokenList={tokensByChainId[polygon.id]} />
+      </>
+    )
+  },
+)
 
 const Wrapper = styled.div`
   * {
@@ -105,6 +107,7 @@ const MultipleTokens = () => {
       <TokenListWrapper>
         <TokensPolygon
           fallbackRender={retry}
+          searchPlaceholder="find it!"
           suspenseFallback={<Loading height="24" src="/appLogo.svg" />}
         />
       </TokenListWrapper>
