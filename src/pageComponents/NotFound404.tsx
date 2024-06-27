@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Link } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import { GeneralError } from 'db-ui-toolkit'
 
 import { PrimaryButton } from '@/src/sharedComponents/Buttons'
@@ -62,18 +62,18 @@ const Wrapper = styled(GeneralError)`
   margin: auto;
 `
 
-const HomeButton = styled(PrimaryButton).attrs({ as: Link })`
-  && {
-    height: 44px;
-    font-size: 1.8rem;
-    width: 100%;
-  }
+const HomeButton = styled(PrimaryButton)`
+  height: 44px;
+  font-size: 1.8rem;
+  width: 100%;
 `
 
 const NotFound404 = ({ ...restProps }) => {
+  const navigate = useNavigate()
+
   return (
     <Wrapper
-      actionButton={<HomeButton to="/">Home</HomeButton>}
+      actionButton={<HomeButton onClick={() => navigate({ to: '/' })}>Home</HomeButton>}
       icon={<Icon />}
       message="The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
       title="404 - Not Found"
