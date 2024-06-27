@@ -1,47 +1,64 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { Button } from 'db-ui-toolkit'
 import { arbitrum, mainnet, polygon } from 'viem/chains'
 
 import { useTokens } from '@/src/hooks/useTokens'
-import TokenList from '@/src/sharedComponents/Tokens/TokenList'
+import TokenList, { type TokenListProps } from '@/src/sharedComponents/Tokens/TokenList'
+import { type Token } from '@/src/token'
 import {
   type WithSuspenseAndRetryProps,
   withSuspense,
   withSuspenseAndRetry,
 } from '@/src/utils/suspenseWrapper'
 
-const TokensMainnet = withSuspense(() => {
+type TokenSelector = Omit<TokenListProps, 'tokenList'>
+
+const TokensMainnet = withSuspense<TokenSelector>(({ onTokenSelected, searchPlaceholder }) => {
   const { tokensByChainId } = useTokens()
 
   return (
     <>
       <strong>{mainnet.name}</strong>
-      <TokenList tokenList={tokensByChainId[mainnet.id]} />
+      <TokenList
+        onTokenSelected={onTokenSelected}
+        searchPlaceholder={searchPlaceholder}
+        tokenList={tokensByChainId[mainnet.id]}
+      />
     </>
   )
 })
 
-const TokensArbitrum = withSuspenseAndRetry(() => {
-  const { tokensByChainId } = useTokens()
+const TokensArbitrum = withSuspenseAndRetry<TokenSelector>(
+  ({ onTokenSelected, searchPlaceholder }) => {
+    const { tokensByChainId } = useTokens()
 
-  return (
-    <>
-      <strong>{arbitrum.name}</strong>
-      <TokenList tokenList={tokensByChainId[arbitrum.id]} />
-    </>
-  )
-})
+    return (
+      <>
+        <strong>{arbitrum.name}</strong>
+        <TokenList
+          onTokenSelected={onTokenSelected}
+          searchPlaceholder={searchPlaceholder}
+          tokenList={tokensByChainId[arbitrum.id]}
+        />
+      </>
+    )
+  },
+)
 
-const TokensPolygon = withSuspenseAndRetry<{ searchPlaceholder: string }>(
-  ({ searchPlaceholder }) => {
+const TokensPolygon = withSuspenseAndRetry<TokenSelector>(
+  ({ onTokenSelected, searchPlaceholder }) => {
     const { tokensByChainId } = useTokens()
 
     return (
       <>
         <strong>{polygon.name}</strong>
-        <TokenList searchPlaceholder={searchPlaceholder} tokenList={tokensByChainId[polygon.id]} />
+        <TokenList
+          onTokenSelected={onTokenSelected}
+          searchPlaceholder={searchPlaceholder}
+          tokenList={tokensByChainId[polygon.id]}
+        />
       </>
     )
   },
@@ -88,6 +105,7 @@ const Loading = styled.img`
 `
 
 const MultipleTokens = () => {
+  const [selectedToken, setSelectedToken] = useState<Token>()
   const retry = useCallback<Required<WithSuspenseAndRetryProps>['fallbackRender']>(
     ({ resetErrorBoundary }) => (
       <div>
@@ -96,17 +114,29 @@ const MultipleTokens = () => {
     ),
     [],
   )
+
+  useEffect(() => {
+    selectedToken && alert(JSON.stringify(selectedToken, null, 2))
+  }, [selectedToken])
+
   return (
     <Wrapper>
       <TokenListWrapper>
-        <TokensMainnet errorFallback={<ErrorMessage>oh no! 🙀</ErrorMessage>} />
+        <TokensMainnet
+          errorFallback={<ErrorMessage>oh no! 🙀</ErrorMessage>}
+          onTokenSelected={setSelectedToken}
+        />
       </TokenListWrapper>
       <TokenListWrapper>
-        <TokensArbitrum suspenseFallback="loading arbitrum tokens..." />
+        <TokensArbitrum
+          onTokenSelected={setSelectedToken}
+          suspenseFallback="loading arbitrum tokens..."
+        />
       </TokenListWrapper>
       <TokenListWrapper>
         <TokensPolygon
           fallbackRender={retry}
+          onTokenSelected={setSelectedToken}
           searchPlaceholder="find it!"
           suspenseFallback={<Loading height="24" src="/appLogo.svg" />}
         />

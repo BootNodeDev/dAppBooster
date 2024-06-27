@@ -6,12 +6,13 @@ import TokenRow from '@/src/sharedComponents/Tokens/TokenRow'
 import VirtualizedList from '@/src/sharedComponents/VirtualizedList'
 import { type Token, type Tokens } from '@/src/token'
 
-type TokenListProps = {
+export type TokenListProps = {
+  onTokenSelected?: (token: Token) => void
   searchPlaceholder?: string
   tokenList: Tokens
 }
 
-const TokenList: FC<TokenListProps> = ({ searchPlaceholder, tokenList }) => {
+const TokenList: FC<TokenListProps> = ({ onTokenSelected, searchPlaceholder, tokenList }) => {
   const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(tokenList)
 
   return (
@@ -25,7 +26,9 @@ const TokenList: FC<TokenListProps> = ({ searchPlaceholder, tokenList }) => {
         containerHeight={200}
         itemHeight={24}
         items={searchResult}
-        renderItem={(item) => <TokenRow token={item} />}
+        renderItem={(item) => (
+          <TokenRow onClick={(token) => onTokenSelected?.(token)} token={item} />
+        )}
       />
     </>
   )
