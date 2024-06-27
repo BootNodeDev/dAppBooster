@@ -62,7 +62,7 @@ const Wrapper = styled(GeneralError)`
   margin: auto;
 `
 
-const HomeButton = styled(Link).attrs({ as: PrimaryButton })`
+const HomeButton = styled(PrimaryButton).attrs({ as: Link })`
   && {
     height: 44px;
     font-size: 1.8rem;
@@ -73,7 +73,7 @@ const HomeButton = styled(Link).attrs({ as: PrimaryButton })`
 const NotFound404 = ({ ...restProps }) => {
   return (
     <Wrapper
-      actionButton={<HomeButton href="/">Home</HomeButton>}
+      actionButton={<HomeButton to="/">Home</HomeButton>}
       icon={<Icon />}
       message="The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
       title="404 - Not Found"
