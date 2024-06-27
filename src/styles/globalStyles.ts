@@ -1,18 +1,37 @@
-import { createGlobalStyle } from 'styled-components'
+import { css } from 'styled-components'
 
-import { base } from '@/src/styles/base'
-import { darkTheme } from '@/src/styles/themes/dark'
-import { lightTheme } from '@/src/styles/themes/light'
+import baseCSSVars from '@/src/styles/baseCSSVars'
+import darkThemeCSSVars from '@/src/styles/themes/darkThemeCSSVars'
+import lightThemeCSSVars from '@/src/styles/themes/lightThemeCSSVars'
 
-export const GlobalStyles = createGlobalStyle`
+const globalStyles = css`
   :root {
-    ${base}
+    /**
+     * Base CSS (non theme-related) variables.
+     */
+    ${baseCSSVars}
   }
 
-  ${lightTheme}
-  ${darkTheme}
-
   html {
+    /**
+     * Theme CSS variables.
+     *
+     * Light theme is the default theme.
+     *
+     * You can always remove the &[data-theme='theme'] selector if want to use
+     * the CSS vars generally available.
+     */
+    &[data-theme='light'] {
+      ${lightThemeCSSVars}
+    }
+
+    &[data-theme='dark'] {
+      ${darkThemeCSSVars}
+    }
+
+    /**
+     * Regular CSS properties
+     */
     font-size: 10px;
     scroll-behavior: smooth;
   }
@@ -52,7 +71,11 @@ export const GlobalStyles = createGlobalStyle`
     padding-inline: 0;
   }
 
-  h1, h2, h3, h4, h5 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     font-size: inherit;
     font-weight: inherit;
   }
@@ -66,3 +89,5 @@ export const GlobalStyles = createGlobalStyle`
     color: var(--theme-color-primary, #000);
   }
 `
+
+export default globalStyles

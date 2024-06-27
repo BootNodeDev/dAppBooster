@@ -6,7 +6,7 @@ import { css } from 'styled-components'
  * I suggest your use a --base prefix to indicate that these variables are not
  * theme-specific and to avoid conflicts with other CSS variables.
  */
-export const base = css`
+const baseCSSVars = css`
   /* Border radius */
   --base-border-radius-xs: 2px;
   --base-border-radius-sm: 4px;
@@ -58,3 +58,5 @@ export const base = css`
   --base-button-height: 38px;
   --base-button-padding: calc(var(--base-gap) * 2);
 `
+
+export default baseCSSVars

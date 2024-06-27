@@ -8,7 +8,7 @@ import { Footer } from '@/src/sharedComponents/Footer'
 import { Header } from '@/src/sharedComponents/Header'
 import { TanStackReactQueryDevtools } from '@/src/sharedComponents/TanStackReactQueryDevtools'
 import { TanStackRouterDevtools } from '@/src/sharedComponents/TanStackRouterDevtools'
-import { GlobalStyles } from '@/src/styles/globalStyles'
+import Styles from '@/src/styles'
 
 import 'modern-normalize/modern-normalize.css'
 
@@ -19,7 +19,7 @@ export const Route = createRootRoute({
 function Root() {
   return (
     <ThemeProvider defaultTheme={'light'}>
-      <GlobalStyles />
+      <Styles />
       <Wrapper>
         <Web3Provider>
           <Header />
