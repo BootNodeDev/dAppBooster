@@ -7,12 +7,14 @@ import { getTruncatedHash } from '@/src/utils/strings'
 
 const Wrapper = styled.div`
   align-items: center;
-  column-gap: 8px;
+  column-gap: var(--base-gap);
   display: flex;
   max-width: 100%;
 `
 
 const HashValue = styled.span`
+  color: inherit;
+  font-size: inherit;
   max-width: fit-content;
   overflow: hidden;
   text-overflow: ellipsis;

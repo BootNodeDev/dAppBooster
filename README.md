@@ -149,9 +149,13 @@ export default {
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 </details>
 
-# Styles
+# UI Libraries / Styles
 
-## Styled Components
+## Browser Normalizing
+
+We use [modern-normalize](https://github.com/sindresorhus/modern-normalize) to normalize the browsers' default styles.
+
+## Styles
 
 We use [Styled Components](https://styled-components.com/) a popular, powerful, and easy to use CSS-in-JS solution in dAppBoster to add styles to our components.
 
@@ -161,23 +165,31 @@ Additionally, several other Styled Components-related tools are provided to faci
 - [stylelint-config-standard](https://github.com/stylelint/stylelint-config-standard), extends the standard Stylelint configuration.
 - [postcss-styled-syntax](https://github.com/hudochenkov/postcss-styled-syntax), parses the components and extracts the CSS from them.
 
-## Styles implementation
+### Styles Implementation details
 
-We use [modern-normalize](https://github.com/sindresorhus/modern-normalize) to normalize the browsers' default styles.
-
-You can find all the general app's styles in the `src/styles` folder:
+You can find the general app's styles in the `src/styles` folder:
 
 - `base.tsx` global CSS vars, used everywhere in the app.
-- `themes/light.tsx` light theme CSS vars.
-- `themes/dark.tsx` dark theme CSS vars.
-- `breakpoints.tsx` utility functions for responsive, mobile-first CSS.
 - `globalStyles.tsx` global app's CSS.
 
 ## Themes
 
-dAppBooster supports themes with the help of https://github.com/pacocoursey/next-themes
+dAppBooster supports themes with the help of [Next Themes](https://github.com/pacocoursey/next-themes)
 
-# Control Version System
+### Themes implementation
+
+We provide these two themes for your convenience. Generally speaking, you can use these when you can't or don't want to modify a component's source file to add styles.
+
+- `themes/light.tsx` light theme CSS vars.
+- `themes/dark.tsx` dark theme CSS vars.
+
+You can also add CSS theme vars and more in each component's implementation following our examples and Next Themes' documentation.
+
+## Toasts
+
+We use [React Hot Toast](https://github.com/timolins/react-hot-toast)
+
+# Control Version
 
 As a best practice, we follow and enforce the usage of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) for commit messages' and pull requests' titles.
 
