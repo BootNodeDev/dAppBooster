@@ -3,15 +3,15 @@ import styled from 'styled-components'
 
 import { useVirtualizer } from '@tanstack/react-virtual'
 
-const ScrollableWrapper = styled.div<{ containerHeight: number }>`
-  height: ${(props) => `${props.containerHeight}px`};
+const ScrollableWrapper = styled.div<{ $containerHeight: number }>`
+  height: ${(props) => `${props.$containerHeight}px`};
   outline: 1px solid #efefef;
   overflow: hidden auto;
   margin-top: 10px;
 `
 
-const ItemsContainer = styled.div<{ totalSize: number }>`
-  height: ${(props) => `${props.totalSize}px`};
+const ItemsContainer = styled.div<{ $totalSize: number }>`
+  height: ${(props) => `${props.$totalSize}px`};
   position: relative;
   width: 100%;
 `
@@ -47,8 +47,8 @@ const VirtualizedList = <Item,>({
   })
 
   return (
-    <ScrollableWrapper containerHeight={containerHeight} ref={parentRef}>
-      <ItemsContainer totalSize={rowVirtualizer.getTotalSize()}>
+    <ScrollableWrapper $containerHeight={containerHeight} ref={parentRef}>
+      <ItemsContainer $totalSize={rowVirtualizer.getTotalSize()}>
         {rowVirtualizer.getVirtualItems().map((virtualItem) => (
           <VisibleItems height={virtualItem.size} key={virtualItem.key} start={virtualItem.start}>
             {renderItem(items[virtualItem.index])}

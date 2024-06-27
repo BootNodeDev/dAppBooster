@@ -40,7 +40,7 @@ export const ConnectWalletButton = () => {
     <ConnectKitButton.Custom>
       {({ address, isConnected, isConnecting, show, truncatedAddress }) => {
         return (
-          <ConnectButton disabled={isConnecting} isConnected={isConnected} onClick={show}>
+          <ConnectButton $isConnected={isConnected} disabled={isConnecting} onClick={show}>
             {isConnected ? (
               <>
                 {address && <UserAvatar address={address} size={24} />}
