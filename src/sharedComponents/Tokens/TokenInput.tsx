@@ -2,7 +2,7 @@ import { useState, type FC } from 'react'
 import styled from 'styled-components'
 
 import { Button, Text } from 'db-ui-toolkit'
-import { erc20Abi, formatUnits, getAddress, http, parseUnits } from 'viem'
+import { erc20Abi, formatUnits, getAddress, http } from 'viem'
 import * as chains from 'viem/chains'
 import { createConfig, useAccount, useReadContract } from 'wagmi'
 
