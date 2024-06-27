@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { Button } from 'db-ui-toolkit'
-import { arbitrum, mainnet, polygon } from 'viem/chains'
+import * as chains from 'viem/chains'
 
 import { useTokens } from '@/src/hooks/useTokens'
+import TokenInput from '@/src/sharedComponents/Tokens/TokenInput'
 import TokenList, { type TokenListProps } from '@/src/sharedComponents/Tokens/TokenList'
 import { type Token } from '@/src/token'
 import {
@@ -12,6 +13,8 @@ import {
   withSuspense,
   withSuspenseAndRetry,
 } from '@/src/utils/suspenseWrapper'
+
+const { arbitrum, mainnet, polygon } = chains
 
 type TokenSelector = Omit<TokenListProps, 'tokenList'>
 
@@ -64,11 +67,15 @@ const TokensPolygon = withSuspenseAndRetry<TokenSelector>(
   },
 )
 
-const Wrapper = styled.div`
+const Container = styled.div`
   * {
     font-size: 0.9em;
   }
 
+  display: grid;
+`
+
+const Wrapper = styled.div`
   display: flex;
   direction: row;
   column-gap: 1em;
@@ -115,33 +122,32 @@ const MultipleTokens = () => {
     [],
   )
 
-  useEffect(() => {
-    selectedToken && alert(JSON.stringify(selectedToken, null, 2))
-  }, [selectedToken])
-
   return (
-    <Wrapper>
-      <TokenListWrapper>
-        <TokensMainnet
-          errorFallback={<ErrorMessage>oh no! 🙀</ErrorMessage>}
-          onTokenSelected={setSelectedToken}
-        />
-      </TokenListWrapper>
-      <TokenListWrapper>
-        <TokensArbitrum
-          onTokenSelected={setSelectedToken}
-          suspenseFallback="loading arbitrum tokens..."
-        />
-      </TokenListWrapper>
-      <TokenListWrapper>
-        <TokensPolygon
-          fallbackRender={retry}
-          onTokenSelected={setSelectedToken}
-          searchPlaceholder="find it!"
-          suspenseFallback={<Loading height="24" src="/appLogo.svg" />}
-        />
-      </TokenListWrapper>
-    </Wrapper>
+    <Container>
+      <TokenInput token={selectedToken} />
+      <Wrapper>
+        <TokenListWrapper>
+          <TokensMainnet
+            errorFallback={<ErrorMessage>oh no! 🙀</ErrorMessage>}
+            onTokenSelected={setSelectedToken}
+          />
+        </TokenListWrapper>
+        <TokenListWrapper>
+          <TokensArbitrum
+            onTokenSelected={setSelectedToken}
+            suspenseFallback="loading arbitrum tokens..."
+          />
+        </TokenListWrapper>
+        <TokenListWrapper>
+          <TokensPolygon
+            fallbackRender={retry}
+            onTokenSelected={setSelectedToken}
+            searchPlaceholder="find it!"
+            suspenseFallback={<Loading height="24" src="/appLogo.svg" />}
+          />
+        </TokenListWrapper>
+      </Wrapper>
+    </Container>
   )
 }
 
