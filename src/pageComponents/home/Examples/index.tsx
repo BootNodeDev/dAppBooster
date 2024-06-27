@@ -20,7 +20,8 @@ import BigNumberInput from '@/src/pageComponents/home/Examples/demos/BigNumberIn
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import { HashInputDemo } from '@/src/pageComponents/home/Examples/demos/HashInput'
-import { ConnectWalletButton } from '@/src/sharedComponents/Web3Provider'
+import Tokens from '@/src/pageComponents/home/Examples/demos/Tokens'
+import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 const Wrapper = styled.section`
   [data-theme='light'] & {
@@ -62,7 +63,7 @@ const Examples: React.FC = ({ ...restProps }) => {
       title: 'Input address',
     },
     {
-      demo: <div>Token list</div>,
+      demo: <Tokens />,
       href: '#',
       icon: <ImgTokenList />,
       text: 'Dynamic token list modal',
@@ -83,7 +84,7 @@ const Examples: React.FC = ({ ...restProps }) => {
       title: 'Hash component',
     },
     {
-      demo: <Avatar address={address} size={30} />,
+      demo: <Avatar address={address} size={80} />,
       href: '#',
       icon: <ImgAvatar />,
       text: 'Address blockie avatar image',
