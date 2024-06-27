@@ -7,7 +7,7 @@ import lightThemeCSSVars from '@/src/styles/themes/lightThemeCSSVars'
 const globalStyles = css`
   :root {
     /**
-     * Base CSS (non theme-related) variables.
+     * Base (non theme-related) CSS variables.
      */
     ${baseCSSVars}
   }
@@ -18,8 +18,8 @@ const globalStyles = css`
      *
      * Light theme is the default theme.
      *
-     * You can always remove the &[data-theme='theme'] selector if want to use
-     * the CSS vars generally available.
+     * You can always remove the &[data-theme='theme'] selector if want to make
+     * some theme's CSS vars generally available.
      */
     &[data-theme='light'] {
       ${lightThemeCSSVars}
