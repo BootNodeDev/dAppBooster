@@ -124,7 +124,11 @@ const MultipleTokens = () => {
 
   return (
     <Container>
-      <TokenInput token={selectedToken} />
+      {selectedToken ? (
+        <TokenInput token={selectedToken} />
+      ) : (
+        <input disabled placeholder="nothing to see here..." />
+      )}
       <Wrapper>
         <TokenListWrapper>
           <TokensMainnet
