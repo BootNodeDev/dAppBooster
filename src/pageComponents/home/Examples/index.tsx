@@ -84,7 +84,7 @@ const Examples: React.FC = ({ ...restProps }) => {
       title: 'Hash component',
     },
     {
-      demo: <Avatar address={address} size={30} />,
+      demo: <Avatar address={address} size={80} />,
       href: '#',
       icon: <ImgAvatar />,
       text: 'Address blockie avatar image',
