@@ -1,16 +1,16 @@
-import React, { useState, ReactElement, HTMLProps, useEffect, useCallback } from 'react'
+import React, { useState, ReactElement, InputHTMLAttributes, useEffect, useCallback } from 'react'
 
 import { useDebouncedCallback } from 'use-debounce'
 import { Chain } from 'viem'
 
 import detectHash, { DetectedHash } from '@/src/utils/hash'
 
-interface HashInputProps extends HTMLProps<HTMLInputElement> {
+interface HashInputProps extends InputHTMLAttributes<HTMLInputElement> {
   chain: Chain
   debounceTime?: number
   onLoading?: (loading: boolean) => void
   onSearch: (result: DetectedHash | null) => void
-  renderInput?: (props: HTMLProps<HTMLInputElement>) => ReactElement
+  renderInput?: (props: InputHTMLAttributes<HTMLInputElement>) => ReactElement
   value?: string
 }
 
