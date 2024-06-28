@@ -21,6 +21,7 @@ import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import HashInput from '@/src/pageComponents/home/Examples/demos/HashInput'
 import Tokens from '@/src/pageComponents/home/Examples/demos/Tokens'
+import { TransactionButtonDemo } from '@/src/pageComponents/home/Examples/demos/TransactionButton'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 const Wrapper = styled.section`
@@ -110,6 +111,13 @@ const Examples: React.FC = ({ ...restProps }) => {
       icon: <ImgIpfsImage />,
       text: 'Resolve ENS names',
       title: 'ENS name',
+    },
+    {
+      demo: <TransactionButtonDemo />,
+      href: '#',
+      icon: <ImgIpfsImage />,
+      text: 'Transaction Button',
+      title: 'tx button',
     },
   ]
 
