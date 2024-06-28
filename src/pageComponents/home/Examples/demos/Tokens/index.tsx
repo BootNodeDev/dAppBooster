@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { Button } from 'db-ui-toolkit'
-import * as chains from 'viem/chains'
+import { arbitrum, mainnet, polygon } from 'viem/chains'
 
 import { useTokens } from '@/src/hooks/useTokens'
 import TokenInput from '@/src/sharedComponents/Tokens/TokenInput'
@@ -13,8 +13,6 @@ import {
   withSuspense,
   withSuspenseAndRetry,
 } from '@/src/utils/suspenseWrapper'
-
-const { arbitrum, mainnet, polygon } = chains
 
 type TokenSelector = Omit<TokenListProps, 'tokenList'>
 
