@@ -2,23 +2,12 @@ import { useState, type FC } from 'react'
 import styled from 'styled-components'
 
 import { Button, Text } from 'db-ui-toolkit'
-import { erc20Abi, formatUnits, getAddress, http } from 'viem'
+import { erc20Abi, formatUnits, getAddress } from 'viem'
 import * as chains from 'viem/chains'
-import { createConfig, useAccount, useReadContract } from 'wagmi'
+import { useAccount, useReadContract } from 'wagmi'
 
 import { BigNumberInput, BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
 import { type Token } from '@/src/token'
-
-const { arbitrum, mainnet, polygon } = chains
-
-const config = createConfig({
-  chains: [mainnet, arbitrum, polygon],
-  transports: {
-    [mainnet.id]: http(),
-    [arbitrum.id]: http(),
-    [polygon.id]: http(),
-  },
-})
 
 const Error = styled.p`
   background-color: #6c0000;
@@ -39,9 +28,7 @@ const TokenInput: FC<TokenInputProps> = ({ token }) => {
     abi: erc20Abi,
     address: getAddress(token.address),
     args: [getAddress(userWallet!)],
-    // @ts-expect-error typing sopa
     chainId: token.chainId,
-    config,
     functionName: 'balanceOf',
   })
 
