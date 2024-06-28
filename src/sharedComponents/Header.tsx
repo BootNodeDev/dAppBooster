@@ -64,7 +64,7 @@ export const Header: React.FC = ({ ...restProps }) => {
     <Wrapper {...restProps}>
       <Inner>
         <Start>
-          <HomeLink href="/">
+          <HomeLink to="/">
             <Logo />
           </HomeLink>
         </Start>
