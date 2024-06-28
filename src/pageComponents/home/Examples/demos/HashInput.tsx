@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 
-import { Textfield as BaseTextfield } from 'db-ui-toolkit'
+import { Textfield as BaseTextfield, Spinner } from 'db-ui-toolkit'
 import { mainnet } from 'viem/chains'
 
 import HashInput from '@/src/sharedComponents/HashInput'
@@ -16,6 +16,25 @@ const AlertIcon = () => (
   </svg>
 )
 
+const IconOK = ({ ...restProps }) => (
+  <svg
+    fill="none"
+    height="13"
+    viewBox="0 0 19 13"
+    width="19"
+    xmlns="http://www.w3.org/2000/svg"
+    {...restProps}
+  >
+    <path
+      d="M17.5 1L6.5 12L1.5 7"
+      stroke="#29BD7F"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    />
+  </svg>
+)
+
 const Wrapper = styled.div`
   --base-textfield-horizontal-padding: var(--base-common-padding-xl);
   --base-textfield-border-radius: var(--base-border-radius);
@@ -25,8 +44,8 @@ const Wrapper = styled.div`
     --theme-textfield-color-active: #2e3048;
     --theme-textfield-color-error: #2e3048;
     --theme-textfield-color-ok: #2e3048;
-    --theme-textfield-background-color: #c5c2cb;
-    --theme-textfield-background-color-active: #c5c2cb;
+    --theme-textfield-background-color: #f7f7f7;
+    --theme-textfield-background-color-active: #f7f7f7;
     --theme-textfield-border-color: #c5c2cb;
     --theme-textfield-border-color-active: #c5c2cb;
     --theme-textfield-border-color-error: #2e3048;
@@ -58,9 +77,30 @@ const Wrapper = styled.div`
 
 const Textfield = styled(BaseTextfield)`
   display: block;
+  padding-right: calc(var(--base-common-padding) * 6);
   position: relative;
   width: 100%;
   z-index: 10;
+`
+
+const OK = styled(IconOK)`
+  position: absolute;
+  right: var(--base-common-padding-xl);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+`
+
+const SpinnerWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: calc(var(--base-common-padding) * 6);
+  z-index: 15;
 `
 
 const StatusMessage = styled.div`
@@ -75,7 +115,7 @@ const StatusMessage = styled.div`
   left: 0;
   min-height: 64px;
   padding: calc(var(--base-common-padding-xl) * 2) var(--base-textfield-horizontal-padding)
-    var(--base-common-padding-xl);
+    var(--base-common-padding-xl) var(--base-textfield-horizontal-padding);
   position: absolute;
   top: calc(100% - var(--base-common-padding-xl));
   width: 100%;
@@ -84,22 +124,34 @@ const StatusMessage = styled.div`
 
 export const HashInputDemo = ({ ...restProps }) => {
   const [searchResult, setSearchResult] = useState<DetectedHash | null>(null)
+  const [loading, setLoading] = useState<boolean | undefined>()
   const notFound = searchResult && searchResult.type === null
+  const found = searchResult && searchResult.type !== null
+
+  const onLoading = (isLoading: boolean) => {
+    setLoading(isLoading)
+  }
 
   return (
     <Wrapper {...restProps}>
       <HashInput
         chain={mainnet}
+        onLoading={onLoading}
         onSearch={setSearchResult}
         renderInput={({ ...props }) => (
           <Textfield
             $status={notFound ? 'error' : undefined}
             placeholder="Address / Txn Hash"
-            type="search"
             {...props}
           />
         )}
       />
+      {loading && (
+        <SpinnerWrapper>
+          <Spinner height="25" width="25" />
+        </SpinnerWrapper>
+      )}
+      {found && !loading && <OK />}
       {notFound && (
         <StatusMessage>
           <AlertIcon /> <span>No results found</span>

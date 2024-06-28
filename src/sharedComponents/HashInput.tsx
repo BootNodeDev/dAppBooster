@@ -8,6 +8,7 @@ import detectHash, { DetectedHash } from '@/src/utils/hash'
 interface HashInputProps extends HTMLProps<HTMLInputElement> {
   chain: Chain
   debounceTime?: number
+  onLoading?: (loading: boolean) => void
   onSearch: (result: DetectedHash | null) => void
   renderInput?: (props: HTMLProps<HTMLInputElement>) => ReactElement
   value?: string
@@ -35,6 +36,7 @@ interface HashInputProps extends HTMLProps<HTMLInputElement> {
 const HashInput: React.FC<HashInputProps> = ({
   chain,
   debounceTime = 500,
+  onLoading,
   onSearch,
   renderInput,
   value,
@@ -72,6 +74,10 @@ const HashInput: React.FC<HashInputProps> = ({
     }
   }, [value, debouncedHandleChange])
 
+  useEffect(() => {
+    onLoading?.(loading)
+  }, [loading, onLoading])
+
   return (
     <>
       {renderInput ? (
@@ -85,7 +91,6 @@ const HashInput: React.FC<HashInputProps> = ({
           {...restProps}
         />
       )}
-      {loading && <span>Loading...</span>}
     </>
   )
 }

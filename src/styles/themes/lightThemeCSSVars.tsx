@@ -121,6 +121,9 @@ const lightThemeCSSVars = css`
   --theme-generic-error-color-message-background: #e2e0e780;
   --theme-generic-error-color-text: #4b4d60;
   --theme-generic-error-color-title: #2e3048;
+
+  /* Spinner */
+  --theme-spinner-color: #692581;
 `
 
 export default lightThemeCSSVars
