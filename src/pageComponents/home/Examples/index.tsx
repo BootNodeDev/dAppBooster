@@ -15,8 +15,8 @@ import ImgSubgraph from '@/src/pageComponents/home/Examples/assets/Subgraph'
 import ImgTokenInput from '@/src/pageComponents/home/Examples/assets/TokenInput'
 import ImgTokenList from '@/src/pageComponents/home/Examples/assets/TokenList'
 import ImgWallet from '@/src/pageComponents/home/Examples/assets/Wallet'
+import AmountSelector from '@/src/pageComponents/home/Examples/demos/AmountSelector'
 import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
-import BigNumberInput from '@/src/pageComponents/home/Examples/demos/BigNumberInput'
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import { HashInputDemo } from '@/src/pageComponents/home/Examples/demos/HashInput'
@@ -70,7 +70,7 @@ const Examples: React.FC = ({ ...restProps }) => {
       title: 'Token list',
     },
     {
-      demo: <BigNumberInput />,
+      demo: <AmountSelector />,
       href: '#',
       icon: <ImgTokenInput />,
       text: 'Input with max, user balance, decimals',
