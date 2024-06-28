@@ -1,4 +1,4 @@
-import { useState, type FC } from 'react'
+import { useEffect, useState, type FC } from 'react'
 import styled from 'styled-components'
 
 import { Button, Text } from 'db-ui-toolkit'
@@ -36,6 +36,11 @@ const TokenInput: FC<TokenInputProps> = ({ token }) => {
     address: userWallet ? getAddress(userWallet) : undefined,
     token,
   })
+
+  // reset the amount if token changes
+  useEffect(() => {
+    setAmount('')
+  }, [token])
 
   const handleSetMax = () => {
     setAmount(formatUnits(balance ?? 0n, token.decimals))
