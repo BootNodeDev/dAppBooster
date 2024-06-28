@@ -3,12 +3,19 @@ import styled from 'styled-components'
 
 import { Button, Text } from 'db-ui-toolkit'
 import { formatUnits, getAddress } from 'viem'
-import * as chains from 'viem/chains'
 import { useAccount } from 'wagmi'
 
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
 import { BigNumberInput, BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
+import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import { type Token } from '@/src/token'
+
+const Wrapper = styled.div``
+
+const Row = styled.div`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+`
 
 const Error = styled.p`
   background-color: #6c0000;
@@ -23,15 +30,15 @@ type TokenInputProps = {
 
 const TokenInput: FC<TokenInputProps> = ({ token }) => {
   const [amount, setAmount] = useState('')
-  const [balanceError, setBalanceError] = useState<string | null>()
+  const [amountError, setBalanceError] = useState<string | null>()
   const { address: userWallet } = useAccount()
-  const { balance, isLoadingBalance, loadingBalanceError } = useErc20Balance({
-    address: getAddress(userWallet!),
+  const { balance, balanceError, isLoadingBalance } = useErc20Balance({
+    address: userWallet ? getAddress(userWallet) : undefined,
     token,
   })
 
   const handleSetMax = () => {
-    setAmount(formatUnits(balance!, token.decimals))
+    setAmount(formatUnits(balance ?? 0n, token.decimals))
   }
 
   const handleError: BigNumberInputProps['onError'] = (error) => {
@@ -39,32 +46,37 @@ const TokenInput: FC<TokenInputProps> = ({ token }) => {
   }
 
   return (
-    <>
-      <Text>
-        Selected token:{' '}
-        <strong>
-          {token.symbol} ({Object.values(chains).find(({ id }) => id === token.chainId)?.name})
-        </strong>
-      </Text>
-      {loadingBalanceError ? (
-        <Text>something went wrong...</Text>
-      ) : (
-        <Text>
-          {isLoadingBalance ? '...' : `User balance: ${formatUnits(balance!, token.decimals)}`}
-        </Text>
+    <Wrapper>
+      <Row>
+        <BigNumberInput
+          decimals={token.decimals}
+          max={balance ? formatUnits(balance, token.decimals) : undefined}
+          onChange={setAmount}
+          onError={(error) => handleError(error)}
+          value={amount}
+        />
+        <TokenLogo token={token} />
+      </Row>
+
+      {amountError && (
+        <Row>
+          <Error>{amountError}</Error>
+        </Row>
       )}
-      <Button disabled={isLoadingBalance || !!loadingBalanceError} onClick={handleSetMax}>
-        Max
-      </Button>
-      <BigNumberInput
-        decimals={token.decimals}
-        max={balance ? formatUnits(balance, token.decimals) : '0'}
-        onChange={setAmount}
-        onError={(error) => handleError(error)}
-        value={amount}
-      />
-      {balanceError && <Error>{balanceError}</Error>}
-    </>
+
+      <Row>
+        {balanceError ? (
+          <Text>something went wrong...</Text>
+        ) : (
+          <Text>
+            {isLoadingBalance ? '...' : `Balance: ${formatUnits(balance ?? 0n, token.decimals)}`}
+          </Text>
+        )}
+        <Button disabled={isLoadingBalance || !!balanceError} onClick={handleSetMax}>
+          Max
+        </Button>
+      </Row>
+    </Wrapper>
   )
 }
 
