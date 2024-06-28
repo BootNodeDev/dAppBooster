@@ -7,10 +7,10 @@ import detectHash, { DetectedHash } from '@/src/utils/hash'
 
 interface HashInputProps extends HTMLProps<HTMLInputElement> {
   chain: Chain
+  debounceTime?: number
   onSearch: (result: DetectedHash | null) => void
   renderInput?: (props: HTMLProps<HTMLInputElement>) => ReactElement
   value?: string
-  debounceTime?: number
 }
 
 /**
@@ -41,7 +41,6 @@ const HashInput: React.FC<HashInputProps> = ({
   ...restProps
 }) => {
   const [input, setInput] = useState(value || '')
-
   const [loading, setLoading] = useState<boolean>(false)
 
   const handleSearch = useCallback(
@@ -74,20 +73,20 @@ const HashInput: React.FC<HashInputProps> = ({
   }, [value, debouncedHandleChange])
 
   return (
-    <div>
+    <>
       {renderInput ? (
         renderInput({ value: input, onChange: handleChange, ...restProps })
       ) : (
         <input
-          {...restProps}
           onChange={handleChange}
-          placeholder="Enter address, ENS name, or transaction hash"
-          type="text"
+          placeholder="Address / Txn Hash"
+          type="search"
           value={input}
+          {...restProps}
         />
       )}
       {loading && <span>Loading...</span>}
-    </div>
+    </>
   )
 }
 

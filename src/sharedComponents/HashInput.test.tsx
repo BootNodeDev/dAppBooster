@@ -7,7 +7,7 @@ import detectHash from '@/src/utils/hash'
 
 vi.mock('@/src/utils/hash')
 
-const placeholder = 'Enter address, ENS name, or transaction hash'
+const placeholder = 'Address / Txn Hash'
 
 describe('HashInput Component', () => {
   it('renders input field with placeholder', () => {
