@@ -2,10 +2,11 @@ import { useState, type FC } from 'react'
 import styled from 'styled-components'
 
 import { Button, Text } from 'db-ui-toolkit'
-import { erc20Abi, formatUnits, getAddress } from 'viem'
+import { formatUnits, getAddress } from 'viem'
 import * as chains from 'viem/chains'
-import { useAccount, useReadContract } from 'wagmi'
+import { useAccount } from 'wagmi'
 
+import { useErc20Balance } from '@/src/hooks/useErc20Balance'
 import { BigNumberInput, BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
 import { type Token } from '@/src/token'
 
@@ -24,16 +25,13 @@ const TokenInput: FC<TokenInputProps> = ({ token }) => {
   const [amount, setAmount] = useState('')
   const [balanceError, setBalanceError] = useState<string | null>()
   const { address: userWallet } = useAccount()
-  const { data, error, isLoading } = useReadContract({
-    abi: erc20Abi,
-    address: getAddress(token.address),
-    args: [getAddress(userWallet!)],
-    chainId: token.chainId,
-    functionName: 'balanceOf',
+  const { balance, isLoadingBalance, loadingBalanceError } = useErc20Balance({
+    address: getAddress(userWallet!),
+    token,
   })
 
   const handleSetMax = () => {
-    setAmount(formatUnits(data!, token.decimals))
+    setAmount(formatUnits(balance!, token.decimals))
   }
 
   const handleError: BigNumberInputProps['onError'] = (error) => {
@@ -48,17 +46,19 @@ const TokenInput: FC<TokenInputProps> = ({ token }) => {
           {token.symbol} ({Object.values(chains).find(({ id }) => id === token.chainId)?.name})
         </strong>
       </Text>
-      {error ? (
+      {loadingBalanceError ? (
         <Text>something went wrong...</Text>
       ) : (
-        <Text>{isLoading ? '...' : `User balance: ${formatUnits(data!, token.decimals)}`}</Text>
+        <Text>
+          {isLoadingBalance ? '...' : `User balance: ${formatUnits(balance!, token.decimals)}`}
+        </Text>
       )}
-      <Button disabled={isLoading || !!error} onClick={handleSetMax}>
+      <Button disabled={isLoadingBalance || !!loadingBalanceError} onClick={handleSetMax}>
         Max
       </Button>
       <BigNumberInput
         decimals={token.decimals}
-        max={data ? formatUnits(data, token.decimals) : '0'}
+        max={balance ? formatUnits(balance, token.decimals) : '0'}
         onChange={setAmount}
         onError={(error) => handleError(error)}
         value={amount}
