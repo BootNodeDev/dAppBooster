@@ -12,7 +12,9 @@ const getSrc = (url?: string) => {
   return '/appLogo.svg'
 }
 
-const TokenLogo: FC<{ token: Token }> = ({ token }) => {
+const defaultToken: Token = { address: '', chainId: 0, decimals: 0, name: '', symbol: '' }
+
+const TokenLogo: FC<{ token?: Token }> = ({ token = defaultToken }) => {
   return (
     <img
       alt={token.name}
