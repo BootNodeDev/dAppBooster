@@ -141,7 +141,7 @@ const HashInput = ({ ...restProps }) => {
         renderInput={({ ...props }) => (
           <Textfield
             $status={notFound ? 'error' : undefined}
-            placeholder="Address / Txn Hash"
+            placeholder="Address / Txn Hash / ENS Name"
             {...props}
           />
         )}
