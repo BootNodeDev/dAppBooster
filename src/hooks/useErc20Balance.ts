@@ -5,18 +5,20 @@ import { type Token } from '@/src/token'
 
 export type Erc20Balance = {
   address?: Address
-  token: Token
+  token?: Token
 }
 
 export const useErc20Balance = ({ address, token }: Erc20Balance) => {
+  const enabled = !!address && !!token
+
   const { data, error, isLoading } = useReadContract({
     abi: erc20Abi,
-    address: getAddress(token.address),
-    args: [address!],
-    chainId: token.chainId,
+    address: enabled ? getAddress(token.address) : undefined,
+    args: enabled ? [address] : undefined,
+    chainId: enabled ? token.chainId : undefined,
     functionName: 'balanceOf',
     query: {
-      enabled: !!address,
+      enabled,
     },
   })
 
