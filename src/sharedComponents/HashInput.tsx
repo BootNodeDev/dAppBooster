@@ -84,8 +84,8 @@ const HashInput: React.FC<HashInputProps> = ({
         renderInput({ value: input, onChange: handleChange, ...restProps })
       ) : (
         <input
+          data-testid="hash-input"
           onChange={handleChange}
-          placeholder="Address / Txn Hash"
           type="search"
           value={input}
           {...restProps}

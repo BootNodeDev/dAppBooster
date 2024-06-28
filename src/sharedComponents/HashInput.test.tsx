@@ -7,19 +7,19 @@ import detectHash from '@/src/utils/hash'
 
 vi.mock('@/src/utils/hash')
 
-const placeholder = 'Address / Txn Hash'
+const testId = 'hash-input'
 
 describe('HashInput Component', () => {
-  it('renders input field with placeholder', () => {
+  it('renders input field', () => {
     render(<HashInput chain={mainnet} onSearch={() => {}} />)
-    const input = screen.getByPlaceholderText(placeholder)
+    const input = screen.getByTestId(testId)
     expect(input).toBeInTheDocument()
   })
 
   it('calls onSearch with detected hash when input value is not empty', async () => {
     const onSearchMock = vi.fn()
     render(<HashInput chain={mainnet} onSearch={onSearchMock} />)
-    const input = screen.getByPlaceholderText(placeholder) as HTMLInputElement
+    const input = screen.getByTestId(testId) as HTMLInputElement
 
     // Mock the implementation of detectHash
     ;(detectHash as Mock).mockReturnValue({ data: 'test.eth', type: 'EOA' })
@@ -34,7 +34,7 @@ describe('HashInput Component', () => {
   it('calls onSearch when input value is invalid', async () => {
     const onSearchMock = vi.fn()
     render(<HashInput chain={mainnet} onSearch={onSearchMock} />)
-    const input = screen.getByPlaceholderText(placeholder) as HTMLInputElement
+    const input = screen.getByTestId(testId) as HTMLInputElement
 
     // Mock the implementation of detectHash
     ;(detectHash as Mock).mockReturnValue({ data: null, type: null })
@@ -51,7 +51,7 @@ describe('HashInput Component', () => {
     // Mock the implementation of detectHash
     ;(detectHash as Mock).mockResolvedValue({ data: 'test.eth', type: 'EOA' })
 
-    const input = screen.getByPlaceholderText(placeholder) as HTMLInputElement
+    const input = screen.getByTestId(testId) as HTMLInputElement
 
     act(() => {
       rerender(
