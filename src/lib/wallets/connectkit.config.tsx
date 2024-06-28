@@ -28,7 +28,6 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     <ConnectKitProvider
       options={{
         customAvatar: Avatar as React.FC<Types.CustomAvatarProps>,
-        initialChainId: 0,
       }}
     >
       {children}
@@ -74,4 +73,5 @@ const defaultConfig = {
 } as const
 
 const connectkitConfig = getDefaultConfig(defaultConfig)
+
 export const config = createConfig(connectkitConfig)

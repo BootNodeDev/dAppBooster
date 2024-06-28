@@ -5,9 +5,10 @@ import { env } from '@/src/env'
 
 const isDevMode = env.PUBLIC_DEV_MODE === 'true'
 
-export const allChains = [mainnet, optimismSepolia, sepolia] as const
+const devChains = [optimismSepolia, sepolia] as const
+const prodChains = [mainnet] as const
 
-export const chains = allChains.filter((chain) => (isDevMode ? chain.testnet : !chain.testnet))
+export const chains = isDevMode ? devChains : prodChains
 
 type RestrictedTransports = Record<(typeof chains)[number]['id'], Transport>
 
