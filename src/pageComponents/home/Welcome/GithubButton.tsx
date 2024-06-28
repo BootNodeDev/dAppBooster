@@ -13,9 +13,7 @@ const Icon = () => (
 )
 
 const Wrapper = styled(PrimaryButton)`
-  && {
-    ${ButtonCSS}
-  }
+  ${ButtonCSS}
 `
 
 const GithubButton = ({ ...restProps }) => {

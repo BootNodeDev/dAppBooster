@@ -23,16 +23,16 @@ const ChevronDown = styled(BaseChevronDown)`
 `
 
 interface Props {
-  isConnected?: boolean
+  $isConnected?: boolean
 }
 
-const ConnectButton = styled(ThemedButton).attrs<Props>(({ children, isConnected }) => ({
+const ConnectButton = styled(ThemedButton).attrs<Props>(({ $isConnected, children }) => ({
   $cssVarRoot: '--theme-button-connect',
-  isConnected,
+  $isConnected,
   children: (
     <>
       {children}
-      {isConnected && <ChevronDown />}
+      {$isConnected && <ChevronDown />}
     </>
   ),
 }))`
@@ -41,8 +41,8 @@ const ConnectButton = styled(ThemedButton).attrs<Props>(({ children, isConnected
 
     font-weight: 700;
 
-    ${({ isConnected }) =>
-      isConnected &&
+    ${({ $isConnected }) =>
+      $isConnected &&
       css`
         border-radius: 30px;
       `}

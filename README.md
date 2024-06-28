@@ -169,7 +169,7 @@ Additionally, several other Styled Components-related tools are provided to faci
 
 You can find the general app's styles in the `src/styles` folder:
 
-- `base.tsx` global CSS vars, used everywhere in the app.
+- `baseCSSVars.ts` global CSS vars, used everywhere in the app.
 - `globalStyles.tsx` global app's CSS.
 
 ## Themes
@@ -180,8 +180,8 @@ dAppBooster supports themes with the help of [Next Themes](https://github.com/pa
 
 We provide these two themes for your convenience. Generally speaking, you can use these when you can't or don't want to modify a component's source file to add styles.
 
-- `themes/light.tsx` light theme CSS vars.
-- `themes/dark.tsx` dark theme CSS vars.
+- `themes/lightThemeCSSVars.ts` light theme CSS vars.
+- `themes/darkThemeCSSVars.ts` dark theme CSS vars.
 
 You can also add CSS theme vars and more in each component's implementation following our examples and Next Themes' documentation.
 

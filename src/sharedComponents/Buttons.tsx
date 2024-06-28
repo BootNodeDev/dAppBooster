@@ -8,8 +8,12 @@ import { ThemedButton } from 'db-ui-toolkit'
  */
 export const PrimaryButton = styled(ThemedButton).attrs({
   $cssVarRoot: '--theme-button-primary',
-})``
+})`
+  font-weight: 500;
+`
 
 export const SecondaryButton = styled(ThemedButton).attrs({
   $cssVarRoot: '--theme-button-secondary',
-})``
+})`
+  font-weight: 500;
+`

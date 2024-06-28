@@ -28,7 +28,7 @@ importers:
         version: 1.7.3(@babel/core@7.24.5)(@tanstack/react-query@5.36.2(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(wagmi@2.9.2(@tanstack/query-core@5.36.1)(@tanstack/react-query@5.36.2(react@18.3.1))(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1)(rollup@4.17.2)(typescript@5.4.5)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(zod@3.23.8))
       db-ui-toolkit:
         specifier: github:BootNodeDev/db-ui-toolkit
-        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/f823c6f1c31a0025f94703e6d1e22b66032aae83
+        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/769f29d8c912ae48caca6f9da4147f0055ccbfaa
       modern-normalize:
         specifier: ^2.0.0
         version: 2.0.0
@@ -3040,8 +3040,8 @@ packages:
   dayjs@1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/f823c6f1c31a0025f94703e6d1e22b66032aae83:
-    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/f823c6f1c31a0025f94703e6d1e22b66032aae83}
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/769f29d8c912ae48caca6f9da4147f0055ccbfaa:
+    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/769f29d8c912ae48caca6f9da4147f0055ccbfaa}
     version: 0.1.0
     engines: {node: '>=20.0.0'}
 
@@ -3566,8 +3566,8 @@ packages:
   flow-enums-runtime@0.0.6:
     resolution: {integrity: sha512-3PYnM29RFXwvAN6Pc/scUfkI7RwhQ/xqyLUyPNlXUp9S40zI8nup9tUSrTLSVnWGBN38FNiGWbwZOB6uR4OGdw==}
 
-  flow-parser@0.238.2:
-    resolution: {integrity: sha512-fs7FSnzzKF6oSzjk14JlBHt82DPchYHVsXtPi4Fkn+qrunVjWaBZY7nSO/mC9X4l9+wRah/R69DRd5NGDOrWqw==}
+  flow-parser@0.238.3:
+    resolution: {integrity: sha512-hNUhucq8V6KWSX1skXUS3vnDmrRNuKWzDvEVK5b+n97uMF32zj2y8pmcLDQEqlY5u926B0GYGWT/3XhwDJfLOQ==}
     engines: {node: '>=0.4.0'}
 
   for-each@0.3.3:
@@ -10087,7 +10087,7 @@ snapshots:
 
   dayjs@1.11.11: {}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/f823c6f1c31a0025f94703e6d1e22b66032aae83:
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/769f29d8c912ae48caca6f9da4147f0055ccbfaa:
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -10770,7 +10770,7 @@ snapshots:
 
   flow-enums-runtime@0.0.6: {}
 
-  flow-parser@0.238.2: {}
+  flow-parser@0.238.3: {}
 
   for-each@0.3.3:
     dependencies:
@@ -11407,7 +11407,7 @@ snapshots:
       '@babel/register': 7.24.6(@babel/core@7.24.5)
       babel-core: 7.0.0-bridge.0(@babel/core@7.24.5)
       chalk: 4.1.2
-      flow-parser: 0.238.2
+      flow-parser: 0.238.3
       graceful-fs: 4.2.11
       micromatch: 4.0.7
       neo-async: 2.6.2
