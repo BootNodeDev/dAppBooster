@@ -1,20 +1,32 @@
-import { useEffect, useState, type FC } from 'react'
+import { useCallback, useEffect, useMemo, useState, type FC } from 'react'
 import styled from 'styled-components'
 
 import { Button, Text } from 'db-ui-toolkit'
-import { formatUnits, getAddress } from 'viem'
+import { Chain, formatUnits, getAddress } from 'viem'
 import { useAccount } from 'wagmi'
 
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
-import { BigNumberInput, BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
+import { useTokens } from '@/src/hooks/useTokens'
+import { TokenSelector } from '@/src/pageComponents/home/Examples/demos/Tokens'
+import { BigNumberInput, type BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
+import TokenList from '@/src/sharedComponents/Tokens/TokenList'
 import { type Token } from '@/src/token'
+import { WithSuspenseAndRetryProps, withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 const Wrapper = styled.div``
 
 const Row = styled.div`
   display: grid;
   grid-template-columns: 3fr 1fr;
+`
+
+const ListToggler = styled.div``
+
+const List = styled.div`
+  * {
+    font-size: 0.9em;
+  }
 `
 
 const Error = styled.p`
@@ -25,42 +37,87 @@ const Error = styled.p`
 `
 
 type TokenInputProps = {
-  token: Token
+  chain: Chain
+  onAmountSet: (amount?: string) => void
+  onError: (error?: string) => void
+  onTokenSelected: (token?: Token) => void
+  tokenListPlaceholder?: string
 }
 
-const TokenInput: FC<TokenInputProps> = ({ token }) => {
-  const [amount, setAmount] = useState('')
-  const [amountError, setBalanceError] = useState<string | null>()
-  const { address: userWallet } = useAccount()
-  const { balance, balanceError, isLoadingBalance } = useErc20Balance({
-    address: userWallet ? getAddress(userWallet) : undefined,
-    token,
-  })
+const TokenInput: FC<TokenInputProps> = ({
+  chain,
+  onAmountSet,
+  onError,
+  onTokenSelected,
+  tokenListPlaceholder,
+}) => {
+  const {
+    amount,
+    amountError,
+    balance,
+    balanceError,
+    displayList,
+    isLoadingBalance,
+    setAmount,
+    setAmountError,
+    setDisplayList,
+    setTokenSelected,
+    tokenSelected,
+  } = useTokenInput()
+  // Build token list based on the chain specified
+  const Tokens = useMemo(() => buildList({ chain }), [chain])
 
-  // reset the amount if token changes
-  useEffect(() => {
-    setAmount('')
-  }, [token])
+  // handle fetch error
+  const retry = useCallback<Required<WithSuspenseAndRetryProps>['fallbackRender']>(
+    ({ resetErrorBoundary }) => (
+      <div>
+        <Button onClick={resetErrorBoundary}>again!</Button>
+      </div>
+    ),
+    [],
+  )
+
+  // TODO: the following list of handlers, there must be a better way to implement.
+  const handleTokenSelected = (token: Token) => {
+    onTokenSelected(token)
+    setTokenSelected(token)
+  }
+
+  const handleSetAmount = (amount: string) => {
+    setAmount(amount)
+    onAmountSet(amount)
+  }
 
   const handleSetMax = () => {
-    setAmount(formatUnits(balance ?? 0n, token.decimals))
+    handleSetAmount(formatUnits(balance ?? 0n, tokenSelected!.decimals))
   }
 
   const handleError: BigNumberInputProps['onError'] = (error) => {
-    setBalanceError(error?.message)
+    onError(error?.message)
+    setAmountError(error?.message)
+  }
+
+  const toggleList = () => {
+    setDisplayList((prev) => !prev)
   }
 
   return (
     <Wrapper>
       <Row>
-        <BigNumberInput
-          decimals={token.decimals}
-          max={balance ? formatUnits(balance, token.decimals) : undefined}
-          onChange={setAmount}
-          onError={(error) => handleError(error)}
-          value={amount}
-        />
-        <TokenLogo token={token} />
+        {tokenSelected ? (
+          <BigNumberInput
+            decimals={tokenSelected.decimals}
+            max={balance ? formatUnits(balance, tokenSelected.decimals) : undefined}
+            onChange={handleSetAmount}
+            onError={(error) => handleError(error)}
+            value={amount}
+          />
+        ) : (
+          <input disabled placeholder="nothing to see..." />
+        )}
+        <ListToggler onClick={toggleList}>
+          <TokenLogo token={tokenSelected} />
+        </ListToggler>
       </Row>
 
       {amountError && (
@@ -74,15 +131,77 @@ const TokenInput: FC<TokenInputProps> = ({ token }) => {
           <Text>something went wrong...</Text>
         ) : (
           <Text>
-            {isLoadingBalance ? '...' : `Balance: ${formatUnits(balance ?? 0n, token.decimals)}`}
+            {isLoadingBalance
+              ? '...'
+              : // TODO: crapy defaults
+                `Balance: ${formatUnits(balance ?? 0n, tokenSelected?.decimals ?? 0)}`}
           </Text>
         )}
         <Button disabled={isLoadingBalance || !!balanceError} onClick={handleSetMax}>
           Max
         </Button>
       </Row>
+
+      {displayList && (
+        <List>
+          <Tokens
+            fallbackRender={retry}
+            onTokenSelected={handleTokenSelected}
+            searchPlaceholder={tokenListPlaceholder}
+          />
+        </List>
+      )}
     </Wrapper>
   )
+}
+
+function buildList({ chain }: { chain: Chain }) {
+  return withSuspenseAndRetry<TokenSelector>(({ onTokenSelected, searchPlaceholder }) => {
+    const { tokensByChainId } = useTokens()
+
+    return (
+      <>
+        <strong>{chain.name}</strong>
+        <TokenList
+          onTokenSelected={onTokenSelected}
+          searchPlaceholder={searchPlaceholder}
+          tokenList={tokensByChainId[chain.id]}
+        />
+      </>
+    )
+  })
+}
+
+function useTokenInput() {
+  const [amount, setAmount] = useState('')
+  const [amountError, setAmountError] = useState<string | null>()
+  const [tokenSelected, setTokenSelected] = useState<Token>()
+  const [displayList, setDisplayList] = useState(false)
+
+  const { address: userWallet } = useAccount()
+  const { balance, balanceError, isLoadingBalance } = useErc20Balance({
+    address: userWallet ? getAddress(userWallet) : undefined,
+    token: tokenSelected,
+  })
+
+  // reset amount when token change
+  useEffect(() => {
+    setAmount('')
+  }, [tokenSelected])
+
+  return {
+    amount,
+    setAmount,
+    amountError,
+    setAmountError,
+    balance,
+    balanceError,
+    isLoadingBalance,
+    tokenSelected,
+    setTokenSelected,
+    displayList,
+    setDisplayList,
+  }
 }
 
 export default TokenInput
