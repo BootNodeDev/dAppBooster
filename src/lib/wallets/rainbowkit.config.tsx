@@ -17,7 +17,7 @@
 //   )
 // }
 
-// export const ConnectWalletButton = ConnectButton
+// export const ConnectWalletButton  = ({ label = 'Connect' }: { label?: string }) => <ConnectButton label={label} />
 
 // const defaultConfig = {
 //   chains,

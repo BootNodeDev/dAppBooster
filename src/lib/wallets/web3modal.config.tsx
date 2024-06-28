@@ -20,7 +20,7 @@
 //     }
 //   }
 // }
-// export const ConnectWalletButton = () => <w3m-button />
+// export const ConnectWalletButton = ({ label = "Connect" }: { label?: string }) => <w3m-button label={label} />
 
 // // Required API Keys
 // const projectId = env.PUBLIC_WALLETCONNECT_PROJECT_ID
