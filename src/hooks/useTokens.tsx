@@ -8,7 +8,7 @@ import {
 import defaultTokens from '@uniswap/default-token-list'
 
 import { tokenLists } from '@/src/constants/tokenLists'
-import { type Token, type Tokens, tokenSchema, type TokenList } from '@/src/token'
+import { type Token, type Tokens, tokenSchema, type TokenList } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 
 type TokensMap = {

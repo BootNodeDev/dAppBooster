@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import { type Token } from '@/src/token'
+import { type Token } from '@/src/types/token'
 
 const getSrc = (url?: string) => {
   if (url) {

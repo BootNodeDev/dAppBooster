@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useDeferredValue, useState } from 'react'
 
-import { type Tokens } from '@/src/token'
+import { type Tokens } from '@/src/types/token'
 
 type TokenSearch = {
   searchResult: Tokens

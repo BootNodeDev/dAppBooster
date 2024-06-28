@@ -4,7 +4,7 @@ import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import SearchTokenInput from '@/src/sharedComponents/Tokens/SearchTokenInput'
 import TokenRow from '@/src/sharedComponents/Tokens/TokenRow'
 import VirtualizedList from '@/src/sharedComponents/VirtualizedList'
-import { type Token, type Tokens } from '@/src/token'
+import { type Token, type Tokens } from '@/src/types/token'
 
 export type TokenListProps = {
   onTokenSelected?: (token: Token) => void
