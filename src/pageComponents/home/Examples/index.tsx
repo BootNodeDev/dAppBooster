@@ -19,7 +19,7 @@ import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
 import BigNumberInput from '@/src/pageComponents/home/Examples/demos/BigNumberInput'
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
-import { HashInputDemo } from '@/src/pageComponents/home/Examples/demos/HashInput'
+import HashInput from '@/src/pageComponents/home/Examples/demos/HashInput'
 import Tokens from '@/src/pageComponents/home/Examples/demos/Tokens'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
@@ -56,7 +56,7 @@ const Examples: React.FC = ({ ...restProps }) => {
       title: 'Wallet connectivity',
     },
     {
-      demo: <HashInputDemo />,
+      demo: <HashInput />,
       href: '#',
       icon: <ImgInputAddress />,
       text: 'Validate address, ENS or transaction hash',

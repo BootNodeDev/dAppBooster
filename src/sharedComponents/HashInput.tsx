@@ -1,16 +1,17 @@
-import React, { useState, ReactElement, HTMLProps, useEffect, useCallback } from 'react'
+import React, { useState, ReactElement, InputHTMLAttributes, useEffect, useCallback } from 'react'
 
 import { useDebouncedCallback } from 'use-debounce'
 import { Chain } from 'viem'
 
 import detectHash, { DetectedHash } from '@/src/utils/hash'
 
-interface HashInputProps extends HTMLProps<HTMLInputElement> {
+interface HashInputProps extends InputHTMLAttributes<HTMLInputElement> {
   chain: Chain
-  onSearch: (result: DetectedHash | null) => void
-  renderInput?: (props: HTMLProps<HTMLInputElement>) => ReactElement
-  value?: string
   debounceTime?: number
+  onLoading?: (loading: boolean) => void
+  onSearch: (result: DetectedHash | null) => void
+  renderInput?: (props: InputHTMLAttributes<HTMLInputElement>) => ReactElement
+  value?: string
 }
 
 /**
@@ -35,13 +36,13 @@ interface HashInputProps extends HTMLProps<HTMLInputElement> {
 const HashInput: React.FC<HashInputProps> = ({
   chain,
   debounceTime = 500,
+  onLoading,
   onSearch,
   renderInput,
   value,
   ...restProps
 }) => {
   const [input, setInput] = useState(value || '')
-
   const [loading, setLoading] = useState<boolean>(false)
 
   const handleSearch = useCallback(
@@ -73,21 +74,24 @@ const HashInput: React.FC<HashInputProps> = ({
     }
   }, [value, debouncedHandleChange])
 
+  useEffect(() => {
+    onLoading?.(loading)
+  }, [loading, onLoading])
+
   return (
-    <div>
+    <>
       {renderInput ? (
         renderInput({ value: input, onChange: handleChange, ...restProps })
       ) : (
         <input
-          {...restProps}
+          data-testid="hash-input"
           onChange={handleChange}
-          placeholder="Enter address, ENS name, or transaction hash"
-          type="text"
+          type="search"
           value={input}
+          {...restProps}
         />
       )}
-      {loading && <span>Loading...</span>}
-    </div>
+    </>
   )
 }
 

@@ -121,6 +121,9 @@ const darkThemeCSSVars = css`
   --theme-generic-error-color-message-background: #292b43;
   --theme-generic-error-color-text: #fff;
   --theme-generic-error-color-title: #fff;
+
+  /* Spinner */
+  --theme-spinner-color: #b886c9;
 `
 
 export default darkThemeCSSVars
