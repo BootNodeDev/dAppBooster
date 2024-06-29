@@ -124,6 +124,9 @@ const lightThemeCSSVars = css`
 
   /* Spinner */
   --theme-spinner-color: #692581;
+
+  /* Dialog / Modal */
+  --theme-dialog-background-color: rgb(0 0 0 / 25%);
 `
 
 export default lightThemeCSSVars

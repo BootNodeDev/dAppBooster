@@ -88,6 +88,10 @@ const globalStyles = css`
   a {
     color: var(--theme-color-primary, #000);
   }
+
+  dialog::backdrop {
+    background-color: var(--theme-dialog-background-color);
+  }
 `
 
 export default globalStyles
