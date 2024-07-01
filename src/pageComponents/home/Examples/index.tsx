@@ -20,7 +20,7 @@ import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import HashInput from '@/src/pageComponents/home/Examples/demos/HashInput'
-import Tokens from '@/src/pageComponents/home/Examples/demos/Tokens'
+import TokenSelect from '@/src/pageComponents/home/Examples/demos/TokenSelect'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 const Wrapper = styled.section`
@@ -63,7 +63,7 @@ const Examples: React.FC = ({ ...restProps }) => {
       title: 'Input address',
     },
     {
-      demo: <Tokens />,
+      demo: <TokenSelect />,
       href: '#',
       icon: <ImgTokenList />,
       text: 'Dynamic token list modal',

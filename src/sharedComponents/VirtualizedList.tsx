@@ -5,9 +5,7 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 
 const Wrapper = styled.div<{ $containerHeight: number }>`
   height: ${(props) => `${props.$containerHeight}px`};
-  outline: 1px solid #efefef;
-  overflow: hidden auto;
-  margin-top: 10px;
+  overflow: auto;
 `
 
 const Items = styled.div<{ $totalSize: number }>`
@@ -36,18 +34,19 @@ const VirtualizedList = <Item,>({
   itemHeight,
   items,
   renderItem,
+  ...restProps
 }: VirtualizedListProps<Item>) => {
   const parentRef = useRef(null)
 
   const rowVirtualizer = useVirtualizer({
     count: items.length,
-    getScrollElement: () => parentRef.current,
     estimateSize: () => itemHeight,
+    getScrollElement: () => parentRef.current,
     overscan: 5,
   })
 
   return (
-    <Wrapper $containerHeight={containerHeight} ref={parentRef}>
+    <Wrapper $containerHeight={containerHeight} ref={parentRef} {...restProps}>
       <Items $totalSize={rowVirtualizer.getTotalSize()}>
         {rowVirtualizer.getVirtualItems().map((virtualItem) => (
           <VisibleItems height={virtualItem.size} key={virtualItem.key} start={virtualItem.start}>
