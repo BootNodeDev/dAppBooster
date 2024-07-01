@@ -124,6 +124,9 @@ const darkThemeCSSVars = css`
 
   /* Spinner */
   --theme-spinner-color: #b886c9;
+
+  /* Dialog / Modal */
+  --theme-dialog-background-color: rgb(0 0 0 / 50%);
 `
 
 export default darkThemeCSSVars
