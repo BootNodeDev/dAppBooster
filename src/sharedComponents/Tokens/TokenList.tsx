@@ -18,9 +18,9 @@ const TokenList: FC<TokenListProps> = ({ onTokenSelected, searchPlaceholder, tok
   return (
     <>
       <SearchTokenInput
-        onSearchChange={(e) => setSearchTerm(e.target.value)}
+        onChange={(e) => setSearchTerm(e.target.value)}
         placeholder={searchPlaceholder}
-        searchTerm={searchTerm}
+        value={searchTerm}
       />
       <VirtualizedList<Token>
         containerHeight={200}
