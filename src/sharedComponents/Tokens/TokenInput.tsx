@@ -44,6 +44,16 @@ type TokenInputProps = {
   tokenListPlaceholder?: string
 }
 
+/**
+ * TokenInput component allows users to input token amounts and select tokens from a list.
+ * It displays the token input field, token balance, and a dropdown list of available tokens.
+ *
+ * @param chain - The chain object representing the blockchain network.
+ * @param onAmountSet - A callback function triggered when the amount is set.
+ * @param onError - A callback function triggered when there is an error.
+ * @param onTokenSelected - A callback function triggered when a token is selected.
+ * @param tokenListPlaceholder - The placeholder text for the token list search input.
+ */
 const TokenInput: FC<TokenInputProps> = ({
   chain,
   onAmountSet,
@@ -51,6 +61,9 @@ const TokenInput: FC<TokenInputProps> = ({
   onTokenSelected,
   tokenListPlaceholder,
 }) => {
+  /**
+   * Destructure the necessary values and functions from the useTokenInput hook.
+   */
   const {
     amount,
     amountError,
@@ -64,10 +77,15 @@ const TokenInput: FC<TokenInputProps> = ({
     setTokenSelected,
     tokenSelected,
   } = useTokenInput()
-  // Build token list based on the chain specified
+
+  /**
+   * Build the token list based on the specified chain.
+   */
   const Tokens = useMemo(() => buildList({ chain }), [chain])
 
-  // handle fetch error
+  /**
+   * Rendered when there is a fetch error. Allows the user to retry the fetch.
+   */
   const retry = useCallback<Required<WithSuspenseAndRetryProps>['fallbackRender']>(
     ({ resetErrorBoundary }) => (
       <div>
@@ -77,7 +95,6 @@ const TokenInput: FC<TokenInputProps> = ({
     [],
   )
 
-  // TODO: the following list of handlers, there must be a better way to implement.
   const handleTokenSelected = (token: Token) => {
     onTokenSelected(token)
     setTokenSelected(token)
