@@ -27,7 +27,7 @@ export type WalletWeb3Status = {
   address: Address | undefined
   balance?: UseBalanceReturnType['data'] | undefined
   connectingWallet: boolean
-  changingChain: boolean
+  switchingChain: boolean
   isWalletConnected: boolean
   isWalletNetworkSupported: boolean | null
   walletChainId: number | undefined
@@ -47,10 +47,15 @@ export type Web3Status = AppWeb3Status & WalletWeb3Status & Web3Actions
  * @returns The Web3 connection status, including information about the connected wallet, supported chains, and available actions.
  */
 export const useWeb3Status = () => {
-  const { address, chainId: walletChainId, isConnected, isConnecting } = useAccount()
+  const {
+    address,
+    chainId: walletChainId,
+    isConnected: isWalletConnected,
+    isConnecting: connectingWallet,
+  } = useAccount()
   const appChainId = useChainId()
   const isWalletNetworkSupported = useChainIsSupported(walletChainId)
-  const { chains, isPending, switchChain } = useSwitchChain()
+  const { chains: supportedChains, isPending: switchingChain, switchChain } = useSwitchChain()
   const readOnlyClient = usePublicClient()
   const { data: walletClient } = useWalletClient()
   const { data: balance } = useBalance()
@@ -58,7 +63,7 @@ export const useWeb3Status = () => {
   const { disconnect } = useDisconnect()
 
   const appWeb3Status = {
-    supportedChains: chains,
+    supportedChains,
     appChainId,
     readOnlyClient,
   }
@@ -67,11 +72,11 @@ export const useWeb3Status = () => {
     address,
     balance,
     walletChainId,
-    isWalletConnected: isConnected,
+    isWalletConnected,
     isWalletNetworkSupported,
-    connectingWallet: isConnecting,
-    changingChain: isPending,
-    walletClient: walletClient,
+    connectingWallet,
+    switchingChain,
+    walletClient,
   }
 
   const web3Actions = {

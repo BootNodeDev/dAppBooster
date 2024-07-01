@@ -36,7 +36,7 @@
     "@tanstack/react-router": "^1.32.5",
     "@tanstack/react-virtual": "^3.7.0",
     "@uniswap/default-token-list": "^11.19.0",
-    "connectkit": "^1.7.3",
+    "connectkit": "^1.8.2",
     "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit",
     "modern-normalize": "^2.0.0",
     "next-themes": "^0.3.0",

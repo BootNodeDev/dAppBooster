@@ -29,7 +29,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
       options={{
         customAvatar: Avatar as React.FC<Types.CustomAvatarProps>,
         initialChainId: 0,
-        // enforceSupportedChains: false,
+        enforceSupportedChains: false,
       }}
     >
       {children}

@@ -1,14 +1,12 @@
-import { Button } from 'db-ui-toolkit'
 import { Hash, TransactionReceipt, erc20Abi, parseEther } from 'viem'
 import { sepolia } from 'viem/chains'
 import { useSendTransaction, useWriteContract } from 'wagmi'
 
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import { TransactionButton } from '@/src/sharedComponents/TransactionButton'
 
 export const TransactionButtonDemo = () => {
-  const { address, appChainId, isWalletConnected, switchChain } = useWeb3StatusConnected()
+  const { address } = useWeb3StatusConnected()
   const { sendTransactionAsync } = useSendTransaction()
   const { writeContractAsync } = useWriteContract()
 
@@ -36,24 +34,20 @@ export const TransactionButtonDemo = () => {
     })
   }
 
-  if (!isWalletConnected) {
-    return <ConnectWalletButton label="Connect you wallet" />
-  }
-
-  if (appChainId !== sepolia.id) {
-    return <Button onClick={() => switchChain(sepolia.id)}> Switch to Sepolia </Button>
-  }
-
   return (
     <>
       <TransactionButton
+        chain={sepolia}
         label="Send 100 USDC"
+        labelSending="Sending 100 USDC..."
         onMined={handleOnMined}
         transaction={handleWriteContract}
       />
       <br />
       <TransactionButton
+        chain={sepolia}
         label="Send 0.1 ETH"
+        labelSending="Sending 0.1 ETH..."
         onMined={handleOnMined}
         transaction={handleSendTransaction}
       />

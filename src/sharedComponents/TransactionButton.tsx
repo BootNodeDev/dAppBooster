@@ -1,44 +1,53 @@
-import { HTMLProps, ReactElement, useEffect, useState } from 'react'
+import { ReactElement, useEffect, useState } from 'react'
 
 import { Button } from 'db-ui-toolkit'
-import { Hash, TransactionReceipt } from 'viem'
+import { Chain, Hash, TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 interface TransactionButtonProps {
   transaction: () => Promise<Hash>
-  renderButton?: (props: HTMLProps<HTMLButtonElement>) => ReactElement
+  chain: Chain
   onMined?: (receipt: TransactionReceipt) => void
+  fallback?: ReactElement
   disabled?: boolean
   label?: string
+  labelSending?: string
 }
 
 /**
  * Transaction button component.
  * Use with writeContractSync or sendTransactionSync function to handle the transaction and wait for it.
- * If the wallet is not connected, it will throw an error.
+ * Use fallback prop to render a different component when the wallet is not connected.
  *
  * @component
  * @param {Function} props.transaction - The function that initiates the transaction.
- * @param {Function} props.renderButton - The function that renders the custom button component.
+ * @param {Function} props.fallback - The fallback component to be rendered when the wallet is not connected. (default: ConnectButton)
  * @param {Function} props.onMined - The callback function to be called when the transaction is mined.
+ * @param {Chain} props.chain - The chain where the transaction will be sent.
  * @param {boolean} props.disabled - The flag to disable the button.
  * @param {string} props.label - The label for the button.
+ * @param {string} props.labelSending - The label for the button when the transaction is pending.
  *
  * @returns {React.JSX} The transaction button component.
  */
 
 export const TransactionButton = ({
+  chain,
   disabled,
+  fallback = <ConnectWalletButton />,
   label = 'Send Transaction',
+  labelSending = 'Sending...',
   onMined,
-  renderButton,
   transaction,
 }: TransactionButtonProps) => {
-  const { isWalletConnected } = useWeb3Status()
+  const { isWalletConnected, switchChain, switchingChain, walletChainId } = useWeb3Status()
   const [hash, setHash] = useState<Hash | undefined>(undefined)
   const [isPending, setIsPending] = useState<boolean>(false)
+
+  const isCorrectChain = walletChainId === chain.id
 
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: hash,
@@ -66,13 +75,15 @@ export const TransactionButton = ({
   }
 
   if (!isWalletConnected) {
-    throw new Error('Use this component only when the wallet is connected.')
+    return fallback
   }
 
   const inputProps = {
-    disabled: isPending || disabled,
-    onClick: handleSendTransaction,
+    disabled: isPending || switchingChain || disabled,
+    onClick: isCorrectChain ? handleSendTransaction : () => switchChain(chain.id),
   }
 
-  return renderButton ? renderButton({ ...inputProps }) : <Button {...inputProps}>{label}</Button>
+  const buttonLabel = isPending ? labelSending : !isCorrectChain ? `Switch to ${chain.name}` : label
+
+  return <Button {...inputProps}>{buttonLabel}</Button>
 }
