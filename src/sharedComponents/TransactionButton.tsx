@@ -9,7 +9,7 @@ import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 interface TransactionButtonProps {
   transaction: () => Promise<Hash>
-  chain: Chain
+  chain?: Chain
   onMined?: (receipt: TransactionReceipt) => void
   fallback?: ReactElement
   disabled?: boolean
@@ -43,11 +43,18 @@ export const TransactionButton = ({
   onMined,
   transaction,
 }: TransactionButtonProps) => {
-  const { isWalletConnected, switchChain, switchingChain, walletChainId } = useWeb3Status()
+  const {
+    isWalletConnected,
+    isWalletNetworkSupported,
+    supportedChains,
+    switchChain,
+    switchingChain,
+    walletChainId,
+  } = useWeb3Status()
   const [hash, setHash] = useState<Hash | undefined>(undefined)
   const [isPending, setIsPending] = useState<boolean>(false)
 
-  const isCorrectChain = walletChainId === chain.id
+  const isCorrectChain = chain ? walletChainId === chain.id : isWalletNetworkSupported
 
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: hash,
@@ -80,10 +87,16 @@ export const TransactionButton = ({
 
   const inputProps = {
     disabled: isPending || switchingChain || disabled,
-    onClick: isCorrectChain ? handleSendTransaction : () => switchChain(chain.id),
+    onClick: isCorrectChain
+      ? handleSendTransaction
+      : () => switchChain((chain || supportedChains[0]).id),
   }
 
-  const buttonLabel = isPending ? labelSending : !isCorrectChain ? `Switch to ${chain.name}` : label
+  const buttonLabel = isPending
+    ? labelSending
+    : !isCorrectChain
+      ? `Switch to ${(chain || supportedChains[0]).name}`
+      : label
 
   return <Button {...inputProps}>{buttonLabel}</Button>
 }
