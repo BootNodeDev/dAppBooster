@@ -5,45 +5,63 @@ import { Button } from 'db-ui-toolkit'
 import { arbitrum, mainnet, polygon } from 'viem/chains'
 
 import { useTokens } from '@/src/hooks/useTokens'
-import TokensList from '@/src/pageComponents/home/Examples/demos/TokensList'
+import TokenList, { type TokenListProps } from '@/src/sharedComponents/Tokens/TokenList'
 import {
   type WithSuspenseAndRetryProps,
   withSuspense,
   withSuspenseAndRetry,
 } from '@/src/utils/suspenseWrapper'
 
-const TokensMainnet = withSuspense(() => {
+export type TokenSelector = Omit<TokenListProps, 'tokenList'>
+
+const TokensMainnet = withSuspense<TokenSelector>(({ onTokenSelected, searchPlaceholder }) => {
   const { tokensByChainId } = useTokens()
 
   return (
     <>
       <strong>{mainnet.name}</strong>
-      <TokensList tokenList={tokensByChainId[mainnet.id]} />
+      <TokenList
+        onTokenSelected={onTokenSelected}
+        searchPlaceholder={searchPlaceholder}
+        tokenList={tokensByChainId[mainnet.id]}
+      />
     </>
   )
 })
 
-const TokensArbitrum = withSuspenseAndRetry(() => {
-  const { tokensByChainId } = useTokens()
+const TokensArbitrum = withSuspenseAndRetry<TokenSelector>(
+  ({ onTokenSelected, searchPlaceholder }) => {
+    const { tokensByChainId } = useTokens()
 
-  return (
-    <>
-      <strong>{arbitrum.name}</strong>
-      <TokensList tokenList={tokensByChainId[arbitrum.id]} />
-    </>
-  )
-})
+    return (
+      <>
+        <strong>{arbitrum.name}</strong>
+        <TokenList
+          onTokenSelected={onTokenSelected}
+          searchPlaceholder={searchPlaceholder}
+          tokenList={tokensByChainId[arbitrum.id]}
+        />
+      </>
+    )
+  },
+)
 
-const TokensPolygon = withSuspenseAndRetry(() => {
-  const { tokensByChainId } = useTokens()
+const TokensPolygon = withSuspenseAndRetry<TokenSelector>(
+  ({ onTokenSelected, searchPlaceholder }) => {
+    const { tokensByChainId } = useTokens()
 
-  return (
-    <>
-      <strong>{polygon.name}</strong>
-      <TokensList tokenList={tokensByChainId[polygon.id]} />
-    </>
-  )
-})
+    return (
+      <>
+        <strong>{polygon.name}</strong>
+        <TokenList
+          onTokenSelected={onTokenSelected}
+          searchPlaceholder={searchPlaceholder}
+          tokenList={tokensByChainId[polygon.id]}
+        />
+      </>
+    )
+  },
+)
 
 const Wrapper = styled.div`
   * {
@@ -85,7 +103,7 @@ const Loading = styled.img`
   animation: ${pulse} 1s linear infinite;
 `
 
-const MultipleTokens = () => {
+const Tokens = () => {
   const retry = useCallback<Required<WithSuspenseAndRetryProps>['fallbackRender']>(
     ({ resetErrorBoundary }) => (
       <div>
@@ -94,6 +112,7 @@ const MultipleTokens = () => {
     ),
     [],
   )
+
   return (
     <Wrapper>
       <TokenListWrapper>
@@ -105,6 +124,7 @@ const MultipleTokens = () => {
       <TokenListWrapper>
         <TokensPolygon
           fallbackRender={retry}
+          searchPlaceholder="find it!"
           suspenseFallback={<Loading height="24" src="/appLogo.svg" />}
         />
       </TokenListWrapper>
@@ -112,4 +132,4 @@ const MultipleTokens = () => {
   )
 }
 
-export default MultipleTokens
+export default Tokens
