@@ -28,6 +28,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     <ConnectKitProvider
       options={{
         customAvatar: Avatar as React.FC<Types.CustomAvatarProps>,
+        initialChainId: 0,
+        // enforceSupportedChains: false,
       }}
     >
       {children}

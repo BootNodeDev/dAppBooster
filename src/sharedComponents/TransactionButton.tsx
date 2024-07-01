@@ -5,7 +5,6 @@ import { Hash, TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 interface TransactionButtonProps {
   transaction: () => Promise<Hash>
@@ -18,7 +17,7 @@ interface TransactionButtonProps {
 /**
  * Transaction button component.
  * Use with writeContractSync or sendTransactionSync function to handle the transaction and wait for it.
- * If the wallet is not connected, it renders a connect wallet button.
+ * If the wallet is not connected, it will throw an error.
  *
  * @component
  * @param {Function} props.transaction - The function that initiates the transaction.
@@ -66,10 +65,8 @@ export const TransactionButton = ({
     }
   }
 
-  // Connect wallet button if wallet is not connected
-  // TODO: should add this validation here? or we can assume that the button will be rendered only if the wallet is connected?
   if (!isWalletConnected) {
-    return <ConnectWalletButton label="Connect your wallet" />
+    throw new Error('Use this component only when the wallet is connected.')
   }
 
   const inputProps = {

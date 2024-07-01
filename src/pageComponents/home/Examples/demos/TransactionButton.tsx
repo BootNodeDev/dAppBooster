@@ -4,10 +4,11 @@ import { sepolia } from 'viem/chains'
 import { useSendTransaction, useWriteContract } from 'wagmi'
 
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
+import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import { TransactionButton } from '@/src/sharedComponents/TransactionButton'
 
 export const TransactionButtonDemo = () => {
-  const { address, appChainId, switchChain } = useWeb3StatusConnected()
+  const { address, appChainId, isWalletConnected, switchChain } = useWeb3StatusConnected()
   const { sendTransactionAsync } = useSendTransaction()
   const { writeContractAsync } = useWriteContract()
 
@@ -23,6 +24,7 @@ export const TransactionButtonDemo = () => {
       value: parseEther('0.1'),
     })
   }
+
   const handleWriteContract = (): Promise<Hash> => {
     // Send ERC20 token [USDC]
     return writeContractAsync({
@@ -32,6 +34,10 @@ export const TransactionButtonDemo = () => {
       functionName: 'transfer',
       args: [address, 100000000n], // 100 USDC
     })
+  }
+
+  if (!isWalletConnected) {
+    return <ConnectWalletButton label="Connect you wallet" />
   }
 
   if (appChainId !== sepolia.id) {

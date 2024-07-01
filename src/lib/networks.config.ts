@@ -1,14 +1,13 @@
 import { http, type Transport } from 'viem'
 import { mainnet, optimismSepolia, sepolia } from 'viem/chains'
 
+import { isDev } from '@/src/constants/common'
 import { env } from '@/src/env'
-
-const isDevMode = env.PUBLIC_DEV_MODE === 'true'
 
 const devChains = [optimismSepolia, sepolia] as const
 const prodChains = [mainnet] as const
 
-export const chains = isDevMode ? devChains : prodChains
+export const chains = isDev ? devChains : prodChains
 
 type RestrictedTransports = Record<(typeof chains)[number]['id'], Transport>
 

@@ -17,21 +17,29 @@ import { injected } from 'wagmi/connectors'
 
 import { RequiredNonNull } from '@/src/types/utils'
 
-export type Web3Status = {
-  address: Address | undefined
+export type AppWeb3Status = {
   appChainId: Chain['id']
+  readOnlyClient: UsePublicClientReturnType
+  supportedChains: readonly [Chain, ...Chain[]]
+}
+
+export type WalletWeb3Status = {
+  address: Address | undefined
   balance?: UseBalanceReturnType['data'] | undefined
   connectingWallet: boolean
   changingChain: boolean
   isWalletConnected: boolean
   isWalletNetworkSupported: boolean | null
-  readOnlyClient: UsePublicClientReturnType
   walletChainId: number | undefined
   walletClient: UseWalletClientReturnType['data']
-  supportedChains: readonly [Chain, ...Chain[]]
+}
+
+export type Web3Actions = {
   switchChain: (chainId: Chain['id']) => void
   disconnect: () => void
 }
+
+export type Web3Status = AppWeb3Status & WalletWeb3Status & Web3Actions
 
 /**
  * Custom hook that provides the status of the Web3 connection.
@@ -52,6 +60,7 @@ export const useWeb3Status = () => {
   const appWeb3Status = {
     supportedChains: chains,
     appChainId,
+    readOnlyClient,
   }
 
   const walletWeb3Status = {
@@ -63,7 +72,6 @@ export const useWeb3Status = () => {
     connectingWallet: isConnecting,
     changingChain: isPending,
     walletClient: walletClient,
-    readOnlyClient,
   }
 
   const web3Actions = {
