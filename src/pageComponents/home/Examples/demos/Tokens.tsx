@@ -84,16 +84,8 @@ const Tokens: React.FC<HTMLAttributes<HTMLDivElement>> = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <TokensMainnet errorFallback={<ErrorMessage>oh no! 🙀</ErrorMessage>} />
-
-      {/* <TokenListWrapper>
-        <TokensArbitrum suspenseFallback="loading arbitrum tokens..." />
-      </TokenListWrapper>
-      <TokenListWrapper>
-        <TokensPolygon
-          fallbackRender={retry}
-          searchPlaceholder="find it!"
-        />
-      </TokenListWrapper> */}
+      <TokensArbitrum suspenseFallback="loading arbitrum tokens..." />
+      <TokensPolygon fallbackRender={retry} searchPlaceholder="find it!" />
     </Wrapper>
   )
 }

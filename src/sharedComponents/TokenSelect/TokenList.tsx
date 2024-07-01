@@ -1,8 +1,8 @@
 import { type FC } from 'react'
 
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
-import SearchTokenInput from '@/src/sharedComponents/TokenSelect/SearchTokenInput'
-import TokenRow from '@/src/sharedComponents/TokenSelect/TokenRow'
+import Row from '@/src/sharedComponents/TokenSelect/Row'
+import SearchTokenInput from '@/src/sharedComponents/TokenSelect/SearchInput'
 import VirtualizedList from '@/src/sharedComponents/VirtualizedList'
 import { type Token, type Tokens } from '@/src/types/token'
 
@@ -26,9 +26,7 @@ const TokenList: FC<TokenListProps> = ({ onTokenSelected, searchPlaceholder, tok
         containerHeight={200}
         itemHeight={24}
         items={searchResult}
-        renderItem={(item) => (
-          <TokenRow onClick={(token) => onTokenSelected?.(token)} token={item} />
-        )}
+        renderItem={(item) => <Row onClick={(token) => onTokenSelected?.(token)} token={item} />}
       />
     </>
   )
