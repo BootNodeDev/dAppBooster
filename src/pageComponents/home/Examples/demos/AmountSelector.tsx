@@ -1,6 +1,6 @@
 import { polygon } from 'viem/chains'
 
-import TokenInput from '@/src/sharedComponents/Tokens/TokenInput'
+import TokenInput from '@/src/sharedComponents/TokenSelect/TokenInput'
 
 const AmountSelector = () => {
   return (

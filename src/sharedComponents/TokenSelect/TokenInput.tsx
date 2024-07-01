@@ -10,7 +10,7 @@ import { useTokens } from '@/src/hooks/useTokens'
 import { TokenSelector } from '@/src/pageComponents/home/Examples/demos/Tokens'
 import { BigNumberInput, type BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
-import TokenList from '@/src/sharedComponents/Tokens/TokenList'
+import TokenList from '@/src/sharedComponents/TokenSelect/TokenList'
 import { type Token } from '@/src/types/token'
 import { WithSuspenseAndRetryProps, withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
