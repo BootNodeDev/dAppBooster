@@ -5,7 +5,7 @@ import { Card, Button } from 'db-ui-toolkit'
 import { arbitrum, mainnet, polygon } from 'viem/chains'
 
 import { useTokens } from '@/src/hooks/useTokens'
-import TokenList, { type TokenListProps } from '@/src/sharedComponents/TokenSelect/TokenList'
+import TokenList, { type TokenListProps } from '@/src/sharedComponents/Tokens/TokenList'
 import {
   type WithSuspenseAndRetryProps,
   withSuspense,

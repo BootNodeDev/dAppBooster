@@ -1,8 +1,8 @@
 import { type FC } from 'react'
 
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
-import Row from '@/src/sharedComponents/TokenSelect/Row'
-import SearchTokenInput from '@/src/sharedComponents/TokenSelect/SearchInput'
+import Row from '@/src/sharedComponents/Tokens/Row'
+import SearchTokenInput from '@/src/sharedComponents/Tokens/SearchInput'
 import VirtualizedList from '@/src/sharedComponents/VirtualizedList'
 import { type Token, type Tokens } from '@/src/types/token'
 
