@@ -1,15 +1,11 @@
-import { type ChangeEvent, type FC } from 'react'
+import { type FC, InputHTMLAttributes, ReactElement } from 'react'
 
-type SearchInputProps = {
-  onSearchChange: (e: ChangeEvent<HTMLInputElement>) => void
-  placeholder?: string
-  searchTerm: string
+interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  renderInput?: (props: InputHTMLAttributes<HTMLInputElement>) => ReactElement
 }
 
-const SearchTokenInput: FC<SearchInputProps> = ({
-  onSearchChange,
-  placeholder = 'search...',
-  searchTerm,
-}) => <input onChange={onSearchChange} placeholder={placeholder} type="text" value={searchTerm} />
+const SearchTokenInput: FC<SearchInputProps> = ({ renderInput, ...restProps }) => {
+  return <>{renderInput ? renderInput({ ...restProps }) : <input type="text" {...restProps} />}</>
+}
 
 export default SearchTokenInput
