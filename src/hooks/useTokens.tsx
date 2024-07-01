@@ -7,8 +7,8 @@ import {
 } from '@tanstack/react-query'
 import defaultTokens from '@uniswap/default-token-list'
 
-import { type Token, type Tokens, tokenSchema, type TokenList } from '@/src/token'
-import { tokenLists } from '@/src/tokenLists'
+import { tokenLists } from '@/src/constants/tokenLists'
+import { type Token, type Tokens, tokenSchema, type TokenList } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 
 type TokensMap = {
