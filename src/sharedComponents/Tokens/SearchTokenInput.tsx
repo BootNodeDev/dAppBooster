@@ -1,11 +1,7 @@
-import { type FC, InputHTMLAttributes, ReactElement } from 'react'
+import { type FC, InputHTMLAttributes } from 'react'
 
-interface SearchInputProps extends InputHTMLAttributes<HTMLInputElement> {
-  renderInput?: (props: InputHTMLAttributes<HTMLInputElement>) => ReactElement
-}
-
-const SearchTokenInput: FC<SearchInputProps> = ({ renderInput, ...restProps }) => {
-  return <>{renderInput ? renderInput({ ...restProps }) : <input type="text" {...restProps} />}</>
+const SearchTokenInput: FC<InputHTMLAttributes<HTMLInputElement>> = ({ ...restProps }) => {
+  return <input type="text" {...restProps} />
 }
 
 export default SearchTokenInput
