@@ -64,7 +64,7 @@ const Value = styled.div`
 `
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
-  iconSize?: number | string
+  iconSize?: number
   onClick: (token: Token) => void
   showBalance?: boolean
   showValue?: boolean

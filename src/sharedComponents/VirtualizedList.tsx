@@ -8,18 +8,19 @@ const Wrapper = styled.div<{ $containerHeight: number }>`
   overflow: auto;
 `
 
-const Items = styled.div<{ $totalSize: number }>`
-  height: ${(props) => `${props.$totalSize}px`};
+const Items = styled.div<{ height: number | string }>`
+  height: ${({ height }) => `${height}px`};
   position: relative;
   width: 100%;
 `
 
-const VisibleItems = styled.div<{ height: number; start: number }>`
-  height: ${(props) => `${props.height}px`};
+const VisibleItems = styled.div<{ height: number | string; start: number }>`
+  height: ${({ height }) => `${height}px`};
   left: 0;
   position: absolute;
   top: 0;
-  transform: ${(props) => `translateY(${props.start}px)`};
+  transform: ${({ start }) => `translateY(${start}px)`};
+  width: 100%;
 `
 
 type VirtualizedListProps<Item> = {
@@ -47,7 +48,7 @@ const VirtualizedList = <Item,>({
 
   return (
     <Wrapper $containerHeight={containerHeight} ref={parentRef} {...restProps}>
-      <Items $totalSize={rowVirtualizer.getTotalSize()}>
+      <Items height={rowVirtualizer.getTotalSize()}>
         {rowVirtualizer.getVirtualItems().map((virtualItem) => (
           <VisibleItems height={virtualItem.size} key={virtualItem.key} start={virtualItem.start}>
             {renderItem(items[virtualItem.index])}

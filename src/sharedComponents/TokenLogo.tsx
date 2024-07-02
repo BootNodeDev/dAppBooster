@@ -14,17 +14,17 @@ const getSrc = (url?: string) => {
 
 const defaultToken: Token = { address: '', chainId: 0, decimals: 0, name: '', symbol: '' }
 
-const TokenLogo: FC<{ token?: Token }> = ({ token = defaultToken }) => {
+const TokenLogo: FC<{ token?: Token; size?: number }> = ({ size = 24, token = defaultToken }) => {
   return (
     <img
       alt={token.name}
-      height="24"
+      height={`${size}`}
       onError={({ currentTarget }) => {
         currentTarget.onerror = null
         currentTarget.src = '/appLogo.svg'
       }}
       src={getSrc(token.logoURI)}
-      width="24"
+      width={`${size}`}
     />
   )
 }
