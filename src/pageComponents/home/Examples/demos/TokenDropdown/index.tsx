@@ -69,7 +69,6 @@ const TokenDropdown: React.FC = ({ ...restProps }) => {
             )}
           </DropdownButton>
         }
-        clearDropdownStyle
         items={
           <TokenSelect
             currentNetworkId={currentNetworkId}
