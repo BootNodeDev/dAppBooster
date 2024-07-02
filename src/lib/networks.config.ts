@@ -6,8 +6,9 @@ import { env } from '@/src/env'
 
 const devChains = [optimismSepolia, sepolia] as const
 const prodChains = [mainnet, polygon, arbitrum] as const
+const allChains = [...devChains, ...prodChains] as const
 
-export const chains = includeTestNets ? [...devChains, ...prodChains] : prodChains
+export const chains = includeTestNets ? allChains : prodChains
 
 type RestrictedTransports = Record<(typeof chains)[number]['id'], Transport>
 

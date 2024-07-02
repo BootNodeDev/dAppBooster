@@ -56,11 +56,9 @@ export const TransactionButton = ({
 
   const isCorrectChain = chain ? walletChainId === chain.id : isWalletNetworkSupported
 
-  const { data: receipt, status } = useWaitForTransactionReceipt({
+  const { data: receipt } = useWaitForTransactionReceipt({
     hash: hash,
   })
-
-  console.log(status)
 
   useEffect(() => {
     if (receipt && isPending) {

@@ -17,7 +17,7 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "type-check": "tsc --noEmit --skipLibCheck"
+    "type-check": "bash -c tsc --noEmit"
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
