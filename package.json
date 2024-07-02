@@ -16,7 +16,8 @@
     "prepare": "husky",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "type-check": "tsc --noEmit --skipLibCheck"
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
@@ -27,6 +28,7 @@
       "prettier --write --ignore-unknown"
     ],
     "src/**/*.{ts,tsx}": [
+      "pnpm type-check",
       "vitest related --run --coverage=false"
     ]
   },
