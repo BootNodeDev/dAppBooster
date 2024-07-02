@@ -28,6 +28,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
     <ConnectKitProvider
       options={{
         customAvatar: Avatar as React.FC<Types.CustomAvatarProps>,
+        initialChainId: 0,
+        enforceSupportedChains: false,
       }}
     >
       {children}
@@ -35,7 +37,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
   )
 }
 
-export const ConnectWalletButton = () => {
+export const ConnectWalletButton = ({ label = 'Connect' }: { label?: string }) => {
   return (
     <ConnectKitButton.Custom>
       {({ address, isConnected, isConnecting, show, truncatedAddress }) => {
@@ -47,7 +49,7 @@ export const ConnectWalletButton = () => {
                 {truncatedAddress}
               </>
             ) : (
-              'Connect'
+              label
             )}
           </ConnectButton>
         )

@@ -1,4 +1,4 @@
-const isDev = import.meta.env.DEV
+import { isDev } from '@/src/constants/common'
 
 const time = (label: string) => isDev && console.time(label)
 
