@@ -34,6 +34,16 @@ const Wrapper = styled.div`
   }
 `
 
+const Icon = styled.div<{ size: number }>`
+  align-items: center;
+  border-radius: 50%;
+  display: flex;
+  height: ${({ size }) => size}px;
+  justify-content: center;
+  overflow: hidden;
+  width: ${({ size }) => size}px;
+`
+
 const Name = styled.div`
   color: var(--theme-row-token-name-color);
   font-size: 1.8rem;
@@ -64,7 +74,7 @@ const Value = styled.div`
 `
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
-  iconSize?: number
+  iconSize: number
   onClick: (token: Token) => void
   showBalance?: boolean
   showValue?: boolean
@@ -76,7 +86,9 @@ const Row: FC<Props> = ({ iconSize, onClick, showBalance, showValue, token, ...r
 
   return (
     <Wrapper onClick={() => onClick(token)} {...restProps}>
-      <TokenLogo size={iconSize} token={token} />
+      <Icon size={iconSize}>
+        <TokenLogo size={iconSize} token={token} />
+      </Icon>
       <Name>{name}</Name>
       <Values>
         {showBalance && <Balance>1000.00</Balance>}
