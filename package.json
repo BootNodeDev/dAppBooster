@@ -16,7 +16,8 @@
     "prepare": "husky",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "type-check": "bash -c tsc --noEmit"
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
@@ -27,6 +28,7 @@
       "prettier --write --ignore-unknown"
     ],
     "src/**/*.{ts,tsx}": [
+      "pnpm type-check",
       "vitest related --run --coverage=false"
     ]
   },
@@ -36,7 +38,7 @@
     "@tanstack/react-router": "^1.32.5",
     "@tanstack/react-virtual": "^3.7.0",
     "@uniswap/default-token-list": "^11.19.0",
-    "connectkit": "^1.7.3",
+    "connectkit": "^1.8.2",
     "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit",
     "modern-normalize": "^2.0.0",
     "next-themes": "^0.3.0",

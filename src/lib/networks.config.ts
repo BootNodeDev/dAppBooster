@@ -1,9 +1,14 @@
 import { http, type Transport } from 'viem'
 import { arbitrum, mainnet, optimismSepolia, sepolia, polygon } from 'viem/chains'
 
+import { includeTestNets } from '@/src/constants/common'
 import { env } from '@/src/env'
 
-export const chains = [arbitrum, mainnet, optimismSepolia, polygon, sepolia] as const
+const devChains = [optimismSepolia, sepolia] as const
+const prodChains = [mainnet, polygon, arbitrum] as const
+const allChains = [...devChains, ...prodChains] as const
+
+export const chains = includeTestNets ? allChains : prodChains
 
 type RestrictedTransports = Record<(typeof chains)[number]['id'], Transport>
 
