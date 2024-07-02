@@ -51,22 +51,22 @@ export const TransactionButton = ({
     switchingChain,
     walletChainId,
   } = useWeb3Status()
-  const [hash, setHash] = useState<Hash | undefined>(undefined)
+  const [hash, setHash] = useState<Hash>()
   const [isPending, setIsPending] = useState<boolean>(false)
 
   const isCorrectChain = chain ? walletChainId === chain.id : isWalletNetworkSupported
 
-  const { data: receipt } = useWaitForTransactionReceipt({
+  const { data: receipt, status } = useWaitForTransactionReceipt({
     hash: hash,
   })
+
+  console.log(status)
 
   useEffect(() => {
     if (receipt && isPending) {
       setIsPending(false)
       setHash(undefined)
-      if (onMined) {
-        onMined(receipt)
-      }
+      onMined?.(receipt)
     }
   }, [isPending, onMined, receipt])
 
