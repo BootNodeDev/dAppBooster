@@ -86,8 +86,8 @@ const darkThemeCSSVars = css`
   --theme-dropdown-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
 
   --theme-dropdown-item-background-color: transparent;
-  --theme-dropdown-item-background-color-hover: transparent;
-  --theme-dropdown-item-background-color-active: rgb(0 0 0 / 10%);
+  --theme-dropdown-item-background-color-hover: rgb(255 255 255 / 2%);
+  --theme-dropdown-item-background-color-active: rgb(255 255 255 / 5%);
 
   --theme-dropdown-item-color: #fff;
   --theme-dropdown-item-color-hover: #fff;
@@ -96,6 +96,20 @@ const darkThemeCSSVars = css`
   --theme-dropdown-item-border-color: #4b4d60;
   --theme-dropdown-item-border-color-hover: #4b4d60;
   --theme-dropdown-item-border-color-active: #4b4d60;
+
+  /* Dropdown Button  */
+  --theme-dropdown-button-background-color: #8b46a4;
+  --theme-dropdown-button-background-color-hover: #9a4eb5;
+
+  --theme-dropdown-button-border-color: #8b46a4;
+  --theme-dropdown-button-border-color-hover: #9a4eb5;
+
+  --theme-dropdown-button-color: #fff;
+  --theme-dropdown-button-color-hover: #fff;
+
+  --theme-dropdown-button-background-color-disabled: #8b46a4;
+  --theme-dropdown-button-border-color-disabled: #8b46a4;
+  --theme-dropdown-button-color-disabled: #fff;
 
   /* Card */
   --theme-card-background-color: #232436;

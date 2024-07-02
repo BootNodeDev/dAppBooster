@@ -86,8 +86,8 @@ const lightThemeCSSVars = css`
   --theme-dropdown-box-shadow: 0 0 20px 0 rgb(0 0 0 / 8%);
 
   --theme-dropdown-item-background-color: transparent;
-  --theme-dropdown-item-background-color-hover: transparent;
-  --theme-dropdown-item-background-color-active: rgb(0 0 0 / 10%);
+  --theme-dropdown-item-background-color-hover: rgb(0 0 0 / 2%);
+  --theme-dropdown-item-background-color-active: rgb(0 0 0 / 5%);
 
   --theme-dropdown-item-color: #2e3048;
   --theme-dropdown-item-color-hover: #2e3048;
@@ -96,6 +96,20 @@ const lightThemeCSSVars = css`
   --theme-dropdown-item-border-color: #f0f0f0;
   --theme-dropdown-item-border-color-hover: #f0f0f0;
   --theme-dropdown-item-border-color-active: #f0f0f0;
+
+  /* Dropdown Button */
+  --theme-dropdown-button-background-color: #692581;
+  --theme-dropdown-button-background-color-hover: #892fa9;
+
+  --theme-dropdown-button-border-color: #692581;
+  --theme-dropdown-button-border-color-hover: #892fa9;
+
+  --theme-dropdown-button-color: #fff;
+  --theme-dropdown-button-color-hover: #fff;
+
+  --theme-dropdown-button-background-color-disabled: #692581;
+  --theme-dropdown-button-border-color-disabled: #692581;
+  --theme-dropdown-button-color-disabled: #fff;
 
   /* Card */
   --theme-card-background-color: #fff;
