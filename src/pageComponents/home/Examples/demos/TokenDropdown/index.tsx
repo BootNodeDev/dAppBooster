@@ -24,6 +24,8 @@ const Icon = styled.div`
   width: ${ICON_SIZE}px;
 `
 
+const Tokens = styled(TokenSelect)<{ $closeOnClick?: boolean }>``
+
 const TokenDropdown: React.FC = ({ ...restProps }) => {
   const [currentNetworkId, setCurrentNetworkId] = useState<number>(mainnet.id)
   const [currentToken, setCurrentToken] = useState<Token | undefined>()
@@ -70,7 +72,8 @@ const TokenDropdown: React.FC = ({ ...restProps }) => {
           </DropdownButton>
         }
         items={
-          <TokenSelect
+          <Tokens
+            $closeOnClick={false}
             currentNetworkId={currentNetworkId}
             networksList={networksList}
             onTokenSelect={onTokenSelect}
