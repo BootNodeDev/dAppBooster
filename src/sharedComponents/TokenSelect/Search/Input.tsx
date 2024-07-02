@@ -23,7 +23,7 @@ const SearchIcon = () => (
 )
 
 const Wrapper = styled.div`
-  --base-textfield-height: 72px;
+  --base-textfield-height: var(--base-search-wrapper-height);
   --base-textfield-border-radius: var(--base-border-radius);
   --base-textfield-font-size: 1.6rem;
   --base-textfield-vertical-padding: 0;
@@ -64,22 +64,23 @@ const Wrapper = styled.div`
   align-items: center;
   column-gap: var(--base-gap-xl);
   display: flex;
+  flex-grow: 1;
 `
 
-const Input = styled(Textfield).attrs({ type: 'text' })`
+const SearchInput = styled(Textfield).attrs({ type: 'search' })`
   background: none;
   border: none;
   padding: 0;
   width: 100%;
 `
 
-const SearchInput: FC<InputHTMLAttributes<HTMLInputElement>> = ({ className, ...inputProps }) => {
+const Input: FC<InputHTMLAttributes<HTMLInputElement>> = ({ className, ...inputProps }) => {
   return (
     <Wrapper className={`${className ? className : ''}`.trim()}>
       <SearchIcon />
-      <Input {...inputProps} />
+      <SearchInput {...inputProps} />
     </Wrapper>
   )
 }
 
-export default SearchInput
+export default Input
