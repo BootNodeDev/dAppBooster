@@ -1,31 +1,88 @@
-import { FC } from 'react'
+import { type FC, type HTMLAttributes, useState, useEffect } from 'react'
+import styled from 'styled-components'
 
 import { type Token } from '@/src/types/token'
 
-const getSrc = (url?: string) => {
-  if (url) {
-    if (url.startsWith('ipfs://')) {
-      return `https://ipfs.io/ipfs/${url.split('ipfs://')[1]}`
-    }
-    return url
-  }
-  return '/appLogo.svg'
+interface PlaceholderProps extends HTMLAttributes<HTMLDivElement> {
+  size: number
+  symbol: string
 }
 
-const defaultToken: Token = { address: '', chainId: 0, decimals: 0, name: '', symbol: '' }
+const Wrapper = styled.div<{ $size: number; $backgroundColor: string }>`
+  align-items: center;
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
+  border-radius: 50%;
+  color: #fafafa;
+  display: flex;
+  font-size: 95%;
+  font-weight: 700;
+  height: ${({ $size }) => $size}px;
+  justify-content: center;
+  line-height: 1;
+  text-transform: uppercase;
+  width: ${({ $size }) => $size}px;
+`
 
-const TokenLogo: FC<{ token?: Token; size?: number }> = ({ size = 24, token = defaultToken }) => {
+const Placeholder: FC<PlaceholderProps> = ({ size, symbol, ...restProps }) => {
+  const [backgroundColor, setBackgroundColor] = useState<string>('')
+
+  const generateHexColor = (symbol: string): string => {
+    // Convert symbol to a hash number
+    let hash = 0
+    for (let i = 0; i < symbol.length; i++) {
+      hash = symbol.charCodeAt(i) + ((hash << 5) - hash)
+    }
+
+    // Convert hash to a hexadecimal string and ensure it is 6 characters long
+    const baseColor =
+      ((hash >> 24) & 0xff).toString(16).padStart(2, '0') +
+      ((hash >> 16) & 0xff).toString(16).padStart(2, '0') +
+      ((hash >> 8) & 0xff).toString(16).padStart(2, '0')
+
+    // Ensure the baseColor is dark-ish by making sure each component is less than 196
+    const r = parseInt(baseColor.slice(0, 2), 16) % 196
+    const g = parseInt(baseColor.slice(2, 4), 16) % 196
+    const b = parseInt(baseColor.slice(4, 6), 16) % 196
+
+    // Convert back to hex string and pad with leading 6s if necessary and also
+    // because I love Satan
+    const color =
+      r.toString(16).padStart(2, '6') +
+      g.toString(16).padStart(2, '6') +
+      b.toString(16).padStart(2, '6')
+
+    return `#${color}`
+  }
+
+  useEffect(() => {
+    setBackgroundColor(generateHexColor(symbol))
+  }, [symbol])
+
   return (
+    <Wrapper $backgroundColor={backgroundColor} $size={size} {...restProps}>
+      {symbol[0]}
+    </Wrapper>
+  )
+}
+
+const getSrc = (url: string) => {
+  return url.startsWith('ipfs://') ? `https://ipfs.io/ipfs/${url.split('ipfs://')[1]}` : url
+}
+
+const TokenLogo: FC<{ token: Token; size?: number }> = ({ size = 24, token }) => {
+  const { logoURI } = token
+  const [hasError, setHasError] = useState(false)
+
+  return logoURI && !hasError ? (
     <img
       alt={token.name}
       height={`${size}`}
-      onError={({ currentTarget }) => {
-        currentTarget.onerror = null
-        currentTarget.src = '/appLogo.svg'
-      }}
-      src={getSrc(token.logoURI)}
+      onError={() => setHasError(true)}
+      src={getSrc(logoURI)}
       width={`${size}`}
     />
+  ) : (
+    <Placeholder size={size} symbol={token.symbol} />
   )
 }
 
