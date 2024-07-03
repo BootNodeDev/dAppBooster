@@ -19,6 +19,13 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   tokens: Tokens
 }
 
+/**
+ * @name TopTokens
+ * @description TopTokens component for TokenSelect. Displays a list of top / preferred tokens.
+ *
+ * @param {function} onTokenSelect - Callback function to be called when a token is selected.
+ * @param {Tokens} tokens - The list of tokens to display.
+ */
 const TopTokens: React.FC<Props> = ({ onTokenSelect, tokens, ...restProps }: Props) => {
   const topTokenSymbols = ['matic', 'usdc', 'usdt', 'dai', 'weth', 'wbtc', 'arb', 'aave']
 

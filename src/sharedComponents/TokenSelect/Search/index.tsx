@@ -27,12 +27,22 @@ const Item = styled(BaseItem)`
 interface Props extends HTMLAttributes<HTMLDivElement> {
   currentNetworkId: number
   networks?: Networks
-  placeholder: string
+  placeholder?: string
   searchTerm: string
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>
 }
 
-const TokenSelect: React.FC<Props> = ({
+/**
+ * @name Search
+ * @description Search component for TokenSelect. Includes a search input and a networks dropdown.
+ *
+ * @param {number} currentNetworkId - The current network id.
+ * @param {Networks} networks - Optional list of networks to display in the dropdown.
+ * @param {string} [placeholder] - Optional placeholder text for the search input.
+ * @param {string} searchTerm - The current search term.
+ * @param {function} setSearchTerm - Callback function to set the search term.
+ */
+const Search: React.FC<Props> = ({
   currentNetworkId,
   networks,
   placeholder,
@@ -68,4 +78,4 @@ const TokenSelect: React.FC<Props> = ({
   )
 }
 
-export default TokenSelect
+export default Search

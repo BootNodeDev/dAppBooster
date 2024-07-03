@@ -66,22 +66,22 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex =
 
     ${Name} {
       color: var(
-        --theme-token-select-row-token-name-color-default,
-        var(--theme-token-select-row-token-name-color-hover)
+        --theme-token-select-row-token-name-color-hover,
+        var(--theme-token-select-row-token-name-color-default)
       );
     }
 
     ${Balance} {
       color: var(
-        --theme-token-select-row-token-balance-color-default,
-        var(--theme-token-select-row-token-balance-color-hover)
+        --theme-token-select-row-token-balance-color-hover,
+        var(--theme-token-select-row-token-balance-color-default)
       );
     }
 
     ${Value} {
       color: var(
-        --theme-token-select-row-token-value-color-default,
-        var(--theme-token-select-row-token-value-color-hover)
+        --theme-token-select-row-token-value-color-hover,
+        var(--theme-token-select-row-token-value-color-default)
       );
     }
   }
@@ -119,6 +119,16 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   token: Token
 }
 
+/**
+ * @name Row
+ * @description A row in the token select list.
+ *
+ * @param {Token} token - The token to display.
+ * @param {number} iconSize - The size of the token icon.
+ * @param {(token: Token) => void} onClick - Callback function to be called when the row is clicked.
+ * @param {boolean} [showBalance=false] - Optional flag to show the token balance. Default is false.
+ * @param {boolean} [showValue=false] - Optional flag to show the token value. Default is false.
+ */
 const Row: FC<Props> = ({ iconSize, onClick, showBalance, showValue, token, ...restProps }) => {
   const { name } = token
 

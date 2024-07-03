@@ -43,7 +43,8 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * TokenSelect component, used to search and select a token from a list.
+ * @name TokenSelect
+ * @description TokenSelect component, used to search and select a token from a list.
  *
  * @param {number} [currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
  * @param {function} onTokenSelect - Callback function to be called when a token is selected.
@@ -65,11 +66,30 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-border-color (defaults to --theme-card-border-color)
  * * --theme-token-select-box-shadow (defaults to --theme-card-box-shadow)
  *
+ * Search field:
+ * * --theme-token-select-search-field-color
+ * * --theme-token-select-search-field-color-active
+ * * --theme-token-select-search-field-background-color
+ * * --theme-token-select-search-field-background-color-active
+ * * --theme-token-select-search-field-placeholder-color
+ * * --theme-token-select-search-field-box-shadow
+ * * --theme-token-select-search-field-box-shadow-active
+ * * --theme-token-select-search-field-border-color
+ * * --theme-token-select-search-field-border-color-active
+ *
  * Network select button:
  * * --theme-token-select-network-button-color
  * * --theme-token-select-network-button-color-hover
  * * --theme-token-select-network-button-background-color
  * * --theme-token-select-network-button-background-color-hover
+ *
+ * Top tokens:
+ * * --theme-token-select-top-token-item-color
+ * * --theme-token-select-top-token-item-color-hover
+ * * --theme-token-select-top-token-item-background-color
+ * * --theme-token-select-top-token-item-background-color-hover
+ * * --theme-token-select-top-token-item-border-color
+ * * --theme-token-select-top-token-item-border-color-hover
  *
  * List:
  * * --theme-token-select-list-border-top-color
@@ -83,25 +103,6 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-row-token-balance-color-hover
  * * --theme-token-select-row-token-value-color
  * * --theme-token-select-row-token-value-color-hover
- *
- * Top tokens:
- * * --theme-token-select-top-token-item-color
- * * --theme-token-select-top-token-item-color-hover
- * * --theme-token-select-top-token-item-background-color
- * * --theme-token-select-top-token-item-background-color-hover
- * * --theme-token-select-top-token-item-border-color
- * * --theme-token-select-top-token-item-border-color-hover
- *
- * Search field:
- * * --theme-token-select-search-field-color
- * * --theme-token-select-search-field-color-active
- * * --theme-token-select-search-field-background-color
- * * --theme-token-select-search-field-background-color-active
- * * --theme-token-select-search-field-placeholder-color
- * * --theme-token-select-search-field-box-shadow
- * * --theme-token-select-search-field-box-shadow-active
- * * --theme-token-select-search-field-border-color
- * * --theme-token-select-search-field-border-color-active
  */
 const TokenSelect: React.FC<Props> = ({
   containerHeight = 320,

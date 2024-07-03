@@ -25,6 +25,18 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   tokenList: Tokens
 }
 
+/**
+ * @name List
+ * @description List component for TokenSelect. Displays a list of tokens.
+ *
+ * @param {number} containerHeight - The height of the virtualized list container.
+ * @param {number} iconSize - The size of the token icon for each item in the list.
+ * @param {number} itemHeight - The height of each item in the list.
+ * @param {function} onTokenSelect - Callback function to be called when a token is selected.
+ * @param {boolean} [showBalance] - Optional flag to show the token balance in the list.
+ * @param {boolean} [showValue] - Optional flag to show the token value in the list.
+ * @param {Tokens} tokenList - The list of tokens to display.
+ */
 const List = withSuspense(
   ({
     className,

@@ -82,6 +82,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   token: Token
 }
 
+/**
+ * @name Item
+ * @description A single token item in the top tokens list
+ *
+ * @param {Token} token - The token to display
+ */
 const Item: React.FC<Props> = ({ token, ...restProps }: Props) => {
   const { symbol } = token
 
