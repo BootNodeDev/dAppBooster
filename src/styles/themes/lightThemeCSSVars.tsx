@@ -141,6 +141,10 @@ const lightThemeCSSVars = css`
 
   /* Dialog / Modal */
   --theme-dialog-background-color: rgb(0 0 0 / 25%);
+
+  /* Token Select */
+  --theme-token-select-network-button-color: #2e3048;
+  --theme-token-select-network-button-background-color: #f7f7f7;
 `
 
 export default lightThemeCSSVars
