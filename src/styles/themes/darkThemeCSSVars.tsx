@@ -146,6 +146,8 @@ const darkThemeCSSVars = css`
   --theme-token-select-network-button-color: #fff;
   --theme-token-select-network-button-background-color: #292b43;
 
+  --theme-token-select-list-border-top-color: #4b4d60;
+
   --theme-token-select-row-background-color: transparent;
   --theme-token-select-row-background-color-hover: rgb(255 255 255 / 5%);
   --theme-token-select-row-token-name-color: #fff;

@@ -146,6 +146,8 @@ const lightThemeCSSVars = css`
   --theme-token-select-network-button-color: #2e3048;
   --theme-token-select-network-button-background-color: #f7f7f7;
 
+  --theme-token-select-list-border-top-color: #e2e0e7;
+
   --theme-token-select-row-background-color: transparent;
   --theme-token-select-row-background-color-hover: rgb(0 0 0 / 5%);
   --theme-token-select-row-token-name-color: #2e3048;

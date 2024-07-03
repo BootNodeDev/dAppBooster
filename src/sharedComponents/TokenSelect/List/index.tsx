@@ -7,15 +7,12 @@ import { type Token, type Tokens } from '@/src/types/token'
 import { withSuspense } from '@/src/utils/suspenseWrapper'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectList' }) => ({ className }))`
-  [data-theme='light'] & {
-    --theme-token-select-list-border-color: #e2e0e7;
-  }
+  --theme-token-select-list-border-top-color-default: var(
+    --theme-token-select-list-border-top-color,
+    #e2e0e7
+  );
 
-  [data-theme='dark'] & {
-    --theme-token-select-list-border-color: #4b4d60;
-  }
-
-  border-top: 1px solid var(--theme-token-select-list-border-color);
+  border-top: 1px solid var(--theme-token-select-list-border-top-color-default);
 `
 
 interface Props extends HTMLAttributes<HTMLDivElement> {

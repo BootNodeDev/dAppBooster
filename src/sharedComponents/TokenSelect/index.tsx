@@ -56,7 +56,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {boolean} [showValue=false] - Optional flag to show the token value in the list. Default is false.
  * @param {boolean} [showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  *
- * Individual CSS classes are available for deep styling.
+ * Individual CSS classes are available for deep styling of individual components.
  *
  * Also theme CSS vars are available for cosmetic changes:
  *
@@ -68,6 +68,9 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * Network select button:
  * * --theme-network-button-color
  * * --theme-nerwork-button-background-color
+ *
+ * List:
+ * * --theme-token-select-list-border-top-color
  *
  * List item:
  * * --theme-token-select-row-background-color
