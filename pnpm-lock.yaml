@@ -28,7 +28,7 @@ importers:
         version: 1.8.2(@babel/core@7.24.5)(@tanstack/react-query@5.36.2(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(wagmi@2.9.2(@tanstack/query-core@5.36.1)(@tanstack/react-query@5.36.2(react@18.3.1))(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1)(rollup@4.17.2)(typescript@5.4.5)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(zod@3.23.8))
       db-ui-toolkit:
         specifier: github:BootNodeDev/db-ui-toolkit
-        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/7403e03dad09403509244b40fab520f085fc7799
+        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/fd6d19e194fe43f7300c502cca23b528ca465ce5
       modern-normalize:
         specifier: ^2.0.0
         version: 2.0.0
@@ -2452,8 +2452,8 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
 
-  acorn@8.12.0:
-    resolution: {integrity: sha512-RTvkC4w+KNXrM39/lWCUaG0IbRkWdCv7W/IOW9oU6SawyxulvkQy5HQPVTKxEjczcUvapcrw3cFx/60VN/NRNw==}
+  acorn@8.12.1:
+    resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -2745,8 +2745,8 @@ packages:
   caniuse-lite@1.0.30001618:
     resolution: {integrity: sha512-p407+D1tIkDvsEAPS22lJxLQQaG8OTBEqo0KhzfABGk0TU4juBNDSfH0hyAp/HRyx+M8L17z/ltyhxh27FTfQg==}
 
-  caniuse-lite@1.0.30001639:
-    resolution: {integrity: sha512-eFHflNTBIlFwP2AIKaYuBQN/apnUoKNhBdza8ZnW/h2di4LCZ4xFqYlxUxo+LQ76KFI1PGcC1QDxMbxTZpSCAg==}
+  caniuse-lite@1.0.30001640:
+    resolution: {integrity: sha512-lA4VMpW0PSUrFnkmVuEKBUovSWKhj7puyCg8StBChgu298N1AtuF1sKWEvfDuimSEDbhlb/KqPKC3fs1HbuQUA==}
 
   chai@4.4.1:
     resolution: {integrity: sha512-13sOfMv2+DWduEU+/xbun3LScLoqN17nBeTLUsmDfKdoiC1fr0n9PU4guu4AhRcOVFk/sW8LyZWHuhWtQZiF+g==}
@@ -3040,8 +3040,8 @@ packages:
   dayjs@1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/7403e03dad09403509244b40fab520f085fc7799:
-    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/7403e03dad09403509244b40fab520f085fc7799}
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/fd6d19e194fe43f7300c502cca23b528ca465ce5:
+    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/fd6d19e194fe43f7300c502cca23b528ca465ce5}
     version: 0.1.0
     engines: {node: '>=20.0.0'}
 
@@ -5922,6 +5922,12 @@ packages:
 
   update-browserslist-db@1.0.16:
     resolution: {integrity: sha512-KVbTxlBYlckhF5wgfyZXTWnMn7MMZjMu9XG8bPlliUOP9ThaF4QnhP8qrjrH7DRzHfSk0oQv1wToW+iA5GajEQ==}
+    hasBin: true
+    peerDependencies:
+      browserslist: '>= 4.21.0'
+
+  update-browserslist-db@1.1.0:
+    resolution: {integrity: sha512-EdRAaAyk2cUE1wOf2DkEhzxqOQvFOoRJFNS6NeyJ01Gp2beMRpBAINjM2iDXE3KCuKhwnvHIQCJm6ThL2Z+HzQ==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
@@ -9440,7 +9446,7 @@ snapshots:
 
   acorn@8.11.3: {}
 
-  acorn@8.12.0: {}
+  acorn@8.12.1: {}
 
   agent-base@7.1.1:
     dependencies:
@@ -9711,10 +9717,10 @@ snapshots:
 
   browserslist@4.23.1:
     dependencies:
-      caniuse-lite: 1.0.30001639
+      caniuse-lite: 1.0.30001640
       electron-to-chromium: 1.4.816
       node-releases: 2.0.14
-      update-browserslist-db: 1.0.16(browserslist@4.23.1)
+      update-browserslist-db: 1.1.0(browserslist@4.23.1)
 
   bser@2.1.1:
     dependencies:
@@ -9768,7 +9774,7 @@ snapshots:
 
   caniuse-lite@1.0.30001618: {}
 
-  caniuse-lite@1.0.30001639: {}
+  caniuse-lite@1.0.30001640: {}
 
   chai@4.4.1:
     dependencies:
@@ -10091,7 +10097,7 @@ snapshots:
 
   dayjs@1.11.11: {}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/7403e03dad09403509244b40fab520f085fc7799:
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/fd6d19e194fe43f7300c502cca23b528ca465ce5:
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -13157,7 +13163,7 @@ snapshots:
   terser@5.31.1:
     dependencies:
       '@jridgewell/source-map': 0.3.6
-      acorn: 8.12.0
+      acorn: 8.12.1
       commander: 2.20.3
       source-map-support: 0.5.21
 
@@ -13353,7 +13359,7 @@ snapshots:
       escalade: 3.1.2
       picocolors: 1.0.1
 
-  update-browserslist-db@1.0.16(browserslist@4.23.1):
+  update-browserslist-db@1.1.0(browserslist@4.23.1):
     dependencies:
       browserslist: 4.23.1
       escalade: 3.1.2
