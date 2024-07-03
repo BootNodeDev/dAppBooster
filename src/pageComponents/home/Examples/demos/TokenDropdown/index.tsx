@@ -1,7 +1,7 @@
-import { useState } from 'react'
+import { useState, useRef, KeyboardEvent } from 'react'
 import styled from 'styled-components'
 
-import { Dropdown } from 'db-ui-toolkit'
+import { Dropdown, DropdownExposedMethods } from 'db-ui-toolkit'
 import { arbitrum, mainnet, polygon } from 'viem/chains'
 
 import Arbitrum from '@/src/pageComponents/home/Examples/demos/TokenDropdown/assets/Arbitrum'
@@ -23,8 +23,6 @@ const Icon = styled.div`
   overflow: hidden;
   width: ${ICON_SIZE}px;
 `
-
-const Tokens = styled(TokenSelect)<{ $closeOnClick?: boolean }>``
 
 const TokenDropdown: React.FC = ({ ...restProps }) => {
   const [currentNetworkId, setCurrentNetworkId] = useState<number>(mainnet.id)
@@ -50,42 +48,55 @@ const TokenDropdown: React.FC = ({ ...restProps }) => {
     },
   ]
 
+  const dropdownRef = useRef<DropdownExposedMethods>(null)
+
+  const handleCloseDropdown = () => {
+    if (dropdownRef.current) {
+      dropdownRef.current.closeDropdown()
+    }
+  }
+
   const onTokenSelect = (token: Token | undefined) => {
     setCurrentToken(token)
+    handleCloseDropdown()
   }
 
   return (
-    <>
-      <Dropdown
-        button={
-          <DropdownButton>
-            {currentToken ? (
-              <>
-                <Icon>
-                  <TokenLogo size={ICON_SIZE} token={currentToken} />
-                </Icon>
-                {currentToken.symbol}
-              </>
-            ) : (
-              'Select token'
-            )}
-          </DropdownButton>
+    <Dropdown
+      button={
+        <DropdownButton>
+          {currentToken ? (
+            <>
+              <Icon>
+                <TokenLogo size={ICON_SIZE} token={currentToken} />
+              </Icon>
+              {currentToken.symbol}
+            </>
+          ) : (
+            'Select token'
+          )}
+        </DropdownButton>
+      }
+      closeOnClick={false}
+      items={
+        <TokenSelect
+          currentNetworkId={currentNetworkId}
+          networksList={networksList}
+          onTokenSelect={onTokenSelect}
+          showBalance
+          showTopTokens
+          showValue
+          {...restProps}
+        />
+      }
+      onKeyUp={(e: KeyboardEvent<HTMLElement>) => {
+        if (e.key === 'Escape') {
+          handleCloseDropdown()
         }
-        items={
-          <Tokens
-            $closeOnClick={false}
-            currentNetworkId={currentNetworkId}
-            networksList={networksList}
-            onTokenSelect={onTokenSelect}
-            showBalance
-            showTopTokens
-            showValue
-            {...restProps}
-          />
-        }
-        position="right"
-      />
-    </>
+      }}
+      position="right"
+      ref={dropdownRef}
+    />
   )
 }
 
