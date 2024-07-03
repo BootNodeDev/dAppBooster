@@ -4,7 +4,10 @@ import styled from 'styled-components'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import { type Token } from '@/src/types/token'
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow' }) => ({ className }))`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex = 0 }) => ({
+  tabIndex,
+  className,
+}))`
   --theme-token-select-row-background-color-default: var(
     --theme-token-select-row-background-color,
     transparent
