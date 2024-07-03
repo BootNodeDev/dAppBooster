@@ -19,9 +19,12 @@ export type Networks = Array<{
 }>
 
 const Wrapper = styled(Card)`
-  padding: calc(var(--base-common-padding) * 5) 0 calc(var(--base-common-padding) * 3);
+  background-color: var(--theme-token-select-background-color, var(--theme-card-background-color));
+  border-color: var(--theme-token-select-border-color, var(--theme-card-border-color));
+  box-shadow: var(--theme-token-select-background-color, var(--theme-card-box-shadow));
   display: flex;
   flex-direction: column;
+  padding: calc(var(--base-common-padding) * 5) 0 calc(var(--base-common-padding) * 3);
   row-gap: calc(var(--base-gap) * 3);
   width: 540px;
 `
@@ -31,7 +34,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   currentNetworkId?: number
   iconSize?: number
   itemHeight?: number
-  networks?: Networks
+  networks?: Networks | undefined
   onTokenSelect: (token: Token | undefined) => void
   placeholder?: string
   showTopTokens?: boolean
@@ -39,12 +42,40 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   showValue?: boolean
 }
 
+/**
+ * TokenSelect component, used to search and select a token from a list.
+ *
+ * @param {number} [currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
+ * @param {function} onTokenSelect - Callback function to be called when a token is selected.
+ * @param {Networks} [networks] - Optional list of networks to display in the dropdown. The dropdown won't show up if undefined. Default is undefined.
+ * @param {string} [placeholder='Search by name or address'] - Optional placeholder text for the search input. Default is 'Search by name or address'.
+ * @param {number} [containerHeight=320] - Optional height of the virtualized tokens list. Default is 320.
+ * @param {number} [iconSize=32] - Optional size of the token icon in the list. Default is 32.
+ * @param {number} [itemHeight=64] - Optional height of each item in the list. Default is 64.
+ * @param {boolean} [showBalance=false] - Optional flag to show the token balance in the list. Default is false.
+ * @param {boolean} [showValue=false] - Optional flag to show the token value in the list. Default is false.
+ * @param {boolean} [showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
+ *
+ * Individual CSS classes are available for deep styling.
+ *
+ * Also theme CSS vars are available for cosmetic changes:
+ *
+ * Main container:
+ * * --theme-token-select-background-color (defaults to --theme-card-background-color)
+ * * --theme-token-select-border-color (defaults to --theme-card-border-color)
+ * * --theme-token-select-box-shadow (defaults to --theme-card-box-shadow)
+ *
+ * Network select button:
+ * * --theme-network-button-color
+ * * --theme-nerwork-button-background-color
+ *
+ */
 const TokenSelect: React.FC<Props> = ({
   containerHeight = 320,
   currentNetworkId = mainnet.id,
   iconSize = 32,
   itemHeight = 64,
-  networks,
+  networks = undefined,
   onTokenSelect,
   placeholder = 'Search by name or address',
   showBalance = false,
