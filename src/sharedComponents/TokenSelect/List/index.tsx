@@ -6,7 +6,7 @@ import VirtualizedList from '@/src/sharedComponents/VirtualizedList'
 import { type Token, type Tokens } from '@/src/types/token'
 import { withSuspense } from '@/src/utils/suspenseWrapper'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectList' }) => ({ className }))`
   [data-theme='light'] & {
     --theme-token-select-list-border-color: #e2e0e7;
   }

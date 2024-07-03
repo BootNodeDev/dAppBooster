@@ -18,7 +18,7 @@ export type Networks = Array<{
   icon: ReactElement
 }>
 
-const Wrapper = styled(Card)`
+const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => ({ className }))`
   background-color: var(--theme-token-select-background-color, var(--theme-card-background-color));
   border-color: var(--theme-token-select-border-color, var(--theme-card-border-color));
   box-shadow: var(--theme-token-select-background-color, var(--theme-card-box-shadow));

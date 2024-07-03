@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import { type Token } from '@/src/types/token'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow' }) => ({ className }))`
   [data-theme='light'] & {
     --theme-row-background-hover: rgb(0 0 0 / 5%);
     --theme-row-token-name-color: #2e3048;

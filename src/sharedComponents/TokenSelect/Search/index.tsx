@@ -7,7 +7,7 @@ import { type Networks } from '@/src/sharedComponents/TokenSelect'
 import SearchInput from '@/src/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/sharedComponents/TokenSelect/Search/NetworkButton'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) => ({ className }))`
   display: flex;
   column-gap: var(--base-gap);
   height: 72px;

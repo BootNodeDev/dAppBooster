@@ -4,7 +4,9 @@ import styled from 'styled-components'
 import Pill from '@/src/sharedComponents/TokenSelect/TopTokens/Pill'
 import { type Tokens, type Token } from '@/src/types/token'
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' }) => ({
+  className,
+}))`
   display: flex;
   flex-wrap: wrap;
   gap: var(--base-gap-xl);

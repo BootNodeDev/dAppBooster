@@ -6,7 +6,7 @@ import { type Token } from '@/src/types/token'
 
 const ICON_SIZE = 24
 
-const Wrapper = styled.button`
+const Wrapper = styled.button.attrs(({ className = 'tokenSelectPill' }) => ({ className }))`
   [data-theme='light'] & {
     --theme-token-select-pill-border-color: #e2e0e7;
     --theme-token-select-pill-color: #2e3048;

@@ -22,7 +22,7 @@ const SearchIcon = () => (
   </svg>
 )
 
-const Wrapper = styled.div`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => ({ className }))`
   --base-textfield-height: 100%;
   --base-textfield-border-radius: var(--base-border-radius);
   --base-textfield-font-size: 1.6rem;
