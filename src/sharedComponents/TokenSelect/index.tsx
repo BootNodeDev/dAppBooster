@@ -78,6 +78,12 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-row-token-name-color
  * * --theme-token-select-row-token-balance-color
  * * --theme-token-select-row-token-value-color
+ *
+ * Top tokens:
+ * * --theme-token-select-pill-border-color
+ * * --theme-token-select-pill-color
+ * * --theme-token-select-pill-background-color-hover
+ *
  */
 const TokenSelect: React.FC<Props> = ({
   containerHeight = 320,

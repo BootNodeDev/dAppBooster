@@ -1,7 +1,7 @@
 import { type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-import Pill from '@/src/sharedComponents/TokenSelect/TopTokens/Pill'
+import Item from '@/src/sharedComponents/TokenSelect/TopTokens/Item'
 import { type Tokens, type Token } from '@/src/types/token'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' }) => ({
@@ -32,7 +32,7 @@ const TopTokens: React.FC<Props> = ({ onTokenSelect, tokens, ...restProps }: Pro
             topTokenSymbols.indexOf(b.symbol.toLowerCase()),
         )
         .map((token, index) => (
-          <Pill key={index} onClick={() => onTokenSelect(token)} token={token} />
+          <Item key={index} onClick={() => onTokenSelect(token)} token={token} />
         ))}
     </Wrapper>
   )

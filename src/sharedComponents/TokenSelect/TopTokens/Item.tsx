@@ -6,23 +6,24 @@ import { type Token } from '@/src/types/token'
 
 const ICON_SIZE = 24
 
-const Wrapper = styled.button.attrs(({ className = 'tokenSelectPill' }) => ({ className }))`
-  [data-theme='light'] & {
-    --theme-token-select-pill-border-color: #e2e0e7;
-    --theme-token-select-pill-color: #2e3048;
-    --theme-token-select-pill-background-color-hover: rgb(0 0 0 / 5%);
-  }
-
-  [data-theme='dark'] & {
-    --theme-token-select-pill-border-color: #4b4d60;
-    --theme-token-select-pill-color: #fff;
-    --theme-token-select-pill-background-color-hover: rgb(255 255 255 / 5%);
-  }
+const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', tabIndex = 0 }) => ({
+  className,
+  tabIndex,
+}))`
+  --theme-token-select-pill-border-color-default: var(
+    --theme-token-select-pill-border-color,
+    #e2e0e7
+  );
+  --theme-token-select-pill-color-default: var(--theme-token-select-pill-color, #2e3048);
+  --theme-token-select-pill-background-color-hover-default: var(
+    --theme-token-select-pill-background-color-hover,
+    rgb(0 0 0 / 5%)
+  );
 
   align-items: center;
   background-color: transparent;
   border-radius: var(--base-border-radius);
-  border: 1px solid var(--theme-token-select-pill-border-color);
+  border: 1px solid var(--theme-token-select-pill-border-color-default);
   column-gap: var(--base-gap);
   cursor: pointer;
   display: grid;
@@ -32,11 +33,11 @@ const Wrapper = styled.button.attrs(({ className = 'tokenSelectPill' }) => ({ cl
   transition: background-color var(--base-animation-time-sm) ease-in-out;
 
   &:hover {
-    background-color: var(--theme-token-select-pill-background-color-hover);
+    background-color: var(--theme-token-select-pill-background-color-hover-default);
   }
 `
 
-const Icon = styled.div`
+const Icon = styled.div.attrs(({ className = 'tokenSelectTopTokenItemIcon' }) => ({ className }))`
   align-items: center;
   border-radius: 50%;
   display: flex;
@@ -46,8 +47,10 @@ const Icon = styled.div`
   width: ${ICON_SIZE}px;
 `
 
-const Symbol = styled.div`
-  color: var(--theme-token-select-pill-color);
+const Symbol = styled.div.attrs(({ className = 'tokenSelectTopTokenItemSymbol' }) => ({
+  className,
+}))`
+  color: var(--theme-token-select-pill-color-default);
   font-size: 1.8rem;
   font-weight: 500;
   line-height: 1.2;
@@ -57,7 +60,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   token: Token
 }
 
-const Pill: React.FC<Props> = ({ token, ...restProps }: Props) => {
+const Item: React.FC<Props> = ({ token, ...restProps }: Props) => {
   const { symbol } = token
 
   return (
@@ -70,4 +73,4 @@ const Pill: React.FC<Props> = ({ token, ...restProps }: Props) => {
   )
 }
 
-export default Pill
+export default Item
