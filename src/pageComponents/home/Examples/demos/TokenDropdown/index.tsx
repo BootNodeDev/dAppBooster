@@ -9,7 +9,7 @@ import Eth from '@/src/pageComponents/home/Examples/demos/TokenDropdown/assets/E
 import Polygon from '@/src/pageComponents/home/Examples/demos/TokenDropdown/assets/Polygon'
 import DropdownButton from '@/src/sharedComponents/DropdownButton'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
-import TokenSelect, { type NetworksList } from '@/src/sharedComponents/TokenSelect'
+import TokenSelect, { type Networks } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 
 const ICON_SIZE = 24
@@ -27,7 +27,7 @@ const Icon = styled.div`
 const TokenDropdown: React.FC = ({ ...restProps }) => {
   const [currentNetworkId, setCurrentNetworkId] = useState<number>(mainnet.id)
   const [currentToken, setCurrentToken] = useState<Token | undefined>()
-  const networksList: NetworksList = [
+  const networks: Networks = [
     {
       icon: <Eth />,
       id: mainnet.id,
@@ -81,7 +81,7 @@ const TokenDropdown: React.FC = ({ ...restProps }) => {
       items={
         <TokenSelect
           currentNetworkId={currentNetworkId}
-          networksList={networksList}
+          networks={networks}
           onTokenSelect={onTokenSelect}
           showBalance
           showTopTokens

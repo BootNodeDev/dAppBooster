@@ -11,7 +11,7 @@ import Search from '@/src/sharedComponents/TokenSelect/Search'
 import TopTokens from '@/src/sharedComponents/TokenSelect/TopTokens'
 import { type Token } from '@/src/types/token'
 
-export type NetworksList = Array<{
+export type Networks = Array<{
   label: string
   onClick: () => void
   id: number
@@ -31,7 +31,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   currentNetworkId?: number
   iconSize?: number
   itemHeight?: number
-  networksList?: NetworksList
+  networks?: Networks
   onTokenSelect: (token: Token | undefined) => void
   placeholder?: string
   showTopTokens?: boolean
@@ -44,7 +44,7 @@ const TokenSelect: React.FC<Props> = ({
   currentNetworkId = mainnet.id,
   iconSize = 32,
   itemHeight = 64,
-  networksList,
+  networks,
   onTokenSelect,
   placeholder = 'Search by name or address',
   showBalance = false,
@@ -61,7 +61,7 @@ const TokenSelect: React.FC<Props> = ({
     <Wrapper {...restProps}>
       <Search
         currentNetworkId={currentNetworkId}
-        networksList={networksList}
+        networks={networks}
         placeholder={placeholder}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}

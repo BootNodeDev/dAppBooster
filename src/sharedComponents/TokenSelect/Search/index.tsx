@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Dropdown, Item as BaseItem } from 'db-ui-toolkit'
 
-import { type NetworksList } from '@/src/sharedComponents/TokenSelect'
+import { type Networks } from '@/src/sharedComponents/TokenSelect'
 import SearchInput from '@/src/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/sharedComponents/TokenSelect/Search/NetworkButton'
 
@@ -23,7 +23,7 @@ const Item = styled(BaseItem)`
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
   currentNetworkId: number
-  networksList?: NetworksList
+  networks?: Networks
   placeholder: string
   searchTerm: string
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>
@@ -31,7 +31,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 
 const TokenSelect: React.FC<Props> = ({
   currentNetworkId,
-  networksList,
+  networks,
   placeholder,
   searchTerm,
   setSearchTerm,
@@ -44,15 +44,15 @@ const TokenSelect: React.FC<Props> = ({
         placeholder={placeholder}
         value={searchTerm}
       />
-      {networksList && networksList.length > 1 && (
+      {networks && networks.length > 1 && (
         <Dropdown
           button={
             <NetworkButton>
-              {networksList.find((item) => item.id === currentNetworkId)?.icon}
+              {networks.find((item) => item.id === currentNetworkId)?.icon}
             </NetworkButton>
           }
           highlightItem
-          items={networksList.map(({ icon, label, onClick }, index) => (
+          items={networks.map(({ icon, label, onClick }, index) => (
             <Item key={index} onClick={onClick}>
               {icon}
               {label}
