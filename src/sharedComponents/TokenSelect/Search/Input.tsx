@@ -23,7 +23,7 @@ const SearchIcon = () => (
 )
 
 const Wrapper = styled.div`
-  --base-textfield-height: var(--base-search-wrapper-height);
+  --base-textfield-height: 100%;
   --base-textfield-border-radius: var(--base-border-radius);
   --base-textfield-font-size: 1.6rem;
   --base-textfield-vertical-padding: 0;

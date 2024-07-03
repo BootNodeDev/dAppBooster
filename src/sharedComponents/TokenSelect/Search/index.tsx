@@ -8,11 +8,14 @@ import SearchInput from '@/src/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/sharedComponents/TokenSelect/Search/NetworkButton'
 
 const Wrapper = styled.div`
-  --base-search-wrapper-height: 72px;
-
   display: flex;
   column-gap: var(--base-gap);
+  height: 72px;
   padding: 0 calc(var(--base-common-padding) * 2);
+
+  .dbuitkDropdownButton {
+    height: 100%;
+  }
 `
 
 const Item = styled(BaseItem)`

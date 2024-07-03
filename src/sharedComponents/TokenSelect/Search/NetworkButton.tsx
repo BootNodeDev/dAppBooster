@@ -47,7 +47,6 @@ const NetworkButton = styled.button.attrs(
   column-gap: var(--base-gap);
   cursor: pointer;
   display: flex;
-  height: var(--base-search-height-default);
   justify-content: center;
   padding: 0;
   width: 88px;
