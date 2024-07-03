@@ -145,6 +145,12 @@ const darkThemeCSSVars = css`
   /* Token Select */
   --theme-token-select-network-button-color: #fff;
   --theme-token-select-network-button-background-color: #292b43;
+
+  --theme-token-select-row-background-color: transparent;
+  --theme-token-select-row-background-color-hover: rgb(255 255 255 / 5%);
+  --theme-token-select-row-token-name-color: #fff;
+  --theme-token-select-row-token-balance-color: #fff;
+  --theme-token-select-row-token-value-color: #fff;
 `
 
 export default darkThemeCSSVars

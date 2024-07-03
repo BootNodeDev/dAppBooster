@@ -5,21 +5,29 @@ import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import { type Token } from '@/src/types/token'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow' }) => ({ className }))`
-  [data-theme='light'] & {
-    --theme-row-background-hover: rgb(0 0 0 / 5%);
-    --theme-row-token-name-color: #2e3048;
-    --theme-row-token-balance-color: #2e3048;
-    --theme-row-token-value-color: #2e3048;
-  }
-
-  [data-theme='dark'] & {
-    --theme-row-background-hover: rgb(255 255 255 / 5%);
-    --theme-row-token-name-color: #fff;
-    --theme-row-token-balance-color: #fff;
-    --theme-row-token-value-color: #fff;
-  }
+  --theme-token-select-row-background-color-default: var(
+    --theme-token-select-row-background-color,
+    transparent
+  );
+  --theme-token-select-row-background-color-hover-default: var(
+    --theme-token-select-row-background-color-hover,
+    rgb(0 0 0 / 5%)
+  );
+  --theme-token-select-row-token-name-color-default: var(
+    --theme-token-select-row-token-name-color,
+    #2e3048
+  );
+  --theme-token-select-row-token-balance-color-default: var(
+    --theme-token-select-row-token-balance-color,
+    #2e3048
+  );
+  --theme-token-select-row-token-value-color-default: var(
+    --theme-token-select-row-token-value-color,
+    #2e3048
+  );
 
   align-items: center;
+  background-color: var(--theme-token-select-row-background-color-default);
   column-gap: var(--base-gap-xl);
   cursor: pointer;
   display: flex;
@@ -30,11 +38,13 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow' }) => ({ cl
   width: 100%;
 
   &:hover {
-    background-color: var(--theme-row-background-hover);
+    background-color: var(--theme-token-select-row-background-color-hover-default);
   }
 `
 
-const Icon = styled.div<{ size: number }>`
+const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIcon' }) => ({
+  className,
+}))`
   align-items: center;
   border-radius: 50%;
   display: flex;
@@ -44,14 +54,14 @@ const Icon = styled.div<{ size: number }>`
   width: ${({ size }) => size}px;
 `
 
-const Name = styled.div`
-  color: var(--theme-row-token-name-color);
+const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
+  color: var(--theme-token-select-row-token-name-color-default);
   font-size: 1.8rem;
   font-weight: 500;
   line-height: 1.2;
 `
 
-const Values = styled.div`
+const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ className }))`
   display: flex;
   flex-direction: column;
   margin-left: auto;
@@ -59,15 +69,15 @@ const Values = styled.div`
   align-items: flex-end;
 `
 
-const Balance = styled.div`
-  color: var(--theme-row-token-balance-color);
+const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({ className }))`
+  color: var(--theme-token-select-row-token-balance-color-default);
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.2;
 `
 
-const Value = styled.div`
-  color: var(--theme-row-token-value-color);
+const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => ({ className }))`
+  color: var(--theme-token-select-row-token-value-color-default);
   font-size: 1.2rem;
   font-weight: 400;
   line-height: 1.2;
