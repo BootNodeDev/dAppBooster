@@ -29,35 +29,34 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => 
   --base-textfield-vertical-padding: 0;
   --base-textfield-horizontal-padding: var(--base-common-padding-xl);
 
-  [data-theme='light'] & {
-    --theme-textfield-color: #2e3048;
-    --theme-textfield-color-active: #2e3048;
-    --theme-textfield-color-error: #2e3048;
-    --theme-textfield-color-ok: #2e3048;
-    --theme-textfield-background-color: #f7f7f7;
-    --theme-textfield-background-color-active: #f7f7f7;
-    --theme-textfield-placeholder-color: #161d1a;
-    --theme-textfield-boxshadow-active: none;
-    --theme-textfield-border-color: #e2e0e7;
-    --theme-textfield-border-color-active: #e2e0e7;
-    --theme-textfield-border-color-error: #e2e0e7;
-    --theme-textfield-border-color-ok: #e2e0e7;
-  }
-
-  [data-theme='dark'] & {
-    --theme-textfield-color: #fff;
-    --theme-textfield-color-active: #fff;
-    --theme-textfield-color-error: #fff;
-    --theme-textfield-color-ok: #fff;
-    --theme-textfield-background-color: #292b43;
-    --theme-textfield-background-color-active: #292b43;
-    --theme-textfield-placeholder-color: #ddd;
-    --theme-textfield-boxshadow-active: none;
-    --theme-textfield-border-color: #5f6178;
-    --theme-textfield-border-color-active: #5f6178;
-    --theme-textfield-border-color-error: #5f6178;
-    --theme-textfield-border-color-ok: #5f6178;
-  }
+  --theme-textfield-color: var(--theme-token-select-search-field-color, #2e3048);
+  --theme-textfield-color-active: var(--theme-token-select-search-field-color-active, #2e3048);
+  --theme-textfield-color-error: var(--theme-textfield-color);
+  --theme-textfield-color-ok: var(--theme-textfield-color);
+  --theme-textfield-background-color: var(
+    --theme-token-select-search-field-background-color,
+    #f7f7f7
+  );
+  --theme-textfield-background-color-active: var(
+    --theme-token-select-search-field-background-color-active,
+    #f7f7f7
+  );
+  --theme-textfield-placeholder-color: var(
+    --theme-token-select-search-field-placeholder-color,
+    #161d1a
+  );
+  --theme-textfield-box-shadow: var(--theme-token-select-search-field-box-shadow, none);
+  --theme-textfield-box-shadow-active: var(
+    --theme-token-select-search-field-box-shadow-active,
+    none
+  );
+  --theme-textfield-border-color: var(--theme-token-select-search-field-border-color, #e2e0e7);
+  --theme-textfield-border-color-active: var(
+    --theme-token-select-search-field-border-color-active,
+    #e2e0e7
+  );
+  --theme-textfield-border-color-error: var(--theme-textfield-border-color);
+  --theme-textfield-border-color-ok: var(--theme-textfield-border-color);
 
   ${TextfieldCSS}
 
@@ -65,13 +64,24 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => 
   column-gap: var(--base-gap-xl);
   display: flex;
   flex-grow: 1;
+
+  &:focus-within {
+    box-shadow: var(--theme-textfield-box-shadow-active);
+    border-color: var(--theme-textfield-border-color-active);
+  }
 `
 
 const SearchInput = styled(Textfield).attrs({ type: 'search' })`
-  background: none;
-  border: none;
-  padding: 0;
-  width: 100%;
+  &,
+  &:focus,
+  &:hover,
+  &:active {
+    background: none;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    width: 100%;
+  }
 `
 
 const Input: FC<InputHTMLAttributes<HTMLInputElement>> = ({ className, ...inputProps }) => {

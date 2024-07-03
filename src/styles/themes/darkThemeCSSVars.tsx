@@ -157,6 +157,16 @@ const darkThemeCSSVars = css`
   --theme-token-select-top-token-item-border-color: #4b4d60;
   --theme-token-select-top-token-item-color: #fff;
   --theme-token-select-top-token-item-background-color-hover: rgb(255 255 255 / 5%);
+
+  --theme-token-select-search-field-color: #fff;
+  --theme-token-select-search-field-color-active: #fff;
+  --theme-token-select-search-field-background-color: #292b43;
+  --theme-token-select-search-field-background-color-active: #292b43;
+  --theme-token-select-search-field-placeholder-color: #ddd;
+  --theme-token-select-search-field-box-shadow: none;
+  --theme-token-select-search-field-box-shadow-active: none;
+  --theme-token-select-search-field-border-color: #5f6178;
+  --theme-token-select-search-field-border-color-active: #5f6178;
 `
 
 export default darkThemeCSSVars

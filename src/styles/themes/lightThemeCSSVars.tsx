@@ -157,6 +157,16 @@ const lightThemeCSSVars = css`
   --theme-token-select-top-token-item-border-color: #e2e0e7;
   --theme-token-select-top-token-item-color: #2e3048;
   --theme-token-select-top-token-item-background-color-hover: rgb(0 0 0 / 5%);
+
+  --theme-token-select-search-field-color: #2e3048;
+  --theme-token-select-search-field-color-active: #2e3048;
+  --theme-token-select-search-field-background-color: #f7f7f7;
+  --theme-token-select-search-field-background-color-active: #f7f7f7;
+  --theme-token-select-search-field-placeholder-color: #161d1a;
+  --theme-token-select-search-field-box-shadow: none;
+  --theme-token-select-search-field-box-shadow-active: rgb(0 0 0 / 10%);
+  --theme-token-select-search-field-border-color: #e2e0e7;
+  --theme-token-select-search-field-border-color-active: #e2e0e7;
 `
 
 export default lightThemeCSSVars

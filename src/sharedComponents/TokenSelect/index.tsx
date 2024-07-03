@@ -56,7 +56,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {boolean} [showValue=false] - Optional flag to show the token value in the list. Default is false.
  * @param {boolean} [showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  *
- * Individual CSS classes are available for deep styling of individual components.
+ * Individual CSS classes are available for deep styling of individual components whitin TokenSelect:
  *
  * Also theme CSS vars are available for cosmetic changes:
  *
@@ -92,6 +92,16 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-top-token-item-border-color
  * * --theme-token-select-top-token-item-border-color-hover
  *
+ * Search field:
+ * * --theme-token-select-search-field-color
+ * * --theme-token-select-search-field-color-active
+ * * --theme-token-select-search-field-background-color
+ * * --theme-token-select-search-field-background-color-active
+ * * --theme-token-select-search-field-placeholder-color
+ * * --theme-token-select-search-field-box-shadow
+ * * --theme-token-select-search-field-box-shadow-active
+ * * --theme-token-select-search-field-border-color
+ * * --theme-token-select-search-field-border-color-active
  */
 const TokenSelect: React.FC<Props> = ({
   containerHeight = 320,
