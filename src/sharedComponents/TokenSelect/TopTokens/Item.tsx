@@ -10,20 +10,27 @@ const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', ta
   className,
   tabIndex,
 }))`
-  --theme-token-select-pill-border-color-default: var(
-    --theme-token-select-pill-border-color,
+  --theme-token-select-top-token-item-border-color-default: var(
+    --theme-token-select-top-token-item-border-color,
     #e2e0e7
   );
-  --theme-token-select-pill-color-default: var(--theme-token-select-pill-color, #2e3048);
-  --theme-token-select-pill-background-color-hover-default: var(
-    --theme-token-select-pill-background-color-hover,
+  --theme-token-select-top-token-item-color-default: var(
+    --theme-token-select-top-token-item-color,
+    #2e3048
+  );
+  --theme-token-select-top-token-item-background-color-default: var(
+    --theme-token-select-top-token-item-background-color,
+    transparent
+  );
+  --theme-token-select-top-token-item-background-color-hover-default: var(
+    --theme-token-select-top-token-item-background-color-hover,
     rgb(0 0 0 / 5%)
   );
 
   align-items: center;
-  background-color: transparent;
+  background-color: var(--theme-token-select-top-token-item-background-color-default);
   border-radius: var(--base-border-radius);
-  border: 1px solid var(--theme-token-select-pill-border-color-default);
+  border: 1px solid var(--theme-token-select-top-token-item-border-color-default);
   column-gap: var(--base-gap);
   cursor: pointer;
   display: grid;
@@ -33,7 +40,7 @@ const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', ta
   transition: background-color var(--base-animation-time-sm) ease-in-out;
 
   &:hover {
-    background-color: var(--theme-token-select-pill-background-color-hover-default);
+    background-color: var(--theme-token-select-top-token-item-background-color-hover-default);
   }
 `
 
@@ -50,7 +57,7 @@ const Icon = styled.div.attrs(({ className = 'tokenSelectTopTokenItemIcon' }) =>
 const Symbol = styled.div.attrs(({ className = 'tokenSelectTopTokenItemSymbol' }) => ({
   className,
 }))`
-  color: var(--theme-token-select-pill-color-default);
+  color: var(--theme-token-select-top-token-item-color-default);
   font-size: 1.8rem;
   font-weight: 500;
   line-height: 1.2;

@@ -82,6 +82,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * Top tokens:
  * * --theme-token-select-pill-border-color
  * * --theme-token-select-pill-color
+ * * --theme-token-select-top-token-item-background-color
  * * --theme-token-select-pill-background-color-hover
  *
  */
