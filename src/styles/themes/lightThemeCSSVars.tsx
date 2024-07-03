@@ -154,9 +154,9 @@ const lightThemeCSSVars = css`
   --theme-token-select-row-token-balance-color: #2e3048;
   --theme-token-select-row-token-value-color: #2e3048;
 
-  --theme-token-select-pill-border-color: #e2e0e7;
-  --theme-token-select-pill-color: #2e3048;
-  --theme-token-select-pill-background-color-hover: rgb(0 0 0 / 5%);
+  --theme-token-select-top-token-item-border-color: #e2e0e7;
+  --theme-token-select-top-token-item-color: #2e3048;
+  --theme-token-select-top-token-item-background-color-hover: rgb(0 0 0 / 5%);
 `
 
 export default lightThemeCSSVars

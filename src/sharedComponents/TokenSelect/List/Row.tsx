@@ -4,6 +4,27 @@ import styled from 'styled-components'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import { type Token } from '@/src/types/token'
 
+const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
+  color: var(--theme-token-select-row-token-name-color-default);
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+`
+
+const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({ className }))`
+  color: var(--theme-token-select-row-token-balance-color-default);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.2;
+`
+
+const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => ({ className }))`
+  color: var(--theme-token-select-row-token-value-color-default);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+`
+
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex = 0 }) => ({
   tabIndex,
   className,
@@ -42,6 +63,31 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex =
 
   &:hover {
     background-color: var(--theme-token-select-row-background-color-hover-default);
+
+    ${Name} {
+      color: var(
+        --theme-token-select-row-token-name-color-default,
+        var(--theme-token-select-row-token-name-color-hover)
+      );
+    }
+
+    ${Balance} {
+      color: var(
+        --theme-token-select-row-token-balance-color-default,
+        var(--theme-token-select-row-token-balance-color-hover)
+      );
+    }
+
+    ${Value} {
+      color: var(
+        --theme-token-select-row-token-value-color-default,
+        var(--theme-token-select-row-token-value-color-hover)
+      );
+    }
+  }
+
+  &:active {
+    opacity: 0.8;
   }
 `
 
@@ -57,33 +103,12 @@ const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIc
   width: ${({ size }) => size}px;
 `
 
-const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
-  color: var(--theme-token-select-row-token-name-color-default);
-  font-size: 1.8rem;
-  font-weight: 500;
-  line-height: 1.2;
-`
-
 const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ className }))`
   display: flex;
   flex-direction: column;
   margin-left: auto;
   row-gap: var(--base-gap-sm);
   align-items: flex-end;
-`
-
-const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({ className }))`
-  color: var(--theme-token-select-row-token-balance-color-default);
-  font-size: 1.6rem;
-  font-weight: 400;
-  line-height: 1.2;
-`
-
-const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => ({ className }))`
-  color: var(--theme-token-select-row-token-value-color-default);
-  font-size: 1.2rem;
-  font-weight: 400;
-  line-height: 1.2;
 `
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {

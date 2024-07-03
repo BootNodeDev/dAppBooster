@@ -6,6 +6,15 @@ import { type Token } from '@/src/types/token'
 
 const ICON_SIZE = 24
 
+const Symbol = styled.div.attrs(({ className = 'tokenSelectTopTokenItemSymbol' }) => ({
+  className,
+}))`
+  color: var(--theme-token-select-top-token-item-color-default);
+  font-size: 1.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+`
+
 const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', tabIndex = 0 }) => ({
   className,
   tabIndex,
@@ -41,6 +50,21 @@ const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', ta
 
   &:hover {
     background-color: var(--theme-token-select-top-token-item-background-color-hover-default);
+    border-color: var(
+      --theme-token-select-top-token-item-border-color-hover,
+      var(--theme-token-select-top-token-item-border-color-default)
+    );
+
+    ${Symbol} {
+      color: var(
+        --theme-token-select-top-token-item-color-hover,
+        var(--theme-token-select-top-token-item-color-default)
+      );
+    }
+  }
+
+  &:active {
+    opacity: 0.8;
   }
 `
 
@@ -52,15 +76,6 @@ const Icon = styled.div.attrs(({ className = 'tokenSelectTopTokenItemIcon' }) =>
   justify-content: center;
   overflow: hidden;
   width: ${ICON_SIZE}px;
-`
-
-const Symbol = styled.div.attrs(({ className = 'tokenSelectTopTokenItemSymbol' }) => ({
-  className,
-}))`
-  color: var(--theme-token-select-top-token-item-color-default);
-  font-size: 1.8rem;
-  font-weight: 500;
-  line-height: 1.2;
 `
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {

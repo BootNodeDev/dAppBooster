@@ -154,9 +154,9 @@ const darkThemeCSSVars = css`
   --theme-token-select-row-token-balance-color: #fff;
   --theme-token-select-row-token-value-color: #fff;
 
-  --theme-token-select-pill-border-color: #4b4d60;
-  --theme-token-select-pill-color: #fff;
-  --theme-token-select-pill-background-color-hover: rgb(255 255 255 / 5%);
+  --theme-token-select-top-token-item-border-color: #4b4d60;
+  --theme-token-select-top-token-item-color: #fff;
+  --theme-token-select-top-token-item-background-color-hover: rgb(255 255 255 / 5%);
 `
 
 export default darkThemeCSSVars

@@ -66,8 +66,10 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-box-shadow (defaults to --theme-card-box-shadow)
  *
  * Network select button:
- * * --theme-network-button-color
- * * --theme-nerwork-button-background-color
+ * * --theme-token-select-network-button-color
+ * * --theme-token-select-network-button-color-hover
+ * * --theme-token-select-network-button-background-color
+ * * --theme-token-select-network-button-background-color-hover
  *
  * List:
  * * --theme-token-select-list-border-top-color
@@ -76,14 +78,19 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-row-background-color
  * * --theme-token-select-row-background-color-hover
  * * --theme-token-select-row-token-name-color
+ * * --theme-token-select-row-token-name-color-hover
  * * --theme-token-select-row-token-balance-color
+ * * --theme-token-select-row-token-balance-color-hover
  * * --theme-token-select-row-token-value-color
+ * * --theme-token-select-row-token-value-color-hover
  *
  * Top tokens:
- * * --theme-token-select-pill-border-color
- * * --theme-token-select-pill-color
+ * * --theme-token-select-top-token-item-color
+ * * --theme-token-select-top-token-item-color-hover
  * * --theme-token-select-top-token-item-background-color
- * * --theme-token-select-pill-background-color-hover
+ * * --theme-token-select-top-token-item-background-color-hover
+ * * --theme-token-select-top-token-item-border-color
+ * * --theme-token-select-top-token-item-border-color-hover
  *
  */
 const TokenSelect: React.FC<Props> = ({

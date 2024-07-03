@@ -51,6 +51,17 @@ const NetworkButton = styled.button.attrs(
   padding: 0;
   width: 88px;
 
+  &:hover {
+    background-color: var(
+      --theme-token-select-network-button-background-color-hover,
+      var(--theme-token-select-network-button-background-color-default)
+    );
+    color: var(
+      --theme-token-select-network-button-color-hover,
+      var(--theme-token-select-network-button-color-default)
+    );
+  }
+
   &:active {
     opacity: 0.7;
   }
