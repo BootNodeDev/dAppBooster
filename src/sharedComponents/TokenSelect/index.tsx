@@ -20,6 +20,9 @@ export type Networks = Array<{
 }>
 
 const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => ({ className }))`
+  --base-token-select-horizontal-padding: var(--base-common-padding-xl, 16px);
+  --theme-token-select-title-color-default: var(--theme-token-select-title-color, #2e3048);
+
   background-color: var(--theme-token-select-background-color, var(--theme-card-background-color));
   border-color: var(--theme-token-select-border-color, var(--theme-card-border-color));
   box-shadow: var(--theme-token-select-background-color, var(--theme-card-box-shadow));
@@ -28,6 +31,15 @@ const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => ({ 
   padding: calc(var(--base-common-padding) * 5) 0 calc(var(--base-common-padding) * 3);
   row-gap: calc(var(--base-gap) * 3);
   width: 540px;
+`
+
+const Title = styled.h2`
+  color: var(--theme-token-select-title-color-default);
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+  padding: 0 var(--base-token-select-horizontal-padding);
 `
 
 const LoadingText = styled.span`
@@ -84,6 +96,9 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * Individual CSS classes are available for deep styling of individual components whitin TokenSelect:
  *
  * Also theme CSS vars are available for cosmetic changes:
+ *
+ * Title:
+ * * --theme-token-select-title-color
  *
  * Main container:
  * * --theme-token-select-background-color (defaults to --theme-card-background-color)
@@ -148,6 +163,7 @@ const TokenSelect = withSuspense(
     )
     return (
       <Wrapper {...restProps}>
+        <Title>Select a token</Title>
         <Search
           currentNetworkId={currentNetworkId}
           networks={networks}

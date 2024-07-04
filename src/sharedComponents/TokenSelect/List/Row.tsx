@@ -56,8 +56,8 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex =
   cursor: pointer;
   display: flex;
   height: 100%;
-  padding-left: calc(var(--base-common-padding) * 3);
-  padding-right: calc(var(--base-common-padding) * 3);
+  padding-left: calc(var(--base-token-select-horizontal-padding) + var(--base-common-padding));
+  padding-right: calc(var(--base-token-select-horizontal-padding) + var(--base-common-padding));
   transition: background-color var(--base-animation-time-sm) ease-in-out;
   width: 100%;
 

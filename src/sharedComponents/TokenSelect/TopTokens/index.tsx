@@ -10,8 +10,8 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' })
   display: flex;
   flex-wrap: wrap;
   gap: var(--base-gap-xl);
-  padding-left: var(--base-common-padding-xl);
-  padding-right: var(--base-common-padding-xl);
+  padding-left: var(--base-token-select-horizontal-padding);
+  padding-right: var(--base-token-select-horizontal-padding);
 `
 
 interface Props extends HTMLAttributes<HTMLDivElement> {

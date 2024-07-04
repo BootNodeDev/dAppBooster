@@ -11,7 +11,7 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) =>
   display: flex;
   column-gap: var(--base-gap);
   height: 72px;
-  padding: 0 calc(var(--base-common-padding) * 2);
+  padding: 0 var(--base-token-select-horizontal-padding);
 
   .dbuitkDropdownButton {
     height: 100%;

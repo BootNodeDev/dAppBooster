@@ -143,6 +143,8 @@ const darkThemeCSSVars = css`
   --theme-dialog-background-color: rgb(0 0 0 / 50%);
 
   /* Token Select */
+  --theme-token-select-title-color: #fff;
+
   --theme-token-select-network-button-color: #fff;
   --theme-token-select-network-button-background-color: #292b43;
 
