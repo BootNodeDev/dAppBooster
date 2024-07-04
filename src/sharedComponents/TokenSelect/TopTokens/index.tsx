@@ -1,4 +1,4 @@
-import { type HTMLAttributes } from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import Item from '@/src/sharedComponents/TokenSelect/TopTokens/Item'
@@ -26,7 +26,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {function} onTokenSelect - Callback function to be called when a token is selected.
  * @param {Tokens} tokens - The list of tokens to display.
  */
-const TopTokens: React.FC<Props> = ({ onTokenSelect, tokens, ...restProps }: Props) => {
+const TopTokens: FC<Props> = ({ onTokenSelect, tokens, ...restProps }: Props) => {
   const topTokenSymbols = ['matic', 'usdc', 'usdt', 'dai', 'weth', 'wbtc', 'arb', 'aave']
 
   return (

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { type FC, useState } from 'react'
 
 import { arbitrum, mainnet, polygon } from 'viem/chains'
 
@@ -9,7 +9,7 @@ import TokenDropdown from '@/src/sharedComponents/TokenDropdown'
 import { type Networks } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 
-const TokenDropdownDemo: React.FC = ({ ...restProps }) => {
+const TokenDropdownDemo: FC = ({ ...restProps }) => {
   const [currentNetworkId, setCurrentNetworkId] = useState<number>(mainnet.id)
   const [currentToken, setCurrentToken] = useState<Token | undefined>()
   const networks: Networks = [

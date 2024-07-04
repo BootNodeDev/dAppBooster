@@ -1,4 +1,12 @@
-import React, { useState, ReactElement, InputHTMLAttributes, useEffect, useCallback } from 'react'
+import {
+  type ChangeEvent,
+  type FC,
+  type InputHTMLAttributes,
+  type ReactElement,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 
 import { useDebouncedCallback } from 'use-debounce'
 import { Chain } from 'viem'
@@ -33,7 +41,7 @@ interface HashInputProps extends InputHTMLAttributes<HTMLInputElement> {
  * @param {Function} [props.onSearch] - Callback function to handle search results
  */
 
-const HashInput: React.FC<HashInputProps> = ({
+const HashInput: FC<HashInputProps> = ({
   chain,
   debounceTime = 500,
   onLoading,
@@ -61,7 +69,7 @@ const HashInput: React.FC<HashInputProps> = ({
 
   const debouncedHandleChange = useDebouncedCallback(handleSearch, debounceTime)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setInput(value)
     debouncedHandleChange(value)

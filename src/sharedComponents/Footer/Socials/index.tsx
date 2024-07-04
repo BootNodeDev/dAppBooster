@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import Github from '@/src/sharedComponents/Footer/Socials/assets/Github'
@@ -23,7 +23,7 @@ const Link = styled.a`
   }
 `
 
-const Socials: React.FC<HTMLAttributes<HTMLDivElement>> = ({ ...restProps }) => {
+const Socials: FC<HTMLAttributes<HTMLDivElement>> = ({ ...restProps }) => {
   const items = [
     { label: 'Telegram', icon: <Telegram />, href: 'https://t.me/mgarciap' },
     { label: 'Github', icon: <Github />, href: 'https://github.com/BootNodeDev' },

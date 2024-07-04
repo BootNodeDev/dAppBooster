@@ -1,4 +1,4 @@
-import React, { useCallback, HTMLAttributes } from 'react'
+import { type FC, useCallback, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import { Card, Button } from 'db-ui-toolkit'
@@ -71,7 +71,7 @@ const Wrapper = styled(Card)`
 
 const ErrorMessage = styled.p``
 
-const Tokens: React.FC<HTMLAttributes<HTMLDivElement>> = ({ ...restProps }) => {
+const Tokens: FC<HTMLAttributes<HTMLDivElement>> = ({ ...restProps }) => {
   const retry = useCallback<Required<WithSuspenseAndRetryProps>['fallbackRender']>(
     ({ resetErrorBoundary }) => (
       <div>

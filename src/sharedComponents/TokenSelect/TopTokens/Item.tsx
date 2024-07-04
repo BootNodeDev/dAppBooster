@@ -1,4 +1,4 @@
-import { type ButtonHTMLAttributes } from 'react'
+import { type ButtonHTMLAttributes, type FC } from 'react'
 import styled from 'styled-components'
 
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
@@ -88,7 +88,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
  *
  * @param {Token} token - The token to display
  */
-const Item: React.FC<Props> = ({ token, ...restProps }: Props) => {
+const Item: FC<Props> = ({ token, ...restProps }) => {
   const { symbol } = token
 
   return (

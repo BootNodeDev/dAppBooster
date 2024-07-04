@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 import { styled } from 'styled-components'
 
 const Wrapper = styled.svg`
@@ -7,7 +7,7 @@ const Wrapper = styled.svg`
   height: 24px;
 `
 
-const Icon: React.FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
+const Icon: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
   <Wrapper fill="none" viewBox="0 0 290 321" xmlns="http://www.w3.org/2000/svg" {...restProps}>
     <svg>
       <path

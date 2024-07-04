@@ -1,4 +1,4 @@
-import React from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import { InnerContainer as Inner, ContainerPadding } from 'db-ui-toolkit'
@@ -46,7 +46,7 @@ const InnerContainer = styled(Inner)`
   ${ContainerPadding}
 `
 
-const Examples: React.FC = ({ ...restProps }) => {
+const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   const { address = '0x87885AaEEdED51C7e3858a782644F5d89759f245' } = useAccount()
   const items: ItemProps[] = [
     {

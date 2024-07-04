@@ -1,4 +1,4 @@
-import React from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import {
@@ -91,7 +91,7 @@ const Buttons = styled.div`
   margin-bottom: calc(var(--base-gap) * 4);
 `
 
-const Welcome: React.FC = ({ ...restProps }) => {
+const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   return (
     <Wrapper id="top" {...restProps}>
       <Clouds>

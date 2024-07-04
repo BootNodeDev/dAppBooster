@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import Item, { Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
@@ -43,7 +43,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   items: ItemProps[]
 }
 
-const List: React.FC<Props> = ({ items, ...restProps }) => {
+const List: FC<Props> = ({ items, ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Title>Built-in Features</Title>

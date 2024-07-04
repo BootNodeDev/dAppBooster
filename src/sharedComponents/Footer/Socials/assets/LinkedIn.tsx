@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 import { styled } from 'styled-components'
 
 const Wrapper = styled.svg`
@@ -9,7 +9,7 @@ const Wrapper = styled.svg`
 /**
  * LinkedIn logo component
  */
-const LinkedIn: React.FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
+const LinkedIn: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
   <Wrapper
     fill="none"
     height="25"
