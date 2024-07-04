@@ -133,7 +133,7 @@ const TokenInput: FC<TokenInputProps> = ({
           <input disabled placeholder="nothing to see..." />
         )}
         <ListToggler onClick={toggleList}>
-          <TokenLogo token={tokenSelected} />
+          {tokenSelected && <TokenLogo token={tokenSelected} />}
         </ListToggler>
       </Row>
 

@@ -86,8 +86,8 @@ const darkThemeCSSVars = css`
   --theme-dropdown-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
 
   --theme-dropdown-item-background-color: transparent;
-  --theme-dropdown-item-background-color-hover: transparent;
-  --theme-dropdown-item-background-color-active: rgb(0 0 0 / 10%);
+  --theme-dropdown-item-background-color-hover: rgb(255 255 255 / 2%);
+  --theme-dropdown-item-background-color-active: rgb(255 255 255 / 5%);
 
   --theme-dropdown-item-color: #fff;
   --theme-dropdown-item-color-hover: #fff;
@@ -96,6 +96,20 @@ const darkThemeCSSVars = css`
   --theme-dropdown-item-border-color: #4b4d60;
   --theme-dropdown-item-border-color-hover: #4b4d60;
   --theme-dropdown-item-border-color-active: #4b4d60;
+
+  /* Dropdown Button  */
+  --theme-dropdown-button-background-color: #8b46a4;
+  --theme-dropdown-button-background-color-hover: #9a4eb5;
+
+  --theme-dropdown-button-border-color: #8b46a4;
+  --theme-dropdown-button-border-color-hover: #9a4eb5;
+
+  --theme-dropdown-button-color: #fff;
+  --theme-dropdown-button-color-hover: #fff;
+
+  --theme-dropdown-button-background-color-disabled: #8b46a4;
+  --theme-dropdown-button-border-color-disabled: #8b46a4;
+  --theme-dropdown-button-color-disabled: #fff;
 
   /* Card */
   --theme-card-background-color: #232436;
@@ -127,6 +141,34 @@ const darkThemeCSSVars = css`
 
   /* Dialog / Modal */
   --theme-dialog-background-color: rgb(0 0 0 / 50%);
+
+  /* Token Select */
+  --theme-token-select-title-color: #fff;
+
+  --theme-token-select-network-button-color: #fff;
+  --theme-token-select-network-button-background-color: #292b43;
+
+  --theme-token-select-list-border-top-color: #4b4d60;
+
+  --theme-token-select-row-background-color: transparent;
+  --theme-token-select-row-background-color-hover: rgb(255 255 255 / 5%);
+  --theme-token-select-row-token-name-color: #fff;
+  --theme-token-select-row-token-balance-color: #fff;
+  --theme-token-select-row-token-value-color: #fff;
+
+  --theme-token-select-top-token-item-border-color: #4b4d60;
+  --theme-token-select-top-token-item-color: #fff;
+  --theme-token-select-top-token-item-background-color-hover: rgb(255 255 255 / 5%);
+
+  --theme-token-select-search-field-color: #fff;
+  --theme-token-select-search-field-color-active: #fff;
+  --theme-token-select-search-field-background-color: #292b43;
+  --theme-token-select-search-field-background-color-active: #292b43;
+  --theme-token-select-search-field-placeholder-color: #ddd;
+  --theme-token-select-search-field-box-shadow: none;
+  --theme-token-select-search-field-box-shadow-active: none;
+  --theme-token-select-search-field-border-color: #5f6178;
+  --theme-token-select-search-field-border-color-active: #5f6178;
 `
 
 export default darkThemeCSSVars

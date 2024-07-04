@@ -68,6 +68,7 @@ const Demo = styled.div`
   flex: 1;
   justify-content: center;
   min-height: 205px;
+  min-width: 0;
   padding: calc(var(--base-gap) * 5) calc(var(--base-gap) * 3) calc(var(--base-gap) * 3);
   position: relative;
 `
