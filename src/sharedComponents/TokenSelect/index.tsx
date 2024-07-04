@@ -1,7 +1,7 @@
-import React, { type HTMLAttributes, type ReactElement } from 'react'
+import { type HTMLAttributes, type ReactElement } from 'react'
 import styled from 'styled-components'
 
-import { Card } from 'db-ui-toolkit'
+import { Card, Spinner } from 'db-ui-toolkit'
 import { mainnet } from 'viem/chains'
 
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
@@ -10,6 +10,7 @@ import List from '@/src/sharedComponents/TokenSelect/List'
 import Search from '@/src/sharedComponents/TokenSelect/Search'
 import TopTokens from '@/src/sharedComponents/TokenSelect/TopTokens'
 import { type Token } from '@/src/types/token'
+import { withSuspense } from '@/src/utils/suspenseWrapper'
 
 export type Networks = Array<{
   label: string
@@ -27,6 +28,29 @@ const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => ({ 
   padding: calc(var(--base-common-padding) * 5) 0 calc(var(--base-common-padding) * 3);
   row-gap: calc(var(--base-gap) * 3);
   width: 540px;
+`
+
+const LoadingText = styled.span`
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.5;
+  opacity: 0.8;
+  text-align: center;
+`
+
+export const Loading = styled(Wrapper).attrs(() => ({
+  className: `tokenSelectLoading`,
+  children: (
+    <>
+      <Spinner />
+      <LoadingText>Loading tokens...</LoadingText>
+    </>
+  ),
+}))`
+  align-items: center;
+  justify-content: center;
+  min-height: 450px;
+  row-gap: calc(var(--base-gap) * 2);
 `
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
@@ -104,47 +128,48 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-row-token-value-color
  * * --theme-token-select-row-token-value-color-hover
  */
-const TokenSelect: React.FC<Props> = ({
-  containerHeight = 320,
-  currentNetworkId = mainnet.id,
-  iconSize = 32,
-  itemHeight = 64,
-  networks = undefined,
-  onTokenSelect,
-  placeholder = 'Search by name or address',
-  showBalance = false,
-  showTopTokens = false,
-  showValue = false,
-  ...restProps
-}) => {
-  const { tokensByChainId } = useTokens()
-  const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
-    tokensByChainId[currentNetworkId],
-  )
-
-  return (
-    <Wrapper {...restProps}>
-      <Search
-        currentNetworkId={currentNetworkId}
-        networks={networks}
-        placeholder={placeholder}
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      />
-      {showTopTokens && (
-        <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[currentNetworkId]} />
-      )}
-      <List
-        containerHeight={containerHeight}
-        iconSize={iconSize}
-        itemHeight={itemHeight}
-        onTokenSelect={onTokenSelect}
-        showBalance={showBalance}
-        showValue={showValue}
-        tokenList={searchResult}
-      />
-    </Wrapper>
-  )
-}
+const TokenSelect = withSuspense(
+  ({
+    containerHeight = 320,
+    currentNetworkId = mainnet.id,
+    iconSize = 32,
+    itemHeight = 64,
+    networks = undefined,
+    onTokenSelect,
+    placeholder = 'Search by name or address',
+    showBalance = false,
+    showTopTokens = false,
+    showValue = false,
+    ...restProps
+  }: Props) => {
+    const { tokensByChainId } = useTokens()
+    const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
+      tokensByChainId[currentNetworkId],
+    )
+    return (
+      <Wrapper {...restProps}>
+        <Search
+          currentNetworkId={currentNetworkId}
+          networks={networks}
+          placeholder={placeholder}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+        />
+        {showTopTokens && (
+          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[currentNetworkId]} />
+        )}
+        <List
+          containerHeight={containerHeight}
+          iconSize={iconSize}
+          itemHeight={itemHeight}
+          onTokenSelect={onTokenSelect}
+          showBalance={showBalance}
+          showValue={showValue}
+          tokenList={searchResult}
+        />
+      </Wrapper>
+    )
+  },
+)
 
 export default TokenSelect

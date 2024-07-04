@@ -9,7 +9,7 @@ import Eth from '@/src/pageComponents/home/Examples/demos/TokenDropdown/assets/E
 import Polygon from '@/src/pageComponents/home/Examples/demos/TokenDropdown/assets/Polygon'
 import DropdownButton from '@/src/sharedComponents/DropdownButton'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
-import TokenSelect, { type Networks } from '@/src/sharedComponents/TokenSelect'
+import TokenSelect, { Loading, type Networks } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 
 const ICON_SIZE = 24
@@ -81,11 +81,13 @@ const TokenDropdown: React.FC = ({ ...restProps }) => {
       items={
         <TokenSelect
           currentNetworkId={currentNetworkId}
+          defaultFallbackFormat="dialog"
           networks={networks}
           onTokenSelect={onTokenSelect}
           showBalance
           showTopTokens
           showValue
+          suspenseFallback={<Loading />}
           {...restProps}
         />
       }

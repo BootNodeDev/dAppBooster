@@ -1,10 +1,9 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, FC } from 'react'
 import styled from 'styled-components'
 
 import Row from '@/src/sharedComponents/TokenSelect/List/Row'
 import VirtualizedList from '@/src/sharedComponents/VirtualizedList'
 import { type Token, type Tokens } from '@/src/types/token'
-import { withSuspense } from '@/src/utils/suspenseWrapper'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectList' }) => ({ className }))`
   --theme-token-select-list-border-top-color-default: var(
@@ -37,39 +36,37 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {boolean} [showValue] - Optional flag to show the token value in the list.
  * @param {Tokens} tokenList - The list of tokens to display.
  */
-const List = withSuspense(
-  ({
-    className,
-    containerHeight,
-    iconSize,
-    itemHeight,
-    onTokenSelect,
-    showBalance,
-    showValue,
-    style,
-    tokenList,
-    ...restProps
-  }: Props) => {
-    return (
-      <Wrapper className={`${className ? className : ''}`.trim()} style={style}>
-        <VirtualizedList<Token>
-          containerHeight={containerHeight}
-          itemHeight={itemHeight}
-          items={tokenList}
-          renderItem={(item) => (
-            <Row
-              iconSize={iconSize}
-              onClick={(token) => onTokenSelect(token)}
-              showBalance={showBalance}
-              showValue={showValue}
-              token={item}
-            />
-          )}
-          {...restProps}
-        />
-      </Wrapper>
-    )
-  },
-)
+const List: FC<Props> = ({
+  className,
+  containerHeight,
+  iconSize,
+  itemHeight,
+  onTokenSelect,
+  showBalance,
+  showValue,
+  style,
+  tokenList,
+  ...restProps
+}) => {
+  return (
+    <Wrapper className={`${className ? className : ''}`.trim()} style={style}>
+      <VirtualizedList<Token>
+        containerHeight={containerHeight}
+        itemHeight={itemHeight}
+        items={tokenList}
+        renderItem={(item) => (
+          <Row
+            iconSize={iconSize}
+            onClick={(token) => onTokenSelect(token)}
+            showBalance={showBalance}
+            showValue={showValue}
+            token={item}
+          />
+        )}
+        {...restProps}
+      />
+    </Wrapper>
+  )
+}
 
 export default List
