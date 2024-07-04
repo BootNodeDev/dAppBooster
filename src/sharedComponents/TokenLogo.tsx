@@ -73,6 +73,10 @@ const TokenLogo: FC<{ token: Token; size?: number }> = ({ size = 24, token }) =>
   const { logoURI } = token
   const [hasError, setHasError] = useState(false)
 
+  useEffect(() => {
+    setHasError(false)
+  }, [logoURI])
+
   return logoURI && !hasError ? (
     <img
       alt={token.name}
