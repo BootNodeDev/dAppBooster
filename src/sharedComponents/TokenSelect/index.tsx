@@ -65,7 +65,7 @@ export const Loading = styled(Wrapper).attrs(() => ({
   row-gap: calc(var(--base-gap) * 2);
 `
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+export interface Props extends HTMLAttributes<HTMLDivElement> {
   containerHeight?: number
   currentNetworkId?: number
   iconSize?: number
