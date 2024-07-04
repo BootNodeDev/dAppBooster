@@ -12,6 +12,9 @@ export const chains = includeTestNets ? allChains : prodChains
 
 type RestrictedTransports = Record<(typeof chains)[number]['id'], Transport>
 
+export type ChainsIds = (typeof chains)[number]['id']
+export type RequiredChainId = (typeof chains)[0]['id']
+
 export const transports: RestrictedTransports = {
   [mainnet.id]: http(env.PUBLIC_RPC_MAINNET),
   [arbitrum.id]: http(env.PUBLIC_RPC_ARBITRUM),

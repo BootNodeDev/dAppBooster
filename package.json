@@ -17,7 +17,9 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "type-check": "bash -c tsc --noEmit"
+    "type-check": "bash -c tsc --noEmit",
+    "wagmi-generate": "wagmi generate --config src/lib/wagmi/config.ts",
+    "postinstall": "pnpm wagmi-generate"
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
@@ -69,6 +71,8 @@
     "@typescript-eslint/parser": "^7.9.0",
     "@vitejs/plugin-react-swc": "^3.6.0",
     "@vitest/coverage-v8": "^1.6.0",
+    "@wagmi/cli": "^2.1.13",
+    "change-case": "^5.4.4",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",

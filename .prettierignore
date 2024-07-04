@@ -2,3 +2,4 @@
 build
 coverage
 src/routeTree.gen.ts
+src/hooks/generated.ts
