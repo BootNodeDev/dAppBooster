@@ -91,7 +91,7 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance in the list. Default is false.
  * @param {boolean} [showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  *
- * Individual CSS classes are available for deep styling of individual components whitin TokenSelect:
+ * Individual CSS classes are available for deep styling of individual components within TokenSelect:
  *
  * Also theme CSS vars are available for cosmetic changes:
  *
