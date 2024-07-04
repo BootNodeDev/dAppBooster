@@ -1,16 +1,6 @@
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:react/recommended',
-    'plugin:react/jsx-runtime',
-    'plugin:import/recommended',
-    'plugin:eslint-plugin-jsx-a11y/recommended',
-    'prettier',
-  ],
   ignorePatterns: ['dist', '.eslintrc.cjs', '**/*.css', '**/*.scss', '**/*.html'],
   settings: {
     react: {
@@ -22,9 +12,20 @@ module.exports = {
     },
   },
   parser: '@typescript-eslint/parser',
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+    'plugin:react/recommended',
+    'plugin:react/jsx-runtime',
+    'plugin:import/recommended',
+    'plugin:eslint-plugin-jsx-a11y/recommended',
+    'prettier',
+  ],
   plugins: ['react-refresh', 'sort-destructure-keys', 'no-relative-import-paths'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
+    'import/no-unresolved': 'error',
     'import/order': [
       'error',
       {
@@ -43,6 +44,14 @@ module.exports = {
           },
         ],
         pathGroupsExcludedImportTypes: ['builtin'],
+      },
+    ],
+    'import/named': 'error',
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector: 'MemberExpression[object.name="React"][property.name!="default"]',
+        message: 'Use named imports from "react" instead of React.<property>',
       },
     ],
     '@typescript-eslint/no-explicit-any': 'warn',
