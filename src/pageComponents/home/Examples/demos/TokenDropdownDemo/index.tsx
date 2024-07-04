@@ -45,7 +45,6 @@ const TokenDropdownDemo: React.FC = ({ ...restProps }) => {
       onTokenSelect={onTokenSelect}
       showBalance
       showTopTokens
-      showValue
       {...restProps}
     />
   )

@@ -19,8 +19,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   iconSize: number
   itemHeight: number
   onTokenSelect: (token: Token | undefined) => void
-  showBalance?: boolean
-  showValue?: boolean
+  showBalance: boolean
   tokenList: Tokens
 }
 
@@ -32,8 +31,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {number} iconSize - The size of the token icon for each item in the list.
  * @param {number} itemHeight - The height of each item in the list.
  * @param {function} onTokenSelect - Callback function to be called when a token is selected.
- * @param {boolean} [showBalance] - Optional flag to show the token balance in the list.
- * @param {boolean} [showValue] - Optional flag to show the token value in the list.
+ * @param {boolean} showBalance - Flag to show the token balance in the list.
  * @param {Tokens} tokenList - The list of tokens to display.
  */
 const List: FC<Props> = ({
@@ -43,7 +41,6 @@ const List: FC<Props> = ({
   itemHeight,
   onTokenSelect,
   showBalance,
-  showValue,
   style,
   tokenList,
   ...restProps
@@ -59,7 +56,6 @@ const List: FC<Props> = ({
             iconSize={iconSize}
             onClick={(token) => onTokenSelect(token)}
             showBalance={showBalance}
-            showValue={showValue}
             token={item}
           />
         )}

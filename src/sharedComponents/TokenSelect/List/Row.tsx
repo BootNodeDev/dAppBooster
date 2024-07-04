@@ -115,7 +115,6 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   iconSize: number
   onClick: (token: Token) => void
   showBalance?: boolean
-  showValue?: boolean
   token: Token
 }
 
@@ -127,9 +126,8 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
  * @param {number} iconSize - The size of the token icon.
  * @param {(token: Token) => void} onClick - Callback function to be called when the row is clicked.
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance. Default is false.
- * @param {boolean} [showValue=false] - Optional flag to show the token value. Default is false.
  */
-const Row: FC<Props> = ({ iconSize, onClick, showBalance, showValue, token, ...restProps }) => {
+const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps }) => {
   const { name } = token
 
   return (
@@ -138,10 +136,12 @@ const Row: FC<Props> = ({ iconSize, onClick, showBalance, showValue, token, ...r
         <TokenLogo size={iconSize} token={token} />
       </Icon>
       <Name>{name}</Name>
-      <Values>
-        {showBalance && <Balance>1000.00</Balance>}
-        {showValue && <Value>$10.00</Value>}
-      </Values>
+      {showBalance && (
+        <Values>
+          <Balance>1000.00</Balance>
+          <Value>$10.00</Value>
+        </Values>
+      )}
     </Wrapper>
   )
 }

@@ -75,7 +75,6 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
   placeholder?: string
   showTopTokens?: boolean
   showBalance?: boolean
-  showValue?: boolean
 }
 
 /**
@@ -90,7 +89,6 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {number} [iconSize=32] - Optional size of the token icon in the list. Default is 32.
  * @param {number} [itemHeight=64] - Optional height of each item in the list. Default is 64.
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance in the list. Default is false.
- * @param {boolean} [showValue=false] - Optional flag to show the token value in the list. Default is false.
  * @param {boolean} [showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  *
  * Individual CSS classes are available for deep styling of individual components whitin TokenSelect:
@@ -154,7 +152,6 @@ const TokenSelect = withSuspense(
     placeholder = 'Search by name or address',
     showBalance = false,
     showTopTokens = false,
-    showValue = false,
     ...restProps
   }: Props) => {
     const { tokensByChainId } = useTokens()
@@ -180,7 +177,6 @@ const TokenSelect = withSuspense(
           itemHeight={itemHeight}
           onTokenSelect={onTokenSelect}
           showBalance={showBalance}
-          showValue={showValue}
           tokenList={searchResult}
         />
       </Wrapper>
