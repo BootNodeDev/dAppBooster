@@ -25,7 +25,6 @@ module.exports = {
   plugins: ['react-refresh', 'sort-destructure-keys', 'no-relative-import-paths'],
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
-    'import/no-unresolved': 'error',
     'import/order': [
       'error',
       {
@@ -47,6 +46,19 @@ module.exports = {
       },
     ],
     'import/named': 'error',
+    'import/no-unresolved': 'error',
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: 'react',
+            importNames: ['default'],
+            message: 'Import React specifically, not as the default export.',
+          },
+        ],
+      },
+    ],
     'no-restricted-syntax': [
       'error',
       {
@@ -54,6 +66,17 @@ module.exports = {
         message: 'Use named imports from "react" instead of React.<property>',
       },
     ],
+    'no-restricted-globals': [
+      'error',
+      {
+        name: 'React',
+        message:
+          'Do not use React as a global variable. Import necessary hooks and components individually.',
+      },
+    ],
+    // 'no-undef': 'error',
+    // 'react/react-in-jsx-scope': 'off',
+    // 'react/jsx-uses-react': 'off',
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
     'no-use-before-define': 'off',
