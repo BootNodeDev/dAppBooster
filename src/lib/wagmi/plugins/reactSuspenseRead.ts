@@ -1,3 +1,4 @@
+import { ActionsConfig } from '@wagmi/cli/plugins'
 import { pascalCase } from 'change-case'
 
 /**
@@ -7,17 +8,6 @@ import { pascalCase } from 'change-case'
 
 // Change this string to use another wallet
 const walletConfigImport = `import { config } from '@/src/lib/wallets/connectkit.config'`
-
-export type ActionsConfig = {
-  getActionName?:
-    | 'legacy'
-    | ((options: {
-        contractName: string
-        itemName?: string | undefined
-        type: 'read' | 'simulate' | 'watch' | 'write'
-      }) => string)
-  overridePackageName?: '@wagmi/core' | 'wagmi' | undefined
-}
 
 type ActionsResult = {
   name: string
@@ -36,53 +26,40 @@ export function reactSuspenseRead(config: ActionsConfig = {}): ActionsResult {
       const pure = '/*#__PURE__*/'
 
       const actionNames = new Set<string>()
-      for (const contract of contracts) {
-        let hasReadFunction = false
-        const readItems = []
-        for (const item of contract.abi) {
-          if (
-            item.type === 'function' &&
-            (item.stateMutability === 'view' || item.stateMutability === 'pure')
-          ) {
-            hasReadFunction = true
-            readItems.push(item)
-          }
-        }
 
-        let innerContent: string
-        if (contract.meta.addressName)
-          innerContent = `abi: ${contract.meta.abiName}, address: ${contract.meta.addressName}`
-        else innerContent = `abi: ${contract.meta.abiName}`
+      const isReadFunction = (item: any) =>
+        item.type === 'function' &&
+        (item.stateMutability === 'view' || item.stateMutability === 'pure')
+
+      for (const contract of contracts) {
+        const readItems = contract.abi.filter(isReadFunction)
+        const hasReadFunction = readItems.length > 0
+
+        let innerContent = `abi: ${contract.meta.abiName}`
+        if (contract.meta.addressName) {
+          innerContent += `, address: ${contract.meta.addressName}`
+        }
 
         if (hasReadFunction) {
           const actionName = getActionName(config, actionNames, 'read', contract.name)
           const functionName = 'createReadContract'
           imports.add(functionName)
-          content.push(
-            `
-export const ${actionName} = ${pure} ${functionName}({ ${innerContent} })`,
-          )
+          content.push(`export const ${actionName} = ${pure} ${functionName}({ ${innerContent} })`)
 
           const names = new Set<string>()
           for (const item of readItems) {
-            if (item.type !== 'function') continue
-
-            // Skip overrides since they are captured by same hook
             if (names.has(item.name)) continue
             names.add(item.name)
 
             const hookName = getActionName(config, actionNames, 'read', contract.name, item.name)
 
-            const contractAddress = contract.meta.addressName
-              ? `${contract.meta.addressName}[config.state.chainId as keyof typeof ${contract.meta.addressName}]`
-              : 'config.state.chainId'
             content.push(
               `
-export const ${hookName} = ${pure} ${functionName}({ ${innerContent}, functionName: '${item.name}' })
-
-export const useSuspense${pascalCase(hookName)} = (args: Parameters<typeof ${hookName}>[1]) => {
-  return useSuspenseQuery({queryKey: ['${hookName}', args, ${contractAddress}, config.state.chainId], queryFn: () => ${hookName}(config, args)})
-}`,
+                export const ${hookName} = ${pure} ${functionName}({ ${innerContent}, functionName: '${item.name}' })
+                export const useSuspense${pascalCase(hookName)} = (params: Parameters<typeof ${hookName}>[1], options?: UseSuspenseQueryOptions) => {
+                  return useSuspenseQuery({ queryKey: ['${hookName}', params, config.state.chainId], queryFn: () => ${hookName}(config, params), ...options })
+                }
+              `,
             )
           }
         }
@@ -90,22 +67,11 @@ export const useSuspense${pascalCase(hookName)} = (args: Parameters<typeof ${hoo
 
       const importValues = [...imports.values()]
 
-      let packageName = 'wagmi/codegen'
-      if (config.overridePackageName) {
-        switch (config.overridePackageName) {
-          case '@wagmi/core':
-            packageName = '@wagmi/core/codegen'
-            break
-          case 'wagmi':
-            packageName = 'wagmi/codegen'
-            break
-        }
-      }
       return {
         imports: importValues.length
-          ? `import { ${importValues.join(', ')} } from '${packageName}'
-import { useSuspenseQuery } from '@tanstack/react-query'
-\n ${walletConfigImport} \n`
+          ? `import { ${importValues.join(', ')} } from 'wagmi/codegen'
+             import { useSuspenseQuery, UseSuspenseQueryOptions } from '@tanstack/react-query'
+             ${walletConfigImport}`
           : '',
         content: content.join('\n\n'),
       }
