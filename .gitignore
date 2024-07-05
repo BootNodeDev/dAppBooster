@@ -27,3 +27,5 @@ dist-ssr
 .env
 
 coverage
+
+src/hooks/generated.ts

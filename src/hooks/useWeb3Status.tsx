@@ -95,5 +95,9 @@ export const useWeb3Status = () => {
 }
 
 export const useWeb3StatusConnected = () => {
+  const context = useWeb3Status()
+  if (!context.address) {
+    throw new Error('Use useWeb3StatusConnected only when a wallet is connected')
+  }
   return useWeb3Status() as RequiredNonNull<Web3Status>
 }

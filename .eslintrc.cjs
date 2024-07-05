@@ -1,7 +1,14 @@
 module.exports = {
   root: true,
   env: { browser: true, es2020: true },
-  ignorePatterns: ['dist', '.eslintrc.cjs', '**/*.css', '**/*.scss', '**/*.html'],
+  ignorePatterns: [
+    'dist',
+    '.eslintrc.cjs',
+    '**/*.css',
+    '**/*.scss',
+    '**/*.html',
+    'src/hooks/generated.ts',
+  ],
   settings: {
     react: {
       version: 'detect',
