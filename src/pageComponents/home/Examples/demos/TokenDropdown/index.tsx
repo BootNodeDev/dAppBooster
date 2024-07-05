@@ -2,9 +2,9 @@ import { type FC, useState } from 'react'
 
 import { arbitrum, mainnet, polygon } from 'viem/chains'
 
-import Arbitrum from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo/assets/Arbitrum'
-import Eth from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo/assets/Eth'
-import Polygon from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo/assets/Polygon'
+import Arbitrum from '@/src/pageComponents/home/Examples/demos/TokenDropdown/assets/Arbitrum'
+import Eth from '@/src/pageComponents/home/Examples/demos/TokenDropdown/assets/Eth'
+import Polygon from '@/src/pageComponents/home/Examples/demos/TokenDropdown/assets/Polygon'
 import TokenDropdown from '@/src/sharedComponents/TokenDropdown'
 import { type Networks } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
