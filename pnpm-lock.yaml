@@ -28,7 +28,7 @@ importers:
         version: 1.8.2(@babel/core@7.24.5)(@tanstack/react-query@5.36.2(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(wagmi@2.9.2(@tanstack/query-core@5.36.1)(@tanstack/react-query@5.36.2(react@18.3.1))(@types/react@18.3.2)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-i18next@13.5.0(i18next@22.5.1)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.5)(@babel/preset-env@7.24.5(@babel/core@7.24.5))(@types/react@18.3.2)(bufferutil@4.0.8)(react@18.3.1))(react@18.3.1)(rollup@4.17.2)(typescript@5.4.5)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.4.5)(zod@3.23.8))(zod@3.23.8))
       db-ui-toolkit:
         specifier: github:BootNodeDev/db-ui-toolkit
-        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/c1769d53c4cdd76b52599149bf98d2d14eba8349
+        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/557aa77ae19c09cf902e29ba8ea5dd555f2e72ea
       modern-normalize:
         specifier: ^2.0.0
         version: 2.0.0
@@ -3220,8 +3220,8 @@ packages:
   dayjs@1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/c1769d53c4cdd76b52599149bf98d2d14eba8349:
-    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/c1769d53c4cdd76b52599149bf98d2d14eba8349}
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/557aa77ae19c09cf902e29ba8ea5dd555f2e72ea:
+    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/557aa77ae19c09cf902e29ba8ea5dd555f2e72ea}
     version: 0.1.0
     engines: {node: '>=20.0.0'}
 
@@ -3388,8 +3388,8 @@ packages:
   electron-to-chromium@1.4.770:
     resolution: {integrity: sha512-ONwOsDiVvV07CMsyH4+dEaZ9L79HMH/ODHnDS3GkIhgNqdDHJN2C18kFb0fBj0RXpQywsPJl6k2Pqg1IY4r1ig==}
 
-  electron-to-chromium@1.4.816:
-    resolution: {integrity: sha512-EKH5X5oqC6hLmiS7/vYtZHZFTNdhsYG5NVPRN6Yn0kQHNBlT59+xSM8HBy66P5fxWpKgZbPqb+diC64ng295Jw==}
+  electron-to-chromium@1.4.817:
+    resolution: {integrity: sha512-3znu+lZMIbTe8ZOs360OMJvVroVF2NpNI8T5jfLnDetVvj0uNmIucZzQVYMSJfsu9f47Ssox1Gt46PR+R+1JUg==}
 
   elliptic@6.5.5:
     resolution: {integrity: sha512-7EjbcmUm17NQFu4Pmgmq2olYMj8nwMnpcddByChSUjArp8F5DQWcIcpriwO4ZToLNAJig0yiyjswfyGNje/ixw==}
@@ -10091,7 +10091,7 @@ snapshots:
   browserslist@4.23.1:
     dependencies:
       caniuse-lite: 1.0.30001640
-      electron-to-chromium: 1.4.816
+      electron-to-chromium: 1.4.817
       node-releases: 2.0.14
       update-browserslist-db: 1.1.0(browserslist@4.23.1)
 
@@ -10477,7 +10477,7 @@ snapshots:
 
   dayjs@1.11.11: {}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/c1769d53c4cdd76b52599149bf98d2d14eba8349:
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/557aa77ae19c09cf902e29ba8ea5dd555f2e72ea:
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -10621,7 +10621,7 @@ snapshots:
 
   electron-to-chromium@1.4.770: {}
 
-  electron-to-chromium@1.4.816: {}
+  electron-to-chromium@1.4.817: {}
 
   elliptic@6.5.5:
     dependencies:
