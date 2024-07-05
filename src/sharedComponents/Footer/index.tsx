@@ -1,3 +1,4 @@
+import { FC } from 'react'
 import styled from 'styled-components'
 
 import { InnerContainer, Footer as BaseFooter, LogoMini, ContainerPadding } from 'db-ui-toolkit'
@@ -30,7 +31,7 @@ const Line = styled.div`
   width: 1px;
 `
 
-export const Footer: React.FC = ({ ...restProps }) => {
+export const Footer: FC = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Inner>

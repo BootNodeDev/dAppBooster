@@ -1,4 +1,4 @@
-import { useRef, KeyboardEvent } from 'react'
+import { type FC, useRef, type KeyboardEvent } from 'react'
 import styled from 'styled-components'
 
 import { Dropdown, DropdownExposedMethods } from 'db-ui-toolkit'
@@ -34,7 +34,7 @@ interface Props extends TokenSelectProps {
  * @param {Token} [currentToken=undefined] - The current token. Default is undefined.
  * @param {number} [iconSize=24] - The size of the token icon. Default is 24.
  */
-const TokenDropdown: React.FC<Props> = ({
+const TokenDropdown: FC<Props> = ({
   className,
   currentToken,
   iconSize = 24,

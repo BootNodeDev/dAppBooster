@@ -1,8 +1,8 @@
-import React, { Suspense } from 'react'
+import { lazy, Suspense } from 'react'
 
 const RouterDevtoolsBase = import.meta.env.PROD
   ? () => null
-  : React.lazy(() =>
+  : lazy(() =>
       import('@tanstack/router-devtools').then((res) => ({
         default: res.TanStackRouterDevtools,
       })),

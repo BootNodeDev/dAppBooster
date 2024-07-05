@@ -73,8 +73,8 @@ export const TransactionButton = ({
     try {
       const hash = await transaction()
       setHash(hash)
-    } catch (error: any) {
-      console.error('Error sending transaction', error.message)
+    } catch (error: unknown) {
+      console.error('Error sending transaction', error instanceof Error ? error.message : error)
       setIsPending(false)
     }
   }

@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import { type HTMLAttributes, type Dispatch, type SetStateAction, type FC } from 'react'
 import styled from 'styled-components'
 
 import { Dropdown, Item as BaseItem } from 'db-ui-toolkit'
@@ -29,7 +29,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   networks?: Networks
   placeholder?: string
   searchTerm: string
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>
+  setSearchTerm: Dispatch<SetStateAction<string>>
 }
 
 /**
@@ -42,7 +42,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {string} searchTerm - The current search term.
  * @param {function} setSearchTerm - Callback function to set the search term.
  */
-const Search: React.FC<Props> = ({
+const Search: FC<Props> = ({
   currentNetworkId,
   networks,
   placeholder,

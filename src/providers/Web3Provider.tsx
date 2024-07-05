@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react'
+import { type PropsWithChildren, type FC } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiProvider } from 'wagmi'
@@ -9,7 +9,7 @@ const queryClient = new QueryClient()
 
 export { ConnectWalletButton }
 
-export const Web3Provider: React.FC<PropsWithChildren> = ({ children }) => {
+export const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react'
+import { type FC, type MouseEventHandler } from 'react'
 import styled from 'styled-components'
 
 import { ExternalLink, CopyButton } from 'db-ui-toolkit'
@@ -38,7 +38,7 @@ interface Props {
  * @param {boolean} [showCopyButton=false] - Whether to show the copy button. Default is false.
  * @param {number | 'disabled'} [truncatedHashLength=6] - The number of characters to show at the start and end of the hash. 'disabled' if you don't want to truncate the hash value. Default is 6.
  */
-const Hash: React.FC<Props> = ({
+const Hash: FC<Props> = ({
   explorerURL = '',
   hash,
   onCopy,

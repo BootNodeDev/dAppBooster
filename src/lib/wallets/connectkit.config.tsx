@@ -1,4 +1,4 @@
-import React from 'react'
+import { type FC, type ReactNode } from 'react'
 
 import { getDefaultConfig, ConnectKitProvider, ConnectKitButton, Types } from 'connectkit'
 import { Address } from 'viem'
@@ -10,10 +10,12 @@ import { chains, transports } from '@/src/lib/networks.config'
 import Avatar from '@/src/sharedComponents/Avatar'
 import ConnectButton from '@/src/sharedComponents/ConnectButton'
 
-const UserAvatar: React.FC<{
+interface Props {
   address: Address
   size: number
-}> = ({ address, size }) => {
+}
+
+const UserAvatar: FC<Props> = ({ address, size }: Props) => {
   const { data: ensName } = useEnsName({ address })
 
   const { data: avatarImg } = useEnsAvatar({
@@ -23,11 +25,11 @@ const UserAvatar: React.FC<{
   return <Avatar address={address} ensImage={avatarImg} ensName={ensName} size={size} />
 }
 
-export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
+export const WalletProvider = ({ children }: { children: ReactNode }) => {
   return (
     <ConnectKitProvider
       options={{
-        customAvatar: Avatar as React.FC<Types.CustomAvatarProps>,
+        customAvatar: Avatar as FC<Types.CustomAvatarProps>,
         initialChainId: 0,
         enforceSupportedChains: false,
       }}
@@ -76,4 +78,5 @@ const defaultConfig = {
 
 const connectkitConfig = getDefaultConfig(defaultConfig)
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const config = createConfig(connectkitConfig)

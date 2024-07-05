@@ -1,4 +1,4 @@
-import { type ReactNode, Suspense, type ComponentType } from 'react'
+import { type ReactNode, Suspense, type ComponentType, JSX } from 'react'
 
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { GeneralErrorDialog, Spinner } from 'db-ui-toolkit'

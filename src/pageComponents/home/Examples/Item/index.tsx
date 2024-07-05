@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react'
+import { type FC, type HTMLAttributes, type ReactNode } from 'react'
 import styled from 'styled-components'
 
 import BaseBadge from '@/src/pageComponents/home/Examples/Item/Badge'
@@ -82,14 +82,14 @@ const Badge = styled(BaseBadge)`
 `
 
 export interface Props extends HTMLAttributes<HTMLDivElement> {
-  demo: React.ReactNode
+  demo: ReactNode
   href: string
-  icon: React.ReactNode
+  icon: ReactNode
   text: string
   title: string
 }
 
-const Item: React.FC<Props> = ({ demo, href, icon, text, title, ...restProps }) => {
+const Item: FC<Props> = ({ demo, href, icon, text, title, ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Info>

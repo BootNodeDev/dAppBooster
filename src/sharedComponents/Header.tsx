@@ -1,3 +1,4 @@
+import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import { Link } from '@tanstack/react-router'
@@ -57,7 +58,7 @@ const End = styled.div`
   justify-content: flex-end;
 `
 
-export const Header: React.FC = ({ ...restProps }) => {
+export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   const { setTheme, theme } = useTheme()
 
   return (
