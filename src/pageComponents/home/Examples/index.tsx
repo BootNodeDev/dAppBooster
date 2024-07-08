@@ -106,7 +106,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Image IPFS',
     },
     {
-      demo: <EnsName address={address} />,
+      demo: <EnsName />,
       href: '#',
       icon: <ImgIpfsImage />,
       text: 'Resolve ENS names',

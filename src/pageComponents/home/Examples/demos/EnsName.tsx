@@ -1,30 +1,80 @@
-import { Text } from 'db-ui-toolkit'
+import { useState, type ChangeEvent } from 'react'
+import styled from 'styled-components'
+
+import { Text, Spinner, Textfield } from 'db-ui-toolkit'
 import { Address } from 'viem'
 import { useEnsName } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 
-interface Props {
-  address: Address
-}
+const Wrapper = styled.div`
+  --theme-token-ens-name-background: #fff;
+  --theme-token-input-title-color: #2e3048;
 
-const EnsName = ({ address }: Props) => {
+  background-color: var(--theme-token-ens-name-background);
+  border-radius: var(--base-border-radius);
+  display: flex;
+  flex-direction: column;
+  padding: var(--base-common-padding-xl);
+  row-gap: var(--base-gap);
+  width: 100%;
+`
+
+const Title = styled.h3`
+  color: var(--theme-token-input-title-color);
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0;
+`
+
+const ENSName = styled.div`
+  align-items: center;
+  color: var(--theme-token-input-title-color);
+  column-gap: var(--base-gap);
+  display: flex;
+  font-size: 1.4rem;
+  height: 20px;
+  line-height: 1.2;
+  padding-top: var(--base-common-padding);
+`
+
+const EnsNameSearch = ({ address }: { address?: Address }) => {
   const { data, error, status } = useEnsName({
     address: address,
     chainId: mainnet.id,
   })
 
   return (
-    <Text>
+    <>
       {status === 'pending' ? (
-        <>Loading ENS name</>
+        <Spinner height={20} width={20} />
       ) : status === 'error' ? (
-        <>Error fetching ENS name: {error.message}</>
+        `Error fetching ENS name (${error.message})`
+      ) : data === undefined || data === null ? (
+        `Not available`
       ) : (
-        <>
-          <b>ENS name:</b> {data}
-        </>
+        data
       )}
-    </Text>
+    </>
+  )
+}
+
+const EnsName = () => {
+  const [ensAddress, setEnsAddress] = useState<Address>()
+
+  return (
+    <Wrapper>
+      <Title>Address</Title>
+      <Textfield
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setEnsAddress(e.target.value as Address)}
+        placeholder="Enter an address"
+        type="search"
+        value={ensAddress || ''}
+      />
+      <ENSName>
+        <b>ENS name:</b> <span>{ensAddress ? <EnsNameSearch address={ensAddress} /> : '-'}</span>
+      </ENSName>
+    </Wrapper>
   )
 }
 
