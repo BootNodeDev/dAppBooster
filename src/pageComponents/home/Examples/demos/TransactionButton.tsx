@@ -2,11 +2,11 @@ import { Hash, TransactionReceipt, erc20Abi, parseEther } from 'viem'
 import { sepolia } from 'viem/chains'
 import { useSendTransaction, useWriteContract } from 'wagmi'
 
-import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { TransactionButton } from '@/src/sharedComponents/TransactionButton'
 
 export const TransactionButtonDemo = () => {
-  const { address } = useWeb3StatusConnected()
+  const { address } = useWeb3Status()
   const { sendTransactionAsync } = useSendTransaction()
   const { writeContractAsync } = useWriteContract()
 
@@ -15,6 +15,8 @@ export const TransactionButtonDemo = () => {
   }
 
   const handleSendTransaction = (): Promise<Hash> => {
+    if (!address) throw new Error('No address')
+
     // Send native token
     return sendTransactionAsync({
       chainId: sepolia.id,
@@ -24,6 +26,8 @@ export const TransactionButtonDemo = () => {
   }
 
   const handleWriteContract = (): Promise<Hash> => {
+    if (!address) throw new Error('No address')
+
     // Send ERC20 token [USDC]
     return writeContractAsync({
       chainId: sepolia.id,
