@@ -4,53 +4,61 @@ import { useSendTransaction, useWriteContract } from 'wagmi'
 
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { TransactionButton } from '@/src/sharedComponents/TransactionButton'
+import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 
-export const TransactionButtonDemo = () => {
-  const { address } = useWeb3StatusConnected()
-  const { sendTransactionAsync } = useSendTransaction()
-  const { writeContractAsync } = useWriteContract()
+const TransactionButtonDemo = withWalletStatusVerifier(
+  () => {
+    const { address } = useWeb3StatusConnected()
+    const { sendTransactionAsync } = useSendTransaction()
+    const { writeContractAsync } = useWriteContract()
 
-  const handleOnMined = (receipt: TransactionReceipt) => {
-    alert(`Transaction completed!  🎉 \n hash: ${receipt.transactionHash}`)
-  }
+    const handleOnMined = (receipt: TransactionReceipt) => {
+      alert(`Transaction completed!  🎉 \n hash: ${receipt.transactionHash}`)
+    }
 
-  const handleSendTransaction = (): Promise<Hash> => {
-    // Send native token
-    return sendTransactionAsync({
-      chainId: sepolia.id,
-      to: address,
-      value: parseEther('0.1'),
-    })
-  }
+    const handleSendTransaction = (): Promise<Hash> => {
+      // Send native token
+      return sendTransactionAsync({
+        chainId: sepolia.id,
+        to: address,
+        value: parseEther('0.1'),
+      })
+    }
 
-  const handleWriteContract = (): Promise<Hash> => {
-    // Send ERC20 token [USDC]
-    return writeContractAsync({
-      chainId: sepolia.id,
-      abi: erc20Abi,
-      address: '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8', // USDC
-      functionName: 'transfer',
-      args: [address, 100000000n], // 100 USDC
-    })
-  }
+    const handleWriteContract = (): Promise<Hash> => {
+      // Send ERC20 token [USDC]
+      return writeContractAsync({
+        chainId: sepolia.id,
+        abi: erc20Abi,
+        address: '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8', // USDC
+        functionName: 'transfer',
+        args: [address, 100000000n], // 100 USDC
+      })
+    }
 
-  return (
-    <>
-      <TransactionButton
-        chain={sepolia}
-        label="Send 100 USDC"
-        labelSending="Sending 100 USDC..."
-        onMined={handleOnMined}
-        transaction={handleWriteContract}
-      />
-      <br />
-      <TransactionButton
-        chain={sepolia}
-        label="Send 0.1 ETH"
-        labelSending="Sending 0.1 ETH..."
-        onMined={handleOnMined}
-        transaction={handleSendTransaction}
-      />
-    </>
-  )
-}
+    return (
+      <>
+        <TransactionButton
+          chain={sepolia}
+          label="Send 100 USDC"
+          labelSending="Sending 100 USDC..."
+          onMined={handleOnMined}
+          transaction={handleWriteContract}
+        />
+        <br />
+        <TransactionButton
+          chain={sepolia}
+          label="Send 0.1 ETH"
+          labelSending="Sending 0.1 ETH..."
+          onMined={handleOnMined}
+          transaction={handleSendTransaction}
+        />
+      </>
+    )
+  },
+  {
+    chainId: sepolia.id, // this DEMO component is for sepolia chain
+  },
+)
+
+export default TransactionButtonDemo
