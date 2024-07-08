@@ -1,7 +1,7 @@
 import { type FC, useRef, type KeyboardEvent } from 'react'
 import styled from 'styled-components'
 
-import { Dropdown, DropdownExposedMethods } from 'db-ui-toolkit'
+import { Dropdown, DropdownExposedProps } from 'db-ui-toolkit'
 
 import DropdownButton from '@/src/sharedComponents/DropdownButton'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
@@ -41,7 +41,7 @@ const TokenDropdown: FC<Props> = ({
   onTokenSelect,
   ...restProps
 }: Props) => {
-  const dropdownRef = useRef<DropdownExposedMethods>(null)
+  const dropdownRef = useRef<DropdownExposedProps>(null)
 
   /**
    * Closes the dropdown
