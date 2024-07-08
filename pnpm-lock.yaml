@@ -168,6 +168,9 @@ importers:
       stylelint-config-standard:
         specifier: ^36.0.1
         version: 36.0.1(stylelint@16.6.1(typescript@5.5.3))
+      tsc-files:
+        specifier: ^1.1.4
+        version: 1.1.4(typescript@5.5.3)
       typescript:
         specifier: ^5.4.5
         version: 5.5.3
@@ -5851,6 +5854,12 @@ packages:
     peerDependencies:
       typescript: '>=4.2.0'
 
+  tsc-files@1.1.4:
+    resolution: {integrity: sha512-RePsRsOLru3BPpnf237y1Xe1oCGta8rmSYzM76kYo5tLGsv5R2r3s64yapYorGTPuuLyfS9NVbh9ydzmvNie2w==}
+    hasBin: true
+    peerDependencies:
+      typescript: '>=3'
+
   tsconfig-paths@3.15.0:
     resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
 
@@ -6238,8 +6247,8 @@ packages:
     engines: {node: '>= 8'}
     hasBin: true
 
-  why-is-node-running@2.2.2:
-    resolution: {integrity: sha512-6tSwToZxTOcotxHeA+qGCq1mVzKR3CwcJGmVcY+QE8SHy6TnpFnh8PAvPNHYr7EcuVeG0QSMxtYCuO1ta/G/oA==}
+  why-is-node-running@2.3.0:
+    resolution: {integrity: sha512-hUrmaWBdVDcxvYqnyh09zunKzROWjbZTiNy8dBEjkS7ehEDQibXJ7XvlmtbwuTclUiIyN+CyXQD4Vmko8fNm8w==}
     engines: {node: '>=8'}
     hasBin: true
 
@@ -13347,6 +13356,10 @@ snapshots:
     dependencies:
       typescript: 5.5.3
 
+  tsc-files@1.1.4(typescript@5.5.3):
+    dependencies:
+      typescript: 5.5.3
+
   tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -13623,7 +13636,7 @@ snapshots:
       tinypool: 0.8.4
       vite: 5.3.3(@types/node@20.14.10)(terser@5.31.1)
       vite-node: 1.6.0(@types/node@20.14.10)(terser@5.31.1)
-      why-is-node-running: 2.2.2
+      why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 20.14.10
       jsdom: 24.1.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
@@ -13763,7 +13776,7 @@ snapshots:
     dependencies:
       isexe: 2.0.0
 
-  why-is-node-running@2.2.2:
+  why-is-node-running@2.3.0:
     dependencies:
       siginfo: 2.0.0
       stackback: 0.0.2

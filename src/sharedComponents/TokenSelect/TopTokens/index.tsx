@@ -1,6 +1,7 @@
 import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
+import { env } from '@/src/env'
 import Item from '@/src/sharedComponents/TokenSelect/TopTokens/Item'
 import { type Tokens, type Token } from '@/src/types/token'
 
@@ -27,19 +28,26 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {Tokens} tokens - The list of tokens to display.
  */
 const TopTokens: FC<Props> = ({ onTokenSelect, tokens, ...restProps }: Props) => {
-  const topTokenSymbols = ['matic', 'usdc', 'usdt', 'dai', 'weth', 'wbtc', 'arb', 'aave']
+  const topTokenSymbols = ['op', 'usdc', 'usdt', 'dai', 'weth', 'wbtc', 'aave']
 
   return (
     <Wrapper {...restProps}>
-      {tokens
-        .filter((token) => topTokenSymbols.includes(token.symbol.toLowerCase()))
-        .sort(
-          (a, b) =>
-            topTokenSymbols.indexOf(a.symbol.toLowerCase()) -
-            topTokenSymbols.indexOf(b.symbol.toLowerCase()),
-        )
+      {[
+        // append native token at the beginning
+        tokens.find((token) => token.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS),
+        ...tokens
+          .filter((token) => topTokenSymbols.includes(token.symbol.toLowerCase()))
+          .sort(
+            (a, b) =>
+              topTokenSymbols.indexOf(a.symbol.toLowerCase()) -
+              topTokenSymbols.indexOf(b.symbol.toLowerCase()),
+          ),
+      ]
+        // if token is not found, filter it out
+        .filter(Boolean)
+        // render the token
         .map((token, index) => (
-          <Item key={index} onClick={() => onTokenSelect(token)} token={token} />
+          <Item key={index} onClick={() => onTokenSelect(token)} token={token!} />
         ))}
     </Wrapper>
   )
