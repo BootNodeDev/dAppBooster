@@ -30,7 +30,6 @@ const DemoInput = () => {
   const [error, setError] = useState<{ value: string; message: string } | null>()
 
   const handleValueChange = (value: string) => {
-    console.log('value', value, typeof value)
     setValue(value)
   }
 
