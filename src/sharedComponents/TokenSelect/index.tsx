@@ -143,6 +143,7 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
  */
 const TokenSelect = withSuspense(
   ({
+    children,
     containerHeight = 320,
     currentNetworkId = mainnet.id,
     iconSize = 32,
@@ -181,6 +182,7 @@ const TokenSelect = withSuspense(
           showBalance={showBalance}
           tokenList={searchResult}
         />
+        {children}
       </Wrapper>
     )
   },

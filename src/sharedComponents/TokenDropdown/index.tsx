@@ -1,7 +1,7 @@
-import { type FC, useRef, type KeyboardEvent } from 'react'
+import { type FC, type KeyboardEvent } from 'react'
 import styled from 'styled-components'
 
-import { Dropdown, DropdownExposedMethods } from 'db-ui-toolkit'
+import { useDropdown } from 'db-ui-toolkit'
 
 import DropdownButton from '@/src/sharedComponents/DropdownButton'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
@@ -41,16 +41,7 @@ const TokenDropdown: FC<Props> = ({
   onTokenSelect,
   ...restProps
 }: Props) => {
-  const dropdownRef = useRef<DropdownExposedMethods>(null)
-
-  /**
-   * Closes the dropdown
-   */
-  const handleCloseDropdown = () => {
-    if (dropdownRef.current) {
-      dropdownRef.current.closeDropdown()
-    }
-  }
+  const { Dropdown, close } = useDropdown()
 
   /**
    * Handle token selection and close the dropdown
@@ -58,7 +49,7 @@ const TokenDropdown: FC<Props> = ({
    */
   const handleTokenSelect = (token: Token | undefined) => {
     onTokenSelect(token)
-    handleCloseDropdown()
+    close('token-dropdown')
   }
 
   return (
@@ -79,6 +70,7 @@ const TokenDropdown: FC<Props> = ({
       }
       className={`${className ? className : ''} tokenDropdown`}
       closeOnClick={false}
+      id="token-dropdown"
       items={
         <TokenSelect
           onTokenSelect={handleTokenSelect}
@@ -88,11 +80,10 @@ const TokenDropdown: FC<Props> = ({
       }
       onKeyUp={(e: KeyboardEvent<HTMLElement>) => {
         if (e.key === 'Escape') {
-          handleCloseDropdown()
+          close('token-dropdown')
         }
       }}
       position="right"
-      ref={dropdownRef}
     />
   )
 }
