@@ -7,99 +7,120 @@ import { useAccount } from 'wagmi'
 
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
 import { BigNumberInput, type BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
-import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import BaseCloseButton from '@/src/sharedComponents/TokenInput/CloseButton'
+import {
+  Balance,
+  BalanceValue,
+  BottomRow,
+  Error,
+  EstimatedUSDValue,
+  Icon,
+  MaxButton,
+  SelectButton,
+  Title,
+  TopRow,
+  Wrapper,
+} from '@/src/sharedComponents/TokenInput/Components'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import BaseTokenSelect, {
   Loading,
   type Props as TokenSelectProps,
 } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
-
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  row-gap: var(--base-gap-xl);
-`
-
 const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
 `
 
-const CloseButton = styled(BaseCloseButton)`
+export const CloseButton = styled(BaseCloseButton)`
   position: absolute;
   right: var(--base-token-select-horizontal-padding);
   top: calc(var(--base-common-padding) * 5);
 `
 
-const Row = styled.div`
-  column-gap: var(--base-gap);
-  display: flex;
-`
-
-const Input = styled(Textfield)`
-  min-width: 260px;
-`
-
-const TokenButton = styled(PrimaryButton)`
-  height: auto;
-`
-
-const Error = styled.span`
-  color: var(--theme-color-danger);
-  font-weight: 700;
-  font-size: 1.2rem;
-  padding: 0;
-`
-
-const Balance = styled.div`
-  align-items: center;
-  column-gap: var(--base-gap);
-  display: flex;
-  justify-content: flex-end;
-`
-
-const Value = styled.span`
-  font-size: 1.2rem;
-  font-weight: 400;
-  line-height: 1.2;
-`
-
-const MaxButton = styled(PrimaryButton)`
-  font-size: 1.2rem;
-  font-weight: 400;
-  height: 22px;
-  padding: var(--base-common-padding);
-`
-
-const Icon = styled.div<{ $iconSize?: number }>`
-  align-items: center;
-  border-radius: 50%;
-  display: flex;
-  height: ${({ $iconSize }) => $iconSize}px;
-  justify-content: center;
-  overflow: hidden;
-  width: ${({ $iconSize }) => $iconSize}px;
-`
-
 interface Props extends Omit<TokenSelectProps, 'onError'> {
   onAmountSet: (amount?: string) => void
   onError: (error?: string) => void
+  title?: string
 }
 
 /**
  * TokenInput component allows users to input token amounts and select tokens from a list.
  * It displays the token input field, token balance, and a dropdown list of available tokens.
  *
- * @param onAmountSet - A callback function triggered when the amount is set.
- * @param onError - A callback function triggered when there is an error.
+ * @param {(amount?: string) => void} onAmountSet - A callback function triggered when the amount is set.
+ * @param {(error?: string) => void} onError - A callback function triggered when there is an error.
+ * @param {string} title - The title of the token input.
+ * @param {TokenSelectProps} props - The props for the TokenSelect component.
+ *
+ * Individual CSS classes are available for deep styling of individual components within TokenSelect:
+ *
+ * Also theme CSS vars are available for cosmetic changes:
+ *
+ * Main wrapper:
+ * * --theme-token-input-background
+ * * --base-token-input-border-radius
+ * * --base-token-input-padding
+ * * --base-token-input-gap
+ *
+ * Title
+ * * --theme-token-input-title-color
+ *
+ * Textfield:
+ * * --theme-token-input-textfield-background-color
+ * * --theme-token-input-textfield-background-color-active
+ * * --theme-token-input-textfield-border-color
+ * * --theme-token-input-textfield-border-color-active
+ * * --theme-token-input-textfield-color
+ * * --theme-token-input-textfield-color-active
+ * * --theme-token-input-textfield-placeholder-color
+ * * --base-token-input-texfield-height
+ * * --base-token-input-texfield-font-size
+ *
+ * Select button:
+ * * --theme-token-input-select-button-background-color
+ * * --theme-token-input-select-button-background-color-hover
+ * * --theme-token-input-select-button-border-color
+ * * --theme-token-input-select-button-border-color-hover
+ * * --theme-token-input-select-button-border-color-active
+ * * --theme-token-input-select-button-color
+ * * --theme-token-input-select-button-color-hover
+ * * --theme-token-input-select-button-background-color-disabled
+ * * --theme-token-input-select-button-border-color-disabled
+ * * --theme-token-input-select-button-color-disabled
+ *
+ * Max Button:
+ * * --theme-token-input-max-button-background-color
+ * * --theme-token-input-max-button-background-color-hover
+ * * --theme-token-input-max-button-border-color
+ * * --theme-token-input-max-button-border-color-hover
+ * * --theme-token-input-max-button-border-color-active
+ * * --theme-token-input-max-button-color
+ * * --theme-token-input-max-button-color-hover
+ * * --theme-token-input-max-button-background-color-disabled
+ * * --theme-token-input-max-button-border-color-disabled
+ * * --theme-token-input-max-button-color-disabled
+ *
+ * Estimated USD Value
+ * * --theme-token-input-estimated-usd-color
+ *
+ * Balance
+ * *--theme-token-input-balance-color
+ *
  */
 const TokenInput: FC<Props> = ({
+  containerHeight,
   currentNetworkId,
+  iconSize,
+  itemHeight,
   networks,
   onAmountSet,
   onError,
   onTokenSelect,
+  placeholder,
+  showBalance,
+  showTopTokens,
+  title,
+  ...restProps
 }) => {
   const {
     amount,
@@ -141,10 +162,13 @@ const TokenInput: FC<Props> = ({
     open('token-select')
   }
 
+  const selectIconSize = 24
+
   return (
     <>
-      <Wrapper>
-        <Row>
+      <Wrapper {...restProps}>
+        {title && <Title>{title}</Title>}
+        <TopRow>
           <BigNumberInput
             decimals={selectedToken ? selectedToken.decimals : 2}
             max={
@@ -152,43 +176,53 @@ const TokenInput: FC<Props> = ({
             }
             onChange={handleSetAmount}
             onError={(error) => handleError(error)}
-            renderInput={() => <Input placeholder="0.00" />}
+            renderInput={() => (
+              <Textfield $status={amountError ? 'error' : undefined} placeholder="0.00" />
+            )}
             value={amount}
           />
-          <TokenButton onClick={showTokenSelect}>
+          <SelectButton onClick={showTokenSelect}>
             {selectedToken ? (
               <>
-                <Icon $iconSize={24}>
-                  <TokenLogo size={24} token={selectedToken} />
+                <Icon $iconSize={selectIconSize}>
+                  <TokenLogo size={selectIconSize} token={selectedToken} />
                 </Icon>
                 {selectedToken.symbol}
               </>
             ) : (
               'Select'
             )}
-          </TokenButton>
-        </Row>
-        <Balance>
-          <Value>
-            {balanceError ? (
-              'Error...'
-            ) : isLoadingBalance ? (
-              <Spinner height={20} width={20} />
-            ) : (
-              `Balance: ${formatUnits(balance ?? 0n, selectedToken?.decimals ?? 0)}`
-            )}
-          </Value>
-          <MaxButton disabled={isLoadingBalance || !!balanceError} onClick={handleSetMax}>
-            Max
-          </MaxButton>
-        </Balance>
+          </SelectButton>
+        </TopRow>
+        <BottomRow>
+          <EstimatedUSDValue>~$0.00</EstimatedUSDValue>
+          <Balance>
+            <BalanceValue>
+              {balanceError && 'Error...'}
+              {isLoadingBalance ? (
+                <Spinner height={20} width={20} />
+              ) : (
+                `Balance: ${formatUnits(balance ?? 0n, selectedToken?.decimals ?? 0)}`
+              )}
+            </BalanceValue>
+            <MaxButton disabled={isLoadingBalance || !!balanceError} onClick={handleSetMax}>
+              Max
+            </MaxButton>
+          </Balance>
+        </BottomRow>
         {amountError && <Error>{amountError}</Error>}
       </Wrapper>
       <Dialog id="token-select">
         <TokenSelect
+          containerHeight={containerHeight}
           currentNetworkId={currentNetworkId}
+          iconSize={iconSize}
+          itemHeight={itemHeight}
           networks={networks}
           onTokenSelect={handleSelectedToken}
+          placeholder={placeholder}
+          showBalance={showBalance}
+          showTopTokens={showTopTokens}
           suspenseFallback={<Loading />}
         >
           <CloseButton onClick={() => close('token-select')} />

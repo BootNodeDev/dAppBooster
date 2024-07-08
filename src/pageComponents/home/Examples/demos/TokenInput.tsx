@@ -61,6 +61,7 @@ const TokenInputDemo = () => {
       onAmountSet={onAmountSet}
       onError={onError}
       onTokenSelect={onTokenSelect}
+      title="You pay"
     />
   )
 }

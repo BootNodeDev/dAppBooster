@@ -169,6 +169,45 @@ const lightThemeCSSVars = css`
   --theme-token-select-search-field-box-shadow-active: rgb(0 0 0 / 10%);
   --theme-token-select-search-field-border-color: #e2e0e7;
   --theme-token-select-search-field-border-color-active: #e2e0e7;
+
+  /* Token Input */
+  --theme-token-input-title-color: #2e3048;
+
+  --theme-token-input-background: #fff;
+
+  --theme-token-input-textfield-background-color: #fff;
+  --theme-token-input-textfield-background-color-active: rgb(0 0 0 / 5%);
+  --theme-token-input-textfield-border-color: #e2e0e7;
+  --theme-token-input-textfield-border-color-active: #e2e0e7;
+  --theme-token-input-textfield-color: #2e3048;
+  --theme-token-input-textfield-color-active: #2e3048;
+  --theme-token-input-textfield-placeholder-color: rgb(22 29 26 / 60%);
+
+  --theme-token-input-select-button-background-color: #fff;
+  --theme-token-input-select-button-background-color-hover: rgb(0 0 0 / 5%);
+  --theme-token-input-select-button-border-color: #e2e0e7;
+  --theme-token-input-select-button-border-color-hover: #e2e0e7;
+  --theme-token-input-select-button-border-color-active: #e2e0e7;
+  --theme-token-input-select-button-color: #2e3048;
+  --theme-token-input-select-button-color-hover: #2e3048;
+  --theme-token-input-select-button-background-color-disabled: #fff;
+  --theme-token-input-select-button-border-color-disabled: #e2e0e7;
+  --theme-token-input-select-button-color-disabled: #2e3048;
+
+  --theme-token-input-max-button-background-color: #fff;
+  --theme-token-input-max-button-background-color-hover: rgb(0 0 0 / 5%);
+  --theme-token-input-max-button-border-color: #e2e0e7;
+  --theme-token-input-max-button-border-color-hover: #e2e0e7;
+  --theme-token-input-max-button-border-color-active: #e2e0e7;
+  --theme-token-input-max-button-color: #8b46a4;
+  --theme-token-input-max-button-color-hover: #8b46a4;
+  --theme-token-input-max-button-background-color-disabled: #fff;
+  --theme-token-input-max-button-border-color-disabled: #e2e0e7;
+  --theme-token-input-max-button-color-disabled: #8b46a4;
+
+  --theme-token-input-estimated-usd-color: #4b4d60;
+
+  --theme-token-input-balance-color: #4b4d60;
 `
 
 export default lightThemeCSSVars
