@@ -12,7 +12,7 @@ import {
   useWalletClient,
 } from 'wagmi'
 
-import { chains, ChainsIds } from '@/src/lib/networks.config'
+import { chains, type ChainsIds } from '@/src/lib/networks.config'
 import { RequiredNonNull } from '@/src/types/utils'
 
 export type AppWeb3Status = {
