@@ -8,8 +8,33 @@ import { useEnsName } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 
 const Wrapper = styled.div`
-  --theme-token-ens-name-background: #fff;
-  --theme-token-input-title-color: #2e3048;
+  [data-theme='light'] & {
+    --theme-token-ens-name-background: #fff;
+    --theme-token-ens-name-title-color: #2e3048;
+    --theme-token-ens-name-text-color: #2e3048;
+
+    --theme-textfield-color: #2e3048;
+    --theme-textfield-color-active: #2e3048;
+    --theme-textfield-background-color: #fff;
+    --theme-textfield-background-color-active: rgb(0 0 0 / 5%);
+    --theme-textfield-border-color: #c5c2cb;
+    --theme-textfield-border-color-active: #c5c2cb;
+    --theme-textfield-placeholder-color: rgb(22 29 26 / 60%);
+  }
+
+  [data-theme='dark'] & {
+    --theme-token-ens-name-background: #373954;
+    --theme-token-ens-name-title-color: #fff;
+    --theme-token-ens-name-text-color: #e2e0e7;
+
+    --theme-textfield-color: #fff;
+    --theme-textfield-color-active: #fff;
+    --theme-textfield-background-color: #373954;
+    --theme-textfield-background-color-active: rgb(255 255 255 / 5%);
+    --theme-textfield-border-color: #5f6178;
+    --theme-textfield-border-color-active: #5f6178;
+    --theme-textfield-placeholder-color: rgb(247 247 247 / 60%);
+  }
 
   background-color: var(--theme-token-ens-name-background);
   border-radius: var(--base-border-radius);
@@ -21,7 +46,7 @@ const Wrapper = styled.div`
 `
 
 const Title = styled.h3`
-  color: var(--theme-token-input-title-color);
+  color: var(--theme-token-ens-name-title-color);
   font-size: 1.4rem;
   font-weight: 700;
   line-height: 1.2;
@@ -30,10 +55,10 @@ const Title = styled.h3`
 
 const ENSName = styled.div`
   align-items: center;
-  color: var(--theme-token-input-title-color);
+  color: var(--theme-token-ens-name-text-color);
   column-gap: var(--base-gap);
   display: flex;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   height: 20px;
   line-height: 1.2;
   padding-top: var(--base-common-padding);
