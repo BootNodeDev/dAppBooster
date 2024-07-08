@@ -9,7 +9,7 @@ import { Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
 import List from '@/src/pageComponents/home/Examples/List'
 import ImgAvatar from '@/src/pageComponents/home/Examples/assets/Avatar'
 import ImgHash from '@/src/pageComponents/home/Examples/assets/Hash'
-import ImgIpfsImage from '@/src/pageComponents/home/Examples/assets/IPFSImage'
+import GenericIcon from '@/src/pageComponents/home/Examples/assets/IPFSImage'
 import ImgInputAddress from '@/src/pageComponents/home/Examples/assets/InputAddress'
 import ImgSubgraph from '@/src/pageComponents/home/Examples/assets/Subgraph'
 import ImgTokenInput from '@/src/pageComponents/home/Examples/assets/TokenInput'
@@ -99,23 +99,16 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Subgraph',
     },
     {
-      demo: <div>IPFS Image</div>,
-      href: '#',
-      icon: <ImgIpfsImage />,
-      text: 'Immutable and decentralized file storage',
-      title: 'Image IPFS',
-    },
-    {
       demo: <EnsName address={address} />,
       href: '#',
-      icon: <ImgIpfsImage />,
+      icon: <GenericIcon />,
       text: 'Resolve ENS names',
       title: 'ENS name',
     },
     {
       demo: <TransactionButtonDemo />,
       href: '#',
-      icon: <ImgIpfsImage />,
+      icon: <GenericIcon />,
       text: 'Transaction Button',
       title: 'Tx button',
     },
