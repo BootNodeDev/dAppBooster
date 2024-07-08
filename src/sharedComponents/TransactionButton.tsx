@@ -1,17 +1,15 @@
-import { ReactElement, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from 'db-ui-toolkit'
 import { Chain, Hash, TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 
 interface TransactionButtonProps {
   transaction: () => Promise<Hash>
   chain?: Chain
   onMined?: (receipt: TransactionReceipt) => void
-  fallback?: ReactElement
   disabled?: boolean
   label?: string
   labelSending?: string
@@ -24,9 +22,8 @@ interface TransactionButtonProps {
  *
  * @component
  * @param {Function} props.transaction - The function that initiates the transaction.
- * @param {Function} props.fallback - The fallback component to be rendered when the wallet is not connected. (default: ConnectButton)
- * @param {Function} props.onMined - The callback function to be called when the transaction is mined.
  * @param {Chain} props.chain - The chain where the transaction will be sent.
+ * @param {Function} props.onMined - The callback function to be called when the transaction is mined.
  * @param {boolean} props.disabled - The flag to disable the button.
  * @param {string} props.label - The label for the button.
  * @param {string} props.labelSending - The label for the button when the transaction is pending.
@@ -35,26 +32,22 @@ interface TransactionButtonProps {
  */
 
 export const TransactionButton = ({
-  chain,
   disabled,
-  fallback = <ConnectWalletButton />,
   label = 'Send Transaction',
   labelSending = 'Sending...',
   onMined,
   transaction,
 }: TransactionButtonProps) => {
-  const {
-    isWalletConnected,
-    isWalletNetworkSupported,
-    supportedChains,
-    switchChain,
-    switchingChain,
-    walletChainId,
-  } = useWeb3Status()
+  const { isWalletSynced } = useWeb3StatusConnected()
+
+  if (!isWalletSynced) {
+    throw new Error(
+      'TransactionButton component must be used inside a WalletStatusVerifier component or withWalletStatusVerifier HoC',
+    )
+  }
+
   const [hash, setHash] = useState<Hash>()
   const [isPending, setIsPending] = useState<boolean>(false)
-
-  const isCorrectChain = chain ? walletChainId === chain.id : isWalletNetworkSupported
 
   const { data: receipt } = useWaitForTransactionReceipt({
     hash: hash,
@@ -79,22 +72,10 @@ export const TransactionButton = ({
     }
   }
 
-  if (!isWalletConnected) {
-    return fallback
-  }
-
   const inputProps = {
-    disabled: isPending || switchingChain || disabled,
-    onClick: isCorrectChain
-      ? handleSendTransaction
-      : () => switchChain((chain || supportedChains[0]).id),
+    disabled: isPending || disabled,
+    onClick: handleSendTransaction,
   }
 
-  const buttonLabel = isPending
-    ? labelSending
-    : !isCorrectChain
-      ? `Switch to ${(chain || supportedChains[0]).name}`
-      : label
-
-  return <Button {...inputProps}>{buttonLabel}</Button>
+  return <Button {...inputProps}>{isPending ? labelSending : label}</Button>
 }
