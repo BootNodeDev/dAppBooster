@@ -1,7 +1,8 @@
 import { useState, type ChangeEvent } from 'react'
 import styled from 'styled-components'
 
-import { Text, Spinner, Textfield } from 'db-ui-toolkit'
+import { Spinner, Textfield } from 'db-ui-toolkit'
+import { useDebouncedCallback } from 'use-debounce'
 import { Address } from 'viem'
 import { useEnsName } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
@@ -61,15 +62,28 @@ const EnsNameSearch = ({ address }: { address?: Address }) => {
 
 const EnsName = () => {
   const [ensAddress, setEnsAddress] = useState<Address>()
+  const [value, setValue] = useState<string | undefined>()
+  const debounceTime = 500
+
+  const debouncedSearch = useDebouncedCallback(async (address?: Address) => {
+    setEnsAddress(address)
+  }, debounceTime)
+
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value as Address
+
+    setValue(value)
+    debouncedSearch(value)
+  }
 
   return (
     <Wrapper>
-      <Title>Address</Title>
+      <Title>Find ENS name</Title>
       <Textfield
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setEnsAddress(e.target.value as Address)}
+        onChange={onChange}
         placeholder="Enter an address"
         type="search"
-        value={ensAddress || ''}
+        value={value || ''}
       />
       <ENSName>
         <b>ENS name:</b> <span>{ensAddress ? <EnsNameSearch address={ensAddress} /> : '-'}</span>
