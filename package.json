@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:watch": "routes:watch & vite",
-    "build": "tsc && vite build",
+    "build": "tsc --noEmit && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint --fix .",
     "prettier:fix": "prettier --write --ignore-unknown .",
@@ -17,7 +17,6 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "type-check": "bash -c tsc --noEmit",
     "wagmi-generate": "wagmi generate --config src/lib/wagmi/config.ts",
     "postinstall": "pnpm wagmi-generate"
   },
@@ -30,7 +29,7 @@
       "prettier --write --ignore-unknown"
     ],
     "src/**/*.{ts,tsx}": [
-      "pnpm type-check",
+      "tsc-files --noEmit",
       "vitest related --run --coverage=false"
     ]
   },
@@ -90,6 +89,7 @@
     "prettier": "^3.3.2",
     "stylelint": "^16.6.1",
     "stylelint-config-standard": "^36.0.1",
+    "tsc-files": "^1.1.4",
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vitest": "^1.6.0"
