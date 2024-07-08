@@ -10,7 +10,10 @@ import { BigNumberInput, type BigNumberInputProps } from '@/src/sharedComponents
 import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import BaseCloseButton from '@/src/sharedComponents/TokenInput/CloseButton'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
-import BaseTokenSelect, { Loading } from '@/src/sharedComponents/TokenSelect'
+import BaseTokenSelect, {
+  Loading,
+  type Props as TokenSelectProps,
+} from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 
 const Wrapper = styled.div`
@@ -79,11 +82,9 @@ const Icon = styled.div<{ $iconSize?: number }>`
   width: ${({ $iconSize }) => $iconSize}px;
 `
 
-interface Props {
-  currentNetworkId: number
+interface Props extends Omit<TokenSelectProps, 'onError'> {
   onAmountSet: (amount?: string) => void
   onError: (error?: string) => void
-  onTokenSelect: (token: Token | undefined) => void
 }
 
 /**
@@ -93,7 +94,13 @@ interface Props {
  * @param onAmountSet - A callback function triggered when the amount is set.
  * @param onError - A callback function triggered when there is an error.
  */
-const TokenInput: FC<Props> = ({ currentNetworkId, onAmountSet, onError, onTokenSelect }) => {
+const TokenInput: FC<Props> = ({
+  currentNetworkId,
+  networks,
+  onAmountSet,
+  onError,
+  onTokenSelect,
+}) => {
   const {
     amount,
     amountError,
@@ -111,7 +118,7 @@ const TokenInput: FC<Props> = ({ currentNetworkId, onAmountSet, onError, onToken
     (token: Token | undefined) => {
       onTokenSelect(token)
       setTokenSelected(token)
-      close()
+      close('token-select')
     },
     [close, onTokenSelect, setTokenSelected],
   )
@@ -130,17 +137,9 @@ const TokenInput: FC<Props> = ({ currentNetworkId, onAmountSet, onError, onToken
     setAmountError(error?.message)
   }
 
-  const showTokenSelect = useCallback(() => {
-    open(
-      <TokenSelect
-        currentNetworkId={currentNetworkId}
-        onTokenSelect={handleSelectedToken}
-        suspenseFallback={<Loading />}
-      >
-        <CloseButton onClick={close} />
-      </TokenSelect>,
-    )
-  }, [close, currentNetworkId, handleSelectedToken, open])
+  const showTokenSelect = () => {
+    open('token-select')
+  }
 
   return (
     <>
@@ -185,7 +184,16 @@ const TokenInput: FC<Props> = ({ currentNetworkId, onAmountSet, onError, onToken
         </Balance>
         {amountError && <Error>{amountError}</Error>}
       </Wrapper>
-      <Dialog />
+      <Dialog id="token-select">
+        <TokenSelect
+          currentNetworkId={currentNetworkId}
+          networks={networks}
+          onTokenSelect={handleSelectedToken}
+          suspenseFallback={<Loading />}
+        >
+          <CloseButton onClick={() => close('token-select')} />
+        </TokenSelect>
+      </Dialog>
     </>
   )
 }
