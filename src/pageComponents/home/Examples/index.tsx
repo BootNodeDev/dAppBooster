@@ -15,12 +15,12 @@ import ImgSubgraph from '@/src/pageComponents/home/Examples/assets/Subgraph'
 import ImgTokenInput from '@/src/pageComponents/home/Examples/assets/TokenInput'
 import ImgTokenList from '@/src/pageComponents/home/Examples/assets/TokenList'
 import ImgWallet from '@/src/pageComponents/home/Examples/assets/Wallet'
-import AmountSelector from '@/src/pageComponents/home/Examples/demos/AmountSelector'
 import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import HashInput from '@/src/pageComponents/home/Examples/demos/HashInput'
-import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo'
+import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdown'
+import TokenInput from '@/src/pageComponents/home/Examples/demos/TokenInput'
 import { TransactionButtonDemo } from '@/src/pageComponents/home/Examples/demos/TransactionButton'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
@@ -71,7 +71,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Token list',
     },
     {
-      demo: <AmountSelector />,
+      demo: <TokenInput />,
       href: '#',
       icon: <ImgTokenInput />,
       text: 'Input with max, user balance, decimals',
