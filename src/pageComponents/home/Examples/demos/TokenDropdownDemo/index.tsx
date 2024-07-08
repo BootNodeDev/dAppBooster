@@ -1,9 +1,10 @@
 import { type FC, useState } from 'react'
 
-import { arbitrum, mainnet, polygon } from 'viem/chains'
+import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
 
 import Arbitrum from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo/assets/Arbitrum'
 import Eth from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo/assets/Eth'
+import Optimism from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo/assets/Optimism'
 import Polygon from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo/assets/Polygon'
 import TokenDropdown from '@/src/sharedComponents/TokenDropdown'
 import { type Networks } from '@/src/sharedComponents/TokenSelect'
@@ -18,6 +19,12 @@ const TokenDropdownDemo: FC = ({ ...restProps }) => {
       id: mainnet.id,
       label: mainnet.name,
       onClick: () => setCurrentNetworkId(mainnet.id),
+    },
+    {
+      icon: <Optimism />,
+      id: optimism.id,
+      label: optimism.name,
+      onClick: () => setCurrentNetworkId(optimism.id),
     },
     {
       icon: <Arbitrum />,
