@@ -1,4 +1,3 @@
-import { useChainIsSupported } from 'connectkit'
 import { Address, Chain } from 'viem'
 import {
   UseBalanceReturnType,
@@ -7,20 +6,18 @@ import {
   useAccount,
   useBalance,
   useChainId,
-  useConnect,
   useDisconnect,
   usePublicClient,
   useSwitchChain,
   useWalletClient,
 } from 'wagmi'
-import { injected } from 'wagmi/connectors'
 
+import { chains, ChainsIds } from '@/src/lib/networks.config'
 import { RequiredNonNull } from '@/src/types/utils'
 
 export type AppWeb3Status = {
-  appChainId: Chain['id']
   readOnlyClient: UsePublicClientReturnType
-  supportedChains: readonly [Chain, ...Chain[]]
+  appChainId: ChainsIds
 }
 
 export type WalletWeb3Status = {
@@ -29,13 +26,13 @@ export type WalletWeb3Status = {
   connectingWallet: boolean
   switchingChain: boolean
   isWalletConnected: boolean
-  isWalletNetworkSupported: boolean | null
-  walletChainId: number | undefined
   walletClient: UseWalletClientReturnType['data']
+  isWalletSynced: boolean
+  walletChainId: Chain['id'] | undefined
 }
 
 export type Web3Actions = {
-  switchChain: (chainId: Chain['id']) => void
+  switchChain: (chainId?: ChainsIds) => void
   disconnect: () => void
 }
 
@@ -53,35 +50,33 @@ export const useWeb3Status = () => {
     isConnected: isWalletConnected,
     isConnecting: connectingWallet,
   } = useAccount()
-  const appChainId = useChainId()
-  const isWalletNetworkSupported = useChainIsSupported(walletChainId)
-  const { chains: supportedChains, isPending: switchingChain, switchChain } = useSwitchChain()
+  const appChainId = useChainId() as ChainsIds
+  const { isPending: switchingChain, switchChain } = useSwitchChain()
   const readOnlyClient = usePublicClient()
   const { data: walletClient } = useWalletClient()
   const { data: balance } = useBalance()
-  const { connect } = useConnect()
   const { disconnect } = useDisconnect()
 
-  const appWeb3Status = {
-    supportedChains,
-    appChainId,
+  const isWalletSynced = isWalletConnected && walletChainId === appChainId
+
+  const appWeb3Status: AppWeb3Status = {
     readOnlyClient,
+    appChainId,
   }
 
-  const walletWeb3Status = {
+  const walletWeb3Status: WalletWeb3Status = {
     address,
     balance,
-    walletChainId,
     isWalletConnected,
-    isWalletNetworkSupported,
     connectingWallet,
     switchingChain,
     walletClient,
+    isWalletSynced,
+    walletChainId,
   }
 
-  const web3Actions = {
-    switchChain: (chainId: number) => switchChain({ chainId }),
-    connect: () => connect({ connector: injected() }),
+  const web3Actions: Web3Actions = {
+    switchChain: (chainId: number = chains[0].id) => switchChain({ chainId }), // default to the first chain in the config
     disconnect: disconnect,
   }
 
@@ -96,7 +91,7 @@ export const useWeb3Status = () => {
 
 export const useWeb3StatusConnected = () => {
   const context = useWeb3Status()
-  if (!context.address) {
+  if (!context.isWalletConnected) {
     throw new Error('Use useWeb3StatusConnected only when a wallet is connected')
   }
   return useWeb3Status() as RequiredNonNull<Web3Status>
