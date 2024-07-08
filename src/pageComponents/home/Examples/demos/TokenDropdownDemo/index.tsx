@@ -11,7 +11,7 @@ import { type Token } from '@/src/types/token'
 
 const TokenDropdownDemo: FC = ({ ...restProps }) => {
   const [currentNetworkId, setCurrentNetworkId] = useState<number>(mainnet.id)
-  const [currentToken, setCurrentToken] = useState<Token | undefined>()
+  const [currentToken, setCurrentToken] = useState<Token>()
   const networks: Networks = [
     {
       icon: <Eth />,
