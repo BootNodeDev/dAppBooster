@@ -43,6 +43,7 @@ export const useTokens = ({
       queryKey: ['tokens-list', url],
       queryFn: () => fetchTokenList(url),
       staleTime: Infinity,
+      gcTime: Infinity,
     })),
     combine: combineTokenLists,
   })
