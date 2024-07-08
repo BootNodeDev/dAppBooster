@@ -64,7 +64,6 @@ const Search: FC<Props> = ({
               {networks.find((item) => item.id === currentNetworkId)?.icon}
             </NetworkButton>
           }
-          highlightItem
           items={networks.map(({ icon, label, onClick }, index) => (
             <Item key={index} onClick={onClick}>
               {icon}
