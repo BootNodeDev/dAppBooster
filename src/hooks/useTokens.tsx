@@ -6,8 +6,10 @@ import {
   type UseSuspenseQueryResult,
 } from '@tanstack/react-query'
 import defaultTokens from '@uniswap/default-token-list'
+import * as chains from 'viem/chains'
 
 import { tokenLists } from '@/src/constants/tokenLists'
+import { env } from '@/src/env'
 import { type Token, type Tokens, tokenSchema, type TokenList } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 
@@ -43,6 +45,7 @@ export const useTokens = ({
       queryKey: ['tokens-list', url],
       queryFn: () => fetchTokenList(url),
       staleTime: Infinity,
+      gcTime: Infinity,
     })),
     combine: combineTokenLists,
   })
@@ -90,7 +93,13 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
       acc.tokens.push(token)
 
       if (!acc.tokensByChainId[token.chainId]) {
-        acc.tokensByChainId[token.chainId] = []
+        try {
+          // if there's a native token for the chain, add it to the list
+          acc.tokensByChainId[token.chainId] = [buildNativeToken(token.chainId)]
+        } catch (err) {
+          // if there's no native token for the chain, ignore the error
+          acc.tokensByChainId[token.chainId] = []
+        }
       }
 
       acc.tokensByChainId[token.chainId].push(token)
@@ -127,4 +136,26 @@ export async function fetchTokenList(url: string): Promise<TokenList> {
   }
 
   return result.json()
+}
+
+/**
+ * Builds a native token object based on the chain ID.
+ *
+ * @param chainId - The ID of the chain.
+ * @returns The native token object.
+ */
+function buildNativeToken(chainId: Token['chainId']): Token {
+  const tokenInfo = Object.values(chains).find((chain) => chain.id === chainId)?.nativeCurrency
+
+  if (!tokenInfo) {
+    throw new Error(`Native token not found for chain ID: ${chainId}`)
+  }
+
+  return {
+    name: tokenInfo.name,
+    address: env.PUBLIC_NATIVE_TOKEN_ADDRESS,
+    chainId: chainId,
+    decimals: tokenInfo.decimals,
+    symbol: tokenInfo.symbol,
+  }
 }

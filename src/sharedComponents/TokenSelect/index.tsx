@@ -158,7 +158,9 @@ const TokenSelect = withSuspense(
     const { tokensByChainId } = useTokens()
     const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
       tokensByChainId[currentNetworkId],
+      [currentNetworkId],
     )
+
     return (
       <Wrapper {...restProps}>
         <Title>Select a token</Title>

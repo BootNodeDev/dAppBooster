@@ -1,4 +1,11 @@
-import { Dispatch, SetStateAction, useDeferredValue, useState } from 'react'
+import {
+  Dispatch,
+  SetStateAction,
+  useDeferredValue,
+  useState,
+  DependencyList,
+  useEffect,
+} from 'react'
 
 import { type Tokens } from '@/src/types/token'
 
@@ -13,12 +20,19 @@ type TokenSearch = {
  * Internally it uses React's `useDeferredValue`
  *
  * @param {Array} tokens - a list of tokens to be filtered by `searchTerm`
- * @returns {Array} List of Tokens
+ * @param {Array | undefined} deps - array of dependencies that trigger recalculation of the search
+ * @returns {TokenSearch} Object containing searchResult, searchTerm, and setSearchTerm
  */
-export const useTokenSearch = (tokens: Tokens): TokenSearch => {
+export const useTokenSearch = (tokens: Tokens, deps: DependencyList = []): TokenSearch => {
   const [searchTerm, setSearchTerm] = useState('')
-  const [baseList] = useState(tokens)
+  const [baseList, setBaseList] = useState(tokens)
   const deferredSearchTerm = useDeferredValue(searchTerm)
+
+  // update the baseList when deps changes
+  useEffect(() => {
+    setBaseList(tokens)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tokens, ...deps])
 
   // if no searchTerm, return the unfiltered list
   if (!deferredSearchTerm) {

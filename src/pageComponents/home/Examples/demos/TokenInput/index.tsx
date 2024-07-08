@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 
-import { arbitrum, mainnet, polygon } from 'viem/chains'
+import { arbitrum, mainnet, polygon, optimism } from 'viem/chains'
 
 import Arbitrum from '@/src/pageComponents/home/Examples/demos/assets/Arbitrum'
 import Eth from '@/src/pageComponents/home/Examples/demos/assets/Eth'
+import Optimism from '@/src/pageComponents/home/Examples/demos/assets/Optimism'
 import Polygon from '@/src/pageComponents/home/Examples/demos/assets/Polygon'
 import TokenInput from '@/src/sharedComponents/TokenInput'
 import { type Networks } from '@/src/sharedComponents/TokenSelect'
@@ -21,6 +22,12 @@ const TokenInputDemo = () => {
       id: mainnet.id,
       label: mainnet.name,
       onClick: () => setCurrentNetworkId(mainnet.id),
+    },
+    {
+      icon: <Optimism />,
+      id: optimism.id,
+      label: optimism.name,
+      onClick: () => setCurrentNetworkId(optimism.id),
     },
     {
       icon: <Arbitrum />,
