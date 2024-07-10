@@ -99,7 +99,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Subgraph',
     },
     {
-      demo: <EnsName address={address} />,
+      demo: <EnsName />,
       href: '#',
       icon: <GenericIcon />,
       text: 'Resolve ENS names',
