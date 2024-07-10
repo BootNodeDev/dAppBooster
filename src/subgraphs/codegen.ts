@@ -16,8 +16,10 @@
  */
 
 import { CodegenConfig } from '@graphql-codegen/cli'
-import { Chain } from 'viem/chains'
 import { loadEnv } from 'vite'
+
+// eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
+import { generateSchemas, parseResourceIds } from '../utils/subgraphs'
 
 const env = loadEnv('subgraphs', process.cwd(), '')
 
@@ -28,17 +30,11 @@ const SUBGRAPHS_DEVELOPMENT_URL = env.PUBLIC_SUBGRAPHS_DEVELOPMENT_URL
 const SUBGRAPHS_PRODUCTION_URL = env.PUBLIC_SUBGRAPHS_PRODUCTION_URL
 const SUBGRAPHS_ENVIRONMENT = env.PUBLIC_SUBGRAPHS_ENVIRONMENT
 
-type ParsedResourceIds = {
-  [subgraphId: string]: {
-    [chainId: Chain['id']]: string
-  }
-}
-
 /**
  * Builds the configuration object for generating GraphQL clients.
  * @returns The configuration object and the parsed schemas.
  */
-const buildConfig = (): { config: CodegenConfig; schemas: ParsedResourceIds } => {
+const buildConfig = (): CodegenConfig => {
   if (
     !SUBGRAPHS_API_KEY ||
     !SUBGRAPHS_CHAINS_RESOURCE_IDS ||
@@ -47,58 +43,20 @@ const buildConfig = (): { config: CodegenConfig; schemas: ParsedResourceIds } =>
     !SUBGRAPHS_ENVIRONMENT
   ) {
     return {
-      config: {
-        // this is a silent run
-        // does this way so if the env vars are not set, the script does not throw an error
-        // and the rest of the app can run
-        silent: true,
-        generates: {},
-      },
-      schemas: {},
+      // this is a silent run
+      // does this way so if the env vars are not set, the script does not throw an error
+      // and the rest of the app can run
+      silent: true,
+      generates: {},
     }
   }
 
-  const parsedResourceIds: ParsedResourceIds = SUBGRAPHS_CHAINS_RESOURCE_IDS
-    // no white spaces allowed
-    .replace(/ /g, '')
-    // each config
-    .split(',')
-    .reduce((acc: ParsedResourceIds, config) => {
-      const [chainId, subgraphId, resourceId] = config.split(':')
+  const parsedResourceIds = parseResourceIds(SUBGRAPHS_CHAINS_RESOURCE_IDS)
 
-      if (!acc[subgraphId]) {
-        acc[subgraphId] = { [chainId]: resourceId }
-      } else {
-        acc[subgraphId] = { ...acc[subgraphId], [chainId]: resourceId }
-      }
-
-      return acc
-    }, {})
-
-  const subgraphUrl =
-    SUBGRAPHS_ENVIRONMENT === 'development' ? SUBGRAPHS_DEVELOPMENT_URL : SUBGRAPHS_PRODUCTION_URL
-
-  const schemas: ParsedResourceIds = Object.fromEntries(
-    Object.entries(parsedResourceIds).map(([subgraphId, chains]) => {
-      return [
-        subgraphId,
-        Object.fromEntries(
-          Object.entries(chains).map(([chainId, resourceId]) => {
-            return [
-              chainId,
-              subgraphUrl
-                // api-key same to all subgraphs
-                .replace('[api-key]', SUBGRAPHS_API_KEY)
-                // using group as subgraph id
-                .replace('[subgraph-id]', subgraphId)
-                // resource-id is unique for each subgraph
-                .replace('[resource-id]', resourceId),
-            ]
-          }),
-        ),
-      ]
-    }),
-  )
+  const schemas = generateSchemas(parsedResourceIds, SUBGRAPHS_API_KEY, SUBGRAPHS_ENVIRONMENT, {
+    development: SUBGRAPHS_DEVELOPMENT_URL,
+    production: SUBGRAPHS_PRODUCTION_URL,
+  })
 
   // uncomment to see the generated schemas in the console
   // console.log(JSON.stringify(schemas, null, 2))
@@ -123,11 +81,9 @@ const buildConfig = (): { config: CodegenConfig; schemas: ParsedResourceIds } =>
   // uncomment to see the generated config in the console
   // console.log(JSON.stringify(config, null, 2))
 
-  return { config, schemas }
+  return config
 }
 
-const { config, schemas } = buildConfig()
-
-export { schemas }
+const config = buildConfig()
 
 export default config
