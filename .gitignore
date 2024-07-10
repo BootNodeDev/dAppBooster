@@ -29,3 +29,4 @@ dist-ssr
 coverage
 
 src/hooks/generated.ts
+src/subgraphs/gql
