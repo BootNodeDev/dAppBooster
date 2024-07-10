@@ -2,14 +2,10 @@ import { graphql } from '@/src/subgraphs/gql/uniswap'
 
 export const allUniswapPoolsQueryDocument = graphql(/* GraphQL */ `
   query allUniswapPools {
-    pools(first: 5) {
+    positions(first: 3, orderBy: liquidityUSD, orderDirection: asc) {
       id
-      token0Price
-      token1Price
-      token0 {
-        symbol
-      }
-      token1 {
+      pool {
+        id
         symbol
       }
     }
