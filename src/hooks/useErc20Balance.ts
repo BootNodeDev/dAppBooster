@@ -1,6 +1,7 @@
 import { Address, erc20Abi, getAddress } from 'viem'
 import { useReadContract } from 'wagmi'
 
+import { env } from '@/src/env'
 import { type Token } from '@/src/types/token'
 
 export type Erc20Balance = {
@@ -9,7 +10,7 @@ export type Erc20Balance = {
 }
 
 export const useErc20Balance = ({ address, token }: Erc20Balance) => {
-  const enabled = !!address && !!token
+  const enabled = !!address && !!token && token.address !== env.PUBLIC_NATIVE_TOKEN_ADDRESS
 
   const { data, error, isLoading } = useReadContract({
     abi: erc20Abi,

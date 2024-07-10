@@ -3,8 +3,9 @@ import styled from 'styled-components'
 
 import { useDialog, Textfield, Spinner } from 'db-ui-toolkit'
 import { formatUnits, getAddress } from 'viem'
-import { useAccount } from 'wagmi'
+import { useAccount, useBalance } from 'wagmi'
 
+import { env } from '@/src/env'
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
 import { BigNumberInput, type BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
 import BaseCloseButton from '@/src/sharedComponents/TokenInput/CloseButton'
@@ -137,11 +138,12 @@ const TokenInput: FC<Props> = ({
 
   const handleSelectedToken = useCallback(
     (token: Token | undefined) => {
+      onAmountSet() // reset amount when token change
       onTokenSelect(token)
       setTokenSelected(token)
       close('token-select')
     },
-    [close, onTokenSelect, setTokenSelected],
+    [close, onAmountSet, onTokenSelect, setTokenSelected],
   )
 
   const handleSetAmount = (amount: string) => {
@@ -175,7 +177,7 @@ const TokenInput: FC<Props> = ({
               balance && selectedToken ? formatUnits(balance, selectedToken.decimals) : undefined
             }
             onChange={handleSetAmount}
-            onError={(error) => handleError(error)}
+            onError={handleError}
             renderInput={() => (
               <Textfield $status={amountError ? 'error' : undefined} placeholder="0.00" />
             )}
@@ -243,19 +245,27 @@ function useTokenInput() {
     token: selectedToken,
   })
 
-  // reset amount when token change
-  useEffect(() => {
-    setAmount('')
-  }, [selectedToken])
+  const isNativeToken = selectedToken?.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS
+  const {
+    data: nativeBalance,
+    error: nativeBalanceError,
+    isLoading: isLoadingNativeBalance,
+  } = useBalance({
+    address: userWallet ? getAddress(userWallet) : undefined,
+    chainId: selectedToken?.chainId,
+    query: {
+      enabled: isNativeToken,
+    },
+  })
 
   return {
     amount,
     setAmount,
     amountError,
     setAmountError,
-    balance,
-    balanceError,
-    isLoadingBalance,
+    balance: isNativeToken ? nativeBalance?.value : balance,
+    balanceError: isNativeToken ? nativeBalanceError : balanceError,
+    isLoadingBalance: isNativeToken ? isLoadingNativeBalance : isLoadingBalance,
     selectedToken,
     setTokenSelected,
   }
