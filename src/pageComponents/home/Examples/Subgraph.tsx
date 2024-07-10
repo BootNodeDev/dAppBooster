@@ -23,7 +23,7 @@ const schemas = generateSchemas(
 
 const uniswapNetworks = [optimism, polygon, arbitrum] // same order as defined in useQueries
 
-const chainNameMapping = {
+const chainNameMapping: { [key: number]: string } = {
   [optimism.id]: 'optimism',
   [polygon.id]: 'polygon',
   [arbitrum.id]: 'arbitrum',
