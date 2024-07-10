@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type FC } from 'react'
+import { useMemo, useState, type FC } from 'react'
 import styled from 'styled-components'
 
 import { useDialog, Textfield, Spinner } from 'db-ui-toolkit'
@@ -135,15 +135,9 @@ const TokenInput: FC<Props> = ({
     setTokenSelected,
   } = useTokenInput()
   const { Dialog, close, open } = useDialog()
-
-  const handleSelectedToken = useCallback(
-    (token: Token | undefined) => {
-      onAmountSet() // reset amount when token change
-      onTokenSelect(token)
-      setTokenSelected(token)
-      close('token-select')
-    },
-    [close, onAmountSet, onTokenSelect, setTokenSelected],
+  const max = useMemo(
+    () => (balance && selectedToken ? formatUnits(balance, selectedToken.decimals) : '0'),
+    [balance, selectedToken],
   )
 
   const handleSetAmount = (amount: string) => {
@@ -151,8 +145,15 @@ const TokenInput: FC<Props> = ({
     onAmountSet(amount)
   }
 
+  const handleSelectedToken = (token: Token | undefined) => {
+    handleSetAmount('') // reset amount when token change
+    onTokenSelect(token)
+    setTokenSelected(token)
+    close('token-select')
+  }
+
   const handleSetMax = () => {
-    handleSetAmount(formatUnits(balance ?? 0n, selectedToken!.decimals))
+    handleSetAmount(max)
   }
 
   const handleError: BigNumberInputProps['onError'] = (error) => {
@@ -173,13 +174,12 @@ const TokenInput: FC<Props> = ({
         <TopRow>
           <BigNumberInput
             decimals={selectedToken ? selectedToken.decimals : 2}
-            max={
-              balance && selectedToken ? formatUnits(balance, selectedToken.decimals) : undefined
-            }
+            max={max}
             onChange={handleSetAmount}
             onError={handleError}
-            renderInput={() => (
-              <Textfield $status={amountError ? 'error' : undefined} placeholder="0.00" />
+            placeholder="0.00"
+            renderInput={(props) => (
+              <Textfield $status={amountError ? 'error' : undefined} {...props} />
             )}
             value={amount}
           />
