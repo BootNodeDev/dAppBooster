@@ -46,7 +46,7 @@ const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
     return fallback
   }
 
-  if (!isWalletSynced || walletChainId !== chainId) {
+  if (!isWalletSynced || walletChainId !== chainToSwitch.id) {
     return (
       <Button onClick={() => switchChain(chainToSwitch.id)}>
         {labelSwitchChain} {chainToSwitch?.name}
@@ -87,7 +87,7 @@ const withWalletStatusVerifier = <P extends object>(
       return fallback
     }
 
-    if (!isWalletSynced || walletChainId !== chainId) {
+    if (!isWalletSynced || walletChainId !== chainToSwitch.id) {
       return (
         <Button onClick={() => switchChain(chainToSwitch.id)}>
           {labelSwitchChain} {chainToSwitch?.name}
