@@ -56,8 +56,8 @@ export function reactSuspenseRead(config: ActionsConfig = {}): ActionsResult {
             content.push(
               `
                 export const ${hookName} = ${pure} ${functionName}({ ${innerContent}, functionName: '${item.name}' })
-                export const useSuspense${pascalCase(hookName)} = (params: Parameters<typeof ${hookName}>[1], options?: UseSuspenseQueryOptions) => {
-                  return useSuspenseQuery({ queryKey: ['${hookName}', params, config.state.chainId], queryFn: () => ${hookName}(config, params), ...options })
+                export const useSuspense${pascalCase(hookName)} = (params: Parameters<typeof ${hookName}>[1], options?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ${hookName}>>>) => {
+                  return useSuspenseQuery<Awaited<ReturnType<typeof ${hookName}>>>({ queryKey: ['${hookName}', params, config.state.chainId], queryFn: () => ${hookName}(config, params), ...options })
                 }
               `,
             )
