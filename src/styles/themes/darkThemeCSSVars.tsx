@@ -169,6 +169,45 @@ const darkThemeCSSVars = css`
   --theme-token-select-search-field-box-shadow-active: none;
   --theme-token-select-search-field-border-color: #5f6178;
   --theme-token-select-search-field-border-color-active: #5f6178;
+
+  /* Token Input */
+  --theme-token-input-title-color: #fff;
+
+  --theme-token-input-background: #373954;
+
+  --theme-token-input-textfield-background-color: #373954;
+  --theme-token-input-textfield-background-color-active: rgb(255 255 255 / 5%);
+  --theme-token-input-textfield-border-color: #5f6178;
+  --theme-token-input-textfield-border-color-active: #5f6178;
+  --theme-token-input-textfield-color: rgb(255 255 255 / 80%);
+  --theme-token-input-textfield-color-active: rgb(255 255 255 / 80%);
+  --theme-token-input-textfield-placeholder-color: rgb(255 255 255 / 50%);
+
+  --theme-token-input-select-button-background-color: #373954;
+  --theme-token-input-select-button-background-color-hover: rgb(255 255 255 / 5%);
+  --theme-token-input-select-button-border-color: #5f6178;
+  --theme-token-input-select-button-border-color-hover: #5f6178;
+  --theme-token-input-select-button-border-color-active: #5f6178;
+  --theme-token-input-select-button-color: #fff;
+  --theme-token-input-select-button-color-hover: #fff;
+  --theme-token-input-select-button-background-color-disabled: #373954;
+  --theme-token-input-select-button-border-color-disabled: #5f6178;
+  --theme-token-input-select-button-color-disabled: #fff;
+
+  --theme-token-input-max-button-background-color: #373954;
+  --theme-token-input-max-button-background-color-hover: rgb(255 255 255 / 5%);
+  --theme-token-input-max-button-border-color: #c5c2cb;
+  --theme-token-input-max-button-border-color-hover: #c5c2cb;
+  --theme-token-input-max-button-border-color-active: #c5c2cb;
+  --theme-token-input-max-button-color: #c670e5;
+  --theme-token-input-max-button-color-hover: #c670e5;
+  --theme-token-input-max-button-background-color-disabled: #373954;
+  --theme-token-input-max-button-border-color-disabled: #5f6178;
+  --theme-token-input-max-button-color-disabled: #fff;
+
+  --theme-token-input-estimated-usd-color: #e2e0e7;
+
+  --theme-token-input-balance-color: #e2e0e7;
 `
 
 export default darkThemeCSSVars
