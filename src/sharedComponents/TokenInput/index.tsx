@@ -5,7 +5,6 @@ import { useDialog, Textfield, Spinner } from 'db-ui-toolkit'
 import { formatUnits, getAddress } from 'viem'
 import { useAccount, useBalance } from 'wagmi'
 
-import { env } from '@/src/env'
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
 import { BigNumberInput, type BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
 import BaseCloseButton from '@/src/sharedComponents/TokenInput/CloseButton'
@@ -28,6 +27,7 @@ import BaseTokenSelect, {
   type Props as TokenSelectProps,
 } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
+import { isNativeToken } from '@/src/utils/address'
 const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
 `
@@ -245,7 +245,7 @@ function useTokenInput() {
     token: selectedToken,
   })
 
-  const isNativeToken = selectedToken?.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS
+  const isNative = selectedToken?.address ? isNativeToken(selectedToken.address) : false
   const {
     data: nativeBalance,
     error: nativeBalanceError,
@@ -254,7 +254,7 @@ function useTokenInput() {
     address: userWallet ? getAddress(userWallet) : undefined,
     chainId: selectedToken?.chainId,
     query: {
-      enabled: isNativeToken,
+      enabled: isNative,
     },
   })
 
@@ -263,9 +263,9 @@ function useTokenInput() {
     setAmount,
     amountError,
     setAmountError,
-    balance: isNativeToken ? nativeBalance?.value : balance,
-    balanceError: isNativeToken ? nativeBalanceError : balanceError,
-    isLoadingBalance: isNativeToken ? isLoadingNativeBalance : isLoadingBalance,
+    balance: isNative ? nativeBalance?.value : balance,
+    balanceError: isNative ? nativeBalanceError : balanceError,
+    isLoadingBalance: isNative ? isLoadingNativeBalance : isLoadingBalance,
     selectedToken,
     setTokenSelected,
   }

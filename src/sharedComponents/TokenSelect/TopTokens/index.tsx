@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { env } from '@/src/env'
 import Item from '@/src/sharedComponents/TokenSelect/TopTokens/Item'
 import { type Tokens, type Token } from '@/src/types/token'
+import { isNativeToken } from '@/src/utils/address'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' }) => ({
   className,
@@ -34,7 +35,7 @@ const TopTokens: FC<Props> = ({ onTokenSelect, tokens, ...restProps }: Props) =>
     <Wrapper {...restProps}>
       {[
         // append native token at the beginning
-        tokens.find((token) => token.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS),
+        tokens.find((token) => isNativeToken(token.address)),
         ...tokens
           .filter((token) => topTokenSymbols.includes(token.symbol.toLowerCase()))
           .sort(
