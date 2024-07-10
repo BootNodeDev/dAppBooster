@@ -1,7 +1,6 @@
 import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-import { env } from '@/src/env'
 import Item from '@/src/sharedComponents/TokenSelect/TopTokens/Item'
 import { type Tokens, type Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
