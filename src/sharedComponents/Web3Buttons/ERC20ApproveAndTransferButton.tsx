@@ -6,7 +6,7 @@ import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import TransactionButton from '@/src/sharedComponents/Web3Buttons/TransactionButton'
 import { Token } from '@/src/types/token'
 
-interface ApproveAndSendButtonProps {
+interface ERC20ApproveAndTransferButtonProps {
   token: Token
   spender: Address
   amount: bigint
@@ -41,7 +41,7 @@ const ERC20ApproveAndTransferButton = ({
   spender,
   token,
   transaction,
-}: ApproveAndSendButtonProps) => {
+}: ERC20ApproveAndTransferButtonProps) => {
   const { address } = useWeb3StatusConnected()
   const { writeContractAsync } = useWriteContract()
 
