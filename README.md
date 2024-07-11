@@ -323,7 +323,7 @@ export const allUniswapPoolsQueryDocument = graphql(/* GraphQL */ `
 
 3. Run the `pnpm subgraph-codegen` script
 
-4. And consume the data in the followin way, by using `@tanstack/react-query`:
+4. And consume the data in the following way, by using `@tanstack/react-query`:
 
 ```ts
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
