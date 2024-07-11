@@ -1,4 +1,4 @@
-import { type FC, type HTMLAttributes } from 'react'
+import { Suspense, type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import { InnerContainer as Inner, ContainerPadding } from 'db-ui-toolkit'
@@ -16,9 +16,11 @@ import ImgTokenInput from '@/src/pageComponents/home/Examples/assets/TokenInput'
 import ImgTokenList from '@/src/pageComponents/home/Examples/assets/TokenList'
 import ImgWallet from '@/src/pageComponents/home/Examples/assets/Wallet'
 import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
+import { ERC20ApproveAndTransferButtonDemo } from '@/src/pageComponents/home/Examples/demos/ERC20ApproveAndTransferButton'
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import HashInput from '@/src/pageComponents/home/Examples/demos/HashInput'
+import { SignMessageDemo } from '@/src/pageComponents/home/Examples/demos/SignMessage'
 import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdown'
 import TokenInput from '@/src/pageComponents/home/Examples/demos/TokenInput'
 import TransactionButtonDemo from '@/src/pageComponents/home/Examples/demos/TransactionButton'
@@ -106,19 +108,43 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'ENS name',
     },
     {
-      demo: <TransactionButtonDemo />,
+      demo: (
+        <Suspense fallback={<div>Loading TransactionButtonDemo...</div>}>
+          <TransactionButtonDemo />
+        </Suspense>
+      ),
       href: '#',
       icon: <GenericIcon />,
       text: 'Transaction Button',
       title: 'Tx button',
     },
+    {
+      demo: (
+        <Suspense fallback={<div>Loading ERC20ApproveAndTransferButtonDemo...</div>}>
+          <ERC20ApproveAndTransferButtonDemo />
+        </Suspense>
+      ),
+      href: '#',
+      icon: <GenericIcon />,
+      text: 'Combines the approve and transaction button checking allowance in one button',
+      title: 'Approve and Send',
+    },
+    {
+      demo: <SignMessageDemo />,
+      href: '#',
+      icon: <GenericIcon />,
+      text: 'Sign a message and get the signature',
+      title: 'Sign button',
+    },
   ]
 
   return (
     <Wrapper id="examples" {...restProps}>
-      <InnerContainer>
-        <List items={items} />
-      </InnerContainer>
+      <Suspense fallback={<div>Loading...</div>}>
+        <InnerContainer>
+          <List items={items} />
+        </InnerContainer>
+      </Suspense>
     </Wrapper>
   )
 }

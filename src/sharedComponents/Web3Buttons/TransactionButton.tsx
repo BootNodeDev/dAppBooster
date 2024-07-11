@@ -33,7 +33,7 @@ interface TransactionButtonProps {
 
 const TransactionButton = withWalletStatusVerifier(
   ({
-    confirmations = 2,
+    confirmations = 1,
     disabled,
     label = 'Send Transaction',
     labelSending = 'Sending...',
