@@ -1,4 +1,4 @@
-import { Suspense, type FC, type HTMLAttributes } from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import { InnerContainer as Inner, ContainerPadding } from 'db-ui-toolkit'
@@ -7,6 +7,7 @@ import { useAccount } from 'wagmi'
 
 import { Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
 import List from '@/src/pageComponents/home/Examples/List'
+import Subgraph from '@/src/pageComponents/home/Examples/Subgraph'
 import ImgAvatar from '@/src/pageComponents/home/Examples/assets/Avatar'
 import ImgHash from '@/src/pageComponents/home/Examples/assets/Hash'
 import GenericIcon from '@/src/pageComponents/home/Examples/assets/IPFSImage'
@@ -94,7 +95,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Avatar',
     },
     {
-      demo: <div>Subgraph</div>,
+      demo: <Subgraph />,
       href: '#',
       icon: <ImgSubgraph />,
       text: 'Support for connecting with subgraphs',
@@ -132,11 +133,9 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
 
   return (
     <Wrapper id="examples" {...restProps}>
-      <Suspense fallback={<div>Loading...</div>}>
-        <InnerContainer>
-          <List items={items} />
-        </InnerContainer>
-      </Suspense>
+      <InnerContainer>
+        <List items={items} />
+      </InnerContainer>
     </Wrapper>
   )
 }

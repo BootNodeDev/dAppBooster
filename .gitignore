@@ -29,3 +29,5 @@ dist-ssr
 coverage
 
 src/hooks/generated.ts
+src/subgraphs/gql
+vite.config.ts.timestamp*
