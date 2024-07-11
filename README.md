@@ -266,7 +266,7 @@ Inside here, you can define individual `.ts` files with `graphql` queries.
 
 The file that `subgraph-codegen` script will use to generate the code.
 
-#### [`/src/subgraphs/utils/schemas.ts`](./src/subgraphs//utils/schemas.ts)
+#### [`/src/subgraphs/utils/schemas.ts`](./src/subgraphs/utils/schemas.ts)
 
 This file exposes two functions used by `codegen.ts` that allows to organize the data in an easy to consume fashion.
 
