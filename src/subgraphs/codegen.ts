@@ -19,7 +19,7 @@ import { CodegenConfig } from '@graphql-codegen/cli'
 import { loadEnv } from 'vite'
 
 // eslint-disable-next-line no-relative-import-paths/no-relative-import-paths
-import { generateSchemas, parseResourceIds } from '../utils/subgraphs'
+import { generateSchemas, parseResourceIds } from './utils/schemas'
 
 const env = loadEnv('subgraphs', process.cwd(), '')
 

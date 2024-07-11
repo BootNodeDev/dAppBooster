@@ -8,7 +8,7 @@ import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
 import { env } from '@/src/env'
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
-import { generateSchemas, parseResourceIds } from '@/src/utils/subgraphs'
+import { generateSchemas, parseResourceIds } from '@/src/subgraphs/utils/schemas'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 const schemas = generateSchemas(
@@ -21,13 +21,11 @@ const schemas = generateSchemas(
   },
 )
 
-const uniswapNetworks = [optimism, polygon, arbitrum] // same order as defined in useQueries
-
 const chainNameMapping: { [key: number]: string } = {
   [optimism.id]: 'optimism',
   [polygon.id]: 'polygon',
   [arbitrum.id]: 'arbitrum',
-} as const
+}
 
 const DataRow = styled.div`
   display: flex;
@@ -43,6 +41,7 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
       return positions
     },
   })
+
   const baseUrl = `https://app.uniswap.org/explore/pools/${chainNameMapping[chain.id]}/`
 
   return (
@@ -80,6 +79,8 @@ const Aave = withSuspenseAndRetry(() => {
     </>
   )
 })
+
+const uniswapNetworks = [optimism, polygon, arbitrum]
 
 const Subgraph = () => {
   return (
