@@ -283,7 +283,7 @@ const schemas = generateSchemas(parsedResourceIds, SUBGRAPHS_API_KEY, SUBGRAPHS_
 #### `src/subgraphs/gql`
 
 The generated directory, which is not versioned. So if you don't see it, an error may have
-happend, you forgot to define all the env variables, or you don't have queries defined.
+happened, you forgot to define all the env variables, or you don't have queries defined.
 
 ## Example
 
