@@ -203,7 +203,7 @@ Commit messages' are validated using a [Husky](https://typicode.github.io/husky/
 
 ### `PUBLIC_SUBGRAPHS_API_KEY`
 
-The API Key of you need to create and retrieve from https://thegraph.com/studio/apikeys/
+The API Key you need to create and retrieve from https://thegraph.com/studio/apikeys/
 
 ### `PUBLIC_SUBGRAPHS_<DEVELOPMENT|PRODUCTION>_URL`
 
