@@ -3,8 +3,8 @@ import { sepolia } from 'viem/chains'
 import { useSendTransaction, useWriteContract } from 'wagmi'
 
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
-import { TransactionButton } from '@/src/sharedComponents/TransactionButton'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
+import TransactionButton from '@/src/sharedComponents/Web3Buttons/TransactionButton'
 
 const TransactionButtonDemo = withWalletStatusVerifier(
   () => {
@@ -39,7 +39,6 @@ const TransactionButtonDemo = withWalletStatusVerifier(
     return (
       <>
         <TransactionButton
-          chain={sepolia}
           label="Send 100 USDC"
           labelSending="Sending 100 USDC..."
           onMined={handleOnMined}
@@ -47,7 +46,6 @@ const TransactionButtonDemo = withWalletStatusVerifier(
         />
         <br />
         <TransactionButton
-          chain={sepolia}
           label="Send 0.1 ETH"
           labelSending="Sending 0.1 ETH..."
           onMined={handleOnMined}
