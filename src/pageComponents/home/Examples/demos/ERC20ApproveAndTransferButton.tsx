@@ -9,6 +9,7 @@ import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVer
 import ERC20ApproveAndTransferButton from '@/src/sharedComponents/Web3Buttons/ERC20ApproveAndTransferButton'
 import { Token } from '@/src/types/token'
 import { formatNumberOrString, NumberType } from '@/src/utils/format'
+import { withSuspense } from '@/src/utils/suspenseWrapper'
 
 // USDC token on sepolia chain
 const tokenUSDC_sepolia: Token = {
@@ -52,7 +53,7 @@ const ABIExample = [
 ] as const
 
 export const ERC20ApproveAndTransferButtonDemo = withWalletStatusVerifier(
-  () => {
+  withSuspense(() => {
     const { address } = useWeb3StatusConnected()
     const { writeContractAsync } = useWriteContract()
 
@@ -104,6 +105,6 @@ export const ERC20ApproveAndTransferButtonDemo = withWalletStatusVerifier(
         )}
       </div>
     )
-  },
-  { chainId: sepolia.id },
+  }),
+  { chainId: sepolia.id }, // this DEMO component only works on sepolia chain
 )

@@ -108,22 +108,14 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'ENS name',
     },
     {
-      demo: (
-        <Suspense fallback={<div>Loading TransactionButtonDemo...</div>}>
-          <TransactionButtonDemo />
-        </Suspense>
-      ),
+      demo: <TransactionButtonDemo />,
       href: '#',
       icon: <GenericIcon />,
       text: 'Transaction Button',
       title: 'Tx button',
     },
     {
-      demo: (
-        <Suspense fallback={<div>Loading ERC20ApproveAndTransferButtonDemo...</div>}>
-          <ERC20ApproveAndTransferButtonDemo />
-        </Suspense>
-      ),
+      demo: <ERC20ApproveAndTransferButtonDemo />,
       href: '#',
       icon: <GenericIcon />,
       text: 'Combines the approve and transaction button checking allowance in one button',
