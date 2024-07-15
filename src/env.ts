@@ -9,6 +9,11 @@ export const env = createEnv({
     PUBLIC_APP_LOGO: z.string().optional(),
     PUBLIC_APP_NAME: z.string().min(1),
     PUBLIC_APP_URL: z.string().optional(),
+    PUBLIC_USE_DEFAULT_TOKENS: z
+      .enum(['true', 'false'])
+      .transform((value) => value === 'true')
+      .optional()
+      .default('true'),
     PUBLIC_INFURA_KEY: z.string().optional(),
     PUBLIC_NATIVE_TOKEN_ADDRESS: z
       .string()
