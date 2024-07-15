@@ -3,6 +3,7 @@ import { Wrapper, Main } from 'db-ui-toolkit'
 import { ThemeProvider } from 'next-themes'
 import { Toaster } from 'react-hot-toast'
 
+import TokensProvider from '@/src/providers/TokensProvider'
 import { Web3Provider } from '@/src/providers/Web3Provider'
 import { Footer } from '@/src/sharedComponents/Footer'
 import { Header } from '@/src/sharedComponents/Header'
@@ -22,13 +23,15 @@ function Root() {
       <Styles />
       <Wrapper>
         <Web3Provider>
-          <Header />
-          <Main>
-            <Outlet />
-          </Main>
-          <Footer />
-          <TanStackReactQueryDevtools />
-          <TanStackRouterDevtools />
+          <TokensProvider>
+            <Header />
+            <Main>
+              <Outlet />
+            </Main>
+            <Footer />
+            <TanStackReactQueryDevtools />
+            <TanStackRouterDevtools />
+          </TokensProvider>
         </Web3Provider>
       </Wrapper>
       <Toaster />

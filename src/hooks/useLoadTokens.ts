@@ -13,7 +13,7 @@ import { env } from '@/src/env'
 import { type Token, type Tokens, tokenSchema, type TokenList } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 
-type TokensMap = {
+export type TokensMap = {
   tokens: Tokens
   tokensByChainId: { [chainId: Token['chainId']]: Tokens }
 }
@@ -30,7 +30,7 @@ type TokensMap = {
  *
  * @returns {TokensMap} list of tokens, tokens grouped by chainId, and symbol->chainId
  */
-export const useTokens = ({
+export const useLoadTokens = ({
   useDefaultTokens = true,
 }: {
   useDefaultTokens?: boolean
@@ -122,7 +122,7 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
  * @param url - a link to a list of tokens or 'default' to use the list added as a dependency to the project
  * @returns {Promise<TokenList>} a token list
  */
-export async function fetchTokenList(url: string): Promise<TokenList> {
+async function fetchTokenList(url: string): Promise<TokenList> {
   if (url === 'default') {
     return defaultTokens
   }
