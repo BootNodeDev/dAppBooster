@@ -32,7 +32,11 @@ export const env = createEnv({
     PUBLIC_RPC_POLYGON_MUMBAI: z.string().optional(),
     PUBLIC_RPC_SEPOLIA: z.string().optional(),
     PUBLIC_WALLETCONNECT_PROJECT_ID: z.string().length(32),
-    PUBLIC_INCLUDE_TESTNETS: z.string().optional(),
+    PUBLIC_INCLUDE_TESTNETS: z
+      .enum(['true', 'false'])
+      .transform((value) => value === 'true')
+      .optional()
+      .default('true'),
   },
   runtimeEnv: import.meta.env,
   emptyStringAsUndefined: true,
