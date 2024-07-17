@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import {
   type UseSuspenseQueryOptions,
@@ -12,11 +12,7 @@ import { tokenLists } from '@/src/constants/tokenLists'
 import { env } from '@/src/env'
 import { type Token, tokenSchema, type TokenList } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
-import tokensCache, {
-  updateTokensCache,
-  type TokensCache,
-  type TokensMap,
-} from '@/src/utils/tokensCache'
+import tokensCache, { updateTokensCache, type TokensMap } from '@/src/utils/tokensCache'
 
 /**
  * Loads the list of tokens provided by config
@@ -40,6 +36,12 @@ export const useTokens = ({
     return useDefaultTokens ? ['default', ...urls] : urls
   }, [useDefaultTokens])
 
+  const combineTokens = useCallback(
+    (results: Array<UseSuspenseQueryResult<TokenList>>) =>
+      combineTokenLists(results, useDefaultTokens),
+    [useDefaultTokens],
+  )
+
   return useSuspenseQueries({
     queries: tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
       queryKey: ['tokens-list', url],
@@ -47,7 +49,7 @@ export const useTokens = ({
       staleTime: Infinity,
       gcTime: Infinity,
     })),
-    combine: (results) => combineTokenLists(results, useDefaultTokens),
+    combine: combineTokens,
   })
 }
 
