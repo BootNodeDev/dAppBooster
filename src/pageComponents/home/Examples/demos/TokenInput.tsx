@@ -56,9 +56,9 @@ const TokenInputDemo = () => {
   }
 
   useEffect(() => {
-    console.log(currentToken)
-    console.log(amount)
-    console.log(error)
+    currentToken && console.log(currentToken)
+    amount && console.log(amount)
+    error && console.log(error)
   }, [currentToken, amount, error])
 
   return (
@@ -68,6 +68,7 @@ const TokenInputDemo = () => {
       onAmountSet={onAmountSet}
       onError={onError}
       onTokenSelect={onTokenSelect}
+      showBalance
       title="You pay"
     />
   )
