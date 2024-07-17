@@ -1,8 +1,11 @@
 import { type FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
+import { formatUnits } from 'viem'
+
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import { type Token } from '@/src/types/token'
+import { TokenWithAmount } from '@/src/utils/tokensBalanceCache'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
   color: var(--theme-token-select-row-token-name-color-default);
@@ -110,21 +113,38 @@ const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ c
   row-gap: var(--base-gap-sm);
   align-items: flex-end;
 `
+/**
+ * @name TokenBalance
+ * @description The token balance in the token list row.
+ *
+ * @param {TokenWithAmount} token - The token object containing the amount, decimals, and price in USD.
+ */
+const TokenBalance = ({ token }: { token: TokenWithAmount }) => {
+  const balance = formatUnits(token.amount, token.decimals)
+  const value = (parseFloat(token.priceUSD) * parseFloat(balance)).toFixed(2)
+
+  return (
+    <Values>
+      <Balance>{balance}</Balance>
+      <Value>$ {value}</Value>
+    </Values>
+  )
+}
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   iconSize: number
-  onClick: (token: Token) => void
+  onClick: (token: Token | TokenWithAmount) => void
   showBalance?: boolean
-  token: Token
+  token: Token | TokenWithAmount
 }
 
 /**
  * @name Row
  * @description A row in the token select list.
  *
- * @param {Token} token - The token to display.
+ * @param {Token | TokenWithAmount} token - The token to display.
  * @param {number} iconSize - The size of the token icon.
- * @param {(token: Token) => void} onClick - Callback function to be called when the row is clicked.
+ * @param {(token: Token | TokenWithAmount) => void} onClick - Callback function to be called when the row is clicked.
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance. Default is false.
  */
 const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps }) => {
@@ -136,12 +156,7 @@ const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps })
         <TokenLogo size={iconSize} token={token} />
       </Icon>
       <Name>{name}</Name>
-      {showBalance && (
-        <Values>
-          <Balance>1000.00</Balance>
-          <Value>$10.00</Value>
-        </Values>
-      )}
+      {showBalance && <TokenBalance token={token as TokenWithAmount} />}
     </Wrapper>
   )
 }

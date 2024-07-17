@@ -8,6 +8,7 @@ import {
 } from 'react'
 
 import { type Tokens } from '@/src/types/token'
+import { TokenWithAmount } from '@/src/utils/tokensBalanceCache'
 
 type TokenSearch = {
   searchResult: Tokens
@@ -23,7 +24,10 @@ type TokenSearch = {
  * @param {Array | undefined} deps - array of dependencies that trigger recalculation of the search
  * @returns {TokenSearch} Object containing searchResult, searchTerm, and setSearchTerm
  */
-export const useTokenSearch = (tokens: Tokens, deps: DependencyList = []): TokenSearch => {
+export const useTokenSearch = (
+  tokens: Tokens | Array<TokenWithAmount>,
+  deps: DependencyList = [],
+): TokenSearch => {
   const [searchTerm, setSearchTerm] = useState('')
   const [baseList, setBaseList] = useState(tokens)
   const deferredSearchTerm = useDeferredValue(searchTerm)

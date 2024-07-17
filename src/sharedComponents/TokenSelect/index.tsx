@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type ReactElement } from 'react'
+import { useMemo, type HTMLAttributes, type ReactElement } from 'react'
 import styled from 'styled-components'
 
 import { Card, Spinner } from 'db-ui-toolkit'
@@ -6,11 +6,13 @@ import { mainnet } from 'viem/chains'
 
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useTokens } from '@/src/hooks/useTokens'
+import { useTokensWithBalances } from '@/src/hooks/useTokensWithBalances'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import List from '@/src/sharedComponents/TokenSelect/List'
 import Search from '@/src/sharedComponents/TokenSelect/Search'
 import TopTokens from '@/src/sharedComponents/TokenSelect/TopTokens'
 import { type Token } from '@/src/types/token'
-import { withSuspense } from '@/src/utils/suspenseWrapper'
+import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 export type Networks = Array<{
   label: string
@@ -141,7 +143,7 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-row-token-value-color
  * * --theme-token-select-row-token-value-color-hover
  */
-const TokenSelect = withSuspense(
+const TokenSelect = withSuspenseAndRetry<Props>(
   ({
     children,
     containerHeight = 320,
@@ -154,10 +156,18 @@ const TokenSelect = withSuspense(
     showBalance = false,
     showTopTokens = false,
     ...restProps
-  }: Props) => {
+  }) => {
+    const { address } = useWeb3Status()
     const { tokensByChainId } = useTokens()
+    const { tokensWithBalances } = useTokensWithBalances()
+
+    const tokensMap = useMemo(
+      () => (address && showBalance ? tokensWithBalances : tokensByChainId),
+      [address, showBalance, tokensByChainId, tokensWithBalances],
+    )
+
     const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
-      tokensByChainId[currentNetworkId],
+      tokensMap[currentNetworkId],
       [currentNetworkId],
     )
 
@@ -172,7 +182,7 @@ const TokenSelect = withSuspense(
           setSearchTerm={setSearchTerm}
         />
         {showTopTokens && (
-          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[currentNetworkId]} />
+          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensMap[currentNetworkId]} />
         )}
         <List
           containerHeight={containerHeight}
