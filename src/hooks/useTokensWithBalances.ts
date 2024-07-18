@@ -5,7 +5,10 @@ import { Address } from 'viem'
 import { env } from '@/src/env'
 import { useTokens } from '@/src/hooks/useTokens'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
-import { CACHE_EXPIRATION_TIME, updateTokenBalanceCache } from '@/src/utils/tokensBalanceCache'
+import {
+  BALANCE_CACHE_EXPIRATION_TIME,
+  updateTokenBalanceCache,
+} from '@/src/utils/tokensBalanceCache'
 
 export const lifiConfig = createConfig({
   integrator: env.PUBLIC_APP_NAME,
@@ -24,16 +27,16 @@ export const useTokensWithBalances = ({ account }: { account?: Address } = {}) =
       // but we must ensure that the chains are supported by lifi's API
       // getTokens({ chains: Object.keys(tokensByChainId).map((id) => parseInt(id)) }),
       getTokens(),
-    staleTime: CACHE_EXPIRATION_TIME,
-    refetchInterval: CACHE_EXPIRATION_TIME,
+    staleTime: BALANCE_CACHE_EXPIRATION_TIME,
+    refetchInterval: BALANCE_CACHE_EXPIRATION_TIME,
     gcTime: Infinity,
   })
 
   const { data: tokensBalances } = useSuspenseQuery({
     queryKey: ['lifi', 'tokens', 'balances', account],
     queryFn: () => getTokenBalances(account, tokensData.tokens as Token[]),
-    staleTime: CACHE_EXPIRATION_TIME,
-    refetchInterval: CACHE_EXPIRATION_TIME,
+    staleTime: BALANCE_CACHE_EXPIRATION_TIME,
+    refetchInterval: BALANCE_CACHE_EXPIRATION_TIME,
     gcTime: Infinity,
   })
 

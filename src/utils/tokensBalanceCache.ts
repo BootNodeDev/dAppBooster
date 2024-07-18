@@ -5,7 +5,7 @@ import { Token, Tokens } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 import { TokensMap } from '@/src/utils/tokensCache'
 
-export const CACHE_EXPIRATION_TIME = 30_000
+export const BALANCE_CACHE_EXPIRATION_TIME = 32_000
 
 export type TokensBalances = TokensMap & {
   account: string
@@ -32,7 +32,7 @@ export function updateTokenBalanceCache(
   if (tokensBalancesCache.account === account) {
     const cacheExpired =
       // defaults to Infinity if not set, so it's considered expired
-      (tokensBalancesCache.timestamp ?? Infinity) < Date.now() - CACHE_EXPIRATION_TIME
+      (tokensBalancesCache.timestamp ?? Infinity) < Date.now() - BALANCE_CACHE_EXPIRATION_TIME
 
     if (tokensBalancesCache?.timestamp !== undefined) {
       // if set and expired, update the timestamp
