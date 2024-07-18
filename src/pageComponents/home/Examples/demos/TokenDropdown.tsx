@@ -50,7 +50,6 @@ const TokenDropdownDemo: FC = ({ ...restProps }) => {
       currentToken={currentToken}
       networks={networks}
       onTokenSelect={onTokenSelect}
-      showBalance
       showTopTokens
       {...restProps}
     />
