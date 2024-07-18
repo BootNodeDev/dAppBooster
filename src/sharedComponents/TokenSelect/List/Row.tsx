@@ -5,7 +5,6 @@ import { formatUnits } from 'viem'
 
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import { type Token } from '@/src/types/token'
-import { TokenWithAmount } from '@/src/utils/tokensBalanceCache'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
   color: var(--theme-token-select-row-token-name-color-default);
@@ -117,34 +116,40 @@ const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ c
  * @name TokenBalance
  * @description The token balance in the token list row.
  *
- * @param {TokenWithAmount} token - The token object containing the amount, decimals, and price in USD.
+ * @param {Token} token - The token object containing the amount, decimals, and price in USD.
  */
-const TokenBalance = ({ token }: { token: TokenWithAmount }) => {
-  const balance = formatUnits(token.amount, token.decimals)
-  const value = (parseFloat(token.priceUSD) * parseFloat(balance)).toFixed(2)
+const TokenBalance = ({ token }: { token: Token }) => {
+  const tokenHasBalanceInfo = !!token.extensions
+
+  if (!tokenHasBalanceInfo) {
+    throw Promise.reject()
+  }
+
+  const balance = formatUnits(token.extensions!.balance as bigint, token.decimals)
+  const value = (parseFloat(token.extensions!.priceUSD as string) * parseFloat(balance)).toFixed(2)
 
   return (
-    <Values>
+    <>
       <Balance>{balance}</Balance>
       <Value>$ {value}</Value>
-    </Values>
+    </>
   )
 }
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   iconSize: number
-  onClick: (token: Token | TokenWithAmount) => void
+  onClick: (token: Token) => void
   showBalance?: boolean
-  token: Token | TokenWithAmount
+  token: Token
 }
 
 /**
  * @name Row
  * @description A row in the token select list.
  *
- * @param {Token | TokenWithAmount} token - The token to display.
+ * @param {Token} token - The token to display.
  * @param {number} iconSize - The size of the token icon.
- * @param {(token: Token | TokenWithAmount) => void} onClick - Callback function to be called when the row is clicked.
+ * @param {(token: Token) => void} onClick - Callback function to be called when the row is clicked.
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance. Default is false.
  */
 const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps }) => {
@@ -156,7 +161,11 @@ const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps })
         <TokenLogo size={iconSize} token={token} />
       </Icon>
       <Name>{name}</Name>
-      {showBalance && <TokenBalance token={token as TokenWithAmount} />}
+      {showBalance && (
+        <Values>
+          <TokenBalance token={token} />
+        </Values>
+      )}
     </Wrapper>
   )
 }

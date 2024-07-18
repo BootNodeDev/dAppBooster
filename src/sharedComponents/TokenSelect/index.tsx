@@ -5,7 +5,6 @@ import { Card, Spinner } from 'db-ui-toolkit'
 import { mainnet } from 'viem/chains'
 
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
-import { useTokens } from '@/src/hooks/useTokens'
 import { useTokensWithBalances } from '@/src/hooks/useTokensWithBalances'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import List from '@/src/sharedComponents/TokenSelect/List'
@@ -157,18 +156,11 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     showTopTokens = false,
     ...restProps
   }) => {
-    const { address } = useWeb3Status()
-    const { tokensByChainId } = useTokens()
-    const { tokensWithBalances } = useTokensWithBalances()
-
-    const tokensMap = useMemo(
-      () => (address && showBalance ? tokensWithBalances : tokensByChainId),
-      [address, showBalance, tokensByChainId, tokensWithBalances],
-    )
+    const { tokensByChainId } = useTokensWithBalances()
 
     const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
-      tokensMap[currentNetworkId],
-      [currentNetworkId],
+      tokensByChainId[currentNetworkId],
+      [currentNetworkId, tokensByChainId],
     )
 
     return (
@@ -182,7 +174,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
           setSearchTerm={setSearchTerm}
         />
         {showTopTokens && (
-          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensMap[currentNetworkId]} />
+          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[currentNetworkId]} />
         )}
         <List
           containerHeight={containerHeight}

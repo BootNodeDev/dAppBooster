@@ -42,8 +42,5 @@ export const useTokensWithBalances = ({ account }: { account?: Address } = {}) =
     tokensPricesByChain,
   ])
 
-  return {
-    ...tokensData,
-    tokensWithBalances: cache[account].data,
-  }
+  return cache
 }
