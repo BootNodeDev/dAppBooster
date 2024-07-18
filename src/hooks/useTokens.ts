@@ -83,18 +83,21 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
   logger.time('building tokens maps')
   const tokensMap = uniqueTokens.reduce<TokensMap>(
     (acc, token) => {
-      acc.tokens.push(token)
-
       if (!acc.tokensByChainId[token.chainId]) {
         try {
-          // if there's a native token for the chain, add it to the list
-          acc.tokensByChainId[token.chainId] = [buildNativeToken(token.chainId)]
+          // if there's a native token for the chain
+          const nativeToken = buildNativeToken(token.chainId)
+
+          // add it to the list
+          acc.tokensByChainId[token.chainId] = [nativeToken]
+          acc.tokens.push(nativeToken)
         } catch (err) {
           // if there's no native token for the chain, ignore the error
           acc.tokensByChainId[token.chainId] = []
         }
       }
 
+      acc.tokens.push(token)
       acc.tokensByChainId[token.chainId].push(token)
 
       return acc
@@ -119,7 +122,7 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
  */
 async function fetchTokenList(url: string): Promise<TokenList> {
   if (url === 'default') {
-    return defaultTokens
+    return defaultTokens as TokenList
   }
 
   const result = await fetch(url)
