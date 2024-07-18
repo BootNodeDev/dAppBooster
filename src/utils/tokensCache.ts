@@ -1,4 +1,3 @@
-import { env } from '@/src/env'
 import type { Token, Tokens } from '@/src/types/token'
 
 export type TokensMap = {
@@ -6,27 +5,14 @@ export type TokensMap = {
   tokensByChainId: { [chainId: Token['chainId']]: Tokens }
 }
 
-export type TokensCache = {
-  withDefaultTokens: TokensMap
-  withoutDefaultTokens: TokensMap
+const tokensCache: TokensMap = {
+  tokens: [],
+  tokensByChainId: {},
 }
 
-const tokensCache: TokensCache = {
-  withDefaultTokens: {
-    tokens: [],
-    tokensByChainId: {},
-  },
-  withoutDefaultTokens: {
-    tokens: [],
-    tokensByChainId: {},
-  },
-}
-
-export const updateTokensCache = (
-  tokensMap: TokensMap,
-  withDefaultTokens = env.PUBLIC_USE_DEFAULT_TOKENS,
-) => {
-  tokensCache[withDefaultTokens ? 'withDefaultTokens' : 'withoutDefaultTokens'] = tokensMap
+export const updateTokensCache = (tokensMap: TokensMap) => {
+  tokensCache.tokens = tokensMap.tokens
+  tokensCache.tokensByChainId = tokensMap.tokensByChainId
 }
 
 export default tokensCache

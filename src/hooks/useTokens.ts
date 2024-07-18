@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useMemo } from 'react'
 
 import {
   type UseSuspenseQueryOptions,
@@ -21,26 +21,13 @@ import tokensCache, { updateTokensCache, type TokensMap } from '@/src/utils/toke
  *
  * @dev intended to be used with `Suspense` wrapper around this hook as it's using `useSuspenseQueries`
  *
- * @param {Object} options
- * @param {boolean} options.useDefaultTokens - if true uses uniswap/default-token-list
- *
  * @returns {TokensMap} list of tokens, tokens grouped by chainId, and symbol->chainId
  */
-export const useTokens = ({
-  useDefaultTokens = env.PUBLIC_USE_DEFAULT_TOKENS,
-}: {
-  useDefaultTokens?: boolean
-} = {}): TokensMap => {
+export const useTokens = (): TokensMap => {
   const tokenListUrls = useMemo(() => {
     const urls = Object.values(tokenLists)
-    return useDefaultTokens ? ['default', ...urls] : urls
-  }, [useDefaultTokens])
-
-  const combineTokens = useCallback(
-    (results: Array<UseSuspenseQueryResult<TokenList>>) =>
-      combineTokenLists(results, useDefaultTokens),
-    [useDefaultTokens],
-  )
+    return env.PUBLIC_USE_DEFAULT_TOKENS ? ['default', ...urls] : urls
+  }, [])
 
   return useSuspenseQueries({
     queries: tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
@@ -49,7 +36,7 @@ export const useTokens = ({
       staleTime: Infinity,
       gcTime: Infinity,
     })),
-    combine: combineTokens,
+    combine: combineTokenLists,
   })
 }
 
@@ -70,14 +57,9 @@ function tokenKey(token: Token): string {
  * @param results - list of TokenList returned by the specified endpoints
  * @returns {TokensMap} a map of type { tokens, tokensByAddress, tokensByChainId, tokensBySymbol }
  */
-function combineTokenLists(
-  results: Array<UseSuspenseQueryResult<TokenList>>,
-  withDefaultTokens = env.PUBLIC_USE_DEFAULT_TOKENS,
-): TokensMap {
-  const cache = tokensCache[withDefaultTokens ? 'withDefaultTokens' : 'withoutDefaultTokens']
-
-  if (cache.tokens.length) {
-    return cache
+function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): TokensMap {
+  if (tokensCache.tokens.length) {
+    return tokensCache
   }
 
   logger.time('combining tokens')
@@ -124,7 +106,7 @@ function combineTokenLists(
   )
   logger.timeEnd('building tokens maps')
 
-  updateTokensCache(tokensMap, withDefaultTokens)
+  updateTokensCache(tokensMap)
 
   return tokensMap
 }
