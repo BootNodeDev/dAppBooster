@@ -7,7 +7,6 @@ import { useAccount } from 'wagmi'
 
 import { Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
 import List from '@/src/pageComponents/home/Examples/List'
-import Subgraph from '@/src/pageComponents/home/Examples/Subgraph'
 import ImgAvatar from '@/src/pageComponents/home/Examples/assets/Avatar'
 import ImgHash from '@/src/pageComponents/home/Examples/assets/Hash'
 import GenericIcon from '@/src/pageComponents/home/Examples/assets/IPFSImage'
@@ -22,6 +21,7 @@ import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import HashInput from '@/src/pageComponents/home/Examples/demos/HashInput'
 import { SignMessageDemo } from '@/src/pageComponents/home/Examples/demos/SignMessage'
+import SubgraphLoader from '@/src/pageComponents/home/Examples/demos/SubgraphLoader'
 import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdown'
 import TokenInput from '@/src/pageComponents/home/Examples/demos/TokenInput'
 import TransactionButtonDemo from '@/src/pageComponents/home/Examples/demos/TransactionButton'
@@ -95,7 +95,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Avatar',
     },
     {
-      demo: <Subgraph />,
+      demo: <SubgraphLoader />,
       href: '#',
       icon: <ImgSubgraph />,
       text: 'Support for connecting with subgraphs',
