@@ -23,7 +23,7 @@ We chose `connectkit` because it is open source, lightweight, has easily adaptab
 
 ### Networks
 
-To add/remove/edit a network supported by the dApp you can do it directly in the [`networks.config.ts`](src/_lib/networks.config.ts) file.
+To add/remove/edit a network supported by the dApp you can do it directly in the [`networks.config.ts`](src/lib/networks.config.ts) file.
 
 1. Import the supported network of your choice, say `base`.
 
@@ -96,11 +96,11 @@ We're using a subset of [@uniswap/conedison (v1.8.0)](https://github.com/Uniswap
 
 See [`format.ts`](src/utils/format.ts)
 
-For a detailed view on what to expect or how to use the formatters, you can refer to the tests at [`format.test.ts](src/utils/format.test.ts)
+For a detailed view on what to expect or how to use the formatters, you can refer to the tests at [`format.test.ts`](src/utils/format.test.ts)
 
 ## TanStack
 
-Currently the app uses @tanstack/react-query and @tanstack/react-router.
+Currently the app uses @tanstack/react-query, @tanstack/react-router, and @tanstack/react-virtual.
 
 ### Devtools
 
@@ -146,7 +146,6 @@ export default {
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
 </details>
 
 # UI Libraries / Styles
@@ -169,8 +168,8 @@ Additionally, several other Styled Components-related tools are provided to faci
 
 You can find the general app's styles in the `src/styles` folder:
 
-- `baseCSSVars.tsx` global CSS vars, used everywhere in the app.
-- `globalStyles.tsx` global app's CSS.
+- [`baseCSSVars.tsx`](src/styles/baseCSSVars.tsx) global CSS vars, used everywhere in the app.
+- [`globalStyles.tsx`](src/styles/globalStyles.tsx) global app's CSS.
 
 ## Themes
 
@@ -180,8 +179,8 @@ dAppBooster supports themes with the help of [Next Themes](https://github.com/pa
 
 We provide these two themes for your convenience. Generally speaking, you can use these when you can't or don't want to modify a component's source file to add styles.
 
-- `themes/lightThemeCSSVars.tsx` light theme CSS vars.
-- `themes/darkThemeCSSVars.tsx` dark theme CSS vars.
+- [`themes/lightThemeCSSVars.tsx`](src/styles/themes/lightThemeCSSVars.tsx) light theme CSS vars.
+- [`themes/darkThemeCSSVars.tsx`](src/styles/themes/darkThemeCSSVars.tsx) dark theme CSS vars.
 
 You can also add CSS theme vars and more in each component's implementation following our examples and Next Themes' documentation.
 
@@ -199,7 +198,25 @@ Commit messages' are validated using a [Husky](https://typicode.github.io/husky/
 
 # Subgraphs
 
+The app comes with an example of how to configure and use Subgraphs.
+
+This includes multiple subraphs, typesafe, and easy integration to be used with react-query.
+
 ## Env vars
+
+> [!IMPORTANT]
+>
+> All env variables must be defined in order to be able to consume the subgraph.
+
+> [!NOTE]
+>
+> To run the app locally, you can avoid defining the env variables.
+>
+> An `ELIFECYCLE Command failed with exit code 1.` message will be show on install, but won't affect the app during development. And subgraph example won't be loaded.
+
+> [!WARNING]
+>
+> Howerver build will fail if you don't remove the subgraph example from the example page.
 
 ### `PUBLIC_SUBGRAPHS_API_KEY`
 
