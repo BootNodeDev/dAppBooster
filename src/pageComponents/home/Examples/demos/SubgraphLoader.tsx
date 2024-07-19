@@ -27,7 +27,7 @@ const SubgraphLoader = withSuspenseAndRetry(() => {
       </Button>
       {!isSubgraphConfigValid && (
         <Wrapper>
-          Be sure to have properly confiugred the{' '}
+          Be sure to have properly configured the{' '}
           <a
             href="https://github.com/bootnodedev/dAppBooster#subgraphs"
             rel="noreferrer"
