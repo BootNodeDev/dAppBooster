@@ -20,6 +20,13 @@ const baseCSSVars = css`
   --base-animation-time-xl: 0.4s;
   --base-animation-time-xxl: 0.5s;
 
+  /* Transition duration */
+  --base-transition-duration-xs: 0.1s;
+  --base-transition-duration-sm: 0.2s;
+  --base-transition-duration: 0.3s;
+  --base-transition-duration-xl: 0.4s;
+  --base-transition-duration-xxl: 0.5s;
+
   /* Grid / flex gap */
   --base-gap-sm: 4px;
   --base-gap: 8px;
@@ -50,13 +57,6 @@ const baseCSSVars = css`
 
   /* Main container max width */
   --base-container-max-width: 1360px;
-
-  /* Button */
-  --base-button-border-radius: var(--base-border-radius-sm);
-  --base-button-font-size: 1.5rem;
-  --base-button-gap: var(--base-gap);
-  --base-button-height: 38px;
-  --base-button-padding: calc(var(--base-gap) * 2);
 `
 
 export default baseCSSVars
