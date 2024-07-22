@@ -1,8 +1,32 @@
+import styled from 'styled-components'
+
 import { formatUnits } from 'viem'
 
-import { Balance, Value } from '@/src/sharedComponents/TokenSelect/List/Row'
 import type { Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
+
+export const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({
+  className,
+}))`
+  color: var(--theme-token-select-row-token-balance-color-default);
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.2;
+`
+
+export const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => ({ className }))`
+  color: var(--theme-token-select-row-token-value-color-default);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+`
+
+const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ className }))`
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--base-gap-sm);
+  align-items: flex-end;
+`
 
 /**
  * Renders the token balance in the token list row.
@@ -33,10 +57,10 @@ const TokenBalance = withSuspenseAndRetry(
     )
 
     return (
-      <>
+      <Values>
         <Balance>{balance}</Balance>
         <Value>$ {value}</Value>
-      </>
+      </Values>
     )
   },
 )

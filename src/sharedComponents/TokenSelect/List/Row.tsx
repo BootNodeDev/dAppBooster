@@ -2,29 +2,13 @@ import { type FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
-import TokenBalance from '@/src/sharedComponents/TokenSelect/List/TokenBalance'
+import TokenBalance, { Balance, Value } from '@/src/sharedComponents/TokenSelect/List/TokenBalance'
 import { type Token } from '@/src/types/token'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
   color: var(--theme-token-select-row-token-name-color-default);
   font-size: 1.8rem;
   font-weight: 500;
-  line-height: 1.2;
-`
-
-export const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({
-  className,
-}))`
-  color: var(--theme-token-select-row-token-balance-color-default);
-  font-size: 1.6rem;
-  font-weight: 400;
-  line-height: 1.2;
-`
-
-export const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => ({ className }))`
-  color: var(--theme-token-select-row-token-value-color-default);
-  font-size: 1.2rem;
-  font-weight: 400;
   line-height: 1.2;
 `
 
@@ -94,6 +78,10 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex =
   }
 `
 
+const RightColumn = styled.div`
+  margin-left: auto;
+`
+
 const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIcon' }) => ({
   className,
 }))`
@@ -106,13 +94,6 @@ const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIc
   width: ${({ size }) => size}px;
 `
 
-const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ className }))`
-  display: flex;
-  flex-direction: column;
-  margin-left: auto;
-  row-gap: var(--base-gap-sm);
-  align-items: flex-end;
-`
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   iconSize: number
   onClick: (token: Token) => void
@@ -148,9 +129,9 @@ const Row: FC<Props> = ({
       </Icon>
       <Name>{name}</Name>
       {showBalance && (
-        <Values>
+        <RightColumn>
           <TokenBalance isLoading={isLoadingBalances} token={token} />
-        </Values>
+        </RightColumn>
       )}
     </Wrapper>
   )
