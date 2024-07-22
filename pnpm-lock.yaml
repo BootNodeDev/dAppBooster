@@ -33,8 +33,8 @@ importers:
         specifier: ^1.8.2
         version: 1.8.2(@babel/core@7.24.7)(@tanstack/react-query@5.50.1(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.5.3)(utf-8-validate@5.0.10)(zod@3.23.8))(wagmi@2.10.10(@tanstack/query-core@5.50.1)(@tanstack/react-query@5.50.1(react@18.3.1))(@types/react@18.3.3)(bufferutil@4.0.8)(encoding@0.1.13)(react-dom@18.3.1(react@18.3.1))(react-native@0.74.1(@babel/core@7.24.7)(@babel/preset-env@7.24.7(@babel/core@7.24.7))(@types/react@18.3.3)(bufferutil@4.0.8)(encoding@0.1.13)(react@18.3.1)(utf-8-validate@5.0.10))(react@18.3.1)(rollup@4.18.1)(typescript@5.5.3)(utf-8-validate@5.0.10)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.5.3)(utf-8-validate@5.0.10)(zod@3.23.8))(zod@3.23.8))
       db-ui-toolkit:
-        specifier: github:BootNodeDev/db-ui-toolkit
-        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/5596328cc035fea6bca07fbacab4bfe8529f3a7e
+        specifier: github:BootNodeDev/db-ui-toolkit#0.1.0
+        version: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/eb23eac3e99610c00480396b69f2e223438a4b8a
       graphql:
         specifier: ^16.9.0
         version: 16.9.0
@@ -3472,8 +3472,8 @@ packages:
   dayjs@1.11.11:
     resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/5596328cc035fea6bca07fbacab4bfe8529f3a7e:
-    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/5596328cc035fea6bca07fbacab4bfe8529f3a7e}
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/eb23eac3e99610c00480396b69f2e223438a4b8a:
+    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/eb23eac3e99610c00480396b69f2e223438a4b8a}
     version: 0.1.0
     engines: {node: '>=20.0.0'}
 
@@ -11614,7 +11614,7 @@ snapshots:
 
   dayjs@1.11.11: {}
 
-  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/5596328cc035fea6bca07fbacab4bfe8529f3a7e:
+  db-ui-toolkit@https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/eb23eac3e99610c00480396b69f2e223438a4b8a:
     dependencies:
       path: 0.12.7
       react: 18.3.1
