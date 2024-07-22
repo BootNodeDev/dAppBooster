@@ -18,7 +18,9 @@ export const env = createEnv({
     PUBLIC_NATIVE_TOKEN_ADDRESS: z
       .string()
       .optional()
-      .default('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'),
+      .default('0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+      // enforce lower case as 0xe address is widely used in that format
+      .transform((value) => value.toLowerCase()),
     PUBLIC_RPC_ARBITRUM: z.string().optional(),
     PUBLIC_RPC_ARBITRUM_SEPOLIA: z.string().optional(),
     PUBLIC_RPC_BASE: z.string().optional(),
