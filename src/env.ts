@@ -37,6 +37,11 @@ export const env = createEnv({
       .transform((value) => value === 'true')
       .optional()
       .default('true'),
+    PUBLIC_SUBGRAPHS_API_KEY: z.string().optional(),
+    PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS: z.string().optional(),
+    PUBLIC_SUBGRAPHS_ENVIRONMENT: z.string().optional(),
+    PUBLIC_SUBGRAPHS_DEVELOPMENT_URL: z.string().optional(),
+    PUBLIC_SUBGRAPHS_PRODUCTION_URL: z.string().optional(),
   },
   runtimeEnv: import.meta.env,
   emptyStringAsUndefined: true,

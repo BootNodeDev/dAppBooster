@@ -3,8 +3,8 @@ import { sepolia } from 'viem/chains'
 import { useSendTransaction, useWriteContract } from 'wagmi'
 
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
-import { TransactionButton } from '@/src/sharedComponents/TransactionButton'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
+import TransactionButton from '@/src/sharedComponents/Web3Buttons/TransactionButton'
 
 const TransactionButtonDemo = withWalletStatusVerifier(
   () => {
@@ -19,7 +19,6 @@ const TransactionButtonDemo = withWalletStatusVerifier(
     const handleSendTransaction = (): Promise<Hash> => {
       // Send native token
       return sendTransactionAsync({
-        chainId: sepolia.id,
         to: address,
         value: parseEther('0.1'),
       })
@@ -28,7 +27,6 @@ const TransactionButtonDemo = withWalletStatusVerifier(
     const handleWriteContract = (): Promise<Hash> => {
       // Send ERC20 token [USDC]
       return writeContractAsync({
-        chainId: sepolia.id,
         abi: erc20Abi,
         address: '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8', // USDC
         functionName: 'transfer',
@@ -39,7 +37,6 @@ const TransactionButtonDemo = withWalletStatusVerifier(
     return (
       <>
         <TransactionButton
-          chain={sepolia}
           label="Send 100 USDC"
           labelSending="Sending 100 USDC..."
           onMined={handleOnMined}
@@ -47,7 +44,6 @@ const TransactionButtonDemo = withWalletStatusVerifier(
         />
         <br />
         <TransactionButton
-          chain={sepolia}
           label="Send 0.1 ETH"
           labelSending="Sending 0.1 ETH..."
           onMined={handleOnMined}
@@ -57,7 +53,7 @@ const TransactionButtonDemo = withWalletStatusVerifier(
     )
   },
   {
-    chainId: sepolia.id, // this DEMO component is for sepolia chain
+    chainId: sepolia.id, // this DEMO component only works on sepolia chain
   },
 )
 

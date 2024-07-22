@@ -16,9 +16,12 @@ import ImgTokenInput from '@/src/pageComponents/home/Examples/assets/TokenInput'
 import ImgTokenList from '@/src/pageComponents/home/Examples/assets/TokenList'
 import ImgWallet from '@/src/pageComponents/home/Examples/assets/Wallet'
 import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
+import { ERC20ApproveAndTransferButtonDemo } from '@/src/pageComponents/home/Examples/demos/ERC20ApproveAndTransferButton'
 import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import HashInput from '@/src/pageComponents/home/Examples/demos/HashInput'
+import { SignMessageDemo } from '@/src/pageComponents/home/Examples/demos/SignMessage'
+import SubgraphLoader from '@/src/pageComponents/home/Examples/demos/SubgraphLoader'
 import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdown'
 import TokenInput from '@/src/pageComponents/home/Examples/demos/TokenInput'
 import TransactionButtonDemo from '@/src/pageComponents/home/Examples/demos/TransactionButton'
@@ -92,7 +95,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Avatar',
     },
     {
-      demo: <div>Subgraph</div>,
+      demo: <SubgraphLoader />,
       href: '#',
       icon: <ImgSubgraph />,
       text: 'Support for connecting with subgraphs',
@@ -111,6 +114,20 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       icon: <GenericIcon />,
       text: 'Transaction Button',
       title: 'Tx button',
+    },
+    {
+      demo: <ERC20ApproveAndTransferButtonDemo />,
+      href: '#',
+      icon: <GenericIcon />,
+      text: 'Combines the approve and transaction button checking allowance in one button',
+      title: 'Approve and Send',
+    },
+    {
+      demo: <SignMessageDemo />,
+      href: '#',
+      icon: <GenericIcon />,
+      text: 'Sign a message and get the signature',
+      title: 'Sign button',
     },
   ]
 
