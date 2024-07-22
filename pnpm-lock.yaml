@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  '@csstools/media-query-list-parser': 2.1.12
-
 importers:
 
   .:
