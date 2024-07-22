@@ -128,13 +128,13 @@ const darkThemeCSSVars = css`
   --theme-toast-background-color: #4b4d60;
   --theme-toast-color: #fff;
 
-  /* GeneralError */
-  --theme-generic-error-background-color: #232436;
-  --theme-generic-error-border-color: #232436;
-  --theme-generic-error-box-shadow: 0 0 20px 0 rgb(255 255 255 / 8%);
-  --theme-generic-error-color-message-background: #292b43;
-  --theme-generic-error-color-text: #fff;
-  --theme-generic-error-color-title: #fff;
+  /* General Error */
+  --theme-general-error-background-color: #232436;
+  --theme-general-error-border-color: #232436;
+  --theme-general-error-box-shadow: 0 0 20px 0 rgb(255 255 255 / 8%);
+  --theme-general-error-color-message-background: #292b43;
+  --theme-general-error-color-text: #fff;
+  --theme-general-error-color-title: #fff;
 
   /* Spinner */
   --theme-spinner-color: #b886c9;

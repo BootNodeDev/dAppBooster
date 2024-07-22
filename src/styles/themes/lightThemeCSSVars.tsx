@@ -128,13 +128,13 @@ const lightThemeCSSVars = css`
   --theme-toast-background-color: #2e3048;
   --theme-toast-color: #fff;
 
-  /* GeneralError */
-  --theme-generic-error-background-color: #fff;
-  --theme-generic-error-border-color: #fff;
-  --theme-generic-error-box-shadow: 0 0 20px 0 rgb(0 0 0 / 8%);
-  --theme-generic-error-color-message-background: #e2e0e780;
-  --theme-generic-error-color-text: #4b4d60;
-  --theme-generic-error-color-title: #2e3048;
+  /* General Error */
+  --theme-general-error-background-color: #fff;
+  --theme-general-error-border-color: #fff;
+  --theme-general-error-box-shadow: 0 0 20px 0 rgb(0 0 0 / 8%);
+  --theme-general-error-color-message-background: #e2e0e780;
+  --theme-general-error-color-text: #4b4d60;
+  --theme-general-error-color-title: #2e3048;
 
   /* Spinner */
   --theme-spinner-color: #692581;
