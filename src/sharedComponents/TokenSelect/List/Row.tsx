@@ -1,9 +1,8 @@
 import { type FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-import { formatUnits } from 'viem'
-
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
+import TokenBalance from '@/src/sharedComponents/TokenSelect/List/TokenBalance'
 import { type Token } from '@/src/types/token'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
@@ -13,14 +12,16 @@ const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ class
   line-height: 1.2;
 `
 
-const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({ className }))`
+export const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({
+  className,
+}))`
   color: var(--theme-token-select-row-token-balance-color-default);
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.2;
 `
 
-const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => ({ className }))`
+export const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => ({ className }))`
   color: var(--theme-token-select-row-token-value-color-default);
   font-size: 1.2rem;
   font-weight: 400;
@@ -112,34 +113,11 @@ const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ c
   row-gap: var(--base-gap-sm);
   align-items: flex-end;
 `
-/**
- * @name TokenBalance
- * @description The token balance in the token list row.
- *
- * @param {Token} token - The token object containing the amount, decimals, and price in USD.
- */
-const TokenBalance = ({ token }: { token: Token }) => {
-  const tokenHasBalanceInfo = !!token.extensions
-
-  if (!tokenHasBalanceInfo) {
-    throw Promise.reject()
-  }
-
-  const balance = formatUnits(token.extensions!.balance as bigint, token.decimals)
-  const value = (parseFloat(token.extensions!.priceUSD as string) * parseFloat(balance)).toFixed(2)
-
-  return (
-    <>
-      <Balance>{balance}</Balance>
-      <Value>$ {value}</Value>
-    </>
-  )
-}
-
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   iconSize: number
   onClick: (token: Token) => void
   showBalance?: boolean
+  isLoadingBalances?: boolean
   token: Token
 }
 
@@ -151,8 +129,16 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
  * @param {number} iconSize - The size of the token icon.
  * @param {(token: Token) => void} onClick - Callback function to be called when the row is clicked.
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance. Default is false.
+ * @param {boolean} [showBalance=false] - Optional flag to inform the balances are being loaded. Default is false.
  */
-const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps }) => {
+const Row: FC<Props> = ({
+  iconSize,
+  isLoadingBalances,
+  onClick,
+  showBalance,
+  token,
+  ...restProps
+}) => {
   const { name } = token
 
   return (
@@ -163,7 +149,7 @@ const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps })
       <Name>{name}</Name>
       {showBalance && (
         <Values>
-          <TokenBalance token={token} />
+          <TokenBalance isLoading={isLoadingBalances} token={token} />
         </Values>
       )}
     </Wrapper>

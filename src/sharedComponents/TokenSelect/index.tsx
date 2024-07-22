@@ -1,4 +1,4 @@
-import { useMemo, type HTMLAttributes, type ReactElement } from 'react'
+import { type HTMLAttributes, type ReactElement } from 'react'
 import styled from 'styled-components'
 
 import { Card, Spinner } from 'db-ui-toolkit'
@@ -6,7 +6,6 @@ import { mainnet } from 'viem/chains'
 
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useTokens } from '@/src/hooks/useTokens'
-import { useTokensWithBalances } from '@/src/hooks/useTokensWithBalances'
 import List from '@/src/sharedComponents/TokenSelect/List'
 import Search from '@/src/sharedComponents/TokenSelect/Search'
 import TopTokens from '@/src/sharedComponents/TokenSelect/TopTokens'
@@ -156,17 +155,13 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     showTopTokens = false,
     ...restProps
   }) => {
-    const { tokensByChainId } = useTokens()
-    const { tokensByChainId: tokensWithBalanceByChainId } = useTokensWithBalances()
-
-    const tokensMap = useMemo(
-      () => (showBalance ? tokensWithBalanceByChainId : tokensByChainId),
-      [showBalance, tokensByChainId, tokensWithBalanceByChainId],
-    )
+    const { isLoadingBalances, tokensByChainId } = useTokens({
+      withBalance: showBalance,
+    })
 
     const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
-      tokensMap[currentNetworkId],
-      [currentNetworkId, tokensMap],
+      tokensByChainId[currentNetworkId],
+      [currentNetworkId, tokensByChainId],
     )
 
     return (
@@ -180,11 +175,12 @@ const TokenSelect = withSuspenseAndRetry<Props>(
           setSearchTerm={setSearchTerm}
         />
         {showTopTokens && (
-          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensMap[currentNetworkId]} />
+          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[currentNetworkId]} />
         )}
         <List
           containerHeight={containerHeight}
           iconSize={iconSize}
+          isLoadingBalances={isLoadingBalances}
           itemHeight={itemHeight}
           onTokenSelect={onTokenSelect}
           showBalance={showBalance}
