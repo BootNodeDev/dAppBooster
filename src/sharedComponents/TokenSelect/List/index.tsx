@@ -20,6 +20,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   itemHeight: number
   onTokenSelect: (token: Token | undefined) => void
   showBalance: boolean
+  isLoadingBalances: boolean
   tokenList: Tokens
 }
 
@@ -32,12 +33,14 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {number} itemHeight - The height of each item in the list.
  * @param {function} onTokenSelect - Callback function to be called when a token is selected.
  * @param {boolean} showBalance - Flag to show the token balance in the list.
+ * @param {boolean} isLoadingBalances - Flag to inform the balances are loading.
  * @param {Tokens} tokenList - The list of tokens to display.
  */
 const List: FC<Props> = ({
   className,
   containerHeight,
   iconSize,
+  isLoadingBalances,
   itemHeight,
   onTokenSelect,
   showBalance,
@@ -54,6 +57,7 @@ const List: FC<Props> = ({
         renderItem={(item) => (
           <Row
             iconSize={iconSize}
+            isLoadingBalances={isLoadingBalances}
             onClick={(token) => onTokenSelect(token)}
             showBalance={showBalance}
             token={item}

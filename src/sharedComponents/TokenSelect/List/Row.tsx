@@ -2,26 +2,13 @@ import { type FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
+import TokenBalance, { Balance, Value } from '@/src/sharedComponents/TokenSelect/List/TokenBalance'
 import { type Token } from '@/src/types/token'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
   color: var(--theme-token-select-row-token-name-color-default);
   font-size: 1.8rem;
   font-weight: 500;
-  line-height: 1.2;
-`
-
-const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({ className }))`
-  color: var(--theme-token-select-row-token-balance-color-default);
-  font-size: 1.6rem;
-  font-weight: 400;
-  line-height: 1.2;
-`
-
-const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => ({ className }))`
-  color: var(--theme-token-select-row-token-value-color-default);
-  font-size: 1.2rem;
-  font-weight: 400;
   line-height: 1.2;
 `
 
@@ -91,6 +78,10 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex =
   }
 `
 
+const RightColumn = styled.div`
+  margin-left: auto;
+`
+
 const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIcon' }) => ({
   className,
 }))`
@@ -103,18 +94,11 @@ const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIc
   width: ${({ size }) => size}px;
 `
 
-const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ className }))`
-  display: flex;
-  flex-direction: column;
-  margin-left: auto;
-  row-gap: var(--base-gap-sm);
-  align-items: flex-end;
-`
-
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   iconSize: number
   onClick: (token: Token) => void
   showBalance?: boolean
+  isLoadingBalances?: boolean
   token: Token
 }
 
@@ -126,8 +110,16 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
  * @param {number} iconSize - The size of the token icon.
  * @param {(token: Token) => void} onClick - Callback function to be called when the row is clicked.
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance. Default is false.
+ * @param {boolean} [showBalance=false] - Optional flag to inform the balances are being loaded. Default is false.
  */
-const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps }) => {
+const Row: FC<Props> = ({
+  iconSize,
+  isLoadingBalances,
+  onClick,
+  showBalance,
+  token,
+  ...restProps
+}) => {
   const { name } = token
 
   return (
@@ -137,10 +129,9 @@ const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps })
       </Icon>
       <Name>{name}</Name>
       {showBalance && (
-        <Values>
-          <Balance>1000.00</Balance>
-          <Value>$10.00</Value>
-        </Values>
+        <RightColumn>
+          <TokenBalance isLoading={isLoadingBalances} token={token} />
+        </RightColumn>
       )}
     </Wrapper>
   )

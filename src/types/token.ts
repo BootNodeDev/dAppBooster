@@ -2,7 +2,13 @@ import { z } from 'zod'
 
 const address = z.string().regex(/^0x[a-fA-F0-9]{40}$/)
 
-const extensionValue = z.string().or(z.number()).or(z.boolean()).or(z.null()).or(z.undefined())
+const extensionValue = z
+  .string()
+  .or(z.number())
+  .or(z.boolean())
+  .or(z.null())
+  .or(z.undefined())
+  .or(z.bigint())
 
 const key = z.string()
 
@@ -14,7 +20,8 @@ export const tokenSchema = z.object({
   chainId: z.number().min(1),
   logoURI: z.string().url().optional(),
   extensions: z
-    .record(key, z.record(key, z.record(key, extensionValue).or(extensionValue)).or(extensionValue))
+    .record(key, extensionValue)
+    .or(z.record(key, z.record(key, extensionValue).or(extensionValue)))
     .optional(),
 })
 
