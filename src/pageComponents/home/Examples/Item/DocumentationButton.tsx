@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { ThemedButton } from 'db-ui-toolkit'
+import { Button } from 'db-ui-toolkit'
 
 const Icon = () => (
   <svg fill="none" height="18" viewBox="0 0 16 18" width="16" xmlns="http://www.w3.org/2000/svg">
@@ -11,8 +11,8 @@ const Icon = () => (
   </svg>
 )
 
-const DocumentationButton = styled(ThemedButton).attrs({
-  $cssVarRoot: '--theme-button-documentation',
+const DocumentationButton = styled(Button).attrs({
+  $varoamt: 'documentation',
   children: (
     <>
       <Icon /> Documentation
@@ -49,10 +49,9 @@ const DocumentationButton = styled(ThemedButton).attrs({
     --theme-button-documentation-color-disabled: #c5c2cb;
   }
 
-  --base-button-height: 43px;
-  --base-button-font-size: 1.4rem;
-
+  font-size: 1.4rem;
   font-weight: 500;
+  height: 43px;
   max-width: fit-content;
 `
 
