@@ -1,4 +1,5 @@
 import { createEnv } from '@t3-oss/env-core'
+import { zeroAddress } from 'viem'
 import { z } from 'zod'
 
 export const env = createEnv({
@@ -9,11 +10,13 @@ export const env = createEnv({
     PUBLIC_APP_LOGO: z.string().optional(),
     PUBLIC_APP_NAME: z.string().min(1),
     PUBLIC_APP_URL: z.string().optional(),
-    PUBLIC_INFURA_KEY: z.string().optional(),
-    PUBLIC_NATIVE_TOKEN_ADDRESS: z
-      .string()
+    PUBLIC_USE_DEFAULT_TOKENS: z
+      .enum(['true', 'false'])
+      .transform((value) => value === 'true')
       .optional()
-      .default('0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'),
+      .default('true'),
+    PUBLIC_INFURA_KEY: z.string().optional(),
+    PUBLIC_NATIVE_TOKEN_ADDRESS: z.string().optional().default(zeroAddress),
     PUBLIC_RPC_ARBITRUM: z.string().optional(),
     PUBLIC_RPC_ARBITRUM_SEPOLIA: z.string().optional(),
     PUBLIC_RPC_BASE: z.string().optional(),
@@ -27,7 +30,11 @@ export const env = createEnv({
     PUBLIC_RPC_POLYGON_MUMBAI: z.string().optional(),
     PUBLIC_RPC_SEPOLIA: z.string().optional(),
     PUBLIC_WALLETCONNECT_PROJECT_ID: z.string().length(32),
-    PUBLIC_INCLUDE_TESTNETS: z.string().optional(),
+    PUBLIC_INCLUDE_TESTNETS: z
+      .enum(['true', 'false'])
+      .transform((value) => value === 'true')
+      .optional()
+      .default('true'),
     PUBLIC_SUBGRAPHS_API_KEY: z.string().optional(),
     PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS: z.string().optional(),
     PUBLIC_SUBGRAPHS_ENVIRONMENT: z.string().optional(),

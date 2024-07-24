@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import { arbitrum, mainnet, polygon, optimism } from 'viem/chains'
 
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import Arbitrum from '@/src/pageComponents/home/Examples/demos/assets/Arbitrum'
 import Eth from '@/src/pageComponents/home/Examples/demos/assets/Eth'
 import Optimism from '@/src/pageComponents/home/Examples/demos/assets/Optimism'
@@ -11,6 +12,7 @@ import { type Networks } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 
 const TokenInputDemo = () => {
+  const { isWalletConnected } = useWeb3Status()
   const [currentNetworkId, setCurrentNetworkId] = useState<number>(mainnet.id)
   const [currentToken, setCurrentToken] = useState<Token | undefined>()
   const [amount, setAmount] = useState<string | undefined>()
@@ -56,9 +58,9 @@ const TokenInputDemo = () => {
   }
 
   useEffect(() => {
-    console.log(currentToken)
-    console.log(amount)
-    console.log(error)
+    currentToken && console.log(currentToken)
+    amount && console.log(amount)
+    error && console.log(error)
   }, [currentToken, amount, error])
 
   return (
@@ -68,6 +70,7 @@ const TokenInputDemo = () => {
       onAmountSet={onAmountSet}
       onError={onError}
       onTokenSelect={onTokenSelect}
+      showBalance={isWalletConnected}
       title="You pay"
     />
   )
