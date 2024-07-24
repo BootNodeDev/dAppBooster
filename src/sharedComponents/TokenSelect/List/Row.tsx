@@ -2,6 +2,7 @@ import { type FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
+import AddERC20TokenButton from '@/src/sharedComponents/Web3Buttons/AddERC20TokenButton'
 import { type Token } from '@/src/types/token'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
@@ -112,6 +113,7 @@ const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ c
 `
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
+  allowAddToken?: boolean
   iconSize: number
   onClick: (token: Token) => void
   showBalance?: boolean
@@ -122,12 +124,13 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
  * @name Row
  * @description A row in the token select list.
  *
+ * @param {boolean} allowAddToken - Whether to display an add token button.
  * @param {Token} token - The token to display.
  * @param {number} iconSize - The size of the token icon.
  * @param {(token: Token) => void} onClick - Callback function to be called when the row is clicked.
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance. Default is false.
  */
-const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps }) => {
+const Row: FC<Props> = ({ allowAddToken, iconSize, onClick, showBalance, token, ...restProps }) => {
   const { name } = token
 
   return (
@@ -136,6 +139,7 @@ const Row: FC<Props> = ({ iconSize, onClick, showBalance, token, ...restProps })
         <TokenLogo size={iconSize} token={token} />
       </Icon>
       <Name>{name}</Name>
+      {allowAddToken && <AddERC20TokenButton token={token} />}
       {showBalance && (
         <Values>
           <Balance>1000.00</Balance>
