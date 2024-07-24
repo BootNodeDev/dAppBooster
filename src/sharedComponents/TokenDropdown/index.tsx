@@ -21,7 +21,7 @@ const Icon = styled.div<{ iconSize?: number }>`
   width: ${({ iconSize }) => iconSize}px;
 `
 
-interface Props extends TokenSelectProps {
+export interface Props extends TokenSelectProps {
   currentToken?: Token | undefined
   iconSize?: number
 }
