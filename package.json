@@ -36,13 +36,14 @@
   },
   "dependencies": {
     "@graphql-typed-document-node/core": "^3.2.0",
+    "@lifi/sdk": "^3.0.1",
     "@t3-oss/env-core": "^0.10.1",
     "@tanstack/react-query": "^5.36.0",
     "@tanstack/react-router": "^1.32.5",
     "@tanstack/react-virtual": "^3.7.0",
     "@uniswap/default-token-list": "^11.19.0",
     "connectkit": "^1.8.2",
-    "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit",
+    "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit#0.1.0",
     "graphql": "^16.9.0",
     "graphql-request": "^7.1.0",
     "modern-normalize": "^2.0.0",
@@ -101,10 +102,5 @@
     "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vitest": "^1.6.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "@csstools/media-query-list-parser": "2.1.12"
-    }
   }
 }

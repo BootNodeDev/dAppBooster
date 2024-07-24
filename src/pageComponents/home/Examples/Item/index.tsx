@@ -83,7 +83,7 @@ const Badge = styled(BaseBadge)`
 
 export interface Props extends HTMLAttributes<HTMLDivElement> {
   demo: ReactNode
-  href: string
+  href?: string
   icon: ReactNode
   text: string
   title: string
@@ -96,7 +96,7 @@ const Item: FC<Props> = ({ demo, href, icon, text, title, ...restProps }) => {
         <Icon>{icon}</Icon>
         <Title>{title}</Title>
         <Text>{text}</Text>
-        <DocumentationButton as="a" href={href} target="_blank" />
+        {href && <DocumentationButton as="a" href={href} target="_blank" />}
       </Info>
       <Demo>
         <Badge />

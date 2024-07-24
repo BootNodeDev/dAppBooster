@@ -10,7 +10,7 @@ import List from '@/src/sharedComponents/TokenSelect/List'
 import Search from '@/src/sharedComponents/TokenSelect/Search'
 import TopTokens from '@/src/sharedComponents/TokenSelect/TopTokens'
 import { type Token } from '@/src/types/token'
-import { withSuspense } from '@/src/utils/suspenseWrapper'
+import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 export type Networks = Array<{
   label: string
@@ -145,7 +145,7 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-row-token-value-color
  * * --theme-token-select-row-token-value-color-hover
  */
-const TokenSelect = withSuspense(
+const TokenSelect = withSuspenseAndRetry<Props>(
   ({
     allowAddOrSwitchNetwork = false,
     allowAddToken = false,
@@ -160,11 +160,14 @@ const TokenSelect = withSuspense(
     showBalance = false,
     showTopTokens = false,
     ...restProps
-  }: Props) => {
-    const { tokensByChainId } = useTokens()
+  }) => {
+    const { isLoadingBalances, tokensByChainId } = useTokens({
+      withBalance: showBalance,
+    })
+
     const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
       tokensByChainId[currentNetworkId],
-      [currentNetworkId],
+      [currentNetworkId, tokensByChainId],
     )
 
     return (
@@ -185,6 +188,7 @@ const TokenSelect = withSuspense(
           allowAddToken={allowAddToken}
           containerHeight={containerHeight}
           iconSize={iconSize}
+          isLoadingBalances={isLoadingBalances}
           itemHeight={itemHeight}
           onTokenSelect={onTokenSelect}
           showBalance={showBalance}

@@ -10,13 +10,9 @@ import * as chains from 'viem/chains'
 
 import { tokenLists } from '@/src/constants/tokenLists'
 import { env } from '@/src/env'
-import { type Token, type Tokens, tokenSchema, type TokenList } from '@/src/types/token'
+import { type Token, tokenSchema, type TokenList } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
-
-type TokensMap = {
-  tokens: Tokens
-  tokensByChainId: { [chainId: Token['chainId']]: Tokens }
-}
+import tokenListsCache, { updateTokenListsCache, type TokensMap } from '@/src/utils/tokenListsCache'
 
 /**
  * Loads the list of tokens provided by config
@@ -25,20 +21,13 @@ type TokensMap = {
  *
  * @dev intended to be used with `Suspense` wrapper around this hook as it's using `useSuspenseQueries`
  *
- * @param {Object} options
- * @param {boolean} options.useDefaultTokens - if true uses uniswap/default-token-list
- *
  * @returns {TokensMap} list of tokens, tokens grouped by chainId, and symbol->chainId
  */
-export const useTokens = ({
-  useDefaultTokens = true,
-}: {
-  useDefaultTokens?: boolean
-} = {}): TokensMap => {
+export const useTokenLists = (): TokensMap => {
   const tokenListUrls = useMemo(() => {
     const urls = Object.values(tokenLists)
-    return useDefaultTokens ? ['default', ...urls] : urls
-  }, [useDefaultTokens])
+    return env.PUBLIC_USE_DEFAULT_TOKENS ? ['default', ...urls] : urls
+  }, [])
 
   return useSuspenseQueries({
     queries: tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
@@ -69,6 +58,10 @@ function tokenKey(token: Token): string {
  * @returns {TokensMap} a map of type { tokens, tokensByAddress, tokensByChainId, tokensBySymbol }
  */
 function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): TokensMap {
+  if (tokenListsCache.tokens.length) {
+    return tokenListsCache
+  }
+
   logger.time('combining tokens')
   // combines and removes duplicates from the lists of tokens
   const uniqueTokens = Array.from(
@@ -90,18 +83,21 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
   logger.time('building tokens maps')
   const tokensMap = uniqueTokens.reduce<TokensMap>(
     (acc, token) => {
-      acc.tokens.push(token)
-
       if (!acc.tokensByChainId[token.chainId]) {
         try {
-          // if there's a native token for the chain, add it to the list
-          acc.tokensByChainId[token.chainId] = [buildNativeToken(token.chainId)]
+          // if there's a native token for the chain
+          const nativeToken = buildNativeToken(token.chainId)
+
+          // add it to the list
+          acc.tokensByChainId[token.chainId] = [nativeToken]
+          acc.tokens.push(nativeToken)
         } catch (err) {
           // if there's no native token for the chain, ignore the error
           acc.tokensByChainId[token.chainId] = []
         }
       }
 
+      acc.tokens.push(token)
       acc.tokensByChainId[token.chainId].push(token)
 
       return acc
@@ -113,6 +109,8 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
   )
   logger.timeEnd('building tokens maps')
 
+  updateTokenListsCache(tokensMap)
+
   return tokensMap
 }
 
@@ -122,9 +120,9 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
  * @param url - a link to a list of tokens or 'default' to use the list added as a dependency to the project
  * @returns {Promise<TokenList>} a token list
  */
-export async function fetchTokenList(url: string): Promise<TokenList> {
+async function fetchTokenList(url: string): Promise<TokenList> {
   if (url === 'default') {
-    return defaultTokens
+    return defaultTokens as TokenList
   }
 
   const result = await fetch(url)
