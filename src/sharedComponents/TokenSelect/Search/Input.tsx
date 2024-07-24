@@ -23,16 +23,11 @@ const SearchIcon = () => (
 )
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => ({ className }))`
-  --base-textfield-height: 100%;
   --base-textfield-border-radius: var(--base-border-radius);
-  --base-textfield-font-size: 1.6rem;
-  --base-textfield-vertical-padding: 0;
-  --base-textfield-horizontal-padding: var(--base-common-padding-xl);
+  --base-textfield-padding: 0 var(--base-common-padding-xl);
 
   --theme-textfield-color: var(--theme-token-select-search-field-color, #2e3048);
   --theme-textfield-color-active: var(--theme-token-select-search-field-color-active, #2e3048);
-  --theme-textfield-color-error: var(--theme-textfield-color);
-  --theme-textfield-color-ok: var(--theme-textfield-color);
   --theme-textfield-background-color: var(
     --theme-token-select-search-field-background-color,
     #f7f7f7
@@ -55,8 +50,6 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => 
     --theme-token-select-search-field-border-color-active,
     #e2e0e7
   );
-  --theme-textfield-border-color-error: var(--theme-textfield-border-color);
-  --theme-textfield-border-color-ok: var(--theme-textfield-border-color);
 
   ${TextfieldCSS}
 
@@ -64,6 +57,7 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => 
   column-gap: var(--base-gap-xl);
   display: flex;
   flex-grow: 1;
+  height: auto;
 
   &:focus-within {
     box-shadow: var(--theme-textfield-box-shadow-active);
@@ -72,6 +66,8 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => 
 `
 
 const SearchInput = styled(Textfield).attrs({ type: 'search' })`
+  font-size: 1.6rem;
+
   &,
   &:focus,
   &:hover,
