@@ -89,7 +89,7 @@ const withWalletStatusVerifier = <P extends object>(
 
     if (!isWalletSynced || walletChainId !== chainToSwitch.id) {
       return (
-        <Button onClick={() => switchChain(chainToSwitch.id)}>
+        <Button $variant="primary" onClick={() => switchChain(chainToSwitch.id)}>
           {labelSwitchChain} {chainToSwitch?.name}
         </Button>
       )

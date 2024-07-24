@@ -22,7 +22,11 @@ const SubgraphLoader = withSuspenseAndRetry(() => {
     <Subgraph />
   ) : (
     <>
-      <Button disabled={!isSubgraphConfigValid} onClick={() => setShowSubgraph(true)}>
+      <Button
+        $variant="primary"
+        disabled={!isSubgraphConfigValid}
+        onClick={() => setShowSubgraph(true)}
+      >
         Load Example
       </Button>
       {!isSubgraphConfigValid && (
