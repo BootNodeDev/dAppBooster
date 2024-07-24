@@ -90,7 +90,7 @@ const globalStyles = css`
   }
 
   dialog::backdrop {
-    background-color: var(--theme-dialog-background-color);
+    background-color: var(--theme-dialog-background-color, rgb(0 0 0 / 20%));
   }
 `
 
