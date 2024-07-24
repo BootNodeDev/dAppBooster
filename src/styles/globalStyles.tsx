@@ -42,7 +42,7 @@ const globalStyles = css`
     background-color: var(--theme-body-background-color, #fff);
     background-position: 100% 0;
     background-repeat: no-repeat;
-    color: var(--theme-color-text, #000);
+    color: var(--theme-text-color, #000);
     font-family: var(--base-font-family, sans-serif);
     font-size: var(--base-text-font-size, 16px);
     line-height: 1.5;
