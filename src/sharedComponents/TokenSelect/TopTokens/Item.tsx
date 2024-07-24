@@ -6,19 +6,23 @@ import { type Token } from '@/src/types/token'
 
 const ICON_SIZE = 24
 
-const Symbol = styled.div.attrs(({ className = 'tokenSelectTopTokenItemSymbol' }) => ({
-  className,
-}))`
+const Symbol = styled.div.attrs(({ className = 'tokenSelectTopTokenItemSymbol' }) => {
+  return {
+    className,
+  }
+})`
   color: var(--theme-token-select-top-token-item-color-default);
   font-size: 1.8rem;
   font-weight: 500;
   line-height: 1.2;
 `
 
-const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', tabIndex = 0 }) => ({
-  className,
-  tabIndex,
-}))`
+const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', tabIndex = 0 }) => {
+  return {
+    className,
+    tabIndex,
+  }
+})`
   --theme-token-select-top-token-item-border-color-default: var(
     --theme-token-select-top-token-item-border-color,
     #e2e0e7
@@ -68,7 +72,9 @@ const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', ta
   }
 `
 
-const Icon = styled.div.attrs(({ className = 'tokenSelectTopTokenItemIcon' }) => ({ className }))`
+const Icon = styled.div.attrs(({ className = 'tokenSelectTopTokenItemIcon' }) => {
+  return { className }
+})`
   align-items: center;
   border-radius: 50%;
   display: flex;
