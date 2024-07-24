@@ -174,13 +174,13 @@ const lightThemeCSSVars = css`
 
   --theme-token-input-background: #fff;
 
-  --theme-textfield-token-input-background-color: #fff;
-  --theme-textfield-token-input-background-color-active: rgb(0 0 0 / 5%);
-  --theme-textfield-token-input-border-color: #e2e0e7;
-  --theme-textfield-token-input-border-color-active: #e2e0e7;
-  --theme-textfield-token-input-color: #2e3048;
-  --theme-textfield-token-input-color-active: #2e3048;
-  --theme-textfield-token-input-placeholder-color: rgb(22 29 26 / 60%);
+  --theme-token-input-textfield-background-color: #fff;
+  --theme-token-input-textfield-background-color-active: rgb(0 0 0 / 5%);
+  --theme-token-input-textfield-border-color: #e2e0e7;
+  --theme-token-input-textfield-border-color-active: #e2e0e7;
+  --theme-token-input-textfield-color: #2e3048;
+  --theme-token-input-textfield-color-active: #2e3048;
+  --theme-token-input-textfield-placeholder-color: rgb(22 29 26 / 60%);
 
   --theme-token-input-dropdown-button-background-color: #fff;
   --theme-token-input-dropdown-button-background-color-hover: rgb(0 0 0 / 5%);

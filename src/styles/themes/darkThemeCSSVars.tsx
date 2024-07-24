@@ -174,13 +174,13 @@ const darkThemeCSSVars = css`
 
   --theme-token-input-background: #373954;
 
-  --theme-textfield-token-input-background-color: #373954;
-  --theme-textfield-token-input-background-color-active: rgb(255 255 255 / 5%);
-  --theme-textfield-token-input-border-color: #5f6178;
-  --theme-textfield-token-input-border-color-active: #5f6178;
-  --theme-textfield-token-input-color: rgb(255 255 255 / 80%);
-  --theme-textfield-token-input-color-active: rgb(255 255 255 / 80%);
-  --theme-textfield-token-input-placeholder-color: rgb(255 255 255 / 50%);
+  --theme-token-input-textfield-background-color: #373954;
+  --theme-token-input-textfield-background-color-active: rgb(255 255 255 / 5%);
+  --theme-token-input-textfield-border-color: #5f6178;
+  --theme-token-input-textfield-border-color-active: #5f6178;
+  --theme-token-input-textfield-color: rgb(255 255 255 / 80%);
+  --theme-token-input-textfield-color-active: rgb(255 255 255 / 80%);
+  --theme-token-input-textfield-placeholder-color: rgb(255 255 255 / 50%);
 
   --theme-token-input-dropdown-button-background-color: #373954;
   --theme-token-input-dropdown-button-background-color-hover: rgb(255 255 255 / 5%);
