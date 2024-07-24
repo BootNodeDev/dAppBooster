@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import { ThemedButton } from 'db-ui-toolkit'
+import { Button } from 'db-ui-toolkit'
 
 const BaseChevronDown = ({ ...restProps }) => (
   <svg
@@ -26,8 +26,8 @@ interface Props {
   $isConnected?: boolean
 }
 
-const ConnectButton = styled(ThemedButton).attrs<Props>(({ $isConnected, children }) => ({
-  $cssVarRoot: '--theme-button-connect',
+const ConnectButton = styled(Button).attrs<Props>(({ $isConnected, children }) => ({
+  $variant: 'connect',
   $isConnected,
   children: (
     <>
