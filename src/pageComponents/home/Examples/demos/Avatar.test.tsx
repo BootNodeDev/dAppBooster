@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import { Mock, describe, expect, it, vi } from 'vitest'
 import { useEnsName, useEnsAvatar } from 'wagmi'
 
-import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
+import Avatar from '@/src/pageComponents/home/Examples/demos/AvatarDemo'
 
 // Mock wagmi hooks
 vi.mock('wagmi', () => ({
