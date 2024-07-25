@@ -14,11 +14,9 @@ const Wrapper = styled.div`
     --theme-token-ens-name-text-color: #2e3048;
 
     --theme-textfield-color: #2e3048;
-    --theme-textfield-color-active: #2e3048;
     --theme-textfield-background-color: #fff;
     --theme-textfield-background-color-active: rgb(0 0 0 / 5%);
     --theme-textfield-border-color: #c5c2cb;
-    --theme-textfield-border-color-active: #c5c2cb;
     --theme-textfield-placeholder-color: rgb(22 29 26 / 60%);
   }
 
@@ -28,11 +26,9 @@ const Wrapper = styled.div`
     --theme-token-ens-name-text-color: #e2e0e7;
 
     --theme-textfield-color: #fff;
-    --theme-textfield-color-active: #fff;
     --theme-textfield-background-color: #373954;
     --theme-textfield-background-color-active: rgb(255 255 255 / 5%);
     --theme-textfield-border-color: #5f6178;
-    --theme-textfield-border-color-active: #5f6178;
     --theme-textfield-placeholder-color: rgb(247 247 247 / 60%);
   }
 

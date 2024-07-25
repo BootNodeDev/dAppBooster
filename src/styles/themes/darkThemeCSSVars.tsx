@@ -12,11 +12,11 @@ const darkThemeCSSVars = css`
   /* Few basic colors */
   --theme-color-primary: #8b46a4;
 
+  /* Title color */
+  --theme-title-color: #fff;
+
   /* Text color */
-  --theme-color-text-primary: #fff;
-  --theme-color-text: #e2e0e7;
-  --theme-color-light: #4b4d60;
-  --theme-color-dark: #4b4d60;
+  --theme-text-color: #e2e0e7;
 
   /* Danger / OK / warning */
   --theme-color-danger: #800;
@@ -98,18 +98,18 @@ const darkThemeCSSVars = css`
   --theme-dropdown-item-border-color-active: #4b4d60;
 
   /* Dropdown Button  */
-  --theme-dropdown-button-background-color: #8b46a4;
-  --theme-dropdown-button-background-color-hover: #9a4eb5;
+  --theme-button-dropdown-background-color: #8b46a4;
+  --theme-button-dropdown-background-color-hover: #9a4eb5;
 
-  --theme-dropdown-button-border-color: #8b46a4;
-  --theme-dropdown-button-border-color-hover: #9a4eb5;
+  --theme-button-dropdown-border-color: #8b46a4;
+  --theme-button-dropdown-border-color-hover: #9a4eb5;
 
-  --theme-dropdown-button-color: #fff;
-  --theme-dropdown-button-color-hover: #fff;
+  --theme-button-dropdown-color: #fff;
+  --theme-button-dropdown-color-hover: #fff;
 
-  --theme-dropdown-button-background-color-disabled: #8b46a4;
-  --theme-dropdown-button-border-color-disabled: #8b46a4;
-  --theme-dropdown-button-color-disabled: #fff;
+  --theme-button-dropdown-background-color-disabled: #8b46a4;
+  --theme-button-dropdown-border-color-disabled: #8b46a4;
+  --theme-button-dropdown-color-disabled: #fff;
 
   /* Card */
   --theme-card-background-color: #232436;
@@ -128,19 +128,18 @@ const darkThemeCSSVars = css`
   --theme-toast-background-color: #4b4d60;
   --theme-toast-color: #fff;
 
-  /* GeneralError */
-  --theme-generic-error-background-color: #232436;
-  --theme-generic-error-border-color: #232436;
-  --theme-generic-error-box-shadow: 0 0 20px 0 rgb(255 255 255 / 8%);
-  --theme-generic-error-color-message-background: #292b43;
-  --theme-generic-error-color-text: #fff;
-  --theme-generic-error-color-title: #fff;
+  /* General Error */
+  --theme-general-error-background-color: #232436;
+  --theme-general-error-border-color: #232436;
+  --theme-general-error-title-color: #fff;
+  --theme-general-error-message-background-color: #292b43;
+  --theme-general-error-message-color: #fff;
 
   /* Spinner */
   --theme-spinner-color: #b886c9;
 
   /* Dialog / Modal */
-  --theme-dialog-background-color: rgb(0 0 0 / 50%);
+  --theme-dialog-overlay-color: rgb(0 0 0 / 50%);
 
   /* Token Select */
   --theme-token-select-title-color: #fff;
@@ -183,16 +182,16 @@ const darkThemeCSSVars = css`
   --theme-token-input-textfield-color-active: rgb(255 255 255 / 80%);
   --theme-token-input-textfield-placeholder-color: rgb(255 255 255 / 50%);
 
-  --theme-token-input-select-button-background-color: #373954;
-  --theme-token-input-select-button-background-color-hover: rgb(255 255 255 / 5%);
-  --theme-token-input-select-button-border-color: #5f6178;
-  --theme-token-input-select-button-border-color-hover: #5f6178;
-  --theme-token-input-select-button-border-color-active: #5f6178;
-  --theme-token-input-select-button-color: #fff;
-  --theme-token-input-select-button-color-hover: #fff;
-  --theme-token-input-select-button-background-color-disabled: #373954;
-  --theme-token-input-select-button-border-color-disabled: #5f6178;
-  --theme-token-input-select-button-color-disabled: #fff;
+  --theme-token-input-dropdown-button-background-color: #373954;
+  --theme-token-input-dropdown-button-background-color-hover: rgb(255 255 255 / 5%);
+  --theme-token-input-dropdown-button-border-color: #5f6178;
+  --theme-token-input-dropdown-button-border-color-hover: #5f6178;
+  --theme-token-input-dropdown-button-border-color-active: #5f6178;
+  --theme-token-input-dropdown-button-color: #fff;
+  --theme-token-input-dropdown-button-color-hover: #fff;
+  --theme-token-input-dropdown-button-background-color-disabled: #373954;
+  --theme-token-input-dropdown-button-border-color-disabled: #5f6178;
+  --theme-token-input-dropdown-button-color-disabled: #fff;
 
   --theme-token-input-max-button-background-color: #373954;
   --theme-token-input-max-button-background-color-hover: rgb(255 255 255 / 5%);
