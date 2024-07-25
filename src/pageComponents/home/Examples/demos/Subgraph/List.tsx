@@ -154,7 +154,7 @@ const Aave = withSuspenseAndRetry(() => {
 
 const uniswapNetworks = [optimism, polygon, arbitrum]
 
-const Subgraph = ({ ...restProps }) => {
+const List = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       {uniswapNetworks.map((chain) => (
@@ -165,4 +165,4 @@ const Subgraph = ({ ...restProps }) => {
   )
 }
 
-export default Subgraph
+export default List

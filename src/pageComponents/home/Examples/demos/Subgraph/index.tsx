@@ -1,32 +1,30 @@
 import { lazy } from 'react'
-import styled from 'styled-components'
+
+import { Text } from 'db-ui-toolkit'
 
 import { isSubgraphConfigValid } from '@/src/constants/common'
+import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
-const Subgraph = lazy(() => import('./SubgraphStatus'))
-
-const Wrapper = styled.p`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-`
+const List = lazy(() => import('./List'))
 
 const SubgraphLoader = withSuspenseAndRetry(() => {
   return isSubgraphConfigValid ? (
-    <Subgraph />
+    <List />
   ) : (
-    <Wrapper>
-      Be sure to have properly configured the{' '}
-      <a
+    <>
+      <Text>
+        Remember to configure the <i>env vars</i>
+      </Text>
+      <PrimaryButton
+        as={'a'}
         href="https://github.com/bootnodedev/dAppBooster#subgraphs"
         rel="noreferrer"
         target="_blank"
       >
-        Subgraph env variables
-      </a>
-    </Wrapper>
+        Learn How
+      </PrimaryButton>
+    </>
   )
 })
 
