@@ -47,6 +47,8 @@ const Group = styled.div`
 
 const Title = styled.h3`
   color: var(--theme-subgraph-title-color);
+  column-gap: var(--base-gap);
+  display: flex;
   font-size: 1.6rem;
   font-weight: 700;
   line-height: 1.2;
@@ -54,7 +56,7 @@ const Title = styled.h3`
   padding-bottom: var(--base-common-padding);
 `
 
-const DataRow = styled.div`
+const Row = styled.div`
   align-items: center;
   color: var(--theme-subgraph-name-color);
   column-gap: var(--base-gap);
@@ -118,11 +120,11 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
     <Group>
       <Title>Uniswap pools on {chain.name}</Title>
       {data.map((position) => (
-        <DataRow key={position.id}>
+        <Row key={position.id}>
           <Name>{position.pool.symbol}</Name>
           <Copy value={position.pool.id} />
           <ExternalLink href={`${baseUrl}${position.pool.id}`} />
-        </DataRow>
+        </Row>
       ))}
     </Group>
   )
@@ -142,11 +144,11 @@ const Aave = withSuspenseAndRetry(() => {
     <Group>
       <Title>AAVE Reserves on {base.name}</Title>
       {data.map(({ id, name, underlyingAsset }) => (
-        <DataRow key={id}>
+        <Row key={id}>
           <Name>{name}</Name>
           <Copy value={underlyingAsset} />
           <ExternalLink href={`${baseUrl}${underlyingAsset}`} />
-        </DataRow>
+        </Row>
       ))}
     </Group>
   )
