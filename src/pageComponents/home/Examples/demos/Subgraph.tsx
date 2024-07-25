@@ -5,21 +5,10 @@ import { ExternalLink } from 'db-ui-toolkit'
 import request from 'graphql-request'
 import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
 
-import { env } from '@/src/env'
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
-import { generateSchemas, parseResourceIds } from '@/src/subgraphs/utils/schemas'
+import { appSchemas } from '@/src/subgraphs/utils/appSchemas'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-
-const schemas = generateSchemas(
-  parseResourceIds(env.PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS!),
-  env.PUBLIC_SUBGRAPHS_API_KEY!,
-  env.PUBLIC_SUBGRAPHS_ENVIRONMENT!,
-  {
-    development: env.PUBLIC_SUBGRAPHS_DEVELOPMENT_URL!,
-    production: env.PUBLIC_SUBGRAPHS_PRODUCTION_URL!,
-  },
-)
 
 const chainNameMapping: { [key: number]: string } = {
   [optimism.id]: 'optimism',
@@ -37,7 +26,10 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
   const { data } = useSuspenseQuery({
     queryKey: ['allUniswapPools', chain.id],
     queryFn: async () => {
-      const { positions } = await request(schemas.uniswap[chain.id], allUniswapPoolsQueryDocument)
+      const { positions } = await request(
+        appSchemas.uniswap[chain.id],
+        allUniswapPoolsQueryDocument,
+      )
       return positions
     },
   })
@@ -61,7 +53,7 @@ const Aave = withSuspenseAndRetry(() => {
   const { data } = useSuspenseQuery({
     queryKey: ['allAaveReserves', base.id],
     queryFn: async () => {
-      const { reserves } = await request(schemas.aave[base.id], allAaveReservesQueryDocument)
+      const { reserves } = await request(appSchemas.aave[base.id], allAaveReservesQueryDocument)
       return reserves
     },
   })
