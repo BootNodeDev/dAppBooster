@@ -6,6 +6,10 @@ import request from 'graphql-request'
 import { toast } from 'react-hot-toast'
 import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
 
+import ArbitrumDefault from '@/src/pageComponents/home/Examples/demos/assets/Arbitrum'
+import BaseDefault from '@/src/pageComponents/home/Examples/demos/assets/Base'
+import OptimismDefault from '@/src/pageComponents/home/Examples/demos/assets/Optimism'
+import PolygonDefault from '@/src/pageComponents/home/Examples/demos/assets/Polygon'
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 import { appSchemas } from '@/src/subgraphs/utils/appSchemas'
@@ -46,6 +50,7 @@ const Group = styled.div`
 `
 
 const Title = styled.h3`
+  align-items: center;
   color: var(--theme-subgraph-title-color);
   column-gap: var(--base-gap);
   display: flex;
@@ -54,6 +59,26 @@ const Title = styled.h3`
   line-height: 1.2;
   margin: 0;
   padding-bottom: var(--base-common-padding);
+`
+
+const Arbitrum = styled(ArbitrumDefault)`
+  height: 20px;
+  width: 20px;
+`
+
+const Polygon = styled(PolygonDefault)`
+  height: 20px;
+  width: 20px;
+`
+
+const Optimism = styled(OptimismDefault)`
+  height: 20px;
+  width: 20px;
+`
+
+const Base = styled(BaseDefault)`
+  height: 20px;
+  width: 20px;
 `
 
 const Row = styled.div`
@@ -102,6 +127,16 @@ const Copy = ({ value }: { value: string }) => {
   return <CopyButton onClick={handleCopy} value={value} />
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
+export const getNetworkIcon = (chainName: string) => (
+  <>
+    {chainName === 'arbitrum one' && <Arbitrum />}
+    {chainName === 'polygon' && <Polygon />}
+    {chainName === 'op mainnet' && <Optimism />}
+    {chainName === 'base' && <Base />}
+  </>
+)
+
 const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
   const { data } = useSuspenseQuery({
     queryKey: ['allUniswapPools', chain.id],
@@ -118,7 +153,10 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
 
   return (
     <Group>
-      <Title>Uniswap pools on {chain.name}</Title>
+      <Title title={chain.name}>
+        Uniswap pools
+        {getNetworkIcon(chain.name.toLowerCase())}
+      </Title>
       {data.map((position) => (
         <Row key={position.id}>
           <Name>{position.pool.symbol}</Name>
@@ -142,7 +180,10 @@ const Aave = withSuspenseAndRetry(() => {
 
   return (
     <Group>
-      <Title>AAVE Reserves on {base.name}</Title>
+      <Title title={base.name}>
+        AAVE Reserves
+        {getNetworkIcon(base.name.toLowerCase())}
+      </Title>
       {data.map(({ id, name, underlyingAsset }) => (
         <Row key={id}>
           <Name>{name}</Name>
