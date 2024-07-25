@@ -50,7 +50,7 @@ const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', ta
   grid-template-columns: ${ICON_SIZE}px 1fr;
   height: 41px;
   padding: 0 var(--base-common-padding-xl);
-  transition: background-color var(--base-animation-time-sm) ease-in-out;
+  transition: background-color var(--base-transition-duration-sm) ease-in-out;
 
   &:hover {
     background-color: var(--theme-token-select-top-token-item-background-color-hover-default);

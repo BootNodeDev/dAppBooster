@@ -36,7 +36,7 @@ const DropdownButton = styled(Button).attrs(({ children }) => ({
   padding-right: calc(var(--base-common-padding) * 3);
 
   .chevronDown {
-    transition: transform var(--base-animation-time-xs) ease-in-out;
+    transition: transform var(--base-transition-duration-xs) ease-in-out;
   }
 
   .isActive & {

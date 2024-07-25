@@ -13,13 +13,6 @@ const baseCSSVars = css`
   --base-border-radius: 8px;
   --base-border-radius-xl: 16px;
 
-  /* Animation times */
-  --base-animation-time-xs: 0.1s;
-  --base-animation-time-sm: 0.2s;
-  --base-animation-time: 0.3s;
-  --base-animation-time-xl: 0.4s;
-  --base-animation-time-xxl: 0.5s;
-
   /* Transition duration */
   --base-transition-duration-xs: 0.1s;
   --base-transition-duration-sm: 0.2s;

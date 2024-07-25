@@ -64,7 +64,7 @@ const NetworkButton = styled.button.attrs(
   }
 
   .chevronDown {
-    transition: transform var(--base-animation-time-xs) ease-in-out;
+    transition: transform var(--base-transition-duration-xs) ease-in-out;
   }
 
   .isActive & {
