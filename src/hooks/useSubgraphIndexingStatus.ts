@@ -26,7 +26,7 @@ export const useSubgraphIndexingStatus = ({
 
   return {
     resource,
-    chainId: chain.id,
+    chain,
     hasIndexingErrors: meta?.hasIndexingErrors,
     isSynced: subgraphBlockNumber === networkBlockNumber,
     networkBlockNumber,
