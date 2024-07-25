@@ -1,7 +1,5 @@
-import { lazy, useState } from 'react'
+import { lazy } from 'react'
 import styled from 'styled-components'
-
-import { Button } from 'db-ui-toolkit'
 
 import { isSubgraphConfigValid } from '@/src/constants/common'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
@@ -16,28 +14,19 @@ const Wrapper = styled.p`
 `
 
 const SubgraphLoader = withSuspenseAndRetry(() => {
-  const [showSubgraph, setShowSubgraph] = useState(false)
-
-  return showSubgraph ? (
+  return isSubgraphConfigValid ? (
     <Subgraph />
   ) : (
-    <>
-      <Button disabled={!isSubgraphConfigValid} onClick={() => setShowSubgraph(true)}>
-        Load Example
-      </Button>
-      {!isSubgraphConfigValid && (
-        <Wrapper>
-          Be sure to have properly configured the{' '}
-          <a
-            href="https://github.com/bootnodedev/dAppBooster#subgraphs"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Subgraph env variables
-          </a>
-        </Wrapper>
-      )}
-    </>
+    <Wrapper>
+      Be sure to have properly configured the{' '}
+      <a
+        href="https://github.com/bootnodedev/dAppBooster#subgraphs"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Subgraph env variables
+      </a>
+    </Wrapper>
   )
 })
 
