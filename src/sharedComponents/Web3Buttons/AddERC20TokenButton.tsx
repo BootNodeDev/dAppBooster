@@ -24,7 +24,8 @@ const Button = styled(BaseButton)`
 `
 
 /**
- * Renders a button to add an ERC20 token to the wallet.
+ * @name AddERC20TokenButton
+ * @description Renders a button to add an ERC20 token to the wallet.
  *
  * @component
  * @param {Object} props - The component props.

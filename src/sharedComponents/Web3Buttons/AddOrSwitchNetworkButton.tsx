@@ -23,7 +23,8 @@ const Button = styled(BaseButton)`
 `
 
 /**
- * Button component for adding or switching a network.
+ * @name AddOrSwitchNetworkButton
+ * @description Button component for adding or switching a network.
  *
  * @component
  * @param {object} props - The component props.
