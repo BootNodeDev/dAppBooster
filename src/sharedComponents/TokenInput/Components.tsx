@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-import { ThemedButton } from 'db-ui-toolkit'
+import { Button, Textfield as BaseTextfield } from 'db-ui-toolkit'
 
-const ChevronDown = ({ ...restProps }) => (
+const BaseChevronDown = ({ ...restProps }) => (
   <svg
     fill="none"
     height="8"
@@ -22,107 +22,6 @@ const ChevronDown = ({ ...restProps }) => (
 )
 
 export const Wrapper = styled.div.attrs({ className: 'tokenInput' })`
-  /* Texfield */
-  --theme-textfield-background-color: var(--theme-token-input-textfield-background-color, #fff);
-  --theme-textfield-background-color-active: var(
-    --theme-token-input-textfield-background-color-active,
-    rgb(0 0 0 / 2%)
-  );
-  --theme-textfield-border-color: var(--theme-token-input-textfield-border-color, #e2e0e7);
-  --theme-textfield-border-color-active: var(
-    --theme-token-input-textfield-border-color-active,
-    #e2e0e7
-  );
-  --theme-textfield-color: var(--theme-token-input-textfield-color, #2e3048);
-  --theme-textfield-color-active: var(--theme-token-input-textfield-color-active, #2e3048);
-  --theme-textfield-placeholder-color: var(
-    --theme-token-input-textfield-placeholder-color,
-    rgb(22 29 26 / 60%)
-  );
-  --base-textfield-height: var(--base-token-input-texfield-height, 58px);
-  --base-textfield-font-size: var(--base-token-input-texfield-font-size, 3.2rem);
-
-  /* Select button */
-  --theme-token-input-select-button-default-background-color: var(
-    --theme-token-input-select-button-background-color,
-    #fff
-  );
-  --theme-token-input-select-button-default-background-color-hover: var(
-    --theme-token-input-select-button-background-color-hover,
-    rgb(0 0 0 / 5%)
-  );
-  --theme-token-input-select-button-default-border-color: var(
-    --theme-token-input-select-button-border-color,
-    #e2e0e7
-  );
-  --theme-token-input-select-button-default-border-color-hover: var(
-    --theme-token-input-select-button-border-color-hover,
-    #e2e0e7
-  );
-  --theme-token-input-select-button-default-border-color-active: var(
-    --theme-token-input-select-button-border-color-active,
-    #e2e0e7
-  );
-  --theme-token-input-select-button-default-color: var(
-    --theme-token-input-select-button-color,
-    #2e3048
-  );
-  --theme-token-input-select-button-default-color-hover: var(
-    --theme-token-input-select-button-color-hover,
-    #2e3048
-  );
-  --theme-token-input-select-button-default-background-color-disabled: var(
-    --theme-token-input-select-button-background-color-disabled,
-    #fff
-  );
-  --theme-token-input-select-button-default-border-color-disabled: var(
-    --theme-token-input-select-button-border-color-disabled,
-    #e2e0e7
-  );
-  --theme-token-input-select-button-default-color-disabled: var(
-    --theme-token-input-select-button-color-disabled,
-    #2e3048
-  );
-
-  /* Max button */
-  --theme-token-input-max-button-default-background-color: var(
-    --theme-token-input-max-button-background-color,
-    #fff
-  );
-  --theme-token-input-max-button-default-background-color-hover: var(
-    --theme-token-input-max-button-background-color-hover,
-    rgb(0 0 0 / 5%)
-  );
-  --theme-token-input-max-button-default-border-color: var(
-    --theme-token-input-max-button-border-color,
-    #e2e0e7
-  );
-  --theme-token-input-max-button-default-border-color-hover: var(
-    --theme-token-input-max-button-border-color-hover,
-    #e2e0e7
-  );
-  --theme-token-input-max-button-default-border-color-active: var(
-    --theme-token-input-max-button-border-color-active,
-    #e2e0e7
-  );
-  --theme-token-input-max-button-default-color: var(--theme-token-input-max-button-color, #8b46a4);
-  --theme-token-input-max-button-default-color-hover: var(
-    --theme-token-input-max-button-color-hover,
-    #8b46a4
-  );
-  --theme-token-input-max-button-default-background-color-disabled: var(
-    --theme-token-input-max-button-background-color-disabled,
-    #fff
-  );
-  --theme-token-input-max-button-default-border-color-disabled: var(
-    --theme-token-input-max-button-border-color-disabled,
-    #e2e0e7
-  );
-  --theme-token-input-max-button-default-color-disabled: var(
-    --theme-token-input-max-button-color-disabled,
-    #2e3048
-  );
-
   background-color: var(--theme-token-input-background, #fff);
   border-radius: var(--base-token-input-border-radius, var(--base-border-radius, 8px));
   max-width: 100%;
@@ -142,22 +41,67 @@ export const Title = styled.h3.attrs({ className: 'tokenInputTitle' })`
 export const TopRow = styled.div.attrs({ className: 'tokenInputTopRow' })`
   column-gap: var(--base-gap);
   display: flex;
+  height: 58px;
 `
 
-export const SelectChevronDown = styled(ChevronDown)`
+export const Textfield = styled(BaseTextfield).attrs({
+  className: 'tokenInputTextfield',
+})`
+  /* Texfield */
+  --theme-textfield-background-color: var(--theme-token-input-textfield-background-color, #fff);
+  --theme-textfield-background-color-active: var(
+    --theme-token-input-textfield-background-color-active,
+    rgb(0 0 0 / 2%)
+  );
+  --theme-textfield-border-color: var(--theme-token-input-textfield-border-color, #e2e0e7);
+  --theme-textfield-border-color-active: var(
+    --theme-token-input-textfield-border-color-active,
+    #e2e0e7
+  );
+  --theme-textfield-color: var(--theme-token-input-textfield-color, #2e3048);
+  --theme-textfield-color-active: var(--theme-token-input-textfield-color-active, #2e3048);
+  --theme-textfield-placeholder-color: var(
+    --theme-token-input-textfield-placeholder-color,
+    rgb(22 29 26 / 60%)
+  );
+
+  font-size: 3.2rem;
+  height: auto;
+`
+
+export const ChevronDown = styled(BaseChevronDown)`
   margin-left: var(--base-gap);
 `
 
-export const SelectButton = styled(ThemedButton).attrs(({ children }) => ({
-  $cssVarRoot: '--theme-token-input-select-button-default',
-  className: 'tokenInputSelectButton',
-  children: (
-    <>
-      {children}
-      <SelectChevronDown />
-    </>
-  ),
-}))`
+export const DropdownButton = styled(Button).attrs(({ children }) => {
+  return {
+    className: 'tokenInputDropdownButton',
+    children: (
+      <>
+        {children}
+        <ChevronDown />
+      </>
+    ),
+  }
+})`
+  /* Dropdown button */
+  --theme-button-background-color: var(--theme-token-input-dropdown-button-background-color, #fff);
+  --theme-button-background-color-hover: var(
+    --theme-token-input-dropdown-button-background-color-hover,
+    rgb(0 0 0 / 5%)
+  );
+  --theme-button-border-color: var(--theme-token-input-dropdown-button-border-color, #e2e0e7);
+  --theme-button-border-color-hover: var(
+    --theme-token-input-dropdown-button-border-color-hover,
+    #e2e0e7
+  );
+  --theme-button-border-color-active: var(
+    --theme-token-input-dropdown-button-border-color-active,
+    #e2e0e7
+  );
+  --theme-button-color: var(--theme-token-input-dropdown-button-color, #2e3048);
+  --theme-button-color-hover: var(--theme-token-input-dropdown-button-color-hover, #2e3048);
+
   font-size: 1.6rem;
   font-weight: 500;
   flex-shrink: 0;
@@ -200,10 +144,27 @@ export const BalanceValue = styled.span`
   line-height: 1.2;
 `
 
-export const MaxButton = styled(ThemedButton).attrs({
-  $cssVarRoot: '--theme-token-input-max-button-default',
+export const MaxButton = styled(Button).attrs({
   className: 'tokenInputMaxButton',
 })`
+  /* Max button */
+  --theme-button-background-color: var(--theme-token-input-max-button-background-color, #fff);
+  --theme-button-background-color-hover: var(
+    --theme-token-input-max-button-background-color-hover,
+    rgb(0 0 0 / 5%)
+  );
+  --theme-button-border-color: var(--theme-token-input-max-button-border-color, #e2e0e7);
+  --theme-button-border-color-hover: var(
+    --theme-token-input-max-button-border-color-hover,
+    #e2e0e7
+  );
+  --theme-button-border-color-active: var(
+    --theme-token-input-max-button-border-color-active,
+    #e2e0e7
+  );
+  --theme-button-color: var(--theme-token-input-max-button-color, #8b46a4);
+  --theme-button-color-hover: var(--theme-token-input-max-button-color-hover, #8b46a4);
+
   font-size: 1.2rem;
   font-weight: 400;
   height: 22px;

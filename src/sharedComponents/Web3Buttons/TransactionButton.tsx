@@ -76,7 +76,11 @@ const TransactionButton = withWalletStatusVerifier(
       onClick: handleSendTransaction,
     }
 
-    return <Button {...inputProps}>{isPending ? labelSending : label}</Button>
+    return (
+      <Button $variant="primary" {...inputProps}>
+        {isPending ? labelSending : label}
+      </Button>
+    )
   },
 )
 

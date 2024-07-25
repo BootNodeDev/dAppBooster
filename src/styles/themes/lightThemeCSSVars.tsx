@@ -12,11 +12,11 @@ const lightThemeCSSVars = css`
   /* Few basic colors */
   --theme-color-primary: #692581;
 
+  /* Title color */
+  --theme-title-color: #2e3048;
+
   /* Text color */
-  --theme-color-text-primary: #2e3048;
-  --theme-color-text: #4b4d60;
-  --theme-color-light: #5f6178;
-  --theme-color-dark: #000;
+  --theme-text-color: #4b4d60;
 
   /* Danger / OK / warning */
   --theme-color-danger: #800;
@@ -98,18 +98,18 @@ const lightThemeCSSVars = css`
   --theme-dropdown-item-border-color-active: #f0f0f0;
 
   /* Dropdown Button */
-  --theme-dropdown-button-background-color: #692581;
-  --theme-dropdown-button-background-color-hover: #892fa9;
+  --theme-button-dropdown-background-color: #692581;
+  --theme-button-dropdown-background-color-hover: #892fa9;
 
-  --theme-dropdown-button-border-color: #692581;
-  --theme-dropdown-button-border-color-hover: #892fa9;
+  --theme-button-dropdown-border-color: #692581;
+  --theme-button-dropdown-border-color-hover: #892fa9;
 
-  --theme-dropdown-button-color: #fff;
-  --theme-dropdown-button-color-hover: #fff;
+  --theme-button-dropdown-color: #fff;
+  --theme-button-dropdown-color-hover: #fff;
 
-  --theme-dropdown-button-background-color-disabled: #692581;
-  --theme-dropdown-button-border-color-disabled: #692581;
-  --theme-dropdown-button-color-disabled: #fff;
+  --theme-button-dropdown-background-color-disabled: #692581;
+  --theme-button-dropdown-border-color-disabled: #692581;
+  --theme-button-dropdown-color-disabled: #fff;
 
   /* Card */
   --theme-card-background-color: #fff;
@@ -128,19 +128,18 @@ const lightThemeCSSVars = css`
   --theme-toast-background-color: #2e3048;
   --theme-toast-color: #fff;
 
-  /* GeneralError */
-  --theme-generic-error-background-color: #fff;
-  --theme-generic-error-border-color: #fff;
-  --theme-generic-error-box-shadow: 0 0 20px 0 rgb(0 0 0 / 8%);
-  --theme-generic-error-color-message-background: #e2e0e780;
-  --theme-generic-error-color-text: #4b4d60;
-  --theme-generic-error-color-title: #2e3048;
+  /* General Error */
+  --theme-general-error-background-color: #fff;
+  --theme-general-error-border-color: #fff;
+  --theme-general-error-title-color: #2e3048;
+  --theme-general-error-message-background-color: #e2e0e780;
+  --theme-general-error-message-color: #4b4d60;
 
   /* Spinner */
   --theme-spinner-color: #692581;
 
   /* Dialog / Modal */
-  --theme-dialog-background-color: rgb(0 0 0 / 25%);
+  --theme-dialog-overlay-color: rgb(0 0 0 / 25%);
 
   /* Token Select */
   --theme-token-select-title-color: #2e3048;
@@ -183,16 +182,16 @@ const lightThemeCSSVars = css`
   --theme-token-input-textfield-color-active: #2e3048;
   --theme-token-input-textfield-placeholder-color: rgb(22 29 26 / 60%);
 
-  --theme-token-input-select-button-background-color: #fff;
-  --theme-token-input-select-button-background-color-hover: rgb(0 0 0 / 5%);
-  --theme-token-input-select-button-border-color: #e2e0e7;
-  --theme-token-input-select-button-border-color-hover: #e2e0e7;
-  --theme-token-input-select-button-border-color-active: #e2e0e7;
-  --theme-token-input-select-button-color: #2e3048;
-  --theme-token-input-select-button-color-hover: #2e3048;
-  --theme-token-input-select-button-background-color-disabled: #fff;
-  --theme-token-input-select-button-border-color-disabled: #e2e0e7;
-  --theme-token-input-select-button-color-disabled: #2e3048;
+  --theme-token-input-dropdown-button-background-color: #fff;
+  --theme-token-input-dropdown-button-background-color-hover: rgb(0 0 0 / 5%);
+  --theme-token-input-dropdown-button-border-color: #e2e0e7;
+  --theme-token-input-dropdown-button-border-color-hover: #e2e0e7;
+  --theme-token-input-dropdown-button-border-color-active: #e2e0e7;
+  --theme-token-input-dropdown-button-color: #2e3048;
+  --theme-token-input-dropdown-button-color-hover: #2e3048;
+  --theme-token-input-dropdown-button-background-color-disabled: #fff;
+  --theme-token-input-dropdown-button-border-color-disabled: #e2e0e7;
+  --theme-token-input-dropdown-button-color-disabled: #2e3048;
 
   --theme-token-input-max-button-background-color: #fff;
   --theme-token-input-max-button-background-color-hover: rgb(0 0 0 / 5%);

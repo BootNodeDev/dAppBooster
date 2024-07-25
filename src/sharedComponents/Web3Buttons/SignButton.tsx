@@ -56,7 +56,11 @@ const SignButton: FC<SignButtonProps> = withWalletStatusVerifier(
     })
 
     return (
-      <Button disabled={disabled || isPending} onClick={() => signMessage({ message })}>
+      <Button
+        $variant="primary"
+        disabled={disabled || isPending}
+        onClick={() => signMessage({ message })}
+      >
         {isPending ? labelSigning : label}
       </Button>
     )

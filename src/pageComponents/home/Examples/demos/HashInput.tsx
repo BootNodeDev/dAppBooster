@@ -36,7 +36,8 @@ const IconOK = ({ ...restProps }) => (
 )
 
 const Wrapper = styled.div`
-  --base-textfield-horizontal-padding: var(--base-common-padding-xl);
+  --base-horizontal-padding: var(--base-common-padding-xl);
+  --base-textfield-padding: 0 var(--base-horizontal-padding);
   --base-textfield-border-radius: var(--base-border-radius);
 
   [data-theme='light'] & {
@@ -114,8 +115,8 @@ const StatusMessage = styled.div`
   font-size: 1.4rem;
   left: 0;
   min-height: 64px;
-  padding: calc(var(--base-common-padding-xl) * 2) var(--base-textfield-horizontal-padding)
-    var(--base-common-padding-xl) var(--base-textfield-horizontal-padding);
+  padding: calc(var(--base-common-padding-xl) * 2) var(--base-horizontal-padding)
+    var(--base-common-padding-xl) var(--base-horizontal-padding);
   position: absolute;
   top: calc(100% - var(--base-common-padding-xl));
   width: 100%;
