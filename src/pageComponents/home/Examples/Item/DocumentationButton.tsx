@@ -12,7 +12,7 @@ const Icon = () => (
 )
 
 const DocumentationButton = styled(Button).attrs({
-  $varoamt: 'documentation',
+  $variant: 'documentation',
   children: (
     <>
       <Icon /> Documentation
