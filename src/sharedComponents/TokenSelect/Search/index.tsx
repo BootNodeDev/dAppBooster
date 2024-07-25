@@ -6,6 +6,7 @@ import { Dropdown, Item as BaseItem } from 'db-ui-toolkit'
 import { type Networks } from '@/src/sharedComponents/TokenSelect'
 import SearchInput from '@/src/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/sharedComponents/TokenSelect/Search/NetworkButton'
+import SwitchNetworkButton from '@/src/sharedComponents/Web3Buttons/SwitchNetworkButton'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) => ({ className }))`
   display: flex;
@@ -30,6 +31,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
   placeholder?: string
   searchTerm: string
   setSearchTerm: Dispatch<SetStateAction<string>>
+  showSwitchNetworkButton?: boolean
 }
 
 /**
@@ -41,6 +43,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {string} [placeholder] - Optional placeholder text for the search input.
  * @param {string} searchTerm - The current search term.
  * @param {function} setSearchTerm - Callback function to set the search term.
+ * @param {boolean} showSwitchNetworkButton - Whether to display an add or switch network button.
  */
 const Search: FC<Props> = ({
   currentNetworkId,
@@ -48,6 +51,7 @@ const Search: FC<Props> = ({
   placeholder,
   searchTerm,
   setSearchTerm,
+  showSwitchNetworkButton,
   ...restProps
 }) => {
   return (
@@ -64,10 +68,11 @@ const Search: FC<Props> = ({
               {networks.find((item) => item.id === currentNetworkId)?.icon}
             </NetworkButton>
           }
-          items={networks.map(({ icon, label, onClick }, index) => (
+          items={networks.map(({ icon, id, label, onClick }, index) => (
             <Item key={index} onClick={onClick}>
               {icon}
               {label}
+              {showSwitchNetworkButton && <SwitchNetworkButton chainId={id} />}
             </Item>
           ))}
           position="right"

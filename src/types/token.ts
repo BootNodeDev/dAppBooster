@@ -20,8 +20,7 @@ export const tokenSchema = z.object({
   chainId: z.number().min(1),
   logoURI: z.string().url().optional(),
   extensions: z
-    .record(key, extensionValue)
-    .or(z.record(key, z.record(key, extensionValue).or(extensionValue)))
+    .record(key, z.record(key, z.record(key, extensionValue).or(extensionValue)).or(extensionValue))
     .optional(),
 })
 

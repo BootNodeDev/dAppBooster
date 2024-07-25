@@ -15,6 +15,7 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectList' }) => ({ class
 `
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
+  showAddTokenButton?: boolean
   containerHeight: number
   iconSize: number
   itemHeight: number
@@ -32,6 +33,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {number} iconSize - The size of the token icon for each item in the list.
  * @param {number} itemHeight - The height of each item in the list.
  * @param {function} onTokenSelect - Callback function to be called when a token is selected.
+ * @param {boolean} showAddTokenButton - Whether to display an add token button.
  * @param {boolean} showBalance - Flag to show the token balance in the list.
  * @param {boolean} isLoadingBalances - Flag to inform the balances are loading.
  * @param {Tokens} tokenList - The list of tokens to display.
@@ -43,6 +45,7 @@ const List: FC<Props> = ({
   isLoadingBalances,
   itemHeight,
   onTokenSelect,
+  showAddTokenButton,
   showBalance,
   style,
   tokenList,
@@ -59,6 +62,7 @@ const List: FC<Props> = ({
             iconSize={iconSize}
             isLoadingBalances={isLoadingBalances}
             onClick={(token) => onTokenSelect(token)}
+            showAddTokenButton={showAddTokenButton}
             showBalance={showBalance}
             token={item}
           />

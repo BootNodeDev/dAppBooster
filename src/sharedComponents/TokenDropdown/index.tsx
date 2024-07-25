@@ -21,7 +21,7 @@ const Icon = styled.div<{ iconSize?: number }>`
   width: ${({ iconSize }) => iconSize}px;
 `
 
-interface Props extends TokenSelectProps {
+export interface Props extends TokenSelectProps {
   currentToken?: Token | undefined
   iconSize?: number
 }
@@ -39,6 +39,8 @@ const TokenDropdown: FC<Props> = ({
   currentToken,
   iconSize = 24,
   onTokenSelect,
+  showAddTokenButton,
+  showSwitchNetworkButton,
   ...restProps
 }: Props) => {
   const { Dropdown, close } = useDropdown()
@@ -74,6 +76,8 @@ const TokenDropdown: FC<Props> = ({
       items={
         <TokenSelect
           onTokenSelect={handleTokenSelect}
+          showAddTokenButton={showAddTokenButton}
+          showSwitchNetworkButton={showSwitchNetworkButton}
           suspenseFallback={<Loading />}
           {...restProps}
         />
