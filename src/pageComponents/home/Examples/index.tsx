@@ -5,6 +5,7 @@ import { InnerContainer as Inner, ContainerPadding } from 'db-ui-toolkit'
 import { mainnet } from 'viem/chains'
 import { useAccount } from 'wagmi'
 
+import AddTokensOrSwitchNetwork from '@/src/pageComponents/home/Examples/AddTokensOrSwitchNetwork'
 import { Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
 import List from '@/src/pageComponents/home/Examples/List'
 import ImgAvatar from '@/src/pageComponents/home/Examples/assets/Avatar'
@@ -80,6 +81,13 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       icon: <ImgTokenInput />,
       text: 'Input with max, user balance, decimals',
       title: 'Token input',
+    },
+    {
+      demo: <AddTokensOrSwitchNetwork />,
+      href: '#',
+      icon: <ImgWallet />,
+      text: 'Add a Token to the wallet or switch network',
+      title: 'Add Token or Switch Network',
     },
     {
       demo: <Hash chain={mainnet} hash={address} />,
