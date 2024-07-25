@@ -15,19 +15,19 @@ import ImgSubgraph from '@/src/pageComponents/home/Examples/assets/Subgraph'
 import ImgTokenInput from '@/src/pageComponents/home/Examples/assets/TokenInput'
 import ImgTokenList from '@/src/pageComponents/home/Examples/assets/TokenList'
 import ImgWallet from '@/src/pageComponents/home/Examples/assets/Wallet'
-import AddTokensOrSwitchNetwork from '@/src/pageComponents/home/Examples/demos/AddTokensOrSwitchNetwork'
-import Avatar from '@/src/pageComponents/home/Examples/demos/Avatar'
-import { ERC20ApproveAndTransferButtonDemo } from '@/src/pageComponents/home/Examples/demos/ERC20ApproveAndTransferButton'
-import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
-import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
-import HashInput from '@/src/pageComponents/home/Examples/demos/HashInput'
-import { SignMessageDemo } from '@/src/pageComponents/home/Examples/demos/SignMessage'
-import Subgraph from '@/src/pageComponents/home/Examples/demos/Subgraph'
-import SubgraphStatus from '@/src/pageComponents/home/Examples/demos/SubgraphStatus'
-import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdown'
-import TokenInput from '@/src/pageComponents/home/Examples/demos/TokenInput'
-import TransactionButtonDemo from '@/src/pageComponents/home/Examples/demos/TransactionButton'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import AddTokensOrSwitchNetworkDemo from '@/src/pageComponents/home/Examples/demos/AddTokensOrSwitchNetworkDemo'
+import AvatarDemo from '@/src/pageComponents/home/Examples/demos/AvatarDemo'
+import ERC20ApproveAndTransferButtonDemo from '@/src/pageComponents/home/Examples/demos/ERC20ApproveAndTransferButtonDemo'
+import EnsNameDemo from '@/src/pageComponents/home/Examples/demos/EnsNameDemo'
+import HashDemo from '@/src/pageComponents/home/Examples/demos/HashDemo'
+import HashInputDemo from '@/src/pageComponents/home/Examples/demos/HashInputDemo'
+import SignMessageDemo from '@/src/pageComponents/home/Examples/demos/SignMessageDemo'
+import SubgraphDemo from '@/src/pageComponents/home/Examples/demos/SubgraphDemo'
+import SubgraphStatusDemo from '@/src/pageComponents/home/Examples/demos/SubgraphStatusDemo'
+import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo'
+import TokenInputDemo from '@/src/pageComponents/home/Examples/demos/TokenInputDemo'
+import TransactionButtonDemo from '@/src/pageComponents/home/Examples/demos/TransactionButtonDemo'
+import ConnectWalletButtonDemo from '@/src/providers/Web3Provider'
 
 const Wrapper = styled.section`
   [data-theme='light'] & {
@@ -55,14 +55,14 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   const { address = '0x87885AaEEdED51C7e3858a782644F5d89759f245' } = useAccount()
   const items: ItemProps[] = [
     {
-      demo: <ConnectWalletButton />,
+      demo: <ConnectWalletButtonDemo />,
       href: 'https://github.com/BootNodeDev/dAppBooster#wallet-setup',
       icon: <ImgWallet />,
       text: 'Authenticate using an EVM Account',
       title: 'Wallet connectivity',
     },
     {
-      demo: <HashInput />,
+      demo: <HashInputDemo />,
       href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/HashInput.tsx#L25-L44',
       icon: <ImgInputAddress />,
       text: 'Validate address, ENS or transaction hash',
@@ -76,49 +76,49 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Token list',
     },
     {
-      demo: <TokenInput />,
+      demo: <TokenInputDemo />,
       href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/TokenInput/index.tsx#L47-L111',
       icon: <ImgTokenInput />,
       text: 'Input with max, user balance, decimals',
       title: 'Token input',
     },
     {
-      demo: <AddTokensOrSwitchNetwork />,
+      demo: <AddTokensOrSwitchNetworkDemo />,
       href: '#',
       icon: <ImgWallet />,
       text: 'Add a Token to the wallet or switch network',
       title: 'Add Token or Switch Network',
     },
     {
-      demo: <Hash chain={mainnet} hash={address} />,
+      demo: <HashDemo chain={mainnet} hash={address} />,
       href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Hash.tsx#L32-L41',
       icon: <ImgHash />,
       text: 'Copy, open in explorer',
       title: 'Hash component',
     },
     {
-      demo: <Avatar address={address} size={80} />,
+      demo: <AvatarDemo address={address} size={80} />,
       href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Avatar.tsx#L21-L33',
       icon: <ImgAvatar />,
       text: 'Address blockie avatar image',
       title: 'Avatar',
     },
     {
-      demo: <Subgraph />,
+      demo: <SubgraphDemo />,
       href: 'https://github.com/BootNodeDev/dAppBooster#subgraphs',
       icon: <ImgSubgraph />,
       text: 'Support for connecting with subgraphs',
       title: 'Subgraph',
     },
     {
-      demo: <SubgraphStatus />,
+      demo: <SubgraphStatusDemo />,
       href: 'https://github.com/BootNodeDev/dAppBooster#subgraphs',
       icon: <ImgSubgraph />,
       text: 'Subgraph syncing status',
       title: 'Subgraph status',
     },
     {
-      demo: <EnsName />,
+      demo: <EnsNameDemo />,
       icon: <GenericIcon />,
       text: 'Resolve ENS names',
       title: 'ENS name',

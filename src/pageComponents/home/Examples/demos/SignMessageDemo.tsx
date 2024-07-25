@@ -22,7 +22,7 @@ const WrapperOverflow = styled.div`
   white-space: pre-wrap;
 `
 
-export const SignMessageDemo = () => {
+const SignMessageDemo = () => {
   const [state, setState] = useState<{
     signature: string | null
     error: Error | null
@@ -43,3 +43,5 @@ export const SignMessageDemo = () => {
     </WrapperOverflow>
   )
 }
+
+export default SignMessageDemo

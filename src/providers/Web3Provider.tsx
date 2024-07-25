@@ -18,3 +18,5 @@ export const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
     </WagmiProvider>
   )
 }
+
+export default Web3Provider

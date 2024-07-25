@@ -16,7 +16,7 @@ interface Props {
  * @param {number} props.size - The size of the avatar
  * @example <Avatar address="0x1234567890abcdef1234567890abcdef12345678" />
  */
-const Avatar = ({ address, size }: Props) => {
+const AvatarDemo = ({ address, size }: Props) => {
   const { data: ensName } = useEnsName({ address })
 
   const { data: avatarImg } = useEnsAvatar({
@@ -26,4 +26,4 @@ const Avatar = ({ address, size }: Props) => {
   return <BaseAvatar address={address} ensImage={avatarImg} ensName={ensName} size={size} />
 }
 
-export default Avatar
+export default AvatarDemo
