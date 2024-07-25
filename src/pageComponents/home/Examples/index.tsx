@@ -22,7 +22,8 @@ import EnsName from '@/src/pageComponents/home/Examples/demos/EnsName'
 import Hash from '@/src/pageComponents/home/Examples/demos/Hash'
 import HashInput from '@/src/pageComponents/home/Examples/demos/HashInput'
 import { SignMessageDemo } from '@/src/pageComponents/home/Examples/demos/SignMessage'
-import SubgraphLoader from '@/src/pageComponents/home/Examples/demos/SubgraphLoader'
+import SubgraphLoader from '@/src/pageComponents/home/Examples/demos/Subgraph/SubgraphLoader'
+import SubgraphStatusLoader from '@/src/pageComponents/home/Examples/demos/Subgraph/SubgraphStatusLoader'
 import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdown'
 import TokenInput from '@/src/pageComponents/home/Examples/demos/TokenInput'
 import TransactionButtonDemo from '@/src/pageComponents/home/Examples/demos/TransactionButton'
@@ -108,6 +109,13 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       icon: <ImgSubgraph />,
       text: 'Support for connecting with subgraphs',
       title: 'Subgraph',
+    },
+    {
+      demo: <SubgraphStatusLoader />,
+      href: 'https://github.com/BootNodeDev/dAppBooster#subgraphs',
+      icon: <ImgSubgraph />,
+      text: 'Subgraph syncing status',
+      title: 'Subgraph status',
     },
     {
       demo: <EnsName />,
