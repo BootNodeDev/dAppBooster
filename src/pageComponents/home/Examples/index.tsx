@@ -27,7 +27,7 @@ import SubgraphStatusDemo from '@/src/pageComponents/home/Examples/demos/Subgrap
 import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo'
 import TokenInputDemo from '@/src/pageComponents/home/Examples/demos/TokenInputDemo'
 import TransactionButtonDemo from '@/src/pageComponents/home/Examples/demos/TransactionButtonDemo'
-import ConnectWalletButtonDemo from '@/src/providers/Web3Provider'
+import { ConnectWalletButton as ConnectWalletButtonDemo } from '@/src/providers/Web3Provider'
 
 const Wrapper = styled.section`
   [data-theme='light'] & {
