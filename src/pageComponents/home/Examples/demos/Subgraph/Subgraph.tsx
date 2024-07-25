@@ -1,8 +1,9 @@
 import styled from 'styled-components'
 
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { ExternalLink, CopyButton } from 'db-ui-toolkit'
+import { ExternalLink, CopyButton, Toast } from 'db-ui-toolkit'
 import request from 'graphql-request'
+import { toast } from 'react-hot-toast'
 import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
 
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
@@ -86,6 +87,19 @@ const Name = styled.div`
   line-height: 1.2;
 `
 
+const Copy = ({ value }: { value: string }) => {
+  const handleCopy = () => {
+    const timeDelay = 2500
+    toast.custom(<Toast>Copied to the clipboard!</Toast>, {
+      duration: timeDelay,
+      position: 'top-center',
+      id: 'copy-to-clipboard',
+    })
+  }
+
+  return <CopyButton onClick={handleCopy} value={value} />
+}
+
 const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
   const { data } = useSuspenseQuery({
     queryKey: ['allUniswapPools', chain.id],
@@ -106,7 +120,7 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
       {data.map((position) => (
         <DataRow key={position.id}>
           <Name>{position.pool.symbol}</Name>
-          <CopyButton value={position.pool.id} />
+          <Copy value={position.pool.id} />
           <ExternalLink href={`${baseUrl}${position.pool.id}`} />
         </DataRow>
       ))}
@@ -130,7 +144,7 @@ const Aave = withSuspenseAndRetry(() => {
       {data.map(({ id, name, underlyingAsset }) => (
         <DataRow key={id}>
           <Name>{name}</Name>
-          <CopyButton value={underlyingAsset} />
+          <Copy value={underlyingAsset} />
           <ExternalLink href={`${baseUrl}${underlyingAsset}`} />
         </DataRow>
       ))}
