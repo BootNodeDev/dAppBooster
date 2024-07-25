@@ -17,13 +17,28 @@ const chainNameMapping: { [key: number]: string } = {
 }
 
 const Wrapper = styled.div`
+  [data-theme='light'] & {
+    --theme-subgraph-title-color: #2e3048;
+    --theme-subgraph-name-color: #2e3048;
+    --theme-subgraph-bullet-color: #f7f7f7;
+    --theme-subgraph-bullet-background-color: #2e3048;
+  }
+
+  [data-theme='dark'] & {
+    --theme-subgraph-title-color: #fff;
+    --theme-subgraph-name-color: #fff;
+    --theme-subgraph-bullet-color: #2e3048;
+    --theme-subgraph-bullet-background-color: #fff;
+  }
+
   display: flex;
   flex-direction: column;
   padding: var(--base-common-padding-xl);
-  row-gap: calc(var(--base-gap-xl) * 2);
+  row-gap: calc(var(--base-gap-xl) * 3);
 `
 
 const Group = styled.div`
+  counter-reset: item-number;
   display: flex;
   flex-direction: column;
   row-gap: var(--base-gap-xl);
@@ -39,12 +54,33 @@ const Title = styled.h3`
 `
 
 const DataRow = styled.div`
+  align-items: center;
+  color: var(--theme-subgraph-name-color);
   column-gap: var(--base-gap);
   display: flex;
+
+  &::before {
+    --base-size: 18px;
+
+    align-items: center;
+    background-color: var(--theme-subgraph-bullet-background-color);
+    border-radius: 50%;
+    color: var(--theme-subgraph-bullet-color);
+    content: counter(item-number, decimal-leading-zero);
+    counter-increment: item-number;
+    display: flex;
+    font-size: 1rem;
+    font-weight: 700;
+    height: var(--base-size);
+    justify-content: center;
+    letter-spacing: -1px;
+    line-height: 1;
+    padding-right: 2px;
+    width: var(--base-size);
+  }
 `
 
 const Name = styled.div`
-  color: var(--theme-subgraph-name-color);
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.2;
