@@ -4,17 +4,20 @@ import styled from 'styled-components'
 import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
 
 import { useSubgraphIndexingStatus } from '@/src/hooks/useSubgraphIndexingStatus'
+import { getNetworkIcon } from '@/src/pageComponents/home/Examples/demos/SubgraphDemo/List'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 const Wrapper = styled.div`
   [data-theme='light'] & {
-    --theme-subgraph-data-row-color: #2e3048;
-    --theme-subgraph-data-color: #5f6178;
+    --theme-subgraph-status-background: #fff;
+    --theme-subgraph-status-data-row-color: #2e3048;
+    --theme-subgraph-status-data-color: #5f6178;
   }
 
   [data-theme='dark'] & {
-    --theme-subgraph-data-row-color: #fff;
-    --theme-subgraph-data-color: #e2e0e7;
+    --theme-subgraph-status-background: #373954;
+    --theme-subgraph-status-data-row-color: #fff;
+    --theme-subgraph-status-data-color: #e2e0e7;
   }
 
   display: flex;
@@ -24,12 +27,17 @@ const Wrapper = styled.div`
 `
 
 const Row = styled.div`
+  background-color: var(--theme-subgraph-status-background);
+  border-radius: var(--base-border-radius);
   display: flex;
   flex-direction: column;
+  padding: var(--base-common-padding-xl);
   row-gap: var(--base-gap-xl);
+  width: 100%;
 `
 
 const Title = styled.h3`
+  align-items: center;
   color: var(--theme-subgraph-title-color);
   column-gap: var(--base-gap);
   display: flex;
@@ -43,7 +51,7 @@ const Data = styled.div<{ status: 'error' | 'ok' }>`
   --base-status-size: 10px;
 
   align-items: center;
-  color: var(--theme-subgraph-data-row-color);
+  color: var(--theme-subgraph-status-data-row-color);
   column-gap: var(--base-gap);
   display: grid;
   grid-template-columns: var(--base-status-size) 1fr 10px 1fr;
@@ -72,7 +80,10 @@ const SubgraphStatus: FC<{
 
   return (
     <Row>
-      <Title title={`${chain.name}`}>{`${resource}@${chain.id}`}</Title>
+      <Title title={chain.name}>
+        {`${resource}@${chain.id}`}
+        {getNetworkIcon(chain.name.toLowerCase())}
+      </Title>
       <Data status={isSynced ? `ok` : `error`}>
         <span>
           <b>SG:</b> {subgraphBlockNumber.toString()}
