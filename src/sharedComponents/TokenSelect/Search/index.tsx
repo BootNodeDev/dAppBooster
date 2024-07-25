@@ -6,7 +6,7 @@ import { Dropdown, Item as BaseItem } from 'db-ui-toolkit'
 import { type Networks } from '@/src/sharedComponents/TokenSelect'
 import SearchInput from '@/src/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/sharedComponents/TokenSelect/Search/NetworkButton'
-import AddOrSwitchNetworkButton from '@/src/sharedComponents/Web3Buttons/AddOrSwitchNetworkButton'
+import SwitchNetworkButton from '@/src/sharedComponents/Web3Buttons/SwitchNetworkButton'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) => ({ className }))`
   display: flex;
@@ -26,32 +26,32 @@ const Item = styled(BaseItem)`
 `
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
-  allowAddOrSwitchNetwork?: boolean
   currentNetworkId: number
   networks?: Networks
   placeholder?: string
   searchTerm: string
   setSearchTerm: Dispatch<SetStateAction<string>>
+  showSwitchNetworkButton?: boolean
 }
 
 /**
  * @name Search
  * @description Search component for TokenSelect. Includes a search input and a networks dropdown.
  *
- * @param {boolean} allowAddOrSwitchNetwork - Whether to display an add or switch network button.
  * @param {number} currentNetworkId - The current network id.
  * @param {Networks} networks - Optional list of networks to display in the dropdown.
  * @param {string} [placeholder] - Optional placeholder text for the search input.
  * @param {string} searchTerm - The current search term.
  * @param {function} setSearchTerm - Callback function to set the search term.
+ * @param {boolean} showSwitchNetworkButton - Whether to display an add or switch network button.
  */
 const Search: FC<Props> = ({
-  allowAddOrSwitchNetwork,
   currentNetworkId,
   networks,
   placeholder,
   searchTerm,
   setSearchTerm,
+  showSwitchNetworkButton,
   ...restProps
 }) => {
   return (
@@ -72,7 +72,7 @@ const Search: FC<Props> = ({
             <Item key={index} onClick={onClick}>
               {icon}
               {label}
-              {allowAddOrSwitchNetwork && <AddOrSwitchNetworkButton chainId={id} />}
+              {showSwitchNetworkButton && <SwitchNetworkButton chainId={id} />}
             </Item>
           ))}
           position="right"

@@ -1,5 +1,7 @@
 import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdown'
 
-const AddTokensOrSwitchNetwork = () => <TokenDropdownDemo allowAddOrSwitchNetwork allowAddToken />
+const AddTokensOrSwitchNetwork = () => (
+  <TokenDropdownDemo showAddTokenButton showSwitchNetworkButton />
+)
 
 export default AddTokensOrSwitchNetwork

@@ -23,7 +23,7 @@ const Button = styled(BaseButton)`
 `
 
 /**
- * @name AddOrSwitchNetworkButton
+ * @name SwitchNetworkButton
  * @description Button component for adding or switching a network.
  *
  * @component
@@ -31,7 +31,7 @@ const Button = styled(BaseButton)`
  * @param {string} props.chainId - The ID of the chain.
  * @returns {JSX.Element} The rendered component.
  */
-const AddOrSwitchNetworkButton: FC<{ chainId: chains.Chain['id'] }> = ({ chainId }) => {
+const SwitchNetworkButton: FC<{ chainId: chains.Chain['id'] }> = ({ chainId }) => {
   const { chains: configuredChains, switchChain } = useSwitchChain()
   const { isWalletConnected, walletClient } = useWeb3Status()
 
@@ -53,4 +53,4 @@ const AddOrSwitchNetworkButton: FC<{ chainId: chains.Chain['id'] }> = ({ chainId
   )
 }
 
-export default AddOrSwitchNetworkButton
+export default SwitchNetworkButton

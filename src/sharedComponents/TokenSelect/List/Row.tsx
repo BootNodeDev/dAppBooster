@@ -96,7 +96,7 @@ const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIc
 `
 
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
-  allowAddToken?: boolean
+  showAddTokenButton?: boolean
   iconSize: number
   onClick: (token: Token) => void
   showBalance?: boolean
@@ -108,18 +108,18 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
  * @name Row
  * @description A row in the token select list.
  *
- * @param {boolean} allowAddToken - Whether to display an add token button.
  * @param {Token} token - The token to display.
  * @param {number} iconSize - The size of the token icon.
  * @param {(token: Token) => void} onClick - Callback function to be called when the row is clicked.
+ * @param {boolean} showAddTokenButton - Whether to display an add token button.
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance. Default is false.
  * @param {boolean} [showBalance=false] - Optional flag to inform the balances are being loaded. Default is false.
  */
 const Row: FC<Props> = ({
-  allowAddToken,
   iconSize,
   isLoadingBalances,
   onClick,
+  showAddTokenButton,
   showBalance,
   token,
   ...restProps
@@ -132,7 +132,7 @@ const Row: FC<Props> = ({
         <TokenLogo size={iconSize} token={token} />
       </Icon>
       <Name>{name}</Name>
-      {allowAddToken && <AddERC20TokenButton token={token} />}
+      {showAddTokenButton && <AddERC20TokenButton token={token} />}
       {showBalance && (
         <RightColumn>
           <TokenBalance isLoading={isLoadingBalances} token={token} />

@@ -35,12 +35,12 @@ export interface Props extends TokenSelectProps {
  * @param {number} [iconSize=24] - The size of the token icon. Default is 24.
  */
 const TokenDropdown: FC<Props> = ({
-  allowAddOrSwitchNetwork,
-  allowAddToken,
   className,
   currentToken,
   iconSize = 24,
   onTokenSelect,
+  showAddTokenButton,
+  showSwitchNetworkButton,
   ...restProps
 }: Props) => {
   const { Dropdown, close } = useDropdown()
@@ -75,9 +75,9 @@ const TokenDropdown: FC<Props> = ({
       id="token-dropdown"
       items={
         <TokenSelect
-          allowAddOrSwitchNetwork={allowAddOrSwitchNetwork}
-          allowAddToken={allowAddToken}
           onTokenSelect={handleTokenSelect}
+          showAddTokenButton={showAddTokenButton}
+          showSwitchNetworkButton={showSwitchNetworkButton}
           suspenseFallback={<Loading />}
           {...restProps}
         />
