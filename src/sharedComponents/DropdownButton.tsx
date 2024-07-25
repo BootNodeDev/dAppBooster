@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { ThemedButton } from 'db-ui-toolkit'
+import { Button } from 'db-ui-toolkit'
 
 const ChevronDown = () => (
   <svg
@@ -21,8 +21,8 @@ const ChevronDown = () => (
   </svg>
 )
 
-const DropdownButton = styled(ThemedButton).attrs(({ children }) => ({
-  $cssVarRoot: '--theme-dropdown-button',
+const DropdownButton = styled(Button).attrs(({ children }) => ({
+  $variant: 'dropdown',
   children: (
     <>
       {children} <ChevronDown />
@@ -36,7 +36,7 @@ const DropdownButton = styled(ThemedButton).attrs(({ children }) => ({
   padding-right: calc(var(--base-common-padding) * 3);
 
   .chevronDown {
-    transition: transform var(--base-animation-time-xs) ease-in-out;
+    transition: transform var(--base-transition-duration-xs) ease-in-out;
   }
 
   .isActive & {

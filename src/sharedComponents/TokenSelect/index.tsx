@@ -13,13 +13,14 @@ import { type Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 export type Networks = Array<{
+  icon: ReactElement
+  id: number
   label: string
   onClick: () => void
-  id: number
-  icon: ReactElement
 }>
 
 const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => ({ className }))`
+  --base-card-padding: calc(var(--base-common-padding) * 5) 0 calc(var(--base-common-padding) * 3);
   --base-token-select-horizontal-padding: var(--base-common-padding-xl, 16px);
   --theme-token-select-title-color-default: var(--theme-token-select-title-color, #2e3048);
 
@@ -28,7 +29,6 @@ const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => ({ 
   box-shadow: var(--theme-token-select-background-color, var(--theme-card-box-shadow));
   display: flex;
   flex-direction: column;
-  padding: calc(var(--base-common-padding) * 5) 0 calc(var(--base-common-padding) * 3);
   row-gap: calc(var(--base-gap) * 3);
   width: 540px;
 `

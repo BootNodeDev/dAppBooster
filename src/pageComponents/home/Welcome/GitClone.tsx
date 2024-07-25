@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 
-import { CopyButton } from 'db-ui-toolkit'
+import { Toast, CopyButton } from 'db-ui-toolkit'
+import { toast } from 'react-hot-toast'
 
 const CopyIcon = () => (
   <svg fill="none" height="16" viewBox="0 0 17 16" width="17" xmlns="http://www.w3.org/2000/svg">
@@ -35,7 +36,9 @@ const OkIcon = () => (
 )
 
 const Wrapper = styled.section`
-  --git-clone-background-color: #e2e0e7;
+  [data-theme='light'] & {
+    --git-clone-background-color: #e2e0e7;
+  }
 
   [data-theme='dark'] & {
     --git-clone-background-color: #292b43;
@@ -72,6 +75,12 @@ const GitClone = ({ ...restProps }) => {
   const cloneString = 'git clone git@github.com:BootNodeDev/db-ui-toolkit.git'
 
   const handleCopy = () => {
+    const timeDelay = 2500
+    toast.custom(<Toast>Copied to the clipboard!</Toast>, {
+      duration: timeDelay,
+      position: 'top-center',
+      id: 'copy-to-clipboard',
+    })
     setCopied(true)
     setTimeout(() => {
       setCopied(false)

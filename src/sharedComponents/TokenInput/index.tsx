@@ -1,7 +1,7 @@
 import { useMemo, useState, type FC } from 'react'
 import styled from 'styled-components'
 
-import { useDialog, Textfield, Spinner } from 'db-ui-toolkit'
+import { useDialog, Spinner } from 'db-ui-toolkit'
 import { formatUnits, getAddress } from 'viem'
 import { useAccount, useBalance } from 'wagmi'
 
@@ -12,11 +12,12 @@ import {
   Balance,
   BalanceValue,
   BottomRow,
+  DropdownButton,
   Error,
   EstimatedUSDValue,
   Icon,
   MaxButton,
-  SelectButton,
+  Textfield,
   Title,
   TopRow,
   Wrapper,
@@ -77,17 +78,14 @@ interface Props extends Omit<TokenSelectProps, 'onError'> {
  * * --base-token-input-texfield-height
  * * --base-token-input-texfield-font-size
  *
- * Select button:
- * * --theme-token-input-select-button-background-color
- * * --theme-token-input-select-button-background-color-hover
- * * --theme-token-input-select-button-border-color
- * * --theme-token-input-select-button-border-color-hover
- * * --theme-token-input-select-button-border-color-active
- * * --theme-token-input-select-button-color
- * * --theme-token-input-select-button-color-hover
- * * --theme-token-input-select-button-background-color-disabled
- * * --theme-token-input-select-button-border-color-disabled
- * * --theme-token-input-select-button-color-disabled
+ * Dropdown button:
+ * * --theme-token-input-dropdown-button-background-color
+ * * --theme-token-input-dropdown-button-background-color-hover
+ * * --theme-token-input-dropdown-button-border-color
+ * * --theme-token-input-dropdown-button-border-color-hover
+ * * --theme-token-input-dropdown-button-border-color-active
+ * * --theme-token-input-dropdown-button-color
+ * * --theme-token-input-dropdown-button-color-hover
  *
  * Max Button:
  * * --theme-token-input-max-button-background-color
@@ -97,9 +95,6 @@ interface Props extends Omit<TokenSelectProps, 'onError'> {
  * * --theme-token-input-max-button-border-color-active
  * * --theme-token-input-max-button-color
  * * --theme-token-input-max-button-color-hover
- * * --theme-token-input-max-button-background-color-disabled
- * * --theme-token-input-max-button-border-color-disabled
- * * --theme-token-input-max-button-color-disabled
  *
  * Estimated USD Value
  * * --theme-token-input-estimated-usd-color
@@ -178,12 +173,14 @@ const TokenInput: FC<Props> = ({
             onChange={handleSetAmount}
             onError={handleError}
             placeholder="0.00"
-            renderInput={(props) => (
-              <Textfield $status={amountError ? 'error' : undefined} {...props} />
+            // ref is throwing a type-compatibility error, but we don't need it anyways
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            renderInput={({ ref, ...restProps }) => (
+              <Textfield $status={amountError ? 'error' : undefined} {...restProps} />
             )}
             value={amount}
           />
-          <SelectButton onClick={showTokenSelect}>
+          <DropdownButton onClick={showTokenSelect}>
             {selectedToken ? (
               <>
                 <Icon $iconSize={selectIconSize}>
@@ -194,7 +191,7 @@ const TokenInput: FC<Props> = ({
             ) : (
               'Select'
             )}
-          </SelectButton>
+          </DropdownButton>
         </TopRow>
         <BottomRow>
           <EstimatedUSDValue>~$0.00</EstimatedUSDValue>
