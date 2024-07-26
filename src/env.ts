@@ -16,7 +16,11 @@ export const env = createEnv({
       .optional()
       .default('true'),
     PUBLIC_INFURA_KEY: z.string().optional(),
-    PUBLIC_NATIVE_TOKEN_ADDRESS: z.string().optional().default(zeroAddress),
+    PUBLIC_NATIVE_TOKEN_ADDRESS: z
+      .string()
+      .optional()
+      .default(zeroAddress)
+      .transform((value) => value.toLowerCase()),
     PUBLIC_RPC_ARBITRUM: z.string().optional(),
     PUBLIC_RPC_ARBITRUM_SEPOLIA: z.string().optional(),
     PUBLIC_RPC_BASE: z.string().optional(),

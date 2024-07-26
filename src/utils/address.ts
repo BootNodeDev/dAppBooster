@@ -7,5 +7,5 @@ import { env } from '@/src/env'
  * @returns True if the address is the native token address, false otherwise.
  */
 export const isNativeToken = (address: string) => {
-  return address === env.PUBLIC_NATIVE_TOKEN_ADDRESS
+  return address.toLowerCase() === env.PUBLIC_NATIVE_TOKEN_ADDRESS
 }
