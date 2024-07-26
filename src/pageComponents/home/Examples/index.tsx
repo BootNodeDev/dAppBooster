@@ -86,8 +86,8 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       demo: <AddTokensOrSwitchNetworkDemo />,
       href: '#',
       icon: <ImgWallet />,
-      text: 'Add a Token to the wallet or switch network',
-      title: 'Add Token or Switch Network',
+      text: 'Add a token to your wallet or switch network',
+      title: 'Add Token / Switch Network',
     },
     {
       demo: <HashDemo chain={mainnet} hash={address} />,
