@@ -29,6 +29,7 @@ const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => ({ 
   box-shadow: var(--theme-token-select-background-color, var(--theme-card-box-shadow));
   display: flex;
   flex-direction: column;
+  max-width: 100%;
   row-gap: calc(var(--base-gap) * 3);
   width: 540px;
 `
