@@ -6,17 +6,21 @@ import TokenBalance, { Balance, Value } from '@/src/sharedComponents/TokenSelect
 import AddERC20TokenButton from '@/src/sharedComponents/Web3Buttons/AddERC20TokenButton'
 import { type Token } from '@/src/types/token'
 
-const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
+const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => {
+  return { className }
+})`
   color: var(--theme-token-select-row-token-name-color-default);
   font-size: 1.8rem;
   font-weight: 500;
   line-height: 1.2;
 `
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex = 0 }) => ({
-  tabIndex,
-  className,
-}))`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex = 0 }) => {
+  return {
+    tabIndex,
+    className,
+  }
+})`
   --theme-token-select-row-background-color-default: var(
     --theme-token-select-row-background-color,
     transparent
@@ -83,9 +87,11 @@ const RightColumn = styled.div`
   margin-left: auto;
 `
 
-const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIcon' }) => ({
-  className,
-}))`
+const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIcon' }) => {
+  return {
+    className,
+  }
+})`
   align-items: center;
   border-radius: 50%;
   display: flex;
