@@ -4,10 +4,10 @@ import { Toast } from 'db-ui-toolkit'
 import { toast } from 'react-hot-toast'
 import { Address, Chain } from 'viem'
 
-import BaseHash from '@/src/sharedComponents/Hash'
+import Hash from '@/src/sharedComponents/Hash'
 import { getExplorerLink } from '@/src/utils/getExplorerLink'
 
-const Wrapper = styled(BaseHash)`
+const Wrapper = styled(Hash)`
   [data-theme='light'] & {
     --theme-hash-background-color: #fff;
     --theme-hash-border-color: #e2e0e7;
@@ -41,7 +41,7 @@ interface Props {
  * Some styles were added. Also we show a toast when the copy button is clicked
  * to let the user know that something has happened.
  */
-const Hash = ({ chain, hash }: Props) => {
+const HashDemo = ({ chain, hash }: Props) => {
   const onCopy = (message: string) => {
     const timeDelay = 2500
 
@@ -63,4 +63,4 @@ const Hash = ({ chain, hash }: Props) => {
   )
 }
 
-export default Hash
+export default HashDemo

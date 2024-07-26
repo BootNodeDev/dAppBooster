@@ -81,7 +81,7 @@ const EnsNameSearch = ({ address }: { address?: Address }) => {
   )
 }
 
-const EnsName = () => {
+const EnsNameDemo = () => {
   const [ensAddress, setEnsAddress] = useState<Address>()
   const [value, setValue] = useState<string | undefined>()
   const debounceTime = 500
@@ -113,4 +113,4 @@ const EnsName = () => {
   )
 }
 
-export default EnsName
+export default EnsNameDemo

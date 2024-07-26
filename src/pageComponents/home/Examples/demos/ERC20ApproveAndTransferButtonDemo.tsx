@@ -52,7 +52,7 @@ const ABIExample = [
   },
 ] as const
 
-export const ERC20ApproveAndTransferButtonDemo = withWalletStatusVerifier(
+const ERC20ApproveAndTransferButtonDemo = withWalletStatusVerifier(
   withSuspense(() => {
     const { address } = useWeb3StatusConnected()
     const { writeContractAsync } = useWriteContract()
@@ -108,3 +108,5 @@ export const ERC20ApproveAndTransferButtonDemo = withWalletStatusVerifier(
   }),
   { chainId: sepolia.id }, // this DEMO component only works on sepolia chain
 )
+
+export default ERC20ApproveAndTransferButtonDemo

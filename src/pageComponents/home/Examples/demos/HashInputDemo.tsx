@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Textfield as BaseTextfield, Spinner } from 'db-ui-toolkit'
 import { mainnet } from 'viem/chains'
 
-import BaseHashInput from '@/src/sharedComponents/HashInput'
+import HashInput from '@/src/sharedComponents/HashInput'
 import { DetectedHash } from '@/src/utils/hash'
 
 const AlertIcon = () => (
@@ -123,7 +123,7 @@ const StatusMessage = styled.div`
   z-index: 5;
 `
 
-const HashInput = ({ ...restProps }) => {
+const HashInputDemo = ({ ...restProps }) => {
   const [searchResult, setSearchResult] = useState<DetectedHash | null>(null)
   const [loading, setLoading] = useState<boolean | undefined>()
   const notFound = searchResult && searchResult.type === null
@@ -135,7 +135,7 @@ const HashInput = ({ ...restProps }) => {
 
   return (
     <Wrapper {...restProps}>
-      <BaseHashInput
+      <HashInput
         chain={mainnet}
         onLoading={onLoading}
         onSearch={setSearchResult}
@@ -162,4 +162,4 @@ const HashInput = ({ ...restProps }) => {
   )
 }
 
-export default HashInput
+export default HashInputDemo
