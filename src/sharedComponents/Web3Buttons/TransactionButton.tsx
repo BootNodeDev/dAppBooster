@@ -8,6 +8,7 @@ import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVer
 
 interface TransactionButtonProps {
   transaction: () => Promise<Hash>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onMined?: (receipt: TransactionReceipt) => any
   disabled?: boolean
   label?: string
