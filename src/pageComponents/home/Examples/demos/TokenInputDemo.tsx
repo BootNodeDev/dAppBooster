@@ -71,6 +71,7 @@ const TokenInputDemo = () => {
       onError={onError}
       onTokenSelect={onTokenSelect}
       showBalance={isWalletConnected}
+      showTopTokens
       title="You pay"
     />
   )
