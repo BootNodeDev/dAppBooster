@@ -3,9 +3,9 @@ import styled from 'styled-components'
 
 import { Button as BaseButton } from 'db-ui-toolkit'
 
-import { env } from '@/src/env'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { Token } from '@/src/types/token'
+import { isNativeToken } from '@/src/utils/address'
 
 const Button = styled(BaseButton)`
   border: none;
@@ -35,7 +35,7 @@ const Button = styled(BaseButton)`
 export const AddERC20TokenButton: FC<{ token: Token }> = ({ token }) => {
   const { isWalletConnected, walletChainId, walletClient } = useWeb3Status()
 
-  if (token.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS) {
+  if (isNativeToken(token.address)) {
     return null
   }
 
