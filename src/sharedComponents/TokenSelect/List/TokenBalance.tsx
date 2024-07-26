@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { formatUnits } from 'viem'
 
-import type { Token } from '@/src/types/token'
+import { type Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 export const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({

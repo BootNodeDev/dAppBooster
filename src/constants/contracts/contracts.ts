@@ -1,8 +1,8 @@
-import { ContractConfig } from '@wagmi/cli'
+import { type ContractConfig } from '@wagmi/cli'
 import { erc20Abi } from 'viem'
 
 import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
-import { ChainsIds, RequiredChainId } from '@/src/lib/networks.config'
+import { type ChainsIds, type RequiredChainId } from '@/src/lib/networks.config'
 
 /**
  * List of contracts to be used in the dapp.

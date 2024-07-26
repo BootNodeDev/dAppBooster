@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { Toast } from 'db-ui-toolkit'
 import { toast } from 'react-hot-toast'
-import { Address, Chain } from 'viem'
+import { type Address, type Chain } from 'viem'
 
 import Hash from '@/src/sharedComponents/Hash'
 import { getExplorerLink } from '@/src/utils/getExplorerLink'

@@ -1,4 +1,4 @@
-import { GetExplorerUrlParams, getExplorerLink } from '@/src/utils/getExplorerLink'
+import { type GetExplorerUrlParams, getExplorerLink } from '@/src/utils/getExplorerLink'
 
 interface ExplorerLinkProps extends GetExplorerUrlParams {
   text?: string

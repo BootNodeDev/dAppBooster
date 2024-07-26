@@ -15,7 +15,7 @@
  * The script generates a client for each subgraph and chain combination.
  */
 
-import { CodegenConfig } from '@graphql-codegen/cli'
+import { type CodegenConfig } from '@graphql-codegen/cli'
 import { loadEnv } from 'vite'
 
 // eslint-disable-next-line no-relative-import-paths/no-relative-import-paths

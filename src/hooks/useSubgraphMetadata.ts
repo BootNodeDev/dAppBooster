@@ -1,4 +1,4 @@
-import { useSuspenseQuery, UseSuspenseQueryOptions } from '@tanstack/react-query'
+import { useSuspenseQuery, type UseSuspenseQueryOptions } from '@tanstack/react-query'
 import request, { gql } from 'graphql-request'
 import { type Chain } from 'viem/chains'
 

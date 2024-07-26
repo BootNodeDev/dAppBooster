@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { type FC } from 'react'
 import styled from 'styled-components'
 
 import { Button as BaseButton } from 'db-ui-toolkit'

@@ -1,4 +1,4 @@
-import { ActionsConfig } from '@wagmi/cli/plugins'
+import { type ActionsConfig } from '@wagmi/cli/plugins'
 import { pascalCase } from 'change-case'
 
 /**

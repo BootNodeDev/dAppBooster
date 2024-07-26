@@ -1,4 +1,4 @@
-import { Address } from 'viem'
+import { type Address } from 'viem'
 import { normalize } from 'viem/ens'
 import { useEnsName, useEnsAvatar } from 'wagmi'
 

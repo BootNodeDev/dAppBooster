@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import { Button } from 'db-ui-toolkit'
-import { Hash, TransactionReceipt } from 'viem'
+import { type Hash, type TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
@@ -28,7 +28,7 @@ interface TransactionButtonProps {
  * @param {string} props.labelSending - The label for the button when the transaction is pending.
  * @param {number} props.confirmations - The number of confirmations to wait for the transaction.
  *
- * @returns {React.JSX} The transaction button component.
+ * @returns The transaction button component.
  */
 
 const TransactionButton = withWalletStatusVerifier(

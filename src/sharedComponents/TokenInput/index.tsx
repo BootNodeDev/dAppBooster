@@ -6,7 +6,7 @@ import { formatUnits, getAddress } from 'viem'
 import { useAccount, useBalance } from 'wagmi'
 
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
-import { BigNumberInput, type BigNumberInputProps } from '@/src/sharedComponents/BigNumberInput'
+import { type BigNumberInputProps, BigNumberInput } from '@/src/sharedComponents/BigNumberInput'
 import BaseCloseButton from '@/src/sharedComponents/TokenInput/CloseButton'
 import {
   Balance,

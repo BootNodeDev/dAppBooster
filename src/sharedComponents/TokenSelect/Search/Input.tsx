@@ -1,4 +1,4 @@
-import { type FC, InputHTMLAttributes } from 'react'
+import { type FC, type InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import { Textfield, TextfieldCSS } from 'db-ui-toolkit'

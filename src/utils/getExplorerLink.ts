@@ -1,4 +1,4 @@
-import { Address, Chain, Hash, isAddress, isHash } from 'viem'
+import { type Address, type Chain, type Hash, isAddress, isHash } from 'viem'
 
 export type GetExplorerUrlParams = {
   chain: Chain

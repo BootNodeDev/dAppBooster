@@ -1,7 +1,7 @@
 import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-import Item, { Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
+import Item, { type Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
 
 const Wrapper = styled.div`
   [data-theme='light'] & {
