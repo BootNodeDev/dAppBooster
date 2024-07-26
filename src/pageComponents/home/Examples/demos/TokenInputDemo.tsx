@@ -71,6 +71,7 @@ const TokenInputDemo = () => {
       onError={onError}
       onTokenSelect={onTokenSelect}
       showBalance={isWalletConnected}
+      showSwitchNetworkButton
       showTopTokens
       title="You pay"
     />

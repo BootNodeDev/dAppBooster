@@ -15,7 +15,6 @@ import ImgSubgraph from '@/src/pageComponents/home/Examples/assets/Subgraph'
 import ImgTokenInput from '@/src/pageComponents/home/Examples/assets/TokenInput'
 import ImgTokenList from '@/src/pageComponents/home/Examples/assets/TokenList'
 import ImgWallet from '@/src/pageComponents/home/Examples/assets/Wallet'
-import AddTokensOrSwitchNetworkDemo from '@/src/pageComponents/home/Examples/demos/AddTokensOrSwitchNetworkDemo'
 import AvatarDemo from '@/src/pageComponents/home/Examples/demos/AvatarDemo'
 import ERC20ApproveAndTransferButtonDemo from '@/src/pageComponents/home/Examples/demos/ERC20ApproveAndTransferButtonDemo'
 import EnsNameDemo from '@/src/pageComponents/home/Examples/demos/EnsNameDemo'
@@ -81,13 +80,6 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       icon: <ImgTokenInput />,
       text: 'Input with max, user balance, decimals',
       title: 'Token input',
-    },
-    {
-      demo: <AddTokensOrSwitchNetworkDemo />,
-      href: '#',
-      icon: <ImgWallet />,
-      text: 'Add a token to your wallet or switch network',
-      title: 'Add Token / Switch Network',
     },
     {
       demo: <HashDemo chain={mainnet} hash={address} />,
