@@ -1,3 +1,11 @@
+/**
+ * Truncates a string in the middle by replacing the characters between the specified start and end positions with an ellipsis.
+ *
+ * @param str - The string to truncate.
+ * @param strPositionStart - The starting position of the string to be replaced with an ellipsis.
+ * @param strPositionEnd - The ending position of the string to be replaced with an ellipsis.
+ * @returns The truncated string.
+ */
 export const truncateStringInTheMiddle = (
   str: string,
   strPositionStart: number,
