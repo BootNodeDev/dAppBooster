@@ -47,12 +47,12 @@ const List: FC<Props> = ({
   onTokenSelect,
   showAddTokenButton,
   showBalance,
-  style,
+  // style,
   tokenList,
   ...restProps
 }) => {
   return (
-    <Wrapper className={`${className ? className : ''}`.trim()} style={style}>
+    <Wrapper className={`${className ? className : ''}`.trim()}>
       <VirtualizedList<Token>
         containerHeight={containerHeight}
         itemHeight={itemHeight}
@@ -61,6 +61,7 @@ const List: FC<Props> = ({
           <Row
             iconSize={iconSize}
             isLoadingBalances={isLoadingBalances}
+            key={item.address}
             onClick={(token) => onTokenSelect(token)}
             showAddTokenButton={showAddTokenButton}
             showBalance={showBalance}
