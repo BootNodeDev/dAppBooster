@@ -3,24 +3,27 @@
  * version used: 4.2.1
  */
 
-// import React, { PropsWithChildren } from 'react'
+// import { type FC, type DetailedHTMLProps, type HTMLAttributes, type PropsWithChildren } from 'react'
 
 // import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi'
 
-// import { chains, transports } from '@/src/_lib/networks.config'
 // import { env } from '@/src/env'
 
-// export const WalletProvider: React.FC<PropsWithChildren> = ({ children }) => children
+// import { chains, transports } from '@/src/_lib/networks.config'
+
+// export const WalletProvider: FC<PropsWithChildren> = ({ children }) => children
 
 // declare global {
 //   // eslint-disable-next-line @typescript-eslint/no-namespace
 //   namespace JSX {
 //     interface IntrinsicElements {
-//       'w3m-button': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
+//       'w3m-button': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
 //     }
 //   }
 // }
-// export const ConnectWalletButton = ({ label = "Connect" }: { label?: string }) => <w3m-button label={label} />
+// export const ConnectWalletButton = ({ label = 'Connect' }: { label?: string }) => (
+//   <w3m-button label={label} />
+// )
 
 // // Required API Keys
 // const projectId = env.PUBLIC_WALLETCONNECT_PROJECT_ID

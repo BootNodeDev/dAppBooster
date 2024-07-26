@@ -1,4 +1,4 @@
-import { HTMLAttributes, FC } from 'react'
+import { type HTMLAttributes, type FC } from 'react'
 import styled from 'styled-components'
 
 import Row from '@/src/sharedComponents/TokenSelect/List/Row'

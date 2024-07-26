@@ -1,8 +1,8 @@
-import { Address, Chain } from 'viem'
+import { type Address, type Chain } from 'viem'
 import {
-  UseBalanceReturnType,
-  UsePublicClientReturnType,
-  UseWalletClientReturnType,
+  type UseBalanceReturnType,
+  type UsePublicClientReturnType,
+  type UseWalletClientReturnType,
   useAccount,
   useBalance,
   useChainId,
@@ -13,7 +13,7 @@ import {
 } from 'wagmi'
 
 import { chains, type ChainsIds } from '@/src/lib/networks.config'
-import { RequiredNonNull } from '@/src/types/utils'
+import { type RequiredNonNull } from '@/src/types/utils'
 
 export type AppWeb3Status = {
   readOnlyClient: UsePublicClientReturnType

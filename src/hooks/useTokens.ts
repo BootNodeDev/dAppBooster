@@ -15,7 +15,7 @@ import { type Address, formatUnits } from 'viem'
 import { env } from '@/src/env'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import type { Token, Tokens } from '@/src/types/token'
+import { type Token, type Tokens } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 import { type TokensMap } from '@/src/utils/tokenListsCache'
 

@@ -1,10 +1,10 @@
-import { ComponentType, FC, ReactElement } from 'react'
+import { type ComponentType, type FC, type ReactElement } from 'react'
 
 import { Button } from 'db-ui-toolkit'
 import { extractChain } from 'viem'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { chains, ChainsIds } from '@/src/lib/networks.config'
+import { chains, type ChainsIds } from '@/src/lib/networks.config'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 interface WalletStatusVerifierProps {

@@ -1,4 +1,4 @@
-import { ContractConfig, defineConfig } from '@wagmi/cli'
+import { type ContractConfig, defineConfig } from '@wagmi/cli'
 import { react } from '@wagmi/cli/plugins'
 
 import { contracts } from '@/src/constants/contracts/contracts'

@@ -1,10 +1,10 @@
-import { FC } from 'react'
+import { type FC } from 'react'
 import styled from 'styled-components'
 
 import { Button as BaseButton } from 'db-ui-toolkit'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { Token } from '@/src/types/token'
+import { type Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
 const Button = styled(BaseButton)`

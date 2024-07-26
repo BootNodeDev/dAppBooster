@@ -1,4 +1,12 @@
-import { ChangeEvent, FC, HTMLProps, ReactElement, useEffect, useRef, useState } from 'react'
+import {
+  type ChangeEvent,
+  type FC,
+  type HTMLProps,
+  type ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
 import { formatUnits, parseUnits, maxUint256 } from 'viem'
 

@@ -1,4 +1,4 @@
-import { Hash, TransactionReceipt, erc20Abi, parseEther } from 'viem'
+import { type Hash, type TransactionReceipt, erc20Abi, parseEther } from 'viem'
 import { sepolia } from 'viem/chains'
 import { useSendTransaction, useWriteContract } from 'wagmi'
 

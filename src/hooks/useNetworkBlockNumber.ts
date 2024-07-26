@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import { useSuspenseQuery, UseSuspenseQueryOptions } from '@tanstack/react-query'
+import { useSuspenseQuery, type UseSuspenseQueryOptions } from '@tanstack/react-query'
 import { createPublicClient, http } from 'viem'
 import { type Chain } from 'viem/chains'
 

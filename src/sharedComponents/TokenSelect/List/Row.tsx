@@ -1,4 +1,4 @@
-import { type FC, HTMLAttributes } from 'react'
+import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import TokenLogo from '@/src/sharedComponents/TokenLogo'

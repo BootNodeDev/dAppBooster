@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { type FC } from 'react'
 
 import { Button } from 'db-ui-toolkit'
 import { useSignMessage } from 'wagmi'

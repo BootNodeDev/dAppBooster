@@ -1,9 +1,9 @@
 import {
-  Dispatch,
-  SetStateAction,
+  type Dispatch,
+  type SetStateAction,
   useDeferredValue,
   useState,
-  DependencyList,
+  type DependencyList,
   useEffect,
 } from 'react'
 

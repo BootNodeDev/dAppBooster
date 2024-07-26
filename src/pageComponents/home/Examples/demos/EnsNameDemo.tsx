@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { Spinner, Textfield } from 'db-ui-toolkit'
 import { useDebouncedCallback } from 'use-debounce'
-import { Address } from 'viem'
+import { type Address } from 'viem'
 import { useEnsName } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 

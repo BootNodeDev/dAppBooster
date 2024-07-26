@@ -1,5 +1,5 @@
 import { ExternalLink } from 'db-ui-toolkit'
-import { Address, formatUnits } from 'viem'
+import { type Address, formatUnits } from 'viem'
 import { sepolia } from 'viem/chains'
 import { useWriteContract } from 'wagmi'
 
@@ -7,7 +7,7 @@ import { useSuspenseReadErc20BalanceOf } from '@/src/hooks/generated'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 import ERC20ApproveAndTransferButton from '@/src/sharedComponents/Web3Buttons/ERC20ApproveAndTransferButton'
-import { Token } from '@/src/types/token'
+import { type Token } from '@/src/types/token'
 import { formatNumberOrString, NumberType } from '@/src/utils/format'
 import { withSuspense } from '@/src/utils/suspenseWrapper'
 

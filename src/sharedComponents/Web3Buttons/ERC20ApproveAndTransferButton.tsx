@@ -1,10 +1,10 @@
-import { Address, TransactionReceipt, Hash, erc20Abi } from 'viem'
+import { type Address, type TransactionReceipt, type Hash, erc20Abi } from 'viem'
 import { useWriteContract } from 'wagmi'
 
 import { useSuspenseReadErc20Allowance } from '@/src/hooks/generated'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import TransactionButton from '@/src/sharedComponents/Web3Buttons/TransactionButton'
-import { Token } from '@/src/types/token'
+import { type Token } from '@/src/types/token'
 
 interface ERC20ApproveAndTransferButtonProps {
   token: Token

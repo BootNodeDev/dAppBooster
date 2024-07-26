@@ -1,4 +1,4 @@
-import { Address, erc20Abi, getAddress } from 'viem'
+import { type Address, erc20Abi, getAddress } from 'viem'
 import { useReadContract } from 'wagmi'
 
 import { type Token } from '@/src/types/token'

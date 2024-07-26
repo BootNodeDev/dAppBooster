@@ -1,7 +1,7 @@
 import { type FC, type ReactNode } from 'react'
 
-import { getDefaultConfig, ConnectKitProvider, ConnectKitButton, Types } from 'connectkit'
-import { Address } from 'viem'
+import { getDefaultConfig, ConnectKitProvider, ConnectKitButton, type Types } from 'connectkit'
+import { type Address } from 'viem'
 import { normalize } from 'viem/ens'
 import { createConfig, useEnsName, useEnsAvatar } from 'wagmi'
 
