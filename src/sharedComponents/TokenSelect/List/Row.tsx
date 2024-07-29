@@ -1,6 +1,7 @@
 import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
+import { SecondaryButton } from '@/src/sharedComponents/Buttons'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import TokenBalance, { Balance, Value } from '@/src/sharedComponents/TokenSelect/List/TokenBalance'
 import AddERC20TokenButton from '@/src/sharedComponents/Web3Buttons/AddERC20TokenButton'
@@ -101,12 +102,18 @@ const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIc
   width: ${({ size }) => size}px;
 `
 
+const Button = styled(SecondaryButton)`
+  font-size: 1.1rem;
+  height: 21px;
+  padding: 0 var(--base-common-padding);
+`
+
 interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
-  showAddTokenButton?: boolean
   iconSize: number
-  onClick: (token: Token) => void
-  showBalance?: boolean
   isLoadingBalances?: boolean
+  onClick: (token: Token) => void
+  showAddTokenButton?: boolean
+  showBalance?: boolean
   token: Token
 }
 
@@ -138,7 +145,11 @@ const Row: FC<Props> = ({
         <TokenLogo size={iconSize} token={token} />
       </Icon>
       <Name>{name}</Name>
-      {showAddTokenButton && <AddERC20TokenButton token={token} />}
+      {showAddTokenButton && (
+        <AddERC20TokenButton $token={token} as={Button}>
+          Add token
+        </AddERC20TokenButton>
+      )}
       {showBalance && (
         <RightColumn>
           <TokenBalance isLoading={isLoadingBalances} token={token} />

@@ -29,6 +29,7 @@ import BaseTokenSelect, {
 } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
+
 const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
 `
@@ -113,6 +114,7 @@ const TokenInput: FC<Props> = ({
   onError,
   onTokenSelect,
   placeholder,
+  showAddTokenButton,
   showBalance,
   showSwitchNetworkButton,
   showTopTokens,
@@ -221,6 +223,7 @@ const TokenInput: FC<Props> = ({
           networks={networks}
           onTokenSelect={handleSelectedToken}
           placeholder={placeholder}
+          showAddTokenButton
           showBalance={showBalance}
           showSwitchNetworkButton
           showTopTokens={showTopTokens}

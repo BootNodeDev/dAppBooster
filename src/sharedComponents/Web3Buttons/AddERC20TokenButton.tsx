@@ -1,65 +1,53 @@
-import { type FC } from 'react'
+import { type ElementType, type FC, type MouseEventHandler, ComponentProps } from 'react'
 import styled from 'styled-components'
-
-import { Button as BaseButton } from 'db-ui-toolkit'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { type Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
-const Button = styled(BaseButton)`
-  border: none;
-  border-radius: 50%;
-  font-size: 1.6em;
-  height: 32px;
-  width: 32px;
+const Wrapper = styled.button``
 
-  /** it works on my machine */
-  padding-bottom: 0.1em;
+type WrapperType = ComponentProps<'button'>
 
-  &:hover {
-    background-color: var(--theme-copy-button-color-hover);
-    color: var(--theme-button-secondary-color-hover);
-  }
-`
+interface Props extends WrapperType {
+  $token: Token
+  as?: ElementType
+}
 
 /**
  * @name AddERC20TokenButton
- * @description Renders a button to add an ERC20 token to the wallet.
+ * @description Renders a button that adds an ERC20 token to the wallet.
  *
  * @component
  * @param {Object} props - The component props.
- * @param {Token} props.token - The ERC20 token object.
+ * @param {Token} props.$token - The ERC20 token object.
  * @returns {JSX.Element} The rendered AddERC20TokenButton component.
  */
-export const AddERC20TokenButton: FC<{ token: Token }> = ({ token }) => {
+const AddERC20TokenButton: FC<Props> = ({ $token, children, onClick, ...restProps }) => {
   const { isWalletConnected, walletChainId, walletClient } = useWeb3Status()
+  const { address, chainId, decimals, logoURI, symbol } = $token
+  const disabled = !isWalletConnected || walletChainId !== chainId
 
-  if (isNativeToken(token.address)) {
-    return null
+  const handleClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.stopPropagation()
+
+    walletClient?.watchAsset({
+      options: {
+        address: address,
+        decimals: decimals,
+        image: logoURI,
+        symbol: symbol,
+      },
+      type: 'ERC20',
+    })
+
+    onClick?.(e)
   }
 
-  const disabled = !isWalletConnected || walletChainId !== token.chainId
-
-  return (
-    <Button
-      disabled={disabled}
-      onClick={(e) => {
-        e.stopPropagation()
-
-        walletClient?.watchAsset({
-          options: {
-            address: token.address,
-            decimals: token.decimals,
-            symbol: token.symbol,
-            image: token.logoURI,
-          },
-          type: 'ERC20',
-        })
-      }}
-    >
-      &oplus;
-    </Button>
+  return isNativeToken(address) ? null : (
+    <Wrapper disabled={disabled} onClick={handleClick} type="button" {...restProps}>
+      {children}
+    </Wrapper>
   )
 }
 

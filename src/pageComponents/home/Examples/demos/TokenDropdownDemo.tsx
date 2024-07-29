@@ -10,14 +10,7 @@ const TokenDropdownDemo: FC = ({ ...restProps }) => {
     setCurrentToken(token)
   }
 
-  return (
-    <TokenDropdown
-      currentToken={currentToken}
-      onTokenSelect={onTokenSelect}
-      showAddTokenButton
-      {...restProps}
-    />
-  )
+  return <TokenDropdown currentToken={currentToken} onTokenSelect={onTokenSelect} {...restProps} />
 }
 
 export default TokenDropdownDemo
