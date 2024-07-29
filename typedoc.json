@@ -1,0 +1,16 @@
+{
+  "plugin": ["typedoc-plugin-markdown"],
+  "entryPoints": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "./src/pageComponents/**/*",
+    "./src/styles/**/*",
+    "./src/subgraphs/gql/**/*",
+    "./src/hooks/generated.ts"
+  ],
+  "excludeNotDocumented": true,
+  "categorizeByGroup": true,
+  "groupOrder": ["Classes", "Interfaces", "Type aliases", "Enumerations", "Variables", "Functions"],
+  "out": "./docs"
+}
