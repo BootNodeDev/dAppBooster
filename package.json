@@ -4,24 +4,23 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev:watch": "routes:watch & vite",
-    "docs:typedoc": "typedoc",
-    "docs:doxdox": "doxdox 'src/utils/**/*.ts' --renderer markdown --output DOCUMENTATION.md",
     "build": "tsc --noEmit && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "dev:watch": "routes:watch & vite",
+    "dev": "vite",
+    "generateDocs": "typedoc",
     "lint:fix": "eslint --fix .",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "postinstall": "pnpm wagmi-generate && pnpm subgraph-codegen",
+    "prepare": "husky",
     "prettier:fix": "prettier --write --ignore-unknown .",
     "preview": "vite preview",
     "routes:generate": "tsr generate",
     "routes:watch": "tsr watch",
-    "prepare": "husky",
-    "test": "vitest run",
+    "subgraph-codegen": "graphql-codegen --config ./src/subgraphs/codegen.ts",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "wagmi-generate": "wagmi generate --config src/lib/wagmi/config.ts",
-    "subgraph-codegen": "graphql-codegen --config ./src/subgraphs/codegen.ts",
-    "postinstall": "pnpm wagmi-generate && pnpm subgraph-codegen"
+    "test": "vitest run",
+    "wagmi-generate": "wagmi generate --config src/lib/wagmi/config.ts"
   },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": [
