@@ -13,9 +13,9 @@ export type Erc20Balance = {
 /**
  * Custom hook to fetch the ERC20 token balance for a given Token address.
  *
- * @param {Object} arguments - The arguments object.
- * @param {Address} arguments.address - The address for which to fetch the balance.
- * @param {Token} arguments.token - The ERC20 token object.
+ * @param {Object} params - The params object.
+ * @param {Address} params.address - The address for which to fetch the balance.
+ * @param {Token} params.token - The ERC20 token object.
  * @returns {Erc20Balance} The ERC20 token balance, error, and loading state.
  */
 export const useErc20Balance = ({
