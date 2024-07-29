@@ -83,7 +83,6 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
   onTokenSelect: (token: Token | undefined) => void
   placeholder?: string
   showAddTokenButton?: boolean
-  showSwitchNetworkButton?: boolean
   showTopTokens?: boolean
   showBalance?: boolean
 }
@@ -101,7 +100,6 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {number} [itemHeight=64] - Optional height of each item in the list. Default is 64.
  * @param {boolean} [showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
  * @param {boolean} [showBalance=false] - Optional flag to show the token balance in the list. Default is false.
- * @param {boolean} [showSwitchNetworkButton=false] - Optional flag to allow adding or switching networks. Default is false.
  * @param {boolean} [showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  *
  * Individual CSS classes are available for deep styling of individual components within TokenSelect:
@@ -166,7 +164,6 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     placeholder = 'Search by name or address',
     showAddTokenButton = false,
     showBalance = false,
-    showSwitchNetworkButton = false,
     showTopTokens = false,
     ...restProps
   }) => {
@@ -188,7 +185,6 @@ const TokenSelect = withSuspenseAndRetry<Props>(
           placeholder={placeholder}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          showSwitchNetworkButton={showSwitchNetworkButton}
         />
         {showTopTokens && (
           <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[currentNetworkId]} />

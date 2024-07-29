@@ -116,7 +116,6 @@ const TokenInput: FC<Props> = ({
   placeholder,
   showAddTokenButton,
   showBalance,
-  showSwitchNetworkButton,
   showTopTokens,
   title,
   ...restProps
@@ -223,9 +222,8 @@ const TokenInput: FC<Props> = ({
           networks={networks}
           onTokenSelect={handleSelectedToken}
           placeholder={placeholder}
-          showAddTokenButton
+          showAddTokenButton={showAddTokenButton}
           showBalance={showBalance}
-          showSwitchNetworkButton
           showTopTokens={showTopTokens}
           suspenseFallback={<Loading />}
         >
