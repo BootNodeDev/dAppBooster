@@ -5,14 +5,13 @@ import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
 import { type ChainsIds, type RequiredChainId } from '@/src/lib/networks.config'
 
 /**
- * List of contracts to be used in the dapp.
- * Typed contract config using the ChainIds and RequiredChainId types.
- * RequiredChainId is the first chain in the chains array configured in networks.config.ts
- * only requiredChainId is required to be present in the address object. You can also add other availables chain IDs.
+ * A collection of contracts to be used in the dapp with their ABI and addresses per chain.
  *
- * @returns An array of contract configurations.
+ * @dev The data required to configure this variable is:
+ *  - `RequiredChainId` is mandatory in the address object.
+ *  - IDs defined `ChainIds` can be added as well if necessary.
  */
-export const contracts: ContractConfig<ChainsIds, RequiredChainId>[] = [
+export const contracts: Array<ContractConfig<ChainsIds, RequiredChainId>> = [
   {
     abi: erc20Abi,
     name: 'ERC20',
