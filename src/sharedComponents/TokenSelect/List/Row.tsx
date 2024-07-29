@@ -1,10 +1,10 @@
 import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
+import AddERC20TokenButton from '@/src/sharedComponents/AddERC20TokenButton'
 import { SecondaryButton } from '@/src/sharedComponents/Buttons'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import TokenBalance, { Balance, Value } from '@/src/sharedComponents/TokenSelect/List/TokenBalance'
-import AddERC20TokenButton from '@/src/sharedComponents/Web3Buttons/AddERC20TokenButton'
 import { type Token } from '@/src/types/token'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => {

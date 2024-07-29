@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 
-import { Button } from 'db-ui-toolkit'
 import { type Hash, type TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
+import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 
 interface TransactionButtonProps {
@@ -77,11 +77,7 @@ const TransactionButton = withWalletStatusVerifier(
       onClick: handleSendTransaction,
     }
 
-    return (
-      <Button $variant="primary" {...inputProps}>
-        {isPending ? labelSending : label}
-      </Button>
-    )
+    return <PrimaryButton {...inputProps}>{isPending ? labelSending : label}</PrimaryButton>
   },
 )
 
