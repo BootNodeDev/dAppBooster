@@ -26,8 +26,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * @name List
- * @description List component for TokenSelect. Displays a list of tokens.
+ * List component for TokenSelect. Displays a list of tokens.
  *
  * @param {number} containerHeight - The height of the virtualized list container.
  * @param {number} iconSize - The size of the token icon for each item in the list.

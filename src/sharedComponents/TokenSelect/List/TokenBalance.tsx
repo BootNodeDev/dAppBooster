@@ -37,7 +37,7 @@ const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ c
  * @returns {JSX.Element} The rendered token balance component.
  * @throws {Promise} If the token balance is still loading or if the token does not have balance information.
  *
- * @component
+ *
  * @example
  * ```tsx
  * <TokenBalance isLoading={false} token={token} />

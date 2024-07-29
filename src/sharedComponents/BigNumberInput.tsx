@@ -24,10 +24,9 @@ export type BigNumberInputProps = {
 }
 
 /**
- * @name BigNumberInput
- * @description Renders a component for inputting a big number value.
+ * Renders a component for inputting a big number value.
  *
- * @component
+ *
  * @param {Object} props - The component props.
  * @param {boolean} [props.autofocus] - Determines whether the input should be automatically focused.
  * @param {number} [props.decimals] - The number of decimal places for the input value.

@@ -81,8 +81,7 @@ const SearchInput = styled(Textfield).attrs({ type: 'search' })`
 `
 
 /**
- * @name Input
- * @description A search input with a search icon
+ * A search input with a search icon
  */
 const Input: FC<InputHTMLAttributes<HTMLInputElement>> = ({ className, ...inputProps }) => {
   return (

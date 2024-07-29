@@ -25,7 +25,7 @@ interface SignButtonProps {
  * @param {string} [label='Sign Message'] - The label for the button
  * @param {string} [labelSigning='Signing...'] - The label for the button when the message is signing
  *
- * @component
+ *
  * @example
  * ```tsx
  * <SignButton

@@ -89,8 +89,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 /**
- * @name Item
- * @description A single token item in the top tokens list
+ * A single token item in the top tokens list
  *
  * @param {Token} token - The token to display
  */

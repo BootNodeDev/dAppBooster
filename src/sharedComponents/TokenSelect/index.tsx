@@ -80,8 +80,7 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * @name TokenSelect
- * @description TokenSelect component, used to search and select a token from a list.
+ * TokenSelect component, used to search and select a token from a list.
  *
  * @param {number} [currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
  * @param {function} onTokenSelect - Callback function to be called when a token is selected.

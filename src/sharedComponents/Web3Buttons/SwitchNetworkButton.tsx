@@ -23,10 +23,9 @@ const Button = styled(BaseButton)`
 `
 
 /**
- * @name SwitchNetworkButton
- * @description Button component for adding or switching a network.
+ * Button component for adding or switching a network.
  *
- * @component
+ *
  * @param {object} props - The component props.
  * @param {string} props.chainId - The ID of the chain.
  * @returns {JSX.Element} The rendered component.

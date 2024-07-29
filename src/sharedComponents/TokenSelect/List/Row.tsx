@@ -105,8 +105,7 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
 }
 
 /**
- * @name Row
- * @description A row in the token select list.
+ * A row in the token select list.
  *
  * @param {Token} token - The token to display.
  * @param {number} iconSize - The size of the token icon.

@@ -27,8 +27,7 @@ export interface Props extends TokenSelectProps {
 }
 
 /**
- * @name TokenDropdown
- * @description A dropdown component that allows users to select a token
+ * A dropdown component that allows users to select a token
  *
  * @extends TokenSelectProps
  * @param {Token} [currentToken=undefined] - The current token. Default is undefined.

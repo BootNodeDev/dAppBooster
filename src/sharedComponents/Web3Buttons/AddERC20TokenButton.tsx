@@ -24,10 +24,9 @@ const Button = styled(BaseButton)`
 `
 
 /**
- * @name AddERC20TokenButton
- * @description Renders a button to add an ERC20 token to the wallet.
+ * Renders a button to add an ERC20 token to the wallet.
  *
- * @component
+ *
  * @param {Object} props - The component props.
  * @param {Token} props.token - The ERC20 token object.
  * @returns {JSX.Element} The rendered AddERC20TokenButton component.

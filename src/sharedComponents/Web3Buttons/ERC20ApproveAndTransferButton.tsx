@@ -21,7 +21,7 @@ interface ERC20ApproveAndTransferButtonProps {
  * After the approval, the transaction button will be rendered.
  * Use with <Suspense> to add an skeleton loader while fetching the allowance.
  *
- * @component
+ *
  * @param {Token} props.token - The token to be approved.
  * @param {Address} props.spender - The address of the spender to be approved.
  * @param {bigint} props.amount - The amount of tokens to approve (or send).

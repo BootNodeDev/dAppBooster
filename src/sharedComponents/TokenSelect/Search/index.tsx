@@ -35,8 +35,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * @name Search
- * @description Search component for TokenSelect. Includes a search input and a networks dropdown.
+ * Search component for TokenSelect. Includes a search input and a networks dropdown.
  *
  * @param {number} currentNetworkId - The current network id.
  * @param {Networks} networks - Optional list of networks to display in the dropdown.
