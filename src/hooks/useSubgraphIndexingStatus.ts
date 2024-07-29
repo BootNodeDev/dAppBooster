@@ -7,9 +7,9 @@ import { useSubgraphMetadata } from '@/src/hooks/useSubgraphMetadata'
  * Custom hook to get the indexing status of a subgraph.
  * Uses the network block number to determine if the subgraph is synced.
  *
- * @param {Object} options - The options object.
- * @param {Chain} options.chain - The chain object.
- * @param {string} options.resource - The resource string.
+ * @param {Object} arguments - The arguments object.
+ * @param {Chain} arguments.chain - The chain object.
+ * @param {string} arguments.resource - The resource string. To understand the format, see `parseResourceIds` in `src/subgraphs/utils/schemas.ts`.
  * @returns {Object} - The indexing status object.
  */
 export const useSubgraphIndexingStatus = ({
