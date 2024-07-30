@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { formatNumber, formatUSDPrice, NumberType } from '@/src/utils/format'
+import { formatNumber, formatUSDPrice, NumberType } from '@/src/utils/numberFormat'
 
 it('formats token reference numbers correctly', () => {
   expect(formatNumber(1234567000000000, NumberType.TokenNonTx)).toBe('>999T')

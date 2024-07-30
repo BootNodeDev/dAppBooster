@@ -20,8 +20,7 @@ const ChevronDown = () => (
 )
 
 /**
- * @name NetworkButton
- * @description A button to select a network from a dropdown
+ * A button to select a network from a dropdown
  */
 const NetworkButton = styled.button.attrs(
   ({ children, className = 'tokenSelectNetworkButton' }) => {

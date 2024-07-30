@@ -29,16 +29,20 @@ interface HashInputProps extends InputHTMLAttributes<HTMLInputElement> {
  * transaction hash, or ENS name. It detects the type of input and displays the relevant
  * information based on the detection results.
  *
- * @example
- * const chain = mainnet;
- * return <HashInput chain={chain} onSearch={(result) => console.log(result)} />;
- *
  * @param {Object} props - Component props
  * @param {Chain} props.chain - The chain to use for detection (use chains from viem)
  * @param {string} [props.value] - Optional value for controlled input
  * @param {number} [props.debounceTime=500] - Optional debounce time for search
  * @param {Function} [props.renderInput] - Optional render function for custom input component
  * @param {Function} [props.onSearch] - Callback function to handle search results
+ *
+ * @example
+ * ```tsx
+ * <HashInput
+ *    chain={mainnet}
+ *    onSearch={(result) => console.log(result)}
+ * />
+ * ```
  */
 
 const HashInput: FC<HashInputProps> = ({

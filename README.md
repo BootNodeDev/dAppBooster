@@ -76,19 +76,19 @@ export const env = createEnv({
 
 Official docs: [getting started](https://docs.family.co/connectkit/getting-started#getting-started)
 <br>
-Setup file: [`connectkit.config.ts`](src/_lib/wallets/connectkit.config.ts)
+Setup file: [`connectkit.config.tsx`](src/lib/wallets/connectkit.config.tsx)
 
 #### Rainbowkit
 
 Official docs: [installation](https://www.rainbowkit.com/docs/installation)
 <br>
-Setup file: [`rainbowkit.config.ts`](src/_lib/wallets/rainbowkit.config.ts)
+Setup file: [`rainbowkit.config.tsx`](src/lib/wallets/rainbowkit.config.tsx)
 
 #### Web3modal
 
 Official docs: [implementation](https://docs.walletconnect.com/web3modal/react/about#implementation)
 <br>
-Setup file: [`web3modal.config.tsx`](src/_lib/wallets/web3modal.config.tsx)
+Setup file: [`web3modal.config.tsx`](src/lib/wallets/web3modal.config.tsx)
 
 ## Number Formatting
 

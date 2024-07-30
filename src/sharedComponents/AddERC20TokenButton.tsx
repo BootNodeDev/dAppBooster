@@ -9,21 +9,23 @@ const Wrapper = styled.button``
 
 type WrapperType = ComponentProps<'button'>
 
-interface Props extends WrapperType {
+interface AddERC20TokenButtonProps extends WrapperType {
   $token: Token
   as?: ElementType
 }
 
 /**
- * @name AddERC20TokenButton
- * @description Renders a button that adds an ERC20 token to the wallet.
+ * Renders a button that adds an ERC20 token to the wallet.
  *
- * @component
- * @param {Object} props - The component props.
+ * @param {AddERC20TokenButtonProps} props - AddERC20TokenButton component props.
  * @param {Token} props.$token - The ERC20 token object.
- * @returns {JSX.Element} The rendered AddERC20TokenButton component.
  */
-const AddERC20TokenButton: FC<Props> = ({ $token, children, onClick, ...restProps }) => {
+const AddERC20TokenButton: FC<AddERC20TokenButtonProps> = ({
+  $token,
+  children,
+  onClick,
+  ...restProps
+}) => {
   const { isWalletConnected, walletChainId, walletClient } = useWeb3Status()
   const { address, chainId, decimals, logoURI, symbol } = $token
   const disabled = !isWalletConnected || walletChainId !== chainId

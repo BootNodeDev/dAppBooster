@@ -1,5 +1,3 @@
-import { type FC } from 'react'
-
 import { useSignMessage } from 'wagmi'
 
 import { PrimaryButton } from '@/src/sharedComponents/Buttons'
@@ -17,15 +15,14 @@ interface SignButtonProps {
 /**
  * SignButton component that allows users to sign a message.
  *
+ * @param {SignButtonProps} props - SignButton component props.
+ * @param {string} props.message - The message to sign
+ * @param {boolean} [props.disabled] - The flag to disable the button
+ * @param {Function} [props.onSign] - The callback function to be called when the message is signed
+ * @param {Function} [props.onError] - The callback function to be called when an error occurs
+ * @param {string} [props.label='Sign Message'] - The label for the button
+ * @param {string} [props.labelSigning='Signing...'] - The label for the button when the message is signing
  *
- * @param {string} message - The message to sign
- * @param {boolean} [disabled] - The flag to disable the button
- * @param {Function} [onSign] - The callback function to be called when the message is signed
- * @param {Function} [onError] - The callback function to be called when an error occurs
- * @param {string} [label='Sign Message'] - The label for the button
- * @param {string} [labelSigning='Signing...'] - The label for the button when the message is signing
- *
- * @component
  * @example
  * ```tsx
  * <SignButton
@@ -35,7 +32,7 @@ interface SignButtonProps {
  * />
  * ```
  */
-const SignButton: FC<SignButtonProps> = withWalletStatusVerifier(
+const SignButton = withWalletStatusVerifier<SignButtonProps>(
   ({
     disabled,
     label = 'Sign Message',

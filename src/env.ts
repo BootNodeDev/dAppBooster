@@ -8,6 +8,12 @@ const zBoolean = z
   .optional()
   .default('true')
 
+/**
+ * Represents the environment configuration object.
+ *
+ * @dev zod-checked and typed environment variables.
+ *  Here you should define all the environment variables that your application uses.
+ */
 export const env = createEnv({
   clientPrefix: 'PUBLIC_',
   client: {

@@ -80,17 +80,17 @@ const ListItem = styled(BaseItem)`
   width: 250px;
 `
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface SwitchNetworkProps extends HTMLAttributes<HTMLDivElement> {
   networks: Networks
 }
 
 /**
- * @name Switch Network
- * @description Switch network component.
+ * SwitchNetwork component.
  *
- * @param {Networks} networks - List of networks to display in the dropdown.
+ * @param {SwitchNetworkProps} props - SwitchNetwork component props.
+ * @param {Networks} props.networks - List of networks to display in the dropdown.
  */
-const Search: FC<Props> = ({ networks, ...restProps }) => {
+const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks, ...restProps }) => {
   const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
 
   const { chains: configuredChains, switchChain } = useSwitchChain()
@@ -142,4 +142,4 @@ const Search: FC<Props> = ({ networks, ...restProps }) => {
   )
 }
 
-export default Search
+export default SwitchNetwork

@@ -8,7 +8,7 @@ import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import ERC20ApproveAndTransferButton from '@/src/sharedComponents/ERC20ApproveAndTransferButton'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 import { type Token } from '@/src/types/token'
-import { formatNumberOrString, NumberType } from '@/src/utils/format'
+import { formatNumberOrString, NumberType } from '@/src/utils/numberFormat'
 import { withSuspense } from '@/src/utils/suspenseWrapper'
 
 // USDC token on sepolia chain

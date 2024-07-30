@@ -1,20 +1,3 @@
-/**
- * This is a codegen script that generates GraphQL clients for each subgraph.
- *
- * It uses the `@graphql-codegen/cli` package to generate the clients.
- * The generated clients are placed in the `src/subgraphs/gql` directory.
- * The script reads the subgraph configurations from the environment variables.
- *
- * The environment variables are:
- * - `PUBLIC_SUBGRAPHS_API_KEY`: The API key for the subgraphs.
- * - `PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS`: The resource IDs for the subgraphs.
- * - `PUBLIC_SUBGRAPHS_DEVELOPMENT_URL`: The development URL for the subgraphs.
- * - `PUBLIC_SUBGRAPHS_PRODUCTION_URL`: The production URL for the subgraphs.
- * - `PUBLIC_SUBGRAPHS_ENVIRONMENT`: The environment for the subgraphs (development or production).
- *
- * The script generates a client for each subgraph and chain combination.
- */
-
 import { type CodegenConfig } from '@graphql-codegen/cli'
 import { loadEnv } from 'vite'
 
@@ -84,6 +67,24 @@ const buildConfig = (): CodegenConfig => {
   return config
 }
 
+/**
+ * This is a codegen script that generates GraphQL clients for each subgraph.
+ *
+ * It uses the `@graphql-codegen/cli` package to generate the clients.
+ * The generated clients are placed in the `src/subgraphs/gql` directory.
+ * The script reads the subgraph configurations from the environment variables.
+ *
+ * The environment variables are:
+ * - `PUBLIC_SUBGRAPHS_API_KEY`: The API key for the subgraphs.
+ * - `PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS`: The resource IDs for the subgraphs.
+ * - `PUBLIC_SUBGRAPHS_DEVELOPMENT_URL`: The development URL for the subgraphs.
+ * - `PUBLIC_SUBGRAPHS_PRODUCTION_URL`: The production URL for the subgraphs.
+ * - `PUBLIC_SUBGRAPHS_ENVIRONMENT`: The environment for the subgraphs (development or production).
+ *
+ * The script generates a client for each subgraph and chain combination.
+ *
+ * @source
+ */
 const config = buildConfig()
 
 export default config

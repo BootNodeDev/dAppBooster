@@ -21,18 +21,20 @@ import { type TokensMap } from '@/src/utils/tokenListsCache'
 
 const BALANCE_EXPIRATION_TIME = 32_000
 
+/** @ignore */
 export const lifiConfig = createConfig({
   integrator: env.PUBLIC_APP_NAME,
   providers: [EVM()],
 })
 
 /**
- * Custom hook for fetching and managing tokens data.
+ * Custom hook for fetching and managing tokens data. It fetches tokens data and optionally token balances.
  *
- * @param options - Options for fetching tokens data.
- * @param options.account - The account address for which to fetch token balances. If not specified,
+ * @param {Object} params - Params for fetching tokens data.
+ * @param {Address} params.account - The account address for which to fetch token balances. If not specified,
  *  the connected account will be used.
- * @param options.withBalance - Whether to fetch token balances or not. Defaults to true.
+ * @param {boolean} params.withBalance - Whether to fetch token balances or not. Defaults to true.
+ *
  * @returns An object containing tokens data and loading state.
  */
 export const useTokens = (
@@ -87,10 +89,7 @@ export const useTokens = (
  * @param results - The results containing the balance tokens and prices.
  * @returns An object containing the updated tokens and tokens grouped by chain ID.
  */
-export function udpateTokensBalances(
-  tokens: Tokens,
-  results: [Array<TokenAmount>, TokensResponse],
-) {
+function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, TokensResponse]) {
   const [balanceTokens, prices] = results
 
   logger.time('extending tokens with balance info')
