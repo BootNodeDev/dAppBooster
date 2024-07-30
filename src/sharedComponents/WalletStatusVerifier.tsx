@@ -1,16 +1,25 @@
 import { type ComponentType, type FC, type ReactElement } from 'react'
+import styled from 'styled-components'
 
-import { Button } from 'db-ui-toolkit'
 import { extractChain } from 'viem'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { chains, type ChainsIds } from '@/src/lib/networks.config'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 
-interface WalletStatusVerifierProps {
+const Button = styled(PrimaryButton)`
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: 48px;
+  padding-left: calc(var(--base-common-padding) * 3);
+  padding-right: calc(var(--base-common-padding) * 3);
+`
+
+interface Props {
   chainId?: ChainsIds
-  fallback?: ReactElement
   children?: ReactElement
+  fallback?: ReactElement
   labelSwitchChain?: string
 }
 
@@ -33,7 +42,7 @@ interface WalletStatusVerifierProps {
  * </WalletStatusVerifier>
  * ```
  */
-const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
+const WalletStatusVerifier: FC<Props> = ({
   chainId,
   children,
   fallback = <ConnectWalletButton />,
@@ -73,11 +82,7 @@ const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
  */
 const withWalletStatusVerifier = <P extends object>(
   WrappedComponent: ComponentType<P>,
-  {
-    chainId,
-    fallback = <ConnectWalletButton />,
-    labelSwitchChain = 'Switch to',
-  }: WalletStatusVerifierProps = {},
+  { chainId, fallback = <ConnectWalletButton />, labelSwitchChain = 'Switch to' }: Props = {},
 ): FC<P> => {
   const ComponentWithVerifier: FC<P> = (props: P) => {
     const { appChainId, isWalletConnected, isWalletSynced, switchChain, walletChainId } =
@@ -85,19 +90,15 @@ const withWalletStatusVerifier = <P extends object>(
 
     const chainToSwitch = extractChain({ chains, id: chainId || appChainId || chains[0].id })
 
-    if (!isWalletConnected) {
-      return fallback
-    }
-
-    if (!isWalletSynced || walletChainId !== chainToSwitch.id) {
-      return (
-        <Button $variant="primary" onClick={() => switchChain(chainToSwitch.id)}>
-          {labelSwitchChain} {chainToSwitch?.name}
-        </Button>
-      )
-    }
-
-    return <WrappedComponent {...props} />
+    return !isWalletConnected ? (
+      fallback
+    ) : !isWalletSynced || walletChainId !== chainToSwitch.id ? (
+      <Button onClick={() => switchChain(chainToSwitch.id)}>
+        {labelSwitchChain} {chainToSwitch?.name}
+      </Button>
+    ) : (
+      <WrappedComponent {...props} />
+    )
   }
 
   ComponentWithVerifier.displayName = `withWalletStatusVerifier(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`

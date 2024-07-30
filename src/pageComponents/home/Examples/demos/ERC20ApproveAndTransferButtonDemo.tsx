@@ -13,11 +13,11 @@ import { withSuspense } from '@/src/utils/suspenseWrapper'
 
 // USDC token on sepolia chain
 const tokenUSDC_sepolia: Token = {
+  address: '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8',
+  chainId: sepolia.id,
+  decimals: 6,
   name: 'USD Coin',
   symbol: 'USDC',
-  address: '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8',
-  decimals: 6,
-  chainId: sepolia.id,
 }
 
 // Using the AAVE staging contract pool apply function
