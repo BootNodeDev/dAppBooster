@@ -63,7 +63,7 @@ jobs:
       - name: TSDoc Action
         uses: erikyo/tsdoc-action@v1
         with:
-          config_file: './typedoc.json'
+          tsconfig_file: './typedoc.json'
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
