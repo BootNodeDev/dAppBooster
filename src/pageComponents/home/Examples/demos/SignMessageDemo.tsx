@@ -1,25 +1,29 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import SignButton from '@/src/sharedComponents/SignButton'
+import { useDialog, GeneralMessage } from 'db-ui-toolkit'
+
+import { PrimaryButton } from '@/src/sharedComponents/Buttons'
+import SignButtonBase from '@/src/sharedComponents/SignButton'
 
 const message = `
 👻🚀 Welcome to dAppBooster! 🚀👻
 
 By signing this message, you acknowledge the awesome power and potential of dAppBooster.
 
-Empower your dApps with us!
+Empower your dApps!
 
 ✨ Keep boosting! ✨
 
 dAppBooster Team 💪
 `
 
-const WrapperOverflow = styled.div`
-  max-width: 100%;
-  overflow: auto;
-  padding: 1rem;
-  white-space: pre-wrap;
+const Button = styled(PrimaryButton).attrs({ as: SignButtonBase })`
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: 48px;
+  padding-left: calc(var(--base-common-padding) * 3);
+  padding-right: calc(var(--base-common-padding) * 3);
 `
 
 const SignMessageDemo = () => {
@@ -27,20 +31,53 @@ const SignMessageDemo = () => {
     signature: string | null
     error: Error | null
   }>({
-    signature: null,
     error: null,
+    signature: null,
   })
+  const { Dialog, close, open } = useDialog()
+
+  useEffect(() => {
+    if (state.signature || state.error) {
+      open('sign-message')
+    }
+  }, [state.signature, state.error, open])
+
+  const onClose = () => {
+    close('sign-message')
+    setState({ error: null, signature: null })
+  }
+
+  const dialogTitle = state.signature ? 'Success' : state.error ? 'Error' : ''
+  const dialogMessage = (
+    <>
+      {state.signature ? (
+        <>
+          <b>Signature:</b> {state.signature}
+        </>
+      ) : state.error ? (
+        <pre>{state.error.message}</pre>
+      ) : (
+        ''
+      )}
+    </>
+  )
+  const dialogButton = (
+    <PrimaryButton onClick={onClose}>
+      {state.signature ? 'Close' : state.error ? 'Try again!' : ''}
+    </PrimaryButton>
+  )
 
   return (
-    <WrapperOverflow>
-      <SignButton
+    <>
+      <Button
         message={message}
         onError={(error) => setState({ error, signature: null })}
         onSign={(signature) => setState({ error: null, signature })}
       />
-      {state.signature && <p>Signature: {state.signature}</p>}
-      {state.error && <p>Error: {state.error.message}</p>}
-    </WrapperOverflow>
+      <Dialog id="sign-message" onClose={onClose}>
+        <GeneralMessage actionButton={dialogButton} message={dialogMessage} title={dialogTitle} />
+      </Dialog>
+    </>
   )
 }
 
