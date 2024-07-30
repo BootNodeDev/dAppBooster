@@ -67,6 +67,7 @@ export const Textfield = styled(BaseTextfield).attrs({
 
   font-size: 3.2rem;
   height: auto;
+  min-width: 0;
 `
 
 export const ChevronDown = styled(BaseChevronDown)`
