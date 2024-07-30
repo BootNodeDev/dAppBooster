@@ -6,7 +6,6 @@ import { Dropdown, Item as BaseItem } from 'db-ui-toolkit'
 import { type Networks } from '@/src/sharedComponents/TokenSelect'
 import SearchInput from '@/src/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/sharedComponents/TokenSelect/Search/NetworkButton'
-import SwitchNetworkButton from '@/src/sharedComponents/Web3Buttons/SwitchNetworkButton'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) => ({ className }))`
   display: flex;
@@ -25,32 +24,30 @@ const Item = styled(BaseItem)`
   width: 250px;
 `
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface SearchProps extends HTMLAttributes<HTMLDivElement> {
   currentNetworkId: number
   networks?: Networks
   placeholder?: string
   searchTerm: string
   setSearchTerm: Dispatch<SetStateAction<string>>
-  showSwitchNetworkButton?: boolean
 }
 
 /**
  * Search component for TokenSelect. Includes a search input and a networks dropdown.
  *
- * @param {number} currentNetworkId - The current network id.
- * @param {Networks} networks - Optional list of networks to display in the dropdown.
- * @param {string} [placeholder] - Optional placeholder text for the search input.
- * @param {string} searchTerm - The current search term.
- * @param {function} setSearchTerm - Callback function to set the search term.
- * @param {boolean} showSwitchNetworkButton - Whether to display an add or switch network button.
+ * @param {SearchProps} props - Search component props.
+ * @param {number} props.currentNetworkId - The current network id.
+ * @param {Networks} [props.networks] - Optional list of networks to display in the dropdown.
+ * @param {string} [props.placeholder] - Optional placeholder text for the search input.
+ * @param {string} props.searchTerm - The current search term.
+ * @param {Function} props.setSearchTerm - Callback function to set the search term.
  */
-const Search: FC<Props> = ({
+const Search: FC<SearchProps> = ({
   currentNetworkId,
   networks,
   placeholder,
   searchTerm,
   setSearchTerm,
-  showSwitchNetworkButton,
   ...restProps
 }) => {
   return (
@@ -67,11 +64,10 @@ const Search: FC<Props> = ({
               {networks.find((item) => item.id === currentNetworkId)?.icon}
             </NetworkButton>
           }
-          items={networks.map(({ icon, id, label, onClick }, index) => (
-            <Item key={index} onClick={onClick}>
+          items={networks.map(({ icon, id, label, onClick }) => (
+            <Item key={id} onClick={onClick}>
               {icon}
               {label}
-              {showSwitchNetworkButton && <SwitchNetworkButton chainId={id} />}
             </Item>
           ))}
           position="right"

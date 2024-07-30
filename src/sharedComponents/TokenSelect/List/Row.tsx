@@ -1,22 +1,27 @@
 import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
+import AddERC20TokenButton from '@/src/sharedComponents/AddERC20TokenButton'
+import { SecondaryButton } from '@/src/sharedComponents/Buttons'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import TokenBalance, { Balance, Value } from '@/src/sharedComponents/TokenSelect/List/TokenBalance'
-import AddERC20TokenButton from '@/src/sharedComponents/Web3Buttons/AddERC20TokenButton'
 import { type Token } from '@/src/types/token'
 
-const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => ({ className }))`
+const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => {
+  return { className }
+})`
   color: var(--theme-token-select-row-token-name-color-default);
   font-size: 1.8rem;
   font-weight: 500;
   line-height: 1.2;
 `
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex = 0 }) => ({
-  tabIndex,
-  className,
-}))`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex = 0 }) => {
+  return {
+    tabIndex,
+    className,
+  }
+})`
   --theme-token-select-row-background-color-default: var(
     --theme-token-select-row-background-color,
     transparent
@@ -83,9 +88,11 @@ const RightColumn = styled.div`
   margin-left: auto;
 `
 
-const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIcon' }) => ({
-  className,
-}))`
+const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIcon' }) => {
+  return {
+    className,
+  }
+})`
   align-items: center;
   border-radius: 50%;
   display: flex;
@@ -95,12 +102,18 @@ const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIc
   width: ${({ size }) => size}px;
 `
 
+const Button = styled(SecondaryButton)`
+  font-size: 1.1rem;
+  height: 21px;
+  padding: 0 var(--base-common-padding);
+`
+
 interface TokenSelectRowProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
-  showAddTokenButton?: boolean
   iconSize: number
-  onClick: (token: Token) => void
-  showBalance?: boolean
   isLoadingBalances?: boolean
+  onClick: (token: Token) => void
+  showAddTokenButton?: boolean
+  showBalance?: boolean
   token: Token
 }
 
@@ -132,7 +145,11 @@ const Row: FC<TokenSelectRowProps> = ({
         <TokenLogo size={iconSize} token={token} />
       </Icon>
       <Name>{name}</Name>
-      {showAddTokenButton && <AddERC20TokenButton token={token} />}
+      {showAddTokenButton && (
+        <AddERC20TokenButton $token={token} as={Button}>
+          Add token
+        </AddERC20TokenButton>
+      )}
       {showBalance && (
         <RightColumn>
           <TokenBalance isLoading={isLoadingBalances} token={token} />

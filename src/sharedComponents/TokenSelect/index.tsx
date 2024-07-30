@@ -19,7 +19,9 @@ export type Networks = Array<{
   onClick: () => void
 }>
 
-const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => ({ className }))`
+const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => {
+  return { className }
+})`
   --base-card-padding: calc(var(--base-common-padding) * 5) 0 calc(var(--base-common-padding) * 3);
   --base-token-select-horizontal-padding: var(--base-common-padding-xl, 16px);
   --theme-token-select-title-color-default: var(--theme-token-select-title-color, #2e3048);
@@ -29,11 +31,14 @@ const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => ({ 
   box-shadow: var(--theme-token-select-background-color, var(--theme-card-box-shadow));
   display: flex;
   flex-direction: column;
+  max-width: 100%;
   row-gap: calc(var(--base-gap) * 3);
   width: 540px;
 `
 
-const Title = styled.h2`
+const Title = styled.h2.attrs(({ className = 'tokenSelectTitle' }) => {
+  return { className }
+})`
   color: var(--theme-token-select-title-color-default);
   font-size: 1.8rem;
   font-weight: 700;
@@ -42,7 +47,9 @@ const Title = styled.h2`
   padding: 0 var(--base-token-select-horizontal-padding);
 `
 
-const LoadingText = styled.span`
+const LoadingText = styled.span.attrs(({ className = 'tokenSelectLoadingText' }) => {
+  return { className }
+})`
   font-size: 1.5rem;
   font-weight: 500;
   line-height: 1.5;
@@ -51,15 +58,17 @@ const LoadingText = styled.span`
 `
 
 /** @ignore */
-export const Loading = styled(Wrapper).attrs(() => ({
-  className: `tokenSelectLoading`,
-  children: (
-    <>
-      <Spinner />
-      <LoadingText>Loading tokens...</LoadingText>
-    </>
-  ),
-}))`
+export const Loading = styled(Wrapper).attrs(() => {
+  return {
+    className: `tokenSelectLoading`,
+    children: (
+      <>
+        <Spinner />
+        <LoadingText>Loading tokens...</LoadingText>
+      </>
+    ),
+  }
+})`
   align-items: center;
   justify-content: center;
   min-height: 450px;
@@ -75,7 +84,6 @@ export interface TokenSelectProps extends HTMLAttributes<HTMLDivElement> {
   onTokenSelect: (token: Token | undefined) => void
   placeholder?: string
   showAddTokenButton?: boolean
-  showSwitchNetworkButton?: boolean
   showTopTokens?: boolean
   showBalance?: boolean
 }
@@ -93,7 +101,6 @@ export interface TokenSelectProps extends HTMLAttributes<HTMLDivElement> {
  * @param {number} [props.itemHeight=64] - Optional height of each item in the list. Default is 64.
  * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
  * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
- * @param {boolean} [props.showSwitchNetworkButton=false] - Optional flag to allow adding or switching networks. Default is false.
  * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  *
  * @remarks
@@ -159,7 +166,6 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
     placeholder = 'Search by name or address',
     showAddTokenButton = false,
     showBalance = false,
-    showSwitchNetworkButton = false,
     showTopTokens = false,
     ...restProps
   }) => {
@@ -181,7 +187,6 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
           placeholder={placeholder}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
-          showSwitchNetworkButton={showSwitchNetworkButton}
         />
         {showTopTokens && (
           <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[currentNetworkId]} />

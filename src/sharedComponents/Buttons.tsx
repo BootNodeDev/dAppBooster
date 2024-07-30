@@ -3,8 +3,7 @@ import styled from 'styled-components'
 import { Button } from 'db-ui-toolkit'
 
 /**
- * Preset buttons. Just for convenience, these can be modified anywhere else,
- * even the $cssVarRoot prop.
+ * Preset buttons, just for convenience.
  */
 export const PrimaryButton = styled(Button).attrs({
   $variant: 'primary',

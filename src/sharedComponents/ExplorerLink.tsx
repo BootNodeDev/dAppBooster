@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { type FC } from 'react'
 
 import { type GetExplorerUrlParams, getExplorerLink } from '@/src/utils/getExplorerLink'
 
@@ -18,7 +18,7 @@ interface ExplorerLinkProps extends GetExplorerUrlParams {
  * @example
  * ```tsx
  * <ExplorerLink
- *    chainId={optimism}
+ *    chainId={optimism}k
  *    hashOrAddress="0x1234567890abcdef1234567890abcdef12345678"
  * />
  * ```

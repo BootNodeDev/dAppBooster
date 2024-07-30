@@ -11,6 +11,7 @@ const walletConfigImport = `import { config } from '@/src/lib/wallets/connectkit
 
 type ActionsResult = {
   name: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   run: ({ contracts }: { contracts: any[] }) => Promise<{
     imports: string
     content: string
@@ -27,6 +28,7 @@ export function reactSuspenseRead(config: ActionsConfig = {}): ActionsResult {
 
       const actionNames = new Set<string>()
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const isReadFunction = (item: any) =>
         item.type === 'function' &&
         (item.stateMutability === 'view' || item.stateMutability === 'pure')

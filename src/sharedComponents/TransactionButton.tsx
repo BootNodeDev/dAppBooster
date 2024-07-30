@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 
-import { Button } from 'db-ui-toolkit'
 import { type Hash, type TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
+import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 
 interface TransactionButtonProps {
   transaction: () => Promise<Hash>
-  onMined?: (receipt: TransactionReceipt) => any
+  onMined?: (receipt: TransactionReceipt) => void
   disabled?: boolean
   label?: string
   labelSending?: string
@@ -20,7 +20,7 @@ interface TransactionButtonProps {
  * Use with writeContractSync or sendTransactionSync function to handle the transaction and wait for it.
  * The component will call the onMined callback function when the transaction is mined.
  *
- *
+ * @param {TransactionButtonProps} props - TransactionButton component props.
  * @param {Function} props.transaction - The function that initiates the transaction.
  * @param {Function} props.onMined - The callback function to be called when the transaction is mined.
  * @param {boolean} props.disabled - The flag to disable the button.
@@ -31,7 +31,7 @@ interface TransactionButtonProps {
  * @returns The transaction button component.
  */
 
-const TransactionButton = withWalletStatusVerifier(
+const TransactionButton = withWalletStatusVerifier<TransactionButtonProps>(
   ({
     confirmations = 1,
     disabled,
@@ -39,7 +39,7 @@ const TransactionButton = withWalletStatusVerifier(
     labelSending = 'Sending...',
     onMined,
     transaction,
-  }: TransactionButtonProps) => {
+  }) => {
     const [hash, setHash] = useState<Hash>()
     const [isPending, setIsPending] = useState<boolean>(false)
 
@@ -76,11 +76,7 @@ const TransactionButton = withWalletStatusVerifier(
       onClick: handleSendTransaction,
     }
 
-    return (
-      <Button $variant="primary" {...inputProps}>
-        {isPending ? labelSending : label}
-      </Button>
-    )
+    return <PrimaryButton {...inputProps}>{isPending ? labelSending : label}</PrimaryButton>
   },
 )
 

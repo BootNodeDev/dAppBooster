@@ -26,9 +26,9 @@ export interface TokenDropdownProps extends TokenSelectProps {
 /**
  * A dropdown component that allows users to select a token
  *
- * @param {object} props - The component props.
- * @param {Token} [currentToken=undefined] - The current token. Default is undefined.
- * @param {number} [iconSize=24] - The size of the token icon. Default is 24.
+ * @param {object} props - TokenDropdown component props.
+ * @param {Token} [props.currentToken=undefined] - The current token. Default is undefined.
+ * @param {number} [props.iconSize=24] - The size of the token icon. Default is 24.
  * @param {number} [props.currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
  * @param {function} props.onTokenSelect - Callback function to be called when a token is selected.
  * @param {Networks} [props.networks] - Optional list of networks to display in the dropdown. The dropdown won't show up if undefined. Default is undefined.
@@ -38,7 +38,6 @@ export interface TokenDropdownProps extends TokenSelectProps {
  * @param {number} [props.itemHeight=64] - Optional height of each item in the list. Default is 64.
  * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
  * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
- * @param {boolean} [props.showSwitchNetworkButton=false] - Optional flag to allow adding or switching networks. Default is false.
  * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  */
 const TokenDropdown: FC<TokenDropdownProps> = ({
@@ -47,7 +46,6 @@ const TokenDropdown: FC<TokenDropdownProps> = ({
   iconSize = 24,
   onTokenSelect,
   showAddTokenButton,
-  showSwitchNetworkButton,
   ...restProps
 }: TokenDropdownProps) => {
   const { Dropdown, close } = useDropdown()
@@ -84,7 +82,6 @@ const TokenDropdown: FC<TokenDropdownProps> = ({
         <TokenSelect
           onTokenSelect={handleTokenSelect}
           showAddTokenButton={showAddTokenButton}
-          showSwitchNetworkButton={showSwitchNetworkButton}
           suspenseFallback={<Loading />}
           {...restProps}
         />

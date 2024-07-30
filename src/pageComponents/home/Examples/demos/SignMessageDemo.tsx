@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styled from 'styled-components'
 
-import SignButton from '@/src/sharedComponents/Web3Buttons/SignButton'
+import SignButton from '@/src/sharedComponents/SignButton'
 
 const message = `
 👻🚀 Welcome to dAppBooster! 🚀👻

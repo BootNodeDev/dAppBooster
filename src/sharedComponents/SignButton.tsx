@@ -1,8 +1,6 @@
-import { type FC } from 'react'
-
-import { Button } from 'db-ui-toolkit'
 import { useSignMessage } from 'wagmi'
 
+import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 
 interface SignButtonProps {
@@ -17,14 +15,13 @@ interface SignButtonProps {
 /**
  * SignButton component that allows users to sign a message.
  *
- *
- * @param {string} message - The message to sign
- * @param {boolean} [disabled] - The flag to disable the button
- * @param {Function} [onSign] - The callback function to be called when the message is signed
- * @param {Function} [onError] - The callback function to be called when an error occurs
- * @param {string} [label='Sign Message'] - The label for the button
- * @param {string} [labelSigning='Signing...'] - The label for the button when the message is signing
- *
+ * @param {SignButtonProps} props - SignButton component props.
+ * @param {string} props.message - The message to sign
+ * @param {boolean} [props.disabled] - The flag to disable the button
+ * @param {Function} [props.onSign] - The callback function to be called when the message is signed
+ * @param {Function} [props.onError] - The callback function to be called when an error occurs
+ * @param {string} [props.label='Sign Message'] - The label for the button
+ * @param {string} [props.labelSigning='Signing...'] - The label for the button when the message is signing
  *
  * @example
  * ```tsx
@@ -35,7 +32,7 @@ interface SignButtonProps {
  * />
  * ```
  */
-const SignButton: FC<SignButtonProps> = withWalletStatusVerifier(
+const SignButton = withWalletStatusVerifier<SignButtonProps>(
   ({
     disabled,
     label = 'Sign Message',
@@ -56,13 +53,9 @@ const SignButton: FC<SignButtonProps> = withWalletStatusVerifier(
     })
 
     return (
-      <Button
-        $variant="primary"
-        disabled={disabled || isPending}
-        onClick={() => signMessage({ message })}
-      >
+      <PrimaryButton disabled={disabled || isPending} onClick={() => signMessage({ message })}>
         {isPending ? labelSigning : label}
-      </Button>
+      </PrimaryButton>
     )
   },
 )

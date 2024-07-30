@@ -1,27 +1,30 @@
+import { type FC } from 'react'
+
 import { type Address, type TransactionReceipt, type Hash, erc20Abi } from 'viem'
 import { useWriteContract } from 'wagmi'
 
 import { useSuspenseReadErc20Allowance } from '@/src/hooks/generated'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
-import TransactionButton from '@/src/sharedComponents/Web3Buttons/TransactionButton'
+import TransactionButton from '@/src/sharedComponents/TransactionButton'
 import { type Token } from '@/src/types/token'
 
 interface ERC20ApproveAndTransferButtonProps {
-  token: Token
-  spender: Address
   amount: bigint
-  onSuccess?: (receipt: TransactionReceipt) => void
   disabled?: boolean
-  transaction: () => Promise<Hash>
   label?: string
   labelSending?: string
+  onSuccess?: (receipt: TransactionReceipt) => void
+  spender: Address
+  token: Token
+  transaction: () => Promise<Hash>
 }
 /**
  * Dynamically renders either an approval button or a transaction button based on the user's current token allowance.
  * After the approval, the transaction button will be rendered.
- * Use with <Suspense> to add an skeleton loader while fetching the allowance.
  *
+ * @dev Use with <Suspense> to add an skeleton loader while fetching the allowance.
  *
+ * @param {ERC20ApproveAndTransferButtonProps}
  * @param {Token} props.token - The token to be approved.
  * @param {Address} props.spender - The address of the spender to be approved.
  * @param {bigint} props.amount - The amount of tokens to approve (or send).
@@ -32,7 +35,7 @@ interface ERC20ApproveAndTransferButtonProps {
  * @param {string} props.labelSending - The label for the button when the transaction is pending.
  *
  */
-const ERC20ApproveAndTransferButton = ({
+const ERC20ApproveAndTransferButton: FC<ERC20ApproveAndTransferButtonProps> = ({
   amount,
   disabled,
   label,
@@ -41,7 +44,7 @@ const ERC20ApproveAndTransferButton = ({
   spender,
   token,
   transaction,
-}: ERC20ApproveAndTransferButtonProps) => {
+}) => {
   const { address } = useWeb3StatusConnected()
   const { writeContractAsync } = useWriteContract()
 
