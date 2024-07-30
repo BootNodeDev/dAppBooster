@@ -9,7 +9,7 @@
 
 // import { env } from '@/src/env'
 
-// import { chains, transports } from '@/src/_lib/networks.config'
+// import { chains, transports } from '@/src/lib/networks.config'
 
 // export const WalletProvider: FC<PropsWithChildren> = ({ children }) => children
 

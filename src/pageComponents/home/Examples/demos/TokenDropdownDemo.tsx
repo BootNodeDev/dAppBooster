@@ -6,9 +6,7 @@ import Arbitrum from '@/src/pageComponents/home/Examples/demos/assets/Arbitrum'
 import Eth from '@/src/pageComponents/home/Examples/demos/assets/Eth'
 import Optimism from '@/src/pageComponents/home/Examples/demos/assets/Optimism'
 import Polygon from '@/src/pageComponents/home/Examples/demos/assets/Polygon'
-import TokenDropdown, {
-  type Props as TokenDropdownProps,
-} from '@/src/sharedComponents/TokenDropdown'
+import TokenDropdown, { type TokenDropdownProps } from '@/src/sharedComponents/TokenDropdown'
 import { type Networks } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 

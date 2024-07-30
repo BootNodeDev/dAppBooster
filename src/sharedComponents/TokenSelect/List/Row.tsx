@@ -95,7 +95,7 @@ const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIc
   width: ${({ size }) => size}px;
 `
 
-interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
+interface TokenSelectRowProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   showAddTokenButton?: boolean
   iconSize: number
   onClick: (token: Token) => void
@@ -107,14 +107,15 @@ interface Props extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
 /**
  * A row in the token select list.
  *
- * @param {Token} token - The token to display.
- * @param {number} iconSize - The size of the token icon.
- * @param {(token: Token) => void} onClick - Callback function to be called when the row is clicked.
- * @param {boolean} showAddTokenButton - Whether to display an add token button.
- * @param {boolean} [showBalance=false] - Optional flag to show the token balance. Default is false.
- * @param {boolean} [showBalance=false] - Optional flag to inform the balances are being loaded. Default is false.
+ * @param {object} props - TokenSelect List's Row props.
+ * @param {Token} prop.token - The token to display.
+ * @param {number} prop.iconSize - The size of the token icon.
+ * @param {(token: Token) => void} prop.onClick - Callback function to be called when the row is clicked.
+ * @param {boolean} prop.showAddTokenButton - Whether to display an add token button.
+ * @param {boolean} [prop.showBalance=false] - Optional flag to show the token balance. Default is false.
+ * @param {boolean} [prop.showBalance=false] - Optional flag to inform the balances are being loaded. Default is false.
  */
-const Row: FC<Props> = ({
+const Row: FC<TokenSelectRowProps> = ({
   iconSize,
   isLoadingBalances,
   onClick,

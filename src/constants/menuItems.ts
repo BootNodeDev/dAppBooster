@@ -4,6 +4,9 @@ type MenuItem = {
   to?: string
 }
 
+/**
+ * A collection of menu items to be displayed in the header.
+ */
 export const menuItems: MenuItem[] = [
   {
     label: 'Home',

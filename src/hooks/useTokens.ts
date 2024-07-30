@@ -21,6 +21,7 @@ import { type TokensMap } from '@/src/utils/tokenListsCache'
 
 const BALANCE_EXPIRATION_TIME = 32_000
 
+/** @ignore */
 export const lifiConfig = createConfig({
   integrator: env.PUBLIC_APP_NAME,
   providers: [EVM()],

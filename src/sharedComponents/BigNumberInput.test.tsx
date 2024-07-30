@@ -5,7 +5,9 @@ import { userEvent } from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { describe, it, expect, vi } from 'vitest'
 
-import { type BigNumberInputProps, BigNumberInput } from '@/src/sharedComponents/BigNumberInput'
+import { BigNumberInput } from '@/src/sharedComponents/BigNumberInput'
+
+type BigNumberInputProps = Parameters<typeof BigNumberInput>[0]
 
 // Mocking viem's parseUnits and formatUnits functions
 vi.mock('viem', () => ({

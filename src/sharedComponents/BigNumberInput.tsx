@@ -26,19 +26,17 @@ export type BigNumberInputProps = {
 /**
  * Renders a component for inputting a big number value.
  *
+ * @example
+ * ```tsx
+ * <BigNumberInput
+ *   decimals={token.decimals}
+ *   onChange={(newValue) => setValue(newValue)}
+ *   value={value}
+ * />
+ * ```
  *
- * @param {Object} props - The component props.
- * @param {boolean} [props.autofocus] - Determines whether the input should be automatically focused.
- * @param {number} [props.decimals] - The number of decimal places for the input value.
- * @param {boolean} [props.disabled] - Determines whether the input should be disabled.
- * @param {string} [props.max] - The maximum value allowed for the input.
- * @param {string} [props.min] - The minimum value allowed for the input.
- * @param {Function} props.onChange - The callback function called when the input value changes.
- * @param {Function} [props.onError] - The callback function called when an error occurs.
- * @param {string} [props.placeholder] - The placeholder text for the input.
- * @param {Function} [props.renderInput] - A custom render function for the input element.
- * @param {string} props.value - The current value of the input.
- * @returns {JSX.Element} - The rendered input component.
+ * @category Component
+ *
  */
 export const BigNumberInput: FC<BigNumberInputProps> = ({
   autofocus,

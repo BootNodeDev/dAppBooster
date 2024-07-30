@@ -21,15 +21,17 @@ interface WalletStatusVerifierProps {
  * If the wallet is not connected, it displays a fallback component (default: ConnectWalletButton)
  * If the wallet is connected but not synced with the correct chain, it provides an option to switch chain.
  *
- * @param {Object} props - Component props
+ * @param {Object} props - WalletStatusVerifier component props
  * @param {Chain['id']} [props.chainId] - The chain ID to check for synchronization
  * @param {ReactElement} [props.fallback] - The fallback component to render if the wallet is not connected
  * @param {ReactElement} props.children - The children components to render if the wallet is connected and synced
+ *
  * @example
+ * ```tsx
  * <WalletStatusVerifier>
- *  <>Components that requires a connected and synced wallet</>
+ *  <AComponentThatRequiresAConnectedWallet />
  * </WalletStatusVerifier>
- * @returns {FC} The WalletStatusVerifier component
+ * ```
  */
 const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
   chainId,

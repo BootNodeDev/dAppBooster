@@ -23,23 +23,21 @@ import {
   Wrapper,
 } from '@/src/sharedComponents/TokenInput/Components'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
-import BaseTokenSelect, {
-  Loading,
-  type Props as TokenSelectProps,
-} from '@/src/sharedComponents/TokenSelect'
+import BaseTokenSelect, { Loading, type TokenSelectProps } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
 `
 
+/** @ignore */
 export const CloseButton = styled(BaseCloseButton)`
   position: absolute;
   right: var(--base-token-select-horizontal-padding);
   top: calc(var(--base-common-padding) * 5);
 `
 
-interface Props extends Omit<TokenSelectProps, 'onError'> {
+interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
   onAmountSet: (amount?: string) => void
   onError: (error?: string) => void
   title?: string
@@ -49,11 +47,13 @@ interface Props extends Omit<TokenSelectProps, 'onError'> {
  * TokenInput component allows users to input token amounts and select tokens from a list.
  * It displays the token input field, token balance, and a dropdown list of available tokens.
  *
- * @param {(amount?: string) => void} onAmountSet - A callback function triggered when the amount is set.
- * @param {(error?: string) => void} onError - A callback function triggered when there is an error.
- * @param {string} title - The title of the token input.
- * @param {TokenSelectProps} props - The props for the TokenSelect component.
+ * @param {TokenInputProps} props - TokenInput component props.
+ * @param {(amount?: string) => void} props.onAmountSet - A callback function triggered when the amount is set.
+ * @param {(error?: string) => void} props.onError - A callback function triggered when there is an error.
+ * @param {string} props.title - The title of the token input.
+ * @param {TokenSelectProps} props.props - The props for the TokenSelect component.
  *
+ * @remarks
  * Individual CSS classes are available for deep styling of individual components within TokenSelect:
  *
  * Also theme CSS vars are available for cosmetic changes:
@@ -103,7 +103,7 @@ interface Props extends Omit<TokenSelectProps, 'onError'> {
  * *--theme-token-input-balance-color
  *
  */
-const TokenInput: FC<Props> = ({
+const TokenInput: FC<TokenInputProps> = ({
   containerHeight,
   currentNetworkId,
   iconSize,

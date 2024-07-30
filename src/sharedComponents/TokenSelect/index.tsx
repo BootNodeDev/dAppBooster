@@ -50,6 +50,7 @@ const LoadingText = styled.span`
   text-align: center;
 `
 
+/** @ignore */
 export const Loading = styled(Wrapper).attrs(() => ({
   className: `tokenSelectLoading`,
   children: (
@@ -65,7 +66,7 @@ export const Loading = styled(Wrapper).attrs(() => ({
   row-gap: calc(var(--base-gap) * 2);
 `
 
-export interface Props extends HTMLAttributes<HTMLDivElement> {
+export interface TokenSelectProps extends HTMLAttributes<HTMLDivElement> {
   containerHeight?: number
   currentNetworkId?: number
   iconSize?: number
@@ -82,18 +83,20 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
 /**
  * TokenSelect component, used to search and select a token from a list.
  *
- * @param {number} [currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
- * @param {function} onTokenSelect - Callback function to be called when a token is selected.
- * @param {Networks} [networks] - Optional list of networks to display in the dropdown. The dropdown won't show up if undefined. Default is undefined.
- * @param {string} [placeholder='Search by name or address'] - Optional placeholder text for the search input. Default is 'Search by name or address'.
- * @param {number} [containerHeight=320] - Optional height of the virtualized tokens list. Default is 320.
- * @param {number} [iconSize=32] - Optional size of the token icon in the list. Default is 32.
- * @param {number} [itemHeight=64] - Optional height of each item in the list. Default is 64.
- * @param {boolean} [showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
- * @param {boolean} [showBalance=false] - Optional flag to show the token balance in the list. Default is false.
- * @param {boolean} [showSwitchNetworkButton=false] - Optional flag to allow adding or switching networks. Default is false.
- * @param {boolean} [showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
+ * @param {object} props - TokenSelect props.
+ * @param {number} [props.currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
+ * @param {function} props.onTokenSelect - Callback function to be called when a token is selected.
+ * @param {Networks} [props.networks] - Optional list of networks to display in the dropdown. The dropdown won't show up if undefined. Default is undefined.
+ * @param {string} [props.placeholder='Search by name or address'] - Optional placeholder text for the search input. Default is 'Search by name or address'.
+ * @param {number} [props.containerHeight=320] - Optional height of the virtualized tokens list. Default is 320.
+ * @param {number} [props.iconSize=32] - Optional size of the token icon in the list. Default is 32.
+ * @param {number} [props.itemHeight=64] - Optional height of each item in the list. Default is 64.
+ * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
+ * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
+ * @param {boolean} [props.showSwitchNetworkButton=false] - Optional flag to allow adding or switching networks. Default is false.
+ * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  *
+ * @remarks
  * Individual CSS classes are available for deep styling of individual components within TokenSelect:
  *
  * Also theme CSS vars are available for cosmetic changes:
@@ -144,7 +147,7 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-row-token-value-color
  * * --theme-token-select-row-token-value-color-hover
  */
-const TokenSelect = withSuspenseAndRetry<Props>(
+const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
   ({
     children,
     containerHeight = 320,
