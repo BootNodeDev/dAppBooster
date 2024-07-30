@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import styled, { css } from 'styled-components'
 
 import { ExternalLink, Text, useDialog, GeneralMessage as GeneralMessageBase } from 'db-ui-toolkit'
