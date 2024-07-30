@@ -60,12 +60,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: TSDoc Action
-        uses: erikyo/tsdoc-action@v1
-        with:
-          source_dir: './src/*'
-          output_dir: './docs'
-          tsconfig_file: './typedoc.json'
+      # - name: TSDoc Action
+      #   uses: erikyo/tsdoc-action@v1
+      #   with:
+      #     source_dir: './src/*'
+      #     output_dir: './docs'
+      #     tsconfig_file: './typedoc.json'
+      - name: Generate documentation
+        run: pnpm run generateDocs
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
