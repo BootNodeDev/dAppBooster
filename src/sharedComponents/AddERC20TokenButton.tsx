@@ -13,13 +13,10 @@ interface Props extends ComponentProps<'button'> {
 }
 
 /**
- * @name AddERC20TokenButton
- * @description Renders a button that adds an ERC20 token to the wallet.
+ * Renders a button that adds an ERC20 token to the wallet.
  *
- * @component
- * @param {Object} props - The component props.
+ * @param {AddERC20TokenButtonProps} props - AddERC20TokenButton component props.
  * @param {Token} props.$token - The ERC20 token object.
- * @returns {JSX.Element} The rendered AddERC20TokenButton component.
  */
 const AddERC20TokenButton: FC<Props> = ({ $token, children, onClick, ...restProps }) => {
   const { isWalletConnected, walletChainId, walletClient } = useWeb3Status()

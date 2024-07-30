@@ -12,6 +12,11 @@ const extensionValue = z
 
 const key = z.string()
 
+/**
+ * An schema of a token object. Matches the Uniswap token type.
+ *
+ * @source
+ */
 export const tokenSchema = z.object({
   name: z.string().min(1),
   address,
@@ -24,18 +29,33 @@ export const tokenSchema = z.object({
     .optional(),
 })
 
+/**
+ * A collection of tokenSchema objects.
+ *
+ * @source
+ */
 export const tokensSchema = z.array(tokenSchema)
 
 export type Token = z.infer<typeof tokenSchema>
 
 export type Tokens = z.infer<typeof tokensSchema>
 
+/**
+ * An schema of a version object.
+ *
+ * @source
+ */
 export const versionSchema = z.object({
   major: z.number(),
   minor: z.number(),
   patch: z.number(),
 })
 
+/**
+ * A collection of tags objects.
+ *
+ * @source
+ */
 export const tagsSchema = z.record(
   z.string(),
   z.object({
@@ -44,6 +64,11 @@ export const tagsSchema = z.record(
   }),
 )
 
+/**
+ * An schema of a token list object. Matches the Uniswap token list type.
+ *
+ * @source
+ */
 export const tokenListSchema = z.object({
   name: z.string(),
   timestamp: z.string(),

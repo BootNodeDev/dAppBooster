@@ -1,0 +1,48 @@
+{
+  "plugin": [
+    "typedoc-plugin-rename-defaults",
+    "typedoc-plugin-zod",
+    "typedoc-plugin-missing-exports",
+    "typedoc-plugin-inline-sources"
+  ],
+  "entryPoints": ["./src/**/*.{ts,tsx}"],
+  "exclude": [
+    "**/*.test.*",
+    "./src/{vite-env.d.ts,main.tsx,routeTree.gen.ts}",
+    "./src/lib/{wagmi,wallets}/**/*",
+    "./src/routes/**/*",
+    "./src/utils/{logger,tokenListsCache}.ts",
+    "./src/constants/contracts/**/*",
+    "./src/hooks/generated.ts",
+    "./src/subgraphs/{gql,queries}/**/*",
+    "./src/subgraphs/utils/appSchemas.ts",
+    "./src/pageComponents/**/*",
+    "**/*{Provider,Devtools}.tsx",
+    "./src/sharedComponents/Footer/**/*",
+    "./src/sharedComponents/TokenDropdown/assets/**/*",
+    "./src/sharedComponents/TokenInput/{CloseButton,Components}.tsx",
+    "./src/sharedComponents/{ConnectButton,DropdownButton,Buttons,Header,MainMenu,VirtualizedList}.tsx"
+  ],
+  "excludeNotDocumented": false,
+  "excludeInternal": true,
+  "excludePrivate": false,
+  "excludeExternals": true,
+  "excludeProtected": true,
+  "sourceLinkExternal": true,
+  "highlightLanguages": [
+    "bash",
+    "console",
+    "css",
+    "diff",
+    "html",
+    "javascript",
+    "json",
+    "tsx",
+    "typescript"
+  ],
+  "groupOrder": ["*", "typealiases"],
+  "visibilityFilters": {
+    "inherited": true
+  },
+  "out": "./docs"
+}

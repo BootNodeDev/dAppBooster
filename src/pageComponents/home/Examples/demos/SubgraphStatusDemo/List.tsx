@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { type FC } from 'react'
 import styled from 'styled-components'
 
 import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'

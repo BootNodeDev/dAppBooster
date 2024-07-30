@@ -14,7 +14,7 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectList' }) => ({ class
   border-top: 1px solid var(--theme-token-select-list-border-top-color-default);
 `
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface TokenSelectListProps extends HTMLAttributes<HTMLDivElement> {
   showAddTokenButton?: boolean
   containerHeight: number
   iconSize: number
@@ -26,19 +26,19 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * @name List
- * @description List component for TokenSelect. Displays a list of tokens.
+ * List component for TokenSelect. Displays a list of tokens.
  *
- * @param {number} containerHeight - The height of the virtualized list container.
- * @param {number} iconSize - The size of the token icon for each item in the list.
- * @param {number} itemHeight - The height of each item in the list.
- * @param {function} onTokenSelect - Callback function to be called when a token is selected.
- * @param {boolean} showAddTokenButton - Whether to display an add token button.
- * @param {boolean} showBalance - Flag to show the token balance in the list.
- * @param {boolean} isLoadingBalances - Flag to inform the balances are loading.
- * @param {Tokens} tokenList - The list of tokens to display.
+ * @param {object} props - TokenSelect List props.
+ * @param {number} props.containerHeight - The height of the virtualized list container.
+ * @param {number} props.iconSize - The size of the token icon for each item in the list.
+ * @param {number} props.itemHeight - The height of each item in the list.
+ * @param {function} props.onTokenSelect - Callback function to be called when a token is selected.
+ * @param {boolean} props.showAddTokenButton - Whether to display an add token button.
+ * @param {boolean} props.showBalance - Flag to show the token balance in the list.
+ * @param {boolean} props.isLoadingBalances - Flag to inform the balances are loading.
+ * @param {Tokens} props.tokenList - The list of tokens to display.
  */
-const List: FC<Props> = ({
+const List: FC<TokenSelectListProps> = ({
   className,
   containerHeight,
   iconSize,

@@ -1,0 +1,76 @@
+# Simple workflow for deploying static content to GitHub Pages
+name: TSDoc Actions
+
+on:
+  pull_request:
+    branches:
+      - main
+  release:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+env:
+  PUBLIC_APP_NAME: ${{ vars.PUBLIC_APP_NAME }}
+  PUBLIC_APP_DESCRIPTION: ${{ vars.PUBLIC_APP_DESCRIPTION }}
+  PUBLIC_APP_URL: ${{ vars.PUBLIC_APP_URL }}
+  PUBLIC_APP_LOGO: ${{ vars.PUBLIC_APP_LOGO }}
+  PUBLIC_INCLUDE_TESTNETS: ${{ vars.PUBLIC_INCLUDE_TESTNETS }}
+  PUBLIC_USE_DEFAULT_TOKENS: ${{ vars.PUBLIC_USE_DEFAULT_TOKENS }}
+  PUBLIC_WALLETCONNECT_PROJECT_ID: ${{ vars.PUBLIC_WALLETCONNECT_PROJECT_ID }}
+  PUBLIC_SUBGRAPHS_API_KEY: ${{ vars.PUBLIC_SUBGRAPHS_API_KEY }}
+  PUBLIC_SUBGRAPHS_ENVIRONMENT: ${{ vars.PUBLIC_SUBGRAPHS_ENVIRONMENT }}
+  PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS: ${{ vars.PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS }}
+  PUBLIC_SUBGRAPHS_DEVELOPMENT_URL: ${{ vars.PUBLIC_SUBGRAPHS_DEVELOPMENT_URL }}
+  PUBLIC_SUBGRAPHS_PRODUCTION_URL: ${{ vars.PUBLIC_SUBGRAPHS_PRODUCTION_URL }}
+
+jobs:
+  # Single deploy job since we're just deploying
+  deploy:
+    name: Deploy Documentation
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Generate documentation
+        run: pnpm run generateDocs
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './docs'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

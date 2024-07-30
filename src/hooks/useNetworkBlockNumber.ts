@@ -10,6 +10,9 @@ import { type Chain } from 'viem/chains'
  * @param {Object} params - The parameters for the hook.
  * @param {Chain} params.chain - The chain object representing the network.
  * @param {Omit<UseSuspenseQueryOptions, 'queryKey' | 'queryFn'>} [params.options] - Additional options for the useSuspenseQuery hook.
+ *
+ * @dev It has a default refetch interval of 10 seconds that can be overridden by passing the options object.
+ *
  * @returns {number | undefined} - The block number of the network.
  */
 export const useNetworkBlockNumber = ({

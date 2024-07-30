@@ -23,10 +23,7 @@ import {
   Wrapper,
 } from '@/src/sharedComponents/TokenInput/Components'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
-import BaseTokenSelect, {
-  Loading,
-  type Props as TokenSelectProps,
-} from '@/src/sharedComponents/TokenSelect'
+import BaseTokenSelect, { Loading, type TokenSelectProps } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
@@ -34,13 +31,14 @@ const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
 `
 
+/** @ignore */
 export const CloseButton = styled(BaseCloseButton)`
   position: absolute;
   right: var(--base-token-select-horizontal-padding);
   top: calc(var(--base-common-padding) * 5);
 `
 
-interface Props extends Omit<TokenSelectProps, 'onError'> {
+interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
   onAmountSet: (amount?: string) => void
   onError: (error?: string) => void
   title?: string
@@ -50,11 +48,22 @@ interface Props extends Omit<TokenSelectProps, 'onError'> {
  * TokenInput component allows users to input token amounts and select tokens from a list.
  * It displays the token input field, token balance, and a dropdown list of available tokens.
  *
- * @param {(amount?: string) => void} onAmountSet - A callback function triggered when the amount is set.
- * @param {(error?: string) => void} onError - A callback function triggered when there is an error.
- * @param {string} title - The title of the token input.
- * @param {TokenSelectProps} props - The props for the TokenSelect component.
+ * @param {TokenInputProps} props - TokenInput component props.
+ * @param {(amount?: string) => void} props.onAmountSet - A callback function triggered when the amount is set.
+ * @param {(error?: string) => void} props.onError - A callback function triggered when there is an error.
+ * @param {string} props.title - The title of the token input.
+ * @param {number} [props.currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
+ * @param {function} props.onTokenSelect - Callback function to be called when a token is selected.
+ * @param {Networks} [props.networks] - Optional list of networks to display in the dropdown. The dropdown won't show up if undefined. Default is undefined.
+ * @param {string} [props.placeholder='Search by name or address'] - Optional placeholder text for the search input. Default is 'Search by name or address'.
+ * @param {number} [props.containerHeight=320] - Optional height of the virtualized tokens list. Default is 320.
+ * @param {number} [props.iconSize=32] - Optional size of the token icon in the list. Default is 32.
+ * @param {number} [props.itemHeight=64] - Optional height of each item in the list. Default is 64.
+ * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
+ * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
+ * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  *
+ * @remarks
  * Individual CSS classes are available for deep styling of individual components within TokenSelect:
  *
  * Also theme CSS vars are available for cosmetic changes:
@@ -104,7 +113,7 @@ interface Props extends Omit<TokenSelectProps, 'onError'> {
  * *--theme-token-input-balance-color
  *
  */
-const TokenInput: FC<Props> = ({
+const TokenInput: FC<TokenInputProps> = ({
   containerHeight,
   currentNetworkId,
   iconSize,

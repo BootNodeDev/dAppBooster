@@ -69,7 +69,26 @@ const getSrc = (url: string) => {
   return url.startsWith('ipfs://') ? `https://ipfs.io/ipfs/${url.split('ipfs://')[1]}` : url
 }
 
-const TokenLogo: FC<{ token: Token; size?: number }> = ({ size = 24, token }) => {
+interface TokenLogoProps {
+  token: Token
+  size?: number
+}
+
+/**
+ * TokenLogo component, displays a token logo based on the provided token object.
+ *
+ * @param {TokenLogoProps} props - TokenLogo component props.
+ * @param {Token} props.token - The token object to display the logo for.
+ * @param {number} [props.size=24] - The size of the logo.
+ *
+ * @example
+ * ```tsx
+ * <TokenLogo
+ *    token={myToken}
+ * />
+ * ```
+ */
+const TokenLogo: FC<TokenLogoProps> = ({ size = 24, token }) => {
   const { logoURI } = token
   const [hasError, setHasError] = useState(false)
 

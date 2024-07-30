@@ -1,3 +1,9 @@
+// networks.config.ts
+/**
+ * This file contains the configuration for the networks used in the application.
+ *
+ * @packageDocumentation
+ */
 import { http, type Transport } from 'viem'
 import { arbitrum, mainnet, optimismSepolia, sepolia, polygon } from 'viem/chains'
 
