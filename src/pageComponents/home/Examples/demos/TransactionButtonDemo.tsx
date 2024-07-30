@@ -37,18 +37,20 @@ const TransactionButtonDemo = withWalletStatusVerifier(
     return (
       <>
         <TransactionButton
-          label="Send 100 USDC"
           labelSending="Sending 100 USDC..."
           onMined={handleOnMined}
           transaction={handleWriteContract}
-        />
+        >
+          Send 100 USDC
+        </TransactionButton>
         <br />
         <TransactionButton
-          label="Send 0.1 ETH"
           labelSending="Sending 0.1 ETH..."
           onMined={handleOnMined}
           transaction={handleSendTransaction}
-        />
+        >
+          Send 0.1 ETH
+        </TransactionButton>
       </>
     )
   },

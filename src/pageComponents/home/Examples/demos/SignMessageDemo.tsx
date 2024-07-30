@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { useDialog, GeneralMessage } from 'db-ui-toolkit'
+import { useDialog, GeneralMessage as GeneralMessageBase } from 'db-ui-toolkit'
 
 import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import SignButtonBase from '@/src/sharedComponents/SignButton'
@@ -16,6 +16,14 @@ Empower your dApps!
 ✨ Keep boosting! ✨
 
 dAppBooster Team 💪
+`
+
+const GeneralMessage = styled(GeneralMessageBase)<{ status?: 'ok' | 'error' }>`
+  ${({ status }) =>
+    status === 'ok' &&
+    css`
+      --theme-general-message-icon-color: var(--theme-color-ok);
+    `}
 `
 
 const Button = styled(PrimaryButton).attrs({ as: SignButtonBase })`
@@ -75,7 +83,12 @@ const SignMessageDemo = () => {
         onSign={(signature) => setState({ error: null, signature })}
       />
       <Dialog id="sign-message" onClose={onClose}>
-        <GeneralMessage actionButton={dialogButton} message={dialogMessage} title={dialogTitle} />
+        <GeneralMessage
+          actionButton={dialogButton}
+          message={dialogMessage}
+          status={state.error ? 'error' : 'ok'}
+          title={dialogTitle}
+        />
       </Dialog>
     </>
   )

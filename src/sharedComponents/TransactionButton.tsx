@@ -1,15 +1,12 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, ComponentProps } from 'react'
 
 import { type Hash, type TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
-import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 
-interface Props {
+interface Props extends ComponentProps<'button'> {
   confirmations?: number
-  disabled?: boolean
-  label?: string
   labelSending?: string
   onMined?: (receipt: TransactionReceipt) => void
   transaction: () => Promise<Hash>
@@ -24,7 +21,6 @@ interface Props {
  * @param {Function} props.transaction - The function that initiates the transaction.
  * @param {Function} props.onMined - The callback function to be called when the transaction is mined.
  * @param {boolean} props.disabled - The flag to disable the button.
- * @param {string} props.label - The label for the button.
  * @param {string} props.labelSending - The label for the button when the transaction is pending.
  * @param {number} props.confirmations - The number of confirmations to wait for the transaction.
  *
@@ -33,12 +29,13 @@ interface Props {
 
 const TransactionButton = withWalletStatusVerifier<Props>(
   ({
+    children = 'Send Transaction',
     confirmations = 1,
     disabled,
-    label = 'Send Transaction',
     labelSending = 'Sending...',
     onMined,
     transaction,
+    ...restProps
   }) => {
     const [hash, setHash] = useState<Hash>()
     const [isPending, setIsPending] = useState<boolean>(false)
@@ -71,12 +68,11 @@ const TransactionButton = withWalletStatusVerifier<Props>(
       }
     }
 
-    const inputProps = {
-      disabled: isPending || disabled,
-      onClick: handleSendTransaction,
-    }
-
-    return <PrimaryButton {...inputProps}>{isPending ? labelSending : label}</PrimaryButton>
+    return (
+      <button disabled={isPending || disabled} onClick={handleSendTransaction} {...restProps}>
+        {isPending ? labelSending : children}
+      </button>
+    )
   },
 )
 
