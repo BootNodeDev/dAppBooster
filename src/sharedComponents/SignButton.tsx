@@ -1,8 +1,8 @@
 import { type FC } from 'react'
 
-import { Button } from 'db-ui-toolkit'
 import { useSignMessage } from 'wagmi'
 
+import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 
 interface SignButtonProps {
@@ -56,13 +56,9 @@ const SignButton: FC<SignButtonProps> = withWalletStatusVerifier(
     })
 
     return (
-      <Button
-        $variant="primary"
-        disabled={disabled || isPending}
-        onClick={() => signMessage({ message })}
-      >
+      <PrimaryButton disabled={disabled || isPending} onClick={() => signMessage({ message })}>
         {isPending ? labelSigning : label}
-      </Button>
+      </PrimaryButton>
     )
   },
 )

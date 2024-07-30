@@ -3,8 +3,8 @@ import { sepolia } from 'viem/chains'
 import { useSendTransaction, useWriteContract } from 'wagmi'
 
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
+import TransactionButton from '@/src/sharedComponents/TransactionButton'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
-import TransactionButton from '@/src/sharedComponents/Web3Buttons/TransactionButton'
 
 const TransactionButtonDemo = withWalletStatusVerifier(
   () => {

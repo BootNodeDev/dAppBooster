@@ -47,7 +47,7 @@ const Title = styled.h3`
   margin: 0;
 `
 
-const Data = styled.div<{ status: 'error' | 'ok' }>`
+const Data = styled.div<{ $status: 'error' | 'ok' }>`
   --base-status-size: 10px;
 
   align-items: center;
@@ -62,7 +62,7 @@ const Data = styled.div<{ status: 'error' | 'ok' }>`
   &::before {
     align-items: center;
     background-color: var(
-      ${({ status }) => (status === 'error' ? '--theme-color-danger' : '--theme-color-ok')}
+      ${({ $status }) => ($status === 'error' ? '--theme-color-danger' : '--theme-color-ok')}
     );
     border-radius: 50%;
     content: '';
@@ -84,7 +84,7 @@ const SubgraphStatus: FC<{
         {`${resource}@${chain.id}`}
         {getNetworkIcon(chain.name.toLowerCase())}
       </Title>
-      <Data status={isSynced ? `ok` : `error`}>
+      <Data $status={isSynced ? `ok` : `error`}>
         <span>
           <b>SG:</b> {subgraphBlockNumber.toString()}
         </span>

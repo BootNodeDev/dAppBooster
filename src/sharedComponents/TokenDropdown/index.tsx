@@ -40,7 +40,6 @@ const TokenDropdown: FC<Props> = ({
   iconSize = 24,
   onTokenSelect,
   showAddTokenButton,
-  showSwitchNetworkButton,
   ...restProps
 }: Props) => {
   const { Dropdown, close } = useDropdown()
@@ -77,7 +76,6 @@ const TokenDropdown: FC<Props> = ({
         <TokenSelect
           onTokenSelect={handleTokenSelect}
           showAddTokenButton={showAddTokenButton}
-          showSwitchNetworkButton={showSwitchNetworkButton}
           suspenseFallback={<Loading />}
           {...restProps}
         />

@@ -15,7 +15,6 @@ import ImgSubgraph from '@/src/pageComponents/home/Examples/assets/Subgraph'
 import ImgTokenInput from '@/src/pageComponents/home/Examples/assets/TokenInput'
 import ImgTokenList from '@/src/pageComponents/home/Examples/assets/TokenList'
 import ImgWallet from '@/src/pageComponents/home/Examples/assets/Wallet'
-import AddTokensOrSwitchNetworkDemo from '@/src/pageComponents/home/Examples/demos/AddTokensOrSwitchNetworkDemo'
 import AvatarDemo from '@/src/pageComponents/home/Examples/demos/AvatarDemo'
 import ERC20ApproveAndTransferButtonDemo from '@/src/pageComponents/home/Examples/demos/ERC20ApproveAndTransferButtonDemo'
 import EnsNameDemo from '@/src/pageComponents/home/Examples/demos/EnsNameDemo'
@@ -24,6 +23,7 @@ import HashInputDemo from '@/src/pageComponents/home/Examples/demos/HashInputDem
 import SignMessageDemo from '@/src/pageComponents/home/Examples/demos/SignMessageDemo'
 import SubgraphDemo from '@/src/pageComponents/home/Examples/demos/SubgraphDemo'
 import SubgraphStatusDemo from '@/src/pageComponents/home/Examples/demos/SubgraphStatusDemo'
+import SwitchNetworkDemo from '@/src/pageComponents/home/Examples/demos/SwitchNetworkDemo'
 import TokenDropdownDemo from '@/src/pageComponents/home/Examples/demos/TokenDropdownDemo'
 import TokenInputDemo from '@/src/pageComponents/home/Examples/demos/TokenInputDemo'
 import TransactionButtonDemo from '@/src/pageComponents/home/Examples/demos/TransactionButtonDemo'
@@ -83,11 +83,11 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Token input',
     },
     {
-      demo: <AddTokensOrSwitchNetworkDemo />,
+      demo: <SwitchNetworkDemo />,
       href: '#',
-      icon: <ImgWallet />,
-      text: 'Add a Token to the wallet or switch network',
-      title: 'Add Token or Switch Network',
+      icon: <ImgTokenList />,
+      text: 'Add or switch networks',
+      title: 'Add / switch network',
     },
     {
       demo: <HashDemo chain={mainnet} hash={address} />,

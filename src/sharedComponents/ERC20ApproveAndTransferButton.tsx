@@ -3,18 +3,18 @@ import { useWriteContract } from 'wagmi'
 
 import { useSuspenseReadErc20Allowance } from '@/src/hooks/generated'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
-import TransactionButton from '@/src/sharedComponents/Web3Buttons/TransactionButton'
+import TransactionButton from '@/src/sharedComponents/TransactionButton'
 import { type Token } from '@/src/types/token'
 
 interface ERC20ApproveAndTransferButtonProps {
-  token: Token
-  spender: Address
   amount: bigint
-  onSuccess?: (receipt: TransactionReceipt) => void
   disabled?: boolean
-  transaction: () => Promise<Hash>
   label?: string
   labelSending?: string
+  onSuccess?: (receipt: TransactionReceipt) => void
+  spender: Address
+  token: Token
+  transaction: () => Promise<Hash>
 }
 /**
  * Dynamically renders either an approval button or a transaction button based on the user's current token allowance.

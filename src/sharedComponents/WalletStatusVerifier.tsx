@@ -103,4 +103,5 @@ const withWalletStatusVerifier = <P extends object>(
   return ComponentWithVerifier
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { WalletStatusVerifier, withWalletStatusVerifier }
