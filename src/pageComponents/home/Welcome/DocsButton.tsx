@@ -20,7 +20,7 @@ const DocsButton = ({ ...restProps }) => {
   return (
     <Wrapper
       as="a"
-      href="https://github.com/BootNodeDev/dAppBooster#dappster"
+      href="https://bootnodedev.github.io/dAppBooster/"
       target="_blank"
       {...restProps}
     >
