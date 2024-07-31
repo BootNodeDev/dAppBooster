@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { useNavigate } from '@tanstack/react-router'
-import { GeneralError } from 'db-ui-toolkit'
+import { GeneralMessage } from 'db-ui-toolkit'
 
 import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 
@@ -58,7 +58,7 @@ const Icon = () => (
   </svg>
 )
 
-const Wrapper = styled(GeneralError)`
+const Wrapper = styled(GeneralMessage)`
   margin: auto;
 `
 

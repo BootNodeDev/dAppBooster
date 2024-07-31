@@ -23,7 +23,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: var(--base-common-padding-xl);
-  row-gap: calc(var(--base-gap-xl) * 2);
+  row-gap: var(--base-gap-xl);
 `
 
 const Row = styled.div`

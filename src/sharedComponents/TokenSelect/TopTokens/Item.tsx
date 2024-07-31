@@ -84,7 +84,7 @@ const Icon = styled.div.attrs(({ className = 'tokenSelectTopTokenItemIcon' }) =>
   width: ${ICON_SIZE}px;
 `
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   token: Token
 }
 
@@ -93,7 +93,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
  *
  * @param {Token} token - The token to display
  */
-const Item: FC<Props> = ({ token, ...restProps }) => {
+const Item: FC<ItemProps> = ({ token, ...restProps }) => {
   const { symbol } = token
 
   return (
