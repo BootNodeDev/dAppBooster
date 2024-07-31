@@ -1,6 +1,7 @@
 import { type FC } from 'react'
 import styled from 'styled-components'
 
+import { SkeletonLoading } from 'db-ui-toolkit'
 import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
 
 import { useSubgraphIndexingStatus } from '@/src/hooks/useSubgraphIndexingStatus'
@@ -73,6 +74,24 @@ const Data = styled.div<{ $status: 'error' | 'ok' }>`
   }
 `
 
+export const SkeletonLoadingItem = () => (
+  <SkeletonLoading
+    $animate={false}
+    style={{
+      height: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '55px',
+      padding: '16px',
+      rowGap: '16px',
+      width: '272px',
+    }}
+  >
+    <SkeletonLoading style={{ width: '40%', minHeight: '20px' }} />
+    <SkeletonLoading style={{ width: '100%', minHeight: '19px' }} />
+  </SkeletonLoading>
+)
+
 const SubgraphStatus: FC<{
   indexingStatus: ReturnType<typeof useSubgraphIndexingStatus>
 }> = ({ indexingStatus }) => {
@@ -116,9 +135,9 @@ const List = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       {uniswapNetworks.map((chain) => (
-        <Uniswap chain={chain} key={chain.id} />
+        <Uniswap chain={chain} key={chain.id} suspenseFallback={<SkeletonLoadingItem />} />
       ))}
-      <Aave />
+      <Aave suspenseFallback={<SkeletonLoadingItem />} />
     </Wrapper>
   )
 }
