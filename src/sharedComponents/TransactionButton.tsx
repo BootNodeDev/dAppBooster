@@ -5,7 +5,7 @@ import { useWaitForTransactionReceipt } from 'wagmi'
 
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 
-interface Props extends ComponentProps<'button'> {
+interface TransactionButtonProps extends ComponentProps<'button'> {
   confirmations?: number
   labelSending?: string
   onMined?: (receipt: TransactionReceipt) => void
@@ -17,7 +17,7 @@ interface Props extends ComponentProps<'button'> {
  * Use with writeContractSync or sendTransactionSync function to handle the transaction and wait for it.
  * The component will call the onMined callback function when the transaction is mined.
  *
- * @param {Props} props - TransactionButton component props.
+ * @param {TransactionButtonProps} props - TransactionButton component props.
  * @param {Function} props.transaction - The function that initiates the transaction.
  * @param {Function} props.onMined - The callback function to be called when the transaction is mined.
  * @param {boolean} props.disabled - The flag to disable the button.
@@ -27,7 +27,7 @@ interface Props extends ComponentProps<'button'> {
  * @returns The transaction button component.
  */
 
-const TransactionButton = withWalletStatusVerifier<Props>(
+const TransactionButton = withWalletStatusVerifier<TransactionButtonProps>(
   ({
     children = 'Send Transaction',
     confirmations = 1,

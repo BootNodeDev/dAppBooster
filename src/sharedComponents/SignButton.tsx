@@ -4,7 +4,7 @@ import { useSignMessage } from 'wagmi'
 
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 
-interface Props extends Omit<ComponentProps<'button'>, 'onError'> {
+interface SignButtonPropsProps extends Omit<ComponentProps<'button'>, 'onError'> {
   label?: string
   labelSigning?: string
   message: string
@@ -32,7 +32,7 @@ interface Props extends Omit<ComponentProps<'button'>, 'onError'> {
  * />
  * ```
  */
-const SignButton: FC<Props> = withWalletStatusVerifier(
+const SignButton: FC<SignButtonPropsProps> = withWalletStatusVerifier(
   ({
     children = 'Sign Message',
     disabled,

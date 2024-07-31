@@ -7,7 +7,7 @@ import { isNativeToken } from '@/src/utils/address'
 
 const Wrapper = styled.button``
 
-interface Props extends ComponentProps<'button'> {
+interface AddERC20TokenButtonProps extends ComponentProps<'button'> {
   $token: Token
   as?: ElementType
 }
@@ -18,7 +18,12 @@ interface Props extends ComponentProps<'button'> {
  * @param {AddERC20TokenButtonProps} props - AddERC20TokenButton component props.
  * @param {Token} props.$token - The ERC20 token object.
  */
-const AddERC20TokenButton: FC<Props> = ({ $token, children, onClick, ...restProps }) => {
+const AddERC20TokenButton: FC<AddERC20TokenButtonProps> = ({
+  $token,
+  children,
+  onClick,
+  ...restProps
+}) => {
   const { isWalletConnected, walletChainId, walletClient } = useWeb3Status()
   const { address, chainId, decimals, logoURI, symbol } = $token
   const disabled = !isWalletConnected || walletChainId !== chainId

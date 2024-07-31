@@ -16,7 +16,7 @@ const Button = styled(PrimaryButton)`
   padding-right: calc(var(--base-common-padding) * 3);
 `
 
-interface Props {
+interface WalletStatusVerifierProps {
   chainId?: ChainsIds
   children?: ReactElement
   fallback?: ReactElement
@@ -42,7 +42,7 @@ interface Props {
  * </WalletStatusVerifier>
  * ```
  */
-const WalletStatusVerifier: FC<Props> = ({
+const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
   chainId,
   children,
   fallback = <ConnectWalletButton />,
@@ -82,7 +82,11 @@ const WalletStatusVerifier: FC<Props> = ({
  */
 const withWalletStatusVerifier = <P extends object>(
   WrappedComponent: ComponentType<P>,
-  { chainId, fallback = <ConnectWalletButton />, labelSwitchChain = 'Switch to' }: Props = {},
+  {
+    chainId,
+    fallback = <ConnectWalletButton />,
+    labelSwitchChain = 'Switch to',
+  }: WalletStatusVerifierProps = {},
 ): FC<P> => {
   const ComponentWithVerifier: FC<P> = (props: P) => {
     const { appChainId, isWalletConnected, isWalletSynced, switchChain, walletChainId } =

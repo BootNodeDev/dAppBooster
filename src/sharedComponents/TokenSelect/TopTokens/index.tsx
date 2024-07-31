@@ -5,9 +5,11 @@ import Item from '@/src/sharedComponents/TokenSelect/TopTokens/Item'
 import { type Tokens, type Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' }) => ({
-  className,
-}))`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' }) => {
+  return {
+    className,
+  }
+})`
   display: flex;
   flex-wrap: wrap;
   gap: var(--base-gap-xl);
@@ -15,7 +17,7 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' })
   padding-right: var(--base-token-select-horizontal-padding);
 `
 
-interface Props extends HTMLAttributes<HTMLDivElement> {
+interface TopTokensProps extends HTMLAttributes<HTMLDivElement> {
   onTokenSelect: (token: Token | undefined) => void
   tokens: Tokens
 }
@@ -26,7 +28,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
  * @param {function} onTokenSelect - Callback function to be called when a token is selected.
  * @param {Tokens} tokens - The list of tokens to display.
  */
-const TopTokens: FC<Props> = ({ onTokenSelect, tokens, ...restProps }: Props) => {
+const TopTokens: FC<TopTokensProps> = ({ onTokenSelect, tokens, ...restProps }) => {
   const topTokenSymbols = ['op', 'usdc', 'usdt', 'dai', 'weth', 'wbtc', 'aave']
 
   return (
