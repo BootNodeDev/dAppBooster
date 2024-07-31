@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { ExternalLink, CopyButton, Toast } from 'db-ui-toolkit'
+import { ExternalLink, CopyButton, Toast, SkeletonLoading } from 'db-ui-toolkit'
 import request from 'graphql-request'
 import { toast } from 'react-hot-toast'
 import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
@@ -197,13 +197,30 @@ const Aave = withSuspenseAndRetry(() => {
 
 const uniswapNetworks = [optimism, polygon, arbitrum]
 
+export const SkeletonLoadingItem = () => (
+  <SkeletonLoading
+    $animate={false}
+    style={{
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '133px',
+      padding: '16px',
+      rowGap: '16px',
+      width: '340px',
+    }}
+  >
+    <SkeletonLoading style={{ width: '40%', height: '28px' }} />
+    <SkeletonLoading style={{ width: '100%', height: '19px' }} />
+  </SkeletonLoading>
+)
+
 const List = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       {uniswapNetworks.map((chain) => (
-        <Uniswap chain={chain} key={chain.id} />
+        <Uniswap chain={chain} key={chain.id} suspenseFallback={<SkeletonLoadingItem />} />
       ))}
-      <Aave />
+      <Aave suspenseFallback={<SkeletonLoadingItem />} />
     </Wrapper>
   )
 }
