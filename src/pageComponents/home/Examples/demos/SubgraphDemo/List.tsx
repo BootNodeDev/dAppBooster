@@ -203,6 +203,7 @@ export const SkeletonLoadingItem = () => (
     style={{
       display: 'flex',
       flexDirection: 'column',
+      height: 'auto',
       minHeight: '133px',
       padding: '16px',
       rowGap: '16px',
