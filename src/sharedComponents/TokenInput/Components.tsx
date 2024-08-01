@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { Button, Textfield as BaseTextfield } from 'db-ui-toolkit'
+import { Button, Textfield as BaseTextfield, breakpointMediaQuery } from 'db-ui-toolkit'
 
 const BaseChevronDown = ({ ...restProps }) => (
   <svg
@@ -41,7 +41,14 @@ export const Title = styled.h3.attrs({ className: 'tokenInputTitle' })`
 export const TopRow = styled.div.attrs({ className: 'tokenInputTopRow' })`
   column-gap: var(--base-gap);
   display: flex;
-  height: 58px;
+  height: 42px;
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      height: 58px;
+    `,
+  )}
 `
 
 export const Textfield = styled(BaseTextfield).attrs({
@@ -65,9 +72,18 @@ export const Textfield = styled(BaseTextfield).attrs({
     rgb(22 29 26 / 60%)
   );
 
-  font-size: 3.2rem;
+  font-size: 2.4rem;
   height: auto;
   min-width: 0;
+  padding: var(--base-token-input-texfield-padding, var(--base-common-padding));
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      font-size: 3.2rem;
+      padding: var(--base-token-input-texfield-padding, 0 var(--base-common-padding-xl));
+    `,
+  )}
 `
 
 export const ChevronDown = styled(BaseChevronDown)`
@@ -103,11 +119,20 @@ export const DropdownButton = styled(Button).attrs(({ children }) => {
   --theme-button-color: var(--theme-token-input-dropdown-button-color, #2e3048);
   --theme-button-color-hover: var(--theme-token-input-dropdown-button-color-hover, #2e3048);
 
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   font-weight: 500;
   flex-shrink: 0;
   height: auto;
   min-width: 100px;
+  padding: var(--base-token-input-dropdown-button-padding, 0 var(--base-common-padding));
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      font-size: 1.6rem;
+      padding: var(--base-token-input-dropdown-button-padding, 0 var(--base-common-padding-xl));
+    `,
+  )}
 `
 
 export const Error = styled.span`
