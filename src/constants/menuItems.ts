@@ -14,7 +14,7 @@ export const menuItems: MenuItem[] = [
   },
   {
     label: 'Documentation',
-    href: 'https://docs.dappboster.io',
+    href: 'https://bootnodedev.github.io/dAppBooster/',
   },
   {
     label: 'Examples',
