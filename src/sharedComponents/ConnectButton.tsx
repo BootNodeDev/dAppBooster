@@ -67,6 +67,10 @@ const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, 
         'desktopStart',
         css`
           height: 44px;
+
+          > svg {
+            display: block;
+          }
         `,
       )}
     `}
