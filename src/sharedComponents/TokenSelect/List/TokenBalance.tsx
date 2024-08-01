@@ -6,9 +6,11 @@ import { type Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 /** @ignore */
-export const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => ({
-  className,
-}))`
+export const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => {
+  return {
+    className,
+  }
+})`
   color: var(--theme-token-select-row-token-balance-color-default);
   font-size: 1.6rem;
   font-weight: 400;
