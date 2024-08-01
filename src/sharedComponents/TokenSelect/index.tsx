@@ -172,10 +172,10 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
     showTopTokens = false,
     ...restProps
   }) => {
-    const { appChainId, isWalletConnected } = useWeb3Status()
+    const { appChainId, isWalletConnected, walletChainId } = useWeb3Status()
 
-    const [chainId, setChainId] = useState<ChainId>(() =>
-      isWalletConnected ? currentNetworkId ?? appChainId : mainnet.id,
+    const [chainId, setChainId] = useState<ChainId>(
+      () => currentNetworkId ?? appChainId ?? mainnet.id,
     )
 
     const previousDepsRef = useRef([appChainId, currentNetworkId, isWalletConnected])
@@ -237,7 +237,7 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
           isLoadingBalances={isLoadingBalances}
           itemHeight={itemHeight}
           onTokenSelect={onTokenSelect}
-          showAddTokenButton={showAddTokenButton}
+          showAddTokenButton={showAddTokenButton && walletChainId === chainId}
           showBalance={showBalance}
           tokenList={searchResult}
         />
