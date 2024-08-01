@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import { Button } from 'db-ui-toolkit'
+import { Button, breakpointMediaQuery } from 'db-ui-toolkit'
 
 const BaseChevronDown = ({ ...restProps }) => (
   <svg
@@ -38,13 +38,37 @@ const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, 
     ),
   }
 })`
-  height: 44px;
+  font-size: 1.4rem;
   font-weight: 700;
+  height: 46px;
+
+  ${breakpointMediaQuery(
+    'tabletLandscapeStart',
+    css`
+      font-size: 1.5rem;
+      height: 48px;
+    `,
+  )}
 
   ${({ $isConnected }) =>
     $isConnected &&
     css`
       border-radius: 30px;
+      font-size: 1.2rem;
+      height: 37px;
+      padding-left: var(--base-common-padding);
+      padding-right: var(--base-common-padding);
+
+      > svg {
+        display: none;
+      }
+
+      ${breakpointMediaQuery(
+        'tabletLandscapeStart',
+        css`
+          height: 44px;
+        `,
+      )}
     `}
 `
 

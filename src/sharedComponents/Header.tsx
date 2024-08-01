@@ -1,13 +1,14 @@
 import { type FC, type HTMLAttributes } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Link } from '@tanstack/react-router'
 import {
   InnerContainer,
   Header as BaseHeader,
-  Logo,
+  Logo as BaseLogo,
   ContainerPadding,
-  SwitchThemeButton,
+  SwitchThemeButton as SwitchThemeButtonBase,
+  breakpointMediaQuery,
 } from 'db-ui-toolkit'
 import { useTheme } from 'next-themes'
 
@@ -43,10 +44,28 @@ const HomeLink = styled(Link)`
   }
 `
 
+const Logo = styled(BaseLogo)`
+  width: 140px;
+
+  ${breakpointMediaQuery(
+    'tabletLandscapeStart',
+    css`
+      width: auto;
+    `,
+  )}
+`
+
 const Menu = styled(MainMenu)`
-  display: flex;
-  justify-content: center;
-  flex: 1;
+  display: none;
+
+  ${breakpointMediaQuery(
+    'tabletLandscapeStart',
+    css`
+      display: flex;
+      justify-content: center;
+      flex: 1;
+    `,
+  )}
 `
 
 const End = styled.div`
@@ -56,6 +75,17 @@ const End = styled.div`
   flex: 1;
   height: 100%;
   justify-content: flex-end;
+`
+
+const SwitchThemeButton = styled(SwitchThemeButtonBase)`
+  display: none;
+
+  ${breakpointMediaQuery(
+    'tabletLandscapeStart',
+    css`
+      display: block;
+    `,
+  )}
 `
 
 export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
