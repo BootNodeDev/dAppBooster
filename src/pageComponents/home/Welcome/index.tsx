@@ -1,11 +1,12 @@
 import { type FC, type HTMLAttributes } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import {
   Title as BasetTitle,
   Text as BaseText,
   InnerContainer as Inner,
   ContainerPadding,
+  breakpointMediaQuery,
 } from 'db-ui-toolkit'
 
 import { LightClouds, DarkClouds } from '@/src/pageComponents/home/Welcome/Clouds'
@@ -50,11 +51,24 @@ const Clouds = styled.div`
 `
 
 const Ghost = styled(BaseGhost)`
-  bottom: 70px;
+  bottom: -5px;
+  height: 191px;
   left: 50%;
+  object-fit: cover;
   position: absolute;
   transform: translateX(-50%);
+  width: 100px;
   z-index: 1;
+
+  ${breakpointMediaQuery(
+    'tabletLandscapeStart',
+    css`
+      bottom: 70px;
+      height: auto;
+      object-fit: none;
+      width: auto;
+    `,
+  )}
 `
 
 const Contents = styled.div`
