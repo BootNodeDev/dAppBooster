@@ -1,5 +1,7 @@
 import { type FC, type HTMLAttributes, type ReactNode } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
+import { breakpointMediaQuery } from 'db-ui-toolkit'
 
 import BaseBadge from '@/src/pageComponents/home/Examples/Item/Badge'
 import DocumentationButton from '@/src/pageComponents/home/Examples/Item/DocumentationButton'
@@ -16,18 +18,37 @@ const Wrapper = styled.div`
   background-color: var(--theme-examples-item-background-color);
   border-radius: var(--base-border-radius);
   display: flex;
-  gap: calc(var(--base-gap) * 2);
+  flex-direction: column;
+  row-gap: calc(var(--base-gap-xl) + var(--base-gap));
   max-width: 100%;
-  padding: calc(var(--base-gap) * 2) calc(var(--base-gap) * 2) calc(var(--base-gap) * 2)
-    calc(var(--base-gap) * 4);
+  padding: calc(var(--base-common-padding-xl) * 2) var(--base-common-padding-xl)
+    var(--base-common-padding-xl);
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      column-gap: var(--base-gap-xl);
+      flex-direction: row;
+      padding: var(--base-common-padding-xl) var(--base-common-padding-xl)
+        var(--base-common-padding-xl) calc(var(--base-common-padding-xl) * 2);
+    `,
+  )};
 `
 
 const Info = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: calc(var(--base-gap) * 2) 0 0;
-  row-gap: calc(var(--base-gap) * 2);
+  row-gap: var(--base-gap-xl);
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      align-items: flex-start;
+      padding: var(--base-common-padding-xl) 0 0;
+    `,
+  )};
 `
 
 const Icon = styled.div`
@@ -49,6 +70,14 @@ const Title = styled.h2`
   font-weight: 700;
   line-height: 1.2;
   margin: 0;
+  text-align: center;
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      text-align: left;
+    `,
+  )};
 `
 
 const Text = styled.p`
@@ -57,6 +86,14 @@ const Text = styled.p`
   font-weight: 500;
   line-height: 1.5;
   margin: 0;
+  text-align: center;
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      text-align: left;
+    `,
+  )};
 `
 
 const Demo = styled.div`
@@ -67,10 +104,19 @@ const Demo = styled.div`
   flex-direction: column;
   flex: 1;
   justify-content: center;
-  min-height: 205px;
   min-width: 0;
-  padding: calc(var(--base-gap) * 5) calc(var(--base-gap) * 3) calc(var(--base-gap) * 3);
+  padding: calc(var(--base-common-padding) * 6) var(--base-common-padding)
+    calc(var(--base-common-padding) * 4);
   position: relative;
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      min-height: 205px;
+      padding: calc(var(--base-common-padding) * 6) calc(var(--base-common-padding) * 3)
+        calc(var(--base-common-padding) * 3);
+    `,
+  )};
 `
 
 const Badge = styled(BaseBadge)`

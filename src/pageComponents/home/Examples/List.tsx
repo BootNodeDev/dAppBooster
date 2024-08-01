@@ -21,11 +21,11 @@ const Wrapper = styled.div`
   flex-direction: column;
   max-width: 100%;
   padding: calc(var(--base-common-padding-xl) * 2) var(--base-common-padding);
-  row-gap: calc(var(--base-gap) * 4);
+  row-gap: calc(var(--base-gap-xl) * 2);
   width: 1066px;
 
   ${breakpointMediaQuery(
-    'tabletPortraitStart',
+    'tabletLandscapeStart',
     css`
       padding: calc(var(--base-common-padding) * 7);
       row-gap: calc(var(--base-gap) * 5);
@@ -41,7 +41,7 @@ const Title = styled.h2`
   margin: 0;
 
   ${breakpointMediaQuery(
-    'tabletPortraitStart',
+    'tabletLandscapeStart',
     css`
       font-size: 3.6rem;
     `,
