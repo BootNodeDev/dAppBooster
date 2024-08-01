@@ -59,8 +59,10 @@ const TokenBalance = withSuspenseAndRetry<TokenBalanceProps>(({ isLoading, token
     throw Promise.reject()
   }
 
-  const balance = formatUnits(token.extensions!.balance as bigint, token.decimals)
-  const value = (parseFloat(token.extensions!.priceUSD as string) * parseFloat(balance)).toFixed(2)
+  const balance = formatUnits((token.extensions?.balance ?? 0n) as bigint, token.decimals)
+  const value = (
+    parseFloat((token.extensions?.priceUSD ?? '0') as string) * parseFloat(balance)
+  ).toFixed(2)
 
   return (
     <Values>
