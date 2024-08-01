@@ -9,10 +9,6 @@ type MenuItem = {
  */
 export const menuItems: MenuItem[] = [
   {
-    label: 'Home',
-    to: '/#top',
-  },
-  {
     label: 'Documentation',
     href: 'https://bootnodedev.github.io/dAppBooster/',
   },

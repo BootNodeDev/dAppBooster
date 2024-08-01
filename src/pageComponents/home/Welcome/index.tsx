@@ -141,7 +141,7 @@ const Buttons = styled.div`
 
 const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   return (
-    <Wrapper id="top" {...restProps}>
+    <Wrapper {...restProps}>
       <Clouds>
         <LightClouds />
         <DarkClouds />
