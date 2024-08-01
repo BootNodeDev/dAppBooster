@@ -53,7 +53,7 @@ export const useTokens = (
 
   const canFetchBalance = !!account && withBalance
 
-  const { data: chains, isLoading: ilc } = useQuery({
+  const { data: chains, isLoading: isLoadingChains } = useQuery({
     queryKey: ['lifi', 'chains'],
     queryFn: () => getChains(),
     staleTime: Infinity,
@@ -68,7 +68,7 @@ export const useTokens = (
   const lifiChainsId = chains?.map((chain) => chain.id) ?? []
   const chainsToFetch = dAppChainsId.filter((id) => lifiChainsId.includes(id))
 
-  const { data: tokensPricesByChain, isLoading: ilp } = useQuery({
+  const { data: tokensPricesByChain, isLoading: isLoadingPrices } = useQuery({
     queryKey: ['lifi', 'tokens', 'prices', chainsToFetch],
     queryFn: () => getTokens({ chains: chainsToFetch }),
     staleTime: BALANCE_EXPIRATION_TIME,
@@ -77,7 +77,7 @@ export const useTokens = (
     enabled: canFetchBalance && !!chains,
   })
 
-  const { data: tokensBalances, isLoading: ilb } = useQuery({
+  const { data: tokensBalances, isLoading: isLoadingBalances } = useQuery({
     queryKey: ['lifi', 'tokens', 'balances', account, chainsToFetch],
     queryFn: () =>
       getTokenBalances(
@@ -94,13 +94,31 @@ export const useTokens = (
   })
 
   const cache = useMemo(() => {
-    if (withBalance && account && !ilp && !ilb && tokensBalances && tokensPricesByChain) {
+    if (
+      withBalance &&
+      account &&
+      !isLoadingPrices &&
+      !isLoadingBalances &&
+      tokensBalances &&
+      tokensPricesByChain
+    ) {
       return udpateTokensBalances(tokensData.tokens, [tokensBalances, tokensPricesByChain])
     }
     return tokensData
-  }, [account, ilb, ilp, tokensBalances, tokensData, tokensPricesByChain, withBalance])
+  }, [
+    account,
+    isLoadingBalances,
+    isLoadingPrices,
+    tokensBalances,
+    tokensData,
+    tokensPricesByChain,
+    withBalance,
+  ])
 
-  return { ...cache, isLoadingBalances: Boolean(ilc || ilb || ilp) }
+  return {
+    ...cache,
+    isLoadingBalances: Boolean(isLoadingChains || isLoadingBalances || isLoadingPrices),
+  }
 }
 
 /**
