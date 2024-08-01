@@ -1,7 +1,7 @@
 import { type FC, type HTMLAttributes } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { InnerContainer as Inner, ContainerPadding } from 'db-ui-toolkit'
+import { InnerContainer as Inner, ContainerPadding, breakpointMediaQuery } from 'db-ui-toolkit'
 import { mainnet } from 'viem/chains'
 import { useAccount } from 'wagmi'
 
@@ -45,8 +45,16 @@ const Wrapper = styled.section`
 const InnerContainer = styled(Inner)`
   align-items: center;
   flex-direction: column;
-  padding-bottom: 100px;
-  padding-top: 100px;
+  padding-bottom: 50px;
+  padding-top: 50px;
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      padding-bottom: 100px;
+      padding-top: 100px;
+    `,
+  )}
 
   ${ContainerPadding}
 `
