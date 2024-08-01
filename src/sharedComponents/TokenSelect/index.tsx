@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useRef, useState, type HTMLAttributes, type ReactElement } from 'react'
+import { useEffect, useRef, useState, type HTMLAttributes, type ReactElement } from 'react'
 import styled from 'styled-components'
 
 import { ChainId } from '@lifi/sdk'
 import { Card, Spinner } from 'db-ui-toolkit'
 import { mainnet } from 'viem/chains'
-import { useSwitchChain } from 'wagmi'
 
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useTokens } from '@/src/hooks/useTokens'
