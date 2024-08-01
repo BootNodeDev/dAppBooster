@@ -10,6 +10,10 @@ import {
 
 import { formatUnits, parseUnits, maxUint256 } from 'viem'
 
+export type RenderInputProps = Omit<HTMLProps<HTMLInputElement>, 'onChange'> & {
+  onChange: (event: ChangeEvent<HTMLInputElement> | string) => void
+}
+
 export type BigNumberInputProps = {
   autofocus?: boolean
   decimals: number
@@ -19,7 +23,7 @@ export type BigNumberInputProps = {
   onChange: (value: string) => void
   onError?: (error: { value: string; message: string } | null) => void
   placeholder?: string
-  renderInput?: (props: HTMLProps<HTMLInputElement>) => ReactElement
+  renderInput?: (props: RenderInputProps) => ReactElement
   value: string
 }
 
@@ -84,8 +88,8 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     }
   }, [autofocus, inputRef, renderInput])
 
-  const updateValue = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.currentTarget
+  const updateValue = (event: ChangeEvent<HTMLInputElement> | string) => {
+    const { value } = typeof event === 'string' ? { value: event } : event.currentTarget
 
     if (value === '') {
       onChange(value)

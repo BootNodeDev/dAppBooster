@@ -2,11 +2,16 @@ import { useMemo, useState, type FC } from 'react'
 import styled from 'styled-components'
 
 import { useDialog, Spinner } from 'db-ui-toolkit'
+import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits, getAddress } from 'viem'
 import { useAccount, useBalance } from 'wagmi'
 
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
-import { type BigNumberInputProps, BigNumberInput } from '@/src/sharedComponents/BigNumberInput'
+import {
+  type BigNumberInputProps,
+  BigNumberInput,
+  type RenderInputProps,
+} from '@/src/sharedComponents/BigNumberInput'
 import BaseCloseButton from '@/src/sharedComponents/TokenInput/CloseButton'
 import {
   Balance,
@@ -41,6 +46,7 @@ export const CloseButton = styled(BaseCloseButton)`
 interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
   onAmountSet: (amount?: string) => void
   onError: (error?: string) => void
+  thousandSeparator?: boolean
   title?: string
 }
 
@@ -51,6 +57,7 @@ interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
  * @param {TokenInputProps} props - TokenInput component props.
  * @param {(amount?: string) => void} props.onAmountSet - A callback function triggered when the amount is set.
  * @param {(error?: string) => void} props.onError - A callback function triggered when there is an error.
+ * @param {boolean} [props.thousandSeparator=true] - Optional flag to enable thousands separator. Default is true.
  * @param {string} props.title - The title of the token input.
  * @param {number} [props.currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
  * @param {function} props.onTokenSelect - Callback function to be called when a token is selected.
@@ -126,6 +133,7 @@ const TokenInput: FC<TokenInputProps> = ({
   showAddTokenButton,
   showBalance,
   showTopTokens,
+  thousandSeparator = true,
   title,
   ...restProps
 }) => {
@@ -147,6 +155,7 @@ const TokenInput: FC<TokenInputProps> = ({
   )
 
   const handleSetAmount = (amount: string) => {
+    console.log('amount', amount)
     setAmount(amount)
     onAmountSet(amount)
   }
@@ -172,6 +181,7 @@ const TokenInput: FC<TokenInputProps> = ({
   }
 
   const selectIconSize = 24
+  const decimals = selectedToken ? selectedToken.decimals : 2
 
   return (
     <>
@@ -179,15 +189,18 @@ const TokenInput: FC<TokenInputProps> = ({
         {title && <Title>{title}</Title>}
         <TopRow>
           <BigNumberInput
-            decimals={selectedToken ? selectedToken.decimals : 2}
+            decimals={decimals}
             max={max}
             onChange={handleSetAmount}
             onError={handleError}
             placeholder="0.00"
-            // ref is throwing a type-compatibility error, but we don't need it anyways
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            renderInput={({ ref, ...restProps }) => (
-              <Textfield $status={amountError ? 'error' : undefined} {...restProps} />
+            renderInput={(renderInputProps) => (
+              <TokenAmountField
+                amountError={amountError}
+                decimals={decimals}
+                renderInputProps={renderInputProps}
+                thousandSeparator={thousandSeparator}
+              />
             )}
             value={amount}
           />
@@ -240,6 +253,43 @@ const TokenInput: FC<TokenInputProps> = ({
         </TokenSelect>
       </Dialog>
     </>
+  )
+}
+
+function TokenAmountField({
+  amountError,
+  decimals,
+  renderInputProps,
+  thousandSeparator,
+}: {
+  amountError?: string | null
+  decimals: number
+  renderInputProps: RenderInputProps
+  thousandSeparator: boolean
+}) {
+  const { onChange, ...restProps } = renderInputProps
+
+  const isAllowed = ({ value }: NumberFormatValues) => {
+    const [, inputDecimals] = value.toString().split('.')
+
+    if (!inputDecimals) {
+      return true
+    }
+
+    return decimals >= inputDecimals?.length
+  }
+
+  return (
+    <NumericFormat
+      $status={amountError ? 'error' : undefined}
+      customInput={Textfield}
+      isAllowed={isAllowed}
+      onValueChange={({ value }) => onChange?.(value)}
+      thousandSeparator={thousandSeparator}
+      // NumericFormat has defaultValue prop overwritten and is not compatible with the standard
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(restProps as any)}
+    />
   )
 }
 
