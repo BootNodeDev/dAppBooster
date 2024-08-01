@@ -1,7 +1,7 @@
 import { type FC } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { SkeletonLoading } from 'db-ui-toolkit'
+import { SkeletonLoading, breakpointMediaQuery } from 'db-ui-toolkit'
 import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
 
 import { useSubgraphIndexingStatus } from '@/src/hooks/useSubgraphIndexingStatus'
@@ -23,8 +23,16 @@ const Wrapper = styled.div`
 
   display: flex;
   flex-direction: column;
-  padding: var(--base-common-padding-xl);
+  padding: 0 var(--base-common-padding);
   row-gap: var(--base-gap-xl);
+  width: 100%;
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      width: auto;
+    `,
+  )}
 `
 
 const Row = styled.div`
@@ -55,10 +63,11 @@ const Data = styled.div<{ $status: 'error' | 'ok' }>`
   color: var(--theme-subgraph-status-data-row-color);
   column-gap: var(--base-gap);
   display: grid;
-  grid-template-columns: var(--base-status-size) 1fr 10px 1fr;
   font-size: 1.6rem;
   font-weight: 400;
+  grid-template-columns: var(--base-status-size) 1fr;
   line-height: 1.2;
+  white-space: nowrap;
 
   &::before {
     align-items: center;
@@ -72,6 +81,37 @@ const Data = styled.div<{ $status: 'error' | 'ok' }>`
     width: var(--base-status-size);
     transition: background-color var(--base-transition-duration);
   }
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      grid-template-columns: var(--base-status-size) 1fr 10px 1fr;
+    `,
+  )}
+`
+
+const SG = styled.span``
+
+const Separator = styled.span`
+  display: none;
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      display: block;
+    `,
+  )}
+`
+
+const BC = styled.span`
+  padding-left: calc(var(--base-status-size) + var(--base-gap));
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      padding-left: 0;
+    `,
+  )}
 `
 
 export const SkeletonLoadingItem = () => (
@@ -104,14 +144,14 @@ const SubgraphStatus: FC<{
         {getNetworkIcon(chain.name.toLowerCase())}
       </Title>
       <Data $status={isSynced ? `ok` : `error`}>
-        <span>
+        <SG>
           <b>SG:</b> {subgraphBlockNumber.toString()}
-        </span>
-        <span>-</span>
-        <span>
+        </SG>
+        <Separator>-</Separator>
+        <BC>
           <b>BC:</b>
           {networkBlockNumber?.toString() ?? '-'}
-        </span>
+        </BC>
       </Data>
     </Row>
   )
