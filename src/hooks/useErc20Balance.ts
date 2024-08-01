@@ -25,7 +25,7 @@ export const useErc20Balance = ({
   address?: Address
   token?: Token
 }): Erc20Balance => {
-  const enabled = !!address && !!token && isNativeToken(token.address)
+  const enabled = !!address && !!token && !isNativeToken(token.address)
 
   const { data, error, isLoading } = useReadContract({
     abi: erc20Abi,
