@@ -7,9 +7,7 @@ import { isNativeToken } from '@/src/utils/address'
 
 const Wrapper = styled.button``
 
-type WrapperType = ComponentProps<'button'>
-
-interface AddERC20TokenButtonProps extends WrapperType {
+interface AddERC20TokenButtonProps extends ComponentProps<'button'> {
   $token: Token
   as?: ElementType
 }

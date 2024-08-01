@@ -1,6 +1,8 @@
 import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
+import { SkeletonLoading } from 'db-ui-toolkit'
+
 import AddERC20TokenButton from '@/src/sharedComponents/AddERC20TokenButton'
 import { SecondaryButton } from '@/src/sharedComponents/Buttons'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
@@ -117,6 +119,20 @@ interface TokenSelectRowProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onCl
   token: Token
 }
 
+const BalanceLoading = styled.div.attrs({
+  children: (
+    <>
+      <SkeletonLoading style={{ height: '19px', width: '50px' }} />
+      <SkeletonLoading style={{ height: '14px', width: '50px' }} />
+    </>
+  ),
+})`
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--base-gap-sm);
+  align-items: flex-end;
+`
+
 /**
  * A row in the token select list.
  *
@@ -152,7 +168,11 @@ const Row: FC<TokenSelectRowProps> = ({
       )}
       {showBalance && (
         <RightColumn>
-          <TokenBalance isLoading={isLoadingBalances} token={token} />
+          <TokenBalance
+            isLoading={isLoadingBalances}
+            suspenseFallback={<BalanceLoading />}
+            token={token}
+          />
         </RightColumn>
       )}
     </Wrapper>

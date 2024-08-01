@@ -1,7 +1,7 @@
 import { type ReactNode, Suspense, type ComponentType, JSX } from 'react'
 
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import { GeneralErrorDialog, Spinner } from 'db-ui-toolkit'
+import { GeneralMessageDialog, Spinner } from 'db-ui-toolkit'
 import { ErrorBoundary, type ErrorBoundaryPropsWithRender } from 'react-error-boundary'
 
 import { PrimaryButton } from '@/src/sharedComponents/Buttons'
@@ -43,7 +43,7 @@ export const withSuspense = <WrappedProps extends object>(
           defaultFallbackFormat === 'default' ? (
             <>{errorMessage}</>
           ) : defaultFallbackFormat === 'dialog' ? (
-            <GeneralErrorDialog message={<>{errorMessage}</>} />
+            <GeneralMessageDialog message={<>{errorMessage}</>} />
           ) : null
         }
       >
@@ -88,7 +88,7 @@ const defaultFallbackRenderDialog: ErrorBoundaryPropsWithRender['fallbackRender'
   error: Error
   resetErrorBoundary: () => void
 }) => (
-  <GeneralErrorDialog
+  <GeneralMessageDialog
     actionButton={<PrimaryButton onClick={resetErrorBoundary}>Try again</PrimaryButton>}
     message={error.message}
   />

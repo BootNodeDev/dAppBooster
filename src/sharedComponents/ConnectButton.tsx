@@ -22,11 +22,11 @@ const ChevronDown = styled(BaseChevronDown)`
   margin: 0 var(--base-gap);
 `
 
-interface Props {
+interface ConnectButtonProps {
   $isConnected?: boolean
 }
 
-const ConnectButton = styled(Button).attrs<Props>(({ $isConnected, children }) => {
+const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, children }) => {
   return {
     $variant: 'connect',
     $isConnected,

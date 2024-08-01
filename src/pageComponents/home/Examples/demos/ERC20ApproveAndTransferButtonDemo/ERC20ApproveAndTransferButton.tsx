@@ -1,14 +1,24 @@
 import { type FC } from 'react'
+import styled from 'styled-components'
 
 import { type Address, type TransactionReceipt, type Hash, erc20Abi } from 'viem'
 import { useWriteContract } from 'wagmi'
 
 import { useSuspenseReadErc20Allowance } from '@/src/hooks/generated'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
+import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import TransactionButton from '@/src/sharedComponents/TransactionButton'
 import { type Token } from '@/src/types/token'
 
-interface ERC20ApproveAndTransferButtonProps {
+const Button = styled(PrimaryButton).attrs({ as: TransactionButton })`
+  font-size: 1.6rem;
+  font-weight: 500;
+  height: 48px;
+  padding-left: calc(var(--base-common-padding) * 3);
+  padding-right: calc(var(--base-common-padding) * 3);
+`
+
+interface Props {
   amount: bigint
   disabled?: boolean
   label?: string
@@ -18,13 +28,14 @@ interface ERC20ApproveAndTransferButtonProps {
   token: Token
   transaction: () => Promise<Hash>
 }
+
 /**
  * Dynamically renders either an approval button or a transaction button based on the user's current token allowance.
  * After the approval, the transaction button will be rendered.
  *
  * @dev Use with <Suspense> to add an skeleton loader while fetching the allowance.
  *
- * @param {ERC20ApproveAndTransferButtonProps}
+ * @param {Props}
  * @param {Token} props.token - The token to be approved.
  * @param {Address} props.spender - The address of the spender to be approved.
  * @param {bigint} props.amount - The amount of tokens to approve (or send).
@@ -35,7 +46,7 @@ interface ERC20ApproveAndTransferButtonProps {
  * @param {string} props.labelSending - The label for the button when the transaction is pending.
  *
  */
-const ERC20ApproveAndTransferButton: FC<ERC20ApproveAndTransferButtonProps> = ({
+const ERC20ApproveAndTransferButton: FC<Props> = ({
   amount,
   disabled,
   label,
@@ -65,23 +76,25 @@ const ERC20ApproveAndTransferButton: FC<ERC20ApproveAndTransferButtonProps> = ({
   }
 
   return isApprovalRequired ? (
-    <TransactionButton
+    <Button
       disabled={disabled}
       key="approve"
-      label={`Approve ${token.symbol}`}
       labelSending={`Approving ${token.symbol}`}
       onMined={() => getAllowance()}
       transaction={handleApprove}
-    />
+    >
+      Approve {token.symbol}
+    </Button>
   ) : (
-    <TransactionButton
+    <Button
       disabled={disabled}
       key="send"
-      label={label}
       labelSending={labelSending}
       onMined={onSuccess}
       transaction={transaction}
-    />
+    >
+      {label}
+    </Button>
   )
 }
 

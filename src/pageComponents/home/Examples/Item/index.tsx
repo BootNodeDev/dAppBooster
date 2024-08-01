@@ -55,7 +55,7 @@ const Text = styled.p`
   color: var(--theme-color-text-primary);
   font-size: 1.6rem;
   font-weight: 500;
-  line-height: 1.2;
+  line-height: 1.5;
   margin: 0;
 `
 

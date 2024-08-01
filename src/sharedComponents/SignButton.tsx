@@ -1,15 +1,15 @@
+import { ComponentProps, type FC } from 'react'
+
 import { useSignMessage } from 'wagmi'
 
-import { PrimaryButton } from '@/src/sharedComponents/Buttons'
 import { withWalletStatusVerifier } from '@/src/sharedComponents/WalletStatusVerifier'
 
-interface SignButtonProps {
-  message: string
-  disabled?: boolean
-  onSign?: (signature: string) => void
-  onError?: (error: Error) => void
+interface SignButtonPropsProps extends Omit<ComponentProps<'button'>, 'onError'> {
   label?: string
   labelSigning?: string
+  message: string
+  onError?: (error: Error) => void
+  onSign?: (signature: string) => void
 }
 
 /**
@@ -32,15 +32,16 @@ interface SignButtonProps {
  * />
  * ```
  */
-const SignButton = withWalletStatusVerifier<SignButtonProps>(
+const SignButton: FC<SignButtonPropsProps> = withWalletStatusVerifier(
   ({
+    children = 'Sign Message',
     disabled,
-    label = 'Sign Message',
     labelSigning = 'Signing...',
     message,
     onError,
     onSign,
-  }: SignButtonProps) => {
+    ...restProps
+  }) => {
     const { isPending, signMessage } = useSignMessage({
       mutation: {
         onSuccess(data) {
@@ -53,9 +54,13 @@ const SignButton = withWalletStatusVerifier<SignButtonProps>(
     })
 
     return (
-      <PrimaryButton disabled={disabled || isPending} onClick={() => signMessage({ message })}>
-        {isPending ? labelSigning : label}
-      </PrimaryButton>
+      <button
+        disabled={disabled || isPending}
+        onClick={() => signMessage({ message })}
+        {...restProps}
+      >
+        {isPending ? labelSigning : children}
+      </button>
     )
   },
 )

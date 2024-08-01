@@ -135,7 +135,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Web3Buttons/ERC20ApproveAndTransferButton.tsx#L19-L35',
       icon: <GenericIcon />,
       text: 'Combines the approve and transaction button checking allowance in one button',
-      title: 'Approve and Send',
+      title: 'ERC20 approve and transfer',
     },
     {
       demo: <SignMessageDemo />,
