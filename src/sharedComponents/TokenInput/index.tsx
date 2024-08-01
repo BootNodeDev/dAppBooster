@@ -181,6 +181,7 @@ const TokenInput: FC<TokenInputProps> = ({
   }
 
   const selectIconSize = 24
+  const decimals = selectedToken ? selectedToken.decimals : 2
 
   return (
     <>
@@ -188,7 +189,7 @@ const TokenInput: FC<TokenInputProps> = ({
         {title && <Title>{title}</Title>}
         <TopRow>
           <BigNumberInput
-            decimals={selectedToken ? selectedToken.decimals : 2}
+            decimals={decimals}
             max={max}
             onChange={handleSetAmount}
             onError={handleError}
@@ -196,8 +197,8 @@ const TokenInput: FC<TokenInputProps> = ({
             renderInput={(renderInputProps) => (
               <TokenAmountField
                 amountError={amountError}
+                decimals={decimals}
                 renderInputProps={renderInputProps}
-                selectedToken={selectedToken}
                 thousandSeparator={thousandSeparator}
               />
             )}
@@ -257,29 +258,26 @@ const TokenInput: FC<TokenInputProps> = ({
 
 function TokenAmountField({
   amountError,
+  decimals,
   renderInputProps,
-  selectedToken,
   thousandSeparator,
 }: {
   amountError?: string | null
+  decimals: number
   renderInputProps: RenderInputProps
-  selectedToken?: Token
   thousandSeparator: boolean
 }) {
   const { onChange, ...restProps } = renderInputProps
 
-  const isAllowed = useCallback(
-    ({ value }: NumberFormatValues) => {
-      const [, inputDecimals] = value.toString().split('.')
+  const isAllowed = ({ value }: NumberFormatValues) => {
+    const [, inputDecimals] = value.toString().split('.')
 
-      if (!selectedToken || !inputDecimals) {
-        return true
-      }
+    if (!inputDecimals) {
+      return true
+    }
 
-      return selectedToken.decimals >= inputDecimals?.length
-    },
-    [selectedToken],
-  )
+    return decimals >= inputDecimals?.length
+  }
 
   return (
     <NumericFormat
