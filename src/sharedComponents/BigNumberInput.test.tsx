@@ -1,11 +1,9 @@
-import { type HTMLProps } from 'react'
-
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { describe, it, expect, vi } from 'vitest'
 
-import { BigNumberInput } from '@/src/sharedComponents/BigNumberInput'
+import { BigNumberInput, type RenderInputProps } from '@/src/sharedComponents/BigNumberInput'
 
 type BigNumberInputProps = Parameters<typeof BigNumberInput>[0]
 
@@ -102,7 +100,7 @@ describe('BigNumberInput', () => {
   })
 
   it('displays custom rendered input', () => {
-    const customRenderInput = (props: HTMLProps<HTMLInputElement>) => (
+    const customRenderInput = (props: RenderInputProps) => (
       <input data-testid="custom-input" {...props} />
     )
     setup({ renderInput: customRenderInput })
