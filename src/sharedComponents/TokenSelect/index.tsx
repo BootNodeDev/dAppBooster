@@ -1,11 +1,14 @@
-import { type HTMLAttributes, type ReactElement } from 'react'
+import { useEffect, useMemo, useRef, useState, type HTMLAttributes, type ReactElement } from 'react'
 import styled from 'styled-components'
 
+import { ChainId } from '@lifi/sdk'
 import { Card, Spinner } from 'db-ui-toolkit'
 import { mainnet } from 'viem/chains'
+import { useSwitchChain } from 'wagmi'
 
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useTokens } from '@/src/hooks/useTokens'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import List from '@/src/sharedComponents/TokenSelect/List'
 import Search from '@/src/sharedComponents/TokenSelect/Search'
 import TopTokens from '@/src/sharedComponents/TokenSelect/TopTokens'
@@ -158,7 +161,7 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
   ({
     children,
     containerHeight = 320,
-    currentNetworkId = mainnet.id,
+    currentNetworkId,
     iconSize = 32,
     itemHeight = 64,
     networks = undefined,
@@ -169,28 +172,64 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
     showTopTokens = false,
     ...restProps
   }) => {
+    const { appChainId, isWalletConnected } = useWeb3Status()
+
+    const [chainId, setChainId] = useState<ChainId>(() =>
+      isWalletConnected ? currentNetworkId ?? appChainId : mainnet.id,
+    )
+
+    const previousDepsRef = useRef([appChainId, currentNetworkId, isWalletConnected])
+
+    /**
+     * This is a sort-of observer, that listens to changes in the appChainId, currentNetworkId and isWalletConnected
+     *  identifies which one changed and updates the chainId accordingly.
+     *
+     * This way, we can have a mixed behavior between app-based and wallet-based chain change.
+     */
+    useEffect(() => {
+      const previousDeps = previousDepsRef.current
+      const currentDeps = [appChainId, currentNetworkId, isWalletConnected]
+
+      previousDeps.forEach((prevDep, index) => {
+        if (prevDep !== currentDeps[index]) {
+          switch (index) {
+            case 0:
+              setChainId(appChainId as ChainId)
+              break
+            case 1:
+              setChainId(currentNetworkId as ChainId)
+              break
+            default:
+              break
+          }
+        }
+      })
+
+      previousDepsRef.current = [appChainId, currentNetworkId, isWalletConnected]
+    }, [appChainId, currentNetworkId, isWalletConnected])
+
     const { isLoadingBalances, tokensByChainId } = useTokens({
-      chainId: currentNetworkId,
+      chainId: chainId as ChainId,
       withBalance: showBalance,
     })
 
-    const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
-      tokensByChainId[currentNetworkId],
-      [currentNetworkId, tokensByChainId],
-    )
+    const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(tokensByChainId[chainId], [
+      currentNetworkId,
+      tokensByChainId,
+    ])
 
     return (
       <Wrapper {...restProps}>
         <Title>Select a token</Title>
         <Search
-          currentNetworkId={currentNetworkId}
+          currentNetworkId={chainId}
           networks={networks}
           placeholder={placeholder}
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
         {showTopTokens && (
-          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[currentNetworkId]} />
+          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[chainId]} />
         )}
         <List
           containerHeight={containerHeight}
