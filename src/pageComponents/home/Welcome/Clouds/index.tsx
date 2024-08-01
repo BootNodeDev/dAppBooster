@@ -15,7 +15,7 @@ const Clouds = styled.img`
   object-position: center bottom;
 
   ${breakpointMediaQuery(
-    'tabletLandscapeStart',
+    'desktopStart',
     css`
       min-width: fit-content;
       object-fit: cover;

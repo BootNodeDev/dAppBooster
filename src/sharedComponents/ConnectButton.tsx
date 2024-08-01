@@ -43,7 +43,7 @@ const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, 
   height: 46px;
 
   ${breakpointMediaQuery(
-    'tabletLandscapeStart',
+    'desktopStart',
     css`
       font-size: 1.5rem;
       height: 48px;
@@ -64,7 +64,7 @@ const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, 
       }
 
       ${breakpointMediaQuery(
-        'tabletLandscapeStart',
+        'desktopStart',
         css`
           height: 44px;
         `,

@@ -48,7 +48,7 @@ const Logo = styled(BaseLogo)`
   width: 140px;
 
   ${breakpointMediaQuery(
-    'tabletLandscapeStart',
+    'desktopStart',
     css`
       width: auto;
     `,
@@ -59,7 +59,7 @@ const Menu = styled(MainMenu)`
   display: none;
 
   ${breakpointMediaQuery(
-    'tabletLandscapeStart',
+    'desktopStart',
     css`
       display: flex;
       justify-content: center;
@@ -81,7 +81,7 @@ const SwitchThemeButton = styled(SwitchThemeButtonBase)`
   display: none;
 
   ${breakpointMediaQuery(
-    'tabletLandscapeStart',
+    'desktopStart',
     css`
       display: block;
     `,

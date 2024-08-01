@@ -61,7 +61,7 @@ const Ghost = styled(BaseGhost)`
   z-index: 1;
 
   ${breakpointMediaQuery(
-    'tabletLandscapeStart',
+    'desktopStart',
     css`
       bottom: 70px;
       height: auto;
@@ -84,18 +84,47 @@ const InnerContainer = styled(Inner)`
 `
 
 const Title = styled(BasetTitle)`
-  font-size: 4.8rem;
+  font-size: 3.2rem;
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: var(--base-gap);
   text-align: center;
+  padding-top: calc(var(--base-common-padding-xl) * 2);
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      font-size: 4.8rem;
+      padding-top: 0;
+    `,
+  )}
 `
 
 const Text = styled(BaseText)`
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: 1.5;
   margin-bottom: calc(var(--base-gap) * 4);
   text-align: center;
+
+  br {
+    display: none;
+  }
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      br {
+        display: block;
+      }
+    `,
+  )}
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      font-size: 1.8rem;
+    `,
+  )}
 `
 
 const Buttons = styled.div`
