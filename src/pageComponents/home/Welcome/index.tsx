@@ -26,10 +26,15 @@ const Wrapper = styled.section`
 
   display: flex;
   flex-direction: column;
-  max-height: 1080px;
-  min-height: 100vh;
   position: relative;
   z-index: 0;
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      min-height: 100vh;
+    `,
+  )}
 `
 
 const Clouds = styled.div`
