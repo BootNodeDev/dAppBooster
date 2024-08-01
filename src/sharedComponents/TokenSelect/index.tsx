@@ -170,6 +170,7 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
     ...restProps
   }) => {
     const { isLoadingBalances, tokensByChainId } = useTokens({
+      chainId: currentNetworkId,
       withBalance: showBalance,
     })
 
