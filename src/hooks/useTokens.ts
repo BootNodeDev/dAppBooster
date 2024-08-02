@@ -5,9 +5,10 @@ import {
   EVM,
   getTokenBalances,
   getTokens,
-  type Token as LiFiToken,
   type TokenAmount,
   type TokensResponse,
+  getChains,
+  type ChainId,
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { type Address, formatUnits } from 'viem'
@@ -38,7 +39,13 @@ export const lifiConfig = createConfig({
  * @returns An object containing tokens data and loading state.
  */
 export const useTokens = (
-  { account, withBalance }: { account?: Address; withBalance?: boolean } = { withBalance: true },
+  {
+    account,
+    chainId,
+    withBalance,
+  }: { account?: Address; chainId?: ChainId; withBalance?: boolean } = {
+    withBalance: true,
+  },
 ) => {
   const { address } = useWeb3Status()
   const tokensData = useTokenLists()
@@ -46,25 +53,39 @@ export const useTokens = (
 
   const canFetchBalance = !!account && withBalance
 
-  const { data: tokensPricesByChain, isLoading: ilp } = useQuery({
-    queryKey: ['lifi', 'tokens', 'prices'],
-    queryFn: () =>
-      // we can use this to narrow the query to the chains we have tokens for
-      // but we must ensure that the chains are supported by lifi's API
-      // getTokens({ chains: Object.keys(tokensByChainId).map((id) => parseInt(id)) }),
-      getTokens(),
-    staleTime: BALANCE_EXPIRATION_TIME,
-    refetchInterval: BALANCE_EXPIRATION_TIME,
+  const { data: chains, isLoading: isLoadingChains } = useQuery({
+    queryKey: ['lifi', 'chains'],
+    queryFn: () => getChains(),
+    staleTime: Infinity,
+    refetchInterval: Infinity,
     gcTime: Infinity,
     enabled: canFetchBalance,
   })
 
-  const { data: tokensBalances, isLoading: ilb } = useQuery({
-    queryKey: ['lifi', 'tokens', 'balances', account],
+  const dAppChainsId = chainId
+    ? [chainId]
+    : Object.keys(tokensData.tokensByChainId).map((id) => parseInt(id))
+  const lifiChainsId = chains?.map((chain) => chain.id) ?? []
+  const chainsToFetch = dAppChainsId.filter((id) => lifiChainsId.includes(id))
+
+  const { data: tokensPricesByChain, isLoading: isLoadingPrices } = useQuery({
+    queryKey: ['lifi', 'tokens', 'prices', chainsToFetch],
+    queryFn: () => getTokens({ chains: chainsToFetch }),
+    staleTime: BALANCE_EXPIRATION_TIME,
+    refetchInterval: BALANCE_EXPIRATION_TIME,
+    gcTime: Infinity,
+    enabled: canFetchBalance && !!chains,
+  })
+
+  const { data: tokensBalances, isLoading: isLoadingBalances } = useQuery({
+    queryKey: ['lifi', 'tokens', 'balances', account, chainsToFetch],
     queryFn: () =>
       getTokenBalances(
         account!,
-        Object.values(tokensPricesByChain!.tokens).flat() as Array<LiFiToken>,
+        Object.entries(tokensPricesByChain!.tokens)
+          .filter(([chainId]) => chainsToFetch.includes(parseInt(chainId)))
+          .map(([, tokens]) => tokens)
+          .flat(),
       ),
     staleTime: BALANCE_EXPIRATION_TIME,
     refetchInterval: BALANCE_EXPIRATION_TIME,
@@ -73,13 +94,31 @@ export const useTokens = (
   })
 
   const cache = useMemo(() => {
-    if (withBalance && account && !ilp && !ilb && tokensBalances && tokensPricesByChain) {
+    if (
+      withBalance &&
+      account &&
+      !isLoadingPrices &&
+      !isLoadingBalances &&
+      tokensBalances &&
+      tokensPricesByChain
+    ) {
       return udpateTokensBalances(tokensData.tokens, [tokensBalances, tokensPricesByChain])
     }
     return tokensData
-  }, [account, ilb, ilp, tokensBalances, tokensData, tokensPricesByChain, withBalance])
+  }, [
+    account,
+    isLoadingBalances,
+    isLoadingPrices,
+    tokensBalances,
+    tokensData,
+    tokensPricesByChain,
+    withBalance,
+  ])
 
-  return { ...cache, isLoadingBalances: Boolean(ilb || ilp) }
+  return {
+    ...cache,
+    isLoadingBalances: Boolean(isLoadingChains || isLoadingBalances || isLoadingPrices),
+  }
 }
 
 /**

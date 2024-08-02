@@ -13,7 +13,7 @@ import { type Token } from '@/src/types/token'
 
 const TokenInputDemo = () => {
   const { isWalletConnected } = useWeb3Status()
-  const [currentNetworkId, setCurrentNetworkId] = useState<number>(mainnet.id)
+  const [currentNetworkId, setCurrentNetworkId] = useState<number>()
   const [currentToken, setCurrentToken] = useState<Token | undefined>()
   const [amount, setAmount] = useState<string | undefined>()
   const [error, setError] = useState<string | undefined>()
