@@ -39,12 +39,17 @@ export const WalletProvider = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export const ConnectWalletButton = ({ label = 'Connect' }: { label?: string }) => {
+export const ConnectWalletButton = ({ label = 'Connect', ...restProps }: { label?: string }) => {
   return (
     <ConnectKitButton.Custom>
       {({ address, isConnected, isConnecting, show, truncatedAddress }) => {
         return (
-          <ConnectButton $isConnected={isConnected} disabled={isConnecting} onClick={show}>
+          <ConnectButton
+            $isConnected={isConnected}
+            disabled={isConnecting}
+            onClick={show}
+            {...restProps}
+          >
             {isConnected ? (
               <>
                 {address && <UserAvatar address={address} size={24} />}

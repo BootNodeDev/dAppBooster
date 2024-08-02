@@ -30,6 +30,10 @@ const darkThemeCSSVars = css`
   --theme-header-background-color: transparent;
   --theme-header-text-color: #fff;
 
+  /* Mobile menu */
+  --theme-main-menu-background-color: #292b43;
+  --theme-main-menu-color: #fff;
+
   /* Footer */
   --theme-footer-background-color: #2e3048;
   --theme-footer-text-color: #c5c2cb;

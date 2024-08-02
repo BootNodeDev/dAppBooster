@@ -7,23 +7,31 @@ import {
   Header as BaseHeader,
   Logo as BaseLogo,
   ContainerPadding,
-  SwitchThemeButton as SwitchThemeButtonBase,
+  SwitchThemeButton,
   breakpointMediaQuery,
 } from 'db-ui-toolkit'
 import { useTheme } from 'next-themes'
 
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { MainMenu } from '@/src/sharedComponents/MainMenu'
+import MainMenu from '@/src/sharedComponents/MainMenu'
+import BaseMobileMenu from '@/src/sharedComponents/MobileMenu'
 
 /**
  * Note: you can remove all the custom styles and just use the default Header
  * component from db-ui-toolkit (or just create your own)
  */
 const Wrapper = styled(BaseHeader)`
-  height: var(--base-header-height);
-  padding-top: 14px;
+  padding-top: var(--base-padding-mobile);
   position: relative;
   z-index: 10;
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      height: var(--base-header-height);
+      padding-top: 14px;
+    `,
+  )}
 `
 
 const Inner = styled(InnerContainer)`
@@ -70,20 +78,27 @@ const Menu = styled(MainMenu)`
 
 const End = styled.div`
   align-items: center;
-  column-gap: calc(var(--base-gap) * 3);
-  display: flex;
+  column-gap: calc(var(--base-gap));
+  display: none;
   flex: 1;
   height: 100%;
   justify-content: flex-end;
-`
-
-const SwitchThemeButton = styled(SwitchThemeButtonBase)`
-  display: none;
 
   ${breakpointMediaQuery(
     'desktopStart',
     css`
-      display: block;
+      display: flex;
+    `,
+  )}
+`
+
+const MobileMenu = styled(BaseMobileMenu)`
+  display: flex;
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      display: none;
     `,
   )}
 `
@@ -104,6 +119,7 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
           <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
           <ConnectWalletButton />
         </End>
+        <MobileMenu />
       </Inner>
     </Wrapper>
   )
