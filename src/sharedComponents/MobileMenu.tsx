@@ -2,7 +2,7 @@ import { useState } from 'react'
 import styled, { css } from 'styled-components'
 
 import { Link } from '@tanstack/react-router'
-import { Logo as BaseLogo, SwitchThemeButton } from 'db-ui-toolkit'
+import { Logo as BaseLogo, SwitchThemeButton, breakpointMediaQuery } from 'db-ui-toolkit'
 import { useTheme } from 'next-themes'
 
 import { menuItems } from '@/src/constants/menuItems'
@@ -27,6 +27,36 @@ const CloseIcon = () => (
 )
 
 const Wrapper = styled.div`
+  --base-mobile-menu-max-width: 375px;
+
+  background-color: var(--theme-dialog-overlay-color);
+  content: '';
+  display: block;
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 0;
+  opacity: 1;
+  transition:
+    display var(--base-transition-duration-sm, 0.2s) ease-out allow-discrete,
+    opacity var(--base-transition-duration-sm, 0.2s) ease-out;
+
+  /* Transitions will start in these states */
+  @starting-style {
+    opacity: 0;
+  }
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      display: none;
+    `,
+  )}
+`
+
+const Inner = styled.div`
   align-items: center;
   background-color: var(--theme-main-menu-background-color, #f7f7f7);
   color: var(--theme-main-menu-color, #2e3048);
@@ -38,6 +68,20 @@ const Wrapper = styled.div`
   right: 0;
   top: 0;
   width: 100vw;
+  z-index: 10;
+  transition: right var(--base-transition-duration, 0.2s) ease-out;
+
+  /* Transitions will start in these states */
+  @starting-style {
+    right: calc(var(--base-mobile-menu-max-width) * -1);
+  }
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      width: var(--base-mobile-menu-max-width);
+    `,
+  )}
 `
 
 const Header = styled.div`
@@ -119,37 +163,39 @@ const MobileMenu = ({ ...restProps }) => {
 
   return isOpen ? (
     <Wrapper {...restProps}>
-      <Header>
-        <Logo />
-        <Button onClick={() => setIsOpen(false)}>
-          <CloseIcon />
-        </Button>
-      </Header>
-      <ConnectButton />
-      <MenuItems>
-        {menuItems.map(({ href, label, to }, index) => {
-          const key = `menuItem_${index}`
+      <Inner>
+        <Header>
+          <Logo />
+          <Button onClick={() => setIsOpen(false)}>
+            <CloseIcon />
+          </Button>
+        </Header>
+        <ConnectButton />
+        <MenuItems>
+          {menuItems.map(({ href, label, to }, index) => {
+            const key = `menuItem_${index}`
 
-          return to ? (
-            <Item key={key} onClick={() => setIsOpen(false)} to={to}>
-              {label}
-            </Item>
-          ) : href ? (
-            <ExternalItem
-              href={href}
-              key={key}
-              onClick={() => setIsOpen(false)}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {label}
-            </ExternalItem>
-          ) : (
-            <></>
-          )
-        })}
-        <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
-      </MenuItems>
+            return to ? (
+              <Item key={key} onClick={() => setIsOpen(false)} to={to}>
+                {label}
+              </Item>
+            ) : href ? (
+              <ExternalItem
+                href={href}
+                key={key}
+                onClick={() => setIsOpen(false)}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {label}
+              </ExternalItem>
+            ) : (
+              <></>
+            )
+          })}
+          <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
+        </MenuItems>
+      </Inner>
     </Wrapper>
   ) : (
     <Button onClick={() => setIsOpen(true)}>

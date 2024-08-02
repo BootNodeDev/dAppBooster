@@ -14,7 +14,7 @@ import { useTheme } from 'next-themes'
 
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import MainMenu from '@/src/sharedComponents/MainMenu'
-import BaseMobileMenu from '@/src/sharedComponents/MobileMenu'
+import MobileMenu from '@/src/sharedComponents/MobileMenu'
 
 /**
  * Note: you can remove all the custom styles and just use the default Header
@@ -88,17 +88,6 @@ const End = styled.div`
     'desktopStart',
     css`
       display: flex;
-    `,
-  )}
-`
-
-const MobileMenu = styled(BaseMobileMenu)`
-  display: flex;
-
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      display: none;
     `,
   )}
 `
