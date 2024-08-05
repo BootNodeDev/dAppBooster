@@ -232,7 +232,7 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
 
     const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(tokensByChainId[chainId], [
       currentNetworkId,
-      tokensByChainId,
+      tokensByChainId[chainId],
     ])
 
     return (
