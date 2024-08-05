@@ -57,15 +57,15 @@ const List: FC<TokenSelectListProps> = ({
         containerHeight={containerHeight}
         itemHeight={itemHeight}
         items={tokenList}
-        renderItem={(item) => (
+        renderItem={(token) => (
           <Row
             iconSize={iconSize}
             isLoadingBalances={isLoadingBalances}
-            key={item.address}
+            key={token.address}
             onClick={(token) => onTokenSelect(token)}
             showAddTokenButton={showAddTokenButton}
             showBalance={showBalance}
-            token={item}
+            token={token}
           />
         )}
         {...restProps}
