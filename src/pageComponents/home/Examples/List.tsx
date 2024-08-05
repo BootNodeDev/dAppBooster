@@ -1,5 +1,7 @@
 import { type FC, type HTMLAttributes } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+
+import { breakpointMediaQuery } from 'db-ui-toolkit'
 
 import Item, { type Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
 
@@ -18,17 +20,32 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 100%;
-  padding: calc(var(--base-gap) * 7);
-  row-gap: calc(var(--base-gap) * 5);
+  padding: calc(var(--base-common-padding-xl) * 2) var(--base-common-padding);
+  row-gap: calc(var(--base-gap-xl) * 2);
   width: 1066px;
+
+  ${breakpointMediaQuery(
+    'tabletLandscapeStart',
+    css`
+      padding: calc(var(--base-common-padding) * 7);
+      row-gap: calc(var(--base-gap) * 5);
+    `,
+  )}
 `
 
 const Title = styled.h2`
   color: var(--theme-color-text-primary);
-  font-size: 3.6rem;
+  font-size: 2.1rem;
   font-weight: 700;
   line-height: 1.2;
   margin: 0;
+
+  ${breakpointMediaQuery(
+    'tabletLandscapeStart',
+    css`
+      font-size: 3.6rem;
+    `,
+  )}
 `
 
 const Items = styled.div`

@@ -1,11 +1,12 @@
 import { type FC, type HTMLAttributes } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import {
   Title as BasetTitle,
   Text as BaseText,
   InnerContainer as Inner,
   ContainerPadding,
+  breakpointMediaQuery,
 } from 'db-ui-toolkit'
 
 import { LightClouds, DarkClouds } from '@/src/pageComponents/home/Welcome/Clouds'
@@ -25,10 +26,15 @@ const Wrapper = styled.section`
 
   display: flex;
   flex-direction: column;
-  max-height: 1080px;
-  min-height: 100vh;
   position: relative;
   z-index: 0;
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      min-height: 100vh;
+    `,
+  )}
 `
 
 const Clouds = styled.div`
@@ -50,11 +56,24 @@ const Clouds = styled.div`
 `
 
 const Ghost = styled(BaseGhost)`
-  bottom: 70px;
+  bottom: -5px;
+  height: 191px;
   left: 50%;
+  object-fit: cover;
   position: absolute;
   transform: translateX(-50%);
+  width: 100px;
   z-index: 1;
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      bottom: 70px;
+      height: auto;
+      object-fit: none;
+      width: auto;
+    `,
+  )}
 `
 
 const Contents = styled.div`
@@ -70,18 +89,47 @@ const InnerContainer = styled(Inner)`
 `
 
 const Title = styled(BasetTitle)`
-  font-size: 4.8rem;
+  font-size: 3.2rem;
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: var(--base-gap);
   text-align: center;
+  padding-top: calc(var(--base-common-padding-xl) * 2);
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      font-size: 4.8rem;
+      padding-top: 0;
+    `,
+  )}
 `
 
 const Text = styled(BaseText)`
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   line-height: 1.5;
   margin-bottom: calc(var(--base-gap) * 4);
   text-align: center;
+
+  br {
+    display: none;
+  }
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      br {
+        display: block;
+      }
+    `,
+  )}
+
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      font-size: 1.8rem;
+    `,
+  )}
 `
 
 const Buttons = styled.div`
@@ -93,7 +141,7 @@ const Buttons = styled.div`
 
 const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   return (
-    <Wrapper id="top" {...restProps}>
+    <Wrapper {...restProps}>
       <Clouds>
         <LightClouds />
         <DarkClouds />

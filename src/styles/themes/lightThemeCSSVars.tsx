@@ -30,6 +30,10 @@ const lightThemeCSSVars = css`
   --theme-header-background-color: transparent;
   --theme-header-text-color: #2e3048;
 
+  /* Mobile menu */
+  --theme-main-menu-background-color: #f7f7f7;
+  --theme-main-menu-color: #2e3048;
+
   /* Footer */
   --theme-footer-background-color: #f7f7f7;
   --theme-footer-text-color: #2e3048;

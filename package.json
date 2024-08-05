@@ -44,7 +44,7 @@
     "@tanstack/react-virtual": "^3.7.0",
     "@uniswap/default-token-list": "^11.19.0",
     "connectkit": "^1.8.2",
-    "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit#0.3.5",
+    "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit#0.3.6",
     "graphql": "^16.9.0",
     "graphql-request": "^7.1.0",
     "modern-normalize": "^2.0.0",

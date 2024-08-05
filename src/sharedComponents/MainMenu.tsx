@@ -35,7 +35,7 @@ const ExternalItem = styled.a`
   ${LinkCSS}
 `
 
-export const MainMenu = ({ ...restProps }) => {
+const MainMenu = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       {menuItems.map(({ href, label, to }, index) => {
@@ -56,3 +56,5 @@ export const MainMenu = ({ ...restProps }) => {
     </Wrapper>
   )
 }
+
+export default MainMenu

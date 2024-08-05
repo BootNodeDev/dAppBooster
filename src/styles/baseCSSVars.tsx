@@ -42,9 +42,9 @@ const baseCSSVars = css`
   --base-common-padding-xl: 16px;
 
   /* Main container horizontal padding */
-  --base-padding-mobile: 4px;
-  --base-padding-tablet-portrait: 8px;
-  --base-padding-tablet-landscape: 8px;
+  --base-padding-mobile: 10px;
+  --base-padding-tablet-portrait: 10px;
+  --base-padding-tablet-landscape: 16px;
   --base-padding-desktop: 16px;
   --base-padding-desktop-xl: 16px;
 

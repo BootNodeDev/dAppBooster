@@ -103,6 +103,8 @@ interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
  * * --theme-token-input-dropdown-button-border-color-active
  * * --theme-token-input-dropdown-button-color
  * * --theme-token-input-dropdown-button-color-hover
+ * * --base-token-input-dropdown-button-padding
+ * * --base-token-input-texfield-padding
  *
  * Max Button:
  * * --theme-token-input-max-button-background-color

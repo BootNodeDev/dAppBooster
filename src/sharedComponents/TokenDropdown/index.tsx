@@ -1,12 +1,31 @@
 import { type FC, type KeyboardEvent } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-import { useDropdown } from 'db-ui-toolkit'
+import { useDropdown, breakpointMediaQuery } from 'db-ui-toolkit'
 
 import DropdownButton from '@/src/sharedComponents/DropdownButton'
 import TokenLogo from '@/src/sharedComponents/TokenLogo'
 import TokenSelect, { Loading, type TokenSelectProps } from '@/src/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
+
+const Wrapper = styled.span`
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      .dbuitkDropdownItems {
+        /**
+        * Hack-ish way to make the dropdown items appear on the right side of the button
+        * and avoid the dropdown to be cut off by the screen edge
+        *
+        * Should be fixed when / if the dropdown component supports auto positioning in the future
+        */
+        left: auto;
+        right: 0;
+        transform: none;
+      }
+    `,
+  )}
+`
 
 const Icon = styled.div<{ iconSize?: number }>`
   align-items: center;
@@ -60,39 +79,41 @@ const TokenDropdown: FC<TokenDropdownProps> = ({
   }
 
   return (
-    <Dropdown
-      button={
-        <DropdownButton>
-          {currentToken ? (
-            <>
-              <Icon>
-                <TokenLogo size={iconSize} token={currentToken} />
-              </Icon>
-              {currentToken.symbol}
-            </>
-          ) : (
-            'Select token'
-          )}
-        </DropdownButton>
-      }
-      className={`${className ? className : ''} tokenDropdown`}
-      closeOnClick={false}
-      id="token-dropdown"
-      items={
-        <TokenSelect
-          onTokenSelect={handleTokenSelect}
-          showAddTokenButton={showAddTokenButton}
-          suspenseFallback={<Loading />}
-          {...restProps}
-        />
-      }
-      onKeyUp={(e: KeyboardEvent<HTMLElement>) => {
-        if (e.key === 'Escape') {
-          close('token-dropdown')
+    <Wrapper>
+      <Dropdown
+        button={
+          <DropdownButton>
+            {currentToken ? (
+              <>
+                <Icon>
+                  <TokenLogo size={iconSize} token={currentToken} />
+                </Icon>
+                {currentToken.symbol}
+              </>
+            ) : (
+              'Select token'
+            )}
+          </DropdownButton>
         }
-      }}
-      position="right"
-    />
+        className={`${className ? className : ''} tokenDropdown`}
+        closeOnClick={false}
+        id="token-dropdown"
+        items={
+          <TokenSelect
+            onTokenSelect={handleTokenSelect}
+            showAddTokenButton={showAddTokenButton}
+            suspenseFallback={<Loading />}
+            {...restProps}
+          />
+        }
+        onKeyUp={(e: KeyboardEvent<HTMLElement>) => {
+          if (e.key === 'Escape') {
+            close('token-dropdown')
+          }
+        }}
+        position="center"
+      />
+    </Wrapper>
   )
 }
 

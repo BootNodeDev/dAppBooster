@@ -1,7 +1,13 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { ExternalLink, CopyButton, Toast, SkeletonLoading } from 'db-ui-toolkit'
+import {
+  ExternalLink,
+  CopyButton,
+  Toast,
+  SkeletonLoading,
+  breakpointMediaQuery,
+} from 'db-ui-toolkit'
 import request from 'graphql-request'
 import { toast } from 'react-hot-toast'
 import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
@@ -38,8 +44,17 @@ const Wrapper = styled.div`
 
   display: flex;
   flex-direction: column;
-  padding: var(--base-common-padding-xl);
-  row-gap: calc(var(--base-gap-xl) * 3);
+  max-width: 100%;
+  padding: 0 var(--base-common-padding-xl);
+  row-gap: calc(var(--base-gap-xl) * 2);
+
+  ${breakpointMediaQuery(
+    'tabletPortraitStart',
+    css`
+      padding: var(--base-common-padding-xl);
+      row-gap: calc(var(--base-gap-xl) * 3);
+    `,
+  )}
 `
 
 const Group = styled.div`
@@ -97,6 +112,7 @@ const Row = styled.div`
     content: counter(item-number, decimal-leading-zero);
     counter-increment: item-number;
     display: flex;
+    flex-shrink: 0;
     font-size: 1rem;
     font-weight: 700;
     height: var(--base-size);
@@ -112,6 +128,10 @@ const Name = styled.div`
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
 `
 
 const Copy = ({ value }: { value: string }) => {
