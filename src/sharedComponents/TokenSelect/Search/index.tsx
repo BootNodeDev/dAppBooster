@@ -26,6 +26,7 @@ const Item = styled(BaseItem)`
 
 interface SearchProps extends HTMLAttributes<HTMLDivElement> {
   currentNetworkId: number
+  disabled?: boolean
   networks?: Networks
   placeholder?: string
   searchTerm: string
@@ -37,6 +38,7 @@ interface SearchProps extends HTMLAttributes<HTMLDivElement> {
  *
  * @param {SearchProps} props - Search component props.
  * @param {number} props.currentNetworkId - The current network id.
+ * @param {boolean} [props.disabled] - Optional flag to disable the search input.
  * @param {Networks} [props.networks] - Optional list of networks to display in the dropdown.
  * @param {string} [props.placeholder] - Optional placeholder text for the search input.
  * @param {string} props.searchTerm - The current search term.
@@ -44,6 +46,7 @@ interface SearchProps extends HTMLAttributes<HTMLDivElement> {
  */
 const Search: FC<SearchProps> = ({
   currentNetworkId,
+  disabled,
   networks,
   placeholder,
   searchTerm,
@@ -53,6 +56,7 @@ const Search: FC<SearchProps> = ({
   return (
     <Wrapper {...restProps}>
       <SearchInput
+        disabled={disabled}
         onChange={(e) => setSearchTerm(e.target.value)}
         placeholder={placeholder}
         value={searchTerm}

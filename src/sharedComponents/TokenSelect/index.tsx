@@ -240,6 +240,7 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
         <Title>Select a token</Title>
         <Search
           currentNetworkId={chainId}
+          disabled={!tokensByChainId[chainId]?.length}
           networks={networks}
           placeholder={placeholder}
           searchTerm={searchTerm}
