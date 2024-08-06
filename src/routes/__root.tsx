@@ -1,4 +1,5 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { Analytics } from '@vercel/analytics/react'
 import { Wrapper, Main } from 'db-ui-toolkit'
 import { ThemeProvider } from 'next-themes'
 import { Toaster } from 'react-hot-toast'
@@ -32,6 +33,7 @@ function Root() {
         </Web3Provider>
       </Wrapper>
       <Toaster />
+      <Analytics />
     </ThemeProvider>
   )
 }
