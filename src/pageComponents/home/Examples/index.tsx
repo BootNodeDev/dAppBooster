@@ -127,6 +127,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <EnsNameDemo />,
+      href: 'https://github.com/BootNodeDev/dAppBooster/blob/develop/src/pageComponents/home/Examples/demos/EnsNameDemo.tsx',
       icon: <GenericIcon />,
       text: 'Resolve ENS names',
       title: 'ENS name',
