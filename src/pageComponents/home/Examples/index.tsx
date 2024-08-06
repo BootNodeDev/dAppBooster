@@ -106,7 +106,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <AvatarDemo address={address} size={80} />,
-      href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Avatar.tsx#L21-L33',
+      href: 'https://bootnodedev.github.io/dAppBooster/modules/sharedComponents_Avatar.html',
       icon: <ImgAvatar />,
       text: 'Address blockie avatar image',
       title: 'Avatar',
