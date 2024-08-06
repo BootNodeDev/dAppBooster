@@ -92,7 +92,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <SwitchNetworkDemo />,
-      href: '#',
+      href: 'https://bootnodedev.github.io/dAppBooster/modules/sharedComponents_SwitchNetwork.html',
       icon: <ImgTokenList />,
       text: 'Add or switch networks',
       title: 'Add / switch network',
