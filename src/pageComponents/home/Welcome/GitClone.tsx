@@ -72,7 +72,7 @@ const IconWrapper = styled.div`
 
 const GitClone = ({ ...restProps }) => {
   const [copied, setCopied] = useState(false)
-  const cloneString = 'git clone git@github.com:BootNodeDev/db-ui-toolkit.git'
+  const cloneString = 'git clone git@github.com:BootNodeDev/dAppBooster.git'
 
   const handleCopy = () => {
     const timeDelay = 2500
