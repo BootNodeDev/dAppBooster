@@ -134,9 +134,9 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <TransactionButtonDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Web3Buttons/TransactionButton.tsx#L18-L34',
+      href: 'https://bootnodedev.github.io/dAppBooster/modules/sharedComponents_TransactionButton.html',
       icon: <GenericIcon />,
-      text: 'Transaction Button',
+      text: 'Send tokens from / to your address',
       title: 'Tx button',
     },
     {
