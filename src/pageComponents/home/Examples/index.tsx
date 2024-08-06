@@ -127,7 +127,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <EnsNameDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster/blob/develop/src/pageComponents/home/Examples/demos/EnsNameDemo.tsx',
+      href: 'https://github.com/BootNodeDev/dAppBooster/blob/86a7b001d4e48b41b3a463f844a83f632eae8c39/src/pageComponents/home/Examples/demos/EnsNameDemo.tsx#L63',
       icon: <GenericIcon />,
       text: 'Resolve ENS names',
       title: 'ENS name',
@@ -141,14 +141,14 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <ERC20ApproveAndTransferButtonDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Web3Buttons/ERC20ApproveAndTransferButton.tsx#L19-L35',
+      href: 'https://github.com/BootNodeDev/dAppBooster/blob/86a7b001d4e48b41b3a463f844a83f632eae8c39/src/pageComponents/home/Examples/demos/ERC20ApproveAndTransferButtonDemo/ERC20ApproveAndTransferButton.tsx#L33',
       icon: <GenericIcon />,
-      text: 'Combines the approve and transaction button checking allowance in one button',
+      text: 'Checks allowance and combines the approval and transaction buttons into one component',
       title: 'ERC20 approve and transfer',
     },
     {
       demo: <SignMessageDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Web3Buttons/SignButton.tsx#L17-L38',
+      href: 'https://bootnodedev.github.io/dAppBooster/modules/sharedComponents_SignButton.html',
       icon: <GenericIcon />,
       text: 'Sign a message and get the signature',
       title: 'Sign button',
