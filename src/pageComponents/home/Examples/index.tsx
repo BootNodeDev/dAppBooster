@@ -78,7 +78,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <TokenDropdownDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/TokenDropdown/index.tsx#L29-L37',
+      href: 'https://bootnodedev.github.io/dAppBooster/modules/sharedComponents_TokenDropdown.html',
       icon: <ImgTokenList />,
       text: 'Dynamic token list dropdown',
       title: 'Token dropdown',
