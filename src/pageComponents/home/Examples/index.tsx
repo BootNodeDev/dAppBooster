@@ -71,7 +71,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <HashInputDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/HashInput.tsx#L25-L44',
+      href: 'https://bootnodedev.github.io/dAppBooster/modules/sharedComponents_HashInput.html',
       icon: <ImgInputAddress />,
       text: 'Validate address, ENS or transaction hash',
       title: 'Input address',
