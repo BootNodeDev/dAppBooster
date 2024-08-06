@@ -112,6 +112,15 @@ const Button = styled.button`
   }
 `
 
+const MenuButton = styled(Button)`
+  ${breakpointMediaQuery(
+    'desktopStart',
+    css`
+      display: none;
+    `,
+  )}
+`
+
 const ConnectButton = styled(ConnectWalletButton)`
   margin-bottom: 40px;
   max-width: fit-content;
@@ -198,9 +207,9 @@ const MobileMenu = ({ ...restProps }) => {
       </Inner>
     </Wrapper>
   ) : (
-    <Button onClick={() => setIsOpen(true)}>
+    <MenuButton onClick={() => setIsOpen(true)}>
       <MenuIcon />
-    </Button>
+    </MenuButton>
   )
 }
 
