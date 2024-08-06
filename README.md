@@ -196,6 +196,12 @@ PR's titles are validated with the help of Github actions. See https://github.co
 
 Commit messages' are validated using a [Husky](https://typicode.github.io/husky/) `commit-msg` hook and [commitlint](https://commitlint.js.org/). See https://commitlint.js.org/guides/local-setup.html for more info.
 
+# Analytics
+
+We use [Vercel Web Analytics](https://vercel.com/docs/analytics).
+
+To start using it, simply [Enable Web Analytics in Vercel](https://vercel.com/docs/analytics/quickstart#enable-web-analytics-in-vercel) within your Vercel project. Everything else is already integrated and ready to go.
+
 # Subgraphs
 
 The app comes with an example of how to configure and use Subgraphs.
