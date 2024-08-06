@@ -53,7 +53,7 @@ So, `staging` is ready and you merged it into `main`. Time for a new release!
 
 First, tag `main` following Semantic Versioning's guidelines: https://semver.org/
 
-After you created a new tag, create a new release using that tag. That's it, everybody now can see that a new version is ready to use and if something's wrong they can go back to using a previous version temporarily.
+After you created a new tag, create a new release using that tag. That's it, everybody can see now that a new version is ready to use and if something's wrong they can go back to using a previous version temporarily.
 
 ```mermaid
 graph TD
