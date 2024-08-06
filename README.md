@@ -200,7 +200,7 @@ Commit messages' are validated using a [Husky](https://typicode.github.io/husky/
 
 The app comes with an example of how to configure and use Subgraphs.
 
-This includes multiple subraphs, typesafe, and easy integration to be used with react-query.
+This includes multiple subraphs in several chains, typesafe, and easy integration to be used with react-query.
 
 ## Env vars
 
