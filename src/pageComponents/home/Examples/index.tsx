@@ -8,12 +8,17 @@ import { useAccount } from 'wagmi'
 import { Props as ItemProps } from '@/src/pageComponents/home/Examples/Item'
 import List from '@/src/pageComponents/home/Examples/List'
 import ImgAvatar from '@/src/pageComponents/home/Examples/assets/Avatar'
+import ImgEns from '@/src/pageComponents/home/Examples/assets/Ens'
 import ImgHash from '@/src/pageComponents/home/Examples/assets/Hash'
-import GenericIcon from '@/src/pageComponents/home/Examples/assets/IPFSImage'
 import ImgInputAddress from '@/src/pageComponents/home/Examples/assets/InputAddress'
+import ImgSign from '@/src/pageComponents/home/Examples/assets/Sign'
 import ImgSubgraph from '@/src/pageComponents/home/Examples/assets/Subgraph'
+import ImgSubgraphStatus from '@/src/pageComponents/home/Examples/assets/SubgraphStatus'
+import ImgSwitch from '@/src/pageComponents/home/Examples/assets/Switch'
 import ImgTokenInput from '@/src/pageComponents/home/Examples/assets/TokenInput'
 import ImgTokenList from '@/src/pageComponents/home/Examples/assets/TokenList'
+import ImgTransaction from '@/src/pageComponents/home/Examples/assets/Transaction'
+import ImgUserCheck from '@/src/pageComponents/home/Examples/assets/UserCheck'
 import ImgWallet from '@/src/pageComponents/home/Examples/assets/Wallet'
 import AvatarDemo from '@/src/pageComponents/home/Examples/demos/AvatarDemo'
 import ERC20ApproveAndTransferButtonDemo from '@/src/pageComponents/home/Examples/demos/ERC20ApproveAndTransferButtonDemo'
@@ -93,7 +98,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     {
       demo: <SwitchNetworkDemo />,
       href: '#',
-      icon: <ImgTokenList />,
+      icon: <ImgSwitch />,
       text: 'Add or switch networks',
       title: 'Add / switch network',
     },
@@ -121,34 +126,34 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     {
       demo: <SubgraphStatusDemo />,
       href: 'https://github.com/BootNodeDev/dAppBooster#subgraphs',
-      icon: <ImgSubgraph />,
+      icon: <ImgSubgraphStatus />,
       text: 'Subgraph syncing status',
       title: 'Subgraph status',
     },
     {
       demo: <EnsNameDemo />,
-      icon: <GenericIcon />,
+      icon: <ImgEns />,
       text: 'Resolve ENS names',
       title: 'ENS name',
     },
     {
       demo: <TransactionButtonDemo />,
       href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Web3Buttons/TransactionButton.tsx#L18-L34',
-      icon: <GenericIcon />,
+      icon: <ImgTransaction />,
       text: 'Transaction Button',
       title: 'Tx button',
     },
     {
       demo: <ERC20ApproveAndTransferButtonDemo />,
       href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Web3Buttons/ERC20ApproveAndTransferButton.tsx#L19-L35',
-      icon: <GenericIcon />,
+      icon: <ImgUserCheck />,
       text: 'Combines the approve and transaction button checking allowance in one button',
       title: 'ERC20 approve and transfer',
     },
     {
       demo: <SignMessageDemo />,
       href: 'https://github.com/BootNodeDev/dAppBooster/blob/a7d0a994f6d5c2a547513669fccb619be046f1d2/src/sharedComponents/Web3Buttons/SignButton.tsx#L17-L38',
-      icon: <GenericIcon />,
+      icon: <ImgSign />,
       text: 'Sign a message and get the signature',
       title: 'Sign button',
     },
