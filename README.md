@@ -212,11 +212,11 @@ This includes multiple subraphs in several chains, typesafe, and easy integratio
 >
 > To run the app locally, you can avoid defining the env variables.
 >
-> An `ELIFECYCLE Command failed with exit code 1.` message will be show on install, but won't affect the app during development. And subgraph example won't be loaded.
+> A `ELIFECYCLE Command failed with exit code 1.` message will be show on install, but won't affect the app during development. And subgraph example won't be loaded.
 
 > [!WARNING]
 >
-> Howerver build will fail if you don't remove the subgraph example from the example page.
+> However, the build will fail if you don't remove the subgraph example from the example page.
 
 ### `PUBLIC_SUBGRAPHS_API_KEY`
 
