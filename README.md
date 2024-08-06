@@ -206,7 +206,7 @@ To start using it, simply [Enable Web Analytics in Vercel](https://vercel.com/do
 
 The app comes with an example of how to configure and use Subgraphs.
 
-This includes multiple subraphs, typesafe, and easy integration to be used with react-query.
+This includes multiple subraphs in several chains, typesafe, and easy integration to be used with react-query.
 
 ## Env vars
 
@@ -218,11 +218,11 @@ This includes multiple subraphs, typesafe, and easy integration to be used with 
 >
 > To run the app locally, you can avoid defining the env variables.
 >
-> An `ELIFECYCLE Command failed with exit code 1.` message will be show on install, but won't affect the app during development. And subgraph example won't be loaded.
+> A `ELIFECYCLE Command failed with exit code 1.` message will be show on install, but won't affect the app during development. And subgraph example won't be loaded.
 
 > [!WARNING]
 >
-> Howerver build will fail if you don't remove the subgraph example from the example page.
+> However, the build will fail if you don't remove the subgraph example from the example page.
 
 ### `PUBLIC_SUBGRAPHS_API_KEY`
 
