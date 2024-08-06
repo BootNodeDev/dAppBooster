@@ -15,7 +15,7 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectList' }) => ({ class
 `
 
 const NoTokens = styled.div`
-  --theme-token-no-items-row-padding: calc(var(--base-common-padding) * 3) 0 0 0;
+  --base-token-no-items-row-padding: calc(var(--base-common-padding) * 3) 0 0 0;
   --theme-token-select-row-background-color-default: var(
     --theme-token-select-row-background-color,
     transparent
@@ -25,7 +25,7 @@ const NoTokens = styled.div`
   background-color: var(--theme-token-select-row-background-color-default);
   display: flex;
   justify-content: center;
-  padding: var(--theme-token-no-items-row-padding);
+  padding: var(--base-token-no-items-row-padding);
   transition: background-color var(--base-transition-duration-sm) ease-in-out;
   width: 100%;
 `
