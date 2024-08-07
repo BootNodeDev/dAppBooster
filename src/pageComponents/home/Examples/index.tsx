@@ -69,7 +69,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   const items: ItemProps[] = [
     {
       demo: <ConnectWalletButtonDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster#wallet-setup',
+      href: 'https://bootnodedev.github.io/dAppBooster/index.html#md:wallet-setup',
       icon: <ImgWallet />,
       text: 'Authenticate using an EVM Account',
       title: 'Wallet connectivity',
