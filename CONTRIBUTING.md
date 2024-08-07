@@ -18,6 +18,14 @@ graph TD
     A --> A3
 ```
 
+## Conventional commits
+
+As a good practice, we follow and enforce the usage of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) for commit messages and pull requests titles.
+
+PR titles are validated with the help of Github actions. See https://github.com/marketplace/actions/conventional-commit-in-pull-requests for more info.
+
+Commit messages are validated using a [Husky](https://typicode.github.io/husky/) `commit-msg` hook and [commitlint](https://commitlint.js.org/). See https://commitlint.js.org/guides/local-setup.html for more info.
+
 ## How'd you start a new feature, bug fix, etc.?
 
 Create a new branch from `develop`, name your branch in some useful way (`feat/new-feature`, `fix/bug-fix`, `feature/#192`, etc.). Work on it until you're satisfied, and when you're done create a pull request. Once the pull request is approved and all the requirements are met, merge it into develop.
