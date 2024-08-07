@@ -1,5 +1,12 @@
 # Subgraphs
 
+## Table of Contents
+
+1. [Env vars](#env-vars)
+2. [Codegen](#codegen)
+3. [Subgraph's folder structure](#subgraphs-folder-structure)
+4. [Example](#example)
+
 ## Env vars
 
 > [!IMPORTANT]
@@ -18,7 +25,7 @@
 
 ### `PUBLIC_SUBGRAPHS_API_KEY`
 
-The API Key you need to create and retrieve from https://thegraph.com/studio/apikeys/
+You need to create and retrieve the API key from https://thegraph.com/studio/apikeys/
 
 ### `PUBLIC_SUBGRAPHS_<DEVELOPMENT|PRODUCTION>_URL`
 
@@ -86,16 +93,11 @@ The file that `subgraph-codegen` script will use to generate the code.
 This file exposes two functions used by `codegen.ts` that allows to organize the data in an easy to consume fashion.
 
 ```ts
-const parsedResourceIds = parseResourceIds(SUBGRAPHS_CHAINS_RESOURCE_IDS);
-const schemas = generateSchemas(
-  parsedResourceIds,
-  SUBGRAPHS_API_KEY,
-  SUBGRAPHS_ENVIRONMENT,
-  {
-    development: SUBGRAPHS_DEVELOPMENT_URL,
-    production: SUBGRAPHS_PRODUCTION_URL,
-  }
-);
+const parsedResourceIds = parseResourceIds(SUBGRAPHS_CHAINS_RESOURCE_IDS)
+const schemas = generateSchemas(parsedResourceIds, SUBGRAPHS_API_KEY, SUBGRAPHS_ENVIRONMENT, {
+  development: SUBGRAPHS_DEVELOPMENT_URL,
+  production: SUBGRAPHS_PRODUCTION_URL,
+})
 ```
 
 > `schemas` is then used by the config to generate diverse subgraphs, grouped by `subgraphId`.
@@ -126,7 +128,7 @@ An example of a query file inside `uniswap/` directory:
 ```ts
 // pools.ts
 
-import { graphql } from "@/src/subgraphs/gql/uniswap";
+import { graphql } from '@/src/subgraphs/gql/uniswap'
 
 export const allUniswapPoolsQueryDocument = graphql(/* GraphQL */ `
   query allUniswapPools {
@@ -138,7 +140,7 @@ export const allUniswapPoolsQueryDocument = graphql(/* GraphQL */ `
       }
     }
   }
-`);
+`)
 ```
 
 3. Run the `pnpm subgraph-codegen` script
@@ -146,18 +148,15 @@ export const allUniswapPoolsQueryDocument = graphql(/* GraphQL */ `
 4. And consume the data in the following way, by using `@tanstack/react-query`:
 
 ```ts
-import { allUniswapPoolsQueryDocument } from "@/src/subgraphs/queries/uniswap/pools";
+import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 
 const { data } = useSuspenseQuery({
-  queryKey: ["allUniswapPools", mainnet.id],
+  queryKey: ['allUniswapPools', mainnet.id],
   queryFn: async () => {
-    const { positions } = await request(
-      schemas.uniswap[mainnet.id],
-      allUniswapPoolsQueryDocument
-    );
-    return positions;
+    const { positions } = await request(schemas.uniswap[mainnet.id], allUniswapPoolsQueryDocument)
+    return positions
   },
-});
+})
 ```
 
 We use suspense queries as an internal decision, but you can use `useQuery` instead, or any of the query hooks the library provides
