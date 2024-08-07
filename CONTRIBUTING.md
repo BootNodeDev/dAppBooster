@@ -51,9 +51,11 @@ Test `staging` thoroughly, fix all the bugs (yeah, right!), and once everything'
 
 So, `staging` is ready and you merged it into `main`. Time for a new release!
 
-First, tag `main` following Semantic Versioning's guidelines: https://semver.org/
+First, commit a version bump into the `package.json` file following Semantic Versioning's guidelines: https://semver.org/
 
-After you created a new tag, create a new release using that tag. That's it, everybody can see now that a new version is ready to use and if something's wrong they can go back to using a previous version temporarily.
+Then, tag `main` using the version set in the previous step.
+
+After you create a new tag, create a new release using that tag. That's it, everybody can see now that a new version is ready to use and if something's wrong they can go back to using a previous version temporarily.
 
 ```mermaid
 graph TD
@@ -64,6 +66,7 @@ graph TD
     C4[Merge `staging` into `main`]
 
     D[Releasing a New Version]
+    D0[Commit a version bump to `package.json`]
     D1[Tag `main` following Semantic Versioning]
     D2[Create a new release using the tag]
     D3[New version is available]
@@ -73,7 +76,8 @@ graph TD
     C2 --> C3
     C2 --> C4
 
-    D --> D1
+    D --> D0
+    D0 --> D1
     D1 --> D2
     D2 --> D3
 
