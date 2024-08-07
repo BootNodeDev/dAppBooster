@@ -70,7 +70,7 @@ pnpm dev
 
 You can start modifying the content of the home page by editing `src/components/pageComponents/home/index.tsx`. The page auto-updates as you edit the file.
 
-You can also modify and see how our Web3 components work in the [demos folder](src/pageComponents/home/Examples/demos).
+You can also modify and see how our Web3 components work in the [demos folder](src/components/pageComponents/home/Examples/demos).
 
 ### Build for production
 
@@ -97,7 +97,7 @@ pnpm preview
 
 ### Networks
 
-To add/remove/edit a network supported by the dApp you can do it directly in the [`networks.config.ts`](src/lib/networks.config.ts) file.
+To add / remove / edit a network supported by the dApp you can do it directly in the [`networks.config.ts`](src/lib/networks.config.ts) file.
 
 1. Import the supported network of your choice, say `base`.
 
@@ -150,9 +150,9 @@ dAppBooster comes with an example of how to configure and use subgraphs.
 
 This includes multiple subraphs in several chains, typesafe, and easy integration to be used with react-query.
 
-Check the [`subgraphs documentation`](SUBGRAPHS.md) file for more information.
+Check the subgraphs [`documentation file`](SUBGRAPHS.md) for more information.
 
-### Expanding the ESLint configuration
+### ESLint configuration for production releases
 
 If you are developing a production application, we recommend updating the [configuration file](.eslintrc) to enable type aware lint rules:
 
@@ -185,7 +185,7 @@ If you want to contribute to this project, please read the [CONTRIBUTING.md](CON
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules. It uses [SWC](https://swc.rs/) for fast refresh.
 
-### React SWC
+#### React SWC
 
 [Github repository](https://github.com/vitejs/vite-plugin-react-swc)
 
@@ -217,7 +217,7 @@ Manually generate `routeTree.gen` file:
 
 #### Dev tools
 
-Dev tools are not visible in production mode
+Dev tools are not visible in production mode.
 
 ### Wallet connection
 
@@ -239,23 +239,17 @@ You should be able to seamlessly switch between several libraries for wallet con
 
 #### Conedison
 
-[Github repository](https://github.com/Uniswap/conedison) | [`numberFormat.ts`](src/utils/numberFormat.ts) | [`format.test.ts`](src/utils/format.test.ts)
+[Github repository](https://github.com/Uniswap/conedison) | [`numberFormat.ts`](src/utils/numberFormat.ts) | [`numberFormat.test.ts`](src/utils/format.test.ts)
 
-### Browser normalization
+### Styles
 
 #### Modern Normalize
 
 [Github repository](https://github.com/sindresorhus/modern-normalize)
 
-### Styles
-
 #### Styled Components
 
-[Official docs](https://styled-components.com/) | [Global CSS vars](src/styles/baseCSSVars.tsx) | [Global styles](src/styles/globalStyles.tsx) global app's CSS.
-
-#### Next Themes
-
-[Github repository](https://github.com/pacocoursey/next-themes) | [Light theme CSS vars](src/styles/themes/lightThemeCSSVars.tsx) | [Dark theme CSS vars](src/styles/themes/darkThemeCSSVars.tsx)
+[Official docs](https://styled-components.com/) | [Global CSS vars](src/styles/baseCSSVars.tsx) | [Global styles](src/styles/globalStyles.tsx)
 
 #### Stylelint
 
@@ -265,12 +259,16 @@ The [official extension](https://marketplace.visualstudio.com/items?itemName=sty
 
 **Note:** check the "Extension Settings" section if you want errors to be fixed on save, etc.
 
+#### Next Themes
+
+[Github repository](https://github.com/pacocoursey/next-themes) | [Light theme CSS vars](src/styles/themes/lightThemeCSSVars.tsx) | [Dark theme CSS vars](src/styles/themes/darkThemeCSSVars.tsx)
+
 ### React Hot Toast
 
 [Github repository](https://github.com/timolins/react-hot-toast)
 
 ### Vercel Web Analytics
 
-[Official docs](https://vercel.com/docs/analytics).
+[Official docs](https://vercel.com/docs/analytics)
 
 Simply [Enable Web Analytics in Vercel](https://vercel.com/docs/analytics/quickstart#enable-web-analytics-in-vercel) within your Vercel project. Everything else is already integrated and ready to go.
