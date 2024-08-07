@@ -1,16 +1,18 @@
-# dApp👻ster
+[![dAppBooster Logo](https://dappbooster.dev/share/repo_banner.svg)](https://dappbooster.dev)
 
-## Requirements
+# Requirements
 
 - Node v20+
 - pnpm
+- nvm
 
-## Usage
+# Usage
 
-- install dependencies: `pnpm i`
-- serve dev mode: `pnpm dev`
-- build for production: `pnpm build`
-- serve production build: `pnpm preview`
+- Use the recommended node version: `nvm use`
+- Install dependencies: `pnpm i`
+- Serve dev mode: `pnpm dev`
+- Build for production: `pnpm build`
+- Serve production build: `pnpm preview`
 
 ## Wallet setup
 
@@ -18,7 +20,6 @@ The current setup allows to seamlessly switch between [`connectkit`](#connectkit
 
 We chose `connectkit` because it is open source, lightweight, has easily adaptable styles, and is easy to use.
 
-![image](https://github.com/BootNodeDev/dAppBooster/assets/3315606/81e793e5-8e09-4447-bb21-f0477f26bb0e)
 (\*) The tool used to compare package sizes: [npm-download-size](https://arve0.github.io/npm-download-size)
 
 ### Networks
