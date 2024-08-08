@@ -1,5 +1,14 @@
 # Contributing
 
+## Table of Contents
+
+1. [Naming conventions](#naming-conventions)
+2. [Conventional commits](#conventional-commits)
+3. [Initial setup](#initial-setup)
+4. [How'd you start a new feature, bug fix, etc.?](#howd-you-start-a-new-feature-bug-fix-etc)
+5. [What about `staging`?](#what-about-staging)
+6. [And what about releases?](#and-what-about-releases)
+
 ## Naming conventions
 
 Some things you should know before cloning the repository and making changes:
