@@ -21,6 +21,8 @@
 
 ## Installation
 
+Ensure `pnpm` is installed (https://pnpm.io/) and clone the repository.
+
 ```bash
 # Clone the repository
 git clone git@github.com:BootNodeDev/dAppBooster.git my-dapp
@@ -31,7 +33,7 @@ cd my-dapp
 # Checkout the latest release
 git checkout main
 
-# Create local .env file
+# Create a local .env file
 cp .env.example .env.local
 
 # Install the dependencies
@@ -175,7 +177,7 @@ export default {
 
 ## Contributing
 
-If you want to contribute to this project, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file. Issues and pull requests are welcome!
+If you want to contribute to this project, please read the [contributing guidelines](CONTRIBUTING.md). Issues and pull requests are welcome!
 
 ## (Very) opinionated list of tools and libraries
 
