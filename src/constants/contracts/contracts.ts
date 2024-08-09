@@ -1,5 +1,5 @@
 import { type ContractConfig } from '@wagmi/cli'
-import { type Abi, erc20Abi } from 'viem'
+import { type Abi, Address, erc20Abi, isAddress } from 'viem'
 
 import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
 import { type ChainsIds, type RequiredChainId } from '@/src/lib/networks.config'
@@ -55,8 +55,12 @@ export const getContract = (name: string, chainId: ChainsIds): Contract => {
     throw new Error(`Contract ${name} address not found for chain ${chainId}`)
   }
 
+  if (!isAddress(contract.address[chainId])) {
+    throw new Error(`Contract ${name} address is not a valid address`)
+  }
+
   return {
     abi: contract.abi,
-    address: contract.address[chainId],
+    address: contract.address[chainId] as Address,
   }
 }
