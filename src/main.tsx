@@ -17,10 +17,6 @@ declare module '@tanstack/react-router' {
   }
 }
 
-/**
- * This is a silly comment
- */
-
 const rootElement = document.getElementById('root')!
 
 if (!rootElement.innerHTML) {
