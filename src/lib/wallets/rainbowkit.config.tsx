@@ -12,7 +12,7 @@
 // import { env } from '@/src/env'
 // import { chains, transports } from '@/src/lib/networks.config'
 
-// import CustomAvatar from '@/src/sharedComponents/ui/Avatar'
+// import CustomAvatar from '@/src/components/sharedComponents/ui/Avatar'
 
 // export const WalletProvider = ({ children }: { children: ReactNode }) => {
 //   return (

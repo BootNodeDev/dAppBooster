@@ -28,16 +28,24 @@ export const updateTokenListsCache = (tokensMap: TokensMap) => {
  * @param token - The token to add to the cache.
  */
 export const addTokenToTokenList = (token: Token) => {
-  // if already exists, do not add
+  // add token to the main list if it's not already there
   if (
-    tokenListsCache.tokens.some(
+    !tokenListsCache.tokens.some(
       (t) => t.address.toLowerCase() === token.address.toLowerCase() && t.chainId === token.chainId,
+    )
+  ) {
+    tokenListsCache.tokens.push(token)
+  }
+
+  // add token to the chain list if it's not already there
+  if (
+    tokenListsCache.tokensByChainId[token.chainId]?.some(
+      (t) => t.address.toLowerCase() === token.address.toLowerCase(),
     )
   ) {
     return
   }
 
-  tokenListsCache.tokens.push(token)
   if (!tokenListsCache.tokensByChainId[token.chainId]) {
     tokenListsCache.tokensByChainId[token.chainId] = []
   }
