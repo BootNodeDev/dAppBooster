@@ -1,5 +1,15 @@
-# Ignore artifacts:
+**/*.css
+**/*.html
+**/*.scss
+.eslintrc.cjs
 build
 coverage
-src/routeTree.gen.ts
+dist
+dist-ssr
+docs
+logs
+node_modules
 src/hooks/generated.ts
+src/routeTree.gen.ts
+src/subgraphs/gql
+src/subgraphs/gql

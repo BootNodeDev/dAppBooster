@@ -22,19 +22,6 @@
     "test": "vitest run",
     "wagmi-generate": "wagmi generate --config src/lib/wagmi/config.ts"
   },
-  "lint-staged": {
-    "src/**/*.{js,ts,jsx,tsx}": [
-      "eslint --fix",
-      "stylelint --fix"
-    ],
-    "src/**/*.{js,ts,jsx,tsx,css,scss}": [
-      "prettier --write --ignore-unknown"
-    ],
-    "src/**/*.{ts,tsx}": [
-      "tsc-files --noEmit",
-      "vitest related --run --coverage=false"
-    ]
-  },
   "dependencies": {
     "@graphql-typed-document-node/core": "^3.2.0",
     "@lifi/sdk": "^3.0.1",
@@ -93,9 +80,9 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.9",
     "eslint-plugin-sort-destructure-keys": "^2.0.0",
-    "husky": "^9.0.11",
+    "husky": "^9.1.4",
     "jsdom": "^24.1.0",
-    "lint-staged": "^15.2.7",
+    "lint-staged": "^15.2.8",
     "postcss-styled-syntax": "^0.6.4",
     "prettier": "^3.3.2",
     "stylelint": "^16.7.0",
