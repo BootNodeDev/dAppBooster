@@ -71,7 +71,10 @@ export const Home = ({ ...restProps }) => {
                 App layout <Code>src/routes/__root.tsx</Code>
               </li>
               <li>
-                Home page <Code>src/components/pageComponents/home/index.tsx</Code>
+                Home route <Code>src/routes/index.lazy.tsx</Code>
+              </li>
+              <li>
+                Home page contents <Code>src/components/pageComponents/home/index.tsx</Code>
               </li>
             </Ul>
           </li>
@@ -88,7 +91,7 @@ export const Home = ({ ...restProps }) => {
           </li>
           <li>
             <a href="https://bootnodedev.github.io/dAppBooster/" rel="noreferrer" target="_blank">
-              dAppBooster documentation
+              dAppBooster components documentation
             </a>
           </li>
           <li>
