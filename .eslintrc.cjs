@@ -2,12 +2,19 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   ignorePatterns: [
-    'dist',
-    '.eslintrc.cjs',
     '**/*.css',
-    '**/*.scss',
     '**/*.html',
+    '**/*.scss',
+    '.eslintrc.cjs',
+    'coverage',
+    'dist',
+    'dist-ssr',
+    'docs',
+    'logs',
+    'node_modules',
     'src/hooks/generated.ts',
+    'src/routeTree.gen.ts',
+    'src/subgraphs/gql',
   ],
   settings: {
     react: {
