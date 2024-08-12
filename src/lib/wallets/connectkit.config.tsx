@@ -5,10 +5,10 @@ import { type Address } from 'viem'
 import { normalize } from 'viem/ens'
 import { createConfig, useEnsName, useEnsAvatar } from 'wagmi'
 
+import Avatar from '@/src/components/sharedComponents/Avatar'
+import ConnectButton from '@/src/components/sharedComponents/ConnectButton'
 import { env } from '@/src/env'
 import { chains, transports } from '@/src/lib/networks.config'
-import Avatar from '@/src/sharedComponents/Avatar'
-import ConnectButton from '@/src/sharedComponents/ConnectButton'
 
 interface Props {
   address: Address

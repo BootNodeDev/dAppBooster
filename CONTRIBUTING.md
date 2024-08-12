@@ -1,10 +1,21 @@
-# Contributing workflow
+# Contributing
+
+## Table of Contents
+
+1. [Naming conventions](#naming-conventions)
+2. [Conventional commits](#conventional-commits)
+3. [Initial setup](#initial-setup)
+4. [How'd you start a new feature, bug fix, etc.?](#howd-you-start-a-new-feature-bug-fix-etc)
+5. [What about `staging`?](#what-about-staging)
+6. [And what about releases?](#and-what-about-releases)
 
 ## Naming conventions
 
+Some things you should know before cloning the repository and making changes:
+
 - `main` is for production code only.
-- `staging` is the step before merging into production.
-- `develop` is for development. Anything goes.
+- `staging` is the pre-release branch tested before merging into production.
+- `develop` is for development, anything goes. Pull requests should be made against this branch.
 
 ```mermaid
 graph TD
@@ -18,9 +29,62 @@ graph TD
     A --> A3
 ```
 
+## Conventional commits
+
+We follow and enforce the usage of [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) for commit messages and pull requests titles.
+
+PR titles are validated with the help of Github actions. More info [here](https://github.com/marketplace/actions/conventional-commit-in-pull-requests).
+
+Commit messages are validated using a [Husky](https://typicode.github.io/husky/) `commit-msg` hook and [commitlint](https://commitlint.js.org/). More info [here](https://commitlint.js.org/guides/local-setup.html).
+
+## Initial setup
+
+1. Ensure `pnpm` is installed (https://pnpm.io/)
+2. [Fork the repository](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/fork-a-repo), then pull it down to your disk:
+
+```bash
+# Clone the repository
+git clone git@github.com:YOUR_USERNAME/dAppBooster.git
+
+# Change the directory
+cd dAppBooster
+
+# Checkout the development branch
+git checkout develop
+
+# Set the base repository as upstream (makes it easier to pull updates to your fork)
+git remote add upstream git@github.com:BootNodeDev/dAppBooster.git
+
+# Create a local .env file
+cp .env.example .env.local
+
+# Install the dependencies
+pnpm i
+```
+
 ## How'd you start a new feature, bug fix, etc.?
 
-Create a new branch from `develop`, name your branch in some useful way (`feat/new-feature`, `fix/bug-fix`, `feature/#192`, etc.). Work on it until you're satisfied, and when you're done create a pull request. Once the pull request is approved and all the requirements are met, merge it into develop.
+1. Find some issue you're interested in, a bug you want to fix, or a new feature you want to implement (make sure that no one else is already working on it!).
+
+```bash
+# Update your local copy of the develop branch with the latest code changes
+git checkout develop
+git pull -f upstream/develop
+
+# Run pnpm i to get any dependency updates
+pnpm i
+
+# Create a new branch from develop. Give it a meaningful name (`feat/new-feature`, `fix/bug-fix`, `feature/#192`, etc.)
+git checkout -b fix/something
+
+# Work on the branch, commit your changes, push them... you know the drill.
+# Finally, push the branch.
+git push -u origin fix/something
+```
+
+2. Submit a pull request to the upstream dAppBooster repository.
+3. Choose a descriptive title following the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/#summary) guidelines and write a detailed description of the changes you made using the PR template.
+4. Wait for a maintainer to review your PR, make changes if asked, and get it merged.
 
 ```mermaid
 graph LR
@@ -43,19 +107,22 @@ graph LR
 
 ## What about `staging`?
 
-Once you reach a point where you feel like a new release is worth creating, merge `develop` into `staging` This is the branch where things should be tested and fixed before merging into `main`
+Once we reach a point where we feel like a new release is worth creating, we'll submit a pull request asking to merge `develop` into `staging`. This is the branch where things should be tested and fixed before merging into `main`. Consider it a pre-production environment.
 
-Test `staging` thoroughly, fix all the bugs (yeah, right!), and once everything's ready merge `staging`'s changes into `develop` (for further development) and `main` (to create a new release).
+We'll test `staging` thoroughly, fix all the (relevant) bugs and once everything is ready we will:
 
-### And what now?
+1. Merge `staging`'s fixes into `develop` so the development branch is up-to-date.
+2. Submit a pull request asking to merge `staging` into `main`.
 
-So, `staging` is ready and you merged it into `main`. Time for a new release!
+## And what about releases?
 
-First, commit a version bump into the `package.json` file following Semantic Versioning's guidelines: https://semver.org/
+1. First, make sure the latest changes from `staging` are merged into `main`
+2. Commit a version bump into the `package.json` file following Semantic Versioning's guidelines: https://semver.org/
+3. Then tag `main` using the version set in the previous step.
+4. Push the changes to `main`.
+5. Create a new release using that tag.
 
-Then, tag `main` using the version set in the previous step.
-
-After you create a new tag, create a new release using that tag. That's it, everybody can see now that a new version is ready to use and if something's wrong they can go back to using a previous version temporarily.
+That's it, everybody can see now that a new version is ready to use and if something's wrong they can go back to a previous version temporarily.
 
 ```mermaid
 graph TD
