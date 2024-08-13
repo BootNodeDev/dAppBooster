@@ -14,6 +14,14 @@ import { Card, Title } from 'db-ui-toolkit'
 const CustomCard = styled(Card)`
   margin: auto;
   max-width: 90%;
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 `
 
 /**
