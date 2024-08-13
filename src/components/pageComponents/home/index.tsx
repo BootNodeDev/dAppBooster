@@ -1,25 +1,19 @@
 /**
- * Home page sample component
+ * Home page example
  *
  * You can safely delete the contents of this file and start from scratch,
  * just make sure to keep the file itself and export a component named Home.
  */
 import styled from 'styled-components'
 
-import { Card, InnerContainer, ContainerPadding, Title } from 'db-ui-toolkit'
-
-/**
- * A generic wrapper with some device dependent padding.
- */
-const Wrapper = styled(InnerContainer)`
-  ${ContainerPadding}
-`
+import { Card, Title } from 'db-ui-toolkit'
 
 /**
  * A centered custom card component
  */
 const CustomCard = styled(Card)`
   margin: auto;
+  max-width: 90%;
 `
 
 /**
@@ -30,14 +24,12 @@ const Ul = styled.ul`
   flex-direction: column;
   font-size: 1.5rem;
   list-style: circle;
-  padding-left: var(--base-common-padding-xl);
+  padding-left: calc(var(--base-common-padding-xl) + var(--base-common-padding));
   row-gap: var(--base-gap-xl);
 
-  li {
-    margin: 0;
-  }
-
   ul {
+    padding-bottom: var(--base-common-padding-xl);
+    padding-top: var(--base-common-padding-xl);
     row-gap: var(--base-gap);
   }
 `
@@ -55,56 +47,53 @@ const Code = styled.pre`
   word-break: break-all;
 `
 
-export const Home = ({ ...restProps }) => {
-  /**
-   * You can safely delete this.
-   */
+export const Home = () => {
   return (
-    <Wrapper {...restProps}>
-      <CustomCard>
-        <Title>Where to start:</Title>
-        <Ul>
-          <li>
-            <b>App Routes / Page Components</b>
-            <Ul>
-              <li>
-                App layout <Code>src/routes/__root.tsx</Code>
-              </li>
-              <li>
-                Home route <Code>src/routes/index.lazy.tsx</Code>
-              </li>
-              <li>
-                Home page contents <Code>src/components/pageComponents/home/index.tsx</Code>
-              </li>
-            </Ul>
-          </li>
-          <li>
-            <b>Shared Components</b>
-            <Ul>
-              <li>
-                Header <Code>src/components/sharedComponents/Header.tsx</Code>
-              </li>
-              <li>
-                Footer <Code>src/components/sharedComponents/Footer/index.tsx</Code>
-              </li>
-            </Ul>
-          </li>
-          <li>
-            <a href="https://bootnodedev.github.io/dAppBooster/" rel="noreferrer" target="_blank">
-              dAppBooster components documentation
-            </a>
-          </li>
-          <li>
-            <a
-              href="https://github.com/BootNodeDev/dAppBooster/tree/develop/src/components/pageComponents/home/Examples/demos"
-              rel="noreferrer"
-              target="_blank"
-            >
-              dAppBooster source code examples
-            </a>
-          </li>
-        </Ul>
-      </CustomCard>
-    </Wrapper>
+    // You can safely delete this.
+    <CustomCard>
+      <Title>Getting started</Title>
+      <Ul>
+        <li>
+          <a href="https://dappbooster.dev" rel="noreferrer" target="_blank">
+            dAppBooster demo site
+          </a>
+        </li>
+        <li>
+          {/* TODO: Replace by correct link when the fork is ready */}
+          <a
+            href="https://github.com/BootNodeDev/dAppBooster/tree/develop/src/components/pageComponents/home/Examples/demos"
+            rel="noreferrer"
+            target="_blank"
+          >
+            dAppBooster source code examples
+          </a>
+        </li>
+        <li>
+          <a href="https://bootnodedev.github.io/dAppBooster/" rel="noreferrer" target="_blank">
+            dAppBooster components documentation
+          </a>
+        </li>
+        <li>
+          <b>App Routes / Page Components</b>
+          <Ul>
+            <li>
+              Home page contents <Code>src/components/pageComponents/home/index.tsx</Code>
+            </li>
+            <li>
+              Header <Code>src/components/sharedComponents/Header.tsx</Code>
+            </li>
+            <li>
+              Footer <Code>src/components/sharedComponents/Footer/index.tsx</Code>
+            </li>
+            <li>
+              App layout <Code>src/routes/__root.tsx</Code>
+            </li>
+            <li>
+              Home route <Code>src/routes/index.lazy.tsx</Code>
+            </li>
+          </Ul>
+        </li>
+      </Ul>
+    </CustomCard>
   )
 }
