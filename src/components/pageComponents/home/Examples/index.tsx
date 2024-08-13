@@ -96,6 +96,13 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       title: 'Token input',
     },
     {
+      demo: <TokenInputDemo singleToken />,
+      href: 'https://bootnodedev.github.io/dAppBooster/functions/sharedComponents_TokenInput.TokenInput.html',
+      icon: <ImgTokenInput />,
+      text: 'Input with max, user balance, decimals',
+      title: 'Token input single token',
+    },
+    {
       demo: <SwitchNetworkDemo />,
       href: 'https://bootnodedev.github.io/dAppBooster/functions/sharedComponents_SwitchNetwork.SwitchNetwork.html',
       icon: <ImgSwitch />,

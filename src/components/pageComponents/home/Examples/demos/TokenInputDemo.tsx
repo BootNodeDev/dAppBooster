@@ -8,15 +8,19 @@ import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets
 import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
 import TokenInput from '@/src/components/sharedComponents/TokenInput'
 import { type Networks } from '@/src/components/sharedComponents/TokenSelect'
+import { useTokenLists } from '@/src/hooks/useTokenLists'
+import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { type Token } from '@/src/types/token'
 
-const TokenInputDemo = () => {
+const TokenInputDemo = ({ singleToken }: { singleToken?: boolean }) => {
   const { isWalletConnected } = useWeb3Status()
   const [currentNetworkId, setCurrentNetworkId] = useState<number>()
   const [currentToken, setCurrentToken] = useState<Token | undefined>()
   const [amount, setAmount] = useState<string | undefined>()
   const [error, setError] = useState<string | undefined>()
+  const { tokensByChainId } = useTokenLists()
+  const { searchResult } = useTokenSearch(tokensByChainId[1], [], 'WETH')
 
   const networks: Networks = [
     {
@@ -73,7 +77,9 @@ const TokenInputDemo = () => {
       showAddTokenButton
       showBalance={isWalletConnected}
       showTopTokens
+      singleToken={singleToken}
       title="You pay"
+      token={singleToken ? searchResult[0] : undefined}
     />
   )
 }
