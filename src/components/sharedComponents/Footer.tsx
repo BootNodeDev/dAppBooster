@@ -5,6 +5,7 @@ import { InnerContainer, Footer as BaseFooter, LogoMini, ContainerPadding } from
 
 export const Wrapper = styled(BaseFooter)`
   height: 92px;
+  margin-top: calc(var(--base-gap-xl) * 2);
 `
 
 const Inner = styled(InnerContainer)`
