@@ -85,7 +85,7 @@ export const Home = () => {
           <b>Where to start?</b>
           <Ul>
             <li>
-              Home page contents <Code>src/components/pageComponents/home/index.tsx</Code>
+              Home page <Code>src/components/pageComponents/home/index.tsx</Code>
             </li>
             <li>
               Header <Code>src/components/sharedComponents/Header.tsx</Code>
