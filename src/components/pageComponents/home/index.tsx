@@ -74,7 +74,7 @@ export const Home = () => {
           </a>
         </li>
         <li>
-          <b>App Routes / Page Components</b>
+          <b>Where to start?</b>
           <Ul>
             <li>
               Home page contents <Code>src/components/pageComponents/home/index.tsx</Code>
