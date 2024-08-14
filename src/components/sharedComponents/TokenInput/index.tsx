@@ -47,6 +47,8 @@ export const CloseButton = styled(BaseCloseButton)`
 `
 
 interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
+  singleToken?: boolean
+  token?: Token
   onAmountSet: (amount?: string) => void
   onError: (error?: string) => void
   thousandSeparator?: boolean
@@ -138,8 +140,10 @@ const TokenInput: FC<TokenInputProps> = ({
   showAddTokenButton,
   showBalance,
   showTopTokens,
+  singleToken,
   thousandSeparator = true,
   title,
+  token,
   ...restProps
 }) => {
   const {
@@ -152,7 +156,7 @@ const TokenInput: FC<TokenInputProps> = ({
     setAmount,
     setAmountError,
     setTokenSelected,
-  } = useTokenInput()
+  } = useTokenInput(token)
   const { Dialog, close, open } = useDialog()
   const max = useMemo(
     () => (balance && selectedToken ? formatUnits(balance, selectedToken.decimals) : '0'),
@@ -188,6 +192,10 @@ const TokenInput: FC<TokenInputProps> = ({
   const selectIconSize = 24
   const decimals = selectedToken ? selectedToken.decimals : 2
 
+  if (singleToken && !token) {
+    return <div>When single token is true, a token is required.</div>
+  }
+
   return (
     <>
       <Wrapper {...restProps}>
@@ -209,7 +217,7 @@ const TokenInput: FC<TokenInputProps> = ({
             )}
             value={amount}
           />
-          <DropdownButton onClick={showTokenSelect}>
+          <DropdownButton onClick={showTokenSelect} singleOption={singleToken}>
             {selectedToken ? (
               <>
                 <Icon $iconSize={selectIconSize}>
@@ -298,10 +306,10 @@ function TokenAmountField({
   )
 }
 
-function useTokenInput() {
+function useTokenInput(token?: Token) {
   const [amount, setAmount] = useState('')
   const [amountError, setAmountError] = useState<string | null>()
-  const [selectedToken, setTokenSelected] = useState<Token>()
+  const [selectedToken, setTokenSelected] = useState<Token | undefined>(token)
 
   const { address: userWallet } = useAccount()
   const { balance, balanceError, isLoadingBalance } = useErc20Balance({

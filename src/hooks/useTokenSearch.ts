@@ -23,8 +23,12 @@ type TokenSearch = {
  * @param {Array | undefined} deps - array of dependencies that trigger recalculation of the search
  * @returns {TokenSearch} Object containing searchResult, searchTerm, and setSearchTerm
  */
-export const useTokenSearch = (tokens: Tokens, deps: DependencyList = []): TokenSearch => {
-  const [searchTerm, setSearchTerm] = useState('')
+export const useTokenSearch = (
+  tokens: Tokens,
+  deps: DependencyList = [],
+  defaultSearchTerm?: string,
+): TokenSearch => {
+  const [searchTerm, setSearchTerm] = useState(defaultSearchTerm ?? '')
   const [baseList, setBaseList] = useState(tokens)
   const deferredSearchTerm = useDeferredValue(searchTerm)
 
