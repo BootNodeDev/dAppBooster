@@ -90,23 +90,28 @@ export const ChevronDown = styled(BaseChevronDown)`
   margin-left: var(--base-gap);
 `
 
-export const DropdownButton = styled(Button).attrs(({ children }) => {
-  return {
-    className: 'tokenInputDropdownButton',
-    children: (
-      <>
-        {children}
-        <ChevronDown />
-      </>
-    ),
-  }
-})`
+export const DropdownButton = styled(Button).attrs<{ singleOption?: boolean }>(
+  ({ children, singleOption }) => {
+    return {
+      className: 'tokenInputDropdownButton',
+      children: (
+        <>
+          {children}
+          {!singleOption && <ChevronDown />}
+        </>
+      ),
+    }
+  },
+)`
   /* Dropdown button */
   --theme-button-background-color: var(--theme-token-input-dropdown-button-background-color, #fff);
   --theme-button-background-color-hover: var(
     --theme-token-input-dropdown-button-background-color-hover,
     rgb(0 0 0 / 5%)
   );
+  ${(props) => props.singleOption && '--theme-button-background-color: transparent;'}
+  ${(props) => props.singleOption && '--theme-button-background-color-hover: transparent;'}
+
   --theme-button-border-color: var(--theme-token-input-dropdown-button-border-color, #e2e0e7);
   --theme-button-border-color-hover: var(
     --theme-token-input-dropdown-button-border-color-hover,
@@ -116,6 +121,8 @@ export const DropdownButton = styled(Button).attrs(({ children }) => {
     --theme-token-input-dropdown-button-border-color-active,
     #e2e0e7
   );
+  ${(props) => props.singleOption && 'border: none;'}
+
   --theme-button-color: var(--theme-token-input-dropdown-button-color, #2e3048);
   --theme-button-color-hover: var(--theme-token-input-dropdown-button-color-hover, #2e3048);
 
@@ -125,6 +132,7 @@ export const DropdownButton = styled(Button).attrs(({ children }) => {
   height: auto;
   min-width: 100px;
   padding: var(--base-token-input-dropdown-button-padding, 0 var(--base-common-padding));
+  ${(props) => props.singleOption && 'cursor: auto;'}
 
   ${breakpointMediaQuery(
     'tabletPortraitStart',
