@@ -25,7 +25,7 @@ type TokenSearch = {
  * Internally it uses React's `useDeferredValue`
  *
  * @param {object} options - options object
- * @param {string} [options.defaultSearchTerm] - the default search term
+ * @param {string} [options.defaultSearchTerm] - the default search term used to find a partial match against address, symbol, and  name
  * @param {Array} options.tokens - a list of tokens to be filtered by `searchTerm`
  * @param {Array} [deps=[]] - array of dependencies that trigger recalculation of the search
  * @returns {TokenSearch} Object containing searchResult, searchTerm, and setSearchTerm
