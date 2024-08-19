@@ -47,11 +47,12 @@ export const CloseButton = styled(BaseCloseButton)`
 `
 
 interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
+  singleToken?: boolean
+  token?: Token
   onAmountSet: (amount?: string) => void
   onError: (error?: string) => void
   thousandSeparator?: boolean
   title?: string
-  singleToken?: Token
 }
 
 /**
@@ -63,7 +64,6 @@ interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
  * @param {(error?: string) => void} props.onError - A callback function triggered when there is an error.
  * @param {boolean} [props.thousandSeparator=true] - Optional flag to enable thousands separator. Default is true.
  * @param {string} props.title - The title of the token input.
- * @param {Token} [props.singleToken] - The unique token to be displayed. Default is undefined.
  * @param {number} [props.currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
  * @param {function} props.onTokenSelect - Callback function to be called when a token is selected.
  * @param {Networks} [props.networks] - Optional list of networks to display in the dropdown. The dropdown won't show up if undefined. Default is undefined.
@@ -143,6 +143,7 @@ const TokenInput: FC<TokenInputProps> = ({
   singleToken,
   thousandSeparator = true,
   title,
+  token,
   ...restProps
 }) => {
   const {
@@ -155,7 +156,7 @@ const TokenInput: FC<TokenInputProps> = ({
     setAmount,
     setAmountError,
     setTokenSelected,
-  } = useTokenInput(singleToken)
+  } = useTokenInput(token)
   const { Dialog, close, open } = useDialog()
   const max = useMemo(
     () => (balance && selectedToken ? formatUnits(balance, selectedToken.decimals) : '0'),
@@ -191,6 +192,10 @@ const TokenInput: FC<TokenInputProps> = ({
   const selectIconSize = 24
   const decimals = selectedToken ? selectedToken.decimals : 2
 
+  if (singleToken && !token) {
+    return <div>When single token is true, a token is required.</div>
+  }
+
   return (
     <>
       <Wrapper {...restProps}>
@@ -212,7 +217,7 @@ const TokenInput: FC<TokenInputProps> = ({
             )}
             value={amount}
           />
-          <DropdownButton onClick={showTokenSelect} singleOption={!!singleToken}>
+          <DropdownButton onClick={showTokenSelect} singleOption={singleToken}>
             {selectedToken ? (
               <>
                 <Icon $iconSize={selectIconSize}>
