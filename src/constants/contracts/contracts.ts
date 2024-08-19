@@ -28,7 +28,7 @@ export const contracts: Array<ContractConfig<ChainsIds, RequiredChainId>> = [
 
 type Contract = {
   abi: Abi
-  address: string
+  address: Address
 }
 
 /**
@@ -61,6 +61,6 @@ export const getContract = (name: string, chainId: ChainsIds): Contract => {
 
   return {
     abi: contract.abi,
-    address: contract.address[chainId] as Address,
+    address: contract.address[chainId],
   }
 }
