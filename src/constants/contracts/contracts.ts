@@ -1,8 +1,18 @@
-import { type ContractConfig } from '@wagmi/cli'
 import { type Abi, Address, erc20Abi, isAddress } from 'viem'
+import { mainnet, sepolia } from 'viem/chains'
 
 import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
-import { type ChainsIds, type RequiredChainId } from '@/src/lib/networks.config'
+import { type ChainsIds } from '@/src/lib/networks.config'
+
+type ValidateId<T> = T extends ChainsIds ? T : 'Invalid ID – This ID is not permitted'
+type RequiredChainIds = ValidateId<typeof mainnet.id> // this can be extended ValidateId<typeof mainnet.id | sepolia.id | ...>
+type ContractConfigAddress = Record<RequiredChainIds, string> & Partial<Record<ChainsIds, string>>
+
+type ContractConfig = {
+  abi: Abi
+  name: string
+  address?: ContractConfigAddress
+}
 
 /**
  * A collection of contracts to be used in the dapp with their ABI and addresses per chain.
@@ -11,7 +21,7 @@ import { type ChainsIds, type RequiredChainId } from '@/src/lib/networks.config'
  *  - `RequiredChainId` is mandatory in the address object.
  *  - IDs defined `ChainIds` can be added as well if necessary.
  */
-export const contracts: Array<ContractConfig<ChainsIds, RequiredChainId>> = [
+export const contracts: Array<ContractConfig> = [
   {
     abi: erc20Abi,
     name: 'ERC20',
@@ -19,8 +29,8 @@ export const contracts: Array<ContractConfig<ChainsIds, RequiredChainId>> = [
   {
     abi: ENSRegistryABI,
     address: {
-      1: '0x314159265dd8dbb310642f98f50c066173c1259b',
-      11155111: '0x0667161579ce7e84EF2b7333f9F93375a627799B',
+      [mainnet.id]: '0x314159265dd8dbb310642f98f50c066173c1259b',
+      [sepolia.id]: '0x0667161579ce7e84EF2b7333f9F93375a627799B',
     },
     name: 'EnsRegistry',
   },
