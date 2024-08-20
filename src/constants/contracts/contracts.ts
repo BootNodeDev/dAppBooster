@@ -5,7 +5,7 @@ import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
 import { type ChainsIds } from '@/src/lib/networks.config'
 
 type ValidateId<T> = T extends ChainsIds ? T : 'Invalid ID – This ID is not permitted'
-type RequiredChainIds = ValidateId<typeof mainnet.id> // this can be extended ValidateId<typeof mainnet.id | sepolia.id | ...>
+type RequiredChainIds = ValidateId<typeof mainnet.id> // this can be extended ValidateId<typeof mainnet.id | typeof sepolia.id | ...>
 type RequiredAddresses = Record<RequiredChainIds, Address> 
 type OptionalAddresses = Partial<Record<ChainsIds, Address>>
 
