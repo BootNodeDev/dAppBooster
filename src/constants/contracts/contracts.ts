@@ -4,17 +4,11 @@ import { mainnet, sepolia } from 'viem/chains'
 import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
 import { type ChainsIds } from '@/src/lib/networks.config'
 
-type ValidateId<T> = T extends ChainsIds ? T : 'Invalid ID – This ID is not permitted'
-type RequiredChainIds = ValidateId<typeof mainnet.id> // this can be extended ValidateId<typeof mainnet.id | typeof sepolia.id | ...>
-type RequiredAddresses = Record<RequiredChainIds, Address> 
 type OptionalAddresses = Partial<Record<ChainsIds, Address>>
-
-type ContractConfigAddress = RequiredAddresses & OptionalAddresses 
-
 type ContractConfig = {
   abi: Abi
   name: string
-  address?: ContractConfigAddress
+  address?: OptionalAddresses
 }
 
 /**
@@ -24,7 +18,7 @@ type ContractConfig = {
  *  - `RequiredChainId` is mandatory in the address object.
  *  - IDs defined `ChainIds` can be added as well if necessary.
  */
-export const contracts: Array<ContractConfig> = [
+const contracts: Array<ContractConfig> = [
   {
     abi: erc20Abi,
     name: 'ERC20',
@@ -43,6 +37,13 @@ type Contract = {
   abi: Abi
   address: Address
 }
+
+/**
+ * Retrieves all contracts.
+ *
+ * @returns {Array<ContractConfig>} An array containing the contracts' ABI and addresses.
+ */
+export const getContracts = () => contracts
 
 /**
  * Retrieves the contract information based on the contract name and chain ID.
