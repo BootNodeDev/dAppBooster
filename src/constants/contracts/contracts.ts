@@ -6,7 +6,10 @@ import { type ChainsIds } from '@/src/lib/networks.config'
 
 type ValidateId<T> = T extends ChainsIds ? T : 'Invalid ID – This ID is not permitted'
 type RequiredChainIds = ValidateId<typeof mainnet.id> // this can be extended ValidateId<typeof mainnet.id | sepolia.id | ...>
-type ContractConfigAddress = Record<RequiredChainIds, string> & Partial<Record<ChainsIds, string>>
+type RequiredAddresses = Record<RequiredChainIds, Address> 
+type OptionalAddresses = Partial<Record<ChainsIds, Address>>
+
+type ContractConfigAddress = RequiredAddresses & OptionalAddresses 
 
 type ContractConfig = {
   abi: Abi
