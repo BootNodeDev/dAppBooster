@@ -10,5 +10,5 @@ import { reactSuspenseRead } from '@/src/lib/wagmi/plugins/reactSuspenseRead'
 export default defineConfig({
   out: 'src/hooks/generated.ts',
   plugins: [reactSuspenseRead(), react()],
-  contracts: getContracts() as ContractConfig<number, undefined>[],
+  contracts: getContracts() as unknown as ContractConfig<number, undefined>[],
 })
