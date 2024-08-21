@@ -31,7 +31,7 @@ const contracts: Array<ContractConfig> = [
     },
     name: 'EnsRegistry',
   },
-]
+] as const
 
 type Contract = {
   abi: Abi

@@ -1,4 +1,4 @@
-import { useMemo, useState, type FC } from 'react'
+import { useEffect, useMemo, useState, type FC } from 'react'
 import styled from 'styled-components'
 
 import { useDialog, Spinner } from 'db-ui-toolkit'
@@ -46,11 +46,12 @@ export const CloseButton = styled(BaseCloseButton)`
   top: calc(var(--base-common-padding) * 5);
 `
 
-interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
+interface TokenInputProps extends Omit<TokenSelectProps, 'onError' | 'onTokenSelect'> {
   singleToken?: boolean
   token?: Token
   onAmountSet: (amount?: string) => void
-  onError: (error?: string) => void
+  onTokenSelect?: (token: Token | undefined) => void
+  onError?: (error?: string) => void
   thousandSeparator?: boolean
   title?: string
 }
@@ -171,7 +172,7 @@ const TokenInput: FC<TokenInputProps> = ({
 
   const handleSelectedToken = (token: Token | undefined) => {
     handleSetAmount('') // reset amount when token change
-    onTokenSelect(token)
+    onTokenSelect?.(token)
     setTokenSelected(token)
     close('token-select')
   }
@@ -181,7 +182,7 @@ const TokenInput: FC<TokenInputProps> = ({
   }
 
   const handleError: BigNumberInputProps['onError'] = (error) => {
-    onError(error?.message)
+    onError?.(error?.message)
     setAmountError(error?.message)
   }
 
@@ -310,6 +311,10 @@ function useTokenInput(token?: Token) {
   const [amount, setAmount] = useState('')
   const [amountError, setAmountError] = useState<string | null>()
   const [selectedToken, setTokenSelected] = useState<Token | undefined>(token)
+
+  useEffect(() => {
+    setTokenSelected(token)
+  }, [token])
 
   const { address: userWallet } = useAccount()
   const { balance, balanceError, isLoadingBalance } = useErc20Balance({
