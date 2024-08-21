@@ -1,4 +1,4 @@
-import { useMemo, useState, type FC } from 'react'
+import { useEffect, useMemo, useState, type FC } from 'react'
 import styled from 'styled-components'
 
 import { useDialog, Spinner } from 'db-ui-toolkit'
@@ -311,6 +311,10 @@ function useTokenInput(token?: Token) {
   const [amount, setAmount] = useState('')
   const [amountError, setAmountError] = useState<string | null>()
   const [selectedToken, setTokenSelected] = useState<Token | undefined>(token)
+
+  useEffect(() => {
+    setTokenSelected(token)
+  }, [token])
 
   const { address: userWallet } = useAccount()
   const { balance, balanceError, isLoadingBalance } = useErc20Balance({
