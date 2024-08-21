@@ -24,7 +24,7 @@ export const contracts: Array<ContractConfig<ChainsIds, RequiredChainId>> = [
     },
     name: 'EnsRegistry',
   },
-]
+] as const
 
 type Contract = {
   abi: Abi
