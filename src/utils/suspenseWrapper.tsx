@@ -1,4 +1,4 @@
-import { type ReactNode, Suspense, type ComponentType, JSX } from 'react'
+import { type ReactNode, Suspense, type ComponentType, type JSX } from 'react'
 
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { GeneralMessageDialog, Spinner } from 'db-ui-toolkit'
@@ -37,16 +37,15 @@ export const withSuspense = <WrappedProps extends object>(
   }: WithSuspenseProps & WrappedProps) {
     const errorMessage = errorFallback ? errorFallback : 'Something went wrong...'
 
+    const fallbackRenderers = {
+      default: <>{errorMessage}</>,
+      dialog: <GeneralMessageDialog message={<>{errorMessage}</>} />,
+    }
+
+    const fallback = fallbackRenderers[defaultFallbackFormat] ?? null
+
     return (
-      <ErrorBoundary
-        fallback={
-          defaultFallbackFormat === 'default' ? (
-            <>{errorMessage}</>
-          ) : defaultFallbackFormat === 'dialog' ? (
-            <GeneralMessageDialog message={<>{errorMessage}</>} />
-          ) : null
-        }
-      >
+      <ErrorBoundary fallback={fallback}>
         <Suspense fallback={suspenseFallback ?? <DefaultFallback />}>
           <WrappedComponent {...(restProps as WrappedProps)} />
         </Suspense>
@@ -114,25 +113,25 @@ export const withSuspenseAndRetry = <WrappedProps extends object>(
 ): ComponentType<WrappedProps & WithSuspenseAndRetryProps> => {
   return function SuspenseAndRetryWrapper({
     defaultFallbackFormat = 'default',
-    fallbackRender,
+    fallbackRender: customFallbackRender,
     suspenseFallback,
     ...restProps
   }: WithSuspenseAndRetryProps & WrappedProps) {
+    const fallbackRenderers = {
+      customFallbackRender,
+      dialog: defaultFallbackRenderDialog,
+      default: defaultFallbackRender,
+    }
+
+    const fallbackRender =
+      fallbackRenderers.customFallbackRender ??
+      fallbackRenderers[defaultFallbackFormat] ??
+      fallbackRenderers.default
+
     return (
       <QueryErrorResetBoundary>
         {({ reset }) => (
-          <ErrorBoundary
-            fallbackRender={
-              fallbackRender
-                ? fallbackRender
-                : defaultFallbackFormat === 'dialog'
-                  ? defaultFallbackRenderDialog
-                  : defaultFallbackFormat === 'default'
-                    ? defaultFallbackRender
-                    : defaultFallbackRender
-            }
-            onReset={reset}
-          >
+          <ErrorBoundary fallbackRender={fallbackRender} onReset={reset}>
             <Suspense fallback={suspenseFallback ?? <DefaultFallback />}>
               <WrappedComponent {...(restProps as WrappedProps)} />
             </Suspense>
