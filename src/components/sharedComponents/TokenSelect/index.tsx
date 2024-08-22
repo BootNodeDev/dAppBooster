@@ -230,10 +230,10 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
       withBalance: showBalance,
     })
 
-    const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(tokensByChainId[chainId], [
-      currentNetworkId,
-      tokensByChainId[chainId],
-    ])
+    const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
+      { tokens: tokensByChainId[chainId] },
+      [currentNetworkId, tokensByChainId[chainId]],
+    )
 
     return (
       <Wrapper {...restProps}>

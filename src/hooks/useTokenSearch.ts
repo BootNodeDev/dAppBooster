@@ -9,6 +9,11 @@ import {
 
 import { type Tokens } from '@/src/types/token'
 
+type TokenSearchOptions = {
+  defaultSearchTerm?: string
+  tokens: Tokens
+}
+
 type TokenSearch = {
   searchResult: Tokens
   searchTerm: string
@@ -19,14 +24,15 @@ type TokenSearch = {
  * A hook that provides a performant search to filter a list of tokens by a searchTerm
  * Internally it uses React's `useDeferredValue`
  *
- * @param {Array} tokens - a list of tokens to be filtered by `searchTerm`
- * @param {Array | undefined} deps - array of dependencies that trigger recalculation of the search
+ * @param {object} options - options object
+ * @param {string} [options.defaultSearchTerm] - the default search term used to find a partial match against address, symbol, and  name
+ * @param {Array} options.tokens - a list of tokens to be filtered by `searchTerm`
+ * @param {Array} [deps=[]] - array of dependencies that trigger recalculation of the search
  * @returns {TokenSearch} Object containing searchResult, searchTerm, and setSearchTerm
  */
 export const useTokenSearch = (
-  tokens: Tokens,
+  { defaultSearchTerm, tokens }: TokenSearchOptions,
   deps: DependencyList = [],
-  defaultSearchTerm?: string,
 ): TokenSearch => {
   const [searchTerm, setSearchTerm] = useState(defaultSearchTerm ?? '')
   const [baseList, setBaseList] = useState(tokens)
