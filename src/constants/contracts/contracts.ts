@@ -72,9 +72,7 @@ export const getContract = <
   name: ContractName,
   chainId: ChainId,
 ) => {
-  const contract = contracts.find(
-    (contract): contract is ContractOfName<ContractName> => contract.name === name,
-  )
+  const contract = contracts.find((contract) => contract.name === name)
 
   if (!contract) {
     throw new Error(`Contract ${name} not found`)
