@@ -1,7 +1,8 @@
-import { useMemo, useState, type FC } from 'react'
+import { useEffect, useMemo, useState, type FC } from 'react'
 import styled from 'styled-components'
 
-import { useDialog, Spinner } from 'db-ui-toolkit'
+import { Modal, useModal } from '@faceless-ui/modal'
+import { Spinner } from 'db-ui-toolkit'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits, getAddress } from 'viem'
 import { useAccount, useBalance } from 'wagmi'
@@ -21,6 +22,7 @@ import {
   EstimatedUSDValue,
   Icon,
   MaxButton,
+  SingleToken,
   Textfield,
   Title,
   TopRow,
@@ -46,13 +48,14 @@ export const CloseButton = styled(BaseCloseButton)`
   top: calc(var(--base-common-padding) * 5);
 `
 
-interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
-  singleToken?: boolean
-  token?: Token
+interface TokenInputProps extends Omit<TokenSelectProps, 'onError' | 'onTokenSelect'> {
   onAmountSet: (amount?: string) => void
-  onError: (error?: string) => void
+  onError?: (error?: string) => void
+  onTokenSelect?: (token: Token | undefined) => void
+  singleToken?: boolean
   thousandSeparator?: boolean
   title?: string
+  token?: Token
 }
 
 /**
@@ -157,23 +160,22 @@ const TokenInput: FC<TokenInputProps> = ({
     setAmountError,
     setTokenSelected,
   } = useTokenInput(token)
-  const { Dialog, close, open } = useDialog()
+  const { closeModal, openModal } = useModal()
   const max = useMemo(
     () => (balance && selectedToken ? formatUnits(balance, selectedToken.decimals) : '0'),
     [balance, selectedToken],
   )
 
   const handleSetAmount = (amount: string) => {
-    console.log('amount', amount)
     setAmount(amount)
     onAmountSet(amount)
   }
 
   const handleSelectedToken = (token: Token | undefined) => {
     handleSetAmount('') // reset amount when token change
-    onTokenSelect(token)
+    onTokenSelect?.(token)
     setTokenSelected(token)
-    close('token-select')
+    closeModal('token-select')
   }
 
   const handleSetMax = () => {
@@ -181,12 +183,12 @@ const TokenInput: FC<TokenInputProps> = ({
   }
 
   const handleError: BigNumberInputProps['onError'] = (error) => {
-    onError(error?.message)
+    onError?.(error?.message)
     setAmountError(error?.message)
   }
 
   const showTokenSelect = () => {
-    open('token-select')
+    openModal('token-select')
   }
 
   const selectIconSize = 24
@@ -195,6 +197,18 @@ const TokenInput: FC<TokenInputProps> = ({
   if (singleToken && !token) {
     return <div>When single token is true, a token is required.</div>
   }
+
+  const CurrentToken = () =>
+    selectedToken ? (
+      <>
+        <Icon $iconSize={selectIconSize}>
+          <TokenLogo size={selectIconSize} token={selectedToken} />
+        </Icon>
+        {selectedToken.symbol}
+      </>
+    ) : (
+      'Select'
+    )
 
   return (
     <>
@@ -217,18 +231,15 @@ const TokenInput: FC<TokenInputProps> = ({
             )}
             value={amount}
           />
-          <DropdownButton onClick={showTokenSelect} singleOption={singleToken}>
-            {selectedToken ? (
-              <>
-                <Icon $iconSize={selectIconSize}>
-                  <TokenLogo size={selectIconSize} token={selectedToken} />
-                </Icon>
-                {selectedToken.symbol}
-              </>
-            ) : (
-              'Select'
-            )}
-          </DropdownButton>
+          {singleToken ? (
+            <SingleToken>
+              <CurrentToken />
+            </SingleToken>
+          ) : (
+            <DropdownButton onClick={showTokenSelect}>
+              <CurrentToken />
+            </DropdownButton>
+          )}
         </TopRow>
         <BottomRow>
           <EstimatedUSDValue>~$0.00</EstimatedUSDValue>
@@ -248,7 +259,7 @@ const TokenInput: FC<TokenInputProps> = ({
         </BottomRow>
         {amountError && <Error>{amountError}</Error>}
       </Wrapper>
-      <Dialog id="token-select">
+      <Modal slug="token-select">
         <TokenSelect
           containerHeight={containerHeight}
           currentNetworkId={currentNetworkId}
@@ -262,9 +273,9 @@ const TokenInput: FC<TokenInputProps> = ({
           showTopTokens={showTopTokens}
           suspenseFallback={<Loading />}
         >
-          <CloseButton onClick={() => close('token-select')} />
+          <CloseButton onClick={() => closeModal('token-select')} />
         </TokenSelect>
-      </Dialog>
+      </Modal>
     </>
   )
 }
@@ -310,6 +321,10 @@ function useTokenInput(token?: Token) {
   const [amount, setAmount] = useState('')
   const [amountError, setAmountError] = useState<string | null>()
   const [selectedToken, setTokenSelected] = useState<Token | undefined>(token)
+
+  useEffect(() => {
+    setTokenSelected(token)
+  }, [token])
 
   const { address: userWallet } = useAccount()
   const { balance, balanceError, isLoadingBalance } = useErc20Balance({

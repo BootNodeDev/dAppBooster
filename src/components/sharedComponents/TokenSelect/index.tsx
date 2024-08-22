@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, type HTMLAttributes, type ReactElement } from 'react'
 import styled from 'styled-components'
 
-import { type ChainId } from '@lifi/sdk'
 import { Card, Spinner } from 'db-ui-toolkit'
+import { type Chain } from 'viem/chains'
 
 import List from '@/src/components/sharedComponents/TokenSelect/List'
 import Search from '@/src/components/sharedComponents/TokenSelect/Search'
@@ -173,7 +173,7 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
   }) => {
     const { appChainId, walletChainId } = useWeb3Status()
 
-    const [chainId, setChainId] = useState<ChainId>(() =>
+    const [chainId, setChainId] = useState<Chain['id']>(() =>
       getValidChainId({
         appChainId,
         currentNetworkId,
@@ -199,23 +199,30 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
         const currentDep = currentDeps[index]
 
         if (previousDep !== currentDep) {
-          if (index === 1) {
+          const currentChainId = currentDeps[1]
+
+          if (index === 1 && !!currentChainId) {
             // currentNetworkId changed, we stick with it
-            setChainId(currentDeps[1] as ChainId)
+            setChainId(currentChainId)
           } else {
+            if (!currentDep) {
+              // if the chainId is undefined, we don't do anything
+              return
+            }
+
             // appChainId or walletChainId changed,
             //  we need to check that it's valid in the current context
             if (networks) {
               // if `networks` is defined,
               //  we need to check if the chainId is valid in the list and set it
               if (networks.some((network) => network.id === currentDep)) {
-                setChainId(currentDep as ChainId)
+                setChainId(currentDep)
               }
             } else {
               // if `networks` is not defined,
               //  we need to check if the chainId is valid in the dApp chains list and set it
               if (chains.some((chain) => chain.id === currentDep)) {
-                setChainId(currentDep as ChainId)
+                setChainId(currentDep)
               }
             }
           }
@@ -226,14 +233,14 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
     }, [appChainId, currentNetworkId, networks, walletChainId])
 
     const { isLoadingBalances, tokensByChainId } = useTokens({
-      chainId: chainId as ChainId,
+      chainId,
       withBalance: showBalance,
     })
 
-    const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(tokensByChainId[chainId], [
-      currentNetworkId,
-      tokensByChainId[chainId],
-    ])
+    const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(
+      { tokens: tokensByChainId[chainId] },
+      [currentNetworkId, tokensByChainId[chainId]],
+    )
 
     return (
       <Wrapper {...restProps}>
@@ -272,12 +279,12 @@ function getValidChainId({
   networks,
   walletChainId,
 }: {
-  currentNetworkId?: ChainId
+  currentNetworkId?: Chain['id']
   networks?: Networks
   dappChains: typeof chains
-  walletChainId?: ChainId
+  walletChainId?: Chain['id']
   appChainId?: ChainsIds
-}) {
+}): Chain['id'] {
   // If the current network is defined, use it
   if (currentNetworkId) {
     return currentNetworkId
@@ -287,12 +294,12 @@ function getValidChainId({
   if (networks !== undefined) {
     // we prioritze the wallet chainId over the app chainId because it may be valid in this case,
     //  but not supported by the app to interact with but as a read-only chain.
-    if (networks.some((network) => network.id === walletChainId)) {
-      return walletChainId as ChainId
+    if (typeof walletChainId === 'number' && networks.some(({ id }) => id === walletChainId)) {
+      return walletChainId
     }
 
-    if (networks.some((network) => network.id === appChainId)) {
-      return appChainId as ChainId
+    if (typeof appChainId === 'number' && networks.some(({ id }) => id === appChainId)) {
+      return appChainId
     }
 
     // if nothing matches, we default to the first network in the list
@@ -301,12 +308,12 @@ function getValidChainId({
 
   // if `networks` is not defined, we need to verify the dApp configuration
   // Same as before, we prioritize the wallet chainId over the app chainId
-  if (dappChains.some((chain) => chain.id === walletChainId)) {
-    return walletChainId as ChainId
+  if (typeof walletChainId === 'number' && dappChains.some(({ id }) => id === walletChainId)) {
+    return walletChainId
   }
 
-  if (dappChains.some((chain) => chain.id === appChainId)) {
-    return appChainId as ChainId
+  if (typeof appChainId === 'number' && dappChains.some(({ id }) => id === appChainId)) {
+    return appChainId
   }
 
   // if nothing matches, we default to the first chain in the list
