@@ -89,8 +89,30 @@ const globalStyles = css`
     color: var(--theme-color-primary, #000);
   }
 
-  dialog::backdrop {
-    background-color: var(--theme-dialog-background-color, rgb(0 0 0 / 20%));
+  /**
+  * Dialog / Modal CSS reset
+  */
+  dialog {
+    align-items: center;
+    background-color: var(--theme-dialog-overlay-color, rgb(0 0 0 / 20%));
+    border-radius: var(--base-dialog-border-radius, var(--base-border-radius, 8px));
+    border: none;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    opacity: 0;
+    padding: var(--base-padding-mobile, 10px);
+    transition:
+      display var(--base-dialog-animation-time, var(--base-animation-time-xl, 0.4s)) ease-out
+        allow-discrete,
+      opacity var(--base-dialog-animation-time, var(--base-animation-time-xl, 0.4s)) ease-out,
+      overlay var(--base-dialog-animation-time, var(--base-animation-time-xl, 0.4s)) ease-out
+        allow-discrete;
+    width: 100%;
+
+    &[open] {
+      opacity: 1;
+    }
   }
 `
 
