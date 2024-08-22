@@ -54,6 +54,15 @@ type AddressRecord<T extends ContractNames> = ContractOfName<T>['address']
 type AbiOfName<T extends ContractNames> = ContractOfName<T>['abi']
 type ChainIdOf<T extends ContractNames> = keyof AddressRecord<T>
 
+/**
+ * Retrieves the contract information based on the contract name and chain ID.
+ *
+ * @param {string} name - The name of the contract.
+ * @param {ChainsIds} chainId - The chain ID configured in the dApp. See networks.config.ts.
+ * @returns {Contract} An object containing the contract's ABI and address.
+ *
+ * @throws If contract is not found.
+ */
 export const getContract = <
   ContractName extends ContractNames,
   ChainId extends ChainIdOf<ContractName>,
@@ -69,11 +78,19 @@ export const getContract = <
   if (!contract) {
     throw new Error(`Contract ${name} not found`)
   }
-  const addressRecord = contract.address as AddressRecord<ContractName>
+  const address = (contract.address as AddressRecord<ContractName>)[chainId]
 
-  return { abi: contract.abi as AbiOfName<ContractName>, address: addressRecord[chainId] }
+  if (!address) {
+    throw new Error(`Contract ${name} address not found for chain ${chainId.toString()}`)
+  }
+
+  if (!isAddress(address as string)) {
+    throw new Error(`Contract ${name} address is not a valid address`)
+  }
+
+  return { abi: contract.abi as AbiOfName<ContractName>, address }
 }
 
 // const { abi, address } = getContract('EnsRegistry', 11155111)
 // const { abi: abi2, address: address2 } = getContract('SpecialERC20WithAddress', 137)
-// const { abi: abi3, address: address3 } = getContract('ERC20',)
+// const { abi: abi3, address: address3 } = getContract('ERC20')
