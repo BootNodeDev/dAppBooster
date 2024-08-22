@@ -49,89 +49,31 @@ const contracts = [
 export const getContracts = () => contracts
 
 type ContractNames = (typeof contracts)[number]['name']
-
-// Get chain IDs for a given contract name
-type ChainIdsForContract<T extends ContractNames> = keyof Extract<
-  (typeof contracts)[number],
-  { name: T }
->['address']
-
-/**
- * Retrieves the contract information based on the contract name.
- *
- * @param {string} name - The name of the contract.
- * @returns {Contract} The contract's ABI.
- *
- * @throws If contract is not found.
- */ export const getContractAbi = <
-  ContractName extends ContractNames,
-  Contract extends Extract<(typeof contracts)[number], { name: ContractName }>,
->(
-  name: ContractName,
-): Contract['abi'] => {
-  // Narrow the contract by its name
-  const contract = contracts.find(
-    (contract): contract is Extract<(typeof contracts)[number], { name: ContractName }> =>
-      contract.name === name,
-  )
-
-  if (!contract) {
-    throw new Error(`Contract ${name} not found`)
-  }
-
-  return contract.abi as Contract['abi']
-}
-
-export const getContractAux = <ContractName extends ContractNames>(
-  name: ContractName,
-): Extract<(typeof contracts)[number], { name: ContractName }> => {
-  // Narrow the contract by its name
-  const contract = contracts.find(
-    (contract): contract is Extract<(typeof contracts)[number], { name: ContractName }> =>
-      contract.name === name,
-  )
-
-  if (!contract) {
-    throw new Error(`Contract ${name} not found`)
-  }
-
-  return contract
-}
-
-type AddressRecord<T extends ContractNames> = ReturnType<typeof getContractAux<T>>['address']
-
+type ContractOfName<T extends ContractNames> = Extract<(typeof contracts)[number], { name: T }>
+type AddressRecord<T extends ContractNames> = ContractOfName<T>['address']
+type AbiOfName<T extends ContractNames> = ContractOfName<T>['abi']
 type ChainIdOf<T extends ContractNames> = keyof AddressRecord<T>
 
-export const getContractAddress = <T extends ContractNames, C extends ChainIdOf<T>>(
-  name: T,
-  chainId: C,
-): AddressRecord<T>[C] => {
-  const contract = getContractAux<T>(name)
-  const addressRecord = contract.address as AddressRecord<T>
-  return addressRecord[chainId]
-}
-
-/**
- * Retrieves the contract information based on the contract name and chain ID.
- *
- * @param {string} name - The name of the contract.
- * @param {ChainsIds} chainId - The chain ID configured in the dApp. See networks.config.ts.
- * @returns {Contract} An object containing the contract's ABI and address.
- *
- * @throws If contract is not found.
- */ export const getContract = <
+export const getContract = <
   ContractName extends ContractNames,
   ChainId extends ChainIdOf<ContractName>,
 >(
   name: ContractName,
   chainId: ChainId,
 ) => {
-  return {
-    abi: getContractAbi(name),
-    address: getContractAddress(name, chainId),
+  // Narrow the contract by its name
+  const contract = contracts.find(
+    (contract): contract is ContractOfName<ContractName> => contract.name === name,
+  )
+
+  if (!contract) {
+    throw new Error(`Contract ${name} not found`)
   }
+  const addressRecord = contract.address as AddressRecord<ContractName>
+
+  return { abi: contract.abi as AbiOfName<ContractName>, address: addressRecord[chainId] }
 }
 
 // const { abi, address } = getContract('EnsRegistry', 11155111)
 // const { abi: abi2, address: address2 } = getContract('SpecialERC20WithAddress', 137)
-// const { abi: abi3, address: address3 } = getContract('ERC20', '')
+// const { abi: abi3, address: address3 } = getContract('ERC20',)
