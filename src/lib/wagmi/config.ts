@@ -1,4 +1,4 @@
-import { type ContractConfig, defineConfig } from '@wagmi/cli'
+import { defineConfig } from '@wagmi/cli'
 import { react } from '@wagmi/cli/plugins'
 
 import { getContracts } from '@/src/constants/contracts/contracts'
@@ -10,5 +10,5 @@ import { reactSuspenseRead } from '@/src/lib/wagmi/plugins/reactSuspenseRead'
 export default defineConfig({
   out: 'src/hooks/generated.ts',
   plugins: [reactSuspenseRead(), react()],
-  contracts: getContracts() as unknown as ContractConfig<number, undefined>[],
+  contracts: getContracts(),
 })

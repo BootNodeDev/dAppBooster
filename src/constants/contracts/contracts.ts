@@ -8,7 +8,7 @@ type OptionalAddresses = Partial<Record<ChainsIds, Address>>
 type ContractConfig<TAbi> = {
   abi: TAbi
   name: string
-  address: OptionalAddresses
+  address?: OptionalAddresses
 }
 
 /**
@@ -22,7 +22,6 @@ const contracts = [
   {
     abi: erc20Abi,
     name: 'ERC20',
-    address: {},
   },
   {
     abi: erc20Abi,
@@ -39,7 +38,7 @@ const contracts = [
     },
     name: 'EnsRegistry',
   },
-] as const satisfies readonly ContractConfig<Abi>[]
+] as const satisfies ContractConfig<Abi>[]
 
 /**
  * Retrieves all contracts.
@@ -49,9 +48,12 @@ const contracts = [
 export const getContracts = () => contracts
 
 type ContractNames = (typeof contracts)[number]['name']
+
 type ContractOfName<T extends ContractNames> = Extract<(typeof contracts)[number], { name: T }>
-type AddressRecord<T extends ContractNames> = ContractOfName<T>['address']
 type AbiOfName<T extends ContractNames> = ContractOfName<T>['abi']
+
+type AddressRecord<T extends ContractNames> =
+  ContractOfName<T> extends { address: infer K } ? K : never
 type ChainIdOf<T extends ContractNames> = keyof AddressRecord<T>
 
 /**
@@ -70,7 +72,6 @@ export const getContract = <
   name: ContractName,
   chainId: ChainId,
 ) => {
-  // Narrow the contract by its name
   const contract = contracts.find(
     (contract): contract is ContractOfName<ContractName> => contract.name === name,
   )
@@ -78,19 +79,23 @@ export const getContract = <
   if (!contract) {
     throw new Error(`Contract ${name} not found`)
   }
+
+  // address key not present
+  if (!('address' in contract)) {
+    throw new Error(`Contract ${name} address not found}`)
+  }
+
   const address = (contract.address as AddressRecord<ContractName>)[chainId]
 
+  // address undefined
   if (!address) {
     throw new Error(`Contract ${name} address not found for chain ${chainId.toString()}`)
   }
 
+  // not a valid address
   if (!isAddress(address as string)) {
     throw new Error(`Contract ${name} address is not a valid address`)
   }
 
   return { abi: contract.abi as AbiOfName<ContractName>, address }
 }
-
-// const { abi, address } = getContract('EnsRegistry', 11155111)
-// const { abi: abi2, address: address2 } = getContract('SpecialERC20WithAddress', 137)
-// const { abi: abi3, address: address3 } = getContract('ERC20')
