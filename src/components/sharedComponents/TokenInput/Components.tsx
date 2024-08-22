@@ -54,64 +54,50 @@ export const TopRow = styled.div.attrs({ className: 'tokenInputTopRow' })`
 export const Textfield = styled(BaseTextfield).attrs({
   className: 'tokenInputTextfield',
 })`
-  /* Texfield */
-  --theme-textfield-background-color: var(--theme-token-input-textfield-background-color, #fff);
-  --theme-textfield-background-color-active: var(
-    --theme-token-input-textfield-background-color-active,
-    rgb(0 0 0 / 2%)
-  );
-  --theme-textfield-border-color: var(--theme-token-input-textfield-border-color, #e2e0e7);
-  --theme-textfield-border-color-active: var(
-    --theme-token-input-textfield-border-color-active,
-    #e2e0e7
-  );
-  --theme-textfield-color: var(--theme-token-input-textfield-color, #2e3048);
-  --theme-textfield-color-active: var(--theme-token-input-textfield-color-active, #2e3048);
-  --theme-textfield-placeholder-color: var(
-    --theme-token-input-textfield-placeholder-color,
-    rgb(22 29 26 / 60%)
-  );
+  && {
+    /* Texfield */
+    --theme-textfield-background-color: var(--theme-token-input-textfield-background-color, #fff);
+    --theme-textfield-background-color-active: var(
+      --theme-token-input-textfield-background-color-active,
+      rgb(0 0 0 / 2%)
+    );
+    --theme-textfield-border-color: var(--theme-token-input-textfield-border-color, #e2e0e7);
+    --theme-textfield-border-color-active: var(
+      --theme-token-input-textfield-border-color-active,
+      #e2e0e7
+    );
+    --theme-textfield-color: var(--theme-token-input-textfield-color, #2e3048);
+    --theme-textfield-color-active: var(--theme-token-input-textfield-color-active, #2e3048);
+    --theme-textfield-placeholder-color: var(
+      --theme-token-input-textfield-placeholder-color,
+      rgb(22 29 26 / 60%)
+    );
 
-  font-size: 2.4rem;
-  height: auto;
-  min-width: 0;
-  padding: var(--base-token-input-texfield-padding, var(--base-common-padding));
+    font-size: 2.4rem;
+    height: auto;
+    min-width: 0;
+    padding: var(--base-token-input-texfield-padding, var(--base-common-padding));
 
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      font-size: 3.2rem;
-      padding: var(--base-token-input-texfield-padding, 0 var(--base-common-padding-xl));
-    `,
-  )}
+    ${breakpointMediaQuery(
+      'tabletPortraitStart',
+      css`
+        font-size: 3.2rem;
+        padding: var(--base-token-input-texfield-padding, 0 var(--base-common-padding-xl));
+      `,
+    )}
+  }
 `
 
 export const ChevronDown = styled(BaseChevronDown)`
   margin-left: var(--base-gap);
 `
 
-export const DropdownButton = styled(Button).attrs<{ singleOption?: boolean }>(
-  ({ children, singleOption }) => {
-    return {
-      className: 'tokenInputDropdownButton',
-      children: (
-        <>
-          {children}
-          {!singleOption && <ChevronDown />}
-        </>
-      ),
-    }
-  },
-)`
-  /* Dropdown button */
+const ButtonCSS = css`
   --theme-button-background-color: var(--theme-token-input-dropdown-button-background-color, #fff);
   --theme-button-background-color-hover: var(
     --theme-token-input-dropdown-button-background-color-hover,
     rgb(0 0 0 / 5%)
   );
-  ${(props) => props.singleOption && '--theme-button-background-color: transparent;'}
-  ${(props) => props.singleOption && '--theme-button-background-color-hover: transparent;'}
-
   --theme-button-border-color: var(--theme-token-input-dropdown-button-border-color, #e2e0e7);
   --theme-button-border-color-hover: var(
     --theme-token-input-dropdown-button-border-color-hover,
@@ -121,18 +107,15 @@ export const DropdownButton = styled(Button).attrs<{ singleOption?: boolean }>(
     --theme-token-input-dropdown-button-border-color-active,
     #e2e0e7
   );
-  ${(props) => props.singleOption && 'border: none;'}
-
   --theme-button-color: var(--theme-token-input-dropdown-button-color, #2e3048);
   --theme-button-color-hover: var(--theme-token-input-dropdown-button-color-hover, #2e3048);
 
+  flex-shrink: 0;
   font-size: 1.2rem;
   font-weight: 500;
-  flex-shrink: 0;
   height: auto;
   min-width: 100px;
   padding: var(--base-token-input-dropdown-button-padding, 0 var(--base-common-padding));
-  ${(props) => props.singleOption && 'cursor: auto;'}
 
   ${breakpointMediaQuery(
     'tabletPortraitStart',
@@ -141,6 +124,29 @@ export const DropdownButton = styled(Button).attrs<{ singleOption?: boolean }>(
       padding: var(--base-token-input-dropdown-button-padding, 0 var(--base-common-padding-xl));
     `,
   )}
+`
+
+export const DropdownButton = styled(Button).attrs(({ children }) => {
+  return {
+    className: 'tokenInputDropdownButton',
+    children: (
+      <>
+        {children}
+        <ChevronDown />
+      </>
+    ),
+  }
+})`
+  ${ButtonCSS}
+`
+
+export const SingleToken = styled.div.attrs({ className: 'tokenInputSingleToken' })`
+  align-items: center;
+  column-gap: var(--base-button-column-gap, var(--base-gap, 8px));
+  cursor: default;
+  display: flex;
+
+  ${ButtonCSS}
 `
 
 export const Error = styled.span`
