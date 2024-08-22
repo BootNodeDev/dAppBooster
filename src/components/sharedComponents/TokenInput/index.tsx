@@ -48,13 +48,14 @@ export const CloseButton = styled(BaseCloseButton)`
   top: calc(var(--base-common-padding) * 5);
 `
 
-interface TokenInputProps extends Omit<TokenSelectProps, 'onError'> {
-  singleToken?: boolean
-  token?: Token
+interface TokenInputProps extends Omit<TokenSelectProps, 'onError' | 'onTokenSelect'> {
   onAmountSet: (amount?: string) => void
-  onError: (error?: string) => void
+  onError?: (error?: string) => void
+  onTokenSelect?: (token: Token | undefined) => void
+  singleToken?: boolean
   thousandSeparator?: boolean
   title?: string
+  token?: Token
 }
 
 /**
@@ -172,7 +173,7 @@ const TokenInput: FC<TokenInputProps> = ({
 
   const handleSelectedToken = (token: Token | undefined) => {
     handleSetAmount('') // reset amount when token change
-    onTokenSelect(token)
+    onTokenSelect?.(token)
     setTokenSelected(token)
     closeModal('token-select')
   }
@@ -182,7 +183,7 @@ const TokenInput: FC<TokenInputProps> = ({
   }
 
   const handleError: BigNumberInputProps['onError'] = (error) => {
-    onError(error?.message)
+    onError?.(error?.message)
     setAmountError(error?.message)
   }
 
