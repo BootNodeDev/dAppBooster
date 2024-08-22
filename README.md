@@ -265,6 +265,10 @@ The [official extension](https://marketplace.visualstudio.com/items?itemName=sty
 
 [Github repository](https://github.com/pacocoursey/next-themes) | [Light theme CSS vars](src/styles/themes/lightThemeCSSVars.tsx) | [Dark theme CSS vars](src/styles/themes/darkThemeCSSVars.tsx)
 
+### Faceless UI Modal
+
+[Github repository](https://github.com/faceless-ui/modal) | [Official docs](https://facelessui.com/docs/getting-started)
+
 ### React Hot Toast
 
 [Github repository](https://github.com/timolins/react-hot-toast)

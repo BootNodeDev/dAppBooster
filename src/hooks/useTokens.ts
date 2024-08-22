@@ -8,10 +8,9 @@ import {
   type TokenAmount,
   type TokensResponse,
   getChains,
-  type ChainId,
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
-import { type Address, formatUnits } from 'viem'
+import { type Address, Chain, formatUnits } from 'viem'
 
 import { env } from '@/src/env'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
@@ -43,7 +42,7 @@ export const useTokens = (
     account,
     chainId,
     withBalance,
-  }: { account?: Address; chainId?: ChainId; withBalance?: boolean } = {
+  }: { account?: Address; chainId?: Chain['id']; withBalance?: boolean } = {
     withBalance: true,
   },
 ) => {

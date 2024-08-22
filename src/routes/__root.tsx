@@ -1,3 +1,4 @@
+import { ModalProvider, ModalContainer } from '@faceless-ui/modal'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
 import { Wrapper, Main } from 'db-ui-toolkit'
@@ -21,17 +22,20 @@ function Root() {
   return (
     <ThemeProvider defaultTheme={'light'}>
       <Styles />
-      <Wrapper>
-        <Web3Provider>
-          <Header />
-          <Main>
-            <Outlet />
-          </Main>
-          <Footer />
-          <TanStackReactQueryDevtools />
-          <TanStackRouterDevtools />
-        </Web3Provider>
-      </Wrapper>
+      <Web3Provider>
+        <ModalProvider>
+          <Wrapper>
+            <Header />
+            <Main>
+              <Outlet />
+            </Main>
+            <Footer />
+            <TanStackReactQueryDevtools />
+            <TanStackRouterDevtools />
+          </Wrapper>
+          <ModalContainer />
+        </ModalProvider>
+      </Web3Provider>
       <Toaster />
       <Analytics />
     </ThemeProvider>
