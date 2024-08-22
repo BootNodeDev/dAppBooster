@@ -98,32 +98,17 @@ export const getContractAux = <ContractName extends ContractNames>(
   return contract
 }
 
-/**
- * Retrieves the contract address based on the contract name and chain ID.
- *
- * @param {string} name - The name of the contract.
- * @param {ChainsIds} chainId - The chain ID configured in the dApp. See networks.config.ts.
- * @returns {Contract} An object containing the contract's ABI and address.
- *
- * @throws If contract is not found.
- */ export const getContractAddress = <
-  ContractName extends ContractNames,
-  ChainId extends ChainIdsForContract<ContractName>,
->(
-  name: ContractName,
-  chainId: ChainId,
-) => {
-  // Narrow the contract by its name
-  const contract = getContractAux<ContractName>(name)
+type AddressRecord<T extends ContractNames> = ReturnType<typeof getContractAux<T>>['address']
 
-  const addressRecord = contract.address as Record<ChainId, any>
-  const address = addressRecord[chainId]
+type ChainIdOf<T extends ContractNames> = keyof AddressRecord<T>
 
-  if (!isAddress(address)) {
-    throw new Error(`Contract ${name} address is not a valid address`)
-  }
-
-  return address
+export const getContractAddress = <T extends ContractNames, C extends ChainIdOf<T>>(
+  name: T,
+  chainId: C,
+): AddressRecord<T>[C] => {
+  const contract = getContractAux<T>(name)
+  const addressRecord = contract.address as AddressRecord<T>
+  return addressRecord[chainId]
 }
 
 /**
@@ -136,7 +121,7 @@ export const getContractAux = <ContractName extends ContractNames>(
  * @throws If contract is not found.
  */ export const getContract = <
   ContractName extends ContractNames,
-  ChainId extends ChainIdsForContract<ContractName>,
+  ChainId extends ChainIdOf<ContractName>,
 >(
   name: ContractName,
   chainId: ChainId,
@@ -148,3 +133,5 @@ export const getContractAux = <ContractName extends ContractNames>(
 }
 
 // const { abi, address } = getContract('EnsRegistry', 11155111)
+// const { abi: abi2, address: address2 } = getContract('SpecialERC20WithAddress', 137)
+// const { abi: abi3, address: address3 } = getContract('ERC20', '')
