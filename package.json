@@ -33,7 +33,7 @@
     "@uniswap/default-token-list": "^11.19.0",
     "@vercel/analytics": "^1.3.1",
     "connectkit": "^1.8.2",
-    "db-ui-toolkit": "github:BootNodeDev/db-ui-toolkit#0.3.7",
+    "db-ui-toolkit": "^0.3.7",
     "graphql": "^16.9.0",
     "graphql-request": "^7.1.0",
     "modern-normalize": "^2.0.0",
