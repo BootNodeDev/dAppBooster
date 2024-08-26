@@ -36,8 +36,8 @@ dependencies:
     specifier: ^1.8.2
     version: 1.8.2(@babel/core@7.25.2)(@tanstack/react-query@5.52.1)(react-dom@18.3.1)(react-is@18.3.1)(react@18.3.1)(viem@2.10.11)(wagmi@2.12.7)
   db-ui-toolkit:
-    specifier: github:BootNodeDev/db-ui-toolkit#0.3.7
-    version: github.com/BootNodeDev/db-ui-toolkit/28248b8480667f94fe1273c2876d13c41072420b
+    specifier: ^0.3.7
+    version: 0.3.7
   graphql:
     specifier: ^16.9.0
     version: 16.9.0
@@ -7252,6 +7252,15 @@ packages:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
     dev: false
 
+  /db-ui-toolkit@0.3.7:
+    resolution: {integrity: sha512-hOlmFVxYdEAwglt4BttkpNq4E+FMiTTa0lo4kSnXuo1vG+werRhR+1XRWqLziwOqbjKJomlJIOA8K0eAwfXFhg==}
+    engines: {node: '>=20.0.0'}
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      styled-components: 6.1.12(react-dom@18.3.1)(react@18.3.1)
+    dev: false
+
   /debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
 
@@ -14212,15 +14221,4 @@ packages:
       '@types/react': 18.3.4
       react: 18.3.1
       use-sync-external-store: 1.2.0(react@18.3.1)
-    dev: false
-
-  github.com/BootNodeDev/db-ui-toolkit/28248b8480667f94fe1273c2876d13c41072420b:
-    resolution: {tarball: https://codeload.github.com/BootNodeDev/db-ui-toolkit/tar.gz/28248b8480667f94fe1273c2876d13c41072420b}
-    name: db-ui-toolkit
-    version: 0.1.0
-    engines: {node: '>=20.0.0'}
-    dependencies:
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      styled-components: 6.1.12(react-dom@18.3.1)(react@18.3.1)
     dev: false
