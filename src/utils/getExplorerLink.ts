@@ -28,7 +28,7 @@ export const getExplorerLink = ({ chain, explorerUrl, hashOrAddress }: GetExplor
   if (isHash(hashOrAddress)) {
     return explorerUrl
       ? `${explorerUrl}/tx/${hashOrAddress}`
-      : `${chain.blockExplorers?.default}/tx/${hashOrAddress}`
+      : `${chain.blockExplorers?.default.url}/tx/${hashOrAddress}`
   }
 
   throw new Error('Invalid hash or address')
