@@ -49,13 +49,13 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
     signaturePromise,
     successMessage = 'Signature received!',
   }: WatchSignatureArgs) {
-    const toastId = toast.loading(({ id }) => <ToastNotification message={message} toastId={id} />)
+    const toastId = toast.loading(() => <ToastNotification message={message} />)
     onToastId?.(toastId)
 
     try {
       await signaturePromise
       if (showSuccessToast) {
-        toast.success(<ToastNotification message={successMessage} toastId={toastId} />, {
+        toast.success(<ToastNotification message={successMessage} />, {
           id: toastId,
         })
       }
@@ -65,7 +65,7 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       if ('shortMessage' in error) {
         message = error.shortMessage
       }
-      toast.error(<ToastNotification message={message} toastId={toastId} />, { id: toastId })
+      toast.error(<ToastNotification message={message} />, { id: toastId })
     }
   }
 
@@ -86,7 +86,7 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       return
     }
 
-    toast.loading(({ id }) => <ToastNotification message={message} toastId={id} />, {
+    toast.loading(() => <ToastNotification message={message} />, {
       id: toastId,
     })
 
