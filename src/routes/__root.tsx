@@ -9,6 +9,7 @@ import { Footer } from '@/src/components/sharedComponents/Footer'
 import { Header } from '@/src/components/sharedComponents/Header'
 import { TanStackReactQueryDevtools } from '@/src/components/sharedComponents/TanStackReactQueryDevtools'
 import { TanStackRouterDevtools } from '@/src/components/sharedComponents/TanStackRouterDevtools'
+import { TransactionNotificationProvider } from '@/src/lib/toast/TransactionNotificationProvider'
 import { Web3Provider } from '@/src/providers/Web3Provider'
 import Styles from '@/src/styles'
 
@@ -24,19 +25,21 @@ function Root() {
       <Styles />
       <Web3Provider>
         <ModalProvider>
-          <Wrapper>
-            <Header />
-            <Main>
-              <Outlet />
-            </Main>
-            <Footer />
-            <TanStackReactQueryDevtools />
-            <TanStackRouterDevtools />
-          </Wrapper>
+          <TransactionNotificationProvider>
+            <Wrapper>
+              <Header />
+              <Main>
+                <Outlet />
+              </Main>
+              <Footer />
+              <TanStackReactQueryDevtools />
+              <TanStackRouterDevtools />
+            </Wrapper>
+            <Toaster />
+          </TransactionNotificationProvider>
           <ModalContainer />
         </ModalProvider>
       </Web3Provider>
-      <Toaster />
       <Analytics />
     </ThemeProvider>
   )
