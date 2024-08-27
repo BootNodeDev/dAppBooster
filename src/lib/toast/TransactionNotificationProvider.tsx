@@ -91,13 +91,13 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
     })
 
     try {
-      let replacedTx: ReplacementReturnType
+      let replacedTx = null as ReplacementReturnType | null
       const receipt = await readOnlyClient.waitForTransactionReceipt({
         hash,
         onReplaced: (replacedTxData) => (replacedTx = replacedTxData),
       })
 
-      if (replacedTx!) {
+      if (replacedTx !== null) {
         if (['replaced', 'cancelled'].includes(replacedTx.reason)) {
           toast.error(
             <div>
