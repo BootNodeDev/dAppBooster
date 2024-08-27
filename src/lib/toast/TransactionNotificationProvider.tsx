@@ -70,7 +70,7 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
   }
 
   async function watchHash({
-    errorMessage = 'Transaction has reverted!',
+    errorMessage = 'Transaction was reverted!',
     hash,
     message = 'Transaction sent',
     successMessage = 'Transaction has been mined!',
