@@ -46,7 +46,7 @@ const Ul = styled.ul`
  * A styled pre tag
  */
 const Code = styled.pre`
-  background-color: #f5f5f5;
+  background-color: var(--theme-body-background-color);
   border-radius: 5px;
   font-size: 1.3rem;
   margin: var(--base-gap) 0 0;
