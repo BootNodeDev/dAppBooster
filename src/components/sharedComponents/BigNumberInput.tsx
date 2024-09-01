@@ -3,28 +3,29 @@ import {
   type FC,
   type HTMLProps,
   type ReactElement,
+  RefObject,
   useEffect,
   useRef,
-  useState,
 } from 'react'
 
 import { formatUnits, parseUnits, maxUint256 } from 'viem'
 
 export type RenderInputProps = Omit<HTMLProps<HTMLInputElement>, 'onChange'> & {
   onChange: (event: ChangeEvent<HTMLInputElement> | string) => void
+  inputRef: RefObject<HTMLInputElement>
 }
 
 export type BigNumberInputProps = {
   autofocus?: boolean
   decimals: number
   disabled?: boolean
-  max?: string
-  min?: string
-  onChange: (value: string) => void
+  max?: bigint
+  min?: bigint
+  onChange: (value: bigint) => void
   onError?: (error: { value: string; message: string } | null) => void
   placeholder?: string
   renderInput?: (props: RenderInputProps) => ReactElement
-  value: string
+  value: bigint
 }
 
 /**
@@ -46,8 +47,8 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   autofocus,
   decimals,
   disabled,
-  max = maxUint256.toString(),
-  min = '0',
+  max = maxUint256,
+  min = BigInt(0),
   onChange,
   onError,
   placeholder = '0.00',
@@ -56,30 +57,18 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const [inputValue, setInputvalue] = useState('')
-
-  // update current value
+  // update inputValue when value changes
   useEffect(() => {
-    if (!value) {
-      setInputvalue('')
-      onError?.(null)
-    } else {
-      let parsedInputValue = 0n
-      let parsedValue = 0n
-
-      try {
-        parsedInputValue = parseUnits(inputValue || '0', decimals)
-        parsedValue = parseUnits(value || '0', decimals)
-      } catch {
-        // do nothing
-      }
-
-      if (parsedInputValue !== parsedValue) {
-        setInputvalue(formatUnits(parsedValue, decimals))
-        onError?.(null)
-      }
+    const current = inputRef.current
+    if (!current) {
+      return
     }
-  }, [value, decimals, inputValue, onError])
+    const currentInputValue = parseUnits(current.value || '0', decimals)
+
+    if (currentInputValue !== value) {
+      current.value = formatUnits(value, decimals)
+    }
+  }, [decimals, value])
 
   // autofocus
   useEffect(() => {
@@ -91,9 +80,10 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   const updateValue = (event: ChangeEvent<HTMLInputElement> | string) => {
     const { value } = typeof event === 'string' ? { value: event } : event.currentTarget
 
+    onError?.(null)
+
     if (value === '') {
-      onChange(value)
-      setInputvalue(value)
+      onChange(BigInt(0))
       return
     }
 
@@ -116,18 +106,17 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
       // fall-through
     }
 
-    const invalidValue =
-      (min && newValue < parseUnits(min, decimals)) || (max && newValue > parseUnits(max, decimals))
+    const invalidValue = (min && newValue < min) || (max && newValue > max)
 
     if (invalidValue) {
-      const message = `Invalid value! Range: [${min}, ${max === maxUint256.toString() ? 'maxUint256' : max}] and value is: ${value}`
+      const _min = formatUnits(min, decimals)
+      const _max = formatUnits(max, decimals)
+      const message = `Invalid value! Range: [${_min}, ${max === maxUint256 ? 'maxUint256' : _max}] and value is: ${value}`
       console.warn(message)
       onError?.({ value, message })
     }
 
-    setInputvalue(value)
-    onChange(value)
-    !invalidValue && onError?.(null)
+    onChange(newValue)
   }
 
   const inputProps = {
@@ -135,8 +124,11 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     onChange: updateValue,
     placeholder,
     type: 'text',
-    value: inputValue,
   }
 
-  return renderInput ? renderInput({ ...inputProps }) : <input {...inputProps} ref={inputRef} />
+  return renderInput ? (
+    renderInput({ ...inputProps, inputRef })
+  ) : (
+    <input {...inputProps} ref={inputRef} />
+  )
 }

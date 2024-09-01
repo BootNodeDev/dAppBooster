@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useState, type FC } from 'react'
+import { useMemo, type FC } from 'react'
 import styled from 'styled-components'
 
 import { Modal, useModal } from '@faceless-ui/modal'
 import { Spinner } from 'db-ui-toolkit'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
-import { formatUnits, getAddress } from 'viem'
-import { useAccount, useBalance } from 'wagmi'
+import { formatUnits } from 'viem'
 
 import {
   type BigNumberInputProps,
@@ -28,14 +27,13 @@ import {
   TopRow,
   Wrapper,
 } from '@/src/components/sharedComponents/TokenInput/Components'
+import { UseTokenInputReturnType } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import BaseTokenSelect, {
   Loading,
   type TokenSelectProps,
 } from '@/src/components/sharedComponents/TokenSelect'
-import { useErc20Balance } from '@/src/hooks/useErc20Balance'
 import { type Token } from '@/src/types/token'
-import { isNativeToken } from '@/src/utils/address'
 
 const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
@@ -49,13 +47,10 @@ export const CloseButton = styled(BaseCloseButton)`
 `
 
 interface TokenInputProps extends Omit<TokenSelectProps, 'onError' | 'onTokenSelect'> {
-  onAmountSet: (amount?: string) => void
-  onError?: (error?: string) => void
-  onTokenSelect?: (token: Token | undefined) => void
   singleToken?: boolean
   thousandSeparator?: boolean
   title?: string
-  token?: Token
+  tokenInput: UseTokenInputReturnType
 }
 
 /**
@@ -63,8 +58,6 @@ interface TokenInputProps extends Omit<TokenSelectProps, 'onError' | 'onTokenSel
  * It displays the token input field, token balance, and a dropdown list of available tokens.
  *
  * @param {TokenInputProps} props - TokenInput component props.
- * @param {(amount?: string) => void} props.onAmountSet - A callback function triggered when the amount is set.
- * @param {(error?: string) => void} props.onError - A callback function triggered when there is an error.
  * @param {boolean} [props.thousandSeparator=true] - Optional flag to enable thousands separator. Default is true.
  * @param {string} props.title - The title of the token input.
  * @param {number} [props.currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
@@ -136,9 +129,6 @@ const TokenInput: FC<TokenInputProps> = ({
   iconSize,
   itemHeight,
   networks,
-  onAmountSet,
-  onError,
-  onTokenSelect,
   placeholder,
   showAddTokenButton,
   showBalance,
@@ -146,7 +136,7 @@ const TokenInput: FC<TokenInputProps> = ({
   singleToken,
   thousandSeparator = true,
   title,
-  token,
+  tokenInput,
   ...restProps
 }) => {
   const {
@@ -159,31 +149,28 @@ const TokenInput: FC<TokenInputProps> = ({
     setAmount,
     setAmountError,
     setTokenSelected,
-  } = useTokenInput(token)
+  } = tokenInput
+
   const { closeModal, openModal } = useModal()
+
   const max = useMemo(
-    () => (balance && selectedToken ? formatUnits(balance, selectedToken.decimals) : '0'),
+    () => (balance && selectedToken ? balance : BigInt(0)),
     [balance, selectedToken],
   )
-
-  const handleSetAmount = (amount: string) => {
-    setAmount(amount)
-    onAmountSet(amount)
-  }
+  const selectIconSize = 24
+  const decimals = selectedToken ? selectedToken.decimals : 2
 
   const handleSelectedToken = (token: Token | undefined) => {
-    handleSetAmount('') // reset amount when token change
-    onTokenSelect?.(token)
+    setAmount(BigInt(0))
     setTokenSelected(token)
     closeModal('token-select')
   }
 
   const handleSetMax = () => {
-    handleSetAmount(max)
+    setAmount(max)
   }
 
   const handleError: BigNumberInputProps['onError'] = (error) => {
-    onError?.(error?.message)
     setAmountError(error?.message)
   }
 
@@ -191,10 +178,7 @@ const TokenInput: FC<TokenInputProps> = ({
     openModal('token-select')
   }
 
-  const selectIconSize = 24
-  const decimals = selectedToken ? selectedToken.decimals : 2
-
-  if (singleToken && !token) {
+  if (singleToken && !selectedToken) {
     return <div>When single token is true, a token is required.</div>
   }
 
@@ -218,7 +202,7 @@ const TokenInput: FC<TokenInputProps> = ({
           <BigNumberInput
             decimals={decimals}
             max={max}
-            onChange={handleSetAmount}
+            onChange={setAmount}
             onError={handleError}
             placeholder="0.00"
             renderInput={(renderInputProps) => (
@@ -252,7 +236,10 @@ const TokenInput: FC<TokenInputProps> = ({
                 `Balance: ${formatUnits(balance ?? 0n, selectedToken?.decimals ?? 0)}`
               )}
             </BalanceValue>
-            <MaxButton disabled={isLoadingBalance || !!balanceError} onClick={handleSetMax}>
+            <MaxButton
+              disabled={isLoadingBalance || !!balanceError || balance == 0n}
+              onClick={handleSetMax}
+            >
               Max
             </MaxButton>
           </Balance>
@@ -291,7 +278,7 @@ function TokenAmountField({
   renderInputProps: RenderInputProps
   thousandSeparator: boolean
 }) {
-  const { onChange, ...restProps } = renderInputProps
+  const { inputRef, onChange, ...restProps } = renderInputProps
 
   const isAllowed = ({ value }: NumberFormatValues) => {
     const [, inputDecimals] = value.toString().split('.')
@@ -307,6 +294,7 @@ function TokenAmountField({
     <NumericFormat
       $status={amountError ? 'error' : undefined}
       customInput={Textfield}
+      getInputRef={inputRef}
       isAllowed={isAllowed}
       onValueChange={({ value }) => onChange?.(value)}
       thousandSeparator={thousandSeparator}
@@ -315,47 +303,6 @@ function TokenAmountField({
       {...(restProps as any)}
     />
   )
-}
-
-function useTokenInput(token?: Token) {
-  const [amount, setAmount] = useState('')
-  const [amountError, setAmountError] = useState<string | null>()
-  const [selectedToken, setTokenSelected] = useState<Token | undefined>(token)
-
-  useEffect(() => {
-    setTokenSelected(token)
-  }, [token])
-
-  const { address: userWallet } = useAccount()
-  const { balance, balanceError, isLoadingBalance } = useErc20Balance({
-    address: userWallet ? getAddress(userWallet) : undefined,
-    token: selectedToken,
-  })
-
-  const isNative = selectedToken?.address ? isNativeToken(selectedToken.address) : false
-  const {
-    data: nativeBalance,
-    error: nativeBalanceError,
-    isLoading: isLoadingNativeBalance,
-  } = useBalance({
-    address: userWallet ? getAddress(userWallet) : undefined,
-    chainId: selectedToken?.chainId,
-    query: {
-      enabled: isNative,
-    },
-  })
-
-  return {
-    amount,
-    setAmount,
-    amountError,
-    setAmountError,
-    balance: isNative ? nativeBalance?.value : balance,
-    balanceError: isNative ? nativeBalanceError : balanceError,
-    isLoadingBalance: isNative ? isLoadingNativeBalance : isLoadingBalance,
-    selectedToken,
-    setTokenSelected,
-  }
 }
 
 export default TokenInput
