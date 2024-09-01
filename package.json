@@ -10,7 +10,7 @@
     "generateDocs": "typedoc",
     "lint:fix": "eslint --fix .",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "postinstall": "pnpm wagmi-generate && pnpm subgraph-codegen",
+    "postinstall": "pnpm wagmi-generate",
     "prepare": "husky",
     "prettier:fix": "prettier --write --ignore-unknown .",
     "preview": "vite preview",
