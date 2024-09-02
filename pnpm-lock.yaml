@@ -39,8 +39,8 @@ importers:
         specifier: ^1.8.2
         version: 1.8.2(@babel/core@7.25.2)(@tanstack/react-query@5.52.2(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@18.3.1)(react@18.3.1)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.5.4)(utf-8-validate@5.0.10)(zod@3.23.8))(wagmi@2.12.7(@tanstack/query-core@5.52.2)(@tanstack/react-query@5.52.2(react@18.3.1))(@types/react@18.3.4)(bufferutil@4.0.8)(react-dom@18.3.1(react@18.3.1))(react-native@0.75.2(@babel/core@7.25.2)(@babel/preset-env@7.25.4(@babel/core@7.25.2))(@types/react@18.3.4)(bufferutil@4.0.8)(react@18.3.1)(typescript@5.5.4)(utf-8-validate@5.0.10))(react@18.3.1)(rollup@4.21.1)(typescript@5.5.4)(utf-8-validate@5.0.10)(viem@2.10.11(bufferutil@4.0.8)(typescript@5.5.4)(utf-8-validate@5.0.10)(zod@3.23.8))(zod@3.23.8))
       db-ui-toolkit:
-        specifier: ^0.3.8
-        version: 0.3.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+        specifier: ^0.3.9
+        version: 0.3.9
       graphql:
         specifier: ^16.9.0
         version: 16.9.0
@@ -3556,13 +3556,9 @@ packages:
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
-  db-ui-toolkit@0.3.8:
-    resolution: {integrity: sha512-4cFiMd5nKCy4fie7NJDhEMln49fERdXZDQ+ETwS68/C48GQWuWbS8u/32XEGQroHQXMQ2ru9R/OQZl3xDb/0wA==}
+  db-ui-toolkit@0.3.9:
+    resolution: {integrity: sha512-/BEfCnLG3nN5LAFlGpWcysUo1QnyYXydGHWdeyN+tDN5xlFR2dXxTzhZ6IF3Ek6bhI0VHyVFH+g1eo7VIy0mtQ==}
     engines: {node: '>=20.0.0'}
-    peerDependencies:
-      react: ^18.3.1
-      react-dom: ^18.3.1
-      styled-components: ^6.1.12
 
   debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -11925,11 +11921,7 @@ snapshots:
 
   dayjs@1.11.13: {}
 
-  db-ui-toolkit@0.3.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
-    dependencies:
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      styled-components: 6.1.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+  db-ui-toolkit@0.3.9: {}
 
   debounce@1.2.1: {}
 
