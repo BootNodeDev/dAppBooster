@@ -70,7 +70,7 @@ export const Home = () => {
         <li>
           {/* TODO: Replace by correct link when the fork is ready */}
           <a
-            href="https://github.com/BootNodeDev/dAppBooster/tree/develop/src/components/pageComponents/home/Examples/demos"
+            href="https://github.com/BootNodeDev/dAppBoosterLandingPage/tree/main/src/components/pageComponents/home/Examples/demos"
             rel="noreferrer"
             target="_blank"
           >
