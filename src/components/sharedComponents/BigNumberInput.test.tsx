@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import '@testing-library/jest-dom'
+import { parseUnits } from 'viem'
 import { describe, it, expect, vi } from 'vitest'
 
 import {
@@ -24,7 +25,7 @@ describe('BigNumberInput', () => {
     const defaultProps: BigNumberInputProps = {
       decimals: 18,
       onChange: vi.fn(),
-      value: '',
+      value: 0n,
       ...props,
     }
 
@@ -52,18 +53,18 @@ describe('BigNumberInput', () => {
     const input = screen.getByPlaceholderText('0.00')
     input.focus()
     await user.paste('1.23')
-    expect(handleChange).toHaveBeenCalledWith('1.23')
+    expect(handleChange).toHaveBeenCalledWith(parseUnits('1.23', 18))
   })
 
   it('displays formatted value based on decimals', () => {
-    setup({ value: '1.234', decimals: 2 })
+    setup({ value: parseUnits('1.234', 2), decimals: 2 })
     const input = screen.getByPlaceholderText('0.00')
     expect(input).toHaveValue('1.23')
   })
 
   it('triggers error on value less than min', async () => {
     const handleError = vi.fn()
-    const { user } = setup({ min: '1.00', onError: handleError })
+    const { user } = setup({ min: parseUnits('1', 2), decimals: 2, onError: handleError })
 
     const input = screen.getByPlaceholderText('0.00')
     input.focus()
@@ -76,28 +77,29 @@ describe('BigNumberInput', () => {
 
   it('triggers error on value more than max', async () => {
     const handleError = vi.fn()
-    const { user } = setup({ max: '2.00', onError: handleError })
+    const { user } = setup({ max: parseUnits('2', 2), decimals: 2, onError: handleError })
 
     const input = screen.getByPlaceholderText('0.00')
     input.focus()
     await user.paste('3.00')
     expect(handleError).toHaveBeenCalledWith({
       value: '3.00',
-      message: 'Invalid value! Range: [0, 2.00] and value is: 3.00',
+      message: 'Invalid value! Range: [0.00, 2.00] and value is: 3.00',
     })
   })
 
   it('removes the error after correcting the value', async () => {
     const handleError = vi.fn()
-    const { user } = setup({ max: '2.00', onError: handleError })
+    const { user } = setup({ max: parseUnits('2', 2), decimals: 2, onError: handleError })
 
     const input = screen.getByPlaceholderText('0.00')
     input.focus()
     await user.paste('3.00')
     expect(handleError).toHaveBeenCalledWith({
       value: '3.00',
-      message: 'Invalid value! Range: [0, 2.00] and value is: 3.00',
+      message: 'Invalid value! Range: [0.00, 2.00] and value is: 3.00',
     })
+
     await user.paste('1.00')
     expect(handleError).toHaveBeenCalledWith(null)
   })
@@ -113,7 +115,7 @@ describe('BigNumberInput', () => {
   // TODO: fix test, or code?
   it.skip('resets input value when cleared', async () => {
     const handleChange = vi.fn()
-    setup({ onChange: handleChange, value: '1.123' })
+    setup({ onChange: handleChange, value: parseUnits('1.123', 2) })
     const user = userEvent.setup()
 
     const input = screen.getByPlaceholderText('0.00')
