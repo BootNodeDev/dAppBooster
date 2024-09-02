@@ -4,12 +4,16 @@ import { type Hash, type TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { useTransactionNotification } from '@/src/lib/toast/TransactionNotificationProvider'
 
 interface TransactionButtonProps extends ComponentProps<'button'> {
   confirmations?: number
   labelSending?: string
   onMined?: (receipt: TransactionReceipt) => void
-  transaction: () => Promise<Hash>
+  transaction: {
+    (): Promise<Hash>
+    methodId?: string
+  }
 }
 
 /**
@@ -40,6 +44,7 @@ const TransactionButton = withWalletStatusVerifier<TransactionButtonProps>(
     const [hash, setHash] = useState<Hash>()
     const [isPending, setIsPending] = useState<boolean>(false)
 
+    const { watchTx } = useTransactionNotification()
     const { data: receipt } = useWaitForTransactionReceipt({
       hash: hash,
       confirmations,
@@ -60,7 +65,9 @@ const TransactionButton = withWalletStatusVerifier<TransactionButtonProps>(
     const handleSendTransaction = async () => {
       setIsPending(true)
       try {
-        const hash = await transaction()
+        const txPromise = transaction()
+        watchTx({ txPromise, methodId: transaction.methodId })
+        const hash = await txPromise
         setHash(hash)
       } catch (error: unknown) {
         console.error('Error sending transaction', error instanceof Error ? error.message : error)
