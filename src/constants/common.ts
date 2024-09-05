@@ -8,7 +8,7 @@ export const isDev = import.meta.env.DEV
 /**
  * @source
  */
-export const includeTestNets = env.PUBLIC_INCLUDE_TESTNETS
+export const includeTestnets = env.PUBLIC_INCLUDE_TESTNETS
 
 /**
  * @source
