@@ -1,7 +1,7 @@
 import { type FC, type MouseEventHandler } from 'react'
 import styled from 'styled-components'
 
-import { ExternalLink, CopyButton } from 'db-ui-toolkit'
+import { ExternalLink, CopyButton } from '@bootnodedev/db-ui-toolkit'
 
 import { getTruncatedHash } from '@/src/utils/strings'
 

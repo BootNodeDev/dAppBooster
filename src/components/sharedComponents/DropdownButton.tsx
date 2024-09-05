@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Button } from 'db-ui-toolkit'
+import { Button } from '@bootnodedev/db-ui-toolkit'
 
 const ChevronDown = () => (
   <svg

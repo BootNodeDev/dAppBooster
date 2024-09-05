@@ -11,25 +11,29 @@ export const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }
     className,
   }
 })`
-  color: var(--theme-token-select-row-token-balance-color-default);
+  color: var(--theme-token-select-row-token-balance-color, #2e3048);
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.2;
 `
 
 /** @ignore */
-export const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => ({ className }))`
-  color: var(--theme-token-select-row-token-value-color-default);
+export const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => {
+  return { className }
+})`
+  color: var(--theme-token-select-row-token-value-color, #2e3048);
   font-size: 1.2rem;
   font-weight: 400;
   line-height: 1.2;
 `
 
-const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => ({ className }))`
+const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => {
+  return { className }
+})`
+  align-items: flex-end;
   display: flex;
   flex-direction: column;
-  row-gap: var(--base-gap-sm);
-  align-items: flex-end;
+  row-gap: var(--base-gap-sm, 4px);
 `
 
 interface TokenBalanceProps {

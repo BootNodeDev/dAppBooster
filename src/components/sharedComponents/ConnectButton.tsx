@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components'
 
-import { Button, breakpointMediaQuery } from 'db-ui-toolkit'
+import { Button, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
 
 const BaseChevronDown = ({ ...restProps }) => (
   <svg

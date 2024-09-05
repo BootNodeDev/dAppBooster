@@ -4,8 +4,9 @@ import styled from 'styled-components'
 import { useVirtualizer } from '@tanstack/react-virtual'
 
 const Wrapper = styled.div<{ $containerHeight: number }>`
-  height: ${(props) => `${props.$containerHeight}px`};
+  height: ${({ $containerHeight }) => `${$containerHeight}px`};
   overflow: auto;
+  width: 100%;
 `
 
 const Items = styled.div<{ height: number | string }>`
@@ -49,9 +50,9 @@ const VirtualizedList = <Item,>({
   return (
     <Wrapper $containerHeight={containerHeight} ref={parentRef} {...restProps}>
       <Items height={rowVirtualizer.getTotalSize()}>
-        {rowVirtualizer.getVirtualItems().map((virtualItem) => (
-          <VisibleItems height={virtualItem.size} key={virtualItem.key} start={virtualItem.start}>
-            {renderItem(items[virtualItem.index])}
+        {rowVirtualizer.getVirtualItems().map(({ index, key, size, start }) => (
+          <VisibleItems height={size} key={key} start={start}>
+            {renderItem(items[index])}
           </VisibleItems>
         ))}
       </Items>

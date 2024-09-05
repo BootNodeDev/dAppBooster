@@ -1,11 +1,11 @@
 import { type HTMLAttributes, type FC, type ReactElement, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { Dropdown, Item as BaseItem } from 'db-ui-toolkit'
+import { Dropdown, Item as BaseItem } from '@bootnodedev/db-ui-toolkit'
 import * as chains from 'viem/chains'
 import { useSwitchChain } from 'wagmi'
 
-import { PrimaryButton } from '@/src/components/sharedComponents/Buttons'
+import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 
 type NetworkItem = {

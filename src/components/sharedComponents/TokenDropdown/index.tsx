@@ -1,14 +1,11 @@
 import { type FC, type KeyboardEvent } from 'react'
 import styled, { css } from 'styled-components'
 
-import { useDropdown, breakpointMediaQuery } from 'db-ui-toolkit'
+import { useDropdown, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
 
 import DropdownButton from '@/src/components/sharedComponents/DropdownButton'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
-import TokenSelect, {
-  Loading,
-  type TokenSelectProps,
-} from '@/src/components/sharedComponents/TokenSelect'
+import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 
 const Wrapper = styled.span`
@@ -105,7 +102,6 @@ const TokenDropdown: FC<TokenDropdownProps> = ({
           <TokenSelect
             onTokenSelect={handleTokenSelect}
             showAddTokenButton={showAddTokenButton}
-            suspenseFallback={<Loading />}
             {...restProps}
           />
         }

@@ -1,8 +1,8 @@
 import { useMemo, type FC } from 'react'
 import styled from 'styled-components'
 
+import { Spinner } from '@bootnodedev/db-ui-toolkit'
 import { Modal, useModal } from '@faceless-ui/modal'
-import { Spinner } from 'db-ui-toolkit'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits } from 'viem'
 
@@ -30,7 +30,6 @@ import {
 import { UseTokenInputReturnType } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import BaseTokenSelect, {
-  Loading,
   type TokenSelectProps,
 } from '@/src/components/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
@@ -258,7 +257,6 @@ const TokenInput: FC<TokenInputProps> = ({
           showAddTokenButton={showAddTokenButton}
           showBalance={showBalance}
           showTopTokens={showTopTokens}
-          suspenseFallback={<Loading />}
         >
           <CloseButton onClick={() => closeModal('token-select')} />
         </TokenSelect>
