@@ -1,7 +1,7 @@
-import { type FC, type InputHTMLAttributes } from 'react'
+import { type FC, type InputHTMLAttributes, type ComponentPropsWithRef } from 'react'
 import styled from 'styled-components'
 
-import { Textfield, TextfieldCSS } from 'db-ui-toolkit'
+import { Textfield, TextfieldCSS } from '@bootnodedev/db-ui-toolkit'
 
 const SearchIcon = () => (
   <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +22,9 @@ const SearchIcon = () => (
   </svg>
 )
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => ({ className }))`
+const Wrapper = styled.div.attrs<ComponentPropsWithRef<'input'>>(
+  ({ className = 'tokenSelectInputWrapper' }) => ({ className }),
+)`
   --base-textfield-border-radius: var(--base-border-radius);
   --base-textfield-padding: 0 var(--base-common-padding-xl);
 

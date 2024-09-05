@@ -1,7 +1,7 @@
 import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-import { SkeletonLoading } from 'db-ui-toolkit'
+import { SkeletonLoading } from '@bootnodedev/db-ui-toolkit'
 
 import AddERC20TokenButton from '@/src/components/sharedComponents/AddERC20TokenButton'
 import { SecondaryButton } from '@/src/components/sharedComponents/Buttons'

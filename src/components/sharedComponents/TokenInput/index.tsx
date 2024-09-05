@@ -1,8 +1,8 @@
 import { useMemo, type FC } from 'react'
 import styled from 'styled-components'
 
+import { Spinner } from '@bootnodedev/db-ui-toolkit'
 import { Modal, useModal } from '@faceless-ui/modal'
-import { Spinner } from 'db-ui-toolkit'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits } from 'viem'
 

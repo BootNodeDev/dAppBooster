@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
+import { GeneralMessage } from '@bootnodedev/db-ui-toolkit'
 import { useNavigate } from '@tanstack/react-router'
-import { GeneralMessage } from 'db-ui-toolkit'
 
 import { PrimaryButton } from '@/src/components/sharedComponents/Buttons'
 

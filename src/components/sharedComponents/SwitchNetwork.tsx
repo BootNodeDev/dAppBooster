@@ -1,7 +1,7 @@
 import { type HTMLAttributes, type FC, type ReactElement, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { Dropdown, Item as BaseItem } from 'db-ui-toolkit'
+import { Dropdown, Item as BaseItem } from '@bootnodedev/db-ui-toolkit'
 import * as chains from 'viem/chains'
 import { useSwitchChain } from 'wagmi'
 

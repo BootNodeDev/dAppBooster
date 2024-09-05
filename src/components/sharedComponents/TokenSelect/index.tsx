@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type HTMLAttributes, type ReactElement } from 'react'
 import styled from 'styled-components'
 
-import { Card, Spinner } from 'db-ui-toolkit'
+import { Card, Spinner } from '@bootnodedev/db-ui-toolkit'
 import { type Chain } from 'viem/chains'
 
 import List from '@/src/components/sharedComponents/TokenSelect/List'

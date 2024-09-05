@@ -1,7 +1,7 @@
+import { Wrapper, Main } from '@bootnodedev/db-ui-toolkit'
 import { ModalProvider, ModalContainer } from '@faceless-ui/modal'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
-import { Wrapper, Main } from 'db-ui-toolkit'
 import { ThemeProvider } from 'next-themes'
 import { Toaster } from 'react-hot-toast'
 
