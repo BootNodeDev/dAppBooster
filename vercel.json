@@ -4,5 +4,10 @@
       "source": "/(.*)",
       "destination": "/"
     }
-  ]
+  ],
+  "git": {
+    "deploymentEnabled": {
+      "docs": false
+    }
+  }
 }
