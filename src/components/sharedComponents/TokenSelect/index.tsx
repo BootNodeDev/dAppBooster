@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-import { Spinner } from '@bootnodedev/db-ui-toolkit'
 import { type Chain } from 'viem/chains'
 
 import List from '@/src/components/sharedComponents/TokenSelect/List'
@@ -40,16 +39,6 @@ const Title = styled.h2.attrs(({ className = 'tokenSelectTitle' }) => {
   line-height: 1.2;
   margin: 0;
   padding: 0 var(--base-common-padding-xl, 16px);
-`
-
-const LoadingText = styled.span.attrs(({ className = 'tokenSelectLoadingText' }) => {
-  return { className }
-})`
-  font-size: 1.5rem;
-  font-weight: 500;
-  line-height: 1.5;
-  opacity: 0.8;
-  text-align: center;
 `
 
 export interface TokenSelectProps extends HTMLAttributes<HTMLDivElement> {

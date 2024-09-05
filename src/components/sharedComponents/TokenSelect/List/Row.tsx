@@ -9,7 +9,6 @@ import TokenBalance, {
   Balance,
   Value,
 } from '@/src/components/sharedComponents/TokenSelect/List/TokenBalance'
-import { SecondaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { type Token } from '@/src/types/token'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => {
