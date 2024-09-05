@@ -1,1 +1,57 @@
-# getting-started
+# Getting started [Getting started with dAppBooster in just a few lines of code.]
+
+## Overview
+
+dAppBooster is a starter-kit for boosting the development of decentralized applications (dApps).
+It is build onto the last tools available such us [React](https://react.dev/), [Typescript](https://www.typescriptlang.org/), [Wagmi](https://wagmi.sh/), [viem](https://viem.sh/), [@tanstank-query](https://tanstack.com/query/latest), [@tanstank-query](https://tanstack.com/router/latest), [vite](https://vitejs.dev/).
+
+Learn more about the [stack](/introduction/stack). 
+
+After more than five years of making decentralized apps, our team at [BootNode](https://bootnode.dev) has put together a simple yet powerful toolkit. This toolkit is designed to tackle the common hurdles and big decisions that come up when building dApps. It makes starting a new dApp smoother, cutting down on both time and complexity while focusing on developer experience, stability, bundle size, and performance. Here are some main features this starter-kit provides:
+
+- **Structure:** a flexible structure to handle contracts, ABIS, subgraphs and common decentralized components.
+- **Multi-chain:** native support and configuration to work with multiple chains with automatic type safe and super intuitive. 
+- **Wallets connectivity:** native support to work with [connectkit](https://docs.family.co/connectkit), [rainbowkit](https://www.rainbowkit.com/), [web3modal](https://github.com/WalletConnect/web3modal).
+- **Decentralized components:** Tree-shakable components that any dApp needs.
+- **Subgraphs:** multi-chain subgraphs support with auto generated typed hooks to query data.
+
+You can learn more about the rationale behind the project in the [Why dAppBooster](/introduction/why-dappBooster) section.
+
+## Installation
+
+Get a clean instance of the starter-kit by running
+
+```bash [npx]
+npx dappbooster dappBooster-firstDapp
+```
+
+Now, move to the project and install dependencies
+
+```bash
+cd dappBooster-firstDapp && pnpm i
+```
+
+Clone environment variables
+
+```bash 
+cp .env.example .env
+```
+
+Set wallet-connect project ID. You can get one in [cloud.walletconnect.com](https://cloud.walletconnect.com).
+
+edit your `.env` by setting your wallet connect project id. 
+
+```
+# WalletConnect Project ID
+PUBLIC_WALLETCONNECT_PROJECT_ID=
+```
+
+Run the dApp in dev mode and open the link provided by this command in the browser. 
+
+```bash [pnpm]
+pnpm dev
+```
+
+## Warming engines
+
+We recommend starting with the [My first dApp guide](/guides/my-first-dapp) to see how easy it is to build a DApp with our starter kit. In just five minutes, this guide will show you how to create a DApp that lets you wrap and unwrap WETH on the Sepolia network. This hands-on introduction is an excellent first step to using dappBooster and getting familiar with its components.

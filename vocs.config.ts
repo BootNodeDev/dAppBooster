@@ -8,19 +8,19 @@ export default defineConfig({
   sidebar: [
     {
       text: 'Introduction',
-      link: '/docs',
+      link: '/',
       items: [
         {
           text: 'Why dAppBooster',
-          link: '/docs/introduction/why-dappBooster',
+          link: '/introduction/why-dappBooster',
         },
         {
           text: 'Getting started',
-          link: '/docs/introduction/getting-started',
+          link: '/introduction/getting-started',
         },
         {
           text: 'Stack',
-          link: '/docs/introduction/stack',
+          link: '/introduction/stack',
         },
       ],
     },
@@ -28,8 +28,8 @@ export default defineConfig({
       text: 'Components',
       collapsed: true,
       items: [
-        { text: 'Transaction Button', link: '/docs/components/transaction-button' },
-        { text: 'Token Input', link: '/docs/components/token-input' },
+        { text: 'Transaction Button', link: '/components/transaction-button' },
+        { text: 'Token Input', link: '/components/token-input' },
       ],
     },
     {
@@ -37,8 +37,12 @@ export default defineConfig({
       collapsed: true,
       items: [
         {
+          text: 'My First dapp',
+          link: '/guides/my-first-dapp',
+        },
+        {
           text: 'Subgraphs',
-          link: '/docs/guides/subgraphs',
+          link: '/guides/subgraphs',
         },
       ],
     },
