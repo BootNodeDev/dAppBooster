@@ -1,15 +1,48 @@
-import { type ElementType, type FC, type MouseEventHandler, ComponentProps } from 'react'
+import { type FC, type MouseEventHandler, type ComponentPropsWithoutRef } from 'react'
 import styled from 'styled-components'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { type Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
-const Wrapper = styled.button``
+const Wrapper = styled.button.attrs(({ className = 'tokenSelectAddERC20TokenButton' }) => {
+  return { className }
+})`
+  align-items: center;
+  background-color: var(--theme-token-select-add-erc20-token-button-background-color, #2e3048);
+  border-radius: var(--base-border-radius-sm, 4px);
+  border: 1px solid var(--theme-token-select-add-erc20-token-button-border-color, #2e3048);
+  color: var(--theme-token-select-add-erc20-token-button-color, #fff);
+  cursor: pointer;
+  display: flex;
+  font-family: var(--base-font-family, sans-serif);
+  font-size: 1.1rem;
+  font-weight: 500;
+  height: 21px;
+  line-height: 1;
+  outline: none;
+  padding: 0 var(--base-common-padding, 8px);
+  user-select: none;
+  white-space: nowrap;
 
-interface AddERC20TokenButtonProps extends ComponentProps<'button'> {
+  &:hover {
+    background-color: var(
+      --theme-token-select-add-erc20-token-button-background-color-hover,
+      var(--theme-token-select-add-erc20-token-button-background-color, #2e3048)
+    );
+    border-color: var(
+      --theme-token-select-add-erc20-token-button-border-color-hover,
+      var(--theme-token-select-add-erc20-token-button-border-color, #2e3048)
+    );
+    color: var(
+      --theme-token-select-add-erc20-token-button-color-hover,
+      var(--theme-token-select-add-erc20-token-button-color, #fff)
+    );
+  }
+`
+
+interface AddERC20TokenButtonProps extends ComponentPropsWithoutRef<'button'> {
   $token: Token
-  as?: ElementType
 }
 
 /**
@@ -45,7 +78,7 @@ const AddERC20TokenButton: FC<AddERC20TokenButtonProps> = ({
   }
 
   return isNativeToken(address) ? null : (
-    <Wrapper disabled={disabled} onClick={handleClick} type="button" {...restProps}>
+    <Wrapper disabled={disabled} onClick={handleClick} {...restProps}>
       {children}
     </Wrapper>
   )

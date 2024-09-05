@@ -15,7 +15,7 @@ import { type Token } from '@/src/types/token'
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => {
   return { className }
 })`
-  color: var(--theme-token-select-row-token-name-color-default);
+  color: var(--theme-token-select-row-token-name-color, #2e3048);
   font-size: 1.8rem;
   font-weight: 500;
   line-height: 1.2;
@@ -27,59 +27,38 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex =
     className,
   }
 })`
-  --theme-token-select-row-background-color-default: var(
-    --theme-token-select-row-background-color,
-    transparent
-  );
-  --theme-token-select-row-background-color-hover-default: var(
-    --theme-token-select-row-background-color-hover,
-    rgb(0 0 0 / 5%)
-  );
-  --theme-token-select-row-token-name-color-default: var(
-    --theme-token-select-row-token-name-color,
-    #2e3048
-  );
-  --theme-token-select-row-token-balance-color-default: var(
-    --theme-token-select-row-token-balance-color,
-    #2e3048
-  );
-  --theme-token-select-row-token-value-color-default: var(
-    --theme-token-select-row-token-value-color,
-    #2e3048
-  );
-
   align-items: center;
-  background-color: var(--theme-token-select-row-background-color-default);
-  column-gap: var(--base-gap-xl);
+  background-color: var(--theme-token-select-row-background-color, transparent);
+  column-gap: var(--base-gap-xl, 16px);
   cursor: pointer;
   display: flex;
   height: 100%;
-  padding-left: calc(var(--base-token-select-horizontal-padding) + var(--base-common-padding));
-  padding-right: calc(var(--base-token-select-horizontal-padding) + var(--base-common-padding));
-  transition: background-color var(--base-transition-duration-sm) ease-in-out;
+  padding-left: calc(var(--base-common-padding-xl, 16px) + var(--base-common-padding, 8px));
+  padding-right: calc(var(--base-common-padding-xl, 16px) + var(--base-common-padding, 8px));
+  transition: background-color var(--base-transition-duration-sm, 0.2s) ease-in-out;
   width: 100%;
 
   &:hover {
-    background-color: var(--theme-token-select-row-background-color-hover-default);
+    background-color: var(--theme-token-select-row-background-color-hover, rgb(0 0 0 / 5%));
 
     ${Name} {
       color: var(
         --theme-token-select-row-token-name-color-hover,
-        var(--theme-token-select-row-token-name-color-default)
+        var(--theme-token-select-row-token-name-color, #2e3048)
       );
     }
 
     ${Balance} {
       color: var(
         --theme-token-select-row-token-balance-color-hover,
-        var(--theme-token-select-row-token-balance-color-default)
+        var(--theme-token-select-row-token-balance-color, #2e3048)
       );
     }
 
     ${Value} {
       color: var(
         --theme-token-select-row-token-value-color-hover,
-        var(--theme-token-select-row-token-value-color-default)
+        var(--theme-token-select-row-token-value-color, #2e3048)
       );
     }
   }
@@ -107,12 +86,6 @@ const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIc
   width: ${({ size }) => size}px;
 `
 
-const Button = styled(SecondaryButton)`
-  font-size: 1.1rem;
-  height: 21px;
-  padding: 0 var(--base-common-padding);
-`
-
 interface TokenSelectRowProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
   iconSize: number
   isLoadingBalances?: boolean
@@ -122,17 +95,19 @@ interface TokenSelectRowProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onCl
   token: Token
 }
 
-const BalanceLoading = styled.div.attrs({
-  children: (
-    <>
-      <SkeletonLoading style={{ height: '19px', width: '50px' }} />
-      <SkeletonLoading style={{ height: '14px', width: '50px' }} />
-    </>
-  ),
+const BalanceLoading = styled.div.attrs(() => {
+  return {
+    children: (
+      <>
+        <SkeletonLoading style={{ height: '19px', width: '50px' }} />
+        <SkeletonLoading style={{ height: '14px', width: '50px' }} />
+      </>
+    ),
+  }
 })`
   display: flex;
   flex-direction: column;
-  row-gap: var(--base-gap-sm);
+  row-gap: var(--base-gap-sm, 4px);
   align-items: flex-end;
 `
 
@@ -164,11 +139,7 @@ const Row: FC<TokenSelectRowProps> = ({
         <TokenLogo size={iconSize} token={token} />
       </Icon>
       <Name>{name}</Name>
-      {showAddTokenButton && (
-        <AddERC20TokenButton $token={token} as={Button}>
-          Add token
-        </AddERC20TokenButton>
-      )}
+      {showAddTokenButton && <AddERC20TokenButton $token={token}>Add token</AddERC20TokenButton>}
       {showBalance && (
         <RightColumn>
           <TokenBalance

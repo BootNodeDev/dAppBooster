@@ -3,15 +3,17 @@ import styled from 'styled-components'
 
 import { Dropdown, Item as BaseItem } from '@bootnodedev/db-ui-toolkit'
 
-import { type Networks } from '@/src/components/sharedComponents/TokenSelect'
 import SearchInput from '@/src/components/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/components/sharedComponents/TokenSelect/Search/NetworkButton'
+import { type Networks } from '@/src/components/sharedComponents/TokenSelect/types'
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) => ({ className }))`
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) => {
+  return { className }
+})`
   display: flex;
-  column-gap: var(--base-gap);
+  column-gap: var(--base-gap, 8px);
   height: 72px;
-  padding: 0 var(--base-token-select-horizontal-padding);
+  padding: 0 var(--base-common-padding-xl, 16px);
 
   .dbuitkDropdownButton {
     height: 100%;

@@ -1,52 +1,45 @@
-import { useEffect, useRef, useState, type HTMLAttributes, type ReactElement } from 'react'
+import { useEffect, useRef, useState, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-import { Card, Spinner } from '@bootnodedev/db-ui-toolkit'
+import { Spinner } from '@bootnodedev/db-ui-toolkit'
 import { type Chain } from 'viem/chains'
 
 import List from '@/src/components/sharedComponents/TokenSelect/List'
 import Search from '@/src/components/sharedComponents/TokenSelect/Search'
 import TopTokens from '@/src/components/sharedComponents/TokenSelect/TopTokens'
+import { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
+import { getValidChainId } from '@/src/components/sharedComponents/TokenSelect/utils'
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useTokens } from '@/src/hooks/useTokens'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { chains, ChainsIds } from '@/src/lib/networks.config'
+import { chains } from '@/src/lib/networks.config'
 import { type Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
-export type Networks = Array<{
-  icon: ReactElement
-  id: number
-  label: string
-  onClick: () => void
-}>
-
-const Wrapper = styled(Card).attrs(({ className = 'tokenSelectWrapper' }) => {
+const Wrapper = styled.div.attrs(({ className = 'tokenSelectWrapper' }) => {
   return { className }
 })`
-  --base-card-padding: calc(var(--base-common-padding) * 5) 0 calc(var(--base-common-padding) * 3);
-  --base-token-select-horizontal-padding: var(--base-common-padding-xl, 16px);
-  --theme-token-select-title-color-default: var(--theme-token-select-title-color, #2e3048);
-
-  background-color: var(--theme-token-select-background-color, var(--theme-card-background-color));
-  border-color: var(--theme-token-select-border-color, var(--theme-card-border-color));
-  box-shadow: var(--theme-token-select-background-color, var(--theme-card-box-shadow));
+  background-color: var(--theme-token-select-background-color, #fff);
+  border-radius: var(--base-border-radius, 8px);
+  border: 1px solid var(--theme-token-select-border-color, #fff);
+  box-shadow: var(--theme-token-select-background-color, 0 9.6px 13px 0 rgb(0 0 0 / 8%));
   display: flex;
   flex-direction: column;
-  max-width: calc(100vw - 20px);
-  row-gap: calc(var(--base-gap) * 3);
+  max-width: calc(100vw - var(--base-gap-xl, 16px));
+  padding: calc(var(--base-common-padding, 8px) * 5) 0 calc(var(--base-common-padding, 8px) * 3);
+  row-gap: calc(var(--base-gap, 8px) * 3);
   width: 540px;
 `
 
 const Title = styled.h2.attrs(({ className = 'tokenSelectTitle' }) => {
   return { className }
 })`
-  color: var(--theme-token-select-title-color-default);
+  color: var(--theme-token-select-title-color, #2e3048);
   font-size: 1.8rem;
   font-weight: 700;
   line-height: 1.2;
   margin: 0;
-  padding: 0 var(--base-token-select-horizontal-padding);
+  padding: 0 var(--base-common-padding-xl, 16px);
 `
 
 const LoadingText = styled.span.attrs(({ className = 'tokenSelectLoadingText' }) => {
@@ -57,24 +50,6 @@ const LoadingText = styled.span.attrs(({ className = 'tokenSelectLoadingText' })
   line-height: 1.5;
   opacity: 0.8;
   text-align: center;
-`
-
-/** @ignore */
-export const Loading = styled(Wrapper).attrs(() => {
-  return {
-    className: `tokenSelectLoading`,
-    children: (
-      <>
-        <Spinner />
-        <LoadingText>Loading tokens...</LoadingText>
-      </>
-    ),
-  }
-})`
-  align-items: center;
-  justify-content: center;
-  min-height: 450px;
-  row-gap: calc(var(--base-gap) * 2);
 `
 
 export interface TokenSelectProps extends HTMLAttributes<HTMLDivElement> {
@@ -271,53 +246,5 @@ const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
     )
   },
 )
-
-function getValidChainId({
-  appChainId,
-  currentNetworkId,
-  dappChains,
-  networks,
-  walletChainId,
-}: {
-  currentNetworkId?: Chain['id']
-  networks?: Networks
-  dappChains: typeof chains
-  walletChainId?: Chain['id']
-  appChainId?: ChainsIds
-}): Chain['id'] {
-  // If the current network is defined, use it
-  if (currentNetworkId) {
-    return currentNetworkId
-  }
-
-  // if `networks` has been passed, then we need to stick with
-  if (networks !== undefined) {
-    // we prioritze the wallet chainId over the app chainId because it may be valid in this case,
-    //  but not supported by the app to interact with but as a read-only chain.
-    if (typeof walletChainId === 'number' && networks.some(({ id }) => id === walletChainId)) {
-      return walletChainId
-    }
-
-    if (typeof appChainId === 'number' && networks.some(({ id }) => id === appChainId)) {
-      return appChainId
-    }
-
-    // if nothing matches, we default to the first network in the list
-    return networks[0].id
-  }
-
-  // if `networks` is not defined, we need to verify the dApp configuration
-  // Same as before, we prioritize the wallet chainId over the app chainId
-  if (typeof walletChainId === 'number' && dappChains.some(({ id }) => id === walletChainId)) {
-    return walletChainId
-  }
-
-  if (typeof appChainId === 'number' && dappChains.some(({ id }) => id === appChainId)) {
-    return appChainId
-  }
-
-  // if nothing matches, we default to the first chain in the list
-  return dappChains[0].id
-}
 
 export default TokenSelect

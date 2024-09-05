@@ -1,43 +1,39 @@
-import { type HTMLAttributes, type FC } from 'react'
+import { type ComponentProps, type FC } from 'react'
 import styled from 'styled-components'
 
 import Row from '@/src/components/sharedComponents/TokenSelect/List/Row'
 import VirtualizedList from '@/src/components/sharedComponents/TokenSelect/List/VirtualizedList'
 import { type Token, type Tokens } from '@/src/types/token'
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectList' }) => ({ className }))`
-  --theme-token-select-list-border-top-color-default: var(
-    --theme-token-select-list-border-top-color,
-    #e2e0e7
-  );
-
-  border-top: 1px solid var(--theme-token-select-list-border-top-color-default);
-`
-
-const NoTokens = styled.div`
-  --base-token-no-items-row-padding: calc(var(--base-common-padding) * 3) 0 0 0;
-  --theme-token-select-row-background-color-default: var(
-    --theme-token-select-row-background-color,
-    transparent
-  );
-
-  align-items: center;
-  background-color: var(--theme-token-select-row-background-color-default);
+const Wrapper = styled.div.attrs<{ $containerHeight?: number }>(
+  ({ className = 'tokenSelectList' }) => ({
+    className,
+  }),
+)`
+  border-top: 1px solid var(--theme-token-select-list-border-top-color, #e2e0e7);
   display: flex;
-  justify-content: center;
-  padding: var(--base-token-no-items-row-padding);
-  transition: background-color var(--base-transition-duration-sm) ease-in-out;
+  min-height: ${({ $containerHeight }) => `${$containerHeight}px`};
   width: 100%;
 `
 
-interface TokenSelectListProps extends HTMLAttributes<HTMLDivElement> {
-  showAddTokenButton?: boolean
+const NoTokens = styled.div`
+  align-items: center;
+  background-color: var(--theme-token-select-row-background-color, transparent);
+  display: flex;
+  justify-content: center;
+  padding: var(--base-common-padding-xl, 16px);
+  transition: background-color var(--base-transition-duration-sm, 0.2s) ease-in-out;
+  width: 100%;
+`
+
+interface TokenSelectListProps extends ComponentProps<'div'> {
   containerHeight: number
   iconSize: number
+  isLoadingBalances: boolean
   itemHeight: number
   onTokenSelect: (token: Token | undefined) => void
+  showAddTokenButton?: boolean
   showBalance: boolean
-  isLoadingBalances: boolean
   tokenList?: Tokens
 }
 
@@ -63,12 +59,11 @@ const List: FC<TokenSelectListProps> = ({
   onTokenSelect,
   showAddTokenButton,
   showBalance,
-  // style,
   tokenList,
   ...restProps
 }) => {
   return (
-    <Wrapper className={`${className ? className : ''}`.trim()}>
+    <Wrapper $containerHeight={containerHeight} className={`${className ? className : ''}`.trim()}>
       {tokenList?.length ? (
         <VirtualizedList<Token>
           containerHeight={containerHeight}
