@@ -4,7 +4,7 @@ import { GeneralMessageDialog, Spinner } from '@bootnodedev/db-ui-toolkit'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { ErrorBoundary, type ErrorBoundaryPropsWithRender } from 'react-error-boundary'
 
-import { PrimaryButton } from '@/src/components/sharedComponents/Buttons'
+import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 
 export type DefaultFallbackFormat = 'dialog' | 'default'
 

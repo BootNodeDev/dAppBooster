@@ -2,7 +2,7 @@ import { type HTMLAttributes, type FC } from 'react'
 import styled from 'styled-components'
 
 import Row from '@/src/components/sharedComponents/TokenSelect/List/Row'
-import VirtualizedList from '@/src/components/sharedComponents/VirtualizedList'
+import VirtualizedList from '@/src/components/sharedComponents/TokenSelect/List/VirtualizedList'
 import { type Token, type Tokens } from '@/src/types/token'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectList' }) => ({ className }))`

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { GeneralMessage } from '@bootnodedev/db-ui-toolkit'
 import { useNavigate } from '@tanstack/react-router'
 
-import { PrimaryButton } from '@/src/components/sharedComponents/Buttons'
+import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 
 const Icon = () => (
   <svg fill="none" height="152" width="98" xmlns="http://www.w3.org/2000/svg">

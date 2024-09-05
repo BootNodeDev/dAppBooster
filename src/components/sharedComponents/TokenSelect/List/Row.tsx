@@ -3,13 +3,13 @@ import styled from 'styled-components'
 
 import { SkeletonLoading } from '@bootnodedev/db-ui-toolkit'
 
-import AddERC20TokenButton from '@/src/components/sharedComponents/AddERC20TokenButton'
-import { SecondaryButton } from '@/src/components/sharedComponents/Buttons'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
+import AddERC20TokenButton from '@/src/components/sharedComponents/TokenSelect/List/AddERC20TokenButton'
 import TokenBalance, {
   Balance,
   Value,
 } from '@/src/components/sharedComponents/TokenSelect/List/TokenBalance'
+import { SecondaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { type Token } from '@/src/types/token'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => {
