@@ -1,8 +1,15 @@
-import { type ContractConfig } from '@wagmi/cli'
 import { type Abi, Address, erc20Abi, isAddress } from 'viem'
+import { mainnet, polygon, sepolia } from 'viem/chains'
 
 import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
-import { type ChainsIds, type RequiredChainId } from '@/src/lib/networks.config'
+import { type ChainsIds } from '@/src/lib/networks.config'
+
+type OptionalAddresses = Partial<Record<ChainsIds, Address>>
+type ContractConfig<TAbi> = {
+  abi: TAbi
+  name: string
+  address?: OptionalAddresses
+}
 
 /**
  * A collection of contracts to be used in the dapp with their ABI and addresses per chain.
@@ -11,25 +18,43 @@ import { type ChainsIds, type RequiredChainId } from '@/src/lib/networks.config'
  *  - `RequiredChainId` is mandatory in the address object.
  *  - IDs defined `ChainIds` can be added as well if necessary.
  */
-export const contracts: Array<ContractConfig<ChainsIds, RequiredChainId>> = [
+const contracts = [
   {
     abi: erc20Abi,
     name: 'ERC20',
   },
   {
+    abi: erc20Abi,
+    name: 'SpecialERC20WithAddress',
+    address: {
+      [polygon.id]: '0x314159265dd8dbb310642f98f50c066173ceeeee',
+    },
+  },
+  {
     abi: ENSRegistryABI,
     address: {
-      1: '0x314159265dd8dbb310642f98f50c066173c1259b',
-      11155111: '0x0667161579ce7e84EF2b7333f9F93375a627799B',
+      [mainnet.id]: '0x314159265dd8dbb310642f98f50c066173c1259b',
+      [sepolia.id]: '0x0667161579ce7e84EF2b7333f9F93375a627799B',
     },
     name: 'EnsRegistry',
   },
-] as const
+] as const satisfies ContractConfig<Abi>[]
 
-type Contract = {
-  abi: Abi
-  address: Address
-}
+/**
+ * Retrieves all contracts.
+ *
+ * @returns {Array<ContractConfig>} An array containing the contracts' ABI and addresses.
+ */
+export const getContracts = () => contracts
+
+type ContractNames = (typeof contracts)[number]['name']
+
+type ContractOfName<T extends ContractNames> = Extract<(typeof contracts)[number], { name: T }>
+type AbiOfName<T extends ContractNames> = ContractOfName<T>['abi']
+
+type AddressRecord<T extends ContractNames> =
+  ContractOfName<T> extends { address: infer K } ? K : never
+type ChainIdOf<T extends ContractNames> = keyof AddressRecord<T>
 
 /**
  * Retrieves the contract information based on the contract name and chain ID.
@@ -40,27 +65,35 @@ type Contract = {
  *
  * @throws If contract is not found.
  */
-export const getContract = (name: string, chainId: ChainsIds): Contract => {
+export const getContract = <
+  ContractName extends ContractNames,
+  ChainId extends ChainIdOf<ContractName>,
+>(
+  name: ContractName,
+  chainId: ChainId,
+) => {
   const contract = contracts.find((contract) => contract.name === name)
 
   if (!contract) {
     throw new Error(`Contract ${name} not found`)
   }
 
-  if (!contract.address) {
-    throw new Error(`Contract ${name} addresses not defined`)
+  // address key not present
+  if (!('address' in contract)) {
+    throw new Error(`Contract ${name} address not found}`)
   }
 
-  if (!contract.address[chainId]) {
-    throw new Error(`Contract ${name} address not found for chain ${chainId}`)
+  const address = (contract.address as AddressRecord<ContractName>)[chainId]
+
+  // address undefined
+  if (!address) {
+    throw new Error(`Contract ${name} address not found for chain ${chainId.toString()}`)
   }
 
-  if (!isAddress(contract.address[chainId])) {
+  // not a valid address
+  if (!isAddress(address as string)) {
     throw new Error(`Contract ${name} address is not a valid address`)
   }
 
-  return {
-    abi: contract.abi,
-    address: contract.address[chainId],
-  }
+  return { abi: contract.abi as AbiOfName<ContractName>, address }
 }
