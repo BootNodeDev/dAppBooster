@@ -7,7 +7,7 @@ import { getTruncatedHash } from '@/src/utils/strings'
 
 const Wrapper = styled.div`
   align-items: center;
-  column-gap: var(--base-gap);
+  column-gap: var(--base-gap, 8px);
   display: flex;
   max-width: 100%;
 `
