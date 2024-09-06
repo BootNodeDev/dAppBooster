@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type HTMLAttributes } from 'react'
+import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from 'react'
 import styled from 'styled-components'
 
 import { type Chain } from 'viem/chains'
@@ -41,7 +41,7 @@ const Title = styled.h2.attrs(({ className = 'tokenSelectTitle' }) => {
   padding: 0 var(--base-common-padding-xl, 16px);
 `
 
-export interface TokenSelectProps extends HTMLAttributes<HTMLDivElement> {
+export interface TokenSelectProps {
   containerHeight?: number
   currentNetworkId?: number
   iconSize?: number
@@ -53,6 +53,9 @@ export interface TokenSelectProps extends HTMLAttributes<HTMLDivElement> {
   showTopTokens?: boolean
   showBalance?: boolean
 }
+
+/** @ignore */
+type Props = ComponentPropsWithoutRef<'div'> & TokenSelectProps
 
 /**
  * TokenSelect component, used to search and select a token from a list.
@@ -120,7 +123,7 @@ export interface TokenSelectProps extends HTMLAttributes<HTMLDivElement> {
  * * --theme-token-select-row-token-value-color
  * * --theme-token-select-row-token-value-color-hover
  */
-const TokenSelect = withSuspenseAndRetry<TokenSelectProps>(
+const TokenSelect = withSuspenseAndRetry<Props>(
   ({
     children,
     containerHeight = 320,

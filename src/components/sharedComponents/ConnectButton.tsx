@@ -19,7 +19,7 @@ const BaseChevronDown = ({ ...restProps }) => (
 )
 
 const ChevronDown = styled(BaseChevronDown)`
-  margin: 0 var(--base-gap);
+  margin: 0 var(--base-gap, 8px);
 `
 
 interface ConnectButtonProps {
@@ -48,8 +48,8 @@ const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, 
       border-radius: 30px;
       font-size: 1.2rem;
       height: 44px;
-      padding-left: var(--base-common-padding);
-      padding-right: var(--base-common-padding);
+      padding-left: var(--base-common-padding, 8px);
+      padding-right: var(--base-common-padding, 8px);
     `}
 
   ${breakpointMediaQuery(
