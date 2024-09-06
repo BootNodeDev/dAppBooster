@@ -1,4 +1,10 @@
-import { type HTMLAttributes, type FC, type ReactElement, useState, useEffect } from 'react'
+import {
+  type ComponentPropsWithoutRef,
+  type FC,
+  type ReactElement,
+  useState,
+  useEffect,
+} from 'react'
 import styled from 'styled-components'
 
 import { Dropdown, Item as BaseItem } from '@bootnodedev/db-ui-toolkit'
@@ -84,7 +90,7 @@ const ListItem = styled(BaseItem).attrs(() => {
   width: 250px;
 `
 
-interface SwitchNetworkProps extends HTMLAttributes<HTMLDivElement> {
+interface SwitchNetworkProps extends ComponentPropsWithoutRef<'div'> {
   networks: Networks
 }
 

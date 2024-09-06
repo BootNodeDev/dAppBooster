@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import { type FC, type ComponentProps } from 'react'
 import styled from 'styled-components'
 
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
@@ -12,7 +12,7 @@ const ImageWrapper = styled.div<{
   width: ${(props) => `${props.size}px`};
 `
 
-interface AvatarProps {
+interface AvatarProps extends ComponentProps<'div'> {
   address: string
   ensImage: string | null | undefined
   ensName: string | null | undefined

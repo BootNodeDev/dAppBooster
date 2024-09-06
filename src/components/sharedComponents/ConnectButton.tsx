@@ -1,3 +1,4 @@
+import { type ComponentProps } from 'react'
 import styled, { css } from 'styled-components'
 
 import { Button, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
@@ -22,7 +23,7 @@ const ChevronDown = styled(BaseChevronDown)`
   margin: 0 var(--base-gap, 8px);
 `
 
-interface ConnectButtonProps {
+interface ConnectButtonProps extends ComponentProps<'button'> {
   $isConnected?: boolean
 }
 
