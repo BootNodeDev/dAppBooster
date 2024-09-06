@@ -6,10 +6,10 @@ import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
 const ImageWrapper = styled.div<{
   size: number
 }>`
-  overflow: hidden;
   border-radius: 50%;
-  width: ${(props) => `${props.size}px`};
   height: ${(props) => `${props.size}px`};
+  overflow: hidden;
+  width: ${(props) => `${props.size}px`};
 `
 
 interface AvatarProps {
@@ -49,9 +49,7 @@ const Avatar: FC<AvatarProps> = ({ address, ensImage, ensName, size = 100 }) => 
       {ensImage ? (
         <img alt={ensName ?? address} height="100%" src={ensImage} width="100%" />
       ) : (
-        <div data-testid="avatar-icon">
-          <Jazzicon diameter={size} seed={jsNumberForAddress(address)} />
-        </div>
+        <Jazzicon data-testid="avatar-icon" diameter={size} seed={jsNumberForAddress(address)} />
       )}
     </ImageWrapper>
   )
