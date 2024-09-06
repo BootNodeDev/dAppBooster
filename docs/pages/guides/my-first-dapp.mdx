@@ -1,0 +1,401 @@
+# Building Your First dApp [Wrapping and Unwrapping WETH] 
+
+## Introduction
+This guide will walk you through developing your first  dApp using dappBooster. 
+You'll learn how to create a simple dApp that enables users to wrap and unwrap WETH (in less than five minutes).
+
+## Hands-on
+
+Before continue, be sure to have follow the steps in [getting started](/introduction/getting-started) 
+
+### Network Configuration
+
+The Sepolia network is pre-configured in [src/lib/networks.config.ts](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/lib/networks.config.ts). 
+Review this file if you're interested in adding more networks by following the existing pattern.
+
+### Contract Configuration
+
+We have already deployed a smart contract in Sepolia network. Now it is time to let the dApp knows about it existence.
+   
+1. Download the [ABI](https://sepolia.etherscan.io/address/0xa45f5716cab1a49b107a5de96ec26da26d1eba9e#code) and save it in `src/constants/contracts/abis/WETH.ts` using the following format:
+    
+```tsx
+export const WETH_ABI = [
+  // ...abi code
+] as const
+```
+
+2. Update `src/constants/contracts/contracts.ts` with the WETH contract address and ABI:
+
+```tsx
+import { WETH_ABI } from '@/src/constants/contracts/abis/WETH'
+
+export const contracts = {
+  // ...
+  {
+    abi: WETH_ABI,
+    name: 'WETH',
+    address: {
+      [sepolia.id]: '0xa45f5716cab1a49b107a5de96ec26da26d1eba9e',
+    },
+  },
+}
+```
+
+### Generate WETH hooks
+
+Use the wagmi utility to generate React hooks for the WETH contract. We have [configured](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/lib/wagmi/config.ts) wagmi to generate hooks with both suspense and promised hooks.
+
+```bash
+pnpm wagmi-generate
+```
+
+### Create the weth page
+
+1. Add a new file `/src/routes/weth.lazy.tsx` with the following content:
+
+```tsx
+import { createLazyFileRoute } from '@tanstack/react-router'
+
+import { Weth } from '@/src/components/pageComponents/weth'
+
+export const Route = createLazyFileRoute('/weth')({
+  component: Weth,
+})
+```
+
+With this file we are registering a new page under the path `/weth`.
+
+2. Create a new folder `src/components/pageComponents/weth`.
+
+3. Create a new file `src/components/pageComponents/weth/index.tsx` with this content:
+
+```tsx
+import { Card } from 'db-ui-toolkit'
+
+export const Weth = () => {
+  return <Card style={{ margin: 'auto' }}>Hello Annon!</Card>
+}
+```
+
+This is just a simple component that we will use to add all the WETH logic.
+
+Now, you can open this link [http://localhost:5173/weth](http://localhost:5173/weth) to see it alive. 
+
+### Add a custom token list
+
+dappBooster has a set of components and utilities designed to simplify the integration of tokens while following the standard defined by [tokenlists.org](https://tokenlists.org/). 
+As we are working with a home-made WETH token, we will create a custom token link, where the only token it holds is our WETH token. Let's add it to our code.
+
+1. Create `public/tokens.json` with the following content:
+
+```json
+{
+  "name": "custom",
+  "tokens": [
+    {
+      "address": "0xa45f5716cab1a49b107a5de96ec26da26d1eba9e",
+      "chainId": 11155111,
+      "name": "WETH",
+      "symbol": "WETH",
+      "decimals": 18,
+      "logoURI": "https://assets.coingecko.com/coins/images/2518/thumb/weth.png?1696503332"
+    }
+  ]
+}
+```
+
+2. Add the new token list to the following constant `src/constants/tokenLists.ts` like so:
+
+```tsx
+{
+  // ...
+  CUSTOM: '/tokens.json',
+}
+```
+
+Now, all the token related utilities will make use of this new list.
+
+:::info
+Use [useTokenLists](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/hooks/useTokenLists.ts) hook it to obtain all the tokens configured.
+:::
+
+### The TokenInput component
+
+We will use the TokenInput component. This component will provide us with the following features.
+
+* Show the user the token they are interacting to (ETH when wrapping and WETH when unwrapping).
+* Allow the user to enter the amount on tokens in decimal format and will return us the parsed amount in wei.
+* Will fetch for us the balance of the user for the token selected.
+* Will notify the user of any related with the input value entered.
+
+let's modify the `@/src/components/pageComponents/weth` file as follows:
+
+```tsx
+import { Card } from 'db-ui-toolkit'
+import { sepolia } from 'viem/chains'
+
+import TokenInput from '@/src/components/sharedComponents/TokenInput'
+import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
+import { getContract } from '@/src/constants/contracts/contracts'
+import { env } from '@/src/env'
+import { useTokenLists } from '@/src/hooks/useTokenLists'
+
+export const Weth = () => {
+  // get the list of tokens.
+  const { tokensByChainId } = useTokenLists()
+
+  // helper that give us information given a contract name.
+  const weth = getContract('WETH', sepolia.id)
+
+  // get the tokens from the token list we need to use.
+  const wethToken = tokensByChainId[sepolia.id].find((token) => token.address === weth.address)
+  const ethToken = tokensByChainId[sepolia.id].find(
+    (token) => token.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS,
+  )
+  if (!wethToken) throw new Error('WETH token not found')
+  if (!ethToken) throw new Error('ETH token not found')
+
+  // hook that gives us the state that <TokenInput /> needs.
+  const tokenInput = useTokenInput(ethToken)
+
+  return (
+    <Card style={{ margin: 'auto' }}>
+      <p>WETH EXAMPLE</p>
+      <TokenInput singleToken tokenInput={tokenInput} />
+    </Card>
+  )
+}
+```
+
+Now, you should see the token input component in action. Connect a wallet with a Sepolia ETH balance, and the component will display it.
+
+### Suspense loading
+
+As you might have notice, after the page is loaded the component is taking some time before appearing. 
+This is happening because dappBooster makes use of [Suspense](https://react.dev/reference/react/Suspense) for some internal requests.
+To improve the UX we can show a loading component until the component is ready to be rendered. We will use a utility function called `withSuspenseAndRetry` to wrap our `Weth` component, and indicate that while the component is fetching data, we want to render a "loading..." text. 
+
+```tsx
+import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper' 
+
+export const SuspendedWeth = withSuspenseAndRetry(() => { 
+  // ...
+}) 
+
+export const Weth = () => ( 
+  <SuspendedWeth suspenseFallback={<div style={{ margin: 'auto' }}>Loading...</div>} /> 
+) 
+```
+
+### Wallet status & contract interaction
+
+Now it is time to develop the functionality for deposit and withdrawal. 
+
+We will consume different hooks that will take care of triggering the transactions for deposit, approve and withdraw.
+
+Also, we will make use of another special hook [useWeb3Status()](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/hooks/useWeb3Status.tsx) provided by dappBooster. 
+This hook will return important information of the context of the connected wallet and selected chain.
+
+```tsx
+import { Card } from 'db-ui-toolkit'
+import { Address } from 'viem'
+import { sepolia } from 'viem/chains'
+
+import TokenInput from '@/src/components/sharedComponents/TokenInput'
+import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
+import { getContract } from '@/src/constants/contracts/contracts'
+import { env } from '@/src/env'
+import { // [!code focus]
+  useReadWethAllowance, // [!code focus]
+  useWriteWethApprove, // [!code focus]
+  useWriteWethDeposit, // [!code focus]
+  useWriteWethWithdraw, // [!code focus]
+} from '@/src/hooks/generated' // [!code focus]
+import { useTokenLists } from '@/src/hooks/useTokenLists'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status' // [!code focus]
+import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
+
+export const SuspendedWeth = withSuspenseAndRetry(() => {
+  // get the list of tokens.
+  const { tokensByChainId } = useTokenLists()
+
+  // helper that give us information given a contract name.
+  const weth = getContract('WETH', sepolia.id)
+
+  // get the tokens from the token list we need to use.
+  const wethToken = tokensByChainId[sepolia.id].find((token) => token.address === weth.address)
+  const ethToken = tokensByChainId[sepolia.id].find(
+    (token) => token.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS,
+  )
+  if (!wethToken) throw new Error('WETH token not found')
+  if (!ethToken) throw new Error('ETH token not found')
+
+  // hook that gives us the state that <TokenInput /> needs.
+  const tokenInput = useTokenInput(ethToken)
+
+  // status of the Web3 connection. // [!code focus]
+  const { address } = useWeb3Status() // [!code focus]
+
+  // contracts calls // [!code focus]
+  const { writeContractAsync: wethDeposit } = useWriteWethDeposit() // [!code focus]
+  const { writeContractAsync: wethApprove } = useWriteWethApprove() // [!code focus]
+  const { writeContractAsync: wethWithdraw } = useWriteWethWithdraw() // [!code focus]
+
+  // contracts reads // [!code focus]
+  const wethAllowance = useReadWethAllowance({ // [!code focus]
+    args: [address as Address, weth.address], // [!code focus]
+    query: { // [!code focus]
+      enabled: !!address, // [!code focus]
+    }, // [!code focus]
+  }) // [!code focus]
+
+  return (
+    <Card style={{ margin: 'auto' }}>
+      <p>WETH EXAMPLE</p>
+      <TokenInput singleToken tokenInput={tokenInput} />
+    </Card>
+  )
+})
+
+export const Weth = () => (
+  <SuspendedWeth suspenseFallback={<div style={{ margin: 'auto' }}>Loading...</div>} />
+)
+```
+
+### Deposit, approve and withdraw
+
+After the user enteres a valid value, we need a button to trigger one of the possible actions. 
+We will make use of  the [TransactionButton](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/components/sharedComponents/TransactionButton.tsx) component to handle the transaction lifecycle. 
+We will only pass two properties `transaction`, which receives a function returning a promise with a transaction hash, and `onMined` where we will refetch the user balance once the transaction has been mined.
+
+```tsx
+import { ChangeEvent, useState } from 'react' // [!code focus]
+
+import { Card } from 'db-ui-toolkit'
+import { Address } from 'viem' // [!code focus]
+import { sepolia } from 'viem/chains'
+
+import TokenInput from '@/src/components/sharedComponents/TokenInput'
+import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
+import TransactionButton from '@/src/components/sharedComponents/TransactionButton' // [!code focus]
+import { getContract } from '@/src/constants/contracts/contracts'
+import { env } from '@/src/env'
+import {
+  useReadWethAllowance,
+  useWriteWethApprove,
+  useWriteWethDeposit,
+  useWriteWethWithdraw,
+} from '@/src/hooks/generated'
+import { useTokenLists } from '@/src/hooks/useTokenLists'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
+
+type Operation = 'Deposit' | 'Withdraw' // [!code focus]
+
+export const SuspendedWeth = withSuspenseAndRetry(() => {
+  const [operation, setOperation] = useState<Operation>('Deposit') // [!code focus]
+
+  // get the list of tokens.
+  const { tokensByChainId } = useTokenLists()
+
+  // helper that give us information given a contract name.
+  const weth = getContract('WETH', sepolia.id)
+
+  // get the tokens from the token list we need to use.
+  const wethToken = tokensByChainId[sepolia.id].find((token) => token.address === weth.address)
+  const ethToken = tokensByChainId[sepolia.id].find(
+    (token) => token.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS,
+  )
+  if (!wethToken) throw new Error('WETH token not found')
+  if (!ethToken) throw new Error('ETH token not found')
+
+  // hook that gives us the state that <TokenInput /> needs.
+  const tokenInput = useTokenInput(ethToken)
+
+  // status of the Web3 connection.
+  const { address } = useWeb3Status()
+
+  // contracts calls
+  const { writeContractAsync: wethDeposit } = useWriteWethDeposit()
+  const { writeContractAsync: wethApprove } = useWriteWethApprove()
+  const { writeContractAsync: wethWithdraw } = useWriteWethWithdraw()
+
+  // contracts reads
+  const wethAllowance = useReadWethAllowance({
+    args: [address as Address, weth.address],
+    query: {
+      enabled: !!address,
+    },
+  })
+
+  const sendOperation = async () => { // [!code focus]
+    if (operation == 'Deposit') { // [!code focus]
+      const res = await wethDeposit({ value: tokenInput.amount }) // [!code focus]
+      return res // [!code focus]
+    } else if (tokenInput.amount > (wethAllowance.data || 0n)) { // [!code focus]
+      const res = await wethApprove({ args: [weth.address, tokenInput.amount] }) // [!code focus]
+      return res // [!code focus]
+    } else { // [!code focus]
+      const res = await wethWithdraw({ args: [tokenInput.amount] }) // [!code focus]
+      return res // [!code focus]
+    } // [!code focus]
+  } // [!code focus]
+
+  // giving context to the toast // [!code focus]
+  sendOperation.methodId = `WETH:${operation}` // [!code focus]
+  if (operation === 'Withdraw' && tokenInput.amount > (wethAllowance.data || 0n)) { // [!code focus]
+    sendOperation.methodId = `WETH:Approve` // [!code focus]
+  } // [!code focus]
+
+  const getActionText = () => { // [!code focus]
+    if (operation === 'Withdraw' && tokenInput.amount > (wethAllowance.data || 0n)) { // [!code focus]
+      return 'Approve' // [!code focus]
+    } // [!code focus]
+    return operation // [!code focus]
+  }
+
+  const handleOperation = (e: ChangeEvent<HTMLSelectElement>) => { // [!code focus]
+    const newValue = e.target.value as Operation // [!code focus]
+    tokenInput.setTokenSelected(newValue === 'Deposit' ? ethToken : wethToken) // [!code focus]
+    setOperation(e.target.value as Operation) // [!code focus]
+  } // [!code focus]
+
+  return (
+    <Card style={{ margin: 'auto' }}>
+      <p>WETH EXAMPLE</p>
+
+      <br /> // [!code focus]
+      <div style={{ display: 'flex', width: '100%' }}> // [!code focus]
+        <div> // [!code focus]
+          Operation{' '} // [!code focus]
+          <select onChange={handleOperation} value={operation}> // [!code focus]
+            <option value="Deposit">Deposit</option> // [!code focus]
+            <option value="Withdraw">Withdraw</option> // [!code focus]
+          </select> // [!code focus]
+        </div> // [!code focus]
+      </div> // [!code focus]
+
+      <TokenInput singleToken tokenInput={tokenInput} />
+
+      <br /> // [!code focus]
+      <TransactionButton // [!code focus]
+        disabled={tokenInput.amountError !== undefined || tokenInput.amount == 0n} // [!code focus]
+        onMined={() => wethAllowance.refetch()} // [!code focus]
+        transaction={sendOperation} // [!code focus]
+      > // [!code focus]
+        {getActionText()} // [!code focus]
+      </TransactionButton> // [!code focus]
+    </Card> // [!code focus]
+  )
+})
+
+export const Weth = () => (
+  <SuspendedWeth suspenseFallback={<div style={{ margin: 'auto' }}>Loading...</div>} />
+)
+```
+
+:::info
+The `sendOperation.methodId` is used to provide additional context to the toast notification displayed by the `TransactionButton`. This is optional, but if you include a `methodId` property in the function passed to the transaction property, it will display that context in the toast, offering the user more detailed information.
+:::
+   
