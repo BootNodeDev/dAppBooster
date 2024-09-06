@@ -12,8 +12,8 @@ const Button = styled(PrimaryButton)`
   font-size: 1.6rem;
   font-weight: 500;
   height: 48px;
-  padding-left: calc(var(--base-common-padding) * 3);
-  padding-right: calc(var(--base-common-padding) * 3);
+  padding-left: calc(var(--base-common-padding, 8px) * 3);
+  padding-right: calc(var(--base-common-padding, 8px) * 3);
 `
 
 interface WalletStatusVerifierProps {
