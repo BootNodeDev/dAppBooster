@@ -1,8 +1,8 @@
 import {
   type ChangeEvent,
   type FC,
-  type InputHTMLAttributes,
   type ReactElement,
+  type ComponentProps,
   useCallback,
   useEffect,
   useState,
@@ -13,12 +13,12 @@ import { Chain } from 'viem'
 
 import detectHash, { DetectedHash } from '@/src/utils/hash'
 
-interface HashInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface HashInputProps extends ComponentProps<'input'> {
   chain: Chain
   debounceTime?: number
   onLoading?: (loading: boolean) => void
   onSearch: (result: DetectedHash | null) => void
-  renderInput?: (props: InputHTMLAttributes<HTMLInputElement>) => ReactElement
+  renderInput?: (props: ComponentProps<'input'>) => ReactElement
   value?: string
 }
 

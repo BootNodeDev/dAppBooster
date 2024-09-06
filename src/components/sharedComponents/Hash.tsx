@@ -1,4 +1,4 @@
-import { type FC, type MouseEventHandler } from 'react'
+import { type FC, type MouseEventHandler, type ComponentProps } from 'react'
 import styled from 'styled-components'
 
 import { ExternalLink, CopyButton } from '@bootnodedev/db-ui-toolkit'
@@ -7,7 +7,7 @@ import { getTruncatedHash } from '@/src/utils/strings'
 
 const Wrapper = styled.div`
   align-items: center;
-  column-gap: var(--base-gap);
+  column-gap: var(--base-gap, 8px);
   display: flex;
   max-width: 100%;
 `
@@ -21,7 +21,7 @@ const HashValue = styled.span`
   white-space: nowrap;
 `
 
-interface HashProps {
+interface HashProps extends Omit<ComponentProps<'div'>, 'onCopy'> {
   explorerURL?: string
   hash: string
   onCopy?: MouseEventHandler<HTMLButtonElement>
