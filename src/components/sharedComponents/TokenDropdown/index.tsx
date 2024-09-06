@@ -1,4 +1,4 @@
-import { type FC, type KeyboardEvent } from 'react'
+import { type FC, type KeyboardEvent, type ComponentPropsWithoutRef } from 'react'
 import styled, { css } from 'styled-components'
 
 import { useDropdown, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
@@ -42,6 +42,9 @@ export interface TokenDropdownProps extends TokenSelectProps {
   iconSize?: number
 }
 
+/** @ignore */
+type Props = ComponentPropsWithoutRef<'div'> & TokenDropdownProps
+
 /**
  * A dropdown component that allows users to select a token
  *
@@ -59,14 +62,14 @@ export interface TokenDropdownProps extends TokenSelectProps {
  * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
  * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  */
-const TokenDropdown: FC<TokenDropdownProps> = ({
+const TokenDropdown: FC<Props> = ({
   className,
   currentToken,
   iconSize = 24,
   onTokenSelect,
   showAddTokenButton,
   ...restProps
-}: TokenDropdownProps) => {
+}: Props) => {
   const { Dropdown, close } = useDropdown()
 
   /**

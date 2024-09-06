@@ -1,4 +1,4 @@
-import { useMemo, type FC } from 'react'
+import { useMemo, type FC, type ComponentPropsWithoutRef } from 'react'
 import styled from 'styled-components'
 
 import { Spinner } from '@bootnodedev/db-ui-toolkit'
@@ -11,11 +11,11 @@ import {
   BigNumberInput,
   type RenderInputProps,
 } from '@/src/components/sharedComponents/BigNumberInput'
-import BaseCloseButton from '@/src/components/sharedComponents/TokenInput/CloseButton'
 import {
   Balance,
   BalanceValue,
   BottomRow,
+  CloseButton,
   DropdownButton,
   Error,
   EstimatedUSDValue,
@@ -38,19 +38,15 @@ const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
 `
 
-/** @ignore */
-export const CloseButton = styled(BaseCloseButton)`
-  position: absolute;
-  right: var(--base-token-select-horizontal-padding);
-  top: calc(var(--base-common-padding) * 5);
-`
-
-interface TokenInputProps extends Omit<TokenSelectProps, 'onError' | 'onTokenSelect'> {
+interface TokenInputProps extends Omit<TokenSelectProps, 'onTokenSelect'> {
   singleToken?: boolean
   thousandSeparator?: boolean
   title?: string
   tokenInput: UseTokenInputReturnType
 }
+
+/** @ignore */
+type Props = ComponentPropsWithoutRef<'div'> & TokenInputProps
 
 /**
  * TokenInput component allows users to input token amounts and select tokens from a list.
@@ -122,7 +118,7 @@ interface TokenInputProps extends Omit<TokenSelectProps, 'onError' | 'onTokenSel
  * *--theme-token-input-balance-color
  *
  */
-const TokenInput: FC<TokenInputProps> = ({
+const TokenInput: FC<Props> = ({
   containerHeight,
   currentNetworkId,
   iconSize,
