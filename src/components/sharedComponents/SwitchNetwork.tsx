@@ -49,11 +49,11 @@ const Button = styled(PrimaryButton).attrs(({ children, className = 'switchNetwo
   font-size: 1.6rem;
   font-weight: 500;
   height: 48px;
-  padding-left: calc(var(--base-common-padding) * 3);
-  padding-right: calc(var(--base-common-padding) * 3);
+  padding-left: calc(var(--base-common-padding, 8px) * 3);
+  padding-right: calc(var(--base-common-padding, 8px) * 3);
 
   .chevronDown {
-    transition: transform var(--base-transition-duration-xs) ease-in-out;
+    transition: transform var(--base-transition-duration-xs, 0.1s) ease-in-out;
   }
 
   .isActive & {
@@ -63,9 +63,11 @@ const Button = styled(PrimaryButton).attrs(({ children, className = 'switchNetwo
   }
 `
 
-const NetworkIcon = styled.div`
+const NetworkIcon = styled.div.attrs(() => {
+  return { className: 'switchNetworkNetworkIcon' }
+})`
   align-items: center;
-  background-color: #fff;
+  background-color: var(--theme-switch-network-icon-background-color, #fff);
   border-radius: 50%;
   display: flex;
   height: 24px;
@@ -74,7 +76,9 @@ const NetworkIcon = styled.div`
   width: 24px;
 `
 
-const ListItem = styled(BaseItem)`
+const ListItem = styled(BaseItem).attrs(() => {
+  return { className: 'switchNetworkListItem' }
+})`
   font-size: 1.6rem;
   min-height: 48px;
   width: 250px;
