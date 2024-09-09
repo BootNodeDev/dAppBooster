@@ -1,16 +1,16 @@
 import {
-  type ChangeEvent,
-  type FC,
-  type HTMLProps,
-  type ReactElement,
   RefObject,
+  type ChangeEvent,
+  type ComponentProps,
+  type FC,
+  type ReactElement,
   useEffect,
   useRef,
 } from 'react'
 
 import { formatUnits, parseUnits, maxUint256 } from 'viem'
 
-export type RenderInputProps = Omit<HTMLProps<HTMLInputElement>, 'onChange'> & {
+export type RenderInputProps = Omit<ComponentProps<'input'>, 'onChange'> & {
   onChange: (event: ChangeEvent<HTMLInputElement> | string) => void
   inputRef: RefObject<HTMLInputElement>
 }

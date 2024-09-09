@@ -6,7 +6,7 @@
  */
 import styled from 'styled-components'
 
-import { Card, Title } from 'db-ui-toolkit'
+import { Card, Title } from '@bootnodedev/db-ui-toolkit'
 
 /**
  * A centered custom card component

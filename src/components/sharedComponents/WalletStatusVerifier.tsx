@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { extractChain } from 'viem'
 
-import { PrimaryButton } from '@/src/components/sharedComponents/Buttons'
+import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { chains, type ChainsIds } from '@/src/lib/networks.config'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
@@ -12,8 +12,8 @@ const Button = styled(PrimaryButton)`
   font-size: 1.6rem;
   font-weight: 500;
   height: 48px;
-  padding-left: calc(var(--base-common-padding) * 3);
-  padding-right: calc(var(--base-common-padding) * 3);
+  padding-left: calc(var(--base-common-padding, 8px) * 3);
+  padding-right: calc(var(--base-common-padding, 8px) * 3);
 `
 
 interface WalletStatusVerifierProps {

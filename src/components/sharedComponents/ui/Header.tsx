@@ -1,7 +1,6 @@
 import { type FC, type HTMLAttributes } from 'react'
 import styled, { css } from 'styled-components'
 
-import { Link } from '@tanstack/react-router'
 import {
   InnerContainer,
   Header as BaseHeader,
@@ -9,7 +8,8 @@ import {
   ContainerPadding,
   SwitchThemeButton,
   breakpointMediaQuery,
-} from 'db-ui-toolkit'
+} from '@bootnodedev/db-ui-toolkit'
+import { Link } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
 
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'

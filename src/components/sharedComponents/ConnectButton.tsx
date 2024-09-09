@@ -1,6 +1,7 @@
+import { type ComponentProps } from 'react'
 import styled, { css } from 'styled-components'
 
-import { Button, breakpointMediaQuery } from 'db-ui-toolkit'
+import { Button, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
 
 const BaseChevronDown = ({ ...restProps }) => (
   <svg
@@ -19,10 +20,10 @@ const BaseChevronDown = ({ ...restProps }) => (
 )
 
 const ChevronDown = styled(BaseChevronDown)`
-  margin: 0 var(--base-gap);
+  margin: 0 var(--base-gap, 8px);
 `
 
-interface ConnectButtonProps {
+interface ConnectButtonProps extends ComponentProps<'button'> {
   $isConnected?: boolean
 }
 
@@ -48,8 +49,8 @@ const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, 
       border-radius: 30px;
       font-size: 1.2rem;
       height: 44px;
-      padding-left: var(--base-common-padding);
-      padding-right: var(--base-common-padding);
+      padding-left: var(--base-common-padding, 8px);
+      padding-right: var(--base-common-padding, 8px);
     `}
 
   ${breakpointMediaQuery(

@@ -1,9 +1,9 @@
-import { type FC, type HTMLAttributes, useState, useEffect } from 'react'
+import { type FC, type ComponentProps, useState, useEffect } from 'react'
 import styled from 'styled-components'
 
 import { type Token } from '@/src/types/token'
 
-interface PlaceholderProps extends HTMLAttributes<HTMLDivElement> {
+interface PlaceholderProps extends ComponentProps<'div'> {
   size: number
   symbol: string
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState, ComponentProps } from 'react'
+import { useEffect, useState, type ComponentProps } from 'react'
 
 import { type Hash, type TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { Button } from 'db-ui-toolkit'
+import { Button } from '@bootnodedev/db-ui-toolkit'
 
 const ChevronDown = () => (
   <svg
@@ -32,11 +32,11 @@ const DropdownButton = styled(Button).attrs(({ children }) => ({
   font-size: 1.6rem;
   font-weight: 500;
   height: 48px;
-  padding-left: calc(var(--base-common-padding) * 3);
-  padding-right: calc(var(--base-common-padding) * 3);
+  padding-left: calc(var(--base-common-padding, 8px) * 3);
+  padding-right: calc(var(--base-common-padding, 8px) * 3);
 
   .chevronDown {
-    transition: transform var(--base-transition-duration-xs) ease-in-out;
+    transition: transform var(--base-transition-duration-xs, 0.1s) ease-in-out;
   }
 
   .isActive & {

@@ -1,4 +1,4 @@
-import { ComponentProps, type FC } from 'react'
+import { type ComponentProps, type FC } from 'react'
 
 import { useSignMessage } from 'wagmi'
 
