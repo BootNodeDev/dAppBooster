@@ -44,6 +44,10 @@ export default defineConfig({
           text: 'Subgraphs',
           link: '/guides/subgraphs',
         },
+        {
+          text: 'Basic Styling',
+          link: '/guides/basic-styling',
+        },
       ],
     },
   ],

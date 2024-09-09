@@ -1,0 +1,156 @@
+# Basic Styling
+
+## Overview
+
+We use [Styled Components](https://styled-components.com/) for styling. Basic CSS and CSS-in-JSS knowledge would be helpful to understand how to style components, but you can also learn as you go. Refer to the [official documentation](https://styled-components.com/docs) for more information about more advanced features.
+
+Before continuing, be sure to follow the steps in [getting started](/introduction/getting-started) so you have a project to work with.
+
+## Some basic concepts
+
+- **Folder structure:** App-wide styles are located in the `src/styles` folder.
+- **Global styles:** We use a global style file to define global CSS variables and styles. This file is located at `src/styles/globalStyles.tsx`.
+- **Base CSS vars:** We use a base CSS vars file to define global CSS variables. This file is located at `src/styles/baseCSSVars.tsx`. This file is mostly for defining some *(non theme specific)* basic CSS variables like font families, layout spacing, font size, etc.
+- **Themes:** We use theme files to define theme-specific CSS variables. These files are located at `src/styles/themes/lightThemeCSSVars.tsx` and `src/styles/themes/darkThemeCSSVars.tsx`. This file is mostly for defining theme-specific CSS variables like colors, etc. Theming is handled by the [next-themes](https://github.com/pacocoursey/next-themes) library, refer to the documentation for more information.
+- **Styled Components:** We use Styled Components to style components, so each component has its own styles following the CSS-in-JSS pattern and philosophy.
+- **HTML props**: All the `core` components should accept the `style` and `className` props, so you can style them as you wish (inline styles, CSS classes, etc.).
+
+## Let's get started
+
+:::info
+**Note:** a demo of the following steps can be found in the https://github.com/BootNodeDev/dAppBoosterBasicStyling fork of the dAppBooster repository.
+:::
+
+Let's say you want to change some colors from one of our core components: `TokenInput`. Easy peasy!
+
+You can find the component in the `src/components/sharedComponents/TokenInput` folder, but there's no need to go there. You can override the basic styles using some CSS variables in the light or dark theme files (or even in the same file where you're using the component, but let's not go there... yet).
+
+This is where we're starting from:
+
+![TokenInput Initial State](/img/basic-css/1.jpg)
+
+Here's an example of how you can change the colors of the `TokenInput` component using CSS variables only:
+
+- For simplicity's sake, let's say you want to change only the light theme colors. Open the `src/styles/themes/lightThemeCSSVars.tsx` file.
+- You'll find CSS vars for several components there, but let's focus on the `TokenInput` component. You can search for the "Token Input" section in the file, or just go to [line 186](https://github.com/BootNodeDev/dAppBooster/blob/0cac08c86299da9c8ab147de29f0f972069f4177/src/styles/themes/lightThemeCSSVars.tsx#L186) (wink wink). You'll see something like this:
+
+```tsx
+  --theme-token-input-title-color: #2e3048;
+
+  --theme-token-input-background: #fff;
+
+  --theme-token-input-textfield-background-color: #fff;
+  --theme-token-input-textfield-background-color-active: rgb(0 0 0 / 5%);
+  --theme-token-input-textfield-border-color: #e2e0e7;
+  --theme-token-input-textfield-border-color-active: #e2e0e7;
+  --theme-token-input-textfield-color: #2e3048;
+  --theme-token-input-textfield-color-active: #2e3048;
+  --theme-token-input-textfield-placeholder-color: rgb(22 29 26 / 60%);
+
+  // ...
+```
+
+The var names are pretty self-explanatory. There are CSS vars for each part of the `TokenInput` component: title, background, textfield, etc. You can change the values of these vars to whatever you want. For example, if you want to change the background color of the `TokenInput` component, you can change the `--theme-token-input-background` var to `#f0f0f0`:
+
+```tsx
+  --theme-token-input-background: #f0f0f0;
+```
+
+This is what this simple change will get you:
+
+![TokenInput Initial State](/img/basic-css/2.jpg)
+
+Experiment with the rest of the CSS vars to see what you can achieve. You can also change the colors of other components in the same way.
+
+:::info
+**Remember:** we're changing only the light theme colors here. If you want to change the dark theme colors, you can do the same in the `src/styles/themes/darkThemeCSSVars.tsx` file.
+:::
+
+## What about things that are not theme-related?
+
+Some things like padding, column gap, etc. are not theme related (they stay the same when you change themes), so they shouldn't be placed in either theme file. You can modify these in the `src/styles/baseCSSVars.tsx` file, or locally in your component.
+
+We already saw how to modify some of the global files, so now et's say we do it locally in our `TokenInput` example located in the `src/components/pageComponents/home/index.tsx` file. We import `TokenInput` and also `styled` from `styled-components`, and then we create a `CustomTokenInput` component with the `TokenInput` component as a base:
+
+
+```tsx
+import styled from 'styled-components'
+
+import TokenInput from '@/src/components/sharedComponents/TokenInput'
+
+const CustomTokenInput = styled(TokenInput)`
+  /* our custom CSS vars and styles go here */
+`
+```
+
+There's a bunch of "base" CSS vars we can modify that will affect how the `TokenInput` component looks, and they should be self-explanatory, but you can check the component's documentation for more info. For example:
+
+```tsx
+  --base-token-input-border-radius
+  --base-token-input-padding
+  --base-token-input-gap
+```
+
+Let's say we want straight corners and a bit more padding. We can change the `--base-token-input-border-radius` and `--base-token-input-padding` vars like this:
+
+```tsx
+const CustomTokenInput = styled(TokenInput)`
+  --base-token-input-border-radius: 0;
+  --base-token-input-padding: 20px;
+`
+```
+
+That plus the previous changes will give us something like this:
+
+![TokenInput Initial State](/img/basic-css/3.png)
+
+Neath, huh? You can experiment with the [rest of TokenInput's CSS vars](https://github.com/BootNodeDev/dAppBooster/blob/0cac08c86299da9c8ab147de29f0f972069f4177/src/components/sharedComponents/TokenInput/index.tsx#L72) to see what you can achieve.
+
+## That's fine and all, but I want to change the component even more...
+
+Well, you can always wrap the component in a new one and style it as you wish. For example, let's say you want to change the `TokenInput` component to center it on the screen. Given that it's already is inside a `display: flex` container, that's very easy to do:
+
+```tsx
+import styled from 'styled-components'
+
+import TokenInput from '@/src/components/sharedComponents/TokenInput'
+
+const CustomTokenInput = styled(TokenInput)`
+  /* Applies to component's wrapper */
+  margin: auto;
+`
+```
+
+And that's it! Now the component is centered.
+
+## What about the internal components and everything's not covered by CSS vars?
+
+One way you can go about this is wrapping the component as we did in the previous example and styling the internal components as you wish using each component's class name. For example:
+
+```tsx
+import styled from 'styled-components'
+
+import TokenInput from '@/src/components/sharedComponents/TokenInput'
+
+const CustomTokenInput = styled(TokenInput)`
+  /* Title */
+  .tokenInputTitle {
+    font-size: 18px;
+    font-weight: 700;
+    padding-bottom: 8px;
+  }
+
+  /* Input component */
+  .tokenInputTextfield {
+    font-size: 20px;
+  }
+`
+```
+
+This will result in the following:
+
+![TokenInput Initial State](/img/basic-css/4.png)
+
+And - finally- the last way you can do this (my favorite!) is to dig into the [components code](https://github.com/BootNodeDev/dAppBoosterBasicStyling/tree/0cac08c86299da9c8ab147de29f0f972069f4177/src/components/sharedComponents) and modify it as you please. It's all there, so the sky's the limit!
+
+And remember: if you want to contribute to the project, fix bugs, add features, etc. you can always [create a PR](https://github.com/BootNodeDev/dAppBooster/pulls) with your changes!
