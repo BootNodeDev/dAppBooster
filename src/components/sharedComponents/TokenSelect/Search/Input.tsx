@@ -1,7 +1,7 @@
-import { type FC, type InputHTMLAttributes } from 'react'
+import { type FC, type InputHTMLAttributes, type ComponentPropsWithRef } from 'react'
 import styled from 'styled-components'
 
-import { Textfield, TextfieldCSS } from 'db-ui-toolkit'
+import { Textfield, TextfieldCSS } from '@bootnodedev/db-ui-toolkit'
 
 const SearchIcon = () => (
   <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
@@ -22,9 +22,13 @@ const SearchIcon = () => (
   </svg>
 )
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => ({ className }))`
-  --base-textfield-border-radius: var(--base-border-radius);
-  --base-textfield-padding: 0 var(--base-common-padding-xl);
+const Wrapper = styled.div.attrs<ComponentPropsWithRef<'input'>>(
+  ({ className = 'tokenSelectInputWrapper' }) => {
+    return { className }
+  },
+)`
+  --base-textfield-border-radius: var(--base-border-radius, 8px);
+  --base-textfield-padding: 0 var(--base-common-padding-xl, 16px);
 
   --theme-textfield-color: var(--theme-token-select-search-field-color, #2e3048);
   --theme-textfield-color-active: var(--theme-token-select-search-field-color-active, #2e3048);
@@ -54,7 +58,7 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => 
   ${TextfieldCSS}
 
   align-items: center;
-  column-gap: var(--base-gap-xl);
+  column-gap: var(--base-gap-xl, 16px);
   display: flex;
   flex-grow: 1;
   height: auto;
@@ -65,7 +69,9 @@ const Wrapper = styled.div.attrs(({ className = 'tokenSelectInputWrapper' }) => 
   }
 `
 
-const SearchInput = styled(Textfield).attrs({ type: 'search' })`
+const SearchInput = styled(Textfield).attrs(() => {
+  return { type: 'search' }
+})`
   font-size: 1.6rem;
 
   &,

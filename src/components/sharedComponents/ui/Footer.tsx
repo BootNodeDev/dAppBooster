@@ -1,7 +1,12 @@
 import { type FC } from 'react'
 import styled from 'styled-components'
 
-import { InnerContainer, Footer as BaseFooter, LogoMini, ContainerPadding } from 'db-ui-toolkit'
+import {
+  InnerContainer,
+  Footer as BaseFooter,
+  LogoMini,
+  ContainerPadding,
+} from '@bootnodedev/db-ui-toolkit'
 
 export const Wrapper = styled(BaseFooter)`
   height: 92px;

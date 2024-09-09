@@ -1,7 +1,7 @@
 {
   "name": "dappbooster",
   "private": true,
-  "version": "0.9.3",
+  "version": "0.9.6",
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit && vite build",
@@ -26,6 +26,7 @@
     "docs:preview": "vocs preview"
   },
   "dependencies": {
+    "@bootnodedev/db-ui-toolkit": "1.0.0-beta.2",
     "@faceless-ui/modal": "3.0.0-beta.2",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@lifi/sdk": "^3.0.1",
@@ -36,7 +37,6 @@
     "@uniswap/default-token-list": "^11.19.0",
     "@vercel/analytics": "^1.3.1",
     "connectkit": "^1.8.2",
-    "db-ui-toolkit": "^0.3.8",
     "graphql": "^16.9.0",
     "graphql-request": "^7.1.0",
     "modern-normalize": "^2.0.0",
@@ -47,7 +47,7 @@
     "react-hot-toast": "^2.4.1",
     "react-jazzicon": "^1.0.4",
     "react-number-format": "^5.4.0",
-    "styled-components": "^6.1.12",
+    "styled-components": "^6.1.13",
     "use-debounce": "^10.0.1",
     "viem": "~2.10.9",
     "vocs": "1.0.0-alpha.55",

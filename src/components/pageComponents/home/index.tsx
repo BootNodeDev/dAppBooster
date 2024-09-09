@@ -6,7 +6,7 @@
  */
 import styled from 'styled-components'
 
-import { Card, Title } from 'db-ui-toolkit'
+import { Card, Title } from '@bootnodedev/db-ui-toolkit'
 
 /**
  * A centered custom card component
@@ -70,7 +70,7 @@ export const Home = () => {
         <li>
           {/* TODO: Replace by correct link when the fork is ready */}
           <a
-            href="https://github.com/BootNodeDev/dAppBooster/tree/develop/src/components/pageComponents/home/Examples/demos"
+            href="https://github.com/BootNodeDev/dAppBoosterLandingPage/tree/main/src/components/pageComponents/home/Examples/demos"
             rel="noreferrer"
             target="_blank"
           >

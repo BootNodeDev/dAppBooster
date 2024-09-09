@@ -1,8 +1,8 @@
-import { type FC } from 'react'
+import { type FC, type ComponentProps } from 'react'
 
 import { type GetExplorerUrlParams, getExplorerLink } from '@/src/utils/getExplorerLink'
 
-interface ExplorerLinkProps extends GetExplorerUrlParams {
+interface ExplorerLinkProps extends GetExplorerUrlParams, ComponentProps<'a'> {
   text?: string
 }
 

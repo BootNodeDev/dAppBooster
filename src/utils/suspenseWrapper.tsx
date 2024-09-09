@@ -1,10 +1,10 @@
 import { type ReactNode, Suspense, type ComponentType, type JSX } from 'react'
 
+import { GeneralMessageDialog, Spinner } from '@bootnodedev/db-ui-toolkit'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
-import { GeneralMessageDialog, Spinner } from 'db-ui-toolkit'
 import { ErrorBoundary, type ErrorBoundaryPropsWithRender } from 'react-error-boundary'
 
-import { PrimaryButton } from '@/src/components/sharedComponents/Buttons'
+import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 
 export type DefaultFallbackFormat = 'dialog' | 'default'
 

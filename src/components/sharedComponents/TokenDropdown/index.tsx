@@ -1,14 +1,11 @@
-import { type FC, type KeyboardEvent } from 'react'
+import { type FC, type KeyboardEvent, type ComponentPropsWithoutRef } from 'react'
 import styled, { css } from 'styled-components'
 
-import { useDropdown, breakpointMediaQuery } from 'db-ui-toolkit'
+import { useDropdown, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
 
-import DropdownButton from '@/src/components/sharedComponents/DropdownButton'
+import DropdownButton from '@/src/components/sharedComponents/TokenDropdown/DropdownButton'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
-import TokenSelect, {
-  Loading,
-  type TokenSelectProps,
-} from '@/src/components/sharedComponents/TokenSelect'
+import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import { type Token } from '@/src/types/token'
 
 const Wrapper = styled.span`
@@ -45,6 +42,9 @@ export interface TokenDropdownProps extends TokenSelectProps {
   iconSize?: number
 }
 
+/** @ignore */
+type Props = ComponentPropsWithoutRef<'span'> & TokenDropdownProps
+
 /**
  * A dropdown component that allows users to select a token
  *
@@ -62,14 +62,15 @@ export interface TokenDropdownProps extends TokenSelectProps {
  * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
  * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
  */
-const TokenDropdown: FC<TokenDropdownProps> = ({
+const TokenDropdown: FC<Props> = ({
   className,
   currentToken,
   iconSize = 24,
   onTokenSelect,
   showAddTokenButton,
+  style,
   ...restProps
-}: TokenDropdownProps) => {
+}: Props) => {
   const { Dropdown, close } = useDropdown()
 
   /**
@@ -82,7 +83,7 @@ const TokenDropdown: FC<TokenDropdownProps> = ({
   }
 
   return (
-    <Wrapper>
+    <Wrapper className={`${className ? className : ''} tokenDropdownWrapper`} style={style}>
       <Dropdown
         button={
           <DropdownButton>
@@ -98,14 +99,13 @@ const TokenDropdown: FC<TokenDropdownProps> = ({
             )}
           </DropdownButton>
         }
-        className={`${className ? className : ''} tokenDropdown`}
+        className={`tokenDropdown`}
         closeOnClick={false}
         id="token-dropdown"
         items={
           <TokenSelect
             onTokenSelect={handleTokenSelect}
             showAddTokenButton={showAddTokenButton}
-            suspenseFallback={<Loading />}
             {...restProps}
           />
         }
