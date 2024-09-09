@@ -1,108 +1,41 @@
-/**
- * Home page example
- *
- * You can safely delete the contents of this file and start from scratch,
- * just make sure to keep the file itself and export a component named Home.
- */
 import styled from 'styled-components'
 
-import { Card, Title } from '@bootnodedev/db-ui-toolkit'
+import TokenInput from '@/src/components/sharedComponents/TokenInput'
+import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
+import { useTokenLists } from '@/src/hooks/useTokenLists'
+import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 
-/**
- * A centered custom card component
- */
-const CustomCard = styled(Card)`
+const CustomTokenInput = styled(TokenInput)`
+  --base-token-input-border-radius: 0;
+  --base-token-input-padding: 30px;
+
+  /* Applies to component's wrapper */
   margin: auto;
-  max-width: 90%;
 
-  a {
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
+  /* Title */
+  .tokenInputTitle {
+    font-size: 18px;
+    font-weight: 700;
+    padding-bottom: 8px;
   }
-`
 
-/**
- * A styled ul tag
- */
-const Ul = styled.ul`
-  display: flex;
-  flex-direction: column;
-  font-size: 1.5rem;
-  list-style: circle;
-  padding-left: calc(var(--base-common-padding-xl) + var(--base-common-padding));
-  row-gap: var(--base-gap-xl);
-
-  ul {
-    padding-bottom: var(--base-common-padding-xl);
-    padding-top: var(--base-common-padding-xl);
-    row-gap: var(--base-gap);
+  /* Input component */
+  .tokenInputTextfield {
+    font-size: 20px;
   }
-`
-
-/**
- * A styled pre tag
- */
-const Code = styled.pre`
-  background-color: var(--theme-body-background-color);
-  border-radius: 5px;
-  font-size: 1.3rem;
-  margin: var(--base-gap) 0 0;
-  padding: 4px 10px;
-  white-space: normal;
-  word-break: break-all;
 `
 
 export const Home = () => {
+  const { tokensByChainId } = useTokenLists()
+  const { searchResult } = useTokenSearch({ tokens: tokensByChainId[1], defaultSearchTerm: 'WETH' })
+  const tokenInputSingle = useTokenInput(searchResult[0])
+
   return (
-    // You can safely delete this.
-    <CustomCard>
-      <Title>Getting started</Title>
-      <Ul>
-        <li>
-          <a href="https://dappbooster.dev" rel="noreferrer" target="_blank">
-            dAppBooster demo
-          </a>
-          : a fully functional dAppBooster dApp with plenty of examples.
-        </li>
-        <li>
-          {/* TODO: Replace by correct link when the fork is ready */}
-          <a
-            href="https://github.com/BootNodeDev/dAppBoosterLandingPage/tree/main/src/components/pageComponents/home/Examples/demos"
-            rel="noreferrer"
-            target="_blank"
-          >
-            Demo's source code on GitHub
-          </a>
-        </li>
-        <li>
-          <a href="https://bootnodedev.github.io/dAppBooster/" rel="noreferrer" target="_blank">
-            Components documentation
-          </a>
-        </li>
-        <li>
-          <b>Where to start?</b>
-          <Ul>
-            <li>
-              Home page <Code>src/components/pageComponents/home/index.tsx</Code>
-            </li>
-            <li>
-              Header <Code>src/components/sharedComponents/Header.tsx</Code>
-            </li>
-            <li>
-              Footer <Code>src/components/sharedComponents/Footer/index.tsx</Code>
-            </li>
-            <li>
-              App layout <Code>src/routes/__root.tsx</Code>
-            </li>
-            <li>
-              Home route <Code>src/routes/index.lazy.tsx</Code>
-            </li>
-          </Ul>
-        </li>
-      </Ul>
-    </CustomCard>
+    <CustomTokenInput
+      currentNetworkId={1}
+      singleToken
+      title="You pay"
+      tokenInput={tokenInputSingle}
+    />
   )
 }
