@@ -15,7 +15,6 @@
     "./src/constants/contracts/**/*",
     "./src/hooks/generated.ts",
     "./src/subgraphs/{gql,queries}/**/*",
-    "./src/subgraphs/utils/appSchemas.ts",
     "./src/pageComponents/**/*",
     "**/*{Provider,Devtools}.tsx",
     "./src/sharedComponents/Footer/**/*",

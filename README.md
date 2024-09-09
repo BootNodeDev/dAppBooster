@@ -149,14 +149,6 @@ export const env = createEnv({
 
 **Note:** if not specified, it will be `undefined` making the app to use the wagmi-defined RPC.
 
-### Subgraphs
-
-dAppBooster comes with an example of how to configure and use subgraphs.
-
-This includes multiple subraphs in several chains, typesafe, and easy integration to be used with react-query.
-
-Check the subgraphs [`documentation file`](SUBGRAPHS.md) for more information.
-
 ### ESLint configuration for production releases
 
 If you are developing a production application, we recommend updating the [configuration file](.eslintrc) to enable type aware lint rules:
