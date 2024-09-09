@@ -146,6 +146,8 @@ const darkThemeCSSVars = css`
   --theme-dialog-overlay-color: rgb(0 0 0 / 50%);
 
   /* Token Select */
+  --theme-token-select-background-color: #2e3048;
+  --theme-token-select-border-color: #2e3048;
   --theme-token-select-title-color: #fff;
 
   --theme-token-select-network-button-color: #fff;
@@ -159,6 +161,7 @@ const darkThemeCSSVars = css`
   --theme-token-select-row-token-balance-color: #fff;
   --theme-token-select-row-token-value-color: #fff;
 
+  --theme-token-select-top-token-item-background-color: #2e3048;
   --theme-token-select-top-token-item-border-color: #4b4d60;
   --theme-token-select-top-token-item-color: #fff;
   --theme-token-select-top-token-item-background-color-hover: rgb(255 255 255 / 5%);
@@ -172,6 +175,13 @@ const darkThemeCSSVars = css`
   --theme-token-select-search-field-box-shadow-active: none;
   --theme-token-select-search-field-border-color: #5f6178;
   --theme-token-select-search-field-border-color-active: #5f6178;
+
+  --theme-token-select-add-erc20-token-button-background-color: #5f6178;
+  --theme-token-select-add-erc20-token-button-background-color-hover: #4a4c5f;
+  --theme-token-select-add-erc20-token-button-border-color: #5f6178;
+  --theme-token-select-add-erc20-token-button-border-color-hover: #4a4c5f;
+  --theme-token-select-add-erc20-token-button-color: #fff;
+  --theme-token-select-add-erc20-token-button-color-hover: #fff;
 
   /* Token Input */
   --theme-token-input-title-color: #fff;
