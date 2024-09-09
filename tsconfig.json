@@ -26,5 +26,6 @@
     }
   },
   "include": ["src"],
+  "exclude": ["src/subgraphs/queries/aave", "src/subgraphs/queries/uniswap"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
