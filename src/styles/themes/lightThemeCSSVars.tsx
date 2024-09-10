@@ -186,7 +186,7 @@ const lightThemeCSSVars = css`
   /* Token Input */
   --theme-token-input-title-color: #2e3048;
 
-  --theme-token-input-background: #fff;
+  --theme-token-input-background: #f0f0f0;
 
   --theme-token-input-textfield-background-color: #fff;
   --theme-token-input-textfield-background-color-active: rgb(0 0 0 / 5%);

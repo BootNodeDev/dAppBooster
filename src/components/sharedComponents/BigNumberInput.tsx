@@ -63,7 +63,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     if (!current) {
       return
     }
-    const currentInputValue = parseUnits(current.value || '0', decimals)
+    const currentInputValue = parseUnits(current.value.replace(/,/g, '') || '0', decimals)
 
     if (currentInputValue !== value) {
       current.value = formatUnits(value, decimals)
