@@ -1,5 +1,99 @@
 # Stack [dAppBooster stack and rationale]
 
-## TODO
+## Vite
 
-Coming soon.
+[Oficial site](https://vitejs.dev/)
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules. It uses [SWC](https://swc.rs/) for fast refresh.
+
+### React SWC
+
+[Github repository](https://github.com/vitejs/vite-plugin-react-swc)
+
+## TanStack
+
+### React Query
+
+[Official docs](https://tanstack.com/query/latest)
+
+### React Virtual
+
+[Official docs](https://tanstack.com/virtual/latest)
+
+### React Router
+
+[Official docs](https://tanstack.com/router/latest)
+
+Serve dev mode watching for routes changes:
+
+```bash
+ pnpm routes:watch
+```
+
+Manually generate `routeTree.gen` file:
+
+```bash
+ pnpm routes:generate
+```
+
+### Dev tools
+
+Dev tools are not visible in production mode.
+
+## Wallet connection
+
+You should be able to seamlessly switch between several libraries for wallet connection.
+
+### Connectkit
+
+[Official docs](https://docs.family.co/connectkit/getting-started#getting-started) | [Setup file](src/lib/wallets/connectkit.config.tsx)
+
+### Rainbowkit
+
+[Official docs](https://www.rainbowkit.com/docs/installation) | [Setup file](src/lib/wallets/rainbowkit.config.tsx)
+
+### Web3modal
+
+[Official docs](https://docs.walletconnect.com/web3modal/react/about#implementation) | [Setup file](src/lib/wallets/web3modal.config.tsx)
+
+## Number Formatting
+
+### Conedison
+
+[Github repository](https://github.com/Uniswap/conedison) | [`numberFormat.ts`](src/utils/numberFormat.ts) | [`numberFormat.test.ts`](src/utils/format.test.ts)
+
+## Styles
+
+### Modern Normalize
+
+[Github repository](https://github.com/sindresorhus/modern-normalize)
+
+### Styled Components
+
+[Official docs](https://styled-components.com/) | [Global CSS vars](src/styles/baseCSSVars.tsx) | [Global styles](src/styles/globalStyles.tsx)
+
+### Stylelint
+
+[Official docs](https://stylelint.io/) | [Setup file](.stylelintrc)
+
+The [official extension](https://marketplace.visualstudio.com/items?itemName=stylelint.vscode-stylelint) is recommended if you're using VSCode.
+
+**Note:** check the "Extension Settings" section if you want errors to be fixed on save, etc.
+
+### Next Themes
+
+[Github repository](https://github.com/pacocoursey/next-themes) | [Light theme CSS vars](src/styles/themes/lightThemeCSSVars.tsx) | [Dark theme CSS vars](src/styles/themes/darkThemeCSSVars.tsx)
+
+## Faceless UI Modal
+
+[Github repository](https://github.com/faceless-ui/modal) | [Official docs](https://facelessui.com/docs/getting-started)
+
+## React Hot Toast
+
+[Github repository](https://github.com/timolins/react-hot-toast)
+
+## Vercel Web Analytics
+
+[Official docs](https://vercel.com/docs/analytics)
+
+Simply [Enable Web Analytics in Vercel](https://vercel.com/docs/analytics/quickstart#enable-web-analytics-in-vercel) within your Vercel project. Everything else is already integrated and ready to go.
