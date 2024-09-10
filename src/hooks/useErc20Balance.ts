@@ -1,12 +1,13 @@
-import { type Address, erc20Abi, getAddress, ReadContractErrorType } from 'viem'
-import { useReadContract } from 'wagmi'
+import { useQuery } from '@tanstack/react-query'
+import { type Address, erc20Abi, getAddress } from 'viem'
+import { usePublicClient } from 'wagmi'
 
 import { type Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
 export type Erc20Balance = {
   balance?: bigint
-  balanceError: ReadContractErrorType | null
+  balanceError: Error | null
   isLoadingBalance: boolean
 }
 
@@ -26,16 +27,18 @@ export const useErc20Balance = ({
   token?: Token
 }): Erc20Balance => {
   const enabled = !!address && !!token && !isNativeToken(token.address)
+  const publicClient = usePublicClient({ chainId: token?.chainId })
 
-  const { data, error, isLoading } = useReadContract({
-    abi: erc20Abi,
-    address: enabled ? getAddress(token.address) : undefined,
-    args: enabled ? [address] : undefined,
-    chainId: enabled ? token.chainId : undefined,
-    functionName: 'balanceOf',
-    query: {
-      enabled,
-    },
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['balanceOf', token?.address, token?.chainId, address],
+    queryFn: () =>
+      publicClient?.readContract({
+        abi: erc20Abi,
+        address: getAddress(token?.address ?? ''),
+        args: [getAddress(address ?? '')],
+        functionName: 'balanceOf',
+      }),
+    enabled,
   })
 
   return { balance: data, balanceError: error, isLoadingBalance: isLoading }
