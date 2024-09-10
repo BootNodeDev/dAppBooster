@@ -49,7 +49,11 @@ export default defineConfig({
       items: [
         {
           text: 'Basic Styling',
-          link: '/guides/basic-styling',
+          link: '/styling/basic-styling',
+        },
+        {
+          text: 'Integration with other libraries',
+          link: '/styling/integration',
         },
       ],
     },
