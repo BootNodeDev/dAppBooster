@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 
+import { useQuery } from '@tanstack/react-query'
 import { getAddress } from 'viem'
-import { useAccount, useBalance } from 'wagmi'
+import { useAccount, usePublicClient } from 'wagmi'
 
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
 import { type Token } from '@/src/types/token'
@@ -23,17 +24,17 @@ export function useTokenInput(token?: Token) {
     token: selectedToken,
   })
 
+  const publicClient = usePublicClient({ chainId: token?.chainId })
+
   const isNative = selectedToken?.address ? isNativeToken(selectedToken.address) : false
   const {
     data: nativeBalance,
     error: nativeBalanceError,
     isLoading: isLoadingNativeBalance,
-  } = useBalance({
-    address: userWallet ? getAddress(userWallet) : undefined,
-    chainId: selectedToken?.chainId,
-    query: {
-      enabled: isNative,
-    },
+  } = useQuery({
+    queryKey: ['nativeBalance', selectedToken?.address, selectedToken?.chainId, userWallet],
+    queryFn: () => publicClient?.getBalance({ address: getAddress(userWallet ?? '') }),
+    enabled: isNative,
   })
 
   return {
@@ -41,7 +42,7 @@ export function useTokenInput(token?: Token) {
     setAmount,
     amountError,
     setAmountError,
-    balance: isNative ? nativeBalance?.value : balance,
+    balance: isNative ? nativeBalance : balance,
     balanceError: isNative ? nativeBalanceError : balanceError,
     isLoadingBalance: isNative ? isLoadingNativeBalance : isLoadingBalance,
     selectedToken,
