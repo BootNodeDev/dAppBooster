@@ -27,10 +27,7 @@ export default defineConfig({
     {
       text: 'Components',
       collapsed: true,
-      items: [
-        { text: 'Transaction Button', link: '/components/transaction-button' },
-        { text: 'Token Input', link: '/components/token-input' },
-      ],
+      items: [{ text: 'Introduction', link: '/components/introduction' }],
     },
     {
       text: 'Guides',
