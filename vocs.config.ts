@@ -30,16 +30,16 @@ export default defineConfig({
       items: [{ text: 'Introduction', link: '/components/introduction' }],
     },
     {
-      text: 'Guides',
+      text: 'Recipes',
       collapsed: true,
       items: [
         {
           text: 'My First dapp',
-          link: '/guides/my-first-dapp',
+          link: '/recipes/my-first-dapp',
         },
         {
           text: 'Subgraphs',
-          link: '/guides/subgraphs',
+          link: '/recipes/subgraphs',
         },
       ],
     },
