@@ -6,7 +6,7 @@ import {
   erc20Abi,
   isAddress,
 } from 'viem'
-import { mainnet, optimismSepolia, polygon, sepolia } from 'viem/chains'
+import { mainnet, polygon, sepolia } from 'viem/chains'
 
 import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
 import { L1CrossDomainMessengerProxyABI } from '@/src/constants/contracts/abis/L1CrossDomainMessengerProxy'
