@@ -47,7 +47,7 @@ function useL2ContractCallInfo({
       value?.toString(),
     ],
     queryFn: () => {
-      const contract = getContract(contractName, optimismSepolia.id)
+      const contract = getContract(contractName, chain.id)
 
       return readOnlyClient.estimateContractGas({
         address: contract.address,
