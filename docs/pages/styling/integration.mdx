@@ -4,7 +4,9 @@
 
 Our CSS engineers have been working hard to provide you with a minimalistic set of components and styles useful for your future dApps (you have to understand: they LOVE their raw CSS and creating everything from scratch). But - as they say- with great power comes great responsibility...
 
-We understand that you may want to use other libraries in your project to save you some time, so in this guide we will show you how to integrate [Chakra UI](https://v2.chakra-ui.com/) with dAppBooster. We consider Chakra UI to be a great choice for styling your dApps, as it provides a set of standard components and tools and it's also compatible with React's and Styled Components' philosophy.
+dAppBooster provides the **bare minimum** you need to create a dApp, no more, no less. But we understand that you may want to use other libraries to expand the functionality in your project, so in this guide we will show you how to integrate [Chakra UI](https://v2.chakra-ui.com/) with dAppBooster.
+
+We consider Chakra UI to be a great choice for styling your dApps, as it provides a set of standard components and tools and it's also compatible with React's and Styled Components' philosophy.
 
 ## Let's get started
 
@@ -16,3 +18,41 @@ First, you need to install Chakra UI in your project. You can do this by followi
 
 Done? That's it! Now you can start using Chakra UI components in your dApps.
 
+## A simple example
+
+Let's go back to the example in the [Basic Styling](/docs/pages/styling/basic-styling.mdx) guide. Let's say we want to center the TokenInput component in the middle of [the page](https://github.com/BootNodeDev/dAppBoosterBasicStyling/blob/ChakraUI/src/components/pageComponents/home/index.tsx) but this time using Chakra UI.
+
+First, we remove all of Styled Component's code and use the the default TokenInput import:
+
+```tsx
+import TokenInput from '@/src/components/sharedComponents/TokenInput'
+// the rest of the imports
+
+export const Home = () => {
+  // TokenInput's needed consts and values
+
+  return (
+      <TokenInput currentNetworkId={1} singleToken title="You pay" tokenInput={tokenInputSingle} />
+  )
+}
+```
+
+Now we can use Chakra UI's `Center` component to center the TokenInput:
+
+```tsx
+import { Center } from '@chakra-ui/react'
+import TokenInput from '@/src/components/sharedComponents/TokenInput'
+// the rest of the imports
+
+export const Home = () => {
+  // TokenInput's needed consts and values
+
+  return (
+    <Center width="100%">
+      <TokenInput currentNetworkId={1} singleToken title="You pay" tokenInput={tokenInputSingle} />
+    </Center>
+  )
+}
+```
+
+And that's it, the TokenInput component is now centered in the middle of the page withouth the need of any custom CSS!
