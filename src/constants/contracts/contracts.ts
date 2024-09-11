@@ -1,7 +1,15 @@
-import { type Abi, Address, erc20Abi, isAddress } from 'viem'
-import { mainnet, polygon, sepolia } from 'viem/chains'
+import {
+  type Abi,
+  type Address,
+  type ContractFunctionArgs as WagmiContractFunctionArgs,
+  type ContractFunctionName as WagmiContractFunctionName,
+  erc20Abi,
+  isAddress,
+} from 'viem'
+import { mainnet, optimismSepolia, polygon, sepolia } from 'viem/chains'
 
 import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
+import { L1CrossDomainMessengerProxyABI } from '@/src/constants/contracts/abis/L1CrossDomainMessengerProxy'
 import { type ChainsIds } from '@/src/lib/networks.config'
 
 type OptionalAddresses = Partial<Record<ChainsIds, Address>>
@@ -38,6 +46,14 @@ const contracts = [
     },
     name: 'EnsRegistry',
   },
+  {
+    abi: L1CrossDomainMessengerProxyABI,
+    address: {
+      [mainnet.id]: '0x25ace71c97B33Cc4729CF772ae268934F7ab5fA1',
+      [sepolia.id]: '0x58Cc85b8D04EA49cC6DBd3CbFFd00B4B8D6cb3ef',
+    },
+    name: 'L1CrossDomainMessengerProxy',
+  },
 ] as const satisfies ContractConfig<Abi>[]
 
 /**
@@ -47,14 +63,24 @@ const contracts = [
  */
 export const getContracts = () => contracts
 
-type ContractNames = (typeof contracts)[number]['name']
+export type ContractNames = (typeof contracts)[number]['name']
 
-type ContractOfName<T extends ContractNames> = Extract<(typeof contracts)[number], { name: T }>
-type AbiOfName<T extends ContractNames> = ContractOfName<T>['abi']
+type ContractOfName<CN extends ContractNames> = Extract<(typeof contracts)[number], { name: CN }>
+type AbiOfName<CN extends ContractNames> = ContractOfName<CN>['abi']
 
 type AddressRecord<T extends ContractNames> =
   ContractOfName<T> extends { address: infer K } ? K : never
 type ChainIdOf<T extends ContractNames> = keyof AddressRecord<T>
+
+export type ContractFunctionName<CN extends ContractNames> = WagmiContractFunctionName<
+  AbiOfName<CN>,
+  'nonpayable' | 'payable'
+>
+
+export type ContractFunctionArgs<
+  CN extends ContractNames,
+  MN extends ContractFunctionName<CN>,
+> = WagmiContractFunctionArgs<AbiOfName<CN>, 'nonpayable' | 'payable', MN>
 
 /**
  * Retrieves the contract information based on the contract name and chain ID.
