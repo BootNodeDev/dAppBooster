@@ -30,6 +30,12 @@ export default defineConfig({
       items: [{ text: 'Introduction', link: '/components/introduction' }],
     },
     {
+      text: 'Plugins',
+      collapsed: true,
+      link: '/plugins',
+      items: [{ text: 'Subgraphs', link: '/plugins/subgraphs' }],
+    },
+    {
       text: 'Recipes',
       collapsed: true,
       items: [
