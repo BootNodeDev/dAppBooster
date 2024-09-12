@@ -53,9 +53,9 @@ function useL2ContractCallInfo({
         address: contract.address,
         abi: contract.abi,
         functionName,
-        args,
+        args: args as any, // TODO: TS does not infer correctly the type of value
         account: walletAddress,
-        value: value as unknown as undefined, // hack as it is not inferring that there are payable functions
+        value: value as any, // TODO: TS does not infer correctly the type of value
       })
     },
   })
