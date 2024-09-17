@@ -1,6 +1,5 @@
 import { useCallback } from 'react'
 
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { type Address, createPublicClient, encodeFunctionData, Hash } from 'viem'
 import { mainnet, sepolia, optimism, optimismSepolia } from 'viem/chains'
 import { useWriteContract } from 'wagmi'
@@ -14,7 +13,7 @@ import {
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { transports } from '@/src/lib/networks.config'
 
-function useL2ContractCallInfo({
+async function l2ContractCallInfo({
   contractName,
   functionName,
   args,
@@ -36,28 +35,13 @@ function useL2ContractCallInfo({
     chain,
   })
 
-  const { data: gas } = useSuspenseQuery({
-    queryKey: [
-      'estimateGas',
-      chain.id,
-      contract.address,
-      functionName,
-      args,
-      walletAddress,
-      value?.toString(),
-    ],
-    queryFn: () => {
-      const contract = getContract(contractName, chain.id)
-
-      return readOnlyClient.estimateContractGas({
-        address: contract.address,
-        abi: contract.abi,
-        functionName,
-        args: args as any, // TODO: TS does not infer correctly the type of value
-        account: walletAddress,
-        value: value as any, // TODO: TS does not infer correctly the type of value
-      })
-    },
+  const gas = await readOnlyClient.estimateContractGas({
+    address: contract.address,
+    abi: contract.abi,
+    functionName,
+    args: args as any, // TODO: TS does not infer correctly the type of value
+    account: walletAddress,
+    value: value as any, // TODO: TS does not infer correctly the type of value
   })
 
   const message = encodeFunctionData({
@@ -69,7 +53,7 @@ function useL2ContractCallInfo({
   return { message, gas }
 }
 
-function useEstimateGasL1CrossDomainMessenger({
+function estimateGasL1CrossDomainMessenger({
   chain,
   l2Gas,
   message,
@@ -80,21 +64,16 @@ function useEstimateGasL1CrossDomainMessenger({
   chain: typeof sepolia | typeof mainnet
   l2Gas: bigint
 }) {
-  return useSuspenseQuery({
-    queryKey: ['estimateGas-L1CrossDomainMessengerProxy', message, value?.toString(), chain.id],
-    queryFn: async () => {
-      const contract = getContract('L1CrossDomainMessengerProxy', chain.id)
+  const contract = getContract('OPL1CrossDomainMessengerProxy', chain.id)
 
-      const readOnlyClient = createPublicClient({ transport: transports[chain.id], chain })
+  const readOnlyClient = createPublicClient({ transport: transports[chain.id], chain })
 
-      return readOnlyClient.estimateContractGas({
-        address: contract.address,
-        abi: contract.abi,
-        functionName: 'sendMessage',
-        args: [contract.address, message, Number(l2Gas)],
-        value: value,
-      })
-    },
+  return readOnlyClient.estimateContractGas({
+    address: contract.address,
+    abi: contract.abi,
+    functionName: 'sendMessage',
+    args: [contract.address, message, Number(l2Gas)],
+    value: value,
   })
 }
 
@@ -127,46 +106,45 @@ export function useL1CrossDomainMessengerProxy({
   value: bigint
 }) {
   const { address: walletAddress } = useWeb3StatusConnected()
-  const contract = getContract('L1CrossDomainMessengerProxy', fromChain.id)
+  const contract = getContract('OPL1CrossDomainMessengerProxy', fromChain.id)
   const { writeContractAsync } = useWriteContract()
 
-  const { gas: l2Gas, message } = useL2ContractCallInfo({
+  return useCallback(async () => {
+    const { gas: l2Gas, message } = await l2ContractCallInfo({
+      contractName,
+      functionName,
+      args,
+      value,
+      walletAddress,
+      chain: fromChain == sepolia ? optimismSepolia : optimism,
+    })
+
+    const l1Gas = await estimateGasL1CrossDomainMessenger({
+      chain: fromChain,
+      message,
+      value,
+      l2Gas,
+    })
+
+    return writeContractAsync({
+      chainId: fromChain.id,
+      abi: contract.abi,
+      address: contract.address,
+      functionName: 'sendMessage',
+      args: [l2ContractAddress, message, Number(l2Gas)],
+      value,
+      gas: ((l1Gas + l2Gas) * 120n) / 100n,
+    })
+  }, [
     contractName,
     functionName,
     args,
     value,
     walletAddress,
-    chain: fromChain == sepolia ? optimismSepolia : optimism,
-  })
-
-  const { data: l1Gas } = useEstimateGasL1CrossDomainMessenger({
-    chain: fromChain,
-    message,
-    value,
-    l2Gas,
-  })
-
-  return useCallback(
-    () =>
-      writeContractAsync({
-        chainId: fromChain.id,
-        abi: contract.abi,
-        address: contract.address,
-        functionName: 'sendMessage',
-        args: [l2ContractAddress, message, Number(l2Gas)],
-        value,
-        gas: ((l1Gas + l2Gas) * 120n) / 100n,
-      }),
-    [
-      writeContractAsync,
-      fromChain.id,
-      contract.abi,
-      contract.address,
-      l2ContractAddress,
-      message,
-      l2Gas,
-      value,
-      l1Gas,
-    ],
-  )
+    fromChain,
+    writeContractAsync,
+    contract.abi,
+    contract.address,
+    l2ContractAddress,
+  ])
 }
