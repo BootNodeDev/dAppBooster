@@ -19,7 +19,10 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "test": "vitest run",
-    "wagmi-generate": "wagmi generate --config src/lib/wagmi/config.ts"
+    "wagmi-generate": "wagmi generate --config src/lib/wagmi/config.ts",
+    "docs:dev": "vocs dev",
+    "docs:build": "vocs build",
+    "docs:preview": "vocs preview"
   },
   "dependencies": {
     "@bootnodedev/db-ui-toolkit": "1.0.0-beta.2",
@@ -43,6 +46,7 @@
     "styled-components": "^6.1.13",
     "use-debounce": "^10.0.1",
     "viem": "~2.10.9",
+    "vocs": "1.0.0-alpha.58",
     "wagmi": "^2.9.2",
     "zod": "^3.23.8"
   },
