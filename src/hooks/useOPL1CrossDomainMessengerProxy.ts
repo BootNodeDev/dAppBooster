@@ -64,7 +64,7 @@ function estimateGasL1CrossDomainMessenger({
   chain: typeof sepolia | typeof mainnet
   l2Gas: bigint
 }) {
-  const contract = getContract('L1CrossDomainMessengerProxy', chain.id)
+  const contract = getContract('OPL1CrossDomainMessengerProxy', chain.id)
 
   const readOnlyClient = createPublicClient({ transport: transports[chain.id], chain })
 
@@ -106,7 +106,7 @@ export function useL1CrossDomainMessengerProxy({
   value: bigint
 }) {
   const { address: walletAddress } = useWeb3StatusConnected()
-  const contract = getContract('L1CrossDomainMessengerProxy', fromChain.id)
+  const contract = getContract('OPL1CrossDomainMessengerProxy', fromChain.id)
   const { writeContractAsync } = useWriteContract()
 
   return useCallback(async () => {
