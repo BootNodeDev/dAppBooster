@@ -1,0 +1,92 @@
+# Subgraphs
+
+## Introduction
+
+This guide will walk you through using the subgraphs plugin.
+
+## Hands-on
+
+Before continuing, be sure to have followed the steps in [subgraphs plugin](/plugins/subgraphs).
+
+:::note
+We'll be exploring the consume of the polygon (137) uniswap pools query.
+:::
+
+## Consume the Subgraph
+
+::::steps
+
+### Create a query to list uniswap pools by liquidy:
+
+```ts [src/subgraphs/queries/uniswap/pool.ts] showLineNumbers
+import { graphql } from '@/src/subgraphs/gql/uniswap'
+
+export const allUniswapPoolsQueryDocument = graphql(/* GraphQL */ `
+  query allUniswapPools {
+    positions(first: 3, orderBy: liquidityUSD, orderDirection: asc) {
+      id
+      pool {
+        id
+        symbol
+      }
+    }
+  }
+`)
+```
+
+### Run the subgraph-codegen script:
+```bash [Terminal]
+pnpm subgraph-codegen
+```
+:::note
+This will consume the query you just creted, poll the information from The Graph services and create the types for you.
+:::
+
+### Consume the data:
+```tsx [UniswapPoolsPolygon.tsx] showLineNumbers
+import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
+
+import { useSuspenseQuery } from '@tanstack/react-query'
+
+import { env } from '@/src/env'
+import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
+
+const appSchemas = generateSchemasMapping({
+  apiKey: env.PUBLIC_SUBGRAPHS_API_KEY!,
+  chainsResourceIds: env.PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS!,
+  environment: env.PUBLIC_SUBGRAPHS_ENVIRONMENT,
+  productionUrl: env.PUBLIC_SUBGRAPHS_PRODUCTION_URL,
+})
+
+export const UniswapPoolsPolygon = withSuspenseAndRetry(() => {
+  const { data } = useSuspenseQuery({
+    queryKey: ['allUniswapPools', 137],
+    queryFn: async () => {
+      const { positions } = await request(
+        appSchemas.uniswap[137],
+        allUniswapPoolsQueryDocument,
+      )
+      return positions
+    },
+  })
+
+  return (
+    <div>
+      <h3 title={chain.name}>Uniswap Pool {getNetworkIcon(chain.name.toLowerCase())}</h3>
+      {data.map((position) => (
+        <Row key={position.id}>
+          <Name>{position.pool.symbol}</Name>
+          <Copy value={position.pool.id} />
+          <ExternalLink href={`https://app.uniswap.org/explore/pools/polygon/${position.pool.id}`} />
+        </Row>
+      ))}
+    </div>
+  )
+})
+```
+
+:::tip
+You can find a working example at the [dAppBooster Landing Page codebase](https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/main/src/components/pageComponents/home/Examples/demos/SubgraphDemo/index.tsx)
+:::
+
+::::
