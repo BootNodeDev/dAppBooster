@@ -1,4 +1,4 @@
-export const L1CrossDomainMessengerProxyABI = [
+export const OPL1CrossDomainMessengerProxyABI = [
   {
     inputs: [
       { internalType: 'address', name: '_target', type: 'address' },
