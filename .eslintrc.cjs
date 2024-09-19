@@ -2,6 +2,9 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   ignorePatterns: [
+    "src/hooks/generated.ts",
+    "src/subgraphs/queries/aave",
+    "src/subgraphs/queries/uniswap",
     '**/*.css',
     '**/*.html',
     '**/*.scss',
