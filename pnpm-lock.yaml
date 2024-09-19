@@ -189,9 +189,6 @@ importers:
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@swc/core@1.7.18(@swc/helpers@0.5.12))(@types/node@22.5.0)(typescript@5.5.4)
-      tsc-files:
-        specifier: ^1.1.4
-        version: 1.1.4(typescript@5.5.4)
       typedoc:
         specifier: ^0.26.5
         version: 0.26.6(typescript@5.5.4)
@@ -7271,12 +7268,6 @@ packages:
         optional: true
       '@swc/wasm':
         optional: true
-
-  tsc-files@1.1.4:
-    resolution: {integrity: sha512-RePsRsOLru3BPpnf237y1Xe1oCGta8rmSYzM76kYo5tLGsv5R2r3s64yapYorGTPuuLyfS9NVbh9ydzmvNie2w==}
-    hasBin: true
-    peerDependencies:
-      typescript: '>=3'
 
   tsconfig-paths@3.15.0:
     resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
@@ -16865,10 +16856,6 @@ snapshots:
       yn: 3.1.1
     optionalDependencies:
       '@swc/core': 1.7.18(@swc/helpers@0.5.12)
-
-  tsc-files@1.1.4(typescript@5.5.4):
-    dependencies:
-      typescript: 5.5.4
 
   tsconfig-paths@3.15.0:
     dependencies:
