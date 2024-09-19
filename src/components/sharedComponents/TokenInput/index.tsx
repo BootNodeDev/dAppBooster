@@ -27,7 +27,7 @@ import {
   TopRow,
   Wrapper,
 } from '@/src/components/sharedComponents/TokenInput/Components'
-import { UseTokenInputReturnType } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
+import type { UseTokenInputReturnType } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import BaseTokenSelect, {
   type TokenSelectProps,

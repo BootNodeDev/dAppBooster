@@ -1,14 +1,14 @@
 import { useCallback } from 'react'
 
-import { type Address, createPublicClient, encodeFunctionData, Hash } from 'viem'
+import { type Address, createPublicClient, encodeFunctionData, type Hash } from 'viem'
 import { mainnet, sepolia, optimism, optimismSepolia } from 'viem/chains'
 import { useWriteContract } from 'wagmi'
 
 import {
-  ContractFunctionArgs,
-  ContractNames,
+  type ContractFunctionArgs,
+  type ContractNames,
   getContract,
-  ContractFunctionName,
+  type ContractFunctionName,
 } from '@/src/constants/contracts/contracts'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { transports } from '@/src/lib/networks.config'

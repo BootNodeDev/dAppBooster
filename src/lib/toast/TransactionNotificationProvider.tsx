@@ -2,7 +2,7 @@ import { createContext, type FC, type PropsWithChildren, useContext } from 'reac
 
 import toast from 'react-hot-toast'
 import {
-  Hash,
+  type Hash,
   type ReplacementReturnType,
   type SignMessageErrorType,
   type TransactionExecutionError,
