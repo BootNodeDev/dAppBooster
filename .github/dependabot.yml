@@ -1,21 +1,21 @@
 version: 2
 updates:
-  - package-ecosystem: 'pnpm'
-    directory: '/'
+  - package-ecosystem: "pnpm"
+    directory: "/"
     schedule:
-      interval: 'monthly'
+      interval: "monthly"
     commit-message:
-      prefix: 'chore'
+      prefix: "chore"
     pull-request-branch-name:
-      separator: '-'
-    rebase-strategy: 'auto'
+      separator: "-"
+    rebase-strategy: "auto"
     labels:
-      - 'dependencies'
-      - 'pnpm'
+      - "dependencies"
+      - "pnpm"
     reviewers:
-      - 'fernandomg'
-      - 'luchobonatti'
-      - 'nicosampler'
-      - 'paterson1'
-      - 'tloffler'
-      - 'gabitoesmiapodo'
+      - "fernandomg"
+      - "luchobonatti"
+      - "nicosampler"
+      - "paterson1"
+      - "tloffler"
+      - "gabitoesmiapodo"
