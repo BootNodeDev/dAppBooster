@@ -10,7 +10,7 @@ import {
   getChains,
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
-import { type Address, Chain, formatUnits } from 'viem'
+import { type Address, type Chain, formatUnits } from 'viem'
 
 import { env } from '@/src/env'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
