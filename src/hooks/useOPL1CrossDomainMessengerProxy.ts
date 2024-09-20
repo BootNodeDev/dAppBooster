@@ -1,14 +1,16 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from 'react'
 
-import { type Address, createPublicClient, encodeFunctionData, Hash } from 'viem'
-import { mainnet, sepolia, optimism, optimismSepolia } from 'viem/chains'
+import { type Address, createPublicClient, encodeFunctionData, type Hash } from 'viem'
+import type { mainnet } from 'viem/chains'
+import { sepolia, optimism, optimismSepolia } from 'viem/chains'
 import { useWriteContract } from 'wagmi'
 
 import {
-  ContractFunctionArgs,
-  ContractNames,
+  type ContractFunctionArgs,
+  type ContractNames,
   getContract,
-  ContractFunctionName,
+  type ContractFunctionName,
 } from '@/src/constants/contracts/contracts'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { transports } from '@/src/lib/networks.config'
@@ -39,7 +41,7 @@ async function l2ContractCallInfo({
     address: contract.address,
     abi: contract.abi,
     functionName,
-    args: args as any, // TODO: TS does not infer correctly the type of value
+    args: args as any, // TODO: TS does not infer correctly the type of valueuseop
     account: walletAddress,
     value: value as any, // TODO: TS does not infer correctly the type of value
   })

@@ -26,6 +26,10 @@
     }
   },
   "include": ["src"],
-  "exclude": ["src/subgraphs/queries/aave", "src/subgraphs/queries/uniswap"],
+  "exclude": [
+    "src/subgraphs/queries/aave",
+    "src/subgraphs/queries/uniswap",
+    "src/hooks/generated.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

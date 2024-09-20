@@ -1,4 +1,4 @@
-import { Hash } from 'viem'
+import type { Hash } from 'viem'
 
 import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'

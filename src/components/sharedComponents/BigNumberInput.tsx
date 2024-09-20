@@ -1,5 +1,5 @@
 import {
-  RefObject,
+  type RefObject,
   type ChangeEvent,
   type ComponentProps,
   type FC,
