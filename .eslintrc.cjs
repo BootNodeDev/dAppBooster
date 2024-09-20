@@ -2,6 +2,9 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   ignorePatterns: [
+    'src/hooks/generated.ts',
+    'src/subgraphs/queries/aave',
+    'src/subgraphs/queries/uniswap',
     '**/*.css',
     '**/*.html',
     '**/*.scss',
@@ -12,6 +15,7 @@ module.exports = {
     'docs',
     'logs',
     'node_modules',
+    'pnpm-lock.yaml',
     'src/hooks/generated.ts',
     'src/routeTree.gen.ts',
     'src/subgraphs/gql',
@@ -90,6 +94,9 @@ module.exports = {
     ],
     '@typescript-eslint/no-explicit-any': 'warn',
     '@typescript-eslint/no-unused-vars': 'warn',
+    "@typescript-eslint/consistent-type-imports": ["error", {
+      "prefer": "type-imports"
+    }],
     'no-use-before-define': 'off',
     '@typescript-eslint/no-use-before-define': ['error', { functions: false }],
     'jsx-a11y/label-has-associated-control': 'warn',

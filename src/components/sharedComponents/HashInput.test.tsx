@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
-import { describe, it, expect, vi, Mock } from 'vitest'
+import { describe, it, expect, vi, type Mock } from 'vitest'
 
 import HashInput from '@/src/components/sharedComponents/HashInput'
 import detectHash from '@/src/utils/hash'

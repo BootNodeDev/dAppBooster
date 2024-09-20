@@ -9,9 +9,9 @@ import {
 } from 'react'
 
 import { useDebouncedCallback } from 'use-debounce'
-import { Chain } from 'viem'
+import type { Chain } from 'viem'
 
-import detectHash, { DetectedHash } from '@/src/utils/hash'
+import detectHash, { type DetectedHash } from '@/src/utils/hash'
 
 interface HashInputProps extends ComponentProps<'input'> {
   chain: Chain

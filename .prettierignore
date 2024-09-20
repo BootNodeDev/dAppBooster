@@ -1,3 +1,4 @@
+.github
 **/*.css
 **/*.html
 **/*.scss
@@ -9,7 +10,9 @@ dist-ssr
 docs
 logs
 node_modules
+pnpm-lock.yaml
 src/hooks/generated.ts
 src/routeTree.gen.ts
 src/subgraphs/gql
-src/subgraphs/gql
+src/subgraphs/queries/aave
+src/subgraphs/queries/uniswap

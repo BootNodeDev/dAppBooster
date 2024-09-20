@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Run tsc
+echo "Running TS checks..."
+pnpm tsc --pretty --noEmit --verbatimModuleSyntax
+
+# Check result
+if [ $? -ne 0 ]; then
+  echo "TS checks failed. Push aborted."
+  exit 1
+fi
+
+echo "TS checks passed. Proceeding with push."
+exit 0
