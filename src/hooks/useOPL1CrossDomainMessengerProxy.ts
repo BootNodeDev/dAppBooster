@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from 'react'
 
 import { type Address, createPublicClient, encodeFunctionData, type Hash } from 'viem'
@@ -40,7 +41,7 @@ async function l2ContractCallInfo({
     address: contract.address,
     abi: contract.abi,
     functionName,
-    args: args as any, // TODO: TS does not infer correctly the type of value
+    args: args as any, // TODO: TS does not infer correctly the type of valueuseop
     account: walletAddress,
     value: value as any, // TODO: TS does not infer correctly the type of value
   })
