@@ -92,6 +92,7 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
           acc.tokensByChainId[token.chainId] = [nativeToken]
           acc.tokens.push(nativeToken)
         } catch (err) {
+          console.error(err)
           // if there's no native token for the chain, ignore the error
           acc.tokensByChainId[token.chainId] = []
         }
