@@ -47,6 +47,7 @@ export const detectEnsName = async (
   try {
     normalizedEnsName = normalize(ensName)
   } catch (err) {
+    console.error(err)
     return invalidHashReturn
   }
 
@@ -64,6 +65,7 @@ export const detectEnsName = async (
       data: address,
     }
   } catch (err) {
+    console.error(err)
     return invalidHashReturn
   }
 }
@@ -86,6 +88,7 @@ export const detectTransactionHash = async (
       data: transaction,
     }
   } catch (err) {
+    console.error(err)
     return invalidHashReturn
   }
 }
@@ -104,6 +107,7 @@ export const detectAddressType = async (
       data: address,
     }
   } catch (err) {
+    console.error(err)
     return invalidHashReturn
   }
 }

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   'src/**/*.{ts,tsx}': [
     'prettier --write --ignore-unknown',
     'eslint --fix',
