@@ -118,7 +118,9 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks, ...restProps }) => {
        * If the chain isn't configured, allow to switch to it based on the chain id
        */
       const selectedChain = findChain(chainId)
-      selectedChain && walletClient?.addChain({ chain: selectedChain })
+      if (selectedChain) {
+        walletClient?.addChain({ chain: selectedChain })
+      }
     }
   }
 

@@ -2,9 +2,6 @@ module.exports = {
   root: true,
   env: { browser: true, es2020: true },
   ignorePatterns: [
-    'src/hooks/generated.ts',
-    'src/subgraphs/queries/aave',
-    'src/subgraphs/queries/uniswap',
     '**/*.css',
     '**/*.html',
     '**/*.scss',
@@ -19,6 +16,8 @@ module.exports = {
     'src/hooks/generated.ts',
     'src/routeTree.gen.ts',
     'src/subgraphs/gql',
+    'src/subgraphs/queries/aave',
+    'src/subgraphs/queries/uniswap',
   ],
   settings: {
     react: {
@@ -39,6 +38,7 @@ module.exports = {
     'plugin:import/recommended',
     'plugin:eslint-plugin-jsx-a11y/recommended',
     'prettier',
+    'plugin:prettier/recommended',
   ],
   plugins: ['react-refresh', 'sort-destructure-keys', 'no-relative-import-paths'],
   rules: {
