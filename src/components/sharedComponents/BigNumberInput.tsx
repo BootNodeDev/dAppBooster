@@ -91,6 +91,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     try {
       newValue = parseUnits(value, decimals)
     } catch (e) {
+      console.error(e)
       // don't update the input on invalid values
       return
     }
