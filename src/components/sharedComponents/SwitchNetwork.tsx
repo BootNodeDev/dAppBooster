@@ -2,12 +2,12 @@ import {
   type ComponentPropsWithoutRef,
   type FC,
   type ReactElement,
-  useState,
   useEffect,
+  useState,
 } from 'react'
 import styled from 'styled-components'
 
-import { Dropdown, Item as BaseItem } from '@bootnodedev/db-ui-toolkit'
+import { Item as BaseItem, Dropdown } from '@bootnodedev/db-ui-toolkit'
 import * as chains from 'viem/chains'
 import { useSwitchChain } from 'wagmi'
 

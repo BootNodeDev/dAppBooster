@@ -1,4 +1,4 @@
-import { useMemo, type FC, type ComponentPropsWithoutRef } from 'react'
+import { type ComponentPropsWithoutRef, type FC, useMemo } from 'react'
 import styled from 'styled-components'
 
 import { Spinner } from '@bootnodedev/db-ui-toolkit'
@@ -7,8 +7,8 @@ import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits } from 'viem'
 
 import {
-  type BigNumberInputProps,
   BigNumberInput,
+  type BigNumberInputProps,
   type RenderInputProps,
 } from '@/src/components/sharedComponents/BigNumberInput'
 import {
@@ -17,7 +17,7 @@ import {
   BottomRow,
   CloseButton,
   DropdownButton,
-  Error,
+  ErrorComponent,
   EstimatedUSDValue,
   Icon,
   MaxButton,
@@ -239,7 +239,7 @@ const TokenInput: FC<Props> = ({
             </MaxButton>
           </Balance>
         </BottomRow>
-        {amountError && <Error>{amountError}</Error>}
+        {amountError && <ErrorComponent>{amountError}</ErrorComponent>}
       </Wrapper>
       <Modal slug="token-select">
         <TokenSelect
@@ -293,7 +293,7 @@ function TokenAmountField({
       onValueChange={({ value }) => onChange?.(value)}
       thousandSeparator={thousandSeparator}
       // NumericFormat has defaultValue prop overwritten and is not compatible with the standard
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       {...(restProps as any)}
     />
   )

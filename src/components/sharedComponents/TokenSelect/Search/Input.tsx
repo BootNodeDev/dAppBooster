@@ -1,4 +1,4 @@
-import { type FC, type InputHTMLAttributes, type ComponentPropsWithRef } from 'react'
+import { type ComponentPropsWithRef, type FC, type InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import { Textfield, TextfieldCSS } from '@bootnodedev/db-ui-toolkit'

@@ -1,4 +1,4 @@
-import { type ReactNode, Suspense, type ComponentType, type JSX } from 'react'
+import { type ComponentType, type JSX, type ReactNode, Suspense } from 'react'
 
 import { GeneralMessageDialog, Spinner } from '@bootnodedev/db-ui-toolkit'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'

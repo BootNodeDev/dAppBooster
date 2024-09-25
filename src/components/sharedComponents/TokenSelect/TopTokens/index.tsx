@@ -2,7 +2,7 @@ import { type FC, type HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import Item from '@/src/components/sharedComponents/TokenSelect/TopTokens/Item'
-import { type Tokens, type Token } from '@/src/types/token'
+import { type Token, type Tokens } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' }) => {

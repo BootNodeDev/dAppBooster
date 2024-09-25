@@ -1,4 +1,4 @@
-import { type FC, type MouseEventHandler, type ComponentPropsWithoutRef } from 'react'
+import { type ComponentPropsWithoutRef, type FC, type MouseEventHandler } from 'react'
 import styled from 'styled-components'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'

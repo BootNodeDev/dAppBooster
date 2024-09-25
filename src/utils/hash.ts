@@ -1,10 +1,10 @@
 import {
+  http,
   type Address,
   type Chain,
   type Hash,
   type Transaction,
   createPublicClient,
-  http,
   isAddress,
   isHex,
 } from 'viem'

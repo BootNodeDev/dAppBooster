@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components'
 
 import {
-  Button,
   Textfield as BaseTextfield,
+  Button,
   breakpointMediaQuery,
 } from '@bootnodedev/db-ui-toolkit'
 
@@ -174,7 +174,7 @@ export const SingleToken = styled.div.attrs(() => {
   ${ButtonCSS}
 `
 
-export const Error = styled.span`
+export const ErrorComponent = styled.span`
   color: var(--theme-color-danger, #800);
   font-size: 1.2rem;
   font-weight: 700;

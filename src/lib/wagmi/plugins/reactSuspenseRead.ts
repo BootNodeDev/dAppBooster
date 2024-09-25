@@ -11,7 +11,8 @@ const walletConfigImport = `import { config } from '@/src/lib/wallets/connectkit
 
 type ActionsResult = {
   name: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   run: ({ contracts }: { contracts: any[] }) => Promise<{
     imports: string
     content: string
@@ -28,7 +29,7 @@ export function reactSuspenseRead(config: ActionsConfig = {}): ActionsResult {
 
       const actionNames = new Set<string>()
 
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       const isReadFunction = (item: any) =>
         item.type === 'function' &&
         (item.stateMutability === 'view' || item.stateMutability === 'pure')
@@ -57,8 +58,12 @@ export function reactSuspenseRead(config: ActionsConfig = {}): ActionsResult {
 
             content.push(
               `
-                export const ${hookName} = ${pure} ${functionName}({ ${innerContent}, functionName: '${item.name}' })
-                export const useSuspense${pascalCase(hookName)} = (params: Parameters<typeof ${hookName}>[1], options?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ${hookName}>>>) => {
+                export const ${hookName} = ${pure} ${functionName}({ ${innerContent}, functionName: '${
+                  item.name
+                }' })
+                export const useSuspense${pascalCase(
+                  hookName,
+                )} = (params: Parameters<typeof ${hookName}>[1], options?: UseSuspenseQueryOptions<Awaited<ReturnType<typeof ${hookName}>>>) => {
                   return useSuspenseQuery<Awaited<ReturnType<typeof ${hookName}>>>({ queryKey: ['${hookName}', params, config.state.chainId], queryFn: () => ${hookName}(config, params), ...options })
                 }
               `,

@@ -1,4 +1,4 @@
-import { type FC, type ComponentProps } from 'react'
+import { type ComponentProps, type FC } from 'react'
 
 import { type GetExplorerUrlParams, getExplorerLink } from '@/src/utils/getExplorerLink'
 

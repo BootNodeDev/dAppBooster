@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from 'react'
+import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { type Chain } from 'viem/chains'

@@ -2,10 +2,10 @@ import { type FC, type HTMLAttributes } from 'react'
 import styled, { css } from 'styled-components'
 
 import {
-  InnerContainer,
   Header as BaseHeader,
   Logo as BaseLogo,
   ContainerPadding,
+  InnerContainer,
   SwitchThemeButton,
   breakpointMediaQuery,
 } from '@bootnodedev/db-ui-toolkit'

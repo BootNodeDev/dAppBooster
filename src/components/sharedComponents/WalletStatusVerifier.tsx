@@ -5,7 +5,7 @@ import { extractChain } from 'viem'
 
 import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { chains, type ChainsIds } from '@/src/lib/networks.config'
+import { type ChainsIds, chains } from '@/src/lib/networks.config'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 const Button = styled(PrimaryButton)`

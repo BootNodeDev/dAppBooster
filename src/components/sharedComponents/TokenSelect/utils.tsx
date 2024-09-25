@@ -1,7 +1,7 @@
 import { type Chain } from 'viem/chains'
 
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
-import type { chains, ChainsIds } from '@/src/lib/networks.config'
+import type { ChainsIds, chains } from '@/src/lib/networks.config'
 
 interface GetValidChainIdParams {
   currentNetworkId?: Chain['id']

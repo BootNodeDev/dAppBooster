@@ -1,9 +1,9 @@
-import { type PropsWithChildren, type FC } from 'react'
+import { type FC, type PropsWithChildren } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiProvider } from 'wagmi'
 
-import { config, WalletProvider, ConnectWalletButton } from '@/src/lib/wallets/connectkit.config'
+import { ConnectWalletButton, WalletProvider, config } from '@/src/lib/wallets/connectkit.config'
 
 const queryClient = new QueryClient()
 

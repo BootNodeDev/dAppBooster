@@ -1,4 +1,4 @@
-import { type FC, type ComponentProps } from 'react'
+import { type ComponentProps, type FC } from 'react'
 import styled from 'styled-components'
 
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'

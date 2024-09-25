@@ -68,8 +68,9 @@ export type ContractNames = (typeof contracts)[number]['name']
 type ContractOfName<CN extends ContractNames> = Extract<(typeof contracts)[number], { name: CN }>
 type AbiOfName<CN extends ContractNames> = ContractOfName<CN>['abi']
 
-type AddressRecord<T extends ContractNames> =
-  ContractOfName<T> extends { address: infer K } ? K : never
+type AddressRecord<T extends ContractNames> = ContractOfName<T> extends { address: infer K }
+  ? K
+  : never
 type ChainIdOf<T extends ContractNames> = keyof AddressRecord<T>
 
 export type ContractFunctionName<CN extends ContractNames> = WagmiContractFunctionName<

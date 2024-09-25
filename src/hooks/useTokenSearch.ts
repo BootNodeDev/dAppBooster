@@ -1,10 +1,10 @@
 import {
+  type DependencyList,
   type Dispatch,
   type SetStateAction,
   useDeferredValue,
-  useState,
-  type DependencyList,
   useEffect,
+  useState,
 } from 'react'
 
 import { type Tokens } from '@/src/types/token'

@@ -1,7 +1,7 @@
-import { type FC, type KeyboardEvent, type ComponentPropsWithoutRef } from 'react'
+import { type ComponentPropsWithoutRef, type FC, type KeyboardEvent } from 'react'
 import styled, { css } from 'styled-components'
 
-import { useDropdown, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
+import { breakpointMediaQuery, useDropdown } from '@bootnodedev/db-ui-toolkit'
 
 import DropdownButton from '@/src/components/sharedComponents/TokenDropdown/DropdownButton'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'

@@ -2,15 +2,15 @@ import { useMemo } from 'react'
 
 import {
   type UseSuspenseQueryOptions,
-  useSuspenseQueries,
   type UseSuspenseQueryResult,
+  useSuspenseQueries,
 } from '@tanstack/react-query'
 import defaultTokens from '@uniswap/default-token-list'
 import * as chains from 'viem/chains'
 
 import { tokenLists } from '@/src/constants/tokenLists'
 import { env } from '@/src/env'
-import { type Token, tokenSchema, type TokenList } from '@/src/types/token'
+import { type Token, type TokenList, tokenSchema } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 import tokenListsCache, { updateTokenListsCache, type TokensMap } from '@/src/utils/tokenListsCache'
 

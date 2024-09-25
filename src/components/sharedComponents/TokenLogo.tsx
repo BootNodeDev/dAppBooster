@@ -1,4 +1,4 @@
-import { type FC, type ComponentProps, useState, useEffect } from 'react'
+import { type ComponentProps, type FC, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { type Token } from '@/src/types/token'
@@ -26,7 +26,7 @@ const Wrapper = styled.div<{ $size: number; $backgroundColor: string }>`
 const Placeholder: FC<PlaceholderProps> = ({ size, symbol, ...restProps }) => {
   const [backgroundColor, setBackgroundColor] = useState<string>('')
 
-  const generateHexColor = (symbol: string): string => {
+  const generateHexColor = useCallback((symbol: string): string => {
     // Convert symbol to a hash number
     let hash = 0
     for (let i = 0; i < symbol.length; i++) {
@@ -52,11 +52,11 @@ const Placeholder: FC<PlaceholderProps> = ({ size, symbol, ...restProps }) => {
       b.toString(16).padStart(2, '6')
 
     return `#${color}`
-  }
+  }, [])
 
   useEffect(() => {
     setBackgroundColor(generateHexColor(symbol))
-  }, [symbol])
+  }, [symbol, generateHexColor])
 
   return (
     <Wrapper $backgroundColor={backgroundColor} $size={size} {...restProps}>
@@ -94,7 +94,7 @@ const TokenLogo: FC<TokenLogoProps> = ({ size = 24, token }) => {
 
   useEffect(() => {
     setHasError(false)
-  }, [logoURI])
+  }, [])
 
   return logoURI && !hasError ? (
     <img

@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 
 import {
-  createConfig,
   EVM,
-  getTokenBalances,
-  getTokens,
   type TokenAmount,
   type TokensResponse,
+  createConfig,
   getChains,
+  getTokenBalances,
+  getTokens,
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { type Address, type Chain, formatUnits } from 'viem'

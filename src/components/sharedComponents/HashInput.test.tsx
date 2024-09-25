@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { mainnet } from 'viem/chains'
-import { describe, it, expect, vi, type Mock } from 'vitest'
+import { type Mock, describe, expect, it, vi } from 'vitest'
 
 import HashInput from '@/src/components/sharedComponents/HashInput'
 import detectHash from '@/src/utils/hash'
@@ -11,6 +11,7 @@ const testId = 'hash-input'
 
 describe('HashInput Component', () => {
   it('renders input field', () => {
+    // biome-ignore lint/suspicious/noEmptyBlockStatements: <explanation>
     render(<HashInput chain={mainnet} onSearch={() => {}} />)
     const input = screen.getByTestId(testId)
     expect(input).toBeInTheDocument()

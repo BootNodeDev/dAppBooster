@@ -1,7 +1,7 @@
-import { type HTMLAttributes, type Dispatch, type SetStateAction, type FC } from 'react'
+import { type Dispatch, type FC, type HTMLAttributes, type SetStateAction } from 'react'
 import styled from 'styled-components'
 
-import { Dropdown, Item as BaseItem } from '@bootnodedev/db-ui-toolkit'
+import { Item as BaseItem, Dropdown } from '@bootnodedev/db-ui-toolkit'
 
 import SearchInput from '@/src/components/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/components/sharedComponents/TokenSelect/Search/NetworkButton'

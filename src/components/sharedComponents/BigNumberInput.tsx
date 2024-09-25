@@ -1,14 +1,14 @@
 import {
-  type RefObject,
   type ChangeEvent,
   type ComponentProps,
   type FC,
   type ReactElement,
+  type RefObject,
   useEffect,
   useRef,
 } from 'react'
 
-import { formatUnits, parseUnits, maxUint256 } from 'viem'
+import { formatUnits, maxUint256, parseUnits } from 'viem'
 
 export type RenderInputProps = Omit<ComponentProps<'input'>, 'onChange'> & {
   onChange: (event: ChangeEvent<HTMLInputElement> | string) => void
@@ -75,7 +75,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     if (!renderInput && autofocus && inputRef.current) {
       inputRef.current.focus()
     }
-  }, [autofocus, inputRef, renderInput])
+  }, [renderInput, autofocus])
 
   const updateValue = (event: ChangeEvent<HTMLInputElement> | string) => {
     const { value } = typeof event === 'string' ? { value: event } : event.currentTarget
@@ -112,7 +112,9 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     if (invalidValue) {
       const _min = formatUnits(min, decimals)
       const _max = formatUnits(max, decimals)
-      const message = `Invalid value! Range: [${_min}, ${max === maxUint256 ? 'maxUint256' : _max}] and value is: ${value}`
+      const message = `Invalid value! Range: [${_min}, ${
+        max === maxUint256 ? 'maxUint256' : _max
+      }] and value is: ${value}`
       console.warn(message)
       onError?.({ value, message })
     }
