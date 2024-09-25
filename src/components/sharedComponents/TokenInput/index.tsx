@@ -32,7 +32,7 @@ import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import BaseTokenSelect, {
   type TokenSelectProps,
 } from '@/src/components/sharedComponents/TokenSelect'
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 
 const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
@@ -181,7 +181,10 @@ const TokenInput: FC<Props> = ({
     selectedToken ? (
       <>
         <Icon $iconSize={selectIconSize}>
-          <TokenLogo size={selectIconSize} token={selectedToken} />
+          <TokenLogo
+            size={selectIconSize}
+            token={selectedToken}
+          />
         </Icon>
         {selectedToken.symbol}
       </>
@@ -226,13 +229,16 @@ const TokenInput: FC<Props> = ({
             <BalanceValue>
               {balanceError && 'Error...'}
               {isLoadingBalance ? (
-                <Spinner height={20} width={20} />
+                <Spinner
+                  height={20}
+                  width={20}
+                />
               ) : (
                 `Balance: ${formatUnits(balance ?? 0n, selectedToken?.decimals ?? 0)}`
               )}
             </BalanceValue>
             <MaxButton
-              disabled={isLoadingBalance || !!balanceError || balance == 0n}
+              disabled={isLoadingBalance || !!balanceError || balance === 0n}
               onClick={handleSetMax}
             >
               Max

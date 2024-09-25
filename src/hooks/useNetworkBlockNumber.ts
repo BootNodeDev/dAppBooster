@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 
 import { type UseSuspenseQueryOptions, useSuspenseQuery } from '@tanstack/react-query'
 import { http, createPublicClient } from 'viem'
-import { type Chain } from 'viem/chains'
+import type { Chain } from 'viem/chains'
 
 /**
  * Custom hook to fetch the block number of a specific network, despite being supported or not by the app config.

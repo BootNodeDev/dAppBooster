@@ -1,10 +1,17 @@
-import { type ComponentPropsWithRef, type FC, type InputHTMLAttributes } from 'react'
+import type { ComponentPropsWithRef, FC, InputHTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import { Textfield, TextfieldCSS } from '@bootnodedev/db-ui-toolkit'
 
 const SearchIcon = () => (
-  <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    fill="none"
+    height="24"
+    viewBox="0 0 24 24"
+    width="24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title>Chevron down</title>
     <path
       d="M11 19C15.4183 19 19 15.4183 19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19Z"
       stroke="currentColor"
@@ -30,8 +37,14 @@ const Wrapper = styled.div.attrs<ComponentPropsWithRef<'input'>>(
   --base-textfield-border-radius: var(--base-border-radius, 8px);
   --base-textfield-padding: 0 var(--base-common-padding-xl, 16px);
 
-  --theme-textfield-color: var(--theme-token-select-search-field-color, #2e3048);
-  --theme-textfield-color-active: var(--theme-token-select-search-field-color-active, #2e3048);
+  --theme-textfield-color: var(
+    --theme-token-select-search-field-color,
+    #2e3048
+  );
+  --theme-textfield-color-active: var(
+    --theme-token-select-search-field-color-active,
+    #2e3048
+  );
   --theme-textfield-background-color: var(
     --theme-token-select-search-field-background-color,
     #f7f7f7
@@ -44,12 +57,18 @@ const Wrapper = styled.div.attrs<ComponentPropsWithRef<'input'>>(
     --theme-token-select-search-field-placeholder-color,
     #161d1a
   );
-  --theme-textfield-box-shadow: var(--theme-token-select-search-field-box-shadow, none);
+  --theme-textfield-box-shadow: var(
+    --theme-token-select-search-field-box-shadow,
+    none
+  );
   --theme-textfield-box-shadow-active: var(
     --theme-token-select-search-field-box-shadow-active,
     none
   );
-  --theme-textfield-border-color: var(--theme-token-select-search-field-border-color, #e2e0e7);
+  --theme-textfield-border-color: var(
+    --theme-token-select-search-field-border-color,
+    #e2e0e7
+  );
   --theme-textfield-border-color-active: var(
     --theme-token-select-search-field-border-color-active,
     #e2e0e7

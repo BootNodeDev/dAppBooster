@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 
-import { type Tokens } from '@/src/types/token'
+import type { Tokens } from '@/src/types/token'
 
 type TokenSearchOptions = {
   defaultSearchTerm?: string

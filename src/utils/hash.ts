@@ -43,7 +43,8 @@ export const detectEnsName = async (
   ensName: string,
 ): Promise<{ type: HashType; data: HashData }> => {
   // try to normalize the ENS name
-  let normalizedEnsName
+  let normalizedEnsName: string
+
   try {
     normalizedEnsName = normalize(ensName)
   } catch (err) {

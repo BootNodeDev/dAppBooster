@@ -1,4 +1,4 @@
-import { type ComponentProps, type FC } from 'react'
+import type { ComponentProps, FC } from 'react'
 import styled from 'styled-components'
 
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
@@ -47,9 +47,18 @@ const Avatar: FC<AvatarProps> = ({ address, ensImage, ensName, size = 100 }) => 
   return (
     <ImageWrapper size={size}>
       {ensImage ? (
-        <img alt={ensName ?? address} height="100%" src={ensImage} width="100%" />
+        <img
+          alt={ensName ?? address}
+          height="100%"
+          src={ensImage}
+          width="100%"
+        />
       ) : (
-        <Jazzicon data-testid="avatar-icon" diameter={size} seed={jsNumberForAddress(address)} />
+        <Jazzicon
+          data-testid="avatar-icon"
+          diameter={size}
+          seed={jsNumberForAddress(address)}
+        />
       )}
     </ImageWrapper>
   )

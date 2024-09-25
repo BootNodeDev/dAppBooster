@@ -69,7 +69,10 @@ function estimateGasL1CrossDomainMessenger({
 }) {
   const contract = getContract('OPL1CrossDomainMessengerProxy', chain.id)
 
-  const readOnlyClient = createPublicClient({ transport: transports[chain.id], chain })
+  const readOnlyClient = createPublicClient({
+    transport: transports[chain.id],
+    chain,
+  })
 
   return readOnlyClient.estimateContractGas({
     address: contract.address,
@@ -119,7 +122,7 @@ export function useL1CrossDomainMessengerProxy({
       args,
       value,
       walletAddress,
-      chain: fromChain == sepolia ? optimismSepolia : optimism,
+      chain: fromChain === sepolia ? optimismSepolia : optimism,
     })
 
     const l1Gas = await estimateGasL1CrossDomainMessenger({

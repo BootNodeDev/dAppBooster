@@ -1,4 +1,4 @@
-import { type Token, type Tokens } from '@/src/types/token'
+import type { Token, Tokens } from '@/src/types/token'
 
 /**
  * Represents a cache for the list of tokens that is loaded at app startup.

@@ -14,8 +14,10 @@ type BigNumberInputProps = Parameters<typeof BigNumberInput>[0]
 // Mocking viem's parseUnits and formatUnits functions
 vi.mock('viem', () => ({
   formatUnits: (value: bigint, decimals: number) =>
+    // biome-ignore lint/style/useExponentiationOperator: <explanation>
     (Number(value) / Math.pow(10, decimals)).toFixed(decimals),
   parseUnits: (value: string, decimals: number) =>
+    // biome-ignore lint/style/useExponentiationOperator: <explanation>
     BigInt(Math.round(Number(value) * Math.pow(10, decimals))),
   maxUint256: 2n ** 256n - 1n,
 }))
@@ -64,7 +66,11 @@ describe('BigNumberInput', () => {
 
   it('triggers error on value less than min', async () => {
     const handleError = vi.fn()
-    const { user } = setup({ min: parseUnits('1', 2), decimals: 2, onError: handleError })
+    const { user } = setup({
+      min: parseUnits('1', 2),
+      decimals: 2,
+      onError: handleError,
+    })
 
     const input = screen.getByPlaceholderText('0.00')
     input.focus()
@@ -77,7 +83,11 @@ describe('BigNumberInput', () => {
 
   it('triggers error on value more than max', async () => {
     const handleError = vi.fn()
-    const { user } = setup({ max: parseUnits('2', 2), decimals: 2, onError: handleError })
+    const { user } = setup({
+      max: parseUnits('2', 2),
+      decimals: 2,
+      onError: handleError,
+    })
 
     const input = screen.getByPlaceholderText('0.00')
     input.focus()
@@ -90,7 +100,11 @@ describe('BigNumberInput', () => {
 
   it('removes the error after correcting the value', async () => {
     const handleError = vi.fn()
-    const { user } = setup({ max: parseUnits('2', 2), decimals: 2, onError: handleError })
+    const { user } = setup({
+      max: parseUnits('2', 2),
+      decimals: 2,
+      onError: handleError,
+    })
 
     const input = screen.getByPlaceholderText('0.00')
     input.focus()
@@ -106,7 +120,10 @@ describe('BigNumberInput', () => {
 
   it('displays custom rendered input', () => {
     const customRenderInput = (props: RenderInputProps) => (
-      <input data-testid="custom-input" {...props} />
+      <input
+        data-testid="custom-input"
+        {...props}
+      />
     )
     setup({ renderInput: customRenderInput })
     expect(screen.getByTestId('custom-input')).toBeInTheDocument()

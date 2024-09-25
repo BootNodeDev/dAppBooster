@@ -1,7 +1,7 @@
 import { type ComponentProps, type FC, useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 
 interface PlaceholderProps extends ComponentProps<'div'> {
   size: number
@@ -40,9 +40,9 @@ const Placeholder: FC<PlaceholderProps> = ({ size, symbol, ...restProps }) => {
       ((hash >> 8) & 0xff).toString(16).padStart(2, '0')
 
     // Ensure the baseColor is dark-ish by making sure each component is less than 196
-    const r = parseInt(baseColor.slice(0, 2), 16) % 196
-    const g = parseInt(baseColor.slice(2, 4), 16) % 196
-    const b = parseInt(baseColor.slice(4, 6), 16) % 196
+    const r = Number.parseInt(baseColor.slice(0, 2), 16) % 196
+    const g = Number.parseInt(baseColor.slice(2, 4), 16) % 196
+    const b = Number.parseInt(baseColor.slice(4, 6), 16) % 196
 
     // Convert back to hex string and pad with leading 6s if necessary and also
     // because I love Satan
@@ -59,7 +59,11 @@ const Placeholder: FC<PlaceholderProps> = ({ size, symbol, ...restProps }) => {
   }, [symbol, generateHexColor])
 
   return (
-    <Wrapper $backgroundColor={backgroundColor} $size={size} {...restProps}>
+    <Wrapper
+      $backgroundColor={backgroundColor}
+      $size={size}
+      {...restProps}
+    >
       {symbol[0]}
     </Wrapper>
   )
@@ -105,7 +109,10 @@ const TokenLogo: FC<TokenLogoProps> = ({ size = 24, token }) => {
       width={`${size}`}
     />
   ) : (
-    <Placeholder size={size} symbol={token.symbol} />
+    <Placeholder
+      size={size}
+      symbol={token.symbol}
+    />
   )
 }
 

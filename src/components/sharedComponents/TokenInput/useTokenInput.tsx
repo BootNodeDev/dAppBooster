@@ -5,7 +5,7 @@ import { getAddress } from 'viem'
 import { useAccount, usePublicClient } from 'wagmi'
 
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
 export type UseTokenInputReturnType = ReturnType<typeof useTokenInput>

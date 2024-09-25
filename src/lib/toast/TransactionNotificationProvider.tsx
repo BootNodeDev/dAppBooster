@@ -1,11 +1,11 @@
 import { type FC, type PropsWithChildren, createContext, useContext } from 'react'
 
 import toast from 'react-hot-toast'
-import {
-  type Hash,
-  type ReplacementReturnType,
-  type SignMessageErrorType,
-  type TransactionExecutionError,
+import type {
+  Hash,
+  ReplacementReturnType,
+  SignMessageErrorType,
+  TransactionExecutionError,
 } from 'viem'
 
 import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
@@ -94,6 +94,7 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       let replacedTx = null as ReplacementReturnType | null
       const receipt = await readOnlyClient.waitForTransactionReceipt({
         hash,
+        // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
         onReplaced: (replacedTxData) => (replacedTx = replacedTxData),
       })
 
@@ -102,7 +103,10 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
           toast.error(
             <div>
               <div>Transaction has been {replacedTx.reason}!</div>
-              <ExplorerLink chain={chain} hashOrAddress={replacedTx.transaction.hash} />
+              <ExplorerLink
+                chain={chain}
+                hashOrAddress={replacedTx.transaction.hash}
+              />
             </div>,
             { id: toastId },
           )
@@ -110,7 +114,10 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
           toast.success(
             <div>
               <div>{successMessage}</div>
-              <ExplorerLink chain={chain} hashOrAddress={replacedTx.transaction.hash} />
+              <ExplorerLink
+                chain={chain}
+                hashOrAddress={replacedTx.transaction.hash}
+              />
             </div>,
             { id: toastId },
           )
@@ -122,7 +129,10 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
         toast.success(
           <div>
             <div>{successMessage}</div>
-            <ExplorerLink chain={chain} hashOrAddress={hash} />
+            <ExplorerLink
+              chain={chain}
+              hashOrAddress={hash}
+            />
           </div>,
           { id: toastId },
         )
@@ -130,7 +140,10 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
         toast.error(
           <div>
             <div>{errorMessage}</div>
-            <ExplorerLink chain={chain} hashOrAddress={hash} />
+            <ExplorerLink
+              chain={chain}
+              hashOrAddress={hash}
+            />
           </div>,
           { id: toastId },
         )
@@ -143,11 +156,12 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
   async function watchTx({ methodId, txPromise }: WatchTxArgs) {
     const transactionMessage = methodId ? `Transaction for calling ${methodId}` : 'Transaction'
 
-    let toastId: string = ''
+    let toastId = ''
     await watchSignature({
       message: `Signature requested: ${transactionMessage}`,
       signaturePromise: txPromise,
       showSuccessToast: false,
+      // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
       onToastId: (id) => (toastId = id),
     })
 

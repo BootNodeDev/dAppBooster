@@ -10,7 +10,7 @@ import { mainnet, polygon, sepolia } from 'viem/chains'
 
 import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
 import { OPL1CrossDomainMessengerProxyABI } from '@/src/constants/contracts/abis/OPL1CrossDomainMessengerProxy'
-import { type ChainsIds } from '@/src/lib/networks.config'
+import type { ChainsIds } from '@/src/lib/networks.config'
 
 type OptionalAddresses = Partial<Record<ChainsIds, Address>>
 type ContractConfig<TAbi> = {

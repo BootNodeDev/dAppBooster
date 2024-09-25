@@ -1,6 +1,6 @@
 import { type ComponentProps, useEffect, useState } from 'react'
 
-import { type Hash, type TransactionReceipt } from 'viem'
+import type { Hash, TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
@@ -76,7 +76,11 @@ const TransactionButton = withWalletStatusVerifier<TransactionButtonProps>(
     }
 
     return (
-      <button disabled={isPending || disabled} onClick={handleSendTransaction} {...restProps}>
+      <button
+        disabled={isPending || disabled}
+        onClick={handleSendTransaction}
+        {...restProps}
+      >
         {isPending ? labelSending : children}
       </button>
     )

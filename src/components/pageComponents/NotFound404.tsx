@@ -6,7 +6,12 @@ import { useNavigate } from '@tanstack/react-router'
 import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 
 const Icon = () => (
-  <svg fill="none" height="152" width="98" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    fill="none"
+    height="152"
+    width="98"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path
       d="M81.747 95.378c-.295-.785-.59-1.57-.84-2.379-2.93-9.602-4.588-30.266-5.633-42.225C72.866 23.715 63.486 1.526 48.995.718v-.18c-14.49.786-23.87 22.998-26.278 50.034-1.068 11.981-2.703 32.623-5.633 42.226a58.322 58.322 0 01-.84 2.378c-45.108 23.222 21.804 26.273 32.751 26.43v.18c10.948-.157 77.882-3.209 32.752-26.43v.022z"
       fill="#2E3048"

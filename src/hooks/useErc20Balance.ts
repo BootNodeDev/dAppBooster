@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { type Address, erc20Abi, getAddress } from 'viem'
 import { usePublicClient } from 'wagmi'
 
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
 export type Erc20Balance = {

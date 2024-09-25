@@ -11,30 +11,50 @@ const testId = 'hash-input'
 
 describe('HashInput Component', () => {
   it('renders input field', () => {
-    // biome-ignore lint/suspicious/noEmptyBlockStatements: <explanation>
-    render(<HashInput chain={mainnet} onSearch={() => {}} />)
+    render(
+      <HashInput
+        chain={mainnet}
+        // biome-ignore lint/suspicious/noEmptyBlockStatements: <explanation>
+        onSearch={() => {}}
+      />,
+    )
     const input = screen.getByTestId(testId)
     expect(input).toBeInTheDocument()
   })
 
   it('calls onSearch with detected hash when input value is not empty', async () => {
     const onSearchMock = vi.fn()
-    render(<HashInput chain={mainnet} onSearch={onSearchMock} />)
+    render(
+      <HashInput
+        chain={mainnet}
+        onSearch={onSearchMock}
+      />,
+    )
     const input = screen.getByTestId(testId) as HTMLInputElement
 
     // Mock the implementation of detectHash
     ;(detectHash as Mock).mockReturnValue({ data: 'test.eth', type: 'EOA' })
 
-    fireEvent.change(input, { target: { value: '0x1234567890abcdef1234567890abcdef12345678' } })
+    fireEvent.change(input, {
+      target: { value: '0x1234567890abcdef1234567890abcdef12345678' },
+    })
     expect(input.value).toBe('0x1234567890abcdef1234567890abcdef12345678')
     await waitFor(() =>
-      expect(onSearchMock).toHaveBeenCalledWith({ type: 'EOA', data: 'test.eth' }),
+      expect(onSearchMock).toHaveBeenCalledWith({
+        type: 'EOA',
+        data: 'test.eth',
+      }),
     )
   })
 
   it('calls onSearch when input value is invalid', async () => {
     const onSearchMock = vi.fn()
-    render(<HashInput chain={mainnet} onSearch={onSearchMock} />)
+    render(
+      <HashInput
+        chain={mainnet}
+        onSearch={onSearchMock}
+      />,
+    )
     const input = screen.getByTestId(testId) as HTMLInputElement
 
     // Mock the implementation of detectHash
@@ -47,7 +67,12 @@ describe('HashInput Component', () => {
 
   it('calls onSearch when value prop changes', async () => {
     const onSearchMock = vi.fn()
-    const { rerender } = render(<HashInput chain={mainnet} onSearch={onSearchMock} />)
+    const { rerender } = render(
+      <HashInput
+        chain={mainnet}
+        onSearch={onSearchMock}
+      />,
+    )
 
     // Mock the implementation of detectHash
     ;(detectHash as Mock).mockResolvedValue({ data: 'test.eth', type: 'EOA' })
@@ -65,7 +90,10 @@ describe('HashInput Component', () => {
     })
 
     await waitFor(() => {
-      expect(onSearchMock).toHaveBeenCalledWith({ type: 'EOA', data: 'test.eth' })
+      expect(onSearchMock).toHaveBeenCalledWith({
+        type: 'EOA',
+        data: 'test.eth',
+      })
       expect(input.value).toBe('0x1234567890abcdef1234567890abcdef12345678')
     })
   })

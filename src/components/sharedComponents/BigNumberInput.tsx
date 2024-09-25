@@ -132,6 +132,9 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   return renderInput ? (
     renderInput({ ...inputProps, inputRef })
   ) : (
-    <input {...inputProps} ref={inputRef} />
+    <input
+      {...inputProps}
+      ref={inputRef}
+    />
   )
 }

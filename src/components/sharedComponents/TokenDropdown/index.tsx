@@ -1,4 +1,4 @@
-import { type ComponentPropsWithoutRef, type FC, type KeyboardEvent } from 'react'
+import type { ComponentPropsWithoutRef, FC, KeyboardEvent } from 'react'
 import styled, { css } from 'styled-components'
 
 import { breakpointMediaQuery, useDropdown } from '@bootnodedev/db-ui-toolkit'
@@ -6,7 +6,7 @@ import { breakpointMediaQuery, useDropdown } from '@bootnodedev/db-ui-toolkit'
 import DropdownButton from '@/src/components/sharedComponents/TokenDropdown/DropdownButton'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 
 const Wrapper = styled.span`
   ${breakpointMediaQuery(
@@ -83,14 +83,20 @@ const TokenDropdown: FC<Props> = ({
   }
 
   return (
-    <Wrapper className={`${className ? className : ''} tokenDropdownWrapper`} style={style}>
+    <Wrapper
+      className={`${className ? className : ''} tokenDropdownWrapper`}
+      style={style}
+    >
       <Dropdown
         button={
           <DropdownButton>
             {currentToken ? (
               <>
                 <Icon>
-                  <TokenLogo size={iconSize} token={currentToken} />
+                  <TokenLogo
+                    size={iconSize}
+                    token={currentToken}
+                  />
                 </Icon>
                 {currentToken.symbol}
               </>
@@ -99,7 +105,7 @@ const TokenDropdown: FC<Props> = ({
             )}
           </DropdownButton>
         }
-        className={`tokenDropdown`}
+        className={'tokenDropdown'}
         closeOnClick={false}
         id="token-dropdown"
         items={

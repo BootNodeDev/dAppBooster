@@ -1,4 +1,4 @@
-import { type Chain } from 'viem/chains'
+import type { Chain } from 'viem/chains'
 
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
 import type { ChainsIds, chains } from '@/src/lib/networks.config'

@@ -1,4 +1,4 @@
-import { type ComponentType, type FC, type ReactElement } from 'react'
+import type { ComponentType, FC, ReactElement } from 'react'
 import styled from 'styled-components'
 
 import { extractChain } from 'viem'

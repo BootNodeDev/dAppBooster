@@ -1,8 +1,8 @@
-import { type ButtonHTMLAttributes, type FC } from 'react'
+import type { ButtonHTMLAttributes, FC } from 'react'
 import styled from 'styled-components'
 
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 
 const ICON_SIZE = 24
 
@@ -85,7 +85,10 @@ const Item: FC<ItemProps> = ({ token, ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Icon>
-        <TokenLogo size={ICON_SIZE} token={token} />
+        <TokenLogo
+          size={ICON_SIZE}
+          token={token}
+        />
       </Icon>
       <SymbolComponent>{symbol}</SymbolComponent>
     </Wrapper>

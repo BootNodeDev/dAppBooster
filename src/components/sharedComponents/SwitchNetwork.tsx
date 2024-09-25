@@ -31,6 +31,7 @@ const ChevronDown = () => (
     width="24"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <title>Chevron down</title>
     <path
       d="M6 9L12 15L18 9"
       stroke="currentColor"
@@ -142,8 +143,11 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks, ...restProps }) => {
         </Button>
       }
       disabled={!isWalletConnected}
-      items={networks.map(({ icon, id, label }, index) => (
-        <ListItem key={index} onClick={() => handleClick(id)}>
+      items={networks.map(({ icon, id, label }) => (
+        <ListItem
+          key={`${id}-${label}`}
+          onClick={() => handleClick(id)}
+        >
           {icon}
           {label}
         </ListItem>
