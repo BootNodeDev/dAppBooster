@@ -4,21 +4,11 @@
   "files": {
     "ignoreUnknown": false,
     "ignore": [
-      "**/*.css",
-      "**/*.html",
-      "**/*.scss",
-      "**/coverage",
-      "**/dist",
-      "**/dist-ssr",
-      "**/docs",
-      "**/logs",
-      "**/node_modules",
-      "**/pnpm-lock.yaml",
       "build",
       "coverage",
       "dist",
       "dist-ssr",
-      "docs",
+      "docs/dist",
       "logs",
       "node_modules",
       "pnpm-lock.yaml",
@@ -30,22 +20,35 @@
     ]
   },
   "formatter": {
+    "attributePosition": "multiline",
+    "bracketSpacing": true,
     "enabled": true,
-    "useEditorconfig": true,
     "formatWithErrors": false,
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
-    "lineWidth": 100,
-    "attributePosition": "auto",
-    "bracketSpacing": true
+    "lineWidth": 100
+  },
+  "javascript": {
+    "formatter": {
+      "arrowParentheses": "always",
+      "attributePosition": "multiline",
+      "bracketSameLine": false,
+      "bracketSpacing": true,
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all"
+    }
   },
   "organizeImports": { "enabled": true },
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": false,
+      "recommended": true,
       "a11y": {
+        "noSvgWithoutTitle": "off",
         "noAccessKey": "error",
         "noAriaUnsupportedElements": "error",
         "noAutofocus": "error",
@@ -155,19 +158,6 @@
         "useNamespaceKeyword": "error",
         "useValidTypeof": "error"
       }
-    }
-  },
-  "javascript": {
-    "formatter": {
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
-      "trailingCommas": "all",
-      "semicolons": "asNeeded",
-      "arrowParentheses": "always",
-      "bracketSameLine": false,
-      "quoteStyle": "single",
-      "attributePosition": "auto",
-      "bracketSpacing": true
     }
   },
   "overrides": [
