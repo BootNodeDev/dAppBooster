@@ -1,8 +1,6 @@
 export default {
-  'src/**/*.{ts,tsx}': [
-    'prettier --write --ignore-unknown',
-    'eslint --fix',
-    'stylelint --fix',
-    'vitest related --run --coverage=false',
+  "src/**/*.{ts,tsx}": [
+    "stylelint --fix",
+    "vitest related --run --coverage=false",
   ],
-}
+};
