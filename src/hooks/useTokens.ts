@@ -1,13 +1,13 @@
 import { useMemo } from 'react'
 
 import {
-  createConfig,
   EVM,
-  getTokenBalances,
-  getTokens,
   type TokenAmount,
   type TokensResponse,
+  createConfig,
   getChains,
+  getTokenBalances,
+  getTokens,
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { type Address, type Chain, formatUnits } from 'viem'
@@ -15,9 +15,9 @@ import { type Address, type Chain, formatUnits } from 'viem'
 import { env } from '@/src/env'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { type Token, type Tokens } from '@/src/types/token'
+import type { Token, Tokens } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
-import { type TokensMap } from '@/src/utils/tokenListsCache'
+import type { TokensMap } from '@/src/utils/tokenListsCache'
 
 const BALANCE_EXPIRATION_TIME = 32_000
 
@@ -55,15 +55,15 @@ export const useTokens = (
   const { data: chains, isLoading: isLoadingChains } = useQuery({
     queryKey: ['lifi', 'chains'],
     queryFn: () => getChains(),
-    staleTime: Infinity,
-    refetchInterval: Infinity,
-    gcTime: Infinity,
+    staleTime: Number.POSITIVE_INFINITY,
+    refetchInterval: Number.POSITIVE_INFINITY,
+    gcTime: Number.POSITIVE_INFINITY,
     enabled: canFetchBalance,
   })
 
   const dAppChainsId = chainId
     ? [chainId]
-    : Object.keys(tokensData.tokensByChainId).map((id) => parseInt(id))
+    : Object.keys(tokensData.tokensByChainId).map((id) => Number.parseInt(id))
   const lifiChainsId = chains?.map((chain) => chain.id) ?? []
   const chainsToFetch = dAppChainsId.filter((id) => lifiChainsId.includes(id))
 
@@ -72,7 +72,7 @@ export const useTokens = (
     queryFn: () => getTokens({ chains: chainsToFetch }),
     staleTime: BALANCE_EXPIRATION_TIME,
     refetchInterval: BALANCE_EXPIRATION_TIME,
-    gcTime: Infinity,
+    gcTime: Number.POSITIVE_INFINITY,
     enabled: canFetchBalance && !!chains,
   })
 
@@ -80,15 +80,16 @@ export const useTokens = (
     queryKey: ['lifi', 'tokens', 'balances', account, chainsToFetch],
     queryFn: () =>
       getTokenBalances(
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
         account!,
+        // biome-ignore lint/style/noNonNullAssertion: <explanation>
         Object.entries(tokensPricesByChain!.tokens)
-          .filter(([chainId]) => chainsToFetch.includes(parseInt(chainId)))
-          .map(([, tokens]) => tokens)
-          .flat(),
+          .filter(([chainId]) => chainsToFetch.includes(Number.parseInt(chainId)))
+          .flatMap(([, tokens]) => tokens),
       ),
     staleTime: BALANCE_EXPIRATION_TIME,
     refetchInterval: BALANCE_EXPIRATION_TIME,
-    gcTime: Infinity,
+    gcTime: Number.POSITIVE_INFINITY,
     enabled: canFetchBalance && !!tokensPricesByChain,
   })
 
@@ -135,6 +136,7 @@ function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, Toke
     (acc, [chainId, tokens]) => {
       acc[chainId] = {}
 
+      // biome-ignore lint/complexity/noForEach: <explanation>
       tokens.forEach((token) => {
         acc[chainId][token.address] = token.priceUSD ?? '0'
       })
@@ -200,9 +202,9 @@ function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, Toke
  */
 function sortFn(a: Token, b: Token) {
   return (
-    parseFloat(formatUnits((b.extensions?.balance as bigint) ?? 0n, b.decimals)) *
-      parseFloat((b.extensions?.priceUSD as string) ?? '0') -
-    parseFloat(formatUnits((a.extensions?.balance as bigint) ?? 0n, a.decimals)) *
-      parseFloat((a.extensions?.priceUSD as string) ?? '0')
+    Number.parseFloat(formatUnits((b.extensions?.balance as bigint) ?? 0n, b.decimals)) *
+      Number.parseFloat((b.extensions?.priceUSD as string) ?? '0') -
+    Number.parseFloat(formatUnits((a.extensions?.balance as bigint) ?? 0n, a.decimals)) *
+      Number.parseFloat((a.extensions?.priceUSD as string) ?? '0')
   )
 }

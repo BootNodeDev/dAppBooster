@@ -1,4 +1,4 @@
-import { type FC, type HTMLAttributes } from 'react'
+import type { FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import { SkeletonLoading } from '@bootnodedev/db-ui-toolkit'
@@ -9,7 +9,7 @@ import TokenBalance, {
   Balance,
   Value,
 } from '@/src/components/sharedComponents/TokenSelect/List/TokenBalance'
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 
 const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => {
   return { className }
@@ -133,9 +133,15 @@ const Row: FC<TokenSelectRowProps> = ({
   const { name } = token
 
   return (
-    <Wrapper onClick={() => onClick(token)} {...restProps}>
+    <Wrapper
+      onClick={() => onClick(token)}
+      {...restProps}
+    >
       <Icon size={iconSize}>
-        <TokenLogo size={iconSize} token={token} />
+        <TokenLogo
+          size={iconSize}
+          token={token}
+        />
       </Icon>
       <Name>{name}</Name>
       {showAddTokenButton && <AddERC20TokenButton $token={token}>Add token</AddERC20TokenButton>}

@@ -62,7 +62,11 @@ export const Home = () => {
       <Title>Getting started</Title>
       <Ul>
         <li>
-          <a href="https://dappbooster.dev" rel="noreferrer" target="_blank">
+          <a
+            href="https://dappbooster.dev"
+            rel="noreferrer"
+            target="_blank"
+          >
             dAppBooster demo
           </a>
           : a fully functional dAppBooster dApp with plenty of examples.
@@ -78,7 +82,11 @@ export const Home = () => {
           </a>
         </li>
         <li>
-          <a href="https://bootnodedev.github.io/dAppBooster/" rel="noreferrer" target="_blank">
+          <a
+            href="https://bootnodedev.github.io/dAppBooster/"
+            rel="noreferrer"
+            target="_blank"
+          >
             Components documentation
           </a>
         </li>

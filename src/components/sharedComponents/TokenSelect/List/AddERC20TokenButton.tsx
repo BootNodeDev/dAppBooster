@@ -1,8 +1,8 @@
-import { type FC, type MouseEventHandler, type ComponentPropsWithoutRef } from 'react'
+import type { ComponentPropsWithoutRef, FC, MouseEventHandler } from 'react'
 import styled from 'styled-components'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
 const Wrapper = styled.button.attrs(({ className = 'tokenSelectAddERC20TokenButton' }) => {
@@ -78,7 +78,11 @@ const AddERC20TokenButton: FC<AddERC20TokenButtonProps> = ({
   }
 
   return isNativeToken(address) ? null : (
-    <Wrapper disabled={disabled} onClick={handleClick} {...restProps}>
+    <Wrapper
+      disabled={disabled}
+      onClick={handleClick}
+      {...restProps}
+    >
       {children}
     </Wrapper>
   )

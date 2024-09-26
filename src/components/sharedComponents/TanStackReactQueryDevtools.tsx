@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { Suspense, lazy } from 'react'
 
 const ReactQueryDevtools = import.meta.env.PROD
   ? () => null
