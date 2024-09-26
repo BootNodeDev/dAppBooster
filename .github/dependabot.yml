@@ -12,10 +12,3 @@ updates:
     labels:
       - "dependencies"
       - "pnpm"
-    reviewers:
-      - "fernandomg"
-      - "luchobonatti"
-      - "nicosampler"
-      - "paterson1"
-      - "tloffler"
-      - "gabitoesmiapodo"

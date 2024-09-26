@@ -155,7 +155,7 @@ const tokenNonTxFormatter: FormatterRule[] = [
   { upperBound: 1, formatter: THREE_DECIMALS },
   { upperBound: 1e6, formatter: TWO_DECIMALS },
   { upperBound: 1e15, formatter: SHORTHAND_TWO_DECIMALS },
-  { upperBound: Infinity, formatter: '>999T' },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: '>999T' },
 ]
 
 const tokenTxFormatter: FormatterRule[] = [
@@ -163,14 +163,14 @@ const tokenTxFormatter: FormatterRule[] = [
   { upperBound: 0.00001, formatter: '<0.00001' },
   { upperBound: 1, formatter: FIVE_DECIMALS_MAX_TWO_DECIMALS_MIN },
   { upperBound: 10000, formatter: SIX_SIG_FIGS_TWO_DECIMALS },
-  { upperBound: Infinity, formatter: TWO_DECIMALS },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: TWO_DECIMALS },
 ]
 
 const swapTradeAmountFormatter: FormatterRule[] = [
   { exact: 0, formatter: '0' },
   { upperBound: 0.1, formatter: SIX_SIG_FIGS_NO_COMMAS },
   { upperBound: 1, formatter: FIVE_DECIMALS_MAX_TWO_DECIMALS_MIN_NO_COMMAS },
-  { upperBound: Infinity, formatter: SIX_SIG_FIGS_TWO_DECIMALS_NO_COMMAS },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: SIX_SIG_FIGS_TWO_DECIMALS_NO_COMMAS },
 ]
 
 const swapPriceFormatter: FormatterRule[] = [
@@ -185,7 +185,7 @@ const fiatTokenDetailsFormatter: FormatterRule[] = [
   { upperBound: 0.1, formatter: THREE_SIG_FIGS_USD },
   { upperBound: 1.05, formatter: THREE_DECIMALS_USD },
   { upperBound: 1e6, formatter: TWO_DECIMALS_USD },
-  { upperBound: Infinity, formatter: SHORTHAND_USD_TWO_DECIMALS },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: SHORTHAND_USD_TWO_DECIMALS },
 ]
 
 const fiatTokenPricesFormatter: FormatterRule[] = [
@@ -194,7 +194,7 @@ const fiatTokenPricesFormatter: FormatterRule[] = [
   { upperBound: 1, formatter: THREE_SIG_FIGS_USD },
   { upperBound: 1e6, formatter: TWO_DECIMALS_USD },
   { upperBound: 1e16, formatter: SHORTHAND_USD_TWO_DECIMALS },
-  { upperBound: Infinity, formatter: SEVEN_SIG_FIGS__SCI_NOTATION_USD },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: SEVEN_SIG_FIGS__SCI_NOTATION_USD },
 ]
 
 const fiatTokenStatsFormatter: FormatterRule[] = [
@@ -202,21 +202,21 @@ const fiatTokenStatsFormatter: FormatterRule[] = [
   { exact: 0, formatter: '-' },
   { upperBound: 0.01, formatter: '<$0.01' },
   { upperBound: 1000, formatter: TWO_DECIMALS_USD },
-  { upperBound: Infinity, formatter: SHORTHAND_USD_ONE_DECIMAL },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: SHORTHAND_USD_ONE_DECIMAL },
 ]
 
 const fiatGasPriceFormatter: FormatterRule[] = [
   { exact: 0, formatter: '$0.00' },
   { upperBound: 0.01, formatter: '<$0.01' },
   { upperBound: 1e6, formatter: TWO_DECIMALS_USD },
-  { upperBound: Infinity, formatter: SHORTHAND_USD_TWO_DECIMALS },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: SHORTHAND_USD_TWO_DECIMALS },
 ]
 
 const fiatTokenQuantityFormatter = [{ exact: 0, formatter: '$0.00' }, ...fiatGasPriceFormatter]
 
 const portfolioBalanceFormatter: FormatterRule[] = [
   { exact: 0, formatter: '$0.00' },
-  { upperBound: Infinity, formatter: TWO_DECIMALS_USD },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: TWO_DECIMALS_USD },
 ]
 
 const ntfTokenFloorPriceFormatterTrailingZeros: FormatterRule[] = [
@@ -225,7 +225,7 @@ const ntfTokenFloorPriceFormatterTrailingZeros: FormatterRule[] = [
   { upperBound: 1, formatter: THREE_DECIMALS },
   { upperBound: 1000, formatter: TWO_DECIMALS },
   { upperBound: 1e15, formatter: SHORTHAND_TWO_DECIMALS },
-  { upperBound: Infinity, formatter: '>999T' },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: '>999T' },
 ]
 
 const ntfTokenFloorPriceFormatter: FormatterRule[] = [
@@ -234,12 +234,12 @@ const ntfTokenFloorPriceFormatter: FormatterRule[] = [
   { upperBound: 1, formatter: THREE_DECIMALS_NO_TRAILING_ZEROS },
   { upperBound: 1000, formatter: TWO_DECIMALS_NO_TRAILING_ZEROS },
   { upperBound: 1e15, formatter: SHORTHAND_TWO_DECIMALS_NO_TRAILING_ZEROS },
-  { upperBound: Infinity, formatter: '>999T' },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: '>999T' },
 ]
 
 const ntfCollectionStatsFormatter: FormatterRule[] = [
   { upperBound: 1000, formatter: NO_DECIMALS },
-  { upperBound: Infinity, formatter: SHORTHAND_ONE_DECIMAL },
+  { upperBound: Number.POSITIVE_INFINITY, formatter: SHORTHAND_ONE_DECIMAL },
 ]
 
 export enum NumberType {
@@ -331,7 +331,7 @@ export function formatNumber(
 
 export function formatNumberOrString(price: Nullish<number | string>, type: NumberType): string {
   if (price === null || price === undefined) return '-'
-  if (typeof price === 'string') return formatNumber(parseFloat(price), type)
+  if (typeof price === 'string') return formatNumber(Number.parseFloat(price), type)
   return formatNumber(price, type)
 }
 

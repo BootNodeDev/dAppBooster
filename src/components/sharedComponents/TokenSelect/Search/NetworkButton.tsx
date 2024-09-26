@@ -9,6 +9,7 @@ const ChevronDown = () => (
     width="24"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <title>Chevron down</title>
     <path
       d="M6 9L12 15L18 9"
       stroke="currentColor"
@@ -36,7 +37,10 @@ const NetworkButton = styled.button.attrs(
   },
 )`
   align-items: center;
-  background-color: var(--theme-token-select-network-button-background-color, #f7f7f7);
+  background-color: var(
+    --theme-token-select-network-button-background-color,
+    #f7f7f7
+  );
   border-radius: var(--base-border-radius, 8px);
   border: none;
   color: var(--theme-token-select-network-button-color, #2e3048);

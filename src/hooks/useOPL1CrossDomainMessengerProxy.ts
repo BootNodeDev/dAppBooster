@@ -1,16 +1,15 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback } from 'react'
 
-import { type Address, createPublicClient, encodeFunctionData, type Hash } from 'viem'
+import { type Address, type Hash, createPublicClient, encodeFunctionData } from 'viem'
 import type { mainnet } from 'viem/chains'
-import { sepolia, optimism, optimismSepolia } from 'viem/chains'
+import { optimism, optimismSepolia, sepolia } from 'viem/chains'
 import { useWriteContract } from 'wagmi'
 
 import {
   type ContractFunctionArgs,
+  type ContractFunctionName,
   type ContractNames,
   getContract,
-  type ContractFunctionName,
 } from '@/src/constants/contracts/contracts'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { transports } from '@/src/lib/networks.config'
@@ -23,12 +22,12 @@ async function l2ContractCallInfo({
   walletAddress,
   chain,
 }: {
+  args: ContractFunctionArgs<typeof contractName, typeof functionName>
+  chain: typeof optimismSepolia | typeof optimism
   contractName: ContractNames
   functionName: ContractFunctionName<typeof contractName>
-  args: ContractFunctionArgs<typeof contractName, typeof functionName>
   value?: bigint
   walletAddress: Address
-  chain: typeof optimismSepolia | typeof optimism
 }) {
   const contract = getContract(contractName, chain.id)
 
@@ -41,9 +40,11 @@ async function l2ContractCallInfo({
     address: contract.address,
     abi: contract.abi,
     functionName,
-    args: args as any, // TODO: TS does not infer correctly the type of valueuseop
+    // biome-ignore lint/suspicious/noExplicitAny: TS does not infer correctly the type of valueuseop
+    args: args as any,
     account: walletAddress,
-    value: value as any, // TODO: TS does not infer correctly the type of value
+    // biome-ignore lint/suspicious/noExplicitAny: TS does not infer correctly the type of value
+    value: value as any,
   })
 
   const message = encodeFunctionData({
@@ -68,7 +69,10 @@ function estimateGasL1CrossDomainMessenger({
 }) {
   const contract = getContract('OPL1CrossDomainMessengerProxy', chain.id)
 
-  const readOnlyClient = createPublicClient({ transport: transports[chain.id], chain })
+  const readOnlyClient = createPublicClient({
+    transport: transports[chain.id],
+    chain,
+  })
 
   return readOnlyClient.estimateContractGas({
     address: contract.address,
@@ -118,7 +122,7 @@ export function useL1CrossDomainMessengerProxy({
       args,
       value,
       walletAddress,
-      chain: fromChain == sepolia ? optimismSepolia : optimism,
+      chain: fromChain === sepolia ? optimismSepolia : optimism,
     })
 
     const l1Gas = await estimateGasL1CrossDomainMessenger({

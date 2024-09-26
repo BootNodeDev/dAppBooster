@@ -48,10 +48,18 @@ const VirtualizedList = <Item,>({
   })
 
   return (
-    <Wrapper $containerHeight={containerHeight} ref={parentRef} {...restProps}>
+    <Wrapper
+      $containerHeight={containerHeight}
+      ref={parentRef}
+      {...restProps}
+    >
       <Items height={rowVirtualizer.getTotalSize()}>
         {rowVirtualizer.getVirtualItems().map(({ index, key, size, start }) => (
-          <VisibleItems height={size} key={key} start={start}>
+          <VisibleItems
+            height={size}
+            key={key}
+            start={start}
+          >
             {renderItem(items[index])}
           </VisibleItems>
         ))}

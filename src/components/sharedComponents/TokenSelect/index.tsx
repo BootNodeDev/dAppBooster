@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, type ComponentPropsWithoutRef } from 'react'
+import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-import { type Chain } from 'viem/chains'
+import type { Chain } from 'viem/chains'
 
 import List from '@/src/components/sharedComponents/TokenSelect/List'
 import Search from '@/src/components/sharedComponents/TokenSelect/Search'
@@ -12,7 +12,7 @@ import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useTokens } from '@/src/hooks/useTokens'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { chains } from '@/src/lib/networks.config'
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectWrapper' }) => {
@@ -221,7 +221,10 @@ const TokenSelect = withSuspenseAndRetry<Props>(
           setSearchTerm={setSearchTerm}
         />
         {showTopTokens && (
-          <TopTokens onTokenSelect={onTokenSelect} tokens={tokensByChainId[chainId]} />
+          <TopTokens
+            onTokenSelect={onTokenSelect}
+            tokens={tokensByChainId[chainId]}
+          />
         )}
         <List
           containerHeight={containerHeight}

@@ -1,9 +1,9 @@
-import { type ComponentProps, type FC } from 'react'
+import type { ComponentProps, FC } from 'react'
 import styled from 'styled-components'
 
 import Row from '@/src/components/sharedComponents/TokenSelect/List/Row'
 import VirtualizedList from '@/src/components/sharedComponents/TokenSelect/List/VirtualizedList'
-import { type Token, type Tokens } from '@/src/types/token'
+import type { Token, Tokens } from '@/src/types/token'
 
 const Wrapper = styled.div.attrs<{ $containerHeight?: number }>(
   ({ className = 'tokenSelectList' }) => ({
@@ -63,7 +63,10 @@ const List: FC<TokenSelectListProps> = ({
   ...restProps
 }) => {
   return (
-    <Wrapper $containerHeight={containerHeight} className={`${className ? className : ''}`.trim()}>
+    <Wrapper
+      $containerHeight={containerHeight}
+      className={`${className ? className : ''}`.trim()}
+    >
       {tokenList?.length ? (
         <VirtualizedList<Token>
           containerHeight={containerHeight}

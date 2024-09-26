@@ -5,7 +5,7 @@
  * @packageDocumentation
  */
 import { http, type Transport } from 'viem'
-import { arbitrum, mainnet, optimismSepolia, sepolia, polygon, optimism } from 'viem/chains'
+import { arbitrum, mainnet, optimism, optimismSepolia, polygon, sepolia } from 'viem/chains'
 
 import { includeTestnets } from '@/src/constants/common'
 import { env } from '@/src/env'

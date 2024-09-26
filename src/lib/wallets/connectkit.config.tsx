@@ -1,9 +1,9 @@
-import { type FC, type ReactNode } from 'react'
+import type { FC, ReactNode } from 'react'
 
-import { getDefaultConfig, ConnectKitProvider, ConnectKitButton, type Types } from 'connectkit'
-import { type Address } from 'viem'
+import { ConnectKitButton, ConnectKitProvider, type Types, getDefaultConfig } from 'connectkit'
+import type { Address } from 'viem'
 import { normalize } from 'viem/ens'
-import { createConfig, useEnsName, useEnsAvatar } from 'wagmi'
+import { createConfig, useEnsAvatar, useEnsName } from 'wagmi'
 
 import Avatar from '@/src/components/sharedComponents/Avatar'
 import ConnectButton from '@/src/components/sharedComponents/ConnectButton'
@@ -22,7 +22,14 @@ const UserAvatar: FC<Props> = ({ address, size }: Props) => {
     name: ensName ? normalize(ensName) : undefined,
   })
 
-  return <Avatar address={address} ensImage={avatarImg} ensName={ensName} size={size} />
+  return (
+    <Avatar
+      address={address}
+      ensImage={avatarImg}
+      ensName={ensName}
+      size={size}
+    />
+  )
 }
 
 export const WalletProvider = ({ children }: { children: ReactNode }) => {
@@ -52,7 +59,12 @@ export const ConnectWalletButton = ({ label = 'Connect', ...restProps }: { label
           >
             {isConnected ? (
               <>
-                {address && <UserAvatar address={address} size={24} />}
+                {address && (
+                  <UserAvatar
+                    address={address}
+                    size={24}
+                  />
+                )}
                 {truncatedAddress}
               </>
             ) : (

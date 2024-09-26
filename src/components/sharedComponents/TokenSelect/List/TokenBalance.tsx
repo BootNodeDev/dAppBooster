@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import { formatUnits } from 'viem'
 
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 /** @ignore */
@@ -65,7 +65,7 @@ const TokenBalance = withSuspenseAndRetry<TokenBalanceProps>(({ isLoading, token
 
   const balance = formatUnits((token.extensions?.balance ?? 0n) as bigint, token.decimals)
   const value = (
-    parseFloat((token.extensions?.priceUSD ?? '0') as string) * parseFloat(balance)
+    Number.parseFloat((token.extensions?.priceUSD ?? '0') as string) * Number.parseFloat(balance)
   ).toFixed(2)
 
   return (

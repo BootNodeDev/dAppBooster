@@ -1,4 +1,4 @@
-import { type FC, type ComponentProps } from 'react'
+import type { ComponentProps, FC } from 'react'
 
 import { type GetExplorerUrlParams, getExplorerLink } from '@/src/utils/getExplorerLink'
 
@@ -25,7 +25,11 @@ interface ExplorerLinkProps extends GetExplorerUrlParams, ComponentProps<'a'> {
  */
 export const ExplorerLink: FC<ExplorerLinkProps> = ({ text = 'View on explorer', ...props }) => {
   return (
-    <a href={getExplorerLink(props)} rel="noopener noreferrer" target="_blank">
+    <a
+      href={getExplorerLink(props)}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
       {text}
     </a>
   )

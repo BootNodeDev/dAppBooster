@@ -1,4 +1,4 @@
-import { type ReactNode, Suspense, type ComponentType, type JSX } from 'react'
+import { type ComponentType, type JSX, type ReactNode, Suspense } from 'react'
 
 import { GeneralMessageDialog, Spinner } from '@bootnodedev/db-ui-toolkit'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
@@ -15,7 +15,12 @@ export type WithSuspenseProps = {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-const DefaultFallback = (): JSX.Element => <Spinner height="40" width="40" />
+const DefaultFallback = (): JSX.Element => (
+  <Spinner
+    height="40"
+    width="40"
+  />
+)
 
 /**
  * A generic wrapper for all the components that use suspense
@@ -39,7 +44,7 @@ export const withSuspense = <WrappedProps extends object>(
 
     const fallbackRenderers = {
       default: <>{errorMessage}</>,
-      dialog: <GeneralMessageDialog message={<>{errorMessage}</>} />,
+      dialog: <GeneralMessageDialog message={<span>{errorMessage}</span>} />,
     }
 
     const fallback = fallbackRenderers[defaultFallbackFormat] ?? null
@@ -69,7 +74,13 @@ const defaultFallbackRender: ErrorBoundaryPropsWithRender['fallbackRender'] = ({
   resetErrorBoundary: () => void
 }) => (
   <>
-    {error.message} <button onClick={resetErrorBoundary}>Try Again</button>
+    {error.message}{' '}
+    <button
+      type="button"
+      onClick={resetErrorBoundary}
+    >
+      Try Again
+    </button>
   </>
 )
 
@@ -131,7 +142,10 @@ export const withSuspenseAndRetry = <WrappedProps extends object>(
     return (
       <QueryErrorResetBoundary>
         {({ reset }) => (
-          <ErrorBoundary fallbackRender={fallbackRender} onReset={reset}>
+          <ErrorBoundary
+            fallbackRender={fallbackRender}
+            onReset={reset}
+          >
             <Suspense fallback={suspenseFallback ?? <DefaultFallback />}>
               <WrappedComponent {...(restProps as WrappedProps)} />
             </Suspense>
