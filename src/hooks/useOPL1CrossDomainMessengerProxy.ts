@@ -40,11 +40,11 @@ async function l2ContractCallInfo({
     address: contract.address,
     abi: contract.abi,
     functionName,
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    args: args as any, // TODO: TS does not infer correctly the type of valueuseop
+    // biome-ignore lint/suspicious/noExplicitAny: TS does not infer correctly the type of valueuseop
+    args: args as any,
     account: walletAddress,
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-    value: value as any, // TODO: TS does not infer correctly the type of value
+    // biome-ignore lint/suspicious/noExplicitAny: TS does not infer correctly the type of value
+    value: value as any,
   })
 
   const message = encodeFunctionData({
