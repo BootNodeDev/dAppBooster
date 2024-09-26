@@ -1,52 +1,26 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.2/schema.json",
-  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": false },
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
   "files": {
-    "ignoreUnknown": false,
     "ignore": [
-      "build",
-      "coverage",
-      "dist",
-      "dist-ssr",
-      "docs/dist",
-      "logs",
-      "node_modules",
-      "pnpm-lock.yaml",
-      "src/hooks/generated.ts",
       "src/routeTree.gen.ts",
-      "src/subgraphs/gql",
       "src/subgraphs/queries/aave",
       "src/subgraphs/queries/uniswap"
     ]
   },
   "formatter": {
     "attributePosition": "multiline",
-    "bracketSpacing": true,
-    "enabled": true,
-    "formatWithErrors": false,
     "indentStyle": "space",
-    "indentWidth": 2,
-    "lineEnding": "lf",
     "lineWidth": 100
   },
   "javascript": {
     "formatter": {
-      "arrowParentheses": "always",
-      "attributePosition": "multiline",
-      "bracketSameLine": false,
-      "bracketSpacing": true,
-      "jsxQuoteStyle": "double",
-      "quoteProperties": "asNeeded",
       "quoteStyle": "single",
-      "semicolons": "asNeeded",
-      "trailingCommas": "all"
+      "semicolons": "asNeeded"
     }
   },
-  "organizeImports": { "enabled": true },
   "linter": {
-    "enabled": true,
     "rules": {
-      "recommended": true,
       "a11y": {
         "noSvgWithoutTitle": "off",
         "noAccessKey": "error",
