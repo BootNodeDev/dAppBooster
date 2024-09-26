@@ -175,8 +175,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1(@types/node@22.6.1)(jsdom@25.0.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(terser@5.33.0)
       vocs:
-        specifier: 1.0.0-alpha.58
-        version: 1.0.0-alpha.58(@types/node@22.6.1)(@types/react-dom@18.3.0)(@types/react@18.3.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.22.4)(terser@5.33.0)(ts-node@10.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@types/node@22.6.1)(typescript@5.6.2))(typescript@5.6.2)
+        specifier: 1.0.0-alpha.59
+        version: 1.0.0-alpha.59(@types/node@22.6.1)(@types/react-dom@18.3.0)(@types/react@18.3.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.22.4)(terser@5.33.0)(ts-node@10.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@types/node@22.6.1)(typescript@5.6.2))(typescript@5.6.2)
 
 packages:
 
@@ -7232,8 +7232,8 @@ packages:
   vlq@1.0.1:
     resolution: {integrity: sha512-gQpnTgkubC6hQgdIcRdYGDSDc+SaujOdyesZQMv6JlfQee/9Mp0Qhnys6WxDWvQnL5WZdT7o2Ul187aSt0Rq+w==}
 
-  vocs@1.0.0-alpha.58:
-    resolution: {integrity: sha512-nQkQK7yz7ZiQyiM0ILzyEacwWfvguQkZzYeFmimX5KwDUndKV9s07VeGGopL2kqQOXSfgMcuTlKWtqM/jAQtsw==}
+  vocs@1.0.0-alpha.59:
+    resolution: {integrity: sha512-N3u4SUgGKeGWsfosjSZ7e2GLxvEZ0hvEjxcx8XbYmo5cw8D4AqCAraGLCCWBd55MVGMPXebnQpMEtOmjw8BHnA==}
     hasBin: true
     peerDependencies:
       react: ^18.2.0
@@ -15992,7 +15992,7 @@ snapshots:
 
   vlq@1.0.1: {}
 
-  vocs@1.0.0-alpha.58(@types/node@22.6.1)(@types/react-dom@18.3.0)(@types/react@18.3.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.22.4)(terser@5.33.0)(ts-node@10.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@types/node@22.6.1)(typescript@5.6.2))(typescript@5.6.2):
+  vocs@1.0.0-alpha.59(@types/node@22.6.1)(@types/react-dom@18.3.0)(@types/react@18.3.9)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.22.4)(terser@5.33.0)(ts-node@10.9.2(@swc/core@1.7.28(@swc/helpers@0.5.13))(@types/node@22.6.1)(typescript@5.6.2))(typescript@5.6.2):
     dependencies:
       '@floating-ui/react': 0.26.24(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@hono/node-server': 1.13.1(hono@3.12.12)
@@ -16126,7 +16126,7 @@ snapshots:
   webauthn-p256@0.0.5:
     dependencies:
       '@noble/curves': 1.4.0
-      '@noble/hashes': 1.4.0
+      '@noble/hashes': 1.5.0
 
   webextension-polyfill@0.10.0: {}
 
