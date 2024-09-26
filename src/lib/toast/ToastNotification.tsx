@@ -19,7 +19,12 @@ export const ToastNotification = ({
   return (
     <div>
       <div>{message}</div>
-      {hash && <ExplorerLink chain={chain} hashOrAddress={hash} />}
+      {hash && (
+        <ExplorerLink
+          chain={chain}
+          hashOrAddress={hash}
+        />
+      )}
     </div>
   )
 }

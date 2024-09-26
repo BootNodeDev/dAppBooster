@@ -1,11 +1,11 @@
-import { type HTMLAttributes, type Dispatch, type SetStateAction, type FC } from 'react'
+import type { Dispatch, FC, HTMLAttributes, SetStateAction } from 'react'
 import styled from 'styled-components'
 
-import { Dropdown, Item as BaseItem } from '@bootnodedev/db-ui-toolkit'
+import { Item as BaseItem, Dropdown } from '@bootnodedev/db-ui-toolkit'
 
 import SearchInput from '@/src/components/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/components/sharedComponents/TokenSelect/Search/NetworkButton'
-import { type Networks } from '@/src/components/sharedComponents/TokenSelect/types'
+import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) => {
   return { className }
@@ -71,7 +71,10 @@ const Search: FC<SearchProps> = ({
             </NetworkButton>
           }
           items={networks.map(({ icon, id, label, onClick }) => (
-            <Item key={id} onClick={onClick}>
+            <Item
+              key={id}
+              onClick={onClick}
+            >
               {icon}
               {label}
             </Item>

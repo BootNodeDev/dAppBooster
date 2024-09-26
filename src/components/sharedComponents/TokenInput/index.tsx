@@ -1,4 +1,4 @@
-import { useMemo, type FC, type ComponentPropsWithoutRef } from 'react'
+import { type ComponentPropsWithoutRef, type FC, useMemo } from 'react'
 import styled from 'styled-components'
 
 import { Spinner } from '@bootnodedev/db-ui-toolkit'
@@ -7,8 +7,8 @@ import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits } from 'viem'
 
 import {
-  type BigNumberInputProps,
   BigNumberInput,
+  type BigNumberInputProps,
   type RenderInputProps,
 } from '@/src/components/sharedComponents/BigNumberInput'
 import {
@@ -17,7 +17,7 @@ import {
   BottomRow,
   CloseButton,
   DropdownButton,
-  Error,
+  ErrorComponent,
   EstimatedUSDValue,
   Icon,
   MaxButton,
@@ -32,7 +32,7 @@ import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import BaseTokenSelect, {
   type TokenSelectProps,
 } from '@/src/components/sharedComponents/TokenSelect'
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 
 const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
@@ -181,7 +181,10 @@ const TokenInput: FC<Props> = ({
     selectedToken ? (
       <>
         <Icon $iconSize={selectIconSize}>
-          <TokenLogo size={selectIconSize} token={selectedToken} />
+          <TokenLogo
+            size={selectIconSize}
+            token={selectedToken}
+          />
         </Icon>
         {selectedToken.symbol}
       </>
@@ -226,20 +229,23 @@ const TokenInput: FC<Props> = ({
             <BalanceValue>
               {balanceError && 'Error...'}
               {isLoadingBalance ? (
-                <Spinner height={20} width={20} />
+                <Spinner
+                  height={20}
+                  width={20}
+                />
               ) : (
                 `Balance: ${formatUnits(balance ?? 0n, selectedToken?.decimals ?? 0)}`
               )}
             </BalanceValue>
             <MaxButton
-              disabled={isLoadingBalance || !!balanceError || balance == 0n}
+              disabled={isLoadingBalance || !!balanceError || balance === 0n}
               onClick={handleSetMax}
             >
               Max
             </MaxButton>
           </Balance>
         </BottomRow>
-        {amountError && <Error>{amountError}</Error>}
+        {amountError && <ErrorComponent>{amountError}</ErrorComponent>}
       </Wrapper>
       <Modal slug="token-select">
         <TokenSelect
@@ -293,7 +299,7 @@ function TokenAmountField({
       onValueChange={({ value }) => onChange?.(value)}
       thousandSeparator={thousandSeparator}
       // NumericFormat has defaultValue prop overwritten and is not compatible with the standard
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       {...(restProps as any)}
     />
   )

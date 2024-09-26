@@ -1,12 +1,12 @@
-import { type ButtonHTMLAttributes, type FC } from 'react'
+import type { ButtonHTMLAttributes, FC } from 'react'
 import styled from 'styled-components'
 
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
-import { type Token } from '@/src/types/token'
+import type { Token } from '@/src/types/token'
 
 const ICON_SIZE = 24
 
-const Symbol = styled.div.attrs(({ className = 'tokenSelectTopTokenItemSymbol' }) => {
+const SymbolComponent = styled.div.attrs(({ className = 'tokenSelectTopTokenItemSymbol' }) => {
   return {
     className,
   }
@@ -45,7 +45,7 @@ const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', ta
       var(--theme-token-select-top-token-item-border-color, #e2e0e7)
     );
 
-    ${Symbol} {
+    ${SymbolComponent} {
       color: var(
         --theme-token-select-top-token-item-color-hover,
         var(--theme-token-select-top-token-item-color, #2e3048)
@@ -85,9 +85,12 @@ const Item: FC<ItemProps> = ({ token, ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Icon>
-        <TokenLogo size={ICON_SIZE} token={token} />
+        <TokenLogo
+          size={ICON_SIZE}
+          token={token}
+        />
       </Icon>
-      <Symbol>{symbol}</Symbol>
+      <SymbolComponent>{symbol}</SymbolComponent>
     </Wrapper>
   )
 }

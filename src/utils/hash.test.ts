@@ -1,7 +1,7 @@
-import { type Chain, type Transaction } from 'viem'
+import type { Chain, Transaction } from 'viem'
 import * as viemActions from 'viem/actions'
 import { mainnet } from 'viem/chains'
-import { describe, it, expect, vi, type Mock } from 'vitest'
+import { type Mock, describe, expect, it, vi } from 'vitest'
 
 import detectHash from '@/src/utils/hash'
 
@@ -25,7 +25,6 @@ describe('detectHash', () => {
     const ensName = 'test.eth'
 
     const address = '0x1234567890abcdef1234567890abcdef12345678'
-
     ;(viemActions.getEnsAddress as Mock).mockResolvedValueOnce(address)
 
     const result = await detectHash({ chain, hashOrString: ensName })
@@ -39,7 +38,6 @@ describe('detectHash', () => {
   it('should detect a valid transaction hash', async () => {
     const txHash = '0xd85ef8c70dc31a4f8d5bf0331e1eac886935905f15d32e71b348df745cd38e19'
     const transaction = { hash: txHash } as unknown as Transaction
-
     ;(viemActions.getTransaction as Mock).mockResolvedValueOnce(transaction)
 
     const result = await detectHash({ chain, hashOrString: txHash })
@@ -66,7 +64,6 @@ describe('detectHash', () => {
     const eoaAddress = '0x1234567890abcdef1234567890abcdef12345678'
 
     const ensName = 'test.eth'
-
     ;(viemActions.getBytecode as Mock).mockResolvedValueOnce('0x')
     ;(viemActions.getEnsName as Mock).mockResolvedValueOnce(ensName)
 

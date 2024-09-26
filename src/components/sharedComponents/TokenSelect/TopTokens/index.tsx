@@ -1,8 +1,8 @@
-import { type FC, type HTMLAttributes } from 'react'
+import type { FC, HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
 import Item from '@/src/components/sharedComponents/TokenSelect/TopTokens/Item'
-import { type Tokens, type Token } from '@/src/types/token'
+import type { Token, Tokens } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
 const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' }) => {
@@ -47,8 +47,13 @@ const TopTokens: FC<TopTokensProps> = ({ onTokenSelect, tokens, ...restProps }) 
         // if token is not found, filter it out
         .filter(Boolean)
         // render the token
-        .map((token, index) => (
-          <Item key={index} onClick={() => onTokenSelect(token)} token={token!} />
+        .map((token) => (
+          <Item
+            key={`token_${token?.address}`}
+            onClick={() => onTokenSelect(token)}
+            // biome-ignore lint/style/noNonNullAssertion: <explanation>
+            token={token!}
+          />
         ))}
     </Wrapper>
   )

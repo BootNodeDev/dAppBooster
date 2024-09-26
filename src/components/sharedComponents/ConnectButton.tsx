@@ -1,4 +1,4 @@
-import { type ComponentProps } from 'react'
+import type { ComponentProps } from 'react'
 import styled, { css } from 'styled-components'
 
 import { Button, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'

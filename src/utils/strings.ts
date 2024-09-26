@@ -30,7 +30,7 @@ export const truncateStringInTheMiddle = (
  * @param {string} hash - The hash to truncate
  * @param {number} [length=6] - The number of characters to show at the start and end of the hash. Min is 1, max is 16. Default is 6.
  */
-export const getTruncatedHash = (hash: string, length: number = 6): string => {
+export const getTruncatedHash = (hash: string, length = 6): string => {
   const sanitizeLength = (length: number): number => {
     // min and max are arbitrary reasonable values, just to make sure the length is not too short or too long
     const min = 1

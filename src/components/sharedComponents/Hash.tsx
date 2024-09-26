@@ -1,7 +1,7 @@
-import { type FC, type MouseEventHandler, type ComponentProps } from 'react'
+import type { ComponentProps, FC, MouseEventHandler } from 'react'
 import styled from 'styled-components'
 
-import { ExternalLink, CopyButton } from '@bootnodedev/db-ui-toolkit'
+import { CopyButton, ExternalLink } from '@bootnodedev/db-ui-toolkit'
 
 import { getTruncatedHash } from '@/src/utils/strings'
 
@@ -59,7 +59,12 @@ const Hash: FC<HashProps> = ({
       <HashValue>
         {truncatedHashLength === 'disabled' ? hash : getTruncatedHash(hash, truncatedHashLength)}
       </HashValue>
-      {showCopyButton && <CopyButton onClick={onCopy} value={hash} />}
+      {showCopyButton && (
+        <CopyButton
+          onClick={onCopy}
+          value={hash}
+        />
+      )}
       {explorerURL && <ExternalLink href={explorerURL} />}
     </Wrapper>
   )
