@@ -96,9 +96,10 @@ const TokenLogo: FC<TokenLogoProps> = ({ size = 24, token }) => {
   const { logoURI } = token
   const [hasError, setHasError] = useState(false)
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: logoURI is cached and needs to be updated (this code should be refactored)
   useEffect(() => {
     setHasError(false)
-  }, [])
+  }, [logoURI])
 
   return logoURI && !hasError ? (
     <img
