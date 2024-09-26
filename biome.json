@@ -1,6 +1,10 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.2/schema.json",
-  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "files": {
     "ignore": [
       "src/routeTree.gen.ts",
@@ -22,7 +26,6 @@
   "linter": {
     "rules": {
       "a11y": {
-        "noSvgWithoutTitle": "off",
         "noAccessKey": "error",
         "noAriaUnsupportedElements": "error",
         "noAutofocus": "error",
@@ -36,6 +39,7 @@
         "noPositiveTabindex": "error",
         "noRedundantAlt": "error",
         "noRedundantRoles": "error",
+        "noSvgWithoutTitle": "off",
         "useAltText": "error",
         "useAnchorContent": "error",
         "useAriaActivedescendantWithTabindex": "error",
@@ -90,12 +94,16 @@
         "useValidForDirection": "error",
         "useYield": "error"
       },
-      "security": { "noDangerouslySetInnerHtmlWithChildren": "error" },
+      "security": {
+        "noDangerouslySetInnerHtmlWithChildren": "error"
+      },
       "style": {
         "noNamespace": "error",
         "noRestrictedGlobals": {
           "level": "error",
-          "options": { "deniedGlobals": ["React"] }
+          "options": {
+            "deniedGlobals": ["React"]
+          }
         },
         "useAsConstAssertion": "error",
         "useBlockStatements": "off"
