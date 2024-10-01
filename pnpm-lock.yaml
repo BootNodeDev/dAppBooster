@@ -30,8 +30,8 @@ importers:
         specifier: ^3.10.8
         version: 3.10.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@uniswap/default-token-list':
-        specifier: ^12.18.0
-        version: 12.18.0
+        specifier: ^12.19.0
+        version: 12.19.0
       '@vercel/analytics':
         specifier: ^1.3.1
         version: 1.3.1(react@18.3.1)
@@ -2899,8 +2899,8 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  '@uniswap/default-token-list@12.18.0':
-    resolution: {integrity: sha512-swKb+RxM12dBXXzP6kRlx56CNBdi8QGa0w8oLUkELjz4g1/2Yilf+fuWxxVDMbTjS1h0HNQtmC7OdjGJrBp8tA==}
+  '@uniswap/default-token-list@12.19.0':
+    resolution: {integrity: sha512-UXgMj7JJK5V7csG6SfP4U6AqLv3HIeXktogVCWB4UjwEE3uUGblVuQdH5rHuh3VHDrZav5MX/wWX+5GotqjUHg==}
 
   '@vanilla-extract/babel-plugin-debug-ids@1.0.6':
     resolution: {integrity: sha512-C188vUEYmw41yxg3QooTs8r1IdbDQQ2mH7L5RkORBnHx74QlmsNfqVmKwAVTgrlYt8JoRaWMtPfGm/Ql0BNQrA==}
@@ -10575,7 +10575,7 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@uniswap/default-token-list@12.18.0': {}
+  '@uniswap/default-token-list@12.19.0': {}
 
   '@vanilla-extract/babel-plugin-debug-ids@1.0.6':
     dependencies:
