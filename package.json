@@ -44,7 +44,7 @@
     "react-number-format": "^5.4.2",
     "styled-components": "^6.1.13",
     "use-debounce": "^10.0.3",
-    "viem": "^2.21.15",
+    "viem": "^2.21.16",
     "wagmi": "^2.12.14",
     "zod": "^3.23.8"
   },
