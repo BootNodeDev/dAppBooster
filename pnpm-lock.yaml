@@ -118,8 +118,8 @@ importers:
         specifier: ^18.3.0
         version: 18.3.0
       '@vitejs/plugin-react-swc':
-        specifier: ^3.7.0
-        version: 3.7.0(@swc/helpers@0.5.13)(vite@5.4.8(@types/node@22.6.1)(terser@5.33.0))
+        specifier: ^3.7.1
+        version: 3.7.1(@swc/helpers@0.5.13)(vite@5.4.8(@types/node@22.6.1)(terser@5.33.0))
       '@vitest/coverage-v8':
         specifier: ^2.1.1
         version: 2.1.1(vitest@2.1.1(@types/node@22.6.1)(jsdom@25.0.1(bufferutil@4.0.8)(utf-8-validate@5.0.10))(terser@5.33.0))
@@ -2933,8 +2933,8 @@ packages:
       react:
         optional: true
 
-  '@vitejs/plugin-react-swc@3.7.0':
-    resolution: {integrity: sha512-yrknSb3Dci6svCd/qhHqhFPDSw0QtjumcqdKMoNNzmOl5lMXTTiqzjWtG4Qask2HdvvzaNgSunbQGet8/GrKdA==}
+  '@vitejs/plugin-react-swc@3.7.1':
+    resolution: {integrity: sha512-vgWOY0i1EROUK0Ctg1hwhtC3SdcDjZcdit4Ups4aPkDcB1jYhmo+RMYWY87cmXMhvtD5uf8lV89j2w16vkdSVg==}
     peerDependencies:
       vite: ^4 || ^5
 
@@ -10659,7 +10659,7 @@ snapshots:
     optionalDependencies:
       react: 18.3.1
 
-  '@vitejs/plugin-react-swc@3.7.0(@swc/helpers@0.5.13)(vite@5.4.8(@types/node@22.6.1)(terser@5.33.0))':
+  '@vitejs/plugin-react-swc@3.7.1(@swc/helpers@0.5.13)(vite@5.4.8(@types/node@22.6.1)(terser@5.33.0))':
     dependencies:
       '@swc/core': 1.7.28(@swc/helpers@0.5.13)
       vite: 5.4.8(@types/node@22.6.1)(terser@5.33.0)
