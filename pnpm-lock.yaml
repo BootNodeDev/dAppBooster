@@ -30,8 +30,8 @@ importers:
         specifier: ^3.10.8
         version: 3.10.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@uniswap/default-token-list':
-        specifier: ^12.18.0
-        version: 12.18.0
+        specifier: ^12.28.0
+        version: 12.28.0
       '@vercel/analytics':
         specifier: ^1.3.1
         version: 1.3.1(react@18.3.1)
@@ -2899,8 +2899,8 @@ packages:
   '@ungap/structured-clone@1.2.0':
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
 
-  '@uniswap/default-token-list@12.18.0':
-    resolution: {integrity: sha512-swKb+RxM12dBXXzP6kRlx56CNBdi8QGa0w8oLUkELjz4g1/2Yilf+fuWxxVDMbTjS1h0HNQtmC7OdjGJrBp8tA==}
+  '@uniswap/default-token-list@12.28.0':
+    resolution: {integrity: sha512-S/2vIooUwAhYncfRyPrxn83pZCuGM+qmcdbxS2QHX44yy7DpNnwco1uUQbBnhkPCZhqeZ8TSNzEv/rkjgUBZOA==}
 
   '@vanilla-extract/babel-plugin-debug-ids@1.0.6':
     resolution: {integrity: sha512-C188vUEYmw41yxg3QooTs8r1IdbDQQ2mH7L5RkORBnHx74QlmsNfqVmKwAVTgrlYt8JoRaWMtPfGm/Ql0BNQrA==}
@@ -3958,6 +3958,7 @@ packages:
 
   eciesjs@0.3.20:
     resolution: {integrity: sha512-Rz5AB8v9+xmMdS/R7RzWPe/R8DP5QfyrkA6ce4umJopoB5su2H2aDy/GcgIfwhmCwxnBkqGf/PbGzmKcGtIgGA==}
+    deprecated: Please upgrade to v0.4+
 
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
@@ -10575,7 +10576,7 @@ snapshots:
 
   '@ungap/structured-clone@1.2.0': {}
 
-  '@uniswap/default-token-list@12.18.0': {}
+  '@uniswap/default-token-list@12.28.0': {}
 
   '@vanilla-extract/babel-plugin-debug-ids@1.0.6':
     dependencies:
