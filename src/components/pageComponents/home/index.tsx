@@ -69,7 +69,15 @@ export const Home = () => {
           >
             dAppBooster demo
           </a>
-          : a fully functional dAppBooster dApp with plenty of examples.
+          : a fully functional dAppBooster dApp with plenty of examples and{' '}
+          <a
+            href="https://docs.dappbooster.dev/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            documentation
+          </a>
+          .
         </li>
         <li>
           {/* TODO: Replace by correct link when the fork is ready */}
@@ -87,7 +95,7 @@ export const Home = () => {
             rel="noreferrer"
             target="_blank"
           >
-            Components documentation
+            Technical components documentation
           </a>
         </li>
         <li>
