@@ -66,13 +66,15 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   const items: ItemProps[] = [
     {
       demo: <ConnectWalletButtonDemo />,
-      href: 'https://bootnodedev.github.io/dAppBooster/index.html#md:wallet-setup',
+      href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_ConnectButton.ConnectButton.html',
       icon: <ImgWallet />,
+      sourceCodeHref:
+        'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/a524d9d65069652de1d187514cc8d635c2d075fd/src/lib/wallets/connectkit.config.tsx',
       text: (
         <>
           Connect to and disconnect from a cryptocurrency wallet, display your{' '}
           <a
-            href="https://bootnodedev.github.io/dAppBooster/functions/sharedComponents_Avatar.Avatar.html"
+            href="https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_Avatar.Avatar.html"
             rel="noreferrer"
             target="_blank"
           >
@@ -85,7 +87,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <HashHandlingDemo />,
-      href: 'https://bootnodedev.github.io/dAppBooster/functions/sharedComponents_Hash.Hash.html',
+      href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_Hash.Hash.html',
       icon: <ImgInputAddress />,
       sourceCodeHref:
         'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/f75be6325de83cfef9753bb29f10f8b6e4679cca/src/components/pageComponents/home/Examples/demos/HashHandlingDemo.tsx#L155',
@@ -99,7 +101,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       demo: <TokenDropdownDemo />,
-      href: 'https://bootnodedev.github.io/dAppBooster/functions/sharedComponents_TokenDropdown.TokenDropdown.html',
+      href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_TokenDropdown.TokenDropdown.html',
       icon: <ImgTokenList />,
       sourceCodeHref:
         'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/f75be6325de83cfef9753bb29f10f8b6e4679cca/src/components/pageComponents/home/Examples/demos/TokenDropdownDemo.tsx#L13',
@@ -122,7 +124,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       demo: <TokenInputDemo />,
       sourceCodeHref:
         'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/f75be6325de83cfef9753bb29f10f8b6e4679cca/src/components/pageComponents/home/Examples/demos/TokenInputDemo.tsx#L38',
-      href: 'https://bootnodedev.github.io/dAppBooster/functions/sharedComponents_TokenInput.TokenInput.html',
+      href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_TokenInput.TokenInput.html',
       icon: <ImgTokenInput />,
       text: (
         <>
@@ -143,7 +145,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       demo: <SwitchNetworkDemo />,
       sourceCodeHref:
         'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SwitchNetworkDemo.tsx#L11',
-      href: 'https://bootnodedev.github.io/dAppBooster/functions/sharedComponents_SwitchNetwork.SwitchNetwork.html',
+      href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_SwitchNetwork.SwitchNetwork.html',
       icon: <ImgSwitch />,
       text: 'Learn how to add or switch networks in supported wallets.',
       title: 'Add / switch network',
@@ -153,7 +155,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       sourceCodeHref:
         'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SubgraphDemo/List.tsx#L249',
       demo: <SubgraphDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster#subgraphs',
+      href: 'https://docs.dappbooster.dev/plugins/subgraphs',
       icon: <ImgSubgraph />,
       text: 'Connect to subgraphs and fetch data from the blockchain the easy way.',
       title: 'Subgraphs',
@@ -162,7 +164,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       sourceCodeHref:
         'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SubgraphStatusDemo/List.tsx#L178',
       demo: <SubgraphStatusDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster#subgraphs',
+      href: 'https://docs.dappbooster.dev/plugins/subgraphs',
       icon: <ImgSubgraphStatus />,
       text: "Easily check a subgraph's syncing status.",
       title: 'Subgraph status',
@@ -171,7 +173,6 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       sourceCodeHref:
         'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/EnsNameDemo.tsx#L101',
       demo: <EnsNameDemo />,
-      href: 'https://github.com/BootNodeDev/dAppBooster/blob/86a7b001d4e48b41b3a463f844a83f632eae8c39/src/components/pageComponents/home/Examples/demos/EnsNameDemo.tsx#L63',
       icon: <ImgEns />,
       text: (
         <>
@@ -192,7 +193,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       sourceCodeHref:
         'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/index.tsx#L29',
       demo: <TransactionButtonDemo />,
-      href: 'https://bootnodedev.github.io/dAppBooster/functions/sharedComponents_TransactionButton.TransactionButton.html',
+      href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_TransactionButton.TransactionButton.html',
       icon: <ImgTransaction />,
       text: (
         <>
@@ -206,16 +207,16 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       sourceCodeHref:
         'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SignMessageDemo.tsx#L37',
       demo: <SignMessageDemo />,
-      href: 'https://bootnodedev.github.io/dAppBooster/functions/sharedComponents_SignButton.SignButton.html',
+      href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_SignButton.SignButton.html',
       icon: <ImgSign />,
       text: 'Sign a message with your wallet and get the signature on a dialog.',
       title: 'Sign button',
     },
     {
       sourceCodeHref:
-        'https://github.com/BootNodeDev/dAppBooster/blob/main/src/hooks/useL1CrossDomainMessengerProxy.ts',
+        'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/a524d9d65069652de1d187514cc8d635c2d075fd/src/hooks/useOPL1CrossDomainMessengerProxy.ts',
       demo: <OptimismCrossDomainMessenger />,
-      href: 'https://bootnodedev.github.io/dAppBooster/modules/hooks_useL1CrossDomainMessengerProxy.html',
+      href: 'https://bootnodedev.github.io/dAppBooster/functions/hooks_useL1CrossDomainMessengerProxy.useL1CrossDomainMessengerProxy.html',
       icon: <OptimismIcon />,
       text: (
         <>
