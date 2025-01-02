@@ -214,7 +214,7 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     },
     {
       sourceCodeHref:
-        'https://github.com/BootNodeDev/dAppBooster/blob/main/src/hooks/useL1CrossDomainMessengerProxy.ts',
+        'https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/a524d9d65069652de1d187514cc8d635c2d075fd/src/hooks/useOPL1CrossDomainMessengerProxy.ts',
       demo: <OptimismCrossDomainMessenger />,
       href: 'https://bootnodedev.github.io/dAppBooster/functions/hooks_useL1CrossDomainMessengerProxy.useL1CrossDomainMessengerProxy.html',
       icon: <OptimismIcon />,
