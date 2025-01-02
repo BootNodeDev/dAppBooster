@@ -95,7 +95,7 @@ export const Home = () => {
             rel="noreferrer"
             target="_blank"
           >
-            Technical components documentation
+            Components technical documentation
           </a>
         </li>
         <li>
