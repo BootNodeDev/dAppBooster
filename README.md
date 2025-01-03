@@ -7,6 +7,8 @@
 
 [dAppBooster](https://dappbooster.dev) is a template to help you in the development of blockchain frontend applications. It aims to provide an opinionated set of tools and best practices to speed up the development process and make it more reliable.
 
+Check out the documentation for more information about building your first dApp: [docs.dappbooster.dev](https://docs.dappbooster.dev/)
+
 ## Table of Contents
 
 1. [Requirements](#requirements)
@@ -15,7 +17,6 @@
 4. [Development](#development)
 5. [Advanced configuration](#advanced-configuration)
 6. [Contributing](#contributing)
-7. [Tools and libraries](#very-opinionated-list-of-tools-and-libraries)
 
 ## Requirements
 
