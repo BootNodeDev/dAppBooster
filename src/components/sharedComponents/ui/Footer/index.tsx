@@ -1,18 +1,19 @@
-import type { FC } from 'react'
-import styled from 'styled-components'
-
+import Socials from '@/src/components/sharedComponents/ui/Footer/Socials'
 import {
   Footer as BaseFooter,
   ContainerPadding,
   InnerContainer,
   LogoMini,
 } from '@bootnodedev/db-ui-toolkit'
-
-import Socials from '@/src/components/sharedComponents/ui/Footer/Socials'
+import packageJSON from '@packageJSON'
+import type { FC } from 'react'
+import styled from 'styled-components'
 
 export const Wrapper = styled(BaseFooter)`
   color: var(--theme-footer-text-color);
+  flex-direction: column;
   height: 92px;
+  row-gap: var(--base-gap);
 `
 
 const Inner = styled(InnerContainer)`
@@ -36,6 +37,12 @@ const Line = styled.div`
   width: 1px;
 `
 
+const AppVersion = styled.div`
+  font-size: 1.2rem;
+  line-height: 1.2;
+  margin-top: var(--base-gap);
+`
+
 export const Footer: FC = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
@@ -51,6 +58,7 @@ export const Footer: FC = ({ ...restProps }) => {
         <Line />
         <Socials />
       </Inner>
+      <AppVersion>Version: {packageJSON.version}</AppVersion>
     </Wrapper>
   )
 }
