@@ -22,7 +22,8 @@
 
     "baseUrl": "./",
     "paths": {
-      "@/src/*": ["./src/*"]
+      "@/src/*": ["./src/*"],
+      "@packageJSON": ["./package.json"]
     }
   },
   "include": ["src"],
