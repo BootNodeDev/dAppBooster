@@ -74,7 +74,7 @@
     "stylelint-config-standard": "^36.0.1",
     "ts-node": "^10.9.2",
     "typedoc": "^0.26.7",
-    "typedoc-plugin-inline-sources": "^1.1.0",
+    "typedoc-plugin-inline-sources": "^1.2.0",
     "typedoc-plugin-missing-exports": "^3.0.0",
     "typedoc-plugin-rename-defaults": "^0.7.1",
     "typedoc-plugin-zod": "^1.2.1",
