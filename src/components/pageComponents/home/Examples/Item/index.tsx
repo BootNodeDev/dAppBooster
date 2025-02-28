@@ -65,7 +65,7 @@ const Icon = styled.div`
   width: var(--icon-size);
 `
 
-const Title = styled.h2`
+const Title = styled.h3`
   color: var(--theme-color-text-primary);
   font-size: 2.4rem;
   font-weight: 700;

@@ -1,0 +1,13 @@
+# robots.txt for dAppBooster
+
+# Allow all user agents to crawl the site
+User-agent: *
+
+# Allow crawling of all pages
+Allow: /
+
+# Disallow crawling of specific directories
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /env.ts
+Disallow: /public/subgraphs/

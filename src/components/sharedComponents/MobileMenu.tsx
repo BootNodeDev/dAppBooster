@@ -110,6 +110,7 @@ const Header = styled.div`
 
 const Logo = styled(BaseLogo)`
   width: 140px;
+  margin-left: 16px;
 `
 
 const Button = styled.button`

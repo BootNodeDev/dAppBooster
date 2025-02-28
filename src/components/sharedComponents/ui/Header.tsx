@@ -47,7 +47,6 @@ const Start = styled.div`
 `
 
 const HomeLink = styled(Link)`
-  display: none;
 
   &:active {
     opacity: 0.7;

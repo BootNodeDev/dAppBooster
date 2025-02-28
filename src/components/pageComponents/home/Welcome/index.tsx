@@ -143,9 +143,9 @@ const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Clouds>
-        <LightClouds />
-        <DarkClouds />
-        <Ghost />
+        <LightClouds alt="dappBooster dark clouds" />
+        <DarkClouds alt="dappBooster dark clouds" />
+        <Ghost alt="The dappBooster ghost icon" />
       </Clouds>
       <Contents>
         <InnerContainer>
@@ -157,7 +157,7 @@ const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
           </Title>
           <Text>
             A modern blockchain boilerplate built to quickly get
-            <br /> you started with your next project.
+            <br /> you started with your next Web3 project.
           </Text>
           <Buttons>
             <GithubButton />
