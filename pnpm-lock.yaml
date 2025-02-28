@@ -154,8 +154,8 @@ importers:
         specifier: ^0.26.7
         version: 0.26.7(typescript@5.6.2)
       typedoc-plugin-inline-sources:
-        specifier: ^1.1.0
-        version: 1.1.0(typedoc@0.26.7(typescript@5.6.2))
+        specifier: ^1.2.1
+        version: 1.2.1(typedoc@0.26.7(typescript@5.6.2))
       typedoc-plugin-missing-exports:
         specifier: ^3.1.0
         version: 3.1.0(typedoc@0.26.7(typescript@5.6.2))
@@ -7159,10 +7159,10 @@ packages:
     resolution: {integrity: sha512-Ne2YiiGN8bmrmJJEuTWTLJR32nh/JdL1+PSicowtNb0WFpn59GK8/lfD61bVtzguz7b3PBt74nxpv/Pw5po5Rg==}
     engines: {node: '>=8'}
 
-  typedoc-plugin-inline-sources@1.1.0:
-    resolution: {integrity: sha512-mtWjx80XLRe8Qj/Jg5a/WjXTpJWMAJflxTnujK7p30zxE+12e+ISTF9v5Epk/ZwjBB4KwE9fAQpLrrC7KqbKXw==}
+  typedoc-plugin-inline-sources@1.2.1:
+    resolution: {integrity: sha512-H+5AR5zhsGLB4ufrAQUO75bNUS74zoxDCRtFCEF2fEnrH62zM1YLi36x2utxWMCvrVRdpF1wLq2z0E3wxldmkQ==}
     peerDependencies:
-      typedoc: 0.25.x || 0.26.x
+      typedoc: 0.25.x || 0.26.x || 0.27.x
 
   typedoc-plugin-missing-exports@3.1.0:
     resolution: {integrity: sha512-Sogbaj+qDa21NjB3SlIw4JXSwmcl/WOjwiPNaVEcPhpNG/MiRTtpwV81cT7h1cbu9StpONFPbddYWR0KV/fTWA==}
@@ -16308,7 +16308,7 @@ snapshots:
 
   type-fest@0.7.1: {}
 
-  typedoc-plugin-inline-sources@1.1.0(typedoc@0.26.7(typescript@5.6.2)):
+  typedoc-plugin-inline-sources@1.2.1(typedoc@0.26.7(typescript@5.6.2)):
     dependencies:
       typedoc: 0.26.7(typescript@5.6.2)
 
