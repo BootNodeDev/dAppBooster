@@ -163,8 +163,8 @@ importers:
         specifier: ^0.7.1
         version: 0.7.1(typedoc@0.26.11(typescript@5.6.2))
       typedoc-plugin-zod:
-        specifier: ^1.2.1
-        version: 1.2.1(typedoc@0.26.11(typescript@5.6.2))
+        specifier: ^1.4.0
+        version: 1.4.0(typedoc@0.26.11(typescript@5.6.2))
       typescript:
         specifier: ^5.6.2
         version: 5.6.2
@@ -7238,10 +7238,10 @@ packages:
     peerDependencies:
       typedoc: '>=0.22.x <0.27.x'
 
-  typedoc-plugin-zod@1.2.1:
-    resolution: {integrity: sha512-oPo0PhcryKNR9UYZ6F4LFqDpQEBtNRQe6CpRTOUGrdqZOeoIZtJBVVZnSn/pBJiBU+Y6iZ/HsPESLZn1BPeLkw==}
+  typedoc-plugin-zod@1.4.0:
+    resolution: {integrity: sha512-Mr4hoEfjIR1xjp0RqtEyfba03NDUE4jLvgErg0VQz9L60eCVLcUrV0x+71+B7rykDMexrTx0I9Yk6SS0PuSbKw==}
     peerDependencies:
-      typedoc: 0.23.x || 0.24.x || 0.25.x || 0.26.x
+      typedoc: 0.23.x || 0.24.x || 0.25.x || 0.26.x || 0.27.x || 0.28.x
 
   typedoc@0.26.11:
     resolution: {integrity: sha512-sFEgRRtrcDl2FxVP58Ze++ZK2UQAEvtvvH8rRlig1Ja3o7dDaMHmaBfvJmdGnNEFaLTpQsN8dpvZaTqJSu/Ugw==}
@@ -16487,7 +16487,7 @@ snapshots:
       camelcase: 8.0.0
       typedoc: 0.26.11(typescript@5.6.2)
 
-  typedoc-plugin-zod@1.2.1(typedoc@0.26.11(typescript@5.6.2)):
+  typedoc-plugin-zod@1.4.0(typedoc@0.26.11(typescript@5.6.2)):
     dependencies:
       typedoc: 0.26.11(typescript@5.6.2)
 
