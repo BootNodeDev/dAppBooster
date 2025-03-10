@@ -1,4 +1,4 @@
-import { type Abi, type TransactionReceipt, decodeEventLog } from 'viem'
+import { type AbiEvent, type TransactionReceipt, decodeEventLog } from 'viem'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
@@ -30,18 +30,16 @@ vi.mock('viem', async () => {
 })
 
 describe('getTransactionOutputs', () => {
-  // Mock ABI for testing
-  const mockAbi = [
-    {
-      type: 'event',
-      name: 'Transfer',
-      inputs: [
-        { indexed: true, name: 'from', type: 'address' },
-        { indexed: true, name: 'to', type: 'address' },
-        { indexed: true, name: 'tokenId', type: 'uint256' },
-      ],
-    },
-  ] as const satisfies Abi
+  // Mock ABI event for testing
+  const mockAbiEvent = {
+    type: 'event',
+    name: 'Transfer',
+    inputs: [
+      { indexed: true, name: 'from', type: 'address' },
+      { indexed: true, name: 'to', type: 'address' },
+      { indexed: true, name: 'tokenId', type: 'uint256' },
+    ],
+  } as const satisfies AbiEvent
 
   // Mock successful transaction receipt
   const mockSuccessReceipt: TransactionReceipt = {
@@ -84,7 +82,10 @@ describe('getTransactionOutputs', () => {
   })
 
   it('successfully extracts hex values from transaction logs', () => {
-    const outputs = getTransactionOutputs(mockSuccessReceipt, mockAbi, ['to', 'tokenId'] as const)
+    const outputs = getTransactionOutputs(mockSuccessReceipt, mockAbiEvent, [
+      'to',
+      'tokenId',
+    ] as const)
 
     expect(outputs).toEqual({
       to: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
@@ -95,14 +96,14 @@ describe('getTransactionOutputs', () => {
 
   it('throws MissingOutputError when required outputs are not found', () => {
     expect(() =>
-      getTransactionOutputs(mockSuccessReceipt, mockAbi, ['nonexistent'] as const),
+      getTransactionOutputs(mockSuccessReceipt, mockAbiEvent, ['nonexistent'] as const),
     ).toThrow(MissingOutputError)
   })
 
   it('returns partial results when throwOnMissing is false', () => {
     const outputs = getTransactionOutputs(
       mockSuccessReceipt,
-      mockAbi,
+      mockAbiEvent,
       ['to', 'nonexistent'] as const,
       { throwOnMissing: false },
     )
@@ -124,7 +125,7 @@ describe('getTransactionOutputs', () => {
       ],
     }
 
-    getTransactionOutputs(invalidReceipt, mockAbi, ['to'] as const, {
+    getTransactionOutputs(invalidReceipt, mockAbiEvent, ['to'] as const, {
       throwOnMissing: false,
       logDecodeErrors: true,
     })
@@ -138,7 +139,7 @@ describe('getTransactionOutputs', () => {
       logs: [],
     }
 
-    expect(() => getTransactionOutputs(emptyReceipt, mockAbi, ['to'] as const)).toThrow(
+    expect(() => getTransactionOutputs(emptyReceipt, mockAbiEvent, ['to'] as const)).toThrow(
       MissingOutputError,
     )
   })
@@ -160,7 +161,7 @@ describe('getTransactionOutputs', () => {
       ],
     }
 
-    const outputs = getTransactionOutputs(multiLogReceipt, mockAbi, ['to'] as const)
+    const outputs = getTransactionOutputs(multiLogReceipt, mockAbiEvent, ['to'] as const)
     expect(outputs).toEqual({
       to: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
     })
@@ -168,7 +169,7 @@ describe('getTransactionOutputs', () => {
 
   it('throws TransactionOutputError for invalid receipt', () => {
     expect(() =>
-      getTransactionOutputs(null as unknown as TransactionReceipt, mockAbi, ['to'] as const),
+      getTransactionOutputs(null as unknown as TransactionReceipt, mockAbiEvent, ['to'] as const),
     ).toThrow(TransactionOutputError)
   })
 })

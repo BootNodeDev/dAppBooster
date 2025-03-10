@@ -1,4 +1,4 @@
-import { type Abi, type TransactionReceipt, decodeEventLog } from 'viem'
+import { type AbiEvent, type Log, type TransactionReceipt, decodeEventLog, isHex } from 'viem'
 
 /**
  * Custom error class for transaction output processing errors
@@ -23,13 +23,49 @@ export class MissingOutputError extends TransactionOutputError {
   }
 }
 
+type TransactionOutput = `0x${string}`
+
+type OutputsConfig = {
+  throwOnMissing?: boolean
+  logDecodeErrors?: boolean
+}
+
+type OutputResult<
+  T extends readonly string[],
+  ThrowOnMissing extends boolean,
+> = ThrowOnMissing extends true
+  ? Record<T[number], TransactionOutput>
+  : Partial<Record<T[number], TransactionOutput>>
+
 /**
- * Type guard to check if a value is a hex string
- * @param value - Value to check
- * @returns True if the value is a hex string starting with '0x'
+ * Process a single transaction log to extract event arguments
  */
-function isHexString(value: unknown): value is `0x${string}` {
-  return typeof value === 'string' && value.startsWith('0x')
+function processTransactionLog<T extends readonly string[]>(
+  log: Log,
+  abiEvent: AbiEvent,
+  expectedOutputsSet: Set<string>,
+  outputs: Partial<Record<T[number], TransactionOutput>>,
+  logDecodeErrors: boolean,
+): void {
+  try {
+    const decodedLog = decodeEventLog({
+      abi: [abiEvent],
+      data: log.data,
+      topics: log.topics,
+    })
+
+    if (!decodedLog.args) return
+
+    for (const [key, value] of Object.entries(decodedLog.args)) {
+      if (expectedOutputsSet.has(key) && isHex(value) && !(key in outputs)) {
+        outputs[key as T[number]] = value as TransactionOutput
+      }
+    }
+  } catch (error) {
+    if (logDecodeErrors) {
+      console.warn('Failed to decode log:', error)
+    }
+  }
 }
 
 /**
@@ -40,7 +76,7 @@ function isHexString(value: unknown): value is `0x${string}` {
  * It decodes event logs using the provided ABI and collects values for the requested output keys.
  *
  * @param receipt - The transaction receipt containing event logs
- * @param abi - The ABI used to decode the event logs
+ * @param abiEvent - The ABI event definition used to decode the event logs
  * @param expectedOutputs - Array of output keys to extract from event args
  * @param options - Configuration options
  * @param options.throwOnMissing - If true, throws when required outputs are not found (default: true)
@@ -56,7 +92,7 @@ function isHexString(value: unknown): value is `0x${string}` {
  * const receipt = await getTransactionReceipt(hash)
  * const outputs = getTransactionOutputs(
  *   receipt,
- *   abi,
+ *   abiEvent,
  *   ['tokenId', 'to'],
  *   { throwOnMissing: true }
  * )
@@ -65,45 +101,20 @@ function isHexString(value: unknown): value is `0x${string}` {
  */
 export function getTransactionOutputs<
   T extends readonly string[],
-  A extends Abi,
   ThrowOnMissing extends boolean = true,
 >(
   receipt: TransactionReceipt,
-  abi: A,
+  abiEvent: AbiEvent,
   expectedOutputs: T,
-  options: {
-    throwOnMissing?: ThrowOnMissing
-    logDecodeErrors?: boolean
-  } = {},
-): ThrowOnMissing extends true
-  ? { [K in T[number]]: `0x${string}` }
-  : Partial<{ [K in T[number]]: `0x${string}` }> {
+  options: OutputsConfig = {},
+): OutputResult<T, ThrowOnMissing> {
   const { logDecodeErrors = false, throwOnMissing = true } = options
-
   const expectedOutputsSet = new Set(expectedOutputs)
-  const outputs: Partial<{ [K in T[number]]: `0x${string}` }> = {}
+  const outputs = {} as OutputResult<T, ThrowOnMissing>
 
   try {
     for (const log of receipt.logs) {
-      try {
-        const decodedLog = decodeEventLog({
-          abi,
-          data: log.data,
-          topics: log.topics,
-        })
-
-        if (decodedLog.args) {
-          for (const [key, value] of Object.entries(decodedLog.args)) {
-            if (expectedOutputsSet.has(key) && isHexString(value) && !(key in outputs)) {
-              outputs[key as keyof typeof outputs] = value
-            }
-          }
-        }
-      } catch (error) {
-        if (logDecodeErrors) {
-          console.warn('Failed to decode log:', error)
-        }
-      }
+      processTransactionLog(log, abiEvent, expectedOutputsSet, outputs, logDecodeErrors)
     }
 
     if (throwOnMissing) {
@@ -113,9 +124,7 @@ export function getTransactionOutputs<
       }
     }
 
-    return outputs as ThrowOnMissing extends true
-      ? { [K in T[number]]: `0x${string}` }
-      : Partial<{ [K in T[number]]: `0x${string}` }>
+    return outputs
   } catch (error) {
     if (error instanceof TransactionOutputError) {
       throw error
