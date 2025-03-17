@@ -3,11 +3,18 @@ import path from 'node:path'
 import { TanStackRouterVite } from '@tanstack/router-vite-plugin'
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
+import Sitemap from 'vite-plugin-sitemap'
 
 // https://vitejs.dev/config/
 /** @type {import('vite').UserConfig} */
 export default defineConfig({
-  plugins: [react(), TanStackRouterVite()],
+  plugins: [
+    react(),
+    TanStackRouterVite(),
+    Sitemap({
+      hostname: 'https://dappbooster.dev',
+    }),
+  ],
   envPrefix: 'PUBLIC_',
   resolve: {
     alias: {

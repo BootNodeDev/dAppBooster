@@ -45,6 +45,7 @@
     "styled-components": "^6.1.13",
     "use-debounce": "^10.0.4",
     "viem": "^2.22.1",
+    "vite-plugin-sitemap": "^0.7.1",
     "wagmi": "^2.12.14",
     "zod": "^3.23.8"
   },
