@@ -161,6 +161,7 @@ const Copy = ({ value }: { value: string }) => {
     <CopyButton
       onClick={handleCopy}
       value={value}
+      aria-label="Copy"
     />
   )
 }
@@ -225,7 +226,10 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
         <Row key={position.id}>
           <Name>{position.pool.symbol}</Name>
           <Copy value={position.pool.id} />
-          <ExternalLink href={`${baseUrl}${position.pool.id}`} />
+          <ExternalLink
+            href={`${baseUrl}${position.pool.id}`}
+            aria-label="Explore"
+          />
         </Row>
       ))}
     </Group>
@@ -252,7 +256,10 @@ const Aave = withSuspenseAndRetry(() => {
         <Row key={id}>
           <Name>{name}</Name>
           <Copy value={underlyingAsset} />
-          <ExternalLink href={`${baseUrl}${underlyingAsset}`} />
+          <ExternalLink
+            href={`${baseUrl}${underlyingAsset}`}
+            aria-label="Explore"
+          />
         </Row>
       ))}
     </Group>

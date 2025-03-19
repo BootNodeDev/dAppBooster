@@ -118,12 +118,15 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       <Inner>
         <Start>
           <HomeLink to="/">
-            <Logo />
+            <Logo alt="dAppBooster - A blockchain boilerplate to kickstart your next Web3 project" />
           </HomeLink>
         </Start>
         <Menu />
         <End>
-          <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
+          <SwitchThemeButton
+            aria-label="Change color scheme"
+            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+          />
           <ConnectButton />
         </End>
         <MobileMenu />

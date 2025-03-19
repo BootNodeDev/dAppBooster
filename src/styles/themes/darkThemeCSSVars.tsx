@@ -212,8 +212,8 @@ const darkThemeCSSVars = css`
   --theme-token-input-max-button-border-color: #c5c2cb;
   --theme-token-input-max-button-border-color-hover: #c5c2cb;
   --theme-token-input-max-button-border-color-active: #c5c2cb;
-  --theme-token-input-max-button-color: #c670e5;
-  --theme-token-input-max-button-color-hover: #c670e5;
+  --theme-token-input-max-button-color: #c5c2cb;
+  --theme-token-input-max-button-color-hover: #fff;
   --theme-token-input-max-button-background-color-disabled: #373954;
   --theme-token-input-max-button-border-color-disabled: #5f6178;
   --theme-token-input-max-button-color-disabled: #fff;

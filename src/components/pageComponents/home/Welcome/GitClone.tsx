@@ -106,6 +106,7 @@ const GitClone = ({ ...restProps }) => {
         <CopyButton
           onClick={handleCopy}
           value={cloneString}
+          aria-label="Copy"
         >
           {copied ? <OkIcon /> : <CopyIcon />}
         </CopyButton>

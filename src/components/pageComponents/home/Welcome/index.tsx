@@ -143,9 +143,9 @@ const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   return (
     <Wrapper {...restProps}>
       <Clouds>
-        <LightClouds alt="dappBooster dark clouds" />
-        <DarkClouds alt="dappBooster dark clouds" />
-        <Ghost alt="The dappBooster ghost icon" />
+        <LightClouds alt="dAppBooster dark clouds" />
+        <DarkClouds alt="dAppBooster dark clouds" />
+        <Ghost alt="The dAppBooster ghost icon" />
       </Clouds>
       <Contents>
         <InnerContainer>

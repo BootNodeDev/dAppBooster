@@ -191,8 +191,11 @@ const MobileMenu = ({ ...restProps }) => {
     <Wrapper {...restProps}>
       <Inner>
         <Header>
-          <Logo />
-          <Button onClick={() => setIsOpen(false)}>
+          <Logo alt="dAppBooster - A blockchain boilerplate to kickstart your next Web3 project" />
+          <Button
+            onClick={() => setIsOpen(false)}
+            aria-label="Close menu"
+          >
             <CloseIcon />
           </Button>
         </Header>
@@ -226,7 +229,10 @@ const MobileMenu = ({ ...restProps }) => {
       </Inner>
     </Wrapper>
   ) : (
-    <MenuButton onClick={() => setIsOpen(true)}>
+    <MenuButton
+      onClick={() => setIsOpen(true)}
+      aria-label="Open menu"
+    >
       <MenuIcon />
     </MenuButton>
   )
