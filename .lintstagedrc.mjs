@@ -1,3 +1,3 @@
 export default {
-  '*': ['stylelint --fix', 'biome check --write', 'vitest related --run --coverage=false'],
+  '**/*': ['stylelint --fix', 'biome check --write', 'vitest related --run --coverage=false'],
 }
