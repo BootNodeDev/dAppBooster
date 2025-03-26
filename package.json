@@ -86,6 +86,7 @@
     "typedoc-plugin-zod": "^1.2.1",
     "typescript": "^5.6.2",
     "vite": "^5.4.8",
+    "vite-plugin-sitemap": "^0.7.1",
     "vitest": "^2.1.1",
     "vocs": "1.0.0-alpha.59"
   }
