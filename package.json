@@ -79,7 +79,7 @@
     "typedoc-plugin-rename-defaults": "^0.7.1",
     "typedoc-plugin-zod": "^1.4.0",
     "typescript": "^5.6.2",
-    "vite": "^5.4.8",
+    "vite": "^6.2.4",
     "vitest": "^2.1.1",
     "vocs": "1.0.0-alpha.59"
   },
