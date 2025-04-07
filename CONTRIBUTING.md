@@ -1,5 +1,4 @@
-k# Contributing
-
+# Contributing
 ## Table of Contents
 
 1. [Naming conventions](#naming-conventions)
