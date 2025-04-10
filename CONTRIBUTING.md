@@ -1,5 +1,4 @@
 # Contributing
-
 ## Table of Contents
 
 1. [Naming conventions](#naming-conventions)
@@ -20,9 +19,9 @@ Some things you should know before cloning the repository and making changes:
 ```mermaid
 graph TD
     A[Naming]
-    A1[`main`: Production code only]
-    A2[`staging`: Step before merging into production]
-    A3[`develop`: Development, anything goes]
+    A1[main: Production code only]
+    A2[staging: Step before merging into production]
+    A3[develop: Development, anything goes]
 
     A --> A1
     A --> A2
@@ -89,12 +88,12 @@ git push -u origin fix/something
 ```mermaid
 graph LR
     B[New feature or bug fix]
-    B1[Create new branch from `develop`]
+    B1[Create new branch from develop]
     B2[Name branch descriptively]
     B3[Work on the branch]
     B4[Create pull request]
     B5[Pull request approved]
-    B6[Merge branch into `develop`]
+    B6[Merge branch into develop]
 
     B --> B1
     B1 --> B2
@@ -127,14 +126,14 @@ That's it, everybody can see now that a new version is ready to use and if somet
 ```mermaid
 graph TD
     C[Staging Process]
-    C1[Merge `develop` into `staging`]
-    C2[Test and fix bugs in `staging`]
-    C3[Merge `staging` into `develop`]
-    C4[Merge `staging` into `main`]
+    C1[Merge develop into staging]
+    C2[Test and fix bugs in staging]
+    C3[Merge staging into develop]
+    C4[Merge staging into main]
 
     D[Releasing a New Version]
-    D0[Commit a version bump to `package.json`]
-    D1[Tag `main` following Semantic Versioning]
+    D0[Commit a version bump to package.json]
+    D1[Tag main following Semantic Versioning]
     D2[Create a new release using the tag]
     D3[New version is available]
 
