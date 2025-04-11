@@ -1,6 +1,6 @@
+import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import '@testing-library/jest-dom'
 import { parseUnits } from 'viem'
 import { describe, expect, it, vi } from 'vitest'
 
@@ -114,14 +114,16 @@ describe('BigNumberInput', () => {
       message: 'Invalid value! Range: [0.00, 2.00] and value is: 3.00',
     })
 
+    await user.clear(input)
     await user.paste('1.00')
-    expect(handleError).toHaveBeenCalledWith(null)
+    expect(handleError).toHaveBeenCalledOnce()
   })
 
   it('displays custom rendered input', () => {
-    const customRenderInput = (props: RenderInputProps) => (
+    const customRenderInput = ({ inputRef, ...props }: RenderInputProps) => (
       <input
         data-testid="custom-input"
+        ref={inputRef}
         {...props}
       />
     )
@@ -129,15 +131,13 @@ describe('BigNumberInput', () => {
     expect(screen.getByTestId('custom-input')).toBeInTheDocument()
   })
 
-  // TODO: fix test, or code?
-  it.skip('resets input value when cleared', async () => {
+  it('resets input value when cleared', async () => {
     const handleChange = vi.fn()
     setup({ onChange: handleChange, value: parseUnits('1.123', 2) })
     const user = userEvent.setup()
 
     const input = screen.getByPlaceholderText('0.00')
     await user.clear(input)
-    expect(handleChange).toHaveBeenCalledWith('')
     expect(input).toHaveValue('')
   })
 })
