@@ -9,6 +9,7 @@ const globalStyles = css`
     /**
      * Base (non theme-related) CSS variables.
      */
+
     ${baseCSSVars}
   }
 
@@ -32,6 +33,7 @@ const globalStyles = css`
     /**
      * Regular CSS properties
      */
+
     font-size: 10px;
     scroll-behavior: smooth;
   }

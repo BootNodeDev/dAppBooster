@@ -1,89 +1,61 @@
 import type { FC, HTMLAttributes } from 'react'
-import styled, { css } from 'styled-components'
 
-import {
-  Header as BaseHeader,
-  Logo as BaseLogo,
-  ContainerPadding,
-  InnerContainer,
-  SwitchThemeButton,
-  breakpointMediaQuery,
-} from '@bootnodedev/db-ui-toolkit'
+import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import { Logo as BaseLogo, SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
+import { Box, Flex, chakra } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
 
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-
-const Wrapper = styled(BaseHeader)`
-  margin-bottom: calc(var(--base-gap-xl) * 2);
-  padding-top: var(--base-common-padding-xl);
-  position: relative;
-  z-index: 10;
-
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      height: var(--base-header-height);
-    `,
-  )}
-`
-
-const Inner = styled(InnerContainer)`
-  align-items: center;
-  height: 100%;
-  justify-content: space-between;
-
-  ${ContainerPadding}
-`
-
-const Start = styled.div`
-  flex: 1;
-`
-
-const HomeLink = styled(Link)`
-  display: none;
-
-  &:active {
-    opacity: 0.7;
-  }
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      display: flex;
-    `,
-  )}
-`
-
-const Logo = styled(BaseLogo)`
-  min-width: 140px;
-`
-
-const End = styled.div`
-  align-items: center;
-  column-gap: calc(var(--base-gap));
-  display: flex;
-  flex: 1;
-  height: 100%;
-  justify-content: flex-end;
-`
+const HomeLink = chakra(Link)
+const Logo = chakra(BaseLogo)
 
 export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   const { setTheme, theme } = useTheme()
 
   return (
-    <Wrapper {...restProps}>
-      <Inner>
-        <Start>
-          <HomeLink to="/">
-            <Logo />
+    <Box
+      as="header"
+      flexGrow={0}
+      flexShrink={0}
+      h={{ lg: '90px' }}
+      mb={4}
+      position="relative"
+      pt={4}
+      zIndex={10}
+      {...restProps}
+    >
+      <Flex
+        align="center"
+        justify="space-between"
+        flexShrink={0}
+        h="100%"
+        mx="auto"
+        maxW="100%"
+        px={{ base: 1, md: 2, xl: 4 }}
+        // Should use this when CSS variables are available
+        //w="var(--base-container-max-width, 1360px)"
+        w="1360px" // fallback for var
+      >
+        <Box flex={1}>
+          <HomeLink
+            to="/"
+            display={{ base: 'none', md: 'flex' }}
+            _active={{ opacity: 0.7 }}
+          >
+            <Logo minWidth="140px" />
           </HomeLink>
-        </Start>
-        <End>
+        </Box>
+        <Flex
+          align="center"
+          flex={1}
+          gap={2}
+          h="100%"
+          justify="flex-end"
+        >
           <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
           <ConnectWalletButton />
-        </End>
-      </Inner>
-    </Wrapper>
+        </Flex>
+      </Flex>
+    </Box>
   )
 }
