@@ -80,8 +80,6 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   const updateValue = (event: ChangeEvent<HTMLInputElement> | string) => {
     const { value } = typeof event === 'string' ? { value: event } : event.currentTarget
 
-    onError?.(null)
-
     if (value === '') {
       onChange(BigInt(0))
       return
