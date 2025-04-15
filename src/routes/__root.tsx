@@ -9,6 +9,7 @@ import { TanStackReactQueryDevtools } from '@/src/components/sharedComponents/Ta
 import { TanStackRouterDevtools } from '@/src/components/sharedComponents/TanStackRouterDevtools'
 import { Footer } from '@/src/components/sharedComponents/ui/Footer'
 import { Header } from '@/src/components/sharedComponents/ui/Header'
+import { Provider } from '@/src/components/ui/provider'
 import { TransactionNotificationProvider } from '@/src/lib/toast/TransactionNotificationProvider'
 import { Web3Provider } from '@/src/providers/Web3Provider'
 import Styles from '@/src/styles'
@@ -21,26 +22,32 @@ export const Route = createRootRoute({
 
 function Root() {
   return (
+    // Remove ThemeProvider later
     <ThemeProvider defaultTheme={'light'}>
-      <Styles />
-      <Web3Provider>
-        <ModalProvider>
-          <TransactionNotificationProvider>
-            <Wrapper>
-              <Header />
-              <Main>
-                <Outlet />
-              </Main>
-              <Footer />
-              <TanStackReactQueryDevtools />
-              <TanStackRouterDevtools />
-            </Wrapper>
-            <Toaster />
-          </TransactionNotificationProvider>
-          <ModalContainer />
-        </ModalProvider>
-      </Web3Provider>
-      <Analytics />
+      <Provider>
+        <Styles />
+        <Web3Provider>
+          {/*  remove ModalProvider later */}
+          <ModalProvider>
+            <TransactionNotificationProvider>
+              <Wrapper>
+                <Header />
+                <Main>
+                  <Outlet />
+                </Main>
+                <Footer />
+                <TanStackReactQueryDevtools />
+                <TanStackRouterDevtools />
+              </Wrapper>
+              {/* Should remove Toaster later too */}
+              <Toaster />
+            </TransactionNotificationProvider>
+            {/* Remove ModalContainer later  */}
+            <ModalContainer />
+          </ModalProvider>
+        </Web3Provider>
+        <Analytics />
+      </Provider>
     </ThemeProvider>
   )
 }
