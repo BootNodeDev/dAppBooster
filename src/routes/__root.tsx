@@ -1,4 +1,3 @@
-import { Main, Wrapper } from '@bootnodedev/db-ui-toolkit'
 import { ModalContainer, ModalProvider } from '@faceless-ui/modal'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
@@ -30,15 +29,22 @@ function Root() {
           {/*  remove ModalProvider later */}
           <ModalProvider>
             <TransactionNotificationProvider>
-              <Wrapper>
+              <Flex
+                direction="column"
+                minH="100vh"
+                w="100%"
+              >
                 <Header />
-                <Main>
+                <Flex
+                  as="main"
+                  flex="1"
+                >
                   <Outlet />
-                </Main>
+                </Flex>
                 <Footer />
                 <TanStackReactQueryDevtools />
                 <TanStackRouterDevtools />
-              </Wrapper>
+              </Flex>
               {/* Should remove Toaster later too */}
               <Toaster />
             </TransactionNotificationProvider>
