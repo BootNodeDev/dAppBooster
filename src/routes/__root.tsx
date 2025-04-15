@@ -14,7 +14,7 @@ import { TransactionNotificationProvider } from '@/src/lib/toast/TransactionNoti
 import { Web3Provider } from '@/src/providers/Web3Provider'
 import Styles from '@/src/styles'
 
-import 'modern-normalize/modern-normalize.css'
+import { Flex } from '@chakra-ui/react'
 
 export const Route = createRootRoute({
   component: Root,
