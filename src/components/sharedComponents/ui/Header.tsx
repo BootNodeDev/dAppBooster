@@ -15,6 +15,7 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   return (
     <Box
       as="header"
+      color="var(--theme-header-text-color)"
       flexGrow={0}
       flexShrink={0}
       h={{ lg: '90px' }}
