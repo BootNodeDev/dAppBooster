@@ -69,7 +69,7 @@ export const GeneralMessage: FC<Props> = ({
       flexDirection="column"
       justifyContent="center"
       maxWidth="100%"
-      pb={4}
+      pb={8}
       pl={4}
       pr={4}
       pt={8}
@@ -87,6 +87,7 @@ export const GeneralMessage: FC<Props> = ({
       <Heading
         as="h1"
         color="var(--theme-general-message-color-title)"
+        fontFamily="var(--base-font-family)"
         fontSize="22px"
         fontWeight="700"
         lineHeight="1.2"
