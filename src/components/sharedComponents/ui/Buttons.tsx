@@ -68,6 +68,7 @@ export const SecondaryButton: FC<ButtonProps> = ({ ...restProps }) => (
       borderColor: 'var(--theme-button-secondary-border-color-disabled)',
       color: 'var(--theme-button-secondary-color-disabled)',
     }}
+    fontWeight={500}
     {...restProps}
   />
 )
