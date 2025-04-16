@@ -1,10 +1,10 @@
-import type { FC, HTMLAttributes } from 'react'
-
+import { Inner } from '@/src/components/ui/Inner'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import { Logo as BaseLogo, SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
 import { Box, Flex, chakra } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
+import type { FC, HTMLAttributes } from 'react'
 
 const HomeLink = chakra(Link)
 const Logo = chakra(BaseLogo)
@@ -25,18 +25,7 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       zIndex={10}
       {...restProps}
     >
-      <Flex
-        align="center"
-        justify="space-between"
-        flexShrink={0}
-        h="100%"
-        mx="auto"
-        maxW="100%"
-        px={{ base: 1, md: 2, xl: 4 }}
-        // Should use this when CSS variables are available
-        //w="var(--base-container-max-width, 1360px)"
-        w="1360px" // fallback for var
-      >
+      <Inner>
         <Box flex={1}>
           <HomeLink
             to="/"
@@ -56,7 +45,7 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
           <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
           <ConnectWalletButton />
         </Flex>
-      </Flex>
+      </Inner>
     </Box>
   )
 }
