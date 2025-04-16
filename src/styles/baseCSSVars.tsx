@@ -30,8 +30,8 @@ const baseCSSVars = css`
   --base-font-family-code: 'Roboto Mono', 'Courier New', monospace;
 
   /* Font sizes */
-  --base-title-font-size: 2.4rem;
-  --base-text-font-size: 1.6rem;
+  --base-title-font-size: 24px;
+  --base-text-font-size: 16px;
 
   /* Header */
   --base-header-height: 90px;
