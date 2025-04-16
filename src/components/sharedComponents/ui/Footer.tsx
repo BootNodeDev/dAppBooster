@@ -14,6 +14,7 @@ export const Footer: FC = ({ ...restProps }) => {
       flexGrow={0}
       flexShrink={0}
       height="92px"
+      justifyContent="center"
       mt={8}
       {...restProps}
     >
