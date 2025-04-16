@@ -1,27 +1,22 @@
+import { Inner } from '@/src/components/ui/Inner'
+import { LogoMini } from '@bootnodedev/db-ui-toolkit'
+import { Flex } from '@chakra-ui/react'
 import type { FC } from 'react'
-import styled from 'styled-components'
-
-import {
-  Footer as BaseFooter,
-  ContainerPadding,
-  InnerContainer,
-  LogoMini,
-} from '@bootnodedev/db-ui-toolkit'
-
-export const Wrapper = styled(BaseFooter)`
-  height: 92px;
-  margin-top: calc(var(--base-gap-xl) * 2);
-`
-
-const Inner = styled(InnerContainer)`
-  justify-content: center;
-
-  ${ContainerPadding}
-`
 
 export const Footer: FC = ({ ...restProps }) => {
   return (
-    <Wrapper {...restProps}>
+    <Flex
+      alignItems="center"
+      as="footer"
+      backgroundColor="var(--theme-footer-background-color)"
+      color="var(--theme-footer-text-color)"
+      display="flex"
+      flexGrow={0}
+      flexShrink={0}
+      height="92px"
+      mt={8}
+      {...restProps}
+    >
       <Inner>
         <a
           href="https://www.bootnode.dev/"
@@ -32,6 +27,6 @@ export const Footer: FC = ({ ...restProps }) => {
           <LogoMini />
         </a>
       </Inner>
-    </Wrapper>
+    </Flex>
   )
 }
