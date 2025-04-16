@@ -1,7 +1,7 @@
+import { Card } from '@/src/components/sharedComponents/ui/Card'
 import {
   Code as BaseCode,
   List as BaseList,
-  Card,
   type CodeProps,
   Heading,
   type ListRootProps,
@@ -58,17 +58,9 @@ const Code: FC<CodeProps> = ({ ...restProps }) => (
 export const Home = () => {
   return (
     // You can safely delete this.
-    <Card.Root
-      fontSize="15px"
+    <Card
       margin="auto"
       maxWidth="90%"
-      backgroundColor="var(--theme-card-background-color)"
-      borderColor="var(--theme-card-border-color)"
-      boxShadow="var(--theme-card-box-shadow)"
-      borderRadius="md"
-      display="flex"
-      flexDirection="column"
-      padding={4}
       whiteSpace="normal"
     >
       <Heading
@@ -140,6 +132,6 @@ export const Home = () => {
           </NestedList>
         </BaseList.Item>
       </List>
-    </Card.Root>
+    </Card>
   )
 }
