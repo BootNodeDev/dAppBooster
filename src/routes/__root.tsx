@@ -1,9 +1,3 @@
-import { ModalContainer, ModalProvider } from '@faceless-ui/modal'
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { Analytics } from '@vercel/analytics/react'
-import { ThemeProvider } from 'next-themes'
-import { Toaster } from 'react-hot-toast'
-
 import { TanStackReactQueryDevtools } from '@/src/components/sharedComponents/TanStackReactQueryDevtools'
 import { TanStackRouterDevtools } from '@/src/components/sharedComponents/TanStackRouterDevtools'
 import { Footer } from '@/src/components/sharedComponents/ui/Footer'
@@ -12,8 +6,12 @@ import { Provider } from '@/src/components/ui/provider'
 import { TransactionNotificationProvider } from '@/src/lib/toast/TransactionNotificationProvider'
 import { Web3Provider } from '@/src/providers/Web3Provider'
 import Styles from '@/src/styles'
-
 import { Flex } from '@chakra-ui/react'
+import { ModalContainer, ModalProvider } from '@faceless-ui/modal'
+import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { Analytics } from '@vercel/analytics/react'
+import { ThemeProvider } from 'next-themes'
+import { Toaster } from 'react-hot-toast'
 
 export const Route = createRootRoute({
   component: Root,

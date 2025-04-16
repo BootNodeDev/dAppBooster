@@ -34,7 +34,7 @@ const globalStyles = css`
      * Regular CSS properties
      */
 
-    font-size: 10px;
+    /* font-size: 10px; */
     scroll-behavior: smooth;
   }
 
