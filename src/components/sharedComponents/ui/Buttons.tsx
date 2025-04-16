@@ -3,7 +3,7 @@ import type { FC } from 'react'
 
 export const Button: FC<ButtonProps> = ({ ...restProps }) => (
   <BaseButton
-    borderRadius="var(--base-border-radius)"
+    borderRadius="sm"
     borderStyle="solid"
     borderWidth="1px"
     cursor="pointer"
@@ -48,6 +48,7 @@ export const PrimaryButton: FC<ButtonProps> = ({ ...restProps }) => (
       borderColor: 'var(--theme-button-primary-border-color-disabled)',
       color: 'var(--theme-button-primary-color-disabled)',
     }}
+    fontWeight={500}
     {...restProps}
   />
 )

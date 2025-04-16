@@ -120,6 +120,14 @@ const darkThemeCSSVars = css`
   --theme-card-border-color: #232436;
   --theme-card-box-shadow: 0 0 20px 0 rgb(255 255 255 / 8%);
 
+  /* General message */
+  --theme-general-message-background-color: #fff;
+  --theme-general-message-border-color: #fff;
+  --theme-general-message-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
+  --theme-general-message-color-title: #2e3048;
+  --theme-general-message-color-message-background: #f8f8f8;
+  --theme-general-message-color-text: #4b4d60;
+
   /* Copy button */
   --theme-copy-button-color: #e2e0e7;
   --theme-copy-button-color-hover: #c670e5;

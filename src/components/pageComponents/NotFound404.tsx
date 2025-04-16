@@ -1,9 +1,6 @@
-import styled from 'styled-components'
-
-import { GeneralMessage } from '@bootnodedev/db-ui-toolkit'
-import { useNavigate } from '@tanstack/react-router'
-
 import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
+import { useNavigate } from '@tanstack/react-router'
 
 const Icon = () => (
   <svg
@@ -63,22 +60,22 @@ const Icon = () => (
   </svg>
 )
 
-const Wrapper = styled(GeneralMessage)`
-  margin: auto;
-`
-
-const HomeButton = styled(PrimaryButton)`
-  height: 44px;
-  font-size: 1.8rem;
-  width: 100%;
-`
-
 const NotFound404 = ({ ...restProps }) => {
   const navigate = useNavigate()
 
   return (
-    <Wrapper
-      actionButton={<HomeButton onClick={() => navigate({ to: '/' })}>Home</HomeButton>}
+    <GeneralMessage
+      m="auto"
+      actionButton={
+        <PrimaryButton
+          fontSize="18px"
+          height="44px"
+          onClick={() => navigate({ to: '/' })}
+          width="100%"
+        >
+          Home
+        </PrimaryButton>
+      }
       icon={<Icon />}
       message="The page you are looking for might have been removed, had its name changed, or is temporarily unavailable."
       title="404 - Not Found"
