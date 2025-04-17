@@ -1,6 +1,5 @@
-import styled from 'styled-components'
-
-import { Button } from '@bootnodedev/db-ui-toolkit'
+import { Link, type LinkProps } from '@chakra-ui/react'
+import type { FC } from 'react'
 
 const Icon = () => (
   <svg
@@ -17,50 +16,61 @@ const Icon = () => (
   </svg>
 )
 
-const SourceCodeButton = styled(Button).attrs(() => {
-  return {
-    $variant: 'source',
-    children: (
-      <>
-        <Icon /> Source code
-      </>
-    ),
-  }
-})`
-  [data-theme='light'] & {
-    --theme-button-source-background-color: transparent;
-    --theme-button-source-background-color-hover: transparent;
-
-    --theme-button-source-border-color: #e2e0e7;
-    --theme-button-source-border-color-hover: #4b4d60;
-
-    --theme-button-source-color: #4b4d60;
-    --theme-button-source-color-hover: #4b4d60;
-
-    --theme-button-source-background-color-disabled: transparent;
-    --theme-button-source-border-color-disabled: #e2e0e7;
-    --theme-button-source-color-disabled: #4b4d60;
-  }
-
-  [data-theme='dark'] & {
-    --theme-button-source-background-color: transparent;
-    --theme-button-source-background-color-hover: transparent;
-
-    --theme-button-source-border-color: #c5c2cb;
-    --theme-button-source-border-color-hover: #fff;
-
-    --theme-button-source-color: #c5c2cb;
-    --theme-button-source-color-hover: #fff;
-
-    --theme-button-source-background-color-disabled: transparent;
-    --theme-button-source-border-color-disabled: #c5c2cb;
-    --theme-button-source-color-disabled: #c5c2cb;
-  }
-
-  font-size: 1.4rem;
-  font-weight: 500;
-  height: 43px;
-  max-width: fit-content;
-`
+const SourceCodeButton: FC<LinkProps> = ({ children = 'Source code', ...restProps }) => (
+  <Link
+    css={{
+      "[data-theme='light'] &": {
+        '--theme-button-source-background-color': 'transparent',
+        '--theme-button-source-background-color-hover': 'transparent',
+        '--theme-button-source-border-color': '#e2e0e7',
+        '--theme-button-source-border-color-hover': '#4b4d60',
+        '--theme-button-source-color': '#4b4d60',
+        '--theme-button-source-color-hover': '#4b4d60',
+        '--theme-button-source-background-color-disabled': 'transparent',
+        '--theme-button-source-border-color-disabled': '#e2e0e7',
+        '--theme-button-source-color-disabled': '#4b4d60',
+      },
+      "[data-theme='dark'] &": {
+        '--theme-button-source-background-color': 'transparent',
+        '--theme-button-source-background-color-hover': 'transparent',
+        '--theme-button-source-border-color': '#c5c2cb',
+        '--theme-button-source-border-color-hover': '#fff',
+        '--theme-button-source-color': '#c5c2cb',
+        '--theme-button-source-color-hover': '#fff',
+        '--theme-button-source-background-color-disabled': 'transparent',
+        '--theme-button-source-border-color-disabled': '#c5c2cb',
+        '--theme-button-source-color-disabled': '#c5c2cb',
+      },
+    }}
+    backgroundColor="var(--theme-button-source-background-color)"
+    borderColor="var(--theme-button-source-border-color)"
+    borderWidth={'1px'}
+    borderStyle="solid"
+    color="var(--theme-button-source-color)"
+    fontSize="14px"
+    fontWeight={500}
+    height="43px"
+    maxWidth="fit-content"
+    paddingY={0}
+    paddingX={4}
+    textDecoration="none"
+    transition="background-color var(--base-transition-duration-sm), border-color var(--base-transition-duration-sm), color var(--base-transition-duration-sm)"
+    userSelect="none"
+    whiteSpace="nowrap"
+    _hover={{
+      backgroundColor: 'var(--theme-button-source-background-color-hover)',
+      borderColor: 'var(--theme-button-source-border-color-hover)',
+      color: 'var(--theme-button-source-color-hover)',
+    }}
+    _disabled={{
+      backgroundColor: 'var(--theme-button-source-background-color-disabled)',
+      borderColor: 'var(--theme-button-source-border-color-disabled)',
+      color: 'var(--theme-button-source-color-disabled)',
+    }}
+    {...restProps}
+  >
+    <Icon /> {children}
+  </Link>
+)
 
 export default SourceCodeButton

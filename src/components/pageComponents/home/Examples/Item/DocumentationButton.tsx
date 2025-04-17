@@ -16,14 +16,7 @@ const Icon = () => (
   </svg>
 )
 
-const DocumentationButton: FC<LinkProps> = ({
-  children = (
-    <>
-      <Icon /> Documentation
-    </>
-  ),
-  ...restProps
-}) => (
+const DocumentationButton: FC<LinkProps> = ({ children = 'Documentation', ...restProps }) => (
   <Link
     css={{
       "[data-theme='light'] &": {
@@ -60,6 +53,10 @@ const DocumentationButton: FC<LinkProps> = ({
     maxWidth="fit-content"
     paddingY={0}
     paddingX={4}
+    textDecoration="none"
+    transition="background-color var(--base-transition-duration-sm), border-color var(--base-transition-duration-sm), color var(--base-transition-duration-sm)"
+    userSelect="none"
+    whiteSpace="nowrap"
     _hover={{
       backgroundColor: 'var(--theme-button-documentation-background-color-hover)',
       borderColor: 'var(--theme-button-documentation-border-color-hover)',
@@ -72,7 +69,7 @@ const DocumentationButton: FC<LinkProps> = ({
     }}
     {...restProps}
   >
-    {children}
+    <Icon /> {children}
   </Link>
 )
 
