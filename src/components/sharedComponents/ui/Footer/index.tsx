@@ -1,7 +1,28 @@
+import Socials from '@/src/components/sharedComponents/ui/Footer/Socials'
 import { Inner } from '@/src/components/ui/Inner'
 import { LogoMini } from '@bootnodedev/db-ui-toolkit'
 import { Flex } from '@chakra-ui/react'
+import packageJSON from '@packageJSON'
 import type { FC } from 'react'
+
+// const Line = styled.div`
+//   [data-theme='light'] & {
+//     background-color: #c5c2cb;
+//   }
+
+//   [data-theme='dark'] & {
+//     background-color: #5f6178;
+//   }
+
+//   height: 17px;
+//   width: 1px;
+// `;
+
+// const AppVersion = styled.div`
+//   font-size: 1.2rem;
+//   line-height: 1.2;
+//   margin-top: var(--base-gap);
+// `;
 
 export const Footer: FC = ({ ...restProps }) => {
   return (
@@ -27,7 +48,10 @@ export const Footer: FC = ({ ...restProps }) => {
         >
           <LogoMini />
         </a>
+        {/* <Line /> */}
+        <Socials />
       </Inner>
+      {/* <AppVersion>Version: {packageJSON.version}</AppVersion> */}
     </Flex>
   )
 }

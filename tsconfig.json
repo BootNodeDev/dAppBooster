@@ -22,14 +22,16 @@
 
     "baseUrl": "./",
     "paths": {
-      "@/src/*": ["./src/*"]
+      "@/src/*": ["./src/*"],
+      "@packageJSON": ["./package.json"]
     }
   },
   "include": ["src"],
   "exclude": [
     "src/subgraphs/queries/aave",
     "src/subgraphs/queries/uniswap",
-    "src/hooks/generated.ts"
+    "src/hooks/generated.ts",
+    "src/subgraphs/gql"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

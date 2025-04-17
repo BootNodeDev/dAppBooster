@@ -3,6 +3,7 @@ import type { ComponentProps, FC } from 'react'
 import { useSignMessage } from 'wagmi'
 
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { useTransactionNotification } from '@/src/lib/toast/TransactionNotificationProvider'
 
 interface SignButtonPropsProps extends Omit<ComponentProps<'button'>, 'onError'> {
   label?: string
@@ -42,7 +43,9 @@ const SignButton: FC<SignButtonPropsProps> = withWalletStatusVerifier(
     onSign,
     ...restProps
   }) => {
-    const { isPending, signMessage } = useSignMessage({
+    const { watchSignature } = useTransactionNotification()
+
+    const { isPending, signMessageAsync } = useSignMessage({
       mutation: {
         onSuccess(data) {
           onSign?.(data)
@@ -56,7 +59,12 @@ const SignButton: FC<SignButtonPropsProps> = withWalletStatusVerifier(
     return (
       <button
         disabled={disabled || isPending}
-        onClick={() => signMessage({ message })}
+        onClick={() => {
+          watchSignature({
+            message: 'Signing message...',
+            signaturePromise: signMessageAsync({ message }),
+          })
+        }}
         {...restProps}
       >
         {isPending ? labelSigning : children}

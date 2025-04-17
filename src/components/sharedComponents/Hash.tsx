@@ -63,6 +63,7 @@ const Hash: FC<HashProps> = ({
         <CopyButton
           onClick={onCopy}
           value={hash}
+          aria-label="Copy"
         />
       )}
       {explorerURL && <ExternalLink href={explorerURL} />}
