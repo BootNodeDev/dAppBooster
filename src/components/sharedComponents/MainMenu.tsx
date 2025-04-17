@@ -1,14 +1,23 @@
-import styled, { css } from 'styled-components'
-
-import { Link } from '@tanstack/react-router'
-
 import { menuItems } from '@/src/constants/menuItems'
+import { breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
+import { Link } from '@tanstack/react-router'
+import styled, { css } from 'styled-components'
 
 const Wrapper = styled.nav`
   align-items: center;
   column-gap: calc(var(--base-gap) * 5);
-  display: flex;
+  display: none;
   height: 100%;
+
+
+   ${breakpointMediaQuery(
+     'desktopStart',
+     css`
+       display: flex;
+       justify-content: center;
+       flex: 1;
+     `,
+   )}
 `
 
 const LinkCSS = css`

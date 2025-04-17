@@ -8,19 +8,6 @@ import { Link } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
 import type { FC, HTMLAttributes } from 'react'
 
-// const Menu = styled(MainMenu)`
-//   display: none;
-
-//   ${breakpointMediaQuery(
-//     'desktopStart',
-//     css`
-//       display: flex;
-//       justify-content: center;
-//       flex: 1;
-//     `,
-//   )}
-// `
-
 const HomeLink = chakra(Link)
 const Logo = chakra(BaseLogo)
 
@@ -40,7 +27,11 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       zIndex={10}
       {...restProps}
     >
-      <Inner>
+      <Inner
+        align="center"
+        h="100%"
+        justify="space-between"
+      >
         <Box flex={1}>
           <HomeLink
             to="/"
@@ -50,7 +41,7 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
             <Logo minWidth="140px" />
           </HomeLink>
         </Box>
-        {/* <Menu /> */}
+        <MainMenu />
         <Flex
           align="center"
           flex={1}
