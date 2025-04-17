@@ -1,12 +1,12 @@
-import { type ComponentProps, useEffect, useState } from 'react'
-
+import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import { useTransactionNotification } from '@/src/lib/toast/TransactionNotificationProvider'
+import type { ButtonProps } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 import type { Hash, TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
-import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
-import { useTransactionNotification } from '@/src/lib/toast/TransactionNotificationProvider'
-
-interface TransactionButtonProps extends ComponentProps<'button'> {
+interface TransactionButtonProps extends ButtonProps {
   confirmations?: number
   labelSending?: string
   onMined?: (receipt: TransactionReceipt) => void
@@ -76,13 +76,13 @@ const TransactionButton = withWalletStatusVerifier<TransactionButtonProps>(
     }
 
     return (
-      <button
+      <PrimaryButton
         disabled={isPending || disabled}
         onClick={handleSendTransaction}
         {...restProps}
       >
         {isPending ? labelSending : children}
-      </button>
+      </PrimaryButton>
     )
   },
 )

@@ -6,7 +6,6 @@ import { useWriteContract } from 'wagmi'
 
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/Wrapper'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { useSuspenseReadErc20Allowance } from '@/src/hooks/generated'
 import { useWeb3Status, useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import type { Token } from '@/src/types/token'
@@ -82,8 +81,7 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
       text={`Approve the use of ${token.symbol} with your wallet`}
       title="Approval required"
     >
-      <PrimaryButton
-        as={TransactionButton}
+      <TransactionButton
         disabled={disabled}
         key="approve"
         labelSending={`Approving ${token.symbol}`}
@@ -91,7 +89,7 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
         transaction={handleApprove}
       >
         Approve
-      </PrimaryButton>
+      </TransactionButton>
     </Wrapper>
   ) : (
     <Wrapper
@@ -110,7 +108,7 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
       }
       title="Execute the transaction"
     >
-      <PrimaryButton
+      <TransactionButton
         as={TransactionButton}
         disabled={disabled}
         key="send"
@@ -119,7 +117,7 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
         transaction={transaction}
       >
         {label}
-      </PrimaryButton>
+      </TransactionButton>
     </Wrapper>
   )
 }

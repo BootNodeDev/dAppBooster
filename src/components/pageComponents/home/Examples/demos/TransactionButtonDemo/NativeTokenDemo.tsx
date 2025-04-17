@@ -1,17 +1,15 @@
-import { type ReactElement, useState } from 'react'
-import styled, { css } from 'styled-components'
-
-import { GeneralMessage as GeneralMessageBase } from '@bootnodedev/db-ui-toolkit'
-import { Modal, useModal } from '@faceless-ui/modal'
-import { type Hash, type TransactionReceipt, parseEther } from 'viem'
-import { sepolia } from 'viem/chains'
-import { useSendTransaction } from 'wagmi'
-
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/Wrapper'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
+import { GeneralMessage as GeneralMessageBase } from '@bootnodedev/db-ui-toolkit'
+import { Modal, useModal } from '@faceless-ui/modal'
+import { type ReactElement, useState } from 'react'
+import styled, { css } from 'styled-components'
+import { type Hash, type TransactionReceipt, parseEther } from 'viem'
+import { sepolia } from 'viem/chains'
+import { useSendTransaction } from 'wagmi'
 
 const GeneralMessage = styled(GeneralMessageBase)<{ status?: 'ok' | 'error' }>`
   ${({ status }) =>
@@ -57,14 +55,13 @@ const NativeTokenDemo = withWalletStatusVerifier(
           text="Demo transaction that sends 0.1 Sepolia ETH from / to your wallet."
           title="Native token demo"
         >
-          <PrimaryButton
-            as={TransactionButton}
+          <TransactionButton
             labelSending="Sending 0.1 ETH..."
             onMined={handleOnMined}
             transaction={handleSendTransaction}
           >
             Send 0.1 Sepolia ETH
-          </PrimaryButton>
+          </TransactionButton>
         </Wrapper>
         <Modal slug="tx-dialog">
           <GeneralMessage

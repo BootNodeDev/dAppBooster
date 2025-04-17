@@ -2,7 +2,6 @@ import { sepolia } from 'viem/chains'
 import { useWriteContract } from 'wagmi'
 
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { AaveFaucetABI } from '@/src/constants/contracts/abis/AaveFaucet'
 import { getContract } from '@/src/constants/contracts/contracts'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
@@ -24,7 +23,7 @@ export default function MintUSDC({ onSuccess }: { onSuccess: () => void }) {
   handleMint.methodId = 'Mint USDC'
 
   return (
-    <PrimaryButton
+    <TransactionButton
       as={TransactionButton}
       key="mint"
       labelSending={'Minting USDC'}
@@ -32,6 +31,6 @@ export default function MintUSDC({ onSuccess }: { onSuccess: () => void }) {
       transaction={handleMint}
     >
       Mint USDC
-    </PrimaryButton>
+    </TransactionButton>
   )
 }

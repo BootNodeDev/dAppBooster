@@ -29,6 +29,7 @@ export const Button: FC<ButtonProps> = ({ ...restProps }) => (
     _active={{
       opacity: 0.8,
     }}
+    type="button"
     {...restProps}
   />
 )

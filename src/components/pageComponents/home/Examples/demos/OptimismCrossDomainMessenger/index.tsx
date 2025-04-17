@@ -10,7 +10,6 @@ import Wrapper from '@/src/components/pageComponents/home/Examples/demos/Optimis
 import Hash from '@/src/components/sharedComponents/Hash'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { getContract } from '@/src/constants/contracts/contracts'
 import { useL1CrossDomainMessengerProxy } from '@/src/hooks/useOPL1CrossDomainMessengerProxy'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
@@ -56,8 +55,7 @@ const OptimismCrossDomainMessenger = withWalletStatusVerifier(
           </a>{' '}
           from Sepolia.
         </p>
-        <PrimaryButton
-          as={TransactionButton}
+        <TransactionButton
           key="send"
           transaction={async () => {
             setL2Hash(null)
@@ -70,8 +68,7 @@ const OptimismCrossDomainMessenger = withWalletStatusVerifier(
           }}
         >
           Deposit ETH
-        </PrimaryButton>
-
+        </TransactionButton>
         {l2Hash && (
           <HashWrapper>
             <span>OpSepolia tx </span>
