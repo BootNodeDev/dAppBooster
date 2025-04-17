@@ -1,6 +1,5 @@
-import styled from 'styled-components'
-
-import { Button } from '@bootnodedev/db-ui-toolkit'
+import { Link, type LinkProps } from '@chakra-ui/react'
+import type { FC } from 'react'
 
 const Icon = () => (
   <svg
@@ -17,48 +16,64 @@ const Icon = () => (
   </svg>
 )
 
-const DocumentationButton = styled(Button).attrs({
-  $variant: 'documentation',
-  children: (
+const DocumentationButton: FC<LinkProps> = ({
+  children = (
     <>
       <Icon /> Documentation
     </>
   ),
-})`
-  [data-theme='light'] & {
-    --theme-button-documentation-background-color: transparent;
-    --theme-button-documentation-background-color-hover: transparent;
-
-    --theme-button-documentation-border-color: #e2e0e7;
-    --theme-button-documentation-border-color-hover: #4b4d60;
-
-    --theme-button-documentation-color: #4b4d60;
-    --theme-button-documentation-color-hover: #4b4d60;
-
-    --theme-button-documentation-background-color-disabled: transparent;
-    --theme-button-documentation-border-color-disabled: #e2e0e7;
-    --theme-button-documentation-color-disabled: #4b4d60;
-  }
-
-  [data-theme='dark'] & {
-    --theme-button-documentation-background-color: transparent;
-    --theme-button-documentation-background-color-hover: transparent;
-
-    --theme-button-documentation-border-color: #c5c2cb;
-    --theme-button-documentation-border-color-hover: #fff;
-
-    --theme-button-documentation-color: #c5c2cb;
-    --theme-button-documentation-color-hover: #fff;
-
-    --theme-button-documentation-background-color-disabled: transparent;
-    --theme-button-documentation-border-color-disabled: #c5c2cb;
-    --theme-button-documentation-color-disabled: #c5c2cb;
-  }
-
-  font-size: 1.4rem;
-  font-weight: 500;
-  height: 43px;
-  max-width: fit-content;
-`
+  ...restProps
+}) => (
+  <Link
+    css={{
+      "[data-theme='light'] &": {
+        '--theme-button-documentation-background-color': 'transparent',
+        '--theme-button-documentation-background-color-hover': 'transparent',
+        '--theme-button-documentation-border-color': '#e2e0e7',
+        '--theme-button-documentation-border-color-hover': '#4b4d60',
+        '--theme-button-documentation-color': '#4b4d60',
+        '--theme-button-documentation-color-hover': '#4b4d60',
+        '--theme-button-documentation-background-color-disabled': 'transparent',
+        '--theme-button-documentation-border-color-disabled': '#e2e0e7',
+        '--theme-button-documentation-color-disabled': '#4b4d60',
+      },
+      "[data-theme='dark'] &": {
+        '--theme-button-documentation-background-color': 'transparent',
+        '--theme-button-documentation-background-color-hover': 'transparent',
+        '--theme-button-documentation-border-color': '#c5c2cb',
+        '--theme-button-documentation-border-color-hover': '#fff',
+        '--theme-button-documentation-color': '#c5c2cb',
+        '--theme-button-documentation-color-hover': '#fff',
+        '--theme-button-documentation-background-color-disabled': 'transparent',
+        '--theme-button-documentation-border-color-disabled': '#c5c2cb',
+        '--theme-button-documentation-color-disabled': '#c5c2cb',
+      },
+    }}
+    backgroundColor="var(--theme-button-documentation-background-color)"
+    borderColor="var(--theme-button-documentation-border-color)"
+    borderWidth={'1px'}
+    borderStyle="solid"
+    color="var(--theme-button-documentation-color)"
+    fontSize="14px"
+    fontWeight={500}
+    height="43px"
+    maxWidth="fit-content"
+    paddingY={0}
+    paddingX={4}
+    _hover={{
+      backgroundColor: 'var(--theme-button-documentation-background-color-hover)',
+      borderColor: 'var(--theme-button-documentation-border-color-hover)',
+      color: 'var(--theme-button-documentation-color-hover)',
+    }}
+    _disabled={{
+      backgroundColor: 'var(--theme-button-documentation-background-color-disabled)',
+      borderColor: 'var(--theme-button-documentation-border-color-disabled)',
+      color: 'var(--theme-button-documentation-color-disabled)',
+    }}
+    {...restProps}
+  >
+    {children}
+  </Link>
+)
 
 export default DocumentationButton

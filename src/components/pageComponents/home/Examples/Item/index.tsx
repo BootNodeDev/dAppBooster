@@ -88,10 +88,9 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
         >
           {text}
         </Text>
-        <Flex>
+        <Flex columnGap={2}>
           {href && (
             <DocumentationButton
-              as="a"
               href={href}
               target="_blank"
             />
