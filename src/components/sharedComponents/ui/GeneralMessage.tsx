@@ -115,11 +115,11 @@ export const GeneralMessage: FC<Props> = ({
         borderRadius="md"
         color="var(--theme-general-message-color-text)"
         css={{
-          p: {
+          '& p': {
             margin: 0,
             fontSize: 'inherit',
           },
-          pre: {
+          '& pre': {
             margin: 0,
             fontSize: 'inherit',
           },

@@ -75,8 +75,12 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
         </Heading>
         <Text
           css={{
-            a: {
+            '& a': {
               color: 'var(--theme-color-text-primary)',
+              textDecoration: 'underline',
+              '&:hover': {
+                textDecoration: 'none',
+              },
             },
           }}
           color="var(--theme-color-text-primary)"
