@@ -1,12 +1,3 @@
-import type { FC, HTMLAttributes } from 'react'
-import styled, { css } from 'styled-components'
-
-import {
-  ContainerPadding,
-  InnerContainer as Inner,
-  breakpointMediaQuery,
-} from '@bootnodedev/db-ui-toolkit'
-
 import type { Props as ItemProps } from '@/src/components/pageComponents/home/Examples/Item'
 import List from '@/src/components/pageComponents/home/Examples/List'
 import ImgEns from '@/src/components/pageComponents/home/Examples/assets/Ens'
@@ -30,37 +21,10 @@ import SwitchNetworkDemo from '@/src/components/pageComponents/home/Examples/dem
 import TokenDropdownDemo from '@/src/components/pageComponents/home/Examples/demos/TokenDropdownDemo'
 import TokenInputDemo from '@/src/components/pageComponents/home/Examples/demos/TokenInputDemo'
 import TransactionButtonDemo from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo'
+import { Inner } from '@/src/components/ui/Inner'
 import { ConnectWalletButton as ConnectWalletButtonDemo } from '@/src/providers/Web3Provider'
-
-const Wrapper = styled.section`
-  [data-theme='light'] & {
-    --landing-page-main-background-color: #f7f7f7;
-  }
-
-  [data-theme='dark'] & {
-    --landing-page-main-background-color: #2e3048;
-  }
-
-  background-color: var(--landing-page-main-background-color);
-  flex-grow: 1;
-`
-
-const InnerContainer = styled(Inner)`
-  align-items: center;
-  flex-direction: column;
-  padding-bottom: 50px;
-  padding-top: 50px;
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      padding-bottom: 100px;
-      padding-top: 100px;
-    `,
-  )}
-
-  ${ContainerPadding}
-`
+import { Box } from '@chakra-ui/react'
+import type { FC, HTMLAttributes } from 'react'
 
 const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   const items: ItemProps[] = [
@@ -235,14 +199,29 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   ]
 
   return (
-    <Wrapper
+    <Box
+      css={{
+        "[data-theme='light'] &": {
+          '--landing-page-main-background-color': '#f7f7f7',
+        },
+        "[data-theme='dark'] &": {
+          '--landing-page-main-background-color': '#2e3048',
+        },
+      }}
       id="examples"
+      backgroundColor="var(--landing-page-main-background-color)"
+      flexGrow={1}
       {...restProps}
     >
-      <InnerContainer>
+      <Inner
+        alignItems="center"
+        flexDirection="column"
+        paddingBottom={{ base: '50px', lg: '100px;' }}
+        paddingTop={{ base: '50px', lg: '100px;' }}
+      >
         <List items={items} />
-      </InnerContainer>
-    </Wrapper>
+      </Inner>
+    </Box>
   )
 }
 
