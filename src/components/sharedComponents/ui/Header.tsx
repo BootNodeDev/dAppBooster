@@ -34,9 +34,9 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
       >
         <Box flex={1}>
           <HomeLink
-            to="/"
-            display={{ base: 'none', md: 'flex' }}
             _active={{ opacity: 0.7 }}
+            display={{ base: 'none', sm: 'flex' }}
+            to="/"
           >
             <Logo minWidth="140px" />
           </HomeLink>
@@ -44,6 +44,7 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
         <MainMenu />
         <Flex
           align="center"
+          display={{ base: 'none', lg: 'flex' }}
           flex={1}
           gap={2}
           h="100%"

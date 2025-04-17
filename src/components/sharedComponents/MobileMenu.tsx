@@ -130,6 +130,8 @@ const Button = styled.button`
 `
 
 const MenuButton = styled(Button)`
+  margin: 0 0 0 auto;
+
   ${breakpointMediaQuery(
     'desktopStart',
     css`

@@ -22,7 +22,7 @@ const MainMenu = ({ ...restProps }) => {
   return (
     <Flex
       align="center"
-      display={{ base: 'none', md: 'flex' }}
+      display={{ base: 'none', xl: 'flex' }}
       flex="1"
       gap={10}
       height="100%"
