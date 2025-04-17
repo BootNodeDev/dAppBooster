@@ -1,172 +1,104 @@
-import type { FC, HTMLAttributes } from 'react'
-import styled, { css } from 'styled-components'
-
-import {
-  Text as BaseText,
-  Title as BasetTitle,
-  ContainerPadding,
-  InnerContainer as Inner,
-  breakpointMediaQuery,
-} from '@bootnodedev/db-ui-toolkit'
-
 import { DarkClouds, LightClouds } from '@/src/components/pageComponents/home/Welcome/Clouds'
 import DocsButton from '@/src/components/pageComponents/home/Welcome/DocsButton'
-import BaseGhost from '@/src/components/pageComponents/home/Welcome/Ghost'
+import Ghost from '@/src/components/pageComponents/home/Welcome/Ghost'
 import GitClone from '@/src/components/pageComponents/home/Welcome/GitClone'
 import GithubButton from '@/src/components/pageComponents/home/Welcome/GithubButton'
-
-const Wrapper = styled.section`
-  [data-theme='light'] & {
-    --landing-page-main-background-color: #f7f7f7;
-  }
-
-  [data-theme='dark'] & {
-    --landing-page-main-background-color: #2e3048;
-  }
-
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  z-index: 0;
-
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      min-height: 100vh;
-    `,
-  )}
-`
-
-const Clouds = styled.div`
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  width: 100%;
-
-  &::before,
-  &::after {
-    content: '';
-    background-color: var(--landing-page-main-background-color);
-    display: block;
-    flex-grow: 1;
-    flex-shrink: 1;
-    min-width: 0;
-  }
-`
-
-const Ghost = styled(BaseGhost)`
-  bottom: -5px;
-  height: 191px;
-  left: 50%;
-  object-fit: cover;
-  position: absolute;
-  transform: translateX(-50%);
-  width: 100px;
-  z-index: 1;
-
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      bottom: 70px;
-      height: auto;
-      object-fit: none;
-      width: auto;
-    `,
-  )}
-`
-
-const Contents = styled.div`
-  flex-grow: 1;
-  background-color: var(--landing-page-main-background-color);
-`
-
-const InnerContainer = styled(Inner)`
-  align-items: center;
-  flex-direction: column;
-
-  ${ContainerPadding}
-`
-
-const Title = styled(BasetTitle)`
-  font-size: 3.2rem;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: var(--base-gap);
-  text-align: center;
-  padding-top: calc(var(--base-common-padding-xl) * 2);
-
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      font-size: 4.8rem;
-      padding-top: 0;
-    `,
-  )}
-`
-
-const Text = styled(BaseText)`
-  font-size: 1.6rem;
-  line-height: 1.5;
-  margin-bottom: calc(var(--base-gap) * 4);
-  text-align: center;
-
-  br {
-    display: none;
-  }
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      br {
-        display: block;
-      }
-    `,
-  )}
-
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      font-size: 1.8rem;
-    `,
-  )}
-`
-
-const Buttons = styled.div`
-  display: flex;
-  gap: calc(var(--base-gap) + var(--base-gap) / 2);
-  justify-content: center;
-  margin-bottom: calc(var(--base-gap) * 4);
-`
+import { Inner } from '@/src/components/ui/Inner'
+import { Box, Flex, Heading, Text } from '@chakra-ui/react'
+import type { FC, HTMLAttributes } from 'react'
 
 const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   return (
-    <Wrapper {...restProps}>
-      <Clouds>
+    <Flex
+      css={{
+        "[data-theme='light'] &": {
+          '--landing-page-main-background-color': '#f7f7f7',
+        },
+        "[data-theme='dark'] &": {
+          '--landing-page-main-background-color': '#2e3048',
+        },
+      }}
+      flexDirection="column"
+      minHeight={{ base: 'none', md: '100vh' }}
+      position="relative"
+      zIndex={0}
+      {...restProps}
+    >
+      <Flex
+        justifyContent="center"
+        overflow="hidden"
+        position="relative"
+        width="100%"
+        _before={{
+          content: "''",
+          backgroundColor: 'var(--landing-page-main-background-color)',
+          display: 'block',
+          flexGrow: 1,
+          flexShrink: 1,
+          minWidth: 0,
+        }}
+        _after={{
+          content: "''",
+          backgroundColor: 'var(--landing-page-main-background-color)',
+          display: 'block',
+          flexGrow: 1,
+          flexShrink: 1,
+          minWidth: 0,
+        }}
+      >
         <LightClouds alt="dAppBooster dark clouds" />
         <DarkClouds alt="dAppBooster dark clouds" />
         <Ghost alt="The dAppBooster ghost icon" />
-      </Clouds>
-      <Contents>
-        <InnerContainer>
-          <Title>
+      </Flex>
+      <Box
+        backgroundColor="var(--landing-page-main-background-color)"
+        flexGrow={1}
+      >
+        <Inner
+          alignItems="center"
+          flexDirection="column"
+        >
+          <Heading
+            fontFamily="var(--base-font-family)"
+            fontSize={{ base: '32px', md: '48px' }}
+            fontWeight="800"
+            lineHeight="1.2"
+            mb={2}
+            pt={{ base: 8, md: 0 }}
+            textAlign="center"
+          >
             Boost dApp
             <br />
             development on the
             <br /> blockchain
-          </Title>
-          <Text>
+          </Heading>
+          <Text
+            color="var(--theme-text-color)"
+            fontSize={{ base: '16px', md: '18px' }}
+            lineHeight="1.5"
+            marginBottom={8}
+            textAlign="center"
+          >
             A modern blockchain boilerplate built to quickly get
-            <br /> you started with your next Web3 project.
+            <Box
+              as="br"
+              display={{ base: 'none', md: 'block' }}
+            />
+            you started with your next Web3 project.
           </Text>
-          <Buttons>
+          <Flex
+            display="flex"
+            gap={2}
+            justifyContent="center"
+            marginBottom={8}
+          >
             <GithubButton />
             <DocsButton />
-          </Buttons>
+          </Flex>
           <GitClone />
-        </InnerContainer>
-      </Contents>
-    </Wrapper>
+        </Inner>
+      </Box>
+    </Flex>
   )
 }
 

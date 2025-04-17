@@ -1,7 +1,6 @@
-import styled from 'styled-components'
-
 import { ButtonCSS } from '@/src/components/pageComponents/home/Welcome/ButtonCSS'
 import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import type { FC } from 'react'
 
 const Icon = () => (
   <svg
@@ -18,22 +17,15 @@ const Icon = () => (
   </svg>
 )
 
-const Wrapper = styled(PrimaryButton)`
-  ${ButtonCSS}
-`
-
-const GithubButton = ({ ...restProps }) => {
-  return (
-    <Wrapper
-      as="a"
-      href="https://github.com/bootnodedev/dappbooster/"
-      target="_blank"
-      {...restProps}
-    >
-      <Icon />
-      Github
-    </Wrapper>
-  )
-}
+const GithubButton: FC = ({ ...restProps }) => (
+  <PrimaryButton
+    onClick={() => window.open('https://github.com/bootnodedev/dappbooster/', '_blank')}
+    {...ButtonCSS}
+    {...restProps}
+  >
+    <Icon />
+    Github
+  </PrimaryButton>
+)
 
 export default GithubButton

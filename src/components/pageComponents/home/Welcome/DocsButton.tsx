@@ -1,7 +1,6 @@
-import styled from 'styled-components'
-
 import { ButtonCSS } from '@/src/components/pageComponents/home/Welcome/ButtonCSS'
 import { SecondaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import type { FC } from 'react'
 
 const Icon = () => (
   <svg
@@ -17,23 +16,15 @@ const Icon = () => (
     />
   </svg>
 )
-
-const Wrapper = styled(SecondaryButton)`
-  ${ButtonCSS}
-`
-
-const DocsButton = ({ ...restProps }) => {
-  return (
-    <Wrapper
-      as="a"
-      href="https://docs.dappbooster.dev/"
-      target="_blank"
-      {...restProps}
-    >
-      <Icon />
-      Docs
-    </Wrapper>
-  )
-}
+const DocsButton: FC = ({ ...restProps }) => (
+  <SecondaryButton
+    onClick={() => window.open('https://docs.dappbooster.dev/', '_blank')}
+    {...ButtonCSS}
+    {...restProps}
+  >
+    <Icon />
+    Docs
+  </SecondaryButton>
+)
 
 export default DocsButton
