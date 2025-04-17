@@ -1,7 +1,7 @@
+import { Toast } from '@/src/components/sharedComponents/ui/Toast'
+import { CopyButton } from '@bootnodedev/db-ui-toolkit'
+import { Flex, Span } from '@chakra-ui/react'
 import { useState } from 'react'
-import styled from 'styled-components'
-
-import { CopyButton, Toast } from '@bootnodedev/db-ui-toolkit'
 import { toast } from 'react-hot-toast'
 
 const CopyIcon = () => (
@@ -47,41 +47,6 @@ const OkIcon = () => (
   </svg>
 )
 
-const Wrapper = styled.section`
-  [data-theme='light'] & {
-    --git-clone-background-color: #e2e0e7;
-  }
-
-  [data-theme='dark'] & {
-    --git-clone-background-color: #292b43;
-  }
-
-  align-items: center;
-  background-color: var(--git-clone-background-color);
-  border-radius: 80px;
-  column-gap: calc(var(--base-gap) * 2);
-  display: flex;
-  height: 50px;
-  max-width: 100%;
-  padding: 0 calc(var(--base-gap) * 3);
-`
-
-const Value = styled.span`
-  flex-shrink: 1;
-  font-size: 1.6rem;
-  line-height: 1.2;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`
-
-const IconWrapper = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  width: 17px;
-`
-
 const GitClone = ({ ...restProps }) => {
   const [copied, setCopied] = useState(false)
   const cloneString = 'git clone git@github.com:BootNodeDev/dAppBooster.git'
@@ -100,9 +65,43 @@ const GitClone = ({ ...restProps }) => {
   }
 
   return (
-    <Wrapper {...restProps}>
-      <Value>{cloneString}</Value>
-      <IconWrapper>
+    <Flex
+      css={{
+        "[data-theme='light'] &": {
+          '--git-clone-background-color': '#e2e0e7',
+        },
+        "[data-theme='dark'] &": {
+          '--git-clone-background-color': '#292b43',
+        },
+      }}
+      alignItems="center"
+      as="section"
+      backgroundColor="var(--git-clone-background-color)"
+      borderRadius="80px"
+      display="flex"
+      gap={4}
+      height="50px"
+      maxWidth="100%"
+      paddingX={6}
+      paddingY={0}
+      {...restProps}
+    >
+      <Span
+        flexShrink={1}
+        fontSize="16px"
+        lineHeight="1.2"
+        overflow="hidden"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+      >
+        {cloneString}
+      </Span>
+      <Flex
+        alignItems="center"
+        display="flex"
+        justifyContent="center"
+        width="17px"
+      >
         <CopyButton
           onClick={handleCopy}
           value={cloneString}
@@ -110,8 +109,8 @@ const GitClone = ({ ...restProps }) => {
         >
           {copied ? <OkIcon /> : <CopyIcon />}
         </CopyButton>
-      </IconWrapper>
-    </Wrapper>
+      </Flex>
+    </Flex>
   )
 }
 

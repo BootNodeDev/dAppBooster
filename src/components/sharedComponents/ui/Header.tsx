@@ -1,5 +1,5 @@
-import MainMenu from '@/src/components/pageComponents/home/MainMenu'
 import MobileMenu from '@/src/components/sharedComponents/MobileMenu'
+import MainMenu from '@/src/components/sharedComponents/ui/MainMenu'
 import { Inner } from '@/src/components/ui/Inner'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import { Logo as BaseLogo, SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
