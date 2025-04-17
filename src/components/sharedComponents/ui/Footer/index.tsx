@@ -1,28 +1,9 @@
 import Socials from '@/src/components/sharedComponents/ui/Footer/Socials'
 import { Inner } from '@/src/components/ui/Inner'
 import { LogoMini } from '@bootnodedev/db-ui-toolkit'
-import { Flex } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import packageJSON from '@packageJSON'
 import type { FC } from 'react'
-
-// const Line = styled.div`
-//   [data-theme='light'] & {
-//     background-color: #c5c2cb;
-//   }
-
-//   [data-theme='dark'] & {
-//     background-color: #5f6178;
-//   }
-
-//   height: 17px;
-//   width: 1px;
-// `;
-
-// const AppVersion = styled.div`
-//   font-size: 1.2rem;
-//   line-height: 1.2;
-//   margin-top: var(--base-gap);
-// `;
 
 export const Footer: FC = ({ ...restProps }) => {
   return (
@@ -31,15 +12,19 @@ export const Footer: FC = ({ ...restProps }) => {
       as="footer"
       backgroundColor="var(--theme-footer-background-color)"
       color="var(--theme-footer-text-color)"
+      direction="column"
       display="flex"
       flexGrow={0}
       flexShrink={0}
       height="92px"
       justifyContent="center"
-      mt={8}
       {...restProps}
     >
-      <Inner>
+      <Inner
+        align="center"
+        justify="center"
+        columnGap={4}
+      >
         <a
           href="https://www.bootnode.dev/"
           rel="noreferrer"
@@ -48,10 +33,27 @@ export const Footer: FC = ({ ...restProps }) => {
         >
           <LogoMini />
         </a>
-        {/* <Line /> */}
+        <Box
+          css={{
+            "[data-theme='light'] &": {
+              backgroundColor: '#c5c2cb',
+            },
+            "[data-theme='dark'] &": {
+              backgroundColor: '#5f6178',
+            },
+          }}
+          height="17px"
+          width="1px"
+        />
         <Socials />
       </Inner>
-      {/* <AppVersion>Version: {packageJSON.version}</AppVersion> */}
+      <Box
+        fontSize="12px"
+        lineHeight="1.2"
+        mt={2}
+      >
+        Version: {packageJSON.version}
+      </Box>
     </Flex>
   )
 }
