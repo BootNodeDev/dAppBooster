@@ -6,13 +6,13 @@ import type { FC, HTMLAttributes } from 'react'
  */
 const LinkedIn: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
   <chakra.svg
-    fill="none"
-    height="25"
-    viewBox="0 0 26 25"
-    width="26"
-    xmlns="http://www.w3.org/2000/svg"
     display="block"
+    fill="none"
     flexShrink={0}
+    height="25px"
+    viewBox="0 0 26 25"
+    width="26px"
+    xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
     <path

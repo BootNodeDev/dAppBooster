@@ -6,13 +6,13 @@ import type { FC, HTMLAttributes } from 'react'
  */
 const Telegram: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
   <chakra.svg
-    fill="none"
-    height="25"
-    viewBox="0 0 25 25"
-    width="25"
-    xmlns="http://www.w3.org/2000/svg"
     display="block"
+    fill="none"
     flexShrink={0}
+    height="25px"
+    viewBox="0 0 25 25"
+    width="25px"
+    xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
     <path
