@@ -1,7 +1,6 @@
-import type { ComponentProps } from 'react'
-import styled, { css } from 'styled-components'
-
-import { Button, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
+import { Button } from '@/src/components/sharedComponents/ui/Buttons'
+import { type ButtonProps, chakra } from '@chakra-ui/react'
+import type { FC } from 'react'
 
 const BaseChevronDown = ({ ...restProps }) => (
   <svg
@@ -19,46 +18,71 @@ const BaseChevronDown = ({ ...restProps }) => (
   </svg>
 )
 
-const ChevronDown = styled(BaseChevronDown)`
-  margin: 0 var(--base-gap, 8px);
-`
+const ChevronDown = chakra(BaseChevronDown)
 
-interface ConnectButtonProps extends ComponentProps<'button'> {
+interface ConnectButtonProps extends ButtonProps {
   $isConnected?: boolean
 }
 
-const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, children }) => {
-  return {
-    $variant: 'connect',
-    $isConnected,
-    children: (
-      <>
-        {children}
-        {$isConnected && <ChevronDown />}
-      </>
-    ),
-  }
-})`
-  font-size: 1.4rem;
-  font-weight: 700;
-  height: 48px;
+const ConnectButton: FC<ConnectButtonProps> = ({ $isConnected, children, ...restProps }) => {
+  return (
+    <Button
+      borderRadius={$isConnected ? '30px' : 'sm'}
+      backgroundColor="var(--theme-button-connect-background-color)"
+      borderColor="var(--theme-button-connect-border-color)"
+      color="var(--theme-button-connect-color)"
+      fontWeight="700"
+      height="44p"
+      fontSize={{ base: $isConnected ? '12px' : '14px', md: $isConnected ? '15px' : '16px' }}
+      paddingX={$isConnected ? 2 : 4}
+      _hover={{
+        backgroundColor: 'var(--theme-button-connect-background-color-hover)',
+        borderColor: 'var(--theme-button-connect-border-color-hover)',
+        color: 'var(--theme-button-connect-color-hover)',
+      }}
+      _disabled={{
+        backgroundColor: 'var(--theme-button-connect-background-color-disabled)',
+        borderColor: 'var(--theme-button-connect-border-color-disabled)',
+        color: 'var(--theme-button-connect-color-disabled)',
+      }}
+      {...restProps}
+    >
+      {children}
+      {$isConnected && (
+        <ChevronDown
+          marginLeft={2}
+          marginRight={2}
+          width="auto"
+          height="auto"
+        />
+      )}
+    </Button>
+  )
+}
 
-  ${({ $isConnected }) =>
-    $isConnected &&
-    css`
-      border-radius: 30px;
-      font-size: 1.2rem;
-      height: 44px;
-      padding-left: var(--base-common-padding, 8px);
-      padding-right: var(--base-common-padding, 8px);
-    `}
+// const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, children }) => {
+//   return {
+//     $variant: 'connect',
+//     $isConnected,
+//     children: (
+//       <>
+//         {children}
+//         {$isConnected && <ChevronDown />}
+//       </>
+//     ),
+//   }
+// })`
 
-  ${breakpointMediaQuery(
-    'tabletLandscapeStart',
-    css`
-      font-size: 1.6rem;
-    `,
-  )}
-`
+//   ${({ $isConnected }) =>
+//     $isConnected &&
+//     css`
+//       border-radius: 30px;
+//       font-size: 1.2rem;
+//       height: 44px;
+//       padding-left: var(--base-common-padding, 8px);
+//       padding-right: var(--base-common-padding, 8px);
+//     `}
+
+// `
 
 export default ConnectButton
