@@ -10,6 +10,7 @@ const AlertIcon: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
     xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
+    <title>Alert Icon</title>
     <path
       clipRule="evenodd"
       d="M25 3.35187C13.0441 3.35187 3.35187 13.0441 3.35187 25C3.35187 36.9559 13.0441 46.6481 25 46.6481C36.9559 46.6481 46.6481 36.9559 46.6481 25C46.6481 13.0441 36.9559 3.35187 25 3.35187ZM0 25C0 11.1929 11.1929 0 25 0C38.8071 0 50 11.1929 50 25C50 38.8071 38.8071 50 25 50C11.1929 50 0 38.8071 0 25Z"
@@ -48,10 +49,8 @@ export interface Props extends CardRootProps {
  * @param {Array<ReactElement> | ReactElement} [icon] - Optional icon to display. Default is an alert icon.
  * @param {string | ReactElement} [message] - Optional message to display. Default is 'Something went wrong.'
  * @param {string} [title] - Optional title to display. Default is 'Error'.
- * @param {string} [$variant] - Optional component variant.
  */
 export const GeneralMessage: FC<Props> = ({
-  $variant,
   actionButton,
   icon = <AlertIcon />,
   message = 'Something went wrong.',
