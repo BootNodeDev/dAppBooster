@@ -13,16 +13,16 @@ const Ghost: FC<ImageProps> = () => (
         '--ghost-image': `url(${ImgGhostDark})`,
       },
     }}
-    bottom={{ base: '-5px', md: '70px' }}
+    bottom={{ base: '-5px', lg: '70px' }}
     content="var(--ghost-image)"
     flexGrow={0}
     flexShrink={0}
-    height={{ base: '191px', md: 'auto' }}
+    height={{ base: '191px', lg: 'auto' }}
     left="50%"
-    objectFit={{ base: 'cover', md: 'none' }}
+    objectFit={{ base: 'cover', lg: 'none' }}
     position="absolute"
     transform="translateX(-50%)"
-    width={{ base: '100px', md: 'auto' }}
+    width={{ base: '100px', lg: 'auto' }}
     zIndex={1}
   />
 )
