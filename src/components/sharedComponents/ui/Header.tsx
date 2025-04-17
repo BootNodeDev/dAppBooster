@@ -1,4 +1,4 @@
-import MainMenu from '@/src/components/sharedComponents/MainMenu'
+import MainMenu from '@/src/components/pageComponents/home/MainMenu'
 import MobileMenu from '@/src/components/sharedComponents/MobileMenu'
 import { Inner } from '@/src/components/ui/Inner'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
