@@ -1,21 +1,18 @@
+import { chakra } from '@chakra-ui/react'
 import type { FC, HTMLAttributes } from 'react'
-import { styled } from 'styled-components'
-
-const Wrapper = styled.svg`
-  display: block;
-  flex-shrink: 0;
-`
 
 /**
  * LinkedIn logo component
  */
 const LinkedIn: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
-  <Wrapper
+  <chakra.svg
     fill="none"
     height="25"
     viewBox="0 0 26 25"
     width="26"
     xmlns="http://www.w3.org/2000/svg"
+    display="block"
+    flexShrink={0}
     {...restProps}
   >
     <path
@@ -24,7 +21,7 @@ const LinkedIn: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
       fill="currentColor"
       fillRule="evenodd"
     />
-  </Wrapper>
+  </chakra.svg>
 )
 
 export default LinkedIn
