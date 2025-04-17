@@ -1,142 +1,8 @@
-import type { FC, HTMLAttributes, ReactNode } from 'react'
-import styled, { css } from 'styled-components'
-
-import { breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
-
-import BaseBadge from '@/src/components/pageComponents/home/Examples/Item/Badge'
+import Badge from '@/src/components/pageComponents/home/Examples/Item/Badge'
 import DocumentationButton from '@/src/components/pageComponents/home/Examples/Item/DocumentationButton'
 import SourceCodeButton from '@/src/components/pageComponents/home/Examples/Item/SourceCodeButton'
-
-const Wrapper = styled.div`
-  [data-theme='light'] & {
-    --theme-examples-item-background-color: #f7f7f7;
-  }
-
-  [data-theme='dark'] & {
-    --theme-examples-item-background-color: #2e3048;
-  }
-
-  background-color: var(--theme-examples-item-background-color);
-  border-radius: var(--base-border-radius);
-  display: flex;
-  flex-direction: column;
-  row-gap: calc(var(--base-gap-xl) + var(--base-gap));
-  max-width: 100%;
-  padding: calc(var(--base-common-padding-xl) * 2) var(--base-common-padding-xl)
-    var(--base-common-padding-xl);
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      column-gap: var(--base-gap-xl);
-      flex-direction: row;
-      padding: var(--base-common-padding-xl) var(--base-common-padding-xl)
-        var(--base-common-padding-xl) calc(var(--base-common-padding-xl) * 2);
-    `,
-  )};
-`
-
-const Info = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  row-gap: var(--base-gap-xl);
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      align-items: flex-start;
-      padding: var(--base-common-padding-xl) 0 0;
-    `,
-  )};
-`
-
-const Icon = styled.div`
-  --icon-size: 40px;
-
-  align-items: center;
-  background-color: var(--theme-color-primary);
-  border-radius: 50%;
-  color: #fff;
-  display: flex;
-  height: var(--icon-size);
-  justify-content: center;
-  width: var(--icon-size);
-`
-
-const Title = styled.h3`
-  color: var(--theme-color-text-primary);
-  font-size: 2.4rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0;
-  text-align: center;
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      text-align: left;
-    `,
-  )};
-`
-
-const Text = styled.p`
-  font-size: 1.6rem;
-  font-weight: 500;
-  line-height: 1.5;
-  margin: 0;
-  text-align: center;
-
-  &,
-  & a {
-    color: var(--theme-color-text-primary);
-  }
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      text-align: left;
-    `,
-  )};
-`
-
-const Buttons = styled.div`
-  display: flex;
-  gap: var(--base-gap);
-
-  ${breakpointMediaQuery('tabletPortraitStart', css``)};
-`
-
-const Demo = styled.div`
-  align-items: center;
-  background-color: var(--theme-examples-list-background-color);
-  border-radius: var(--base-border-radius);
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  justify-content: center;
-  min-width: 0;
-  padding: calc(var(--base-common-padding) * 6) var(--base-common-padding)
-    calc(var(--base-common-padding) * 3);
-  position: relative;
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      min-height: 205px;
-      padding: calc(var(--base-common-padding) * 4) calc(var(--base-common-padding) * 3);
-    `,
-  )};
-`
-
-const Badge = styled(BaseBadge)`
-  --badge-gap: calc(var(--base-gap) + var(--base-gap-sm));
-
-  left: var(--badge-gap);
-  position: absolute;
-  top: var(--badge-gap);
-`
+import { Flex, Heading, Text } from '@chakra-ui/react'
+import type { FC, HTMLAttributes, ReactNode } from 'react'
 
 export interface Props extends HTMLAttributes<HTMLDivElement> {
   demo: ReactNode
@@ -149,12 +15,80 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
 
 const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...restProps }) => {
   return (
-    <Wrapper {...restProps}>
-      <Info>
-        <Icon>{icon}</Icon>
-        <Title>{title}</Title>
-        <Text>{text}</Text>
-        <Buttons>
+    <Flex
+      css={{
+        "[data-theme='light'] &": {
+          '--theme-examples-item-background-color': '#f7f7f7',
+        },
+        "[data-theme='dark'] &": {
+          '--theme-examples-item-background-color': '#2e3048',
+        },
+      }}
+      backgroundColor="var(--theme-examples-item-background-color)"
+      borderRadius="var(--base-border-radius)"
+      display="flex"
+      flexDirection={{ base: 'column', lg: 'row' }}
+      rowGap="20px"
+      maxWidth="100%"
+      paddingTop={{ base: 8, lg: 4 }}
+      paddingBottom="16px"
+      paddingRight="16px"
+      paddingLeft={{ base: 4, lg: 8 }}
+      columnGap={{ lg: 8 }}
+      {...restProps}
+    >
+      <Flex
+        alignItems={{ base: 'center', lg: 'flex-start' }}
+        display="flex"
+        flex="1"
+        flexDirection="column"
+        paddingBottom={{ lg: 0 }}
+        paddingTop={{ lg: 4 }}
+        rowGap="var(--base-gap-xl)"
+      >
+        <Flex
+          css={{
+            '--icon-size': '40px',
+          }}
+          alignItems="center"
+          backgroundColor="var(--theme-color-primary)"
+          borderRadius="50%"
+          color="#fff"
+          display="flex"
+          height="var(--icon-size)"
+          justifyContent="center"
+          width="var(--icon-size)"
+        >
+          {icon}
+        </Flex>
+        <Heading
+          as="h3"
+          color="var(--theme-color-text-primary)"
+          fontFamily={'var(--base-font-family)'}
+          fontSize="24px"
+          fontWeight={700}
+          lineHeight="1.2"
+          margin="0"
+          textAlign={{ base: 'center', lg: 'left' }}
+        >
+          {title}
+        </Heading>
+        <Text
+          css={{
+            a: {
+              color: 'var(--theme-color-text-primary)',
+            },
+          }}
+          color="var(--theme-color-text-primary)"
+          fontSize="16px"
+          fontWeight={500}
+          lineHeight="1.5"
+          margin="0"
+          textAlign={{ base: 'center', lg: 'left' }}
+        >
+          {text}
+        </Text>
+        <Flex>
           {href && (
             <DocumentationButton
               as="a"
@@ -169,13 +103,27 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
               target="_blank"
             />
           )}
-        </Buttons>
-      </Info>
-      <Demo>
+        </Flex>
+      </Flex>
+      <Flex
+        alignItems="center"
+        backgroundColor="var(--theme-examples-list-background-color)"
+        borderRadius="var(--base-border-radius)"
+        flex="1"
+        flexDirection="column"
+        justifyContent="center"
+        minHeight={{ md: '205px' }}
+        minWidth="0"
+        paddingBottom={{ base: 6, md: 6 }}
+        paddingLeft={6}
+        paddingRight={6}
+        paddingTop={{ base: 12, md: 8 }}
+        position="relative"
+      >
         <Badge />
         {demo}
-      </Demo>
-    </Wrapper>
+      </Flex>
+    </Flex>
   )
 }
 
