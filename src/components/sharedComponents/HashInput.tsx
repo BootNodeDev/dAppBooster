@@ -1,3 +1,4 @@
+import detectHash, { type DetectedHash } from '@/src/utils/hash'
 import {
   type ChangeEvent,
   type ComponentProps,
@@ -7,11 +8,8 @@ import {
   useEffect,
   useState,
 } from 'react'
-
 import { useDebouncedCallback } from 'use-debounce'
 import type { Chain } from 'viem'
-
-import detectHash, { type DetectedHash } from '@/src/utils/hash'
 
 interface HashInputProps extends ComponentProps<'input'> {
   chain: Chain
