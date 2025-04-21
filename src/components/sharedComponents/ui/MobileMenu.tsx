@@ -1,16 +1,10 @@
-import { useState } from 'react'
-import styled, { css } from 'styled-components'
-
-import {
-  Logo as BaseLogo,
-  SwitchThemeButton,
-  breakpointMediaQuery,
-} from '@bootnodedev/db-ui-toolkit'
-import { Link } from '@tanstack/react-router'
-import { useTheme } from 'next-themes'
-
 import { menuItems } from '@/src/constants/menuItems'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import { Logo as BaseLogo, SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
+import { Link as A, Box, Flex, chakra } from '@chakra-ui/react'
+import { Link as ReactLink } from '@tanstack/react-router'
+import { useTheme } from 'next-themes'
+import { useState } from 'react'
 
 const MenuIcon = () => (
   <svg
@@ -42,180 +36,141 @@ const CloseIcon = () => (
   </svg>
 )
 
-const Wrapper = styled.div`
-  --base-mobile-menu-max-width: 375px;
+const Logo = chakra(BaseLogo)
 
-  background-color: var(--theme-dialog-overlay-color);
-  content: '';
-  display: block;
-  height: 100vh;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  z-index: 0;
-  opacity: 1;
-  transition:
-    display var(--base-transition-duration-sm, 0.2s) ease-out allow-discrete,
-    opacity var(--base-transition-duration-sm, 0.2s) ease-out;
+const Button = chakra('button', {
+  base: {
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    border: 'none',
+    cursor: 'pointer',
+    display: 'flex',
+    height: '30px',
+    justifyContent: 'center',
+    padding: '0',
+    width: '30px',
 
-  /* Transitions will start in these states */
-  @starting-style {
-    opacity: 0;
-  }
+    '&:active': {
+      opacity: '0.7',
+    },
+  },
+})
 
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      display: none;
-    `,
-  )}
-`
+const ConnectButton = chakra(ConnectWalletButton)
 
-const Inner = styled.div`
-  align-items: center;
-  background-color: var(--theme-main-menu-background-color, #f7f7f7);
-  color: var(--theme-main-menu-color, #2e3048);
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  padding: var(--base-padding-mobile);
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 100vw;
-  z-index: 10;
-  transition: right var(--base-transition-duration, 0.2s) ease-out;
+const LinkCSS = {
+  alignItems: 'center',
+  color: 'var(--theme-main-menu-color)',
+  display: 'flex',
+  flexDirection: 'column',
+  fontSize: '21px',
+  fontWeight: '500',
+  lineHeight: '1.2',
+  rowGap: 6,
+  textDecoration: 'none',
+  _after: {
+    backgroundColor: 'var(--theme-main-menu-color)',
+    borderRadius: '2px',
+    content: "''",
+    display: 'block',
+    height: '2px',
+    width: '20px',
+  },
+  _active: {
+    opacity: 0.7,
+  },
+}
 
-  /* Transitions will start in these states */
-  @starting-style {
-    right: calc(var(--base-mobile-menu-max-width) * -1);
-  }
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      width: var(--base-mobile-menu-max-width);
-    `,
-  )}
-`
-
-const Header = styled.div`
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 80px;
-  width: 100%;
-`
-
-const Logo = styled(BaseLogo)`
-  width: 140px;
-  margin-left: 16px;
-`
-
-const Button = styled.button`
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  height: 30px;
-  justify-content: center;
-  padding: 0;
-  width: 30px;
-
-  &:active {
-    opacity: 0.7;
-  }
-`
-
-const MenuButton = styled(Button)`
-  margin: 0 0 0 auto;
-
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      display: none;
-    `,
-  )}
-`
-
-const ConnectButton = styled(ConnectWalletButton)`
-  margin-bottom: 40px;
-  max-width: fit-content;
-`
-
-const MenuItems = styled.nav`
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  row-gap: calc(var(--base-gap) * 3);
-`
-
-const LinkCSS = css`
-  align-items: center;
-  color: var(--theme-main-menu-color, #2e3048);
-  display: flex;
-  flex-direction: column;
-  font-size: 2.1rem;
-  font-weight: 500;
-  line-height: 1.2;
-  row-gap: calc(var(--base-gap) * 3);
-  text-decoration: none;
-
-  &::after {
-    background-color: var(--theme-main-menu-color, #2e3048);
-    border-radius: 2px;
-    content: '';
-    display: block;
-    height: 2px;
-    width: 20px;
-  }
-
-  &:active {
-    opacity: 0.7;
-  }
-`
-
-const Item = styled(Link)`
-  ${LinkCSS}
-`
-
-const ExternalItem = styled.a`
-  ${LinkCSS}
-`
+const Link = chakra(ReactLink)
 
 const MobileMenu = ({ ...restProps }) => {
   const [isOpen, setIsOpen] = useState(false)
   const { setTheme, theme } = useTheme()
 
   return isOpen ? (
-    <Wrapper {...restProps}>
-      <Inner>
-        <Header>
-          <Logo alt="dAppBooster - A blockchain boilerplate to kickstart your next Web3 project" />
+    <Box
+      css={{
+        '--base-mobile-menu-max-width': '375px',
+        '@starting-style': {
+          opacity: 0,
+        },
+      }}
+      backgroundColor="var(--theme-dialog-overlay-color)"
+      content="''"
+      display={{ base: 'block', xl: 'none' }}
+      height="100vh"
+      left="0"
+      opacity="1"
+      position="fixed"
+      top="0"
+      transition="display var(--base-transition-duration-sm) ease-out, opacity var(--base-transition-duration-sm) ease-out"
+      width="100vw"
+      zIndex="0"
+      {...restProps}
+    >
+      <Flex
+        css={{
+          '@starting-style': {
+            right: 'calc(var(--base-mobile-menu-max-width) * -1)',
+          },
+        }}
+        alignItems="center"
+        backgroundColor="var(--theme-main-menu-background-color)"
+        color="var(--theme-main-menu-color)"
+        display="flex"
+        flexDirection="column"
+        height="100vh"
+        padding="var(--base-padding-mobile)"
+        position="fixed"
+        right="0"
+        top="0"
+        transition="right var(--base-transition-duration, 0.2s) ease-out"
+        width={{ base: '100vw', md: 'var(--base-mobile-menu-max-width)' }}
+        zIndex="10"
+      >
+        <Flex
+          alignItems="center"
+          display="flex"
+          justifyContent="space-between"
+          marginBottom="80px"
+          width="100%"
+        >
+          <Logo
+            alt="dAppBooster - A blockchain boilerplate to kickstart your next Web3 project"
+            marginLeft="16px"
+            width="140px"
+          />
           <Button
-            onClick={() => setIsOpen(false)}
             aria-label="Close menu"
+            onClick={() => setIsOpen(false)}
           >
             <CloseIcon />
           </Button>
-        </Header>
-        <ConnectButton />
-        <MenuItems>
+        </Flex>
+        <ConnectButton
+          marginBottom="40px"
+          maxWidth="fit-content"
+        />
+        <Flex
+          alignItems="center"
+          display="flex"
+          flexDirection="column"
+          rowGap={6}
+        >
           {menuItems.map(({ href, label, to }, index) => {
             const key = `menuItem_${index}`
-
             return to ? (
-              <Item
+              <Link
+                {...LinkCSS}
                 key={key}
                 onClick={() => setIsOpen(false)}
                 to={to}
               >
                 {label}
-              </Item>
+              </Link>
             ) : href ? (
-              <ExternalItem
+              <A
+                {...LinkCSS}
                 href={href}
                 key={key}
                 onClick={() => setIsOpen(false)}
@@ -223,20 +178,22 @@ const MobileMenu = ({ ...restProps }) => {
                 target="_blank"
               >
                 {label}
-              </ExternalItem>
+              </A>
             ) : null
           })}
           <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
-        </MenuItems>
-      </Inner>
-    </Wrapper>
+        </Flex>
+      </Flex>
+    </Box>
   ) : (
-    <MenuButton
-      onClick={() => setIsOpen(true)}
+    <Button
       aria-label="Open menu"
+      display={{ xl: 'none' }}
+      margin="0 0 0 auto"
+      onClick={() => setIsOpen(true)}
     >
       <MenuIcon />
-    </MenuButton>
+    </Button>
   )
 }
 

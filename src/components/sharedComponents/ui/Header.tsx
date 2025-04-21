@@ -1,5 +1,5 @@
-import MobileMenu from '@/src/components/sharedComponents/MobileMenu'
 import MainMenu from '@/src/components/sharedComponents/ui/MainMenu'
+import MobileMenu from '@/src/components/sharedComponents/ui/MobileMenu'
 import { Inner } from '@/src/components/ui/Inner'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import { Logo as BaseLogo, SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
@@ -44,7 +44,7 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
         <MainMenu />
         <Flex
           align="center"
-          display={{ base: 'none', lg: 'flex' }}
+          display={{ base: 'none', xl: 'flex' }}
           flex={1}
           gap={2}
           h="100%"
