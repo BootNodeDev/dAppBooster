@@ -1,3 +1,6 @@
+import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { type ButtonProps, Flex, Menu, Portal } from '@chakra-ui/react'
 import {
   type ComponentPropsWithoutRef,
   type FC,
@@ -5,14 +8,8 @@ import {
   useEffect,
   useState,
 } from 'react'
-import styled from 'styled-components'
-
-import { Item as BaseItem, Dropdown } from '@bootnodedev/db-ui-toolkit'
 import * as chains from 'viem/chains'
 import { useSwitchChain } from 'wagmi'
-
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 
 type NetworkItem = {
   icon: ReactElement
@@ -42,54 +39,29 @@ const ChevronDown = () => (
   </svg>
 )
 
-const Button = styled(PrimaryButton).attrs(({ children, className = 'switchNetworkButton' }) => {
-  return {
-    children: (
-      <>
-        {children} <ChevronDown />
-      </>
-    ),
-    type: 'button',
-    className,
-  }
-})`
-  font-size: 1.6rem;
-  font-weight: 500;
-  height: 48px;
-  padding-left: calc(var(--base-common-padding, 8px) * 3);
-  padding-right: calc(var(--base-common-padding, 8px) * 3);
-
-  .chevronDown {
-    transition: transform var(--base-transition-duration-xs, 0.1s) ease-in-out;
-  }
-
-  .isActive & {
-    .chevronDown {
-      transform: rotate(180deg);
-    }
-  }
-`
-
-const NetworkIcon = styled.div.attrs(() => {
-  return { className: 'switchNetworkNetworkIcon' }
-})`
-  align-items: center;
-  background-color: var(--theme-switch-network-icon-background-color, #fff);
-  border-radius: 50%;
-  display: flex;
-  height: 24px;
-  justify-content: center;
-  overflow: hidden;
-  width: 24px;
-`
-
-const ListItem = styled(BaseItem).attrs(() => {
-  return { className: 'switchNetworkListItem' }
-})`
-  font-size: 1.6rem;
-  min-height: 48px;
-  width: 250px;
-`
+const Button: FC<ButtonProps> = ({ children, ...restProps }) => {
+  return (
+    <PrimaryButton
+      fontSize="16px"
+      fontWeight="500"
+      height="48px"
+      paddingLeft={6}
+      paddingRight={6}
+      css={{
+        '& .chevronDown': {
+          transition: 'transform var(--base-transition-duration-xs) ease-in-out',
+        },
+        '&.isOpen .chevronDown': {
+          transform: 'rotate(180deg)',
+        },
+      }}
+      type="button"
+      {...restProps}
+    >
+      {children} <ChevronDown />
+    </PrimaryButton>
+  )
+}
 
 interface SwitchNetworkProps extends ComponentPropsWithoutRef<'div'> {
   networks: Networks
@@ -101,7 +73,7 @@ interface SwitchNetworkProps extends ComponentPropsWithoutRef<'div'> {
  * @param {SwitchNetworkProps} props - SwitchNetwork component props.
  * @param {Networks} props.networks - List of networks to display in the dropdown.
  */
-const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks, ...restProps }) => {
+const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }) => {
   const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
 
   const { chains: configuredChains, switchChain } = useSwitchChain()
@@ -130,31 +102,78 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks, ...restProps }) => {
   }, [walletChainId, networks])
 
   return (
-    <Dropdown
-      button={
-        <Button>
+    <Menu.Root>
+      <Menu.Trigger>
+        <Button disabled={!isWalletConnected}>
           {networkItem ? (
             <>
-              <NetworkIcon>{networkItem?.icon}</NetworkIcon> {networkItem?.label}
+              <Flex
+                alignItems="center"
+                backgroundColor="var(--theme-switch-network-icon-background-color)"
+                borderRadius="50%"
+                display="flex"
+                height="24px"
+                justifyContent="center"
+                overflow="hidden"
+                width="24px"
+              >
+                {networkItem?.icon}
+              </Flex>{' '}
+              {networkItem?.label}
             </>
           ) : (
             'Select a network'
           )}
         </Button>
-      }
-      disabled={!isWalletConnected}
-      items={networks.map(({ icon, id, label }) => (
-        <ListItem
-          key={`${id}-${label}`}
-          onClick={() => handleClick(id)}
-        >
-          {icon}
-          {label}
-        </ListItem>
-      ))}
-      position="right"
-      {...restProps}
-    />
+      </Menu.Trigger>
+      <Portal>
+        <Menu.Positioner>
+          <Menu.Content
+            padding="0"
+            backgroundColor="var(--theme-dropdown-background-color)"
+            borderColor="var(--theme-dropdown-border-color)"
+            boxShadow="var(--theme-dropdown-box-shadow)"
+            width="250px"
+          >
+            {networks.map(({ icon, id, label }) => (
+              <Menu.Item
+                alignItems="center"
+                backgroundColor="var(--theme-dropdown-item-background-color)"
+                borderBottom="1px solid var( --theme-dropdown-item-border-color)"
+                columnGap={2}
+                cursor="pointer"
+                display="flex"
+                fontSize="16px"
+                fontWeight="400"
+                justifyContent="flex-start"
+                key={`${id}-${label}`}
+                lineHeight="1.4"
+                minHeight="48px"
+                onClick={() => handleClick(id)}
+                overflow="hidden"
+                paddingX={4}
+                transition="background-color var(--base-transition-duration-xs) ease-in-out"
+                value={label}
+                width="250px"
+                _hover={{
+                  backgroundColor: 'var(--theme-dropdown-item-background-color-hover)',
+                  color: 'var(--theme-dropdown-item-color-hover)',
+                  borderBottom: '1px solid var( --theme-dropdown-item-border-color-hover)',
+                }}
+                _active={{
+                  backgroundColor: 'var(--theme-dropdown-item-background-color-active)',
+                  color: 'var(--theme-dropdown-item-color-active)',
+                  borderBottom: '1px solid var( --theme-dropdown-item-border-color-active)',
+                }}
+              >
+                {icon}
+                {label}
+              </Menu.Item>
+            ))}
+          </Menu.Content>
+        </Menu.Positioner>
+      </Portal>
+    </Menu.Root>
   )
 }
 
