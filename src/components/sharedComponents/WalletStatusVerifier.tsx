@@ -1,20 +1,20 @@
-import type { ComponentType, FC, ReactElement } from 'react'
-import styled from 'styled-components'
-
-import { extractChain } from 'viem'
-
 import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { type ChainsIds, chains } from '@/src/lib/networks.config'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import { chakra } from '@chakra-ui/react'
+import type { ComponentType, FC, ReactElement } from 'react'
+import { extractChain } from 'viem'
 
-const Button = styled(PrimaryButton)`
-  font-size: 1.6rem;
-  font-weight: 500;
-  height: 48px;
-  padding-left: calc(var(--base-common-padding, 8px) * 3);
-  padding-right: calc(var(--base-common-padding, 8px) * 3);
-`
+const Button = chakra(PrimaryButton, {
+  base: {
+    fontSize: '16px',
+    fontWeight: 500,
+    height: '48px',
+    paddingLeft: 6,
+    paddingRight: 6,
+  },
+})
 
 interface WalletStatusVerifierProps {
   chainId?: ChainsIds
