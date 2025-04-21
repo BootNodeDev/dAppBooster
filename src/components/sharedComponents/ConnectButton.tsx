@@ -60,29 +60,4 @@ const ConnectButton: FC<ConnectButtonProps> = ({ $isConnected, children, ...rest
   )
 }
 
-// const ConnectButton = styled(Button).attrs<ConnectButtonProps>(({ $isConnected, children }) => {
-//   return {
-//     $variant: 'connect',
-//     $isConnected,
-//     children: (
-//       <>
-//         {children}
-//         {$isConnected && <ChevronDown />}
-//       </>
-//     ),
-//   }
-// })`
-
-//   ${({ $isConnected }) =>
-//     $isConnected &&
-//     css`
-//       border-radius: 30px;
-//       font-size: 1.2rem;
-//       height: 44px;
-//       padding-left: var(--base-common-padding, 8px);
-//       padding-right: var(--base-common-padding, 8px);
-//     `}
-
-// `
-
 export default ConnectButton
