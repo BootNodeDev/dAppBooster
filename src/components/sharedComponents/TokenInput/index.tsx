@@ -1,11 +1,3 @@
-import { type ComponentPropsWithoutRef, type FC, useMemo } from 'react'
-import styled from 'styled-components'
-
-import { Spinner } from '@bootnodedev/db-ui-toolkit'
-import { Modal, useModal } from '@faceless-ui/modal'
-import { type NumberFormatValues, NumericFormat } from 'react-number-format'
-import { formatUnits } from 'viem'
-
 import {
   BigNumberInput,
   type BigNumberInputProps,
@@ -33,6 +25,12 @@ import BaseTokenSelect, {
   type TokenSelectProps,
 } from '@/src/components/sharedComponents/TokenSelect'
 import type { Token } from '@/src/types/token'
+import { Spinner } from '@bootnodedev/db-ui-toolkit'
+import { Modal, useModal } from '@faceless-ui/modal'
+import { type ComponentPropsWithoutRef, type FC, useMemo } from 'react'
+import { type NumberFormatValues, NumericFormat } from 'react-number-format'
+import styled from 'styled-components'
+import { formatUnits } from 'viem'
 
 const TokenSelect = styled(BaseTokenSelect)`
   position: relative;
