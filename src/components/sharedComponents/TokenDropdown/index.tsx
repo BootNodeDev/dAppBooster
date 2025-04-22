@@ -1,41 +1,10 @@
-import type { ComponentPropsWithoutRef, FC, KeyboardEvent } from 'react'
-import styled, { css } from 'styled-components'
-
-import { breakpointMediaQuery, useDropdown } from '@bootnodedev/db-ui-toolkit'
-
 import DropdownButton from '@/src/components/sharedComponents/TokenDropdown/DropdownButton'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import type { Token } from '@/src/types/token'
-
-const Wrapper = styled.span`
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      .dbuitkDropdownItems {
-        /**
-        * Hack-ish way to make the dropdown items appear on the right side of the button
-        * and avoid the dropdown to be cut off by the screen edge
-        *
-        * Should be fixed when / if the dropdown component supports auto positioning in the future
-        */
-        left: auto;
-        right: 0;
-        transform: none;
-      }
-    `,
-  )}
-`
-
-const Icon = styled.div<{ iconSize?: number }>`
-  align-items: center;
-  border-radius: 50%;
-  display: flex;
-  height: ${({ iconSize }) => iconSize}px;
-  justify-content: center;
-  overflow: hidden;
-  width: ${({ iconSize }) => iconSize}px;
-`
+import { Flex, Menu, Portal } from '@chakra-ui/react'
+import type { ComponentPropsWithoutRef, FC } from 'react'
+import { useState } from 'react'
 
 export interface TokenDropdownProps extends TokenSelectProps {
   currentToken?: Token | undefined
@@ -71,7 +40,7 @@ const TokenDropdown: FC<Props> = ({
   style,
   ...restProps
 }: Props) => {
-  const { Dropdown, close } = useDropdown()
+  const [isOpen, setIsOpen] = useState(false)
 
   /**
    * Handle token selection and close the dropdown
@@ -79,50 +48,56 @@ const TokenDropdown: FC<Props> = ({
    */
   const handleTokenSelect = (token: Token | undefined) => {
     onTokenSelect(token)
-    close('token-dropdown')
+    setIsOpen(false)
   }
 
   return (
-    <Wrapper
-      className={`${className ? className : ''} tokenDropdownWrapper`}
-      style={style}
+    <Menu.Root
+      open={isOpen}
+      onOpenChange={(state) => setIsOpen(state.open)}
     >
-      <Dropdown
-        button={
-          <DropdownButton>
-            {currentToken ? (
-              <>
-                <Icon>
-                  <TokenLogo
-                    size={iconSize}
-                    token={currentToken}
-                  />
-                </Icon>
-                {currentToken.symbol}
-              </>
-            ) : (
-              'Select token'
-            )}
-          </DropdownButton>
-        }
-        className={'tokenDropdown'}
-        closeOnClick={false}
-        id="token-dropdown"
-        items={
-          <TokenSelect
-            onTokenSelect={handleTokenSelect}
-            showAddTokenButton={showAddTokenButton}
-            {...restProps}
-          />
-        }
-        onKeyUp={(e: KeyboardEvent<HTMLElement>) => {
-          if (e.key === 'Escape') {
-            close('token-dropdown')
-          }
-        }}
-        position="center"
-      />
-    </Wrapper>
+      <Menu.Trigger>
+        <DropdownButton>
+          {currentToken ? (
+            <>
+              <Flex
+                alignItems="center"
+                borderRadius="50%"
+                display="flex"
+                height={`${iconSize}px`}
+                justifyContent="center"
+                overflow="hidden"
+                width={`${iconSize}px"`}
+              >
+                <TokenLogo
+                  size={iconSize}
+                  token={currentToken}
+                />
+              </Flex>
+              {currentToken.symbol}
+            </>
+          ) : (
+            'Select token'
+          )}
+        </DropdownButton>
+      </Menu.Trigger>
+      <Portal>
+        <Menu.Positioner>
+          <Menu.Content
+            padding="0"
+            backgroundColor="var(--theme-dropdown-background-color)"
+            borderColor="var(--theme-dropdown-border-color)"
+            boxShadow="var(--theme-dropdown-box-shadow)"
+          >
+            <TokenSelect
+              onTokenSelect={handleTokenSelect}
+              showAddTokenButton={showAddTokenButton}
+              {...restProps}
+            />
+          </Menu.Content>
+        </Menu.Positioner>
+      </Portal>
+    </Menu.Root>
   )
 }
 

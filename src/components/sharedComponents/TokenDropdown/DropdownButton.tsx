@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-
-import { Button } from '@bootnodedev/db-ui-toolkit'
+import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import type { ButtonProps } from '@chakra-ui/react'
+import type { FC } from 'react'
 
 const ChevronDown = () => (
   <svg
@@ -22,29 +22,28 @@ const ChevronDown = () => (
   </svg>
 )
 
-const DropdownButton = styled(Button).attrs(({ children }) => ({
-  $variant: 'dropdown',
-  children: (
-    <>
+const Button: FC<ButtonProps> = ({ children, ...restProps }) => {
+  return (
+    <PrimaryButton
+      fontSize="16px"
+      fontWeight="500"
+      height="48px"
+      paddingLeft={6}
+      paddingRight={6}
+      css={{
+        '& .chevronDown': {
+          transition: 'transform var(--base-transition-duration-xs) ease-in-out',
+        },
+        '&.isOpen .chevronDown': {
+          transform: 'rotate(180deg)',
+        },
+      }}
+      type="button"
+      {...restProps}
+    >
       {children} <ChevronDown />
-    </>
-  ),
-}))`
-  font-size: 1.6rem;
-  font-weight: 500;
-  height: 48px;
-  padding-left: calc(var(--base-common-padding, 8px) * 3);
-  padding-right: calc(var(--base-common-padding, 8px) * 3);
+    </PrimaryButton>
+  )
+}
 
-  .chevronDown {
-    transition: transform var(--base-transition-duration-xs, 0.1s) ease-in-out;
-  }
-
-  .isActive & {
-    .chevronDown {
-      transform: rotate(180deg);
-    }
-  }
-`
-
-export default DropdownButton
+export default Button
