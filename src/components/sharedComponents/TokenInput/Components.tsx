@@ -1,4 +1,3 @@
-import { Textfield as BaseTextfield, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
 import {
   type ButtonProps,
   Flex,
@@ -12,7 +11,6 @@ import {
   chakra,
 } from '@chakra-ui/react'
 import type { FC } from 'react'
-import styled, { css } from 'styled-components'
 
 const BaseChevronDown = ({ ...restProps }) => (
   <svg
