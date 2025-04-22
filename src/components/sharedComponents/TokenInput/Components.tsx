@@ -186,6 +186,7 @@ export const BottomRow: FC<FlexProps> = ({ children, ...restProps }) => (
   <Flex
     columnGap={2}
     justifyContent="space-between"
+    lineHeight={1.2}
     {...restProps}
   >
     {children}
