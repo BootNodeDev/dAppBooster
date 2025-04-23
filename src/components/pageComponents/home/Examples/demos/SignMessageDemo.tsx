@@ -1,6 +1,4 @@
-import styled from 'styled-components'
-
-import SignButtonBase from '@/src/components/sharedComponents/SignButton'
+import SignButton from '@/src/components/sharedComponents/SignButton'
 import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 
 const message = `
@@ -15,16 +13,17 @@ Empower your dApps!
 dAppBooster Team 💪
 `
 
-const Button = styled(PrimaryButton).attrs({ as: SignButtonBase })`
-  font-size: 1.6rem;
-  font-weight: 500;
-  height: 48px;
-  padding-left: calc(var(--base-common-padding) * 3);
-  padding-right: calc(var(--base-common-padding) * 3);
-`
-
 const SignMessageDemo = () => {
-  return <Button message={message} />
+  return (
+    <SignButton
+      fontSize="16px"
+      fontWeight="500"
+      height="48px"
+      paddingX={6}
+      as={PrimaryButton}
+      message={message}
+    />
+  )
 }
 
 export default SignMessageDemo

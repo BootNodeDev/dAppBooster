@@ -1,11 +1,10 @@
-import type { ComponentProps, FC } from 'react'
-
-import { useSignMessage } from 'wagmi'
-
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { useTransactionNotification } from '@/src/lib/toast/TransactionNotificationProvider'
+import { type ButtonProps, chakra } from '@chakra-ui/react'
+import type { FC } from 'react'
+import { useSignMessage } from 'wagmi'
 
-interface SignButtonPropsProps extends Omit<ComponentProps<'button'>, 'onError'> {
+interface SignButtonPropsProps extends Omit<ButtonProps, 'onError'> {
   label?: string
   labelSigning?: string
   message: string
@@ -42,7 +41,7 @@ const SignButton: FC<SignButtonPropsProps> = withWalletStatusVerifier(
     onError,
     onSign,
     ...restProps
-  }) => {
+  }: SignButtonPropsProps) => {
     const { watchSignature } = useTransactionNotification()
 
     const { isPending, signMessageAsync } = useSignMessage({
@@ -57,7 +56,7 @@ const SignButton: FC<SignButtonPropsProps> = withWalletStatusVerifier(
     })
 
     return (
-      <button
+      <chakra.button
         disabled={disabled || isPending}
         onClick={() => {
           watchSignature({
@@ -68,7 +67,7 @@ const SignButton: FC<SignButtonPropsProps> = withWalletStatusVerifier(
         {...restProps}
       >
         {isPending ? labelSigning : children}
-      </button>
+      </chakra.button>
     )
   },
 )
