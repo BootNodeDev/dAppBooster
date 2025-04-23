@@ -1,23 +1,10 @@
-import type { FC, HTMLAttributes } from 'react'
-import styled from 'styled-components'
-
 import Item from '@/src/components/sharedComponents/TokenSelect/TopTokens/Item'
 import type { Token, Tokens } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
+import { Flex, type FlexProps } from '@chakra-ui/react'
+import type { FC } from 'react'
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectTopTokensWrapper' }) => {
-  return {
-    className,
-  }
-})`
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--base-gap-xl, 16px);
-  padding-left: var(--base-common-padding-xl, 16px);
-  padding-right: var(--base-common-padding-xl, 16px);
-`
-
-interface TopTokensProps extends HTMLAttributes<HTMLDivElement> {
+interface TopTokensProps extends FlexProps {
   onTokenSelect: (token: Token | undefined) => void
   tokens: Tokens
 }
@@ -32,7 +19,13 @@ const TopTokens: FC<TopTokensProps> = ({ onTokenSelect, tokens, ...restProps }) 
   const topTokenSymbols = ['op', 'usdc', 'usdt', 'dai', 'weth', 'wbtc', 'aave']
 
   return (
-    <Wrapper {...restProps}>
+    <Flex
+      display="flex"
+      flexWrap="wrap"
+      gap={4}
+      paddingX={4}
+      {...restProps}
+    >
       {[
         // append native token at the beginning
         tokens.find((token) => isNativeToken(token.address)),
@@ -55,7 +48,7 @@ const TopTokens: FC<TopTokensProps> = ({ onTokenSelect, tokens, ...restProps }) 
             token={token!}
           />
         ))}
-    </Wrapper>
+    </Flex>
   )
 }
 

@@ -157,6 +157,7 @@ const darkThemeCSSVars = css`
   --theme-token-select-background-color: #2e3048;
   --theme-token-select-border-color: #2e3048;
   --theme-token-select-title-color: #fff;
+  --theme-token-select-box-shadow: 0 0 20px 0 rgb(255 255 255 / 8%);
 
   --theme-token-select-network-button-color: #fff;
   --theme-token-select-network-button-background-color: #292b43;

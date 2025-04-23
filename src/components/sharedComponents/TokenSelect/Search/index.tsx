@@ -1,32 +1,10 @@
-import type { Dispatch, FC, HTMLAttributes, SetStateAction } from 'react'
-import styled from 'styled-components'
-
-import { Item as BaseItem, Dropdown } from '@bootnodedev/db-ui-toolkit'
-
 import SearchInput from '@/src/components/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/components/sharedComponents/TokenSelect/Search/NetworkButton'
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
+import { Flex, type FlexProps, Menu } from '@chakra-ui/react'
+import type { Dispatch, FC, SetStateAction } from 'react'
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) => {
-  return { className }
-})`
-  display: flex;
-  column-gap: var(--base-gap, 8px);
-  height: 72px;
-  padding: 0 var(--base-common-padding-xl, 16px);
-
-  .dbuitkDropdownButton {
-    height: 100%;
-  }
-`
-
-const Item = styled(BaseItem)`
-  font-size: 1.6rem;
-  min-height: 48px;
-  width: 250px;
-`
-
-interface SearchProps extends HTMLAttributes<HTMLDivElement> {
+interface SearchProps extends FlexProps {
   currentNetworkId: number
   disabled?: boolean
   networks?: Networks
@@ -56,7 +34,18 @@ const Search: FC<SearchProps> = ({
   ...restProps
 }) => {
   return (
-    <Wrapper {...restProps}>
+    <Flex
+      columnGap={2}
+      height="72px"
+      paddingX={4}
+      paddingY={0}
+      css={{
+        '.dbuitkDropdownButton': {
+          height: '100%',
+        },
+      }}
+      {...restProps}
+    >
       <SearchInput
         disabled={disabled}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -64,25 +53,53 @@ const Search: FC<SearchProps> = ({
         value={searchTerm}
       />
       {networks && networks.length > 1 && (
-        <Dropdown
-          button={
+        <Menu.Root positioning={{ placement: 'bottom-end' }}>
+          <Menu.Trigger asChild>
             <NetworkButton>
               {networks.find((item) => item.id === currentNetworkId)?.icon}
             </NetworkButton>
-          }
-          items={networks.map(({ icon, id, label, onClick }) => (
-            <Item
-              key={id}
-              onClick={onClick}
+          </Menu.Trigger>
+          <Menu.Positioner>
+            <Menu.Content
+              padding="0"
+              backgroundColor="var(--theme-dropdown-background-color)"
+              borderColor="var(--theme-dropdown-border-color)"
+              boxShadow="var(--theme-dropdown-box-shadow)"
+              width="250px"
             >
-              {icon}
-              {label}
-            </Item>
-          ))}
-          position="right"
-        />
+              {networks.map(({ icon, id, label, onClick }) => (
+                <Menu.Item
+                  backgroundColor="var(--theme-dropdown-item-background-color)"
+                  borderBottom="1px solid var( --theme-dropdown-item-border-color)"
+                  color="var(--theme-dropdown-item-color)"
+                  cursor="pointer"
+                  fontSize="16px"
+                  key={id}
+                  minHeight="48px"
+                  onClick={onClick}
+                  transition="background-color var(--base-transition-duration-xs) ease-in-out"
+                  value={label}
+                  width="250px"
+                  _hover={{
+                    backgroundColor: 'var(--theme-dropdown-item-background-color-hover)',
+                    color: 'var(--theme-dropdown-item-color-hover)',
+                    borderBottom: '1px solid var( --theme-dropdown-item-border-color-hover)',
+                  }}
+                  _active={{
+                    backgroundColor: 'var(--theme-dropdown-item-background-color-active)',
+                    color: 'var(--theme-dropdown-item-color-active)',
+                    borderBottom: '1px solid var( --theme-dropdown-item-border-color-active)',
+                  }}
+                >
+                  {icon}
+                  {label}
+                </Menu.Item>
+              ))}
+            </Menu.Content>
+          </Menu.Positioner>
+        </Menu.Root>
       )}
-    </Wrapper>
+    </Flex>
   )
 }
 

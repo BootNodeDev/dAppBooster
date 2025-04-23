@@ -122,6 +122,7 @@ const buttonCSS = {
   alignItems: 'center',
   backgroundColor: 'var(--theme-token-input-dropdown-button-background-color)',
   borderColor: 'var(--theme-token-input-dropdown-button-border-color)',
+  borderRadius: 4,
   color: 'var(--theme-token-input-dropdown-button-color)',
   columnGap: 2,
   cursor: 'pointer',
@@ -278,7 +279,7 @@ export const CloseButton: FC<ButtonProps> = ({ children, ...restProps }) => (
     color="var(--theme-token-select-title-color-default)"
     cursor="pointer"
     position="absolute"
-    right={4}
+    right={0}
     top={10}
     _active={{
       opacity: 0.7,

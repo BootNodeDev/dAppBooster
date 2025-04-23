@@ -1,40 +1,7 @@
-import styled from 'styled-components'
-
-import { formatUnits } from 'viem'
-
 import type { Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-
-/** @ignore */
-export const Balance = styled.div.attrs(({ className = 'tokenSelectRowBalance' }) => {
-  return {
-    className,
-  }
-})`
-  color: var(--theme-token-select-row-token-balance-color, #2e3048);
-  font-size: 1.6rem;
-  font-weight: 400;
-  line-height: 1.2;
-`
-
-/** @ignore */
-export const Value = styled.div.attrs(({ className = 'tokenSelectRowValue' }) => {
-  return { className }
-})`
-  color: var(--theme-token-select-row-token-value-color, #2e3048);
-  font-size: 1.2rem;
-  font-weight: 400;
-  line-height: 1.2;
-`
-
-const Values = styled.div.attrs(({ className = 'tokenSelectRowValues' }) => {
-  return { className }
-})`
-  align-items: flex-end;
-  display: flex;
-  flex-direction: column;
-  row-gap: var(--base-gap-sm, 4px);
-`
+import { Box, Flex } from '@chakra-ui/react'
+import { formatUnits } from 'viem'
 
 interface TokenBalanceProps {
   isLoading?: boolean
@@ -69,10 +36,37 @@ const TokenBalance = withSuspenseAndRetry<TokenBalanceProps>(({ isLoading, token
   ).toFixed(2)
 
   return (
-    <Values>
-      <Balance>{balance}</Balance>
-      <Value>$ {value}</Value>
-    </Values>
+    <Flex
+      alignItems="flex-end"
+      display="flex"
+      flexDirection="column"
+      rowGap={1}
+    >
+      <Box
+        color="var(--theme-token-select-row-token-balance-color)"
+        fontSize="16px"
+        fontWeight="400"
+        lineHeight="1.2"
+        _groupHover={{
+          color:
+            'var(--theme-token-select-row-token-balance-color-hover, var(--theme-token-select-row-token-balance-color)',
+        }}
+      >
+        {balance}
+      </Box>
+      <Box
+        color="var(--theme-token-select-row-token-value-color)"
+        fontSize="12px"
+        fontWeight="400"
+        lineHeight="1.2"
+        _groupHover={{
+          color:
+            'var(--theme-token-select-row-token-value-color-hover, var(--theme-token-select-row-token-value-color)',
+        }}
+      >
+        $ {value}
+      </Box>
+    </Flex>
   )
 })
 

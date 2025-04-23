@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import { chakra } from '@chakra-ui/react'
+import type { ComponentProps, FC } from 'react'
 
 const ChevronDown = () => (
   <svg
@@ -23,58 +24,41 @@ const ChevronDown = () => (
 /**
  * A button to select a network from a dropdown
  */
-const NetworkButton = styled.button.attrs(
-  ({ children, className = 'tokenSelectNetworkButton' }) => {
-    return {
-      children: (
-        <>
-          {children} <ChevronDown />
-        </>
-      ),
-      type: 'button',
-      className,
-    }
-  },
-)`
-  align-items: center;
-  background-color: var(
-    --theme-token-select-network-button-background-color,
-    #f7f7f7
-  );
-  border-radius: var(--base-border-radius, 8px);
-  border: none;
-  color: var(--theme-token-select-network-button-color, #2e3048);
-  column-gap: var(--base-gap, 8px);
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  padding: 0;
-  width: 88px;
-
-  &:hover {
-    background-color: var(
-      --theme-token-select-network-button-background-color-hover,
-      var(--theme-token-select-network-button-background-color, #f7f7f7)
-    );
-    color: var(
-      --theme-token-select-network-button-color-hover,
-      var(--theme-token-select-network-button-color, #2e3048)
-    );
-  }
-
-  &:active {
-    opacity: 0.7;
-  }
-
-  .chevronDown {
-    transition: transform var(--base-transition-duration-xs, 0.1s) ease-in-out;
-  }
-
-  .isActive & {
-    .chevronDown {
-      transform: rotate(180deg);
-    }
-  }
-`
+const NetworkButton: FC<ComponentProps<'button'>> = ({ children, ...restProps }) => (
+  <chakra.button
+    type="button"
+    alignItems="center"
+    backgroundColor="var(--theme-token-select-network-button-background-color)"
+    borderRadius={2}
+    border="none"
+    color="var(--theme-token-select-network-button-color)"
+    columnGap={2}
+    cursor="pointer"
+    display="flex"
+    justifyContent="center"
+    padding={0}
+    width="88px"
+    _hover={{
+      backgroundColor:
+        'var(--theme-token-select-network-button-background-color-hover, var(--theme-token-select-network-button-background-color))',
+      color:
+        'var(--theme-token-select-network-button-color-hover, var(--theme-token-select-network-button-color))',
+    }}
+    _active={{
+      opacity: 0.7,
+    }}
+    css={{
+      '.chevronDown': {
+        transition: 'transform var(--base-transition-duration-xs) ease-in-out',
+      },
+      '&[aria-expanded="true"] .chevronDown': {
+        transform: 'rotate(180deg)',
+      },
+    }}
+    {...restProps}
+  >
+    {children} <ChevronDown />
+  </chakra.button>
+)
 
 export default NetworkButton

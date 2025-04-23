@@ -103,7 +103,7 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }) => {
 
   return (
     <Menu.Root>
-      <Menu.Trigger>
+      <Menu.Trigger asChild>
         <Button disabled={!isWalletConnected}>
           {networkItem ? (
             <>
@@ -140,6 +140,7 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }) => {
                 alignItems="center"
                 backgroundColor="var(--theme-dropdown-item-background-color)"
                 borderBottom="1px solid var( --theme-dropdown-item-border-color)"
+                color="var(--theme-dropdown-item-color)"
                 columnGap={2}
                 cursor="pointer"
                 display="flex"

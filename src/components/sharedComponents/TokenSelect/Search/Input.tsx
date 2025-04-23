@@ -1,7 +1,5 @@
-import type { ComponentPropsWithRef, FC, InputHTMLAttributes } from 'react'
-import styled from 'styled-components'
-
-import { Textfield, TextfieldCSS } from '@bootnodedev/db-ui-toolkit'
+import { Input as BaseInput, Flex, type InputProps } from '@chakra-ui/react'
+import type { FC } from 'react'
 
 const SearchIcon = () => (
   <svg
@@ -29,91 +27,69 @@ const SearchIcon = () => (
   </svg>
 )
 
-const Wrapper = styled.div.attrs<ComponentPropsWithRef<'input'>>(
-  ({ className = 'tokenSelectInputWrapper' }) => {
-    return { className }
-  },
-)`
-  --base-textfield-border-radius: var(--base-border-radius, 8px);
-  --base-textfield-padding: 0 var(--base-common-padding-xl, 16px);
-
-  --theme-textfield-color: var(
-    --theme-token-select-search-field-color,
-    #2e3048
-  );
-  --theme-textfield-color-active: var(
-    --theme-token-select-search-field-color-active,
-    #2e3048
-  );
-  --theme-textfield-background-color: var(
-    --theme-token-select-search-field-background-color,
-    #f7f7f7
-  );
-  --theme-textfield-background-color-active: var(
-    --theme-token-select-search-field-background-color-active,
-    #f7f7f7
-  );
-  --theme-textfield-placeholder-color: var(
-    --theme-token-select-search-field-placeholder-color,
-    #161d1a
-  );
-  --theme-textfield-box-shadow: var(
-    --theme-token-select-search-field-box-shadow,
-    none
-  );
-  --theme-textfield-box-shadow-active: var(
-    --theme-token-select-search-field-box-shadow-active,
-    none
-  );
-  --theme-textfield-border-color: var(
-    --theme-token-select-search-field-border-color,
-    #e2e0e7
-  );
-  --theme-textfield-border-color-active: var(
-    --theme-token-select-search-field-border-color-active,
-    #e2e0e7
-  );
-
-  ${TextfieldCSS}
-
-  align-items: center;
-  column-gap: var(--base-gap-xl, 16px);
-  display: flex;
-  flex-grow: 1;
-  height: auto;
-
-  &:focus-within {
-    box-shadow: var(--theme-textfield-box-shadow-active);
-    border-color: var(--theme-textfield-border-color-active);
-  }
-`
-
-const SearchInput = styled(Textfield).attrs(() => {
-  return { type: 'search' }
-})`
-  font-size: 1.6rem;
-
-  &,
-  &:focus,
-  &:hover,
-  &:active {
-    background: none;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    width: 100%;
-  }
-`
-
 /**
  * A search input with a search icon
  */
-const Input: FC<InputHTMLAttributes<HTMLInputElement>> = ({ className, ...inputProps }) => {
+const Input: FC<InputProps> = ({ className, ...inputProps }) => {
   return (
-    <Wrapper className={`${className ? className : ''}`.trim()}>
+    <Flex
+      alignItems="center"
+      backgroundColor="var(--theme-token-select-search-field-background-color)"
+      borderColor="var(--theme-token-select-search-field-border-color)"
+      borderRadius={8}
+      borderStyle="solid"
+      borderWidth="1px"
+      color="var(--theme-token-select-search-field-color)"
+      columnGap={4}
+      display="flex"
+      flexGrow={1}
+      fontSize={{ base: '24px', lg: '32px' }}
+      height="auto"
+      minWidth={0}
+      paddingX={4}
+      paddingY={0}
+      transition="border-color var(--base-transition-duration), color var(--base-transition-duration), background-color var(--base-transition-duration)"
+      _focusWithin={{
+        backgroundColor: 'var(--theme-token-select-search-field-background-color-active)',
+        borderColor:
+          'var(--theme-token-select-search-field-border-color-active, var(--theme-textfield-border-color-active))',
+        color: 'var(--theme-token-select-search-field-color-active)',
+        boxShadow:
+          'var(--theme-token-select-search-field-box-shadow-active, var(--theme-textfield-box-shadow-active))',
+      }}
+      className={`${className ? className : ''}`.trim()}
+    >
       <SearchIcon />
-      <SearchInput {...inputProps} />
-    </Wrapper>
+      <BaseInput
+        border="none"
+        fontSize="16px"
+        padding="0"
+        type="text"
+        width="100%"
+        _active={{
+          background: 'none',
+          border: 'none',
+          boxShadow: 'none',
+          outline: 'none',
+        }}
+        _hover={{
+          background: 'none',
+          border: 'none',
+          boxShadow: 'none',
+          outline: 'none',
+        }}
+        _focus={{
+          background: 'none',
+          border: 'none',
+          boxShadow: 'none',
+          outline: 'none',
+        }}
+        _placeholder={{
+          color: 'var(--theme-token-select-search-field-placeholder-color)',
+        }}
+        {...inputProps}
+      />
+    </Flex>
   )
 }
 

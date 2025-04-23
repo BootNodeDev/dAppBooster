@@ -1,8 +1,3 @@
-import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
-
-import type { Chain } from 'viem/chains'
-
 import List from '@/src/components/sharedComponents/TokenSelect/List'
 import Search from '@/src/components/sharedComponents/TokenSelect/Search'
 import TopTokens from '@/src/components/sharedComponents/TokenSelect/TopTokens'
@@ -14,32 +9,9 @@ import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { chains } from '@/src/lib/networks.config'
 import type { Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectWrapper' }) => {
-  return { className }
-})`
-  background-color: var(--theme-token-select-background-color, #fff);
-  border-radius: var(--base-border-radius, 8px);
-  border: 1px solid var(--theme-token-select-border-color, #fff);
-  box-shadow: var(--theme-token-select-background-color, 0 9.6px 13px 0 rgb(0 0 0 / 8%));
-  display: flex;
-  flex-direction: column;
-  max-width: calc(100vw - var(--base-gap-xl, 16px));
-  padding: calc(var(--base-common-padding, 8px) * 5) 0 calc(var(--base-common-padding, 8px) * 3);
-  row-gap: calc(var(--base-gap, 8px) * 3);
-  width: 540px;
-`
-
-const Title = styled.h2.attrs(({ className = 'tokenSelectTitle' }) => {
-  return { className }
-})`
-  color: var(--theme-token-select-title-color, #2e3048);
-  font-size: 1.8rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0;
-  padding: 0 var(--base-common-padding-xl, 16px);
-`
+import { Flex, Heading } from '@chakra-ui/react'
+import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react'
+import type { Chain } from 'viem/chains'
 
 export interface TokenSelectProps {
   containerHeight?: number
@@ -71,57 +43,6 @@ type Props = ComponentPropsWithoutRef<'div'> & TokenSelectProps
  * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
  * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
  * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
- *
- * @remarks
- * Individual CSS classes are available for deep styling of individual components within TokenSelect:
- *
- * Also theme CSS vars are available for cosmetic changes:
- *
- * Title:
- * * --theme-token-select-title-color
- *
- * Main container:
- * * --theme-token-select-background-color (defaults to --theme-card-background-color)
- * * --theme-token-select-border-color (defaults to --theme-card-border-color)
- * * --theme-token-select-box-shadow (defaults to --theme-card-box-shadow)
- *
- * Search field:
- * * --theme-token-select-search-field-color
- * * --theme-token-select-search-field-color-active
- * * --theme-token-select-search-field-background-color
- * * --theme-token-select-search-field-background-color-active
- * * --theme-token-select-search-field-placeholder-color
- * * --theme-token-select-search-field-box-shadow
- * * --theme-token-select-search-field-box-shadow-active
- * * --theme-token-select-search-field-border-color
- * * --theme-token-select-search-field-border-color-active
- *
- * Network select button:
- * * --theme-token-select-network-button-color
- * * --theme-token-select-network-button-color-hover
- * * --theme-token-select-network-button-background-color
- * * --theme-token-select-network-button-background-color-hover
- *
- * Top tokens:
- * * --theme-token-select-top-token-item-color
- * * --theme-token-select-top-token-item-color-hover
- * * --theme-token-select-top-token-item-background-color
- * * --theme-token-select-top-token-item-background-color-hover
- * * --theme-token-select-top-token-item-border-color
- * * --theme-token-select-top-token-item-border-color-hover
- *
- * List:
- * * --theme-token-select-list-border-top-color
- *
- * List item:
- * * --theme-token-select-row-background-color
- * * --theme-token-select-row-background-color-hover
- * * --theme-token-select-row-token-name-color
- * * --theme-token-select-row-token-name-color-hover
- * * --theme-token-select-row-token-balance-color
- * * --theme-token-select-row-token-balance-color-hover
- * * --theme-token-select-row-token-value-color
- * * --theme-token-select-row-token-value-color-hover
  */
 const TokenSelect = withSuspenseAndRetry<Props>(
   ({
@@ -210,8 +131,33 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     )
 
     return (
-      <Wrapper {...restProps}>
-        <Title>Select a token</Title>
+      <Flex
+        backgroundColor="var(--theme-token-select-background-color)"
+        borderRadius="var(--base-border-radius)"
+        border="1px solid var(--theme-token-select-border-color)"
+        boxShadow="var(--theme-token-select-box-shadow)"
+        flexDirection="column"
+        maxWidth="calc(100vw - 16px)"
+        paddingTop={10}
+        paddingBottom={6}
+        paddingX={0}
+        rowGap={6}
+        width="540px"
+        {...restProps}
+      >
+        <Heading
+          color="var(--theme-token-select-title-color)"
+          fontFamily="var(--base-font-family)"
+          fontSize="18px"
+          fontWeight="700"
+          lineHeight="1.2"
+          margin={0}
+          paddingLeft={4}
+          paddingRight={4}
+          paddingY={0}
+        >
+          Select a token
+        </Heading>
         <Search
           currentNetworkId={chainId}
           disabled={!tokensByChainId[chainId]?.length}
@@ -237,7 +183,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
           tokenList={searchResult}
         />
         {children}
-      </Wrapper>
+      </Flex>
     )
   },
 )

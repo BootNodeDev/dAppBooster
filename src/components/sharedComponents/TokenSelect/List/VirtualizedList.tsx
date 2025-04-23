@@ -1,28 +1,6 @@
-import { type ReactNode, useRef } from 'react'
-import styled from 'styled-components'
-
+import { Box } from '@chakra-ui/react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-
-const Wrapper = styled.div<{ $containerHeight: number }>`
-  height: ${({ $containerHeight }) => `${$containerHeight}px`};
-  overflow: auto;
-  width: 100%;
-`
-
-const Items = styled.div<{ height: number | string }>`
-  height: ${({ height }) => `${height}px`};
-  position: relative;
-  width: 100%;
-`
-
-const VisibleItems = styled.div<{ height: number | string; start: number }>`
-  height: ${({ height }) => `${height}px`};
-  left: 0;
-  position: absolute;
-  top: 0;
-  transform: ${({ start }) => `translateY(${start}px)`};
-  width: 100%;
-`
+import { type ReactNode, useRef } from 'react'
 
 type VirtualizedListProps<Item> = {
   containerHeight: number
@@ -48,23 +26,33 @@ const VirtualizedList = <Item,>({
   })
 
   return (
-    <Wrapper
-      $containerHeight={containerHeight}
+    <Box
+      height={`${containerHeight}px`}
+      overflow="auto"
       ref={parentRef}
+      width="100%"
       {...restProps}
     >
-      <Items height={rowVirtualizer.getTotalSize()}>
+      <Box
+        height={`${rowVirtualizer.getTotalSize()}px`}
+        position="relative"
+        width="100%"
+      >
         {rowVirtualizer.getVirtualItems().map(({ index, key, size, start }) => (
-          <VisibleItems
-            height={size}
+          <Box
+            height={`${size}px`}
             key={key}
-            start={start}
+            left="0"
+            position="absolute"
+            top="0"
+            transform={`translateY(${start}px)`}
+            width="100%"
           >
             {renderItem(items[index])}
-          </VisibleItems>
+          </Box>
         ))}
-      </Items>
-    </Wrapper>
+      </Box>
+    </Box>
   )
 }
 

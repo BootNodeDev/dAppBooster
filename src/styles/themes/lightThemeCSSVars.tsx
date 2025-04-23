@@ -157,6 +157,7 @@ const lightThemeCSSVars = css`
   --theme-token-select-background-color: #fff;
   --theme-token-select-border-color: #fff;
   --theme-token-select-title-color: #2e3048;
+  --theme-token-select-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
 
   --theme-token-select-network-button-color: #2e3048;
   --theme-token-select-network-button-background-color: #f7f7f7;
