@@ -1,20 +1,15 @@
+import { chakra } from '@chakra-ui/react'
 import type { FC, HTMLAttributes } from 'react'
-import { styled } from 'styled-components'
-
-const Wrapper = styled.svg`
-  border-radius: 50%;
-  display: block;
-  flex-shrink: 0;
-  height: 42px;
-  width: 42px;
-`
 
 const Icon: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
-  <Wrapper
+  <chakra.svg
+    display="block"
+    flexShrink="0"
     fill="none"
-    height="24"
+    height="42"
     viewBox="0 0 500 500"
-    width="24"
+    width="42"
+    borderRadius="50%"
     xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
@@ -32,7 +27,7 @@ const Icon: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
       d="M259.3,314.6c-1.4,0-2.4-0.4-3.2-1.3c-0.6-1-0.8-2.1-0.6-3.4l25.9-122c0.2-1.4,0.9-2.5,2.1-3.4  c1.1-0.9,2.3-1.3,3.6-1.3H337c13.9,0,25,2.9,33.4,8.6c8.5,5.8,12.8,14.1,12.8,25c0,3.1-0.4,6.4-1.1,9.8c-3.1,14.4-9.4,25-19,31.9  c-9.4,6.9-22.3,10.3-38.7,10.3h-25.3l-8.6,41.1c-0.3,1.4-0.9,2.5-2.1,3.4c-1.1,0.9-2.3,1.3-3.6,1.3H259.3z M325.7,242.9  c5.3,0,9.8-1.4,13.7-4.3c4-2.9,6.6-7,7.9-12.4c0.4-2.1,0.6-4,0.6-5.6c0-3.6-1.1-6.4-3.2-8.3c-2.1-2-5.8-3-10.9-3h-22.5l-7.1,33.6  H325.7z"
       fill="white"
     />
-  </Wrapper>
+  </chakra.svg>
 )
 
 export default Icon
