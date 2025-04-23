@@ -1,9 +1,10 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import { getNetworkIcon } from '@/src/components/pageComponents/home/Examples/demos/SubgraphDemo'
+import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
-import { SkeletonLoading, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
+import { breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
 import { type FC, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
@@ -119,18 +120,22 @@ const BC = styled.span`
 export const SkeletonLoadingItem = () => (
   <SkeletonLoading
     $animate={false}
-    style={{
-      height: 'auto',
-      display: 'flex',
-      flexDirection: 'column',
-      minHeight: '55px',
-      padding: '16px',
-      rowGap: '16px',
-      width: '100%',
-    }}
+    height="auto"
+    display="flex"
+    flexDirection="column"
+    minHeight="55px"
+    padding={4}
+    rowGap={4}
+    width="100%"
   >
-    <SkeletonLoading style={{ width: '40%', minHeight: '20px' }} />
-    <SkeletonLoading style={{ width: '100%', minHeight: '19px' }} />
+    <SkeletonLoading
+      minHeight="20px"
+      width="40%"
+    />
+    <SkeletonLoading
+      minHeight="19px"
+      width="100%"
+    />
   </SkeletonLoading>
 )
 
@@ -168,13 +173,21 @@ const schemaConfig: SchemaMappingConfig = {
 }
 
 const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
-  const indexingStatus = useSubgraphIndexingStatus({ chain, resource: 'uniswap', schemaConfig })
+  const indexingStatus = useSubgraphIndexingStatus({
+    chain,
+    resource: 'uniswap',
+    schemaConfig,
+  })
 
   return <SubgraphStatus indexingStatus={indexingStatus} />
 })
 
 const Aave = withSuspenseAndRetry(() => {
-  const indexingStatus = useSubgraphIndexingStatus({ chain: base, resource: 'aave', schemaConfig })
+  const indexingStatus = useSubgraphIndexingStatus({
+    chain: base,
+    resource: 'aave',
+    schemaConfig,
+  })
 
   return <SubgraphStatus indexingStatus={indexingStatus} />
 })

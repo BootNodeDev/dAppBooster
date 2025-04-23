@@ -3,18 +3,13 @@ import ArbitrumDefault from '@/src/components/pageComponents/home/Examples/demos
 import BaseDefault from '@/src/components/pageComponents/home/Examples/demos/assets/Base'
 import OptimismDefault from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
 import PolygonDefault from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
+import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import { env } from '@/src/env'
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
-import {
-  CopyButton,
-  ExternalLink,
-  SkeletonLoading,
-  Toast,
-  breakpointMediaQuery,
-} from '@bootnodedev/db-ui-toolkit'
+import { CopyButton, ExternalLink, Toast, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import request from 'graphql-request'
 import { useState } from 'react'
@@ -175,20 +170,31 @@ export const getNetworkIcon = (chainName: string) => (
 export const SkeletonLoadingItem = () => (
   <SkeletonLoading
     $animate={false}
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: 'auto',
-      minHeight: '133px',
-      padding: '16px',
-      rowGap: '9px',
-      width: '100%',
-    }}
+    display="flex"
+    flexDirection="column"
+    height="auto"
+    minHeight="133px"
+    padding={4}
+    rowGap="9px"
+    width="100%"
   >
-    <SkeletonLoading style={{ width: '40%', height: '28px', paddingBottom: '8px' }} />
-    <SkeletonLoading style={{ width: '100%', height: '16px' }} />
-    <SkeletonLoading style={{ width: '100%', height: '16px' }} />
-    <SkeletonLoading style={{ width: '100%', height: '16px' }} />
+    <SkeletonLoading
+      height="28px"
+      paddingBottom={2}
+      width="40%"
+    />
+    <SkeletonLoading
+      height="16px"
+      width="100%"
+    />
+    <SkeletonLoading
+      height="16px"
+      width="100%"
+    />
+    <SkeletonLoading
+      height="16px"
+      width="100%"
+    />
   </SkeletonLoading>
 )
 

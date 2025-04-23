@@ -23,8 +23,8 @@ const SkeletonLoadingTokenInput = () => (
     display="flex"
     flexDirection="column"
     height="144px"
-    padding="16px"
-    rowGap="8px"
+    padding={4}
+    rowGap={2}
     width="100%"
   >
     <SkeletonLoading
