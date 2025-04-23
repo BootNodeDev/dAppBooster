@@ -2,22 +2,13 @@ import Wrapper from '@/src/components/pageComponents/home/Examples/demos/Transac
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
-import { GeneralMessage as GeneralMessageBase } from '@bootnodedev/db-ui-toolkit'
-import { Modal, useModal } from '@faceless-ui/modal'
+import { Dialog, Portal } from '@chakra-ui/react'
 import { type ReactElement, useState } from 'react'
-import styled, { css } from 'styled-components'
 import { type Hash, type TransactionReceipt, parseEther } from 'viem'
 import { sepolia } from 'viem/chains'
 import { useSendTransaction } from 'wagmi'
-
-const GeneralMessage = styled(GeneralMessageBase)<{ status?: 'ok' | 'error' }>`
-  ${({ status }) =>
-    status === 'ok' &&
-    css`
-      --theme-general-message-icon-color: var(--theme-color-ok);
-    `}
-`
 
 /**
  * This demo shows how to send a native token transaction.
@@ -26,7 +17,7 @@ const GeneralMessage = styled(GeneralMessageBase)<{ status?: 'ok' | 'error' }>`
  */
 const NativeTokenDemo = withWalletStatusVerifier(
   () => {
-    const { closeModal, openModal } = useModal()
+    const [isModalOpen, setIsModalOpen] = useState(false)
     const { address } = useWeb3StatusConnected()
     const { sendTransactionAsync } = useSendTransaction()
     const [minedMessage, setMinedMessage] = useState<string | ReactElement>()
@@ -37,7 +28,7 @@ const NativeTokenDemo = withWalletStatusVerifier(
           <b>Hash:</b> <span>{receipt.transactionHash}</span>
         </>,
       )
-      openModal('tx-dialog')
+      setIsModalOpen(true)
     }
 
     const handleSendTransaction = (): Promise<Hash> => {
@@ -50,7 +41,10 @@ const NativeTokenDemo = withWalletStatusVerifier(
     handleSendTransaction.methodId = 'sendTransaction'
 
     return (
-      <>
+      <Dialog.Root
+        open={isModalOpen}
+        size="xs"
+      >
         <Wrapper
           text="Demo transaction that sends 0.1 Sepolia ETH from / to your wallet."
           title="Native token demo"
@@ -63,24 +57,28 @@ const NativeTokenDemo = withWalletStatusVerifier(
             Send 0.1 Sepolia ETH
           </TransactionButton>
         </Wrapper>
-        <Modal slug="tx-dialog">
-          <GeneralMessage
-            actionButton={
-              <PrimaryButton
-                onClick={() => {
-                  closeModal('tx-dialog')
-                  setMinedMessage('')
-                }}
-              >
-                Close
-              </PrimaryButton>
-            }
-            message={minedMessage}
-            status={'ok'}
-            title={'Transaction completed!'}
-          />
-        </Modal>
-      </>
+        <Portal>
+          <Dialog.Backdrop />
+          <Dialog.Positioner>
+            <Dialog.Content>
+              <GeneralMessage
+                actionButton={
+                  <PrimaryButton
+                    onClick={() => {
+                      setIsModalOpen(false)
+                      setMinedMessage('')
+                    }}
+                  >
+                    Close
+                  </PrimaryButton>
+                }
+                message={minedMessage}
+                title={'Transaction completed!'}
+              />
+            </Dialog.Content>
+          </Dialog.Positioner>
+        </Portal>
+      </Dialog.Root>
     )
   },
   {

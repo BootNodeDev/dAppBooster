@@ -7,7 +7,6 @@ import { TransactionNotificationProvider } from '@/src/lib/toast/TransactionNoti
 import { Web3Provider } from '@/src/providers/Web3Provider'
 import Styles from '@/src/styles'
 import { Flex } from '@chakra-ui/react'
-import { ModalContainer, ModalProvider } from '@faceless-ui/modal'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
 import { ThemeProvider } from 'next-themes'
@@ -24,31 +23,26 @@ function Root() {
       <Provider>
         <Styles />
         <Web3Provider>
-          {/*  remove ModalProvider later */}
-          <ModalProvider>
-            <TransactionNotificationProvider>
+          <TransactionNotificationProvider>
+            <Flex
+              direction="column"
+              minH="100vh"
+              w="100%"
+            >
+              <Header />
               <Flex
-                direction="column"
-                minH="100vh"
-                w="100%"
+                as="main"
+                flex="1"
               >
-                <Header />
-                <Flex
-                  as="main"
-                  flex="1"
-                >
-                  <Outlet />
-                </Flex>
-                <Footer />
-                <TanStackReactQueryDevtools />
-                <TanStackRouterDevtools />
+                <Outlet />
               </Flex>
-              {/* Should remove Toaster later too */}
-              <Toaster />
-            </TransactionNotificationProvider>
-            {/* Remove ModalContainer later  */}
-            <ModalContainer />
-          </ModalProvider>
+              <Footer />
+              <TanStackReactQueryDevtools />
+              <TanStackRouterDevtools />
+            </Flex>
+            {/* Should remove Toaster later too */}
+            <Toaster />
+          </TransactionNotificationProvider>
         </Web3Provider>
         <Analytics />
       </Provider>

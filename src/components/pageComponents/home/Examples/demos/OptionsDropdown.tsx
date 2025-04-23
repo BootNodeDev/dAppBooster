@@ -27,7 +27,7 @@ export const OptionsDropdown: FC<{
   placeholder?: string
   items: Array<Item>
   currentItem?: string
-}> = ({ items, placeholder = 'Select an option' }) => {
+}> = ({ items, placeholder }) => {
   const [currentItem, setCurrentItem] = useState('')
 
   return (
@@ -54,6 +54,7 @@ export const OptionsDropdown: FC<{
             height="27px"
             paddingX={2}
             paddingY={0}
+            transition="border-color var(--base-transition-duration-sm), background-color var(--base-transition-duration-sm), color var(--base-transition-duration-sm)"
             _hover={{
               backgroundColor: 'var(--theme-button-options-background-color-hover)',
               borderColor: 'var(--theme-button-options-border-color-hover)',
@@ -72,7 +73,7 @@ export const OptionsDropdown: FC<{
                 '--theme-button-options-background-color': '#f7f7f7',
                 '--theme-button-options-background-color-hover': '#f7f7f7',
                 '--theme-button-options-border-color': '#e2e0e7',
-                '--theme-button-options-border-color-hover': '#4b4d60',
+                '--theme-button-options-border-color-hover': '#b2b4d0',
                 '--theme-button-options-color': '#4b4d60',
                 '--theme-button-options-color-hover': '#4b4d60',
                 '--theme-button-options-background-color-disabled': '#f7f7f7',
