@@ -1,15 +1,15 @@
+import { Inner } from '@/src/components/sharedComponents/ui/Inner'
+import Logo from '@/src/components/sharedComponents/ui/Logo'
 import MainMenu from '@/src/components/sharedComponents/ui/MainMenu'
 import MobileMenu from '@/src/components/sharedComponents/ui/MobileMenu'
-import { Inner } from '@/src/components/ui/Inner'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { Logo as BaseLogo, SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
+import { SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
 import { Box, Flex, chakra } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
 import type { FC, HTMLAttributes } from 'react'
 
 const HomeLink = chakra(Link)
-const Logo = chakra(BaseLogo)
 
 export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   const { setTheme, theme } = useTheme()
@@ -58,3 +58,5 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     </Box>
   )
 }
+
+export default Header

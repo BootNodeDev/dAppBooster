@@ -3,7 +3,7 @@ import DocsButton from '@/src/components/pageComponents/home/Welcome/DocsButton'
 import Ghost from '@/src/components/pageComponents/home/Welcome/Ghost'
 import GitClone from '@/src/components/pageComponents/home/Welcome/GitClone'
 import GithubButton from '@/src/components/pageComponents/home/Welcome/GithubButton'
-import { Inner } from '@/src/components/ui/Inner'
+import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import { Box, Flex, Heading, Text } from '@chakra-ui/react'
 import type { FC, HTMLAttributes } from 'react'
 

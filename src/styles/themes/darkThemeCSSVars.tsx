@@ -230,6 +230,25 @@ const darkThemeCSSVars = css`
   --theme-token-input-estimated-usd-color: #e2e0e7;
 
   --theme-token-input-balance-color: #e2e0e7;
+
+  /* Skeleton loading */
+  --theme-skeleton-loading-background-color: #373954;
+  --theme-skeleton-loading-background-color-end: #292b43;
+
+  /* stylelint-disable-next-line keyframes-name-pattern */
+  @keyframes loadingAnimation {
+    0% {
+      background-color: var(--theme-skeleton-loading-background-color);
+    }
+
+    50% {
+      background-color: var(--theme-skeleton-loading-background-color-end);
+    }
+
+    100% {
+      background-color: var(--theme-skeleton-loading-background-color);
+    }
+  }
 `
 
 export default darkThemeCSSVars

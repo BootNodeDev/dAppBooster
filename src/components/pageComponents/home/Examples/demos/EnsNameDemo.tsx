@@ -1,14 +1,11 @@
+import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
+import { Spinner, Textfield, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
 import { type ChangeEvent, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
-
-import { Item, Spinner, Textfield, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
 import { useDebouncedCallback } from 'use-debounce'
 import type { Address } from 'viem'
 import { useEnsName } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
-
-import { OptionsButton } from '@/src/components/pageComponents/home/Examples/demos/OptionsButton'
-import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 
 const Wrapper = styled.div`
   [data-theme='light'] & {
@@ -70,13 +67,6 @@ const ENSName = styled.div`
   padding-top: var(--base-common-padding);
 `
 
-const ButtonText = styled.span`
-  display: block;
-  max-width: 115px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`
-
 const EnsNameSearch = ({ address }: { address?: Address }) => {
   const { data, error, status } = useEnsName({
     address: address,
@@ -117,13 +107,21 @@ const EnsNameDemo = () => {
     debouncedSearch(value)
   }
 
-  const dropdownItems = [
-    '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045',
-    '0xaed56A64169A1eD7fFD83619A211b55a13f9F974',
-    '0x14536667Cd30e52C0b458BaACcB9faDA7046E056',
-    '0x8BCBd56588d77cd06C7930c09aB55ca7EF09b395',
+  const addresses = [
+    '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045' as Address,
+    '0xaed56A64169A1eD7fFD83619A211b55a13f9F974' as Address,
+    '0x14536667Cd30e52C0b458BaACcB9faDA7046E056' as Address,
+    '0x8BCBd56588d77cd06C7930c09aB55ca7EF09b395' as Address,
   ]
-  const [currentItem, setCurrentItem] = useState<string | undefined>()
+
+  const makeItem = (address: Address) => {
+    return {
+      label: address,
+      onClick: () => setValue(address),
+    }
+  }
+
+  const items = addresses.map((item) => makeItem(item))
 
   useEffect(() => {
     debouncedSearch(value as Address)
@@ -132,24 +130,8 @@ const EnsNameDemo = () => {
   return (
     <Wrapper>
       <OptionsDropdown
-        button={
-          <OptionsButton>
-            <ButtonText>
-              {dropdownItems.find((item) => item === currentItem) || 'Select an address'}
-            </ButtonText>
-          </OptionsButton>
-        }
-        items={dropdownItems.map((item) => (
-          <Item
-            key={`${item}`}
-            onClick={() => {
-              setCurrentItem(item)
-              setValue(item as Address)
-            }}
-          >
-            {item}
-          </Item>
-        ))}
+        placeholder="Select an address"
+        items={items}
       />
       <Title>Find ENS name</Title>
       <Textfield

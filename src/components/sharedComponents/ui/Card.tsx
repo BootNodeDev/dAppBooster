@@ -13,3 +13,5 @@ export const Card: FC<CardRootProps> = ({ ...restProps }) => (
     {...restProps}
   />
 )
+
+export default Card

@@ -1,21 +1,3 @@
-import { useState } from 'react'
-import styled, { css } from 'styled-components'
-
-import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
-import {
-  CopyButton,
-  ExternalLink,
-  Item,
-  SkeletonLoading,
-  Toast,
-  breakpointMediaQuery,
-} from '@bootnodedev/db-ui-toolkit'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import request from 'graphql-request'
-import { toast } from 'react-hot-toast'
-import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
-
-import { OptionsButton } from '@/src/components/pageComponents/home/Examples/demos/OptionsButton'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import ArbitrumDefault from '@/src/components/pageComponents/home/Examples/demos/assets/Arbitrum'
 import BaseDefault from '@/src/components/pageComponents/home/Examples/demos/assets/Base'
@@ -25,6 +7,20 @@ import { env } from '@/src/env'
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
+import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
+import {
+  CopyButton,
+  ExternalLink,
+  SkeletonLoading,
+  Toast,
+  breakpointMediaQuery,
+} from '@bootnodedev/db-ui-toolkit'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import request from 'graphql-request'
+import { useState } from 'react'
+import { toast } from 'react-hot-toast'
+import styled, { css } from 'styled-components'
+import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
 const chainNameMapping: { [key: number]: string } = {
   [arbitrum.id]: 'arbitrum',
@@ -270,26 +266,20 @@ const uniswapNetworks = [optimism, polygon, arbitrum]
 
 const List = ({ ...restProps }) => {
   const [currentChain, setCurrentChain] = useState<Chain | undefined>(uniswapNetworks[0])
-  const dropdownItems = [...uniswapNetworks, base]
+  const chains = [...uniswapNetworks, base]
+
+  const makeItem = (chain: Chain | undefined) => {
+    return {
+      label: chain?.name || '',
+      onClick: () => setCurrentChain(chain),
+    }
+  }
+
+  const items = chains.map((item) => makeItem(item))
 
   return (
     <Wrapper {...restProps}>
-      <OptionsDropdown
-        button={
-          <OptionsButton>
-            {dropdownItems.find((item) => item.name === currentChain?.name)?.name}
-          </OptionsButton>
-        }
-        defaultActiveItem={0}
-        items={dropdownItems.map((item) => (
-          <Item
-            key={`${item.id}`}
-            onClick={() => setCurrentChain(item)}
-          >
-            {item.name}
-          </Item>
-        ))}
-      />
+      <OptionsDropdown items={items} />
       {uniswapNetworks.map(
         (chain) =>
           currentChain?.id === chain.id && (

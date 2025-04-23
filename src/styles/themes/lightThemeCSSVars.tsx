@@ -230,6 +230,25 @@ const lightThemeCSSVars = css`
   --theme-token-input-estimated-usd-color: #4b4d60;
 
   --theme-token-input-balance-color: #4b4d60;
+
+  /* Skeleton loading */
+  --theme-skeleton-loading-background-color: #f3f3f3;
+  --theme-skeleton-loading-background-color-end: #e0e0e0;
+
+  /* stylelint-disable-next-line keyframes-name-pattern */
+  @keyframes loadingAnimation {
+    0% {
+      background-color: var(--theme-skeleton-loading-background-color);
+    }
+
+    50% {
+      background-color: var(--theme-skeleton-loading-background-color-end);
+    }
+
+    100% {
+      background-color: var(--theme-skeleton-loading-background-color);
+    }
+  }
 `
 
 export default lightThemeCSSVars

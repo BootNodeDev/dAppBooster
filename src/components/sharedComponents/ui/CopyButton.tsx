@@ -38,7 +38,12 @@ interface Props extends ButtonProps {
  * @param {MouseEventHandler<HTMLButtonElement>} [onClick=undefined] - The function to call when the button is clicked. Default is undefined.
  * @param {ReactNode} [children=undefined] - The content of the button. Default is the Copy icon.
  */
-const CopyButton: FC<Props> = ({ children = <Copy />, onClick, value, ...restProps }: Props) => {
+export const CopyButton: FC<Props> = ({
+  children = <Copy />,
+  onClick,
+  value,
+  ...restProps
+}: Props) => {
   const onCopy: MouseEventHandler<HTMLButtonElement> = (e) => {
     navigator.clipboard.writeText(value)
     onClick?.(e)

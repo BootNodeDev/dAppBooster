@@ -1,15 +1,12 @@
-import { type FC, useState } from 'react'
-import styled, { css } from 'styled-components'
-
-import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
-import { Item, SkeletonLoading, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
-import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
-
-import { OptionsButton } from '@/src/components/pageComponents/home/Examples/demos/OptionsButton'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import { getNetworkIcon } from '@/src/components/pageComponents/home/Examples/demos/SubgraphDemo'
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
+import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
+import { SkeletonLoading, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
+import { type FC, useState } from 'react'
+import styled, { css } from 'styled-components'
+import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
 const Wrapper = styled.div`
   [data-theme='light'] & {
@@ -186,26 +183,20 @@ const uniswapNetworks = [optimism, polygon, arbitrum]
 
 const List = ({ ...restProps }) => {
   const [currentChain, setCurrentChain] = useState<Chain | undefined>(uniswapNetworks[0])
-  const dropdownItems = [...uniswapNetworks, base]
+  const chains = [...uniswapNetworks, base]
+
+  const makeItem = (chain: Chain | undefined) => {
+    return {
+      label: chain?.name || '',
+      onClick: () => setCurrentChain(chain),
+    }
+  }
+
+  const items = chains.map((item) => makeItem(item))
 
   return (
     <Wrapper {...restProps}>
-      <OptionsDropdown
-        button={
-          <OptionsButton>
-            {dropdownItems.find((item) => item.name === currentChain?.name)?.name}
-          </OptionsButton>
-        }
-        defaultActiveItem={0}
-        items={dropdownItems.map((item) => (
-          <Item
-            key={`${item.id}`}
-            onClick={() => setCurrentChain(item)}
-          >
-            {item.name}
-          </Item>
-        ))}
-      />
+      <OptionsDropdown items={items} />
       {uniswapNetworks.map(
         (chain) =>
           currentChain?.id === chain.id && (

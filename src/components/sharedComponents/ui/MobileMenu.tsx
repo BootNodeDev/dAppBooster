@@ -1,6 +1,7 @@
+import Logo from '@/src/components/sharedComponents/ui/Logo'
 import { menuItems } from '@/src/constants/menuItems'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { Logo as BaseLogo, SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
+import { SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
 import { Link as A, Box, Flex, chakra } from '@chakra-ui/react'
 import { Link as ReactLink } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
@@ -37,8 +38,6 @@ const CloseIcon = () => (
     />
   </svg>
 )
-
-const Logo = chakra(BaseLogo)
 
 const Button = chakra('button', {
   base: {
@@ -85,7 +84,7 @@ const LinkCSS = {
 
 const Link = chakra(ReactLink)
 
-const MobileMenu = ({ ...restProps }) => {
+export const MobileMenu = ({ ...restProps }) => {
   const [isOpen, setIsOpen] = useState(false)
   const { setTheme, theme } = useTheme()
 

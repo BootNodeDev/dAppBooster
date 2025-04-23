@@ -32,8 +32,7 @@ const AlertIcon: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
   </svg>
 )
 
-export interface Props extends CardRootProps {
-  $variant?: string
+interface Props extends CardRootProps {
   actionButton?: ReactElement<HTMLButtonElement>
   icon?: ReactElement
   message?: string | ReactElement
@@ -131,3 +130,5 @@ export const GeneralMessage: FC<Props> = ({
     </BaseCard.Root>
   )
 }
+
+export default GeneralMessage

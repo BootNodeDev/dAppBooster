@@ -13,3 +13,5 @@ export const Inner: FC<FlexProps> = ({ children, ...restProps }) => (
     {children}
   </Flex>
 )
+
+export default Inner

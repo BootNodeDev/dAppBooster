@@ -1,8 +1,8 @@
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import AddERC20TokenButton from '@/src/components/sharedComponents/TokenSelect/List/AddERC20TokenButton'
 import TokenBalance from '@/src/components/sharedComponents/TokenSelect/List/TokenBalance'
+import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import type { Token } from '@/src/types/token'
-import { SkeletonLoading } from '@bootnodedev/db-ui-toolkit'
 import { Box, Flex, type FlexProps } from '@chakra-ui/react'
 import type { FC } from 'react'
 
@@ -28,8 +28,14 @@ const BalanceLoading: FC<FlexProps> = ({ ...restProps }) => (
     rowGap={1}
     {...restProps}
   >
-    <SkeletonLoading style={{ height: '19px', width: '50px' }} />
-    <SkeletonLoading style={{ height: '14px', width: '50px' }} />
+    <SkeletonLoading
+      height="19px"
+      width="50px"
+    />
+    <SkeletonLoading
+      height="14px"
+      width="50px"
+    />
   </Flex>
 )
 

@@ -23,3 +23,5 @@ export const Toast: FC<FlexProps> = ({ ...restProps }) => (
     {...restProps}
   />
 )
+
+export default Toast

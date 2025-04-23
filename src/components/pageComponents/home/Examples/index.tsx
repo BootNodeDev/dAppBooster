@@ -21,7 +21,7 @@ import SwitchNetworkDemo from '@/src/components/pageComponents/home/Examples/dem
 import TokenDropdownDemo from '@/src/components/pageComponents/home/Examples/demos/TokenDropdownDemo'
 import TokenInputDemo from '@/src/components/pageComponents/home/Examples/demos/TokenInputDemo'
 import TransactionButtonDemo from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo'
-import { Inner } from '@/src/components/ui/Inner'
+import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import { ConnectWalletButton as ConnectWalletButtonDemo } from '@/src/providers/Web3Provider'
 import { Box } from '@chakra-ui/react'
 import type { FC, HTMLAttributes } from 'react'

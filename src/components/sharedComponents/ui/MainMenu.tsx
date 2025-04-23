@@ -18,7 +18,7 @@ const sharedMenuItemStyles = {
 
 const Item = chakra(ViteLink)
 
-const MainMenu = ({ ...restProps }) => {
+export const MainMenu = ({ ...restProps }) => {
   return (
     <Flex
       align="center"

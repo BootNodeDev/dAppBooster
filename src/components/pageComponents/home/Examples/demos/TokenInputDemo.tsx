@@ -1,11 +1,4 @@
-import { useState } from 'react'
-import styled, { css } from 'styled-components'
-
-import { Item, SkeletonLoading, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
-import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
-
-import { OptionsButton } from '@/src/components/pageComponents/home/Examples/demos/OptionsButton'
-import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
+import OptionsDropdown from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import Arbitrum from '@/src/components/pageComponents/home/Examples/demos/assets/Arbitrum'
 import Eth from '@/src/components/pageComponents/home/Examples/demos/assets/Eth'
 import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
@@ -13,39 +6,37 @@ import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/
 import TokenInput from '@/src/components/sharedComponents/TokenInput'
 import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
+import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-
-const Wrapper = styled.div`
-  padding-top: var(--base-common-padding);
-  width: 100%;
-
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      padding-top: calc(var(--base-common-padding) * 3);
-    `,
-  )}
-`
+import { Box } from '@chakra-ui/react'
+import { useState } from 'react'
+import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
 
 type Options = 'single' | 'multi'
 
 const SkeletonLoadingTokenInput = () => (
   <SkeletonLoading
     $animate={false}
-    style={{
-      height: '144px',
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '16px',
-      rowGap: '8px',
-      width: '100%',
-    }}
+    display="flex"
+    flexDirection="column"
+    height="144px"
+    padding="16px"
+    rowGap="8px"
+    width="100%"
   >
-    <SkeletonLoading style={{ width: '80px', minHeight: '0', height: '17px' }} />
-    <SkeletonLoading style={{ width: '100%', minHeight: '58px', borderRadius: '8px' }} />
+    <SkeletonLoading
+      height="17px"
+      minHeight="0"
+      width="80px"
+    />
+    <SkeletonLoading
+      borderRadius="8px"
+      minHeight="58px"
+      width="100%"
+    />
   </SkeletonLoading>
 )
 
@@ -89,31 +80,16 @@ const TokenInputs = withSuspenseAndRetry(
     ]
 
     return (
-      <>
-        {currentTokenInput === 'multi' && (
-          <TokenInput
-            currentNetworkId={currentNetworkId}
-            networks={networks}
-            showAddTokenButton
-            showBalance={isWalletConnected}
-            showTopTokens
-            title="You pay"
-            tokenInput={tokenInputMulti}
-          />
-        )}
-        {currentTokenInput === 'single' && (
-          <TokenInput
-            currentNetworkId={currentNetworkId}
-            networks={networks}
-            showAddTokenButton
-            showBalance={isWalletConnected}
-            showTopTokens
-            singleToken
-            title="You pay"
-            tokenInput={tokenInputSingle}
-          />
-        )}
-      </>
+      <TokenInput
+        currentNetworkId={currentNetworkId}
+        networks={networks}
+        showAddTokenButton
+        showBalance={isWalletConnected}
+        showTopTokens
+        singleToken={currentTokenInput === 'single'}
+        title="You pay"
+        tokenInput={currentTokenInput === 'multi' ? tokenInputMulti : tokenInputSingle}
+      />
     )
   },
 )
@@ -123,35 +99,26 @@ const TokenInputs = withSuspenseAndRetry(
  * token or multi token mode.
  */
 const TokenInputDemo = () => {
-  const dropdownItems = [
-    { label: 'Single token', type: 'single' },
-    { label: 'Multi token', type: 'multi' },
-  ]
   const [currentTokenInput, setCurrentTokenInput] = useState<Options>('single')
+  const dropdownItems = [
+    { label: 'Single token', onClick: () => setCurrentTokenInput('single') },
+    { label: 'Multi token', onClick: () => setCurrentTokenInput('multi') },
+  ]
 
   return (
-    <Wrapper>
+    <Box
+      paddingTop={{ base: 2, lg: 6 }}
+      width="100%"
+    >
       <OptionsDropdown
-        button={
-          <OptionsButton>
-            {dropdownItems.find((item) => item.type === currentTokenInput)?.label}
-          </OptionsButton>
-        }
-        defaultActiveItem={0}
-        items={dropdownItems.map((item) => (
-          <Item
-            key={`${item.type}`}
-            onClick={() => setCurrentTokenInput(item.type as Options)}
-          >
-            {item.label}
-          </Item>
-        ))}
+        items={dropdownItems}
+        currentItem={dropdownItems[0].label}
       />
       <TokenInputs
         currentTokenInput={currentTokenInput}
         suspenseFallback={<SkeletonLoadingTokenInput />}
       />
-    </Wrapper>
+    </Box>
   )
 }
 

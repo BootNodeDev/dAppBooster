@@ -139,7 +139,7 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }) => {
               <Menu.Item
                 alignItems="center"
                 backgroundColor="var(--theme-dropdown-item-background-color)"
-                borderBottom="1px solid var( --theme-dropdown-item-border-color)"
+                borderBottom="1px solid var(--theme-dropdown-item-border-color)"
                 color="var(--theme-dropdown-item-color)"
                 columnGap={2}
                 cursor="pointer"

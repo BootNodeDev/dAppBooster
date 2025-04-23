@@ -40,7 +40,11 @@ const LinkSVG: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
  * @param {ReactNode} [children=undefined] - The content of the button. Default is the ExternalLink icon.
  * @param {string} [$variant] - Optional component variant.
  */
-const CopyButton: FC<LinkProps> = ({ children = <LinkSVG />, target = '_blank', ...restProps }) => {
+export const CopyButton: FC<LinkProps> = ({
+  children = <LinkSVG />,
+  target = '_blank',
+  ...restProps
+}) => {
   return (
     <Link
       alignItems="center"

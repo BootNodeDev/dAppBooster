@@ -70,7 +70,7 @@ const Search: FC<SearchProps> = ({
               {networks.map(({ icon, id, label, onClick }) => (
                 <Menu.Item
                   backgroundColor="var(--theme-dropdown-item-background-color)"
-                  borderBottom="1px solid var( --theme-dropdown-item-border-color)"
+                  borderBottom="1px solid var(--theme-dropdown-item-border-color)"
                   color="var(--theme-dropdown-item-color)"
                   cursor="pointer"
                   fontSize="16px"
