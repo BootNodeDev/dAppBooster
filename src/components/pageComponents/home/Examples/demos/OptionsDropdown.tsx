@@ -1,4 +1,3 @@
-import { Item } from '@bootnodedev/db-ui-toolkit'
 import { Box, Menu, Portal, chakra } from '@chakra-ui/react'
 import { type FC, useState } from 'react'
 
