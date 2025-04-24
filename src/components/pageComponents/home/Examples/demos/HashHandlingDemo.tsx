@@ -2,9 +2,8 @@ import HashDemo from '@/src/components/pageComponents/home/Examples/demos/HashDe
 import HashInput from '@/src/components/sharedComponents/HashInput'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { DetectedHash } from '@/src/utils/hash'
-import { Box, Flex, type FlexProps, Grid, Input, Span, Spinner, chakra } from '@chakra-ui/react'
-import { type ComponentProps, useState } from 'react'
-import styled, { css } from 'styled-components'
+import { Box, Flex, Grid, Input, Spinner, chakra } from '@chakra-ui/react'
+import { useState } from 'react'
 import type { Address } from 'viem'
 import * as chains from 'viem/chains'
 
