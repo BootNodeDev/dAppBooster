@@ -4,7 +4,7 @@ import { getTruncatedHash } from '@/src/utils/strings'
 import { Flex, type FlexProps, Span } from '@chakra-ui/react'
 import type { FC, MouseEventHandler } from 'react'
 
-interface HashProps extends FlexProps {
+interface HashProps extends Omit<FlexProps, 'onCopy'> {
   explorerURL?: string
   hash: string
   onCopy?: MouseEventHandler<HTMLButtonElement>
@@ -36,7 +36,7 @@ const Hash: FC<HashProps> = ({
   showCopyButton = false,
   truncatedHashLength = 6,
   ...restProps
-}) => {
+}: HashProps) => {
   return (
     <Flex
       alignItems="center"
