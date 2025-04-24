@@ -1,38 +1,12 @@
-import type { FC } from 'react'
-import styled from 'styled-components'
-
+import Hash from '@/src/components/sharedComponents/Hash'
+import { getExplorerLink } from '@/src/utils/getExplorerLink'
 import { Toast } from '@bootnodedev/db-ui-toolkit'
+import type { FlexProps } from '@chakra-ui/react'
+import type { FC } from 'react'
 import { toast } from 'react-hot-toast'
 import type { Address, Chain } from 'viem'
 
-import Hash from '@/src/components/sharedComponents/Hash'
-import { getExplorerLink } from '@/src/utils/getExplorerLink'
-
-const Wrapper = styled(Hash)`
-  [data-theme='light'] & {
-    --theme-hash-background-color: #fff;
-    --theme-hash-border-color: #c5c2cb;
-    --theme-hash-color: #2e3048;
-  }
-
-  [data-theme='dark'] & {
-    --theme-hash-background-color: #2e3047;
-    --theme-hash-border-color: #5f6178;
-    --theme-hash-color: #fff;
-  }
-
-  background-color: var(--theme-hash-background-color);
-  border-radius: var(--base-border-radius);
-  border: 1px solid var(--theme-hash-border-color);
-  color: var(--theme-hash-color);
-  cursor: default;
-  font-size: 1.6rem;
-  height: 34px;
-  min-width: 0;
-  padding: 0 calc(var(--base-common-padding) * 2);
-`
-
-interface Props {
+interface Props extends FlexProps {
   chain: Chain
   hash: Address | undefined
   truncatedHashLength?: number | 'disabled'
@@ -44,7 +18,7 @@ interface Props {
  * Some styles were added. Also we show a toast when the copy button is clicked
  * to let the user know that something has happened.
  */
-const HashDemo: FC<Props> = ({ chain, hash, ...restProps }) => {
+const HashDemo: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
   const onCopy = (message: string) => {
     const timeDelay = 2500
 
@@ -55,14 +29,35 @@ const HashDemo: FC<Props> = ({ chain, hash, ...restProps }) => {
       id: 'copy-to-clipboard',
     })
   }
-
   return hash ? (
-    <Wrapper
+    <Hash
+      css={{
+        '[data-theme="light"] &': {
+          '--theme-hash-background-color': '#fff',
+          '--theme-hash-border-color': '#c5c2cb',
+          '--theme-hash-color': '#2e3048',
+        },
+        '[data-theme="dark"] &': {
+          '--theme-hash-background-color': '#2e3047',
+          '--theme-hash-border-color': '#5f6178',
+          '--theme-hash-color': '#fff',
+        },
+      }}
+      backgroundColor="var(--theme-hash-background-color)"
+      border="1px solid var(--theme-hash-border-color)"
+      borderRadius="var(--base-border-radius)"
+      color="var(--theme-hash-color)"
+      cursor="default"
       explorerURL={getExplorerLink({ chain, hashOrAddress: hash })}
+      fontSize="16px"
       hash={hash}
+      height="34px"
+      minWidth="0"
       onCopy={() => onCopy(hash)}
+      paddingY={0}
+      paddingX={4}
       showCopyButton
-      {...restProps}
+      truncatedHashLength={truncatedHashLength}
     />
   ) : null
 }

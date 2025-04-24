@@ -1,10 +1,10 @@
 import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
 import ExternalLink from '@/src/components/sharedComponents/ui/ExternalLink'
 import { getTruncatedHash } from '@/src/utils/strings'
-import { Flex, Span } from '@chakra-ui/react'
-import type { ComponentProps, FC, MouseEventHandler } from 'react'
+import { Flex, type FlexProps, Span } from '@chakra-ui/react'
+import type { FC, MouseEventHandler } from 'react'
 
-interface HashProps extends Omit<ComponentProps<'div'>, 'onCopy'> {
+interface HashProps extends FlexProps {
   explorerURL?: string
   hash: string
   onCopy?: MouseEventHandler<HTMLButtonElement>
@@ -41,7 +41,6 @@ const Hash: FC<HashProps> = ({
     <Flex
       alignItems="center"
       columnGap={2}
-      display="flex"
       maxWidth="100%"
       {...restProps}
     >
