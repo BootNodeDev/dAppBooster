@@ -1,71 +1,10 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
-import { Spinner, Textfield, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
+import { Flex, Heading, Input, Spinner } from '@chakra-ui/react'
 import { type ChangeEvent, useEffect, useState } from 'react'
-import styled, { css } from 'styled-components'
 import { useDebouncedCallback } from 'use-debounce'
 import type { Address } from 'viem'
 import { useEnsName } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
-
-const Wrapper = styled.div`
-  [data-theme='light'] & {
-    --theme-token-ens-name-background: #fff;
-    --theme-token-ens-name-title-color: #2e3048;
-    --theme-token-ens-name-text-color: #2e3048;
-
-    --theme-textfield-color: #2e3048;
-    --theme-textfield-background-color: #fff;
-    --theme-textfield-background-color-active: rgb(0 0 0 / 5%);
-    --theme-textfield-border-color: #c5c2cb;
-    --theme-textfield-placeholder-color: rgb(22 29 26 / 60%);
-  }
-
-  [data-theme='dark'] & {
-    --theme-token-ens-name-background: #373954;
-    --theme-token-ens-name-title-color: #fff;
-    --theme-token-ens-name-text-color: #e2e0e7;
-
-    --theme-textfield-color: #fff;
-    --theme-textfield-background-color: #373954;
-    --theme-textfield-background-color-active: rgb(255 255 255 / 5%);
-    --theme-textfield-border-color: #5f6178;
-    --theme-textfield-placeholder-color: rgb(247 247 247 / 60%);
-  }
-
-  background-color: var(--theme-token-ens-name-background);
-  border-radius: var(--base-border-radius);
-  display: flex;
-  flex-direction: column;
-  padding: var(--base-common-padding-xl);
-  row-gap: var(--base-gap);
-  width: 100%;
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      margin-top: calc(var(--base-common-padding) * 3);
-    `,
-  )}
-`
-
-const Title = styled.h3`
-  color: var(--theme-token-ens-name-title-color);
-  font-size: 1.4rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0;
-`
-
-const ENSName = styled.div`
-  align-items: center;
-  color: var(--theme-token-ens-name-text-color);
-  column-gap: var(--base-gap);
-  display: flex;
-  font-size: 1.5rem;
-  height: 20px;
-  line-height: 1.2;
-  padding-top: var(--base-common-padding);
-`
 
 const EnsNameSearch = ({ address }: { address?: Address }) => {
   const { data, error, status } = useEnsName({
@@ -77,8 +16,8 @@ const EnsNameSearch = ({ address }: { address?: Address }) => {
     <>
       {status === 'pending' ? (
         <Spinner
-          height={20}
-          width={20}
+          color="var(--theme-spinner-color)"
+          size="md"
         />
       ) : status === 'error' ? (
         `Error fetching ENS name (${error.message})`
@@ -128,22 +67,96 @@ const EnsNameDemo = () => {
   }, [debouncedSearch, value])
 
   return (
-    <Wrapper>
+    <Flex
+      css={{
+        '[data-theme="light"] &': {
+          '--theme-token-ens-name-background': '#fff',
+          '--theme-token-ens-name-title-color': '#2e3048',
+          '--theme-token-ens-name-text-color': '#2e3048',
+          '--theme-textfield-color': '#2e3048',
+          '--theme-textfield-background-color': '#fff',
+          '--theme-textfield-background-color-active': 'rgb(0 0 0 / 5%)',
+          '--theme-textfield-border-color': '#c5c2cb',
+          '--theme-textfield-placeholder-color': 'rgb(22 29 26 / 60%)',
+        },
+        '[data-theme="dark"] &': {
+          '--theme-token-ens-name-background': '#373954',
+          '--theme-token-ens-name-title-color': '#fff',
+          '--theme-token-ens-name-text-color': '#e2e0e7',
+          '--theme-textfield-color': '#fff',
+          '--theme-textfield-background-color': '#373954',
+          '--theme-textfield-background-color-active': 'rgb(255 255 255 / 5%)',
+          '--theme-textfield-border-color': '#5f6178',
+          '--theme-textfield-placeholder-color': 'rgb(247 247 247 / 60%)',
+        },
+      }}
+      bgColor="var(--theme-token-ens-name-background)"
+      borderRadius="4px"
+      flexDirection="column"
+      padding={4}
+      rowGap={2}
+      width="100%"
+      marginTop={{ lg: 6 }}
+    >
       <OptionsDropdown
         placeholder="Select an address"
         items={items}
       />
-      <Title>Find ENS name</Title>
-      <Textfield
+      <Heading
+        as="h3"
+        color="var(--theme-token-ens-name-title-color)"
+        fontFamily="var(--base-font-family)"
+        fontSize="14px"
+        fontWeight={700}
+        lineHeight={1.2}
+        margin={0}
+      >
+        Find ENS name
+      </Heading>
+      <Input
         onChange={onChange}
         placeholder="Enter an address or select one from the dropdown"
         type="search"
         value={value || ''}
+        backgroundColor="var(--theme-textfield-background-color)"
+        borderColor="var(--theme-textfield-border-color)"
+        borderRadius="8px"
+        color="var(--theme-textfield-color)"
+        display="block"
+        fontSize="14px"
+        height="50px"
+        minWidth="0"
+        outline="none"
+        padding={{ base: 2, lg: 4 }}
+        paddingRight={12}
+        position="relative"
+        transition="border-color var(--base-transition-duration), color var(--base-transition-duration), background-color var(--base-transition-duration)"
+        width="100%"
+        zIndex={10}
+        _active={{
+          backgroundColor: 'var(--theme-textfield-background-color)',
+          color: 'var(--theme-textfield-color)',
+        }}
+        _focus={{
+          backgroundColor: 'var(--theme-textfield-background-color)',
+          color: 'var(--theme-textfield-color)',
+        }}
+        _placeholder={{
+          color: 'var(--theme-textfield-placeholder-color)',
+        }}
       />
-      <ENSName>
+      <Flex
+        alignItems="center"
+        color="var(--theme-token-ens-name-text-color)"
+        columnGap="var(--base-gap)"
+        fontSize="15px"
+        height="20px"
+        lineHeight={1.2}
+        paddingTop={2}
+      >
         <b>ENS name:</b> <span>{ensAddress ? <EnsNameSearch address={ensAddress} /> : '-'}</span>
-      </ENSName>
-    </Wrapper>
+      </Flex>
+    </Flex>
   )
 }
 

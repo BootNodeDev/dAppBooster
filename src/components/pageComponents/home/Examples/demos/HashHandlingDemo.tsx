@@ -85,30 +85,19 @@ const HashHandlingDemo = ({ ...restProps }) => {
           '--base-textfield-border-radius': 'var(--base-border-radius)',
           '[data-theme="light"] &': {
             '--theme-textfield-color': '#2e3048',
-            '--theme-textfield-color-active': '#2e3048',
-            '--theme-textfield-color-error': '#2e3048',
-            '--theme-textfield-color-ok': '#2e3048',
-            '--theme-textfield-background-color': '#f7f7f7',
-            '--theme-textfield-background-color-active': '#f7f7f7',
+            '--theme-textfield-background-color': '#fff',
+            '--theme-textfield-background-color-active': 'rgb(0 0 0 / 5%)',
             '--theme-textfield-border-color': '#c5c2cb',
-            '--theme-textfield-border-color-active': '#c5c2cb',
-            '--theme-textfield-border-color-error': '#2e3048',
-            '--theme-textfield-border-color-ok': '#c5c2cb',
             '--theme-textfield-placeholder-color': 'rgb(22 29 26 / 60%)',
             '--theme-hash-input-search-status-background-color': '#2e3048',
           },
 
           '[data-theme="dark"] &': {
             '--theme-textfield-color': '#fff',
-            '--theme-textfield-color-active': '#fff',
-            '--theme-textfield-color-error': '#fff',
-            '--theme-textfield-color-ok': '#fff',
-            '--theme-textfield-background-color': '#2e3048',
-            '--theme-textfield-background-color-active': '#2e3048',
+            '--theme-textfield-background-color': '#373954',
+            '--theme-textfield-background-color-active': 'rgb(255 255 255 / 5%)',
             '--theme-textfield-border-color': '#5f6178',
-            '--theme-textfield-border-color-active': '#5f6178',
             '--theme-textfield-border-color-error': '#4b4d60',
-            '--theme-textfield-border-color-ok': '#5f6178',
             '--theme-textfield-placeholder-color': 'rgb(247 247 247 / 60%)',
             '--theme-hash-input-search-status-background-color': '#232436',
           },
@@ -139,14 +128,12 @@ const HashHandlingDemo = ({ ...restProps }) => {
               width="100%"
               zIndex={10}
               _active={{
-                backgroundColor: 'var(--theme-textfield-background-color-active)',
-                borderColor: 'var(--theme-textfield-border-color-active)',
-                color: 'var(--theme-textfield-color-active)',
+                backgroundColor: 'var(--theme-textfield-background-color)',
+                color: 'var(--theme-textfield-color)',
               }}
               _focus={{
-                backgroundColor: 'var(--theme-textfield-background-color-active)',
-                borderColor: 'var(--theme-textfield-border-color-active)',
-                color: 'var(--theme-textfield-color-active)',
+                backgroundColor: 'var(--theme-textfield-background-color)',
+                color: 'var(--theme-textfield-color)',
               }}
               _placeholder={{
                 color: 'var(--theme-textfield-placeholder-color)',
