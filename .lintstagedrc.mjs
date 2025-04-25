@@ -1,4 +1,4 @@
 export default {
-  // 'src/**/*': ['stylelint --fix', 'biome check --write', 'vitest related --run --coverage=false'],
-  'src/**/*': ['stylelint --fix', 'biome check --write'],
+  // 'src/**/*': ['biome check --write', 'vitest related --run --coverage=false'],
+  'src/**/*': ['biome check --write'],
 }
