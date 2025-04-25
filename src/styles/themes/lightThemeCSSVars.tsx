@@ -115,10 +115,6 @@ const lightThemeCSSVars = css`
   --theme-button-dropdown-border-color-disabled: #692581;
   --theme-button-dropdown-color-disabled: #fff;
 
-  /* Card */
-  --theme-card-background-color: #fff;
-  --theme-card-border-color: #fff;
-  --theme-card-box-shadow: 0 9.6px 13px 0 rgb(0 0 0 / 8%);
 
   /* General message */
   --theme-general-message-background-color: #fff;

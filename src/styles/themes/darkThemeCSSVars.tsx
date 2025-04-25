@@ -115,10 +115,6 @@ const darkThemeCSSVars = css`
   --theme-button-dropdown-border-color-disabled: #8b46a4;
   --theme-button-dropdown-color-disabled: #fff;
 
-  /* Card */
-  --theme-card-background-color: #232436;
-  --theme-card-border-color: #232436;
-  --theme-card-box-shadow: 0 0 20px 0 rgb(255 255 255 / 8%);
 
   /* General message */
   --theme-general-message-background-color: #fff;
