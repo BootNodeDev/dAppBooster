@@ -152,7 +152,7 @@ const TokenInput: FC<Props> = ({
               <CurrentToken />
             </SingleToken>
           ) : (
-            <Dialog.Trigger>
+            <Dialog.Trigger asChild>
               <DropdownButton>
                 <CurrentToken />
               </DropdownButton>
@@ -219,10 +219,10 @@ function TokenAmountField({
   renderInputProps: RenderInputProps
   thousandSeparator: boolean
 }) {
-  const { inputRef, onChange, ...restProps } = renderInputProps
+  const { onChange, inputRef, ...restProps } = renderInputProps
 
   const isAllowed = ({ value }: NumberFormatValues) => {
-    const [, inputDecimals] = value.toString().split('.')
+    const [inputDecimals] = value.toString().split('.')
 
     if (!inputDecimals) {
       return true
@@ -235,7 +235,6 @@ function TokenAmountField({
     <NumericFormat
       $status={amountError ? 'error' : undefined}
       customInput={Textfield}
-      getInputRef={inputRef}
       isAllowed={isAllowed}
       onValueChange={({ value }) => onChange?.(value)}
       thousandSeparator={thousandSeparator}
