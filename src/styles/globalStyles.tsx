@@ -63,6 +63,16 @@ const globalStyles = css`
   a {
     color: var(--theme-color-primary);
   }
+
+  /* Move this somewhere else later */
+  @keyframes rotateSwitch {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
 `
 
 export default globalStyles
