@@ -80,10 +80,10 @@ const HashHandlingDemo = ({ ...restProps }) => {
     >
       <Box
         css={{
-          '--base-horizontal-padding': 'var(--base-common-padding-xl)',
-          '--base-textfield-padding': '0 var(--base-horizontal-padding)',
-          '--base-textfield-border-radius': 'var(--base-border-radius)',
-          '[data-theme="light"] &': {
+          '--base-horizontal-padding': '16px',
+          '--base-textfield-padding': '0 8px',
+          '--base-textfield-border-radius': '4px',
+          '.light &': {
             '--theme-textfield-color': '#2e3048',
             '--theme-textfield-background-color': '#fff',
             '--theme-textfield-background-color-active': 'rgb(0 0 0 / 5%)',
@@ -92,7 +92,7 @@ const HashHandlingDemo = ({ ...restProps }) => {
             '--theme-hash-input-search-status-background-color': '#2e3048',
           },
 
-          '[data-theme="dark"] &': {
+          '.dark &': {
             '--theme-textfield-color': '#fff',
             '--theme-textfield-background-color': '#373954',
             '--theme-textfield-background-color-active': 'rgb(255 255 255 / 5%)',

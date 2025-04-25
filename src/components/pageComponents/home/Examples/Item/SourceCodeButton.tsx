@@ -19,7 +19,7 @@ const Icon = () => (
 const SourceCodeButton: FC<LinkProps> = ({ children = 'Source code', ...restProps }) => (
   <Link
     css={{
-      "[data-theme='light'] &": {
+      '.light &': {
         '--theme-button-source-background-color': 'transparent',
         '--theme-button-source-background-color-hover': 'transparent',
         '--theme-button-source-border-color': '#e2e0e7',
@@ -30,7 +30,7 @@ const SourceCodeButton: FC<LinkProps> = ({ children = 'Source code', ...restProp
         '--theme-button-source-border-color-disabled': '#e2e0e7',
         '--theme-button-source-color-disabled': '#4b4d60',
       },
-      "[data-theme='dark'] &": {
+      '.dark &': {
         '--theme-button-source-background-color': 'transparent',
         '--theme-button-source-background-color-hover': 'transparent',
         '--theme-button-source-border-color': '#c5c2cb',

@@ -10,10 +10,10 @@ const List: FC<Props> = ({ items, ...restProps }) => {
   return (
     <Flex
       css={{
-        "[data-theme='light'] &": {
+        '.light &': {
           '--theme-examples-list-background-color': '#e2e0e766',
         },
-        "[data-theme='dark'] &": {
+        '.dark &': {
           '--theme-examples-list-background-color': '#292b43',
         },
       }}

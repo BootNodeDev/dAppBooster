@@ -1,5 +1,5 @@
 export const ButtonCSS = {
-  columnGap: 'calc(var(--base-gap) * 2)',
+  columnGap: 4,
   fontSize: '18px',
   height: '50px',
   justifyContent: 'start',

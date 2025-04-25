@@ -9,12 +9,12 @@ const WrapperComponent: FC<Props> = ({ children, title, ...restProps }) => {
   return (
     <Flex
       css={{
-        "[data-theme='light'] &": {
+        '.light &': {
           '--theme-op-background': '#fff',
           '--theme-op-title-color': '#2e3048',
           '--theme-op-text-color': '#2e3048',
         },
-        "[data-theme='dark'] &": {
+        '.dark &': {
           '--theme-op-background': '#373954',
           '--theme-op-title-color': '#fff',
           '--theme-op-text-color': '#e2e0e7',

@@ -74,7 +74,7 @@ const Row: FC<TokenSelectRowProps> = ({
     <Flex
       alignItems="center"
       backgroundColor="var(--theme-token-select-row-background-color)"
-      columnGap="var(--base-gap-xl, 16px)"
+      columnGap={4}
       cursor="pointer"
       height="100%"
       paddingLeft={6}

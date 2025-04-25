@@ -18,10 +18,10 @@ const Logo: FC<ImageProps> = ({ ...restProps }) => (
     display="block"
     flexShrink="0"
     css={{
-      '[data-theme="light"] &': {
+      '.light &': {
         '--base-logo': `url('data:image/svg+xml;base64,${LogoLight}')`,
       },
-      '[data-theme="dark"] &': {
+      '.dark &': {
         '--base-logo': `url('data:image/svg+xml;base64,${LogoDark}')`,
       },
     }}

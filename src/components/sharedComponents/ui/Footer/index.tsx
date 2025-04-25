@@ -35,10 +35,10 @@ export const Footer: FC = ({ ...restProps }) => {
         </a>
         <Box
           css={{
-            "[data-theme='light'] &": {
+            '.light &': {
               backgroundColor: '#c5c2cb',
             },
-            "[data-theme='dark'] &": {
+            '.dark &': {
               backgroundColor: '#5f6178',
             },
           }}

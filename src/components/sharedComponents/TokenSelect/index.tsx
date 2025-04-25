@@ -133,7 +133,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     return (
       <Flex
         backgroundColor="var(--theme-token-select-background-color)"
-        borderRadius="var(--base-border-radius)"
+        borderRadius="8px"
         border="1px solid var(--theme-token-select-border-color)"
         boxShadow="var(--theme-token-select-box-shadow)"
         flexDirection="column"

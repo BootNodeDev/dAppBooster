@@ -147,12 +147,12 @@ const List = ({ ...restProps }) => {
   return (
     <Flex
       css={{
-        "[data-theme='light'] &": {
+        '.light &': {
           '--theme-subgraph-status-background': '#fff',
           '--theme-subgraph-status-data-row-color': '#2e3048',
           '--theme-subgraph-status-data-color': '#5f6178',
         },
-        "[data-theme='dark'] &": {
+        '.dark &': {
           '--theme-subgraph-status-background': '#373954',
           '--theme-subgraph-status-data-row-color': '#fff',
           '--theme-subgraph-status-data-color': '#e2e0e7',
@@ -163,7 +163,7 @@ const List = ({ ...restProps }) => {
       paddingBottom={0}
       paddingTop={{ base: 2, lg: 6 }}
       paddingX={0}
-      rowGap="var(--base-gap-xl)"
+      rowGap={4}
       width="100%"
       {...restProps}
     >

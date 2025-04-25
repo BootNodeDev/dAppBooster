@@ -1,14 +1,4 @@
-import { css } from 'styled-components'
-
-/**
- * Light theme CSS variables.
- *
- * It should be mainly colors, probably some background images too. Things that
- * change when you change themes, nothing else.
- *
- * Use a --theme prefix to indicate that these variables are theme-specific.
- */
-const lightThemeCSSVars = css`
+html.light {
   /* Few basic colors */
   --theme-color-primary: #692581;
 
@@ -114,7 +104,6 @@ const lightThemeCSSVars = css`
   --theme-button-dropdown-background-color-disabled: #692581;
   --theme-button-dropdown-border-color-disabled: #692581;
   --theme-button-dropdown-color-disabled: #fff;
-
 
   /* General message */
   --theme-general-message-background-color: #fff;
@@ -226,21 +215,4 @@ const lightThemeCSSVars = css`
   /* Skeleton loading */
   --theme-skeleton-loading-background-color: #f3f3f3;
   --theme-skeleton-loading-background-color-end: #e0e0e0;
-
-  /* stylelint-disable-next-line keyframes-name-pattern */
-  @keyframes loadingAnimation {
-    0% {
-      background-color: var(--theme-skeleton-loading-background-color);
-    }
-
-    50% {
-      background-color: var(--theme-skeleton-loading-background-color-end);
-    }
-
-    100% {
-      background-color: var(--theme-skeleton-loading-background-color);
-    }
-  }
-`
-
-export default lightThemeCSSVars
+}

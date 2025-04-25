@@ -2,10 +2,10 @@ import { type HTMLChakraProps, chakra } from '@chakra-ui/react'
 import type { FC, SVGAttributes } from 'react'
 
 const pathCSS = {
-  '[data-theme="light"] &': {
+  '.light &': {
     fill: '#fff',
   },
-  '[data-theme="dark"] &': {
+  '.dark &': {
     fill: '#f7f7f7',
   },
 }

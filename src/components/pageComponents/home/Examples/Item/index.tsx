@@ -17,15 +17,15 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
   return (
     <Flex
       css={{
-        "[data-theme='light'] &": {
+        '.light &': {
           '--theme-examples-item-background-color': '#f7f7f7',
         },
-        "[data-theme='dark'] &": {
+        '.dark &': {
           '--theme-examples-item-background-color': '#2e3048',
         },
       }}
       backgroundColor="var(--theme-examples-item-background-color)"
-      borderRadius="var(--base-border-radius)"
+      borderRadius="4px"
       display="flex"
       flexDirection={{ base: 'column', lg: 'row' }}
       rowGap="20px"
@@ -44,7 +44,7 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
         flexDirection="column"
         paddingBottom={{ lg: 0 }}
         paddingTop={{ lg: 4 }}
-        rowGap="var(--base-gap-xl)"
+        rowGap={4}
       >
         <Flex
           css={{
@@ -111,7 +111,7 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
       <Flex
         alignItems="center"
         backgroundColor="var(--theme-examples-list-background-color)"
-        borderRadius="var(--base-border-radius)"
+        borderRadius="4px"
         flex="1"
         flexDirection="column"
         justifyContent="center"

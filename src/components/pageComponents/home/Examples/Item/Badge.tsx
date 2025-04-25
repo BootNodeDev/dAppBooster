@@ -5,17 +5,17 @@ const Badge: FC<FlexProps> = ({ children = <>Demo</>, ...restProps }) => {
   return (
     <Flex
       css={{
-        "[data-theme='light'] &": {
+        '.light &': {
           '--theme-examples-badge-background-color': '#2e3048',
         },
-        "[data-theme='dark'] &": {
+        '.dark &': {
           '--theme-examples-badge-background-color': '#4b4d60',
         },
         '--badge-gap': '12px',
       }}
       alignItems="center"
       backgroundColor="var(--theme-examples-badge-background-color)"
-      borderRadius="var(--base-border-radius-sm)"
+      borderRadius="2px"
       color="#fff"
       display="flex"
       fontSize="12px"

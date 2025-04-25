@@ -6,10 +6,14 @@ import { Provider } from '@/src/components/ui/provider'
 import { Toaster } from '@/src/components/ui/toaster'
 import { TransactionNotificationProvider } from '@/src/lib/toast/TransactionNotificationProvider'
 import { Web3Provider } from '@/src/providers/Web3Provider'
-import Styles from '@/src/styles'
 import { Flex } from '@chakra-ui/react'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
+
+// Theme CSS Vars
+import '@/src/styles/base.css'
+import '@/src/styles/light.css'
+import '@/src/styles/dark.css'
 
 export const Route = createRootRoute({
   component: Root,
@@ -18,7 +22,6 @@ export const Route = createRootRoute({
 function Root() {
   return (
     <Provider>
-      <Styles />
       <Web3Provider>
         <TransactionNotificationProvider>
           <Flex

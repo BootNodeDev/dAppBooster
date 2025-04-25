@@ -1,14 +1,4 @@
-import { css } from 'styled-components'
-
-/**
- * Dark theme CSS variables.
- *
- * It should be mainly colors, probably some background images too. Things that
- * change when you change themes, nothing else.
- *
- * Use a --theme prefix to indicate that these variables are theme-specific.
- */
-const darkThemeCSSVars = css`
+html.dark {
   /* Few basic colors */
   --theme-color-primary: #8b46a4;
 
@@ -114,7 +104,6 @@ const darkThemeCSSVars = css`
   --theme-button-dropdown-background-color-disabled: #8b46a4;
   --theme-button-dropdown-border-color-disabled: #8b46a4;
   --theme-button-dropdown-color-disabled: #fff;
-
 
   /* General message */
   --theme-general-message-background-color: #fff;
@@ -226,21 +215,4 @@ const darkThemeCSSVars = css`
   /* Skeleton loading */
   --theme-skeleton-loading-background-color: #373954;
   --theme-skeleton-loading-background-color-end: #292b43;
-
-  /* stylelint-disable-next-line keyframes-name-pattern */
-  @keyframes loadingAnimation {
-    0% {
-      background-color: var(--theme-skeleton-loading-background-color);
-    }
-
-    50% {
-      background-color: var(--theme-skeleton-loading-background-color-end);
-    }
-
-    100% {
-      background-color: var(--theme-skeleton-loading-background-color);
-    }
-  }
-`
-
-export default darkThemeCSSVars
+}

@@ -16,7 +16,7 @@ const styles = {
 export const DarkClouds: FC<ImageProps> = () => (
   <Image
     css={{
-      '[data-theme="dark"] &': {
+      '.dark &': {
         display: 'block',
       },
     }}
@@ -28,7 +28,7 @@ export const DarkClouds: FC<ImageProps> = () => (
 export const LightClouds: FC<ImageProps> = () => (
   <Image
     css={{
-      '[data-theme="light"] &': {
+      '.light &': {
         display: 'block',
       },
     }}

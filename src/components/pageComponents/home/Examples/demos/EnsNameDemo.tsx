@@ -69,7 +69,7 @@ const EnsNameDemo = () => {
   return (
     <Flex
       css={{
-        '[data-theme="light"] &': {
+        '.light &': {
           '--theme-token-ens-name-background': '#fff',
           '--theme-token-ens-name-title-color': '#2e3048',
           '--theme-token-ens-name-text-color': '#2e3048',
@@ -79,7 +79,7 @@ const EnsNameDemo = () => {
           '--theme-textfield-border-color': '#c5c2cb',
           '--theme-textfield-placeholder-color': 'rgb(22 29 26 / 60%)',
         },
-        '[data-theme="dark"] &': {
+        '.dark &': {
           '--theme-token-ens-name-background': '#373954',
           '--theme-token-ens-name-title-color': '#fff',
           '--theme-token-ens-name-text-color': '#e2e0e7',
@@ -148,7 +148,7 @@ const EnsNameDemo = () => {
       <Flex
         alignItems="center"
         color="var(--theme-token-ens-name-text-color)"
-        columnGap="var(--base-gap)"
+        columnGap={2}
         fontSize="15px"
         height="20px"
         lineHeight={1.2}

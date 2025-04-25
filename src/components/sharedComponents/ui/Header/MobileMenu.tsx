@@ -121,7 +121,7 @@ export const MobileMenu = ({ ...restProps }) => {
         display="flex"
         flexDirection="column"
         height="100vh"
-        padding="var(--base-padding-mobile)"
+        padding={2}
         position="fixed"
         right="0"
         top="0"

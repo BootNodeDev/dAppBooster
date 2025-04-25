@@ -288,13 +288,13 @@ const List = ({ ...restProps }) => {
   return (
     <Flex
       css={{
-        "[data-theme='light'] &": {
+        '.light &': {
           '--theme-subgraph-title-color': '#2e3048',
           '--theme-subgraph-name-color': '#2e3048',
           '--theme-subgraph-bullet-color': '#f7f7f7',
           '--theme-subgraph-bullet-background-color': '#2e3048',
         },
-        "[data-theme='dark'] &": {
+        '.dark &': {
           '--theme-subgraph-title-color': '#fff',
           '--theme-subgraph-name-color': '#fff',
           '--theme-subgraph-bullet-color': '#2e3048',

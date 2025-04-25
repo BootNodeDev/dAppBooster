@@ -52,7 +52,7 @@ const CloseIcon = ({ ...restProps }) => (
 export const Wrapper: FC<FlexProps> = ({ children, ...restProps }) => (
   <Flex
     backgroundColor="var(--theme-token-input-background)"
-    borderRadius="var(--base-border-radius, 8px)"
+    borderRadius="8px"
     flexDirection="column"
     maxWidth="100%"
     padding={4}

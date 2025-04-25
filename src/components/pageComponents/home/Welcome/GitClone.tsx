@@ -67,10 +67,10 @@ const GitClone = ({ ...restProps }) => {
   return (
     <Flex
       css={{
-        "[data-theme='light'] &": {
+        '.light &': {
           '--git-clone-background-color': '#e2e0e7',
         },
-        "[data-theme='dark'] &": {
+        '.dark &': {
           '--git-clone-background-color': '#292b43',
         },
       }}

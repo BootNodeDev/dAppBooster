@@ -68,7 +68,7 @@ export const OptionsDropdown: FC<{
               '& svg': {
                 transition: 'transform var(--base-transition-duration-sm)',
               },
-              '[data-theme="light"] &': {
+              '.light &': {
                 '--theme-button-options-background-color': '#f7f7f7',
                 '--theme-button-options-background-color-hover': '#f7f7f7',
                 '--theme-button-options-border-color': '#e2e0e7',
@@ -80,7 +80,7 @@ export const OptionsDropdown: FC<{
                 '--theme-button-options-color-disabled': '#4b4d60',
               },
 
-              '[data-theme="dark"] &': {
+              '.dark &': {
                 '--theme-button-options-background-color': 'transparent',
                 '--theme-button-options-background-color-hover': 'transparent',
                 '--theme-button-options-border-color': '#c5c2cb',

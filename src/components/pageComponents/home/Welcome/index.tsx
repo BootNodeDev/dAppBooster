@@ -11,10 +11,10 @@ const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
   return (
     <Flex
       css={{
-        "[data-theme='light'] &": {
+        '.light &': {
           '--landing-page-main-background-color': '#f7f7f7',
         },
-        "[data-theme='dark'] &": {
+        '.dark &': {
           '--landing-page-main-background-color': '#2e3048',
         },
       }}

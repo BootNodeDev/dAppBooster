@@ -32,12 +32,12 @@ const HashDemo: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
   return hash ? (
     <Hash
       css={{
-        '[data-theme="light"] &': {
+        '.light &': {
           '--theme-hash-background-color': '#fff',
           '--theme-hash-border-color': '#c5c2cb',
           '--theme-hash-color': '#2e3048',
         },
-        '[data-theme="dark"] &': {
+        '.dark &': {
           '--theme-hash-background-color': '#2e3047',
           '--theme-hash-border-color': '#5f6178',
           '--theme-hash-color': '#fff',
@@ -45,7 +45,7 @@ const HashDemo: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
       }}
       backgroundColor="var(--theme-hash-background-color)"
       border="1px solid var(--theme-hash-border-color)"
-      borderRadius="var(--base-border-radius)"
+      borderRadius="4px"
       color="var(--theme-hash-color)"
       cursor="default"
       explorerURL={getExplorerLink({ chain, hashOrAddress: hash })}

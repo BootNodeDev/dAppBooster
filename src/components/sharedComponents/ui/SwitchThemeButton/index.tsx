@@ -38,20 +38,20 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
         '--base-switch-theme-button-left-start': '4px',
         '--base-switch-theme-button-left-end': '44px',
 
-        '[data-theme="light"] &': {
+        '.light &': {
           '--theme-switch-theme-button-background-color': '#fff',
           '--base-switch-theme-button-active-state-left':
             'var(--base-switch-theme-button-left-end)',
         },
-        '[data-theme="dark"] &': {
+        '.dark &': {
           '--theme-switch-theme-button-background-color': '#24263d',
           '--base-switch-theme-button-active-state-left':
             'var(--base-switch-theme-button-left-start)',
         },
-        '[data-theme="light"] &:active .iconWrapperDark': {
+        '.light &:active .iconWrapperDark': {
           opacity: '0.5',
         },
-        '[data-theme="dark"] &:active .iconWrapperLight': {
+        '.dark &:active .iconWrapperLight': {
           opacity: '0.5',
         },
       }}
@@ -69,7 +69,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
       <Icon
         left="var(--base-switch-theme-button-left-start)"
         css={{
-          '[data-theme="light"] &': {
+          '.light &': {
             cursor: 'pointer',
           },
         }}
@@ -78,7 +78,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
         <Dark
           {...IconCSS}
           css={{
-            '[data-theme="dark"] &': {
+            '.dark &': {
               animation: 'rotateSwitch var(--base-switch-theme-button-animation-delay) linear',
               cursor: 'default',
               path: {
@@ -91,7 +91,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
       <Icon
         left="var(--base-switch-theme-button-left-end)"
         css={{
-          '[data-theme="dark"] &': {
+          '.dark &': {
             cursor: 'pointer',
           },
         }}
@@ -100,7 +100,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
         <Light
           {...IconCSS}
           css={{
-            '[data-theme="light"] &': {
+            '.light &': {
               animation: 'rotateSwitch var(--base-switch-theme-button-animation-delay) linear',
               cursor: 'default',
               path: {

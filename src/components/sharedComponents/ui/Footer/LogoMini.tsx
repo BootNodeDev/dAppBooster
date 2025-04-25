@@ -16,10 +16,10 @@ export const LogoMini: FC = ({ ...restProps }) => (
     display="block"
     flexShrink="0"
     css={{
-      "[data-theme='light'] & .themedColor": {
+      '.light & .themedColor': {
         fill: '#2e3048',
       },
-      "[data-theme='dark'] & .themedColor": {
+      '.dark & .themedColor': {
         fill: '#c5c2cb',
       },
     }}

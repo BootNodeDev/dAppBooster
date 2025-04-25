@@ -19,7 +19,7 @@ const Icon = () => (
 const DocumentationButton: FC<LinkProps> = ({ children = 'Documentation', ...restProps }) => (
   <Link
     css={{
-      "[data-theme='light'] &": {
+      '.light &': {
         '--theme-button-documentation-background-color': 'transparent',
         '--theme-button-documentation-background-color-hover': 'transparent',
         '--theme-button-documentation-border-color': '#e2e0e7',
@@ -30,7 +30,7 @@ const DocumentationButton: FC<LinkProps> = ({ children = 'Documentation', ...res
         '--theme-button-documentation-border-color-disabled': '#e2e0e7',
         '--theme-button-documentation-color-disabled': '#4b4d60',
       },
-      "[data-theme='dark'] &": {
+      '.dark &': {
         '--theme-button-documentation-background-color': 'transparent',
         '--theme-button-documentation-background-color-hover': 'transparent',
         '--theme-button-documentation-border-color': '#c5c2cb',

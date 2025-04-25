@@ -6,10 +6,10 @@ import type { FC } from 'react'
 const Ghost: FC<ImageProps> = () => (
   <Image
     css={{
-      "[data-theme='light'] &": {
+      '.light &': {
         '--ghost-image': `url(${ImgGhostLight})`,
       },
-      "[data-theme='dark'] &": {
+      '.dark &': {
         '--ghost-image': `url(${ImgGhostDark})`,
       },
     }}

@@ -14,10 +14,10 @@ const Dark: FC<HTMLChakraProps<'svg'> & SVGAttributes<SVGSVGElement>> = ({ ...re
   >
     <chakra.path
       css={{
-        '[data-theme="light"] &': {
+        '.light &': {
           fill: '#2e3048',
         },
-        '[data-theme="dark"] &': {
+        '.dark &': {
           fill: '#fff',
         },
       }}
