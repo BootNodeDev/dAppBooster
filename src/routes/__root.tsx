@@ -10,7 +10,6 @@ import Styles from '@/src/styles'
 import { Flex } from '@chakra-ui/react'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
-import { ThemeProvider } from 'next-themes'
 
 export const Route = createRootRoute({
   component: Root,
@@ -18,33 +17,30 @@ export const Route = createRootRoute({
 
 function Root() {
   return (
-    // Remove ThemeProvider later
-    <ThemeProvider defaultTheme={'light'}>
-      <Provider>
-        <Styles />
-        <Web3Provider>
-          <TransactionNotificationProvider>
+    <Provider>
+      <Styles />
+      <Web3Provider>
+        <TransactionNotificationProvider>
+          <Flex
+            direction="column"
+            minH="100vh"
+            w="100%"
+          >
+            <Header />
             <Flex
-              direction="column"
-              minH="100vh"
-              w="100%"
+              as="main"
+              flex="1"
             >
-              <Header />
-              <Flex
-                as="main"
-                flex="1"
-              >
-                <Outlet />
-              </Flex>
-              <Footer />
-              <TanStackReactQueryDevtools />
-              <TanStackRouterDevtools />
+              <Outlet />
             </Flex>
-            <Toaster />
-          </TransactionNotificationProvider>
-        </Web3Provider>
-        <Analytics />
-      </Provider>
-    </ThemeProvider>
+            <Footer />
+            <TanStackReactQueryDevtools />
+            <TanStackRouterDevtools />
+          </Flex>
+          <Toaster />
+        </TransactionNotificationProvider>
+      </Web3Provider>
+      <Analytics />
+    </Provider>
   )
 }
