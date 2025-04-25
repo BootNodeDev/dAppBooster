@@ -1,7 +1,7 @@
 import Logo from '@/src/components/sharedComponents/ui/Header/Logo'
+import { SwitchThemeButton } from '@/src/components/sharedComponents/ui/SwitchThemeButton'
 import { menuItems } from '@/src/constants/menuItems'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { SwitchThemeButton } from '@bootnodedev/db-ui-toolkit'
 import { Link as A, Box, Flex, chakra } from '@chakra-ui/react'
 import { Link as ReactLink } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
