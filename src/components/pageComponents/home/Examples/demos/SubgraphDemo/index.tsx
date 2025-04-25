@@ -10,12 +10,11 @@ import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/po
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
 import { CopyButton, ExternalLink, Toast } from '@bootnodedev/db-ui-toolkit'
-import { Flex, Heading } from '@chakra-ui/react'
+import { Box, Flex, Heading, Span } from '@chakra-ui/react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import request from 'graphql-request'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
-import styled from 'styled-components'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
 const chainNameMapping: { [key: number]: string } = {
@@ -23,16 +22,6 @@ const chainNameMapping: { [key: number]: string } = {
   [optimism.id]: 'optimism',
   [polygon.id]: 'polygon',
 }
-
-const Name = styled.div`
-  font-size: 1.6rem;
-  font-weight: 400;
-  line-height: 1.2;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: block;
-`
 
 const Copy = ({ value }: { value: string }) => {
   const handleCopy = () => {
@@ -187,7 +176,7 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
           }}
           key={position.id}
         >
-          <Name>{position.pool.symbol}</Name>
+          <Span>{position.pool.symbol}</Span>
           <Copy value={position.pool.id} />
           <ExternalLink
             href={`${baseUrl}${position.pool.id}`}
@@ -260,7 +249,16 @@ const Aave = withSuspenseAndRetry(() => {
           }}
           key={id}
         >
-          <Name>{name}</Name>
+          <Box
+            fontSize="16px"
+            fontWeight="400"
+            lineHeight="1.2"
+            whiteSpace="nowrap"
+            overflow="hidden"
+            textOverflow="ellipsis"
+          >
+            {name}
+          </Box>
           <Copy value={underlyingAsset} />
           <ExternalLink
             href={`${baseUrl}${underlyingAsset}`}

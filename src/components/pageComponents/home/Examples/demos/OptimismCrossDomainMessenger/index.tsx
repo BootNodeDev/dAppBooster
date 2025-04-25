@@ -1,11 +1,3 @@
-import { useState } from 'react'
-import styled from 'styled-components'
-
-import type { Address } from 'viem'
-import { parseEther } from 'viem'
-import { optimismSepolia, sepolia } from 'viem/chains'
-import { extractTransactionDepositedLogs, getL2TransactionHash } from 'viem/op-stack'
-
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/OptimismCrossDomainMessenger/Wrapper'
 import Hash from '@/src/components/sharedComponents/Hash'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
@@ -15,12 +7,12 @@ import { useL1CrossDomainMessengerProxy } from '@/src/hooks/useOPL1CrossDomainMe
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { getExplorerLink } from '@/src/utils/getExplorerLink'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-
-const HashWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-`
+import { Flex, Span } from '@chakra-ui/react'
+import { useState } from 'react'
+import type { Address } from 'viem'
+import { parseEther } from 'viem'
+import { optimismSepolia, sepolia } from 'viem/chains'
+import { extractTransactionDepositedLogs, getL2TransactionHash } from 'viem/op-stack'
 
 const OptimismCrossDomainMessenger = withWalletStatusVerifier(
   withSuspenseAndRetry(() => {
@@ -70,13 +62,17 @@ const OptimismCrossDomainMessenger = withWalletStatusVerifier(
           Deposit ETH
         </TransactionButton>
         {l2Hash && (
-          <HashWrapper>
-            <span>OpSepolia tx </span>
+          <Flex
+            alignItems="center"
+            display="flex"
+            gap={2}
+          >
+            <Span>OpSepolia tx</Span>
             <Hash
               explorerURL={getExplorerLink({ chain: optimismSepolia, hashOrAddress: l2Hash })}
               hash={l2Hash}
             />
-          </HashWrapper>
+          </Flex>
         )}
       </Wrapper>
     )
