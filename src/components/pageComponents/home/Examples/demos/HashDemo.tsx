@@ -1,9 +1,8 @@
 import Hash from '@/src/components/sharedComponents/Hash'
+import { toaster } from '@/src/components/ui/toaster'
 import { getExplorerLink } from '@/src/utils/getExplorerLink'
-import { Toast } from '@bootnodedev/db-ui-toolkit'
 import type { FlexProps } from '@chakra-ui/react'
 import type { FC } from 'react'
-import { toast } from 'react-hot-toast'
 import type { Address, Chain } from 'viem'
 
 interface Props extends FlexProps {
@@ -23,9 +22,10 @@ const HashDemo: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
     const timeDelay = 2500
 
     navigator.clipboard.writeText(message)
-    toast.custom(<Toast>Copied to the clipboard!</Toast>, {
+    toaster.create({
+      description: 'Copied to the clipboard!',
       duration: timeDelay,
-      position: 'top-center',
+      type: 'success',
       id: 'copy-to-clipboard',
     })
   }

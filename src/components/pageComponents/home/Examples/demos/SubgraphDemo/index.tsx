@@ -4,17 +4,17 @@ import Base from '@/src/components/pageComponents/home/Examples/demos/assets/Bas
 import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
 import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
 import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
+import { toaster } from '@/src/components/ui/toaster'
 import { env } from '@/src/env'
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
-import { CopyButton, ExternalLink, Toast } from '@bootnodedev/db-ui-toolkit'
+import { CopyButton, ExternalLink } from '@bootnodedev/db-ui-toolkit'
 import { Box, Flex, Heading, Span } from '@chakra-ui/react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import request from 'graphql-request'
 import { useState } from 'react'
-import { toast } from 'react-hot-toast'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
 const chainNameMapping: { [key: number]: string } = {
@@ -26,10 +26,11 @@ const chainNameMapping: { [key: number]: string } = {
 const Copy = ({ value }: { value: string }) => {
   const handleCopy = () => {
     const timeDelay = 2500
-    toast.custom(<Toast>Copied to the clipboard!</Toast>, {
+    toaster.create({
       duration: timeDelay,
-      position: 'top-center',
+      type: 'success',
       id: 'copy-to-clipboard',
+      description: 'Copied to the clipboard!',
     })
   }
 

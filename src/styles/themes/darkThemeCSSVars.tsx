@@ -136,10 +136,6 @@ const darkThemeCSSVars = css`
   --theme-external-link-button-color: #e2e0e7;
   --theme-external-link-button-color-hover: #c670e5;
 
-  /* Toast */
-  --theme-toast-background-color: #4b4d60;
-  --theme-toast-color: #fff;
-
   /* General Error */
   --theme-general-error-background-color: #232436;
   --theme-general-error-border-color: #232436;

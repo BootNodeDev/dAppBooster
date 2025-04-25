@@ -1,5 +1,5 @@
 'use client'
-
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import {
   Toaster as ChakraToaster,
   Portal,
@@ -9,16 +9,20 @@ import {
   createToaster,
 } from '@chakra-ui/react'
 
-export const toaster = createToaster({
+export const notificationToaster = createToaster({
   placement: 'bottom-end',
   pauseOnPageIdle: true,
+  max: 1,
+  overlap: false,
 })
 
-export const Toaster = () => {
-  return (
+export const NotificationToast = () => {
+  const { readOnlyClient } = useWeb3Status()
+  const chain = readOnlyClient?.chain
+  return !chain ? null : (
     <Portal>
       <ChakraToaster
-        toaster={toaster}
+        toaster={notificationToaster}
         insetInline={{ mdDown: '4' }}
       >
         {(toast) => (
@@ -37,9 +41,18 @@ export const Toaster = () => {
               maxWidth="100%"
             >
               {toast.title && <Toast.Title>{toast.title}</Toast.Title>}
-              {toast.description && <Toast.Description>{toast.description}</Toast.Description>}
+              {toast.description && (
+                <Toast.Description
+                  css={{
+                    a: {
+                      color: 'var(--theme-color-primary)',
+                    },
+                  }}
+                >
+                  {toast.description}
+                </Toast.Description>
+              )}
             </Stack>
-            {toast.action && <Toast.ActionTrigger>{toast.action.label}</Toast.ActionTrigger>}
             {toast.meta?.closable && <Toast.CloseTrigger />}
           </Toast.Root>
         )}

@@ -1,8 +1,7 @@
-import { Toast } from '@/src/components/sharedComponents/ui/Toast'
+import { toaster } from '@/src/components/ui/toaster'
 import { CopyButton } from '@bootnodedev/db-ui-toolkit'
 import { Flex, Span } from '@chakra-ui/react'
 import { useState } from 'react'
-import { toast } from 'react-hot-toast'
 
 const CopyIcon = () => (
   <svg
@@ -53,10 +52,11 @@ const GitClone = ({ ...restProps }) => {
 
   const handleCopy = () => {
     const timeDelay = 2500
-    toast.custom(<Toast>Copied to the clipboard!</Toast>, {
+    toaster.create({
       duration: timeDelay,
-      position: 'top-center',
       id: 'copy-to-clipboard',
+      type: 'success',
+      description: 'Copied to the clipboard!',
     })
     setCopied(true)
     setTimeout(() => {

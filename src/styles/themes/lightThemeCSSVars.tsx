@@ -136,10 +136,6 @@ const lightThemeCSSVars = css`
   --theme-external-link-button-color: #000;
   --theme-external-link-button-color-hover: #8b46a4;
 
-  /* Toast */
-  --theme-toast-background-color: #2e3048;
-  --theme-toast-color: #fff;
-
   /* General Error */
   --theme-general-error-background-color: #fff;
   --theme-general-error-border-color: #fff;
