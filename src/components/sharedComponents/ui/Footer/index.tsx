@@ -1,6 +1,6 @@
+import { LogoMini } from '@/src/components/sharedComponents/ui/Footer/LogoMini'
 import Socials from '@/src/components/sharedComponents/ui/Footer/Socials'
 import { Inner } from '@/src/components/sharedComponents/ui/Inner'
-import { LogoMini } from '@/src/components/sharedComponents/ui/LogoMini'
 import { Box, Flex } from '@chakra-ui/react'
 import packageJSON from '@packageJSON'
 import type { FC } from 'react'
