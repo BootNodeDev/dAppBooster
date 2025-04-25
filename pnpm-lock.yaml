@@ -50,9 +50,6 @@ importers:
       graphql-request:
         specifier: ^7.1.0
         version: 7.1.2(graphql@16.10.0)
-      modern-normalize:
-        specifier: ^3.0.1
-        version: 3.0.1
       next-themes:
         specifier: ^0.4.4
         version: 0.4.4(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -6845,10 +6842,6 @@ packages:
 
   modern-ahocorasick@1.0.1:
     resolution: {integrity: sha512-yoe+JbhTClckZ67b2itRtistFKf8yPYelHLc7e5xAwtNAXxM6wJTUx2C7QeVSJFDzKT7bCIFyBVybPMKvmB9AA==}
-
-  modern-normalize@3.0.1:
-    resolution: {integrity: sha512-VqlMdYi59Uch6fnUPxnpijWUQe+TW6zeWCvyr6Mb7JibheHzSuAAoJi2c71ZwIaWKpECpGpYHoaaBp6rBRr+/g==}
-    engines: {node: '>=6'}
 
   motion@10.16.2:
     resolution: {integrity: sha512-p+PurYqfUdcJZvtnmAqu5fJgV2kR0uLFQuBKtLeFVTrYEVllI99tiOTSefVNYuip9ELTEkepIIDftNdze76NAQ==}
@@ -17841,8 +17834,6 @@ snapshots:
       ufo: 1.5.4
 
   modern-ahocorasick@1.0.1: {}
-
-  modern-normalize@3.0.1: {}
 
   motion@10.16.2:
     dependencies:
