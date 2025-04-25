@@ -16,21 +16,6 @@ html.dark {
   /* Main body */
   --theme-body-background-color: #292b43;
 
-  /* Header */
-  --theme-header-background-color: transparent;
-  --theme-header-text-color: #fff;
-
-  /* Mobile menu */
-  --theme-main-menu-background-color: #292b43;
-  --theme-main-menu-color: #fff;
-
-  /* Footer */
-  --theme-footer-background-color: #2e3048;
-  --theme-footer-text-color: #c5c2cb;
-
-  /* Main Menu */
-  --theme-main-menu-item-color: #fff;
-
   /* Button Primary */
   --theme-button-primary-background-color: #8b46a4;
   --theme-button-primary-background-color-hover: #9a4eb5;
@@ -90,20 +75,6 @@ html.dark {
   --theme-dropdown-item-border-color: #4b4d60;
   --theme-dropdown-item-border-color-hover: #4b4d60;
   --theme-dropdown-item-border-color-active: #4b4d60;
-
-  /* Dropdown Button  */
-  --theme-button-dropdown-background-color: #8b46a4;
-  --theme-button-dropdown-background-color-hover: #9a4eb5;
-
-  --theme-button-dropdown-border-color: #8b46a4;
-  --theme-button-dropdown-border-color-hover: #9a4eb5;
-
-  --theme-button-dropdown-color: #fff;
-  --theme-button-dropdown-color-hover: #fff;
-
-  --theme-button-dropdown-background-color-disabled: #8b46a4;
-  --theme-button-dropdown-border-color-disabled: #8b46a4;
-  --theme-button-dropdown-color-disabled: #fff;
 
   /* General message */
   --theme-general-message-background-color: #fff;

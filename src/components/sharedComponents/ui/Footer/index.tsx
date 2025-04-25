@@ -4,6 +4,7 @@ import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import { Box, Flex } from '@chakra-ui/react'
 import packageJSON from '@packageJSON'
 import type { FC } from 'react'
+import './cssVars.css'
 
 export const Footer: FC = ({ ...restProps }) => {
   return (
@@ -34,14 +35,7 @@ export const Footer: FC = ({ ...restProps }) => {
           <LogoMini />
         </a>
         <Box
-          css={{
-            '.light &': {
-              backgroundColor: '#c5c2cb',
-            },
-            '.dark &': {
-              backgroundColor: '#5f6178',
-            },
-          }}
+          backgroundColor="var(--theme-footer-line-color)"
           height="17px"
           width="1px"
         />

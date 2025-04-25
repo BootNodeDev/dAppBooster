@@ -8,6 +8,7 @@ import { Box, Flex, chakra } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
 import type { FC, HTMLAttributes } from 'react'
+import './cssVars.css'
 
 const HomeLink = chakra(Link)
 
