@@ -54,7 +54,6 @@ pnpm wagmi-generate
 
 ```tsx
 import { createLazyFileRoute } from '@tanstack/react-router'
-
 import { Weth } from '@/src/components/pageComponents/weth'
 
 export const Route = createLazyFileRoute('/weth')({
@@ -69,10 +68,10 @@ With this file we are registering a new page under the path `/weth`.
 3. Create a new file `src/components/pageComponents/weth/index.tsx` with this content:
 
 ```tsx
-import { Card } from 'db-ui-toolkit'
+import { Card } from '@chakra-ui/react'
 
 export const Weth = () => {
-  return <Card style={{ margin: 'auto' }}>Hello Annon!</Card>
+  return (<Card.Root display="flex" flexDirection="column" m="auto">Hello Annon!</Card.Root>
 }
 ```
 
@@ -129,9 +128,8 @@ We will use the `TokenInput` component. This component will provide us with the 
 Let's modify the `@/src/components/pageComponents/weth` file as follows:
 
 ```tsx
-import { Card } from 'db-ui-toolkit'
+import { Card } from '@chakra-ui/react'
 import { sepolia } from 'viem/chains'
-
 import TokenInput from '@/src/components/sharedComponents/TokenInput'
 import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import { getContract } from '@/src/constants/contracts/contracts'
@@ -157,10 +155,10 @@ export const Weth = () => {
   const tokenInput = useTokenInput(ethToken)
 
   return (
-    <Card style={{ margin: 'auto' }}>
+    <Card.Root display="flex" flexDirection="column" m="auto">
       <p>WETH EXAMPLE</p>
       <TokenInput singleToken tokenInput={tokenInput} />
-    </Card>
+    </Card.Root>
   )
 }
 ```
@@ -194,10 +192,9 @@ We will consume different hooks that will take care of triggering the transactio
 Also, we will make use of another special hook [useWeb3Status()](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/hooks/useWeb3Status.tsx) provided by dappBooster. This hook will return important information of the context of the connected wallet and selected chain.
 
 ```tsx
-import { Card } from 'db-ui-toolkit'
+import { Card } from '@chakra-ui/react'
 import { Address } from 'viem'
 import { sepolia } from 'viem/chains'
-
 import TokenInput from '@/src/components/sharedComponents/TokenInput'
 import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import { getContract } from '@/src/constants/contracts/contracts'
@@ -247,10 +244,10 @@ export const SuspendedWeth = withSuspenseAndRetry(() => {
   }) // [!code focus]
 
   return (
-    <Card style={{ margin: 'auto' }}>
+    <Card.Root display="flex" flexDirection="column" m="auto">
       <p>WETH EXAMPLE</p>
       <TokenInput singleToken tokenInput={tokenInput} />
-    </Card>
+    </Card.Root>
   )
 })
 
@@ -265,11 +262,9 @@ After the user enters a valid value, we need a button to trigger one of the poss
 
 ```tsx
 import { ChangeEvent, useState } from 'react' // [!code focus]
-
-import { Card } from 'db-ui-toolkit'
+import { Card } from '@chakra-ui/react'
 import { Address } from 'viem' // [!code focus]
 import { sepolia } from 'viem/chains'
-
 import TokenInput from '@/src/components/sharedComponents/TokenInput'
 import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton' // [!code focus]
@@ -356,7 +351,7 @@ export const SuspendedWeth = withSuspenseAndRetry(() => {
   } // [!code focus]
 
   return (
-    <Card style={{ margin: 'auto' }}>
+    <Card.Root display="flex" flexDirection="column" m="auto">
       <p>WETH EXAMPLE</p>
       <br /> // [!code focus]
       <div style={{ display: 'flex', width: '100%' }}> // [!code focus]
@@ -379,7 +374,7 @@ export const SuspendedWeth = withSuspenseAndRetry(() => {
       > // [!code focus]
         {getActionText()} // [!code focus]
       </TransactionButton> // [!code focus]
-    </Card> // [!code focus]
+    </Card.Root> // [!code focus]
   )
 })
 
@@ -391,4 +386,3 @@ export const Weth = () => (
 :::info
 The `sendOperation.methodId` is used to provide additional context to the toast notification displayed by the `TransactionButton`. This is optional, but if you include a `methodId` property in the function passed to the transaction property, it will display that context in the toast, offering the user more detailed information.
 :::
-
