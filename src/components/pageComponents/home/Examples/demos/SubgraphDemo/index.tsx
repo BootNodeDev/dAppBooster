@@ -1,20 +1,21 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
-import ArbitrumDefault from '@/src/components/pageComponents/home/Examples/demos/assets/Arbitrum'
-import BaseDefault from '@/src/components/pageComponents/home/Examples/demos/assets/Base'
-import OptimismDefault from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
-import PolygonDefault from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
+import Arbitrum from '@/src/components/pageComponents/home/Examples/demos/assets/Arbitrum'
+import Base from '@/src/components/pageComponents/home/Examples/demos/assets/Base'
+import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
+import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
 import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import { env } from '@/src/env'
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
-import { CopyButton, ExternalLink, Toast, breakpointMediaQuery } from '@bootnodedev/db-ui-toolkit'
+import { CopyButton, ExternalLink, Toast } from '@bootnodedev/db-ui-toolkit'
+import { Flex, Heading } from '@chakra-ui/react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import request from 'graphql-request'
 import { useState } from 'react'
 import { toast } from 'react-hot-toast'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
 const chainNameMapping: { [key: number]: string } = {
@@ -22,111 +23,6 @@ const chainNameMapping: { [key: number]: string } = {
   [optimism.id]: 'optimism',
   [polygon.id]: 'polygon',
 }
-
-const Wrapper = styled.div`
-  [data-theme='light'] & {
-    --theme-subgraph-title-color: #2e3048;
-    --theme-subgraph-name-color: #2e3048;
-    --theme-subgraph-bullet-color: #f7f7f7;
-    --theme-subgraph-bullet-background-color: #2e3048;
-  }
-
-  [data-theme='dark'] & {
-    --theme-subgraph-title-color: #fff;
-    --theme-subgraph-name-color: #fff;
-    --theme-subgraph-bullet-color: #2e3048;
-    --theme-subgraph-bullet-background-color: #fff;
-  }
-
-  display: flex;
-  flex-direction: column;
-  padding-top: var(--base-common-padding);
-  row-gap: calc(var(--base-gap-xl) * 2);
-  width: 100%;
-
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      padding-top: calc(var(--base-common-padding) * 3);
-      row-gap: calc(var(--base-gap-xl) * 3);
-    `,
-  )}
-`
-
-const Group = styled.div`
-  counter-reset: item-number;
-  display: flex;
-  flex-direction: column;
-  row-gap: var(--base-gap-xl);
-  padding: 0 var(--base-common-padding);
-
-  ${breakpointMediaQuery(
-    'desktopStart',
-    css`
-      padding: 0;
-    `,
-  )}
-`
-
-const Title = styled.h3`
-  align-items: center;
-  color: var(--theme-subgraph-title-color);
-  column-gap: var(--base-gap);
-  display: flex;
-  font-size: 1.6rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0;
-  padding-bottom: var(--base-common-padding);
-`
-
-const Arbitrum = styled(ArbitrumDefault)`
-  height: 20px;
-  width: 20px;
-`
-
-const Polygon = styled(PolygonDefault)`
-  height: 20px;
-  width: 20px;
-`
-
-const Optimism = styled(OptimismDefault)`
-  height: 20px;
-  width: 20px;
-`
-
-const Base = styled(BaseDefault)`
-  height: 20px;
-  width: 20px;
-`
-
-const Row = styled.div`
-  align-items: center;
-  color: var(--theme-subgraph-name-color);
-  column-gap: var(--base-gap);
-  display: flex;
-
-  &::before {
-    --base-size: 18px;
-
-    align-items: center;
-    background-color: var(--theme-subgraph-bullet-background-color);
-    border-radius: 50%;
-    color: var(--theme-subgraph-bullet-color);
-    content: counter(item-number, decimal-leading-zero);
-    counter-increment: item-number;
-    display: flex;
-    flex-shrink: 0;
-    font-size: 1rem;
-    font-weight: 700;
-    height: var(--base-size);
-    justify-content: center;
-    letter-spacing: -1px;
-    line-height: 1;
-    padding-right: 2px;
-    width: var(--base-size);
-  }
-`
 
 const Name = styled.div`
   font-size: 1.6rem;
@@ -160,10 +56,30 @@ const Copy = ({ value }: { value: string }) => {
 // eslint-disable-next-line react-refresh/only-export-components
 export const getNetworkIcon = (chainName: string) => (
   <>
-    {chainName === 'arbitrum one' && <Arbitrum />}
-    {chainName === 'polygon' && <Polygon />}
-    {chainName === 'op mainnet' && <Optimism />}
-    {chainName === 'base' && <Base />}
+    {chainName === 'arbitrum one' && (
+      <Arbitrum
+        height="20px"
+        width="20px"
+      />
+    )}
+    {chainName === 'polygon' && (
+      <Polygon
+        height="20px"
+        width="20px"
+      />
+    )}
+    {chainName === 'op mainnet' && (
+      <Optimism
+        height="20px"
+        width="20px"
+      />
+    )}
+    {chainName === 'base' && (
+      <Base
+        height="20px"
+        width="20px"
+      />
+    )}
   </>
 )
 
@@ -222,19 +138,64 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
   const baseUrl = `https://app.uniswap.org/explore/pools/${chainNameMapping[chain.id]}/`
 
   return (
-    <Group>
-      <Title title={chain.name}>Uniswap Pool {getNetworkIcon(chain.name.toLowerCase())}</Title>
+    <Flex
+      counterReset="item-number"
+      flexDirection="column"
+      padding={{ base: '0 px', lg: 0 }}
+      rowGap={4}
+    >
+      <Heading
+        alignItems="center"
+        as="h3"
+        color="var(--theme-subgraph-title-color)"
+        columnGap={2}
+        display="flex"
+        fontFamily="var(--base-font-family)"
+        fontSize="16px"
+        fontWeight="700"
+        lineHeight="1.2"
+        margin="0"
+        paddingBottom={2}
+        title={chain.name}
+      >
+        Uniswap Pool {getNetworkIcon(chain.name.toLowerCase())}
+      </Heading>
       {data.map((position) => (
-        <Row key={position.id}>
+        <Flex
+          alignItems="center"
+          color="var(--theme-subgraph-name-color)"
+          columnGap={2}
+          display="flex"
+          _before={{
+            '--base-size': '18px',
+            alignItems: 'center',
+            backgroundColor: 'var(--theme-subgraph-bullet-background-color)',
+            borderRadius: '50%',
+            color: 'var(--theme-subgraph-bullet-color)',
+            content: 'counter(item-number, decimal-leading-zero)',
+            counterIncrement: 'item-number',
+            display: 'flex',
+            flexShrink: '0',
+            fontSize: '10px',
+            fontWeight: '700',
+            height: 'var(--base-size)',
+            justifyContent: 'center',
+            letterSpacing: '-1px',
+            lineHeight: '18px',
+            paddingRight: '1px',
+            width: 'var(--base-size)',
+          }}
+          key={position.id}
+        >
           <Name>{position.pool.symbol}</Name>
           <Copy value={position.pool.id} />
           <ExternalLink
             href={`${baseUrl}${position.pool.id}`}
             aria-label="Explore"
           />
-        </Row>
+        </Flex>
       ))}
-    </Group>
+    </Flex>
   )
 })
 
@@ -249,22 +210,65 @@ const Aave = withSuspenseAndRetry(() => {
   const baseUrl = 'https://app.aave.com/reserve-overview/?marketName=proto_base_v3&underlyingAsset='
 
   return (
-    <Group>
-      <Title title={base.name}>
+    <Flex
+      counterReset="item-number"
+      flexDirection="column"
+      padding={{ base: '0 px', lg: 0 }}
+      rowGap={4}
+    >
+      <Heading
+        alignItems="center"
+        as="h3"
+        color="var(--theme-subgraph-title-color)"
+        columnGap={2}
+        display="flex"
+        fontFamily="var(--base-font-family)"
+        fontSize="16px"
+        fontWeight="700"
+        lineHeight="1.2"
+        margin="0"
+        paddingBottom={2}
+        title={base.name}
+      >
         AAVE Reserves
         {getNetworkIcon(base.name.toLowerCase())}
-      </Title>
+      </Heading>
       {data.map(({ id, name, underlyingAsset }) => (
-        <Row key={id}>
+        <Flex
+          alignItems="center"
+          color="var(--theme-subgraph-name-color)"
+          columnGap={2}
+          display="flex"
+          _before={{
+            '--base-size': '18px',
+            alignItems: 'center',
+            backgroundColor: 'var(--theme-subgraph-bullet-background-color)',
+            borderRadius: '50%',
+            color: 'var(--theme-subgraph-bullet-color)',
+            content: 'counter(item-number, decimal-leading-zero)',
+            counterIncrement: 'item-number',
+            display: 'flex',
+            flexShrink: '0',
+            fontSize: '10px',
+            fontWeight: '700',
+            height: 'var(--base-size)',
+            justifyContent: 'center',
+            letterSpacing: '-1px',
+            lineHeight: '1',
+            paddingRight: '1px',
+            width: 'var(--base-size)',
+          }}
+          key={id}
+        >
           <Name>{name}</Name>
           <Copy value={underlyingAsset} />
           <ExternalLink
             href={`${baseUrl}${underlyingAsset}`}
             aria-label="Explore"
           />
-        </Row>
+        </Flex>
       ))}
-    </Group>
+    </Flex>
   )
 })
 
@@ -284,7 +288,27 @@ const List = ({ ...restProps }) => {
   const items = chains.map((item) => makeItem(item))
 
   return (
-    <Wrapper {...restProps}>
+    <Flex
+      css={{
+        "[data-theme='light'] &": {
+          '--theme-subgraph-title-color': '#2e3048',
+          '--theme-subgraph-name-color': '#2e3048',
+          '--theme-subgraph-bullet-color': '#f7f7f7',
+          '--theme-subgraph-bullet-background-color': '#2e3048',
+        },
+        "[data-theme='dark'] &": {
+          '--theme-subgraph-title-color': '#fff',
+          '--theme-subgraph-name-color': '#fff',
+          '--theme-subgraph-bullet-color': '#2e3048',
+          '--theme-subgraph-bullet-background-color': '#fff',
+        },
+      }}
+      flexDirection="column"
+      paddingTop={{ base: 2, lg: 6 }}
+      rowGap={{ base: 8, lg: 12 }}
+      width="100%"
+      {...restProps}
+    >
       <OptionsDropdown items={items} />
       {uniswapNetworks.map(
         (chain) =>
@@ -297,7 +321,7 @@ const List = ({ ...restProps }) => {
           ),
       )}
       {currentChain?.id === base.id && <Aave suspenseFallback={<SkeletonLoadingItem />} />}
-    </Wrapper>
+    </Flex>
   )
 }
 

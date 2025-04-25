@@ -1,7 +1,7 @@
-import { chakra } from '@chakra-ui/react'
-import type { FC, HTMLAttributes } from 'react'
+import { type HTMLChakraProps, chakra } from '@chakra-ui/react'
+import type { FC, SVGAttributes } from 'react'
 
-const Icon: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
+const Icon: FC<HTMLChakraProps<'svg'> & SVGAttributes<SVGSVGElement>> = ({ ...restProps }) => (
   <chakra.svg
     display="block"
     flexShrink="0"
