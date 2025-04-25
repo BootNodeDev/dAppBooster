@@ -3,6 +3,8 @@ import Arbitrum from '@/src/components/pageComponents/home/Examples/demos/assets
 import Base from '@/src/components/pageComponents/home/Examples/demos/assets/Base'
 import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
 import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
+import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
+import ExternalLink from '@/src/components/sharedComponents/ui/ExternalLink'
 import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import { toaster } from '@/src/components/ui/toaster'
 import { env } from '@/src/env'
@@ -10,7 +12,6 @@ import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reser
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
-import { CopyButton, ExternalLink } from '@bootnodedev/db-ui-toolkit'
 import { Box, Flex, Heading, Span } from '@chakra-ui/react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import request from 'graphql-request'
@@ -43,7 +44,6 @@ const Copy = ({ value }: { value: string }) => {
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const getNetworkIcon = (chainName: string) => (
   <>
     {chainName === 'arbitrum one' && (
@@ -271,9 +271,8 @@ const Aave = withSuspenseAndRetry(() => {
   )
 })
 
-const uniswapNetworks = [optimism, polygon, arbitrum]
-
 const List = ({ ...restProps }) => {
+  const uniswapNetworks = [optimism, polygon, arbitrum]
   const [currentChain, setCurrentChain] = useState<Chain | undefined>(uniswapNetworks[0])
   const chains = [...uniswapNetworks, base]
 

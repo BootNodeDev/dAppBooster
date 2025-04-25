@@ -1,5 +1,5 @@
+import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
 import { toaster } from '@/src/components/ui/toaster'
-import { CopyButton } from '@bootnodedev/db-ui-toolkit'
 import { Flex, Span } from '@chakra-ui/react'
 import { useState } from 'react'
 
