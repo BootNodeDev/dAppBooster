@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@bootnodedev/db-subgraph": "^0.1.2",
-    "@bootnodedev/db-ui-toolkit": "1.0.0-beta.2",
     "@chakra-ui/react": "^3.16.0",
     "@emotion/react": "^11.14.0",
     "@lifi/sdk": "^3.2.3",

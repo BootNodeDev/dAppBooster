@@ -11,9 +11,6 @@ importers:
       '@bootnodedev/db-subgraph':
         specifier: ^0.1.2
         version: 0.1.2(@parcel/watcher@2.4.1)(@tanstack/react-query@5.62.0(react@18.3.1))(@types/node@22.6.1)(bufferutil@4.0.9)(graphql-sock@1.0.1(graphql@16.10.0))(graphql-tag@2.12.6(graphql@16.10.0))(react@18.3.1)(typescript@5.6.2)(utf-8-validate@5.0.10)(viem@2.22.1(bufferutil@4.0.9)(typescript@5.6.2)(utf-8-validate@5.0.10)(zod@3.23.8))
-      '@bootnodedev/db-ui-toolkit':
-        specifier: 1.0.0-beta.2
-        version: 1.0.0-beta.2
       '@chakra-ui/react':
         specifier: ^3.16.0
         version: 3.16.0(@emotion/react@11.14.0(@types/react@18.3.9)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1109,10 +1106,6 @@ packages:
       '@tanstack/react-query': ^5
       react: ^18
       viem: ^2
-
-  '@bootnodedev/db-ui-toolkit@1.0.0-beta.2':
-    resolution: {integrity: sha512-R1llbVfN0PfEjKmBKofW2NQZtwBsPXTWBsXGdnuLx0MEQdoMlkjASjRSU6vRNSTtAkLvZ8phcRf+TuuQQQ3PfA==}
-    engines: {node: '>=20.0.0'}
 
   '@chakra-ui/react@3.16.0':
     resolution: {integrity: sha512-NZLGQgIPr/hLeyBoQyUqzaru+RGrs4Zy1kGpnBNGnL2UrCLZryHvax/pdfqId8cJjhWPGxokJUTVcTTMPnN3Gg==}
@@ -10413,12 +10406,6 @@ snapshots:
       - typescript
       - uWebSockets.js
       - utf-8-validate
-
-  '@bootnodedev/db-ui-toolkit@1.0.0-beta.2':
-    dependencies:
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-      styled-components: 6.1.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   '@chakra-ui/react@3.16.0(@emotion/react@11.14.0(@types/react@18.3.9)(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
