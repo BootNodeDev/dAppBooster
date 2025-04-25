@@ -56,7 +56,7 @@ const TokenDropdown: FC<Props> = ({
       open={isOpen}
       onOpenChange={(state) => setIsOpen(state.open)}
     >
-      <Menu.Trigger>
+      <Menu.Trigger asChild>
         <DropdownButton>
           {currentToken ? (
             <>
