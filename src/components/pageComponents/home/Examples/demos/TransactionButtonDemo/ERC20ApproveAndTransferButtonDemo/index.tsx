@@ -1,7 +1,3 @@
-import { type Address, formatUnits } from 'viem'
-import { sepolia } from 'viem/chains'
-import { useWriteContract } from 'wagmi'
-
 import ERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/ERC20ApproveAndTransferButtonDemo/ERC20ApproveAndTransferButton'
 import MintUSDC from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/ERC20ApproveAndTransferButtonDemo/MintUSDC'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/Wrapper'
@@ -11,6 +7,9 @@ import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import type { Token } from '@/src/types/token'
 import { NumberType, formatNumberOrString } from '@/src/utils/numberFormat'
 import { withSuspense } from '@/src/utils/suspenseWrapper'
+import { type Address, formatUnits } from 'viem'
+import { sepolia } from 'viem/chains'
+import { useWriteContract } from 'wagmi'
 
 // USDC token on Sepolia chain
 const tokenUSDC_sepolia: Token = {
