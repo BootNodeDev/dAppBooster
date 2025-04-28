@@ -1,5 +1,6 @@
 import { Card as BaseCard, type CardRootProps, Flex, Heading } from '@chakra-ui/react'
 import type { ComponentProps, FC, ReactElement } from 'react'
+import css from './styles'
 
 const AlertIcon: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
   <svg
@@ -63,6 +64,7 @@ export const GeneralMessage: FC<Props> = ({
       borderColor="var(--theme-general-message-border-color)"
       borderRadius="lg"
       boxShadow="var(--theme-general-message-box-shadow)"
+      css={{ ...css }}
       display="flex"
       flexDirection="column"
       justifyContent="center"
