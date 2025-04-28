@@ -7,7 +7,7 @@ export const Home = ({ ...restProps }) => {
     <Flex
       direction="column"
       flexGrow={1}
-      mt="calc(var(--base-header-height) * -1)"
+      mt="-90px"
       position="relative"
       w="100%"
       {...restProps}
