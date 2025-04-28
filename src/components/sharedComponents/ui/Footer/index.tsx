@@ -4,7 +4,7 @@ import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import { Box, Flex } from '@chakra-ui/react'
 import packageJSON from '@packageJSON'
 import type { FC } from 'react'
-import './cssVars.css'
+import css from './styles'
 
 export const Footer: FC = ({ ...restProps }) => {
   return (
@@ -13,6 +13,7 @@ export const Footer: FC = ({ ...restProps }) => {
       as="footer"
       backgroundColor="var(--theme-footer-background-color)"
       color="var(--theme-footer-text-color)"
+      css={{ ...css }}
       direction="column"
       display="flex"
       flexGrow={0}
@@ -23,8 +24,8 @@ export const Footer: FC = ({ ...restProps }) => {
     >
       <Inner
         align="center"
-        justify="center"
         columnGap={4}
+        justify="center"
       >
         <a
           href="https://www.bootnode.dev/"
