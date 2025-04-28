@@ -17,18 +17,6 @@ html.dark {
   --theme-body-background-color: #292b43;
 
   /* Connect Button */
-  --theme-button-connect-background-color: #8b46a4;
-  --theme-button-connect-background-color-hover: #5f6178;
-
-  --theme-button-connect-border-color: #8b46a4;
-  --theme-button-connect-border-color-hover: #5f6178;
-
-  --theme-button-connect-color: #fff;
-  --theme-button-connect-color-hover: #fff;
-
-  --theme-button-connect-background-color-disabled: #8b46a4;
-  --theme-button-connect-border-color-disabled: #8b46a4;
-  --theme-button-connect-color-disabled: #c5c2cb;
 
   /* Dropdown */
   --theme-dropdown-background-color: #292b43;
