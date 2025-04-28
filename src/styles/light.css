@@ -26,28 +26,11 @@ html.light {
   --theme-general-message-color-message-background: #f8f8f8;
   --theme-general-message-color-text: #4b4d60;
 
-  /* Copy button */
-
-  /* External link button */
-
-  /* General Error */
-  --theme-general-error-background-color: #fff;
-  --theme-general-error-border-color: #fff;
-  --theme-general-error-title-color: #2e3048;
-  --theme-general-error-message-background-color: #e2e0e780;
-  --theme-general-error-message-color: #4b4d60;
-
   /* Spinner */
   --theme-spinner-color: #692581;
 
   /* Dialog / Modal */
   --theme-dialog-overlay-color: rgb(0 0 0 / 25%);
 
-  /* Token Select */
-
-  /* Token Input */
-
   /* Skeleton loading */
-  --theme-skeleton-loading-background-color: #f3f3f3;
-  --theme-skeleton-loading-background-color-end: #e0e0e0;
 }

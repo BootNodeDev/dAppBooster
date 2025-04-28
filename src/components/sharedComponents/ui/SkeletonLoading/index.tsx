@@ -1,5 +1,6 @@
 import { Box, type BoxProps } from '@chakra-ui/react'
 import type { FC } from 'react'
+import css from './styles'
 
 interface SkeletonProps extends BoxProps {
   $animate?: boolean
@@ -8,17 +9,14 @@ interface SkeletonProps extends BoxProps {
 
 /**
  * @name SkeletonLoading
- *
  * @description A loading skeleton component
- *
- * @param {boolean} [$animate=true] - Whether the loading animation should be displayed. Default is true.
- * @param {string} [$animationDuration='2s'] - The duration of the loading animation. Default is '2s'.
+ * @param {boolean} [$animate] - Whether the loading animation should be displayed. Default is true.
  */
 const SkeletonLoading: FC<SkeletonProps> = ({
   $animate = true,
   $animationDuration = '2s',
   ...restProps
-}) => (
+}: SkeletonProps) => (
   <Box
     animationDelay="0s"
     animation={$animate ? 'loadingAnimation' : 'none'}
@@ -27,6 +25,7 @@ const SkeletonLoading: FC<SkeletonProps> = ({
     animationTimingFunction="ease-in-out"
     backgroundColor="var(--theme-skeleton-loading-background-color)"
     borderRadius={8}
+    css={{ ...css }}
     height="20px"
     width="50px"
     {...restProps}

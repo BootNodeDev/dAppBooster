@@ -16,8 +16,6 @@ html.dark {
   /* Main body */
   --theme-body-background-color: #292b43;
 
-  /* Connect Button */
-
   /* Dropdown */
   --theme-dropdown-background-color: #292b43;
   --theme-dropdown-border-color: #292b43;
@@ -44,28 +42,11 @@ html.dark {
   --theme-general-message-color-message-background: #f8f8f8;
   --theme-general-message-color-text: #4b4d60;
 
-  /* Copy button */
-
-  /* External link button */
-
-  /* General Error */
-  --theme-general-error-background-color: #232436;
-  --theme-general-error-border-color: #232436;
-  --theme-general-error-title-color: #fff;
-  --theme-general-error-message-background-color: #292b43;
-  --theme-general-error-message-color: #fff;
-
   /* Spinner */
   --theme-spinner-color: #b886c9;
 
   /* Dialog / Modal */
   --theme-dialog-overlay-color: rgb(0 0 0 / 50%);
 
-  /* Token Select */
-
-  /* Token Input */
-
   /* Skeleton loading */
-  --theme-skeleton-loading-background-color: #373954;
-  --theme-skeleton-loading-background-color-end: #292b43;
 }
