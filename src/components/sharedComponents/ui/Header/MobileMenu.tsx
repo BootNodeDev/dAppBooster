@@ -96,7 +96,7 @@ export const MobileMenu = ({ ...restProps }) => {
           opacity: 0,
         },
       }}
-      backgroundColor="var(--theme-dialog-overlay-color)"
+      backgroundColor="var(--theme-mobile-menu-backdround-color)"
       content="''"
       display={{ base: 'block', xl: 'none' }}
       height="100vh"

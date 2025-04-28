@@ -34,13 +34,9 @@ html.dark {
   --theme-dropdown-item-border-color-hover: #4b4d60;
   --theme-dropdown-item-border-color-active: #4b4d60;
 
-  /* General message */
-
   /* Spinner */
   --theme-spinner-color: #b886c9;
 
   /* Dialog / Modal */
-  --theme-dialog-overlay-color: rgb(0 0 0 / 50%);
-
-  /* Skeleton loading */
+  --theme-mobile-menu-backdround-color: rgb(0 0 0 / 50%);
 }
