@@ -1,5 +1,6 @@
 import { Link, type LinkProps } from '@chakra-ui/react'
 import type { ComponentProps, FC } from 'react'
+import css from './styles'
 
 const LinkSVG: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
   <svg
@@ -33,23 +34,20 @@ const LinkSVG: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
 
 /**
  * @name ExternalLink
- *
  * @description A button that opens a link in a new tab.
- *
  * @param {React.HTMLAttributeAnchorTarget} target - The target attribute specifies where to open the linked document. Default is '_blank'.
- * @param {ReactNode} [children=undefined] - The content of the button. Default is the ExternalLink icon.
- * @param {string} [$variant] - Optional component variant.
  */
 export const CopyButton: FC<LinkProps> = ({
   children = <LinkSVG />,
   target = '_blank',
   ...restProps
-}) => {
+}: LinkProps) => {
   return (
     <Link
       alignItems="center"
       color="var(--theme-copy-button-color)"
       columnGap={8}
+      css={{ ...css }}
       cursor="pointer"
       display="flex"
       fontFamily="var(--base-font-family)"

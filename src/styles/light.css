@@ -27,12 +27,8 @@ html.light {
   --theme-general-message-color-text: #4b4d60;
 
   /* Copy button */
-  --theme-copy-button-color: #000;
-  --theme-copy-button-color-hover: #8b46a4;
 
   /* External link button */
-  --theme-external-link-button-color: #000;
-  --theme-external-link-button-color-hover: #8b46a4;
 
   /* General Error */
   --theme-general-error-background-color: #fff;

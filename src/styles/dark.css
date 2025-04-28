@@ -45,12 +45,8 @@ html.dark {
   --theme-general-message-color-text: #4b4d60;
 
   /* Copy button */
-  --theme-copy-button-color: #e2e0e7;
-  --theme-copy-button-color-hover: #c670e5;
 
   /* External link button */
-  --theme-external-link-button-color: #e2e0e7;
-  --theme-external-link-button-color-hover: #c670e5;
 
   /* General Error */
   --theme-general-error-background-color: #232436;
