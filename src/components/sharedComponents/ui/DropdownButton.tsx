@@ -34,11 +34,10 @@ const Button: FC<ButtonProps> = ({ children, ...restProps }) => {
         '& .chevronDown': {
           transition: 'transform var(--base-transition-duration-xs) ease-in-out',
         },
-        '&.isOpen .chevronDown': {
+        '&[aria-expanded="true"] .chevronDown': {
           transform: 'rotate(180deg)',
         },
       }}
-      type="button"
       {...restProps}
     >
       {children} <ChevronDown />

@@ -1,6 +1,6 @@
-import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
+import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { type ButtonProps, Flex, Menu, Portal } from '@chakra-ui/react'
+import { Flex, Menu, Portal } from '@chakra-ui/react'
 import {
   type ComponentPropsWithoutRef,
   type FC,
@@ -18,50 +18,6 @@ type NetworkItem = {
 }
 
 export type Networks = Array<NetworkItem>
-
-const ChevronDown = () => (
-  <svg
-    className="chevronDown"
-    fill="none"
-    height="24"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <title>Chevron down</title>
-    <path
-      d="M6 9L12 15L18 9"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-    />
-  </svg>
-)
-
-const Button: FC<ButtonProps> = ({ children, ...restProps }) => {
-  return (
-    <PrimaryButton
-      fontSize="16px"
-      fontWeight="500"
-      height="48px"
-      paddingLeft={6}
-      paddingRight={6}
-      css={{
-        '& .chevronDown': {
-          transition: 'transform var(--base-transition-duration-xs) ease-in-out',
-        },
-        '&[aria-expanded="true"] .chevronDown': {
-          transform: 'rotate(180deg)',
-        },
-      }}
-      type="button"
-      {...restProps}
-    >
-      {children} <ChevronDown />
-    </PrimaryButton>
-  )
-}
 
 interface SwitchNetworkProps extends ComponentPropsWithoutRef<'div'> {
   networks: Networks
@@ -104,7 +60,7 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }) => {
   return (
     <Menu.Root positioning={{ placement: 'bottom-end' }}>
       <Menu.Trigger asChild>
-        <Button disabled={!isWalletConnected}>
+        <DropdownButton disabled={!isWalletConnected}>
           {networkItem ? (
             <>
               <Flex
@@ -124,7 +80,7 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }) => {
           ) : (
             'Select a network'
           )}
-        </Button>
+        </DropdownButton>
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
