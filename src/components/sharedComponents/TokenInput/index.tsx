@@ -23,11 +23,11 @@ import type { UseTokenInputReturnType } from '@/src/components/sharedComponents/
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import type { Token } from '@/src/types/token'
-import { Dialog, Portal, Spinner } from '@chakra-ui/react'
-import { type ComponentPropsWithoutRef, type FC, useMemo, useState } from 'react'
+import { Dialog, type FlexProps, Portal, Spinner } from '@chakra-ui/react'
+import { type FC, useMemo, useState } from 'react'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits } from 'viem'
-import css from './styles'
+import styles from './styles'
 
 interface TokenInputProps extends Omit<TokenSelectProps, 'onTokenSelect'> {
   singleToken?: boolean
@@ -37,7 +37,7 @@ interface TokenInputProps extends Omit<TokenSelectProps, 'onTokenSelect'> {
 }
 
 /** @ignore */
-type Props = ComponentPropsWithoutRef<'div'> & TokenInputProps
+type Props = FlexProps & TokenInputProps
 
 /**
  * TokenInput component allows users to input token amounts and select tokens from a list.
@@ -60,6 +60,7 @@ type Props = ComponentPropsWithoutRef<'div'> & TokenInputProps
 const TokenInput: FC<Props> = ({
   containerHeight,
   currentNetworkId,
+  css,
   iconSize,
   itemHeight,
   networks,
@@ -130,7 +131,7 @@ const TokenInput: FC<Props> = ({
       onOpenChange={(state) => setIsOpen(state.open)}
     >
       <Wrapper
-        css={{ ...css }}
+        css={{ ...css, ...styles }}
         {...restProps}
       >
         {title && <Title>{title}</Title>}

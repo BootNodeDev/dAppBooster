@@ -4,22 +4,22 @@ import MobileMenu from '@/src/components/sharedComponents/ui/Header/MobileMenu'
 import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import { SwitchThemeButton } from '@/src/components/sharedComponents/ui/SwitchThemeButton'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { Box, Flex, chakra } from '@chakra-ui/react'
+import { Box, type BoxProps, Flex, chakra } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
-import type { FC, HTMLAttributes } from 'react'
-import css from './styles'
+import type { FC } from 'react'
+import styles from './styles'
 
 const HomeLink = chakra(Link)
 
-export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
+export const Header: FC<BoxProps> = ({ css, ...restProps }) => {
   const { setTheme, theme } = useTheme()
 
   return (
     <Box
       as="header"
       color="var(--theme-header-text-color)"
-      css={{ ...css }}
+      css={{ ...css, ...styles }}
       flexGrow={0}
       flexShrink={0}
       h={{ lg: '90px' }}

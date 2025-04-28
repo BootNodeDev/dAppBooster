@@ -1,19 +1,19 @@
 import { LogoMini } from '@/src/components/sharedComponents/ui/Footer/LogoMini'
 import Socials from '@/src/components/sharedComponents/ui/Footer/Socials'
 import { Inner } from '@/src/components/sharedComponents/ui/Inner'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, type FlexProps } from '@chakra-ui/react'
 import packageJSON from '@packageJSON'
 import type { FC } from 'react'
-import css from './styles'
+import styles from './styles'
 
-export const Footer: FC = ({ ...restProps }) => {
+export const Footer: FC<FlexProps> = ({ css, ...restProps }) => {
   return (
     <Flex
       alignItems="center"
       as="footer"
       backgroundColor="var(--theme-footer-background-color)"
       color="var(--theme-footer-text-color)"
-      css={{ ...css }}
+      css={{ ...css, ...styles }}
       direction="column"
       display="flex"
       flexGrow={0}

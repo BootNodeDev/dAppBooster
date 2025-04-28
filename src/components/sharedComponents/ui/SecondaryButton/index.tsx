@@ -1,14 +1,14 @@
 import Button from '@/src/components/sharedComponents/ui/Button'
 import type { ButtonProps } from '@chakra-ui/react'
 import type { FC } from 'react'
-import css from './styles'
+import styles from './styles'
 
-export const SecondaryButton: FC<ButtonProps> = ({ ...restProps }) => (
+export const SecondaryButton: FC<ButtonProps> = ({ css, ...restProps }) => (
   <Button
     backgroundColor="var(--theme-button-secondary-background-color)"
     borderColor="var(--theme-button-secondary-border-color)"
     color="var(--theme-button-secondary-color)"
-    css={{ ...css }}
+    css={{ ...css, ...styles }}
     _hover={{
       backgroundColor: 'var(--theme-button-secondary-background-color-hover)',
       borderColor: 'var(--theme-button-secondary-border-color-hover)',

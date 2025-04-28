@@ -9,10 +9,10 @@ import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { chains } from '@/src/lib/networks.config'
 import type { Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-import { Flex, Heading } from '@chakra-ui/react'
-import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react'
+import { Flex, type FlexProps, Heading } from '@chakra-ui/react'
+import { useEffect, useRef, useState } from 'react'
 import type { Chain } from 'viem/chains'
-import css from './styles'
+import styles from './styles'
 
 export interface TokenSelectProps {
   containerHeight?: number
@@ -28,7 +28,7 @@ export interface TokenSelectProps {
 }
 
 /** @ignore */
-type Props = ComponentPropsWithoutRef<'div'> & TokenSelectProps
+type Props = FlexProps & TokenSelectProps
 
 /**
  * TokenSelect component, used to search and select a token from a list.
@@ -50,6 +50,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     children,
     containerHeight = 320,
     currentNetworkId,
+    css,
     iconSize = 32,
     itemHeight = 64,
     networks = undefined,
@@ -139,6 +140,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
         boxShadow="var(--theme-token-select-box-shadow)"
         css={{
           ...css,
+          ...styles,
         }}
         flexDirection="column"
         maxWidth="calc(100vw - 16px)"

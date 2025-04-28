@@ -1,7 +1,7 @@
 import { Button } from '@/src/components/sharedComponents/ui/Button'
 import { type ButtonProps, chakra } from '@chakra-ui/react'
 import type { FC } from 'react'
-import css from './styles'
+import styles from './styles'
 
 const BaseChevronDown = ({ ...restProps }) => (
   <svg
@@ -25,14 +25,14 @@ interface ConnectButtonProps extends ButtonProps {
   $isConnected?: boolean
 }
 
-const ConnectButton: FC<ConnectButtonProps> = ({ $isConnected, children, ...restProps }) => {
+const ConnectButton: FC<ConnectButtonProps> = ({ $isConnected, children, css, ...restProps }) => {
   return (
     <Button
       borderRadius={$isConnected ? '30px' : 'sm'}
       backgroundColor="var(--theme-button-connect-background-color)"
       borderColor="var(--theme-button-connect-border-color)"
       color="var(--theme-button-connect-color)"
-      css={{ ...css }}
+      css={{ ...css, ...styles }}
       fontWeight="700"
       height="44px"
       fontSize={{ base: $isConnected ? '12px' : '14px', md: $isConnected ? '15px' : '16px' }}

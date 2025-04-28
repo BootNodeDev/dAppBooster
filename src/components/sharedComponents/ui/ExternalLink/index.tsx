@@ -1,6 +1,6 @@
 import { Link, type LinkProps } from '@chakra-ui/react'
 import type { ComponentProps, FC } from 'react'
-import css from './styles'
+import styles from './styles'
 
 const LinkSVG: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
   <svg
@@ -39,6 +39,7 @@ const LinkSVG: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
  */
 export const CopyButton: FC<LinkProps> = ({
   children = <LinkSVG />,
+  css,
   target = '_blank',
   ...restProps
 }: LinkProps) => {
@@ -47,7 +48,7 @@ export const CopyButton: FC<LinkProps> = ({
       alignItems="center"
       color="var(--theme-copy-button-color)"
       columnGap={8}
-      css={{ ...css }}
+      css={{ ...css, ...styles }}
       cursor="pointer"
       display="flex"
       fontFamily="var(--base-font-family)"

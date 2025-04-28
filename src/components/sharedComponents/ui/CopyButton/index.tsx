@@ -1,6 +1,6 @@
 import { Button, type ButtonProps } from '@chakra-ui/react'
 import type { ComponentProps, FC, MouseEventHandler } from 'react'
-import css from './styles'
+import styles from './styles'
 
 const Copy: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
   <svg
@@ -37,6 +37,7 @@ interface Props extends ButtonProps {
  */
 export const CopyButton: FC<Props> = ({
   children = <Copy />,
+  css,
   onClick,
   value,
   ...restProps
@@ -53,7 +54,7 @@ export const CopyButton: FC<Props> = ({
       border="none"
       color="var(--theme-copy-button-color)"
       columnGap={2}
-      css={{ ...css }}
+      css={{ ...css, ...styles }}
       cursor="pointer"
       display="flex"
       fontFamily="var(--base-font-family)"
