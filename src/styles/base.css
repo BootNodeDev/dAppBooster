@@ -1,3 +1,22 @@
+:root {
+  /* Transition duration */
+  --base-transition-duration-xs: 0.1s;
+  --base-transition-duration-sm: 0.2s;
+  --base-transition-duration: 0.3s;
+  --base-transition-duration-xl: 0.4s;
+  --base-transition-duration-xxl: 0.5s;
+
+  /* Font families */
+  --base-font-family: "Manrope", "Arial", "Helvetica Neue", "Helvetica", sans-serif;
+  --base-font-family-code: "Roboto Mono", "Courier New", monospace;
+
+  /* Header */
+  --base-header-height: 90px;
+
+  /* Main container max width */
+  --base-container-max-width: 1360px;
+}
+
 html {
   scroll-behavior: smooth;
 }
