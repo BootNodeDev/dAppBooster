@@ -16,34 +16,6 @@ html.light {
   /* Main body */
   --theme-body-background-color: #e2e0e7;
 
-  /* Primary Button */
-  --theme-button-primary-background-color: #692581;
-  --theme-button-primary-background-color-hover: #892fa9;
-
-  --theme-button-primary-border-color: #692581;
-  --theme-button-primary-border-color-hover: #892fa9;
-
-  --theme-button-primary-color: #fff;
-  --theme-button-primary-color-hover: #fff;
-
-  --theme-button-primary-background-color-disabled: #692581;
-  --theme-button-primary-border-color-disabled: #692581;
-  --theme-button-primary-color-disabled: #fff;
-
-  /* Secondary Button */
-  --theme-button-secondary-background-color: #2e3048;
-  --theme-button-secondary-background-color-hover: #3d405f;
-
-  --theme-button-secondary-border-color: #2e3048;
-  --theme-button-secondary-border-color-hover: #3d405f;
-
-  --theme-button-secondary-color: #fff;
-  --theme-button-secondary-color-hover: #fff;
-
-  --theme-button-secondary-background-color-disabled: #2e3048;
-  --theme-button-secondary-border-color-disabled: #2e3048;
-  --theme-button-secondary-color-disabled: #fff;
-
   /* Connect Button */
   --theme-button-connect-background-color: #fff;
   --theme-button-connect-background-color-hover: #fff;

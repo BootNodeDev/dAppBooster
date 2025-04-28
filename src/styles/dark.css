@@ -16,34 +16,6 @@ html.dark {
   /* Main body */
   --theme-body-background-color: #292b43;
 
-  /* Button Primary */
-  --theme-button-primary-background-color: #8b46a4;
-  --theme-button-primary-background-color-hover: #9a4eb5;
-
-  --theme-button-primary-border-color: #8b46a4;
-  --theme-button-primary-border-color-hover: #9a4eb5;
-
-  --theme-button-primary-color: #fff;
-  --theme-button-primary-color-hover: #fff;
-
-  --theme-button-primary-background-color-disabled: #8b46a4;
-  --theme-button-primary-border-color-disabled: #8b46a4;
-  --theme-button-primary-color-disabled: #fff;
-
-  /* Secondary Button */
-  --theme-button-secondary-background-color: #5f6178;
-  --theme-button-secondary-background-color-hover: #4a4c5f;
-
-  --theme-button-secondary-border-color: #5f6178;
-  --theme-button-secondary-border-color-hover: #4a4c5f;
-
-  --theme-button-secondary-color: #fff;
-  --theme-button-secondary-color-hover: #fff;
-
-  --theme-button-secondary-background-color-disabled: #5f6178;
-  --theme-button-secondary-border-color-disabled: #5f6178;
-  --theme-button-secondary-color-disabled: #fff;
-
   /* Connect Button */
   --theme-button-connect-background-color: #8b46a4;
   --theme-button-connect-background-color-hover: #5f6178;

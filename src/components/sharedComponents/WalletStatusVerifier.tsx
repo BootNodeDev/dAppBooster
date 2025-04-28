@@ -1,4 +1,4 @@
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { type ChainsIds, chains } from '@/src/lib/networks.config'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'

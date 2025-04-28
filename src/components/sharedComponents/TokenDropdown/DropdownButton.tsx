@@ -1,4 +1,4 @@
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
 import type { ButtonProps } from '@chakra-ui/react'
 import type { FC } from 'react'
 

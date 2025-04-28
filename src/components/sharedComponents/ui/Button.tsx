@@ -1,0 +1,37 @@
+import { Button as BaseButton, type ButtonProps } from '@chakra-ui/react'
+import type { FC } from 'react'
+
+export const Button: FC<ButtonProps> = ({ ...restProps }) => (
+  <BaseButton
+    borderRadius="sm"
+    borderStyle="solid"
+    borderWidth="1px"
+    cursor="pointer"
+    display="flex"
+    fontFamily="var(--base-font-family)"
+    fontSize="15px"
+    fontWeight="400"
+    gap={2}
+    height={9}
+    justifyContent="center"
+    lineHeight="1"
+    outline="none"
+    paddingY={0}
+    paddingX={4}
+    textDecoration="none"
+    transition="background-color var(--base-transition-duration-sm), border-color var(--base-transition-duration-sm), color var(--base-transition-duration-sm)"
+    userSelect="none"
+    whiteSpace="nowrap"
+    _disabled={{
+      cursor: 'not-allowed',
+      opacity: 0.6,
+    }}
+    _active={{
+      opacity: 0.8,
+    }}
+    type="button"
+    {...restProps}
+  />
+)
+
+export default Button

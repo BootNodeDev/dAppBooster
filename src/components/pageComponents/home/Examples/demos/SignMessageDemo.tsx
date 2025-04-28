@@ -1,5 +1,5 @@
 import SignButton from '@/src/components/sharedComponents/SignButton'
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
 
 const message = `
 👻🚀 Welcome to dAppBooster! 🚀👻

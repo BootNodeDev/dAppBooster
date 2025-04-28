@@ -1,5 +1,5 @@
 import { ButtonCSS } from '@/src/components/pageComponents/home/Welcome/ButtonCSS'
-import { SecondaryButton } from '@/src/components/sharedComponents/ui/Buttons'
+import SecondaryButton from '@/src/components/sharedComponents/ui/SecondaryButton'
 import type { FC } from 'react'
 
 const Icon = () => (

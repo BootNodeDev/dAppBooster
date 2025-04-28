@@ -1,5 +1,5 @@
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
 import { useNavigate } from '@tanstack/react-router'
 
 const Icon = () => (
