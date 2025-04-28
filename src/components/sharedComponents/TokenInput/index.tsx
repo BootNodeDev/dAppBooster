@@ -27,6 +27,7 @@ import { Dialog, Portal, Spinner } from '@chakra-ui/react'
 import { type ComponentPropsWithoutRef, type FC, useMemo, useState } from 'react'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits } from 'viem'
+import css from './styles'
 
 interface TokenInputProps extends Omit<TokenSelectProps, 'onTokenSelect'> {
   singleToken?: boolean
@@ -71,7 +72,7 @@ const TokenInput: FC<Props> = ({
   title,
   tokenInput,
   ...restProps
-}) => {
+}: Props) => {
   const [isOpen, setIsOpen] = useState(false)
   const {
     amount,
@@ -128,7 +129,10 @@ const TokenInput: FC<Props> = ({
       open={isOpen}
       onOpenChange={(state) => setIsOpen(state.open)}
     >
-      <Wrapper {...restProps}>
+      <Wrapper
+        css={{ ...css }}
+        {...restProps}
+      >
         {title && <Title>{title}</Title>}
         <TopRow>
           <BigNumberInput
