@@ -12,6 +12,7 @@ import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { Flex, Heading } from '@chakra-ui/react'
 import { type ComponentPropsWithoutRef, useEffect, useRef, useState } from 'react'
 import type { Chain } from 'viem/chains'
+import css from './styles'
 
 export interface TokenSelectProps {
   containerHeight?: number
@@ -136,6 +137,9 @@ const TokenSelect = withSuspenseAndRetry<Props>(
         borderRadius="8px"
         border="1px solid var(--theme-token-select-border-color)"
         boxShadow="var(--theme-token-select-box-shadow)"
+        css={{
+          ...css,
+        }}
         flexDirection="column"
         maxWidth="calc(100vw - 16px)"
         paddingTop={10}
