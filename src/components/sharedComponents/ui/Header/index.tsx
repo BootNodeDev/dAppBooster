@@ -8,7 +8,7 @@ import { Box, Flex, chakra } from '@chakra-ui/react'
 import { Link } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
 import type { FC, HTMLAttributes } from 'react'
-import './cssVars.css'
+import css from './styles'
 
 const HomeLink = chakra(Link)
 
@@ -19,6 +19,7 @@ export const Header: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
     <Box
       as="header"
       color="var(--theme-header-text-color)"
+      css={{ ...css }}
       flexGrow={0}
       flexShrink={0}
       h={{ lg: '90px' }}
