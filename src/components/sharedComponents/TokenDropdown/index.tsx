@@ -55,6 +55,7 @@ const TokenDropdown: FC<Props> = ({
     <Menu.Root
       open={isOpen}
       onOpenChange={(state) => setIsOpen(state.open)}
+      positioning={{ placement: 'bottom-end' }}
     >
       <Menu.Trigger asChild>
         <DropdownButton>
