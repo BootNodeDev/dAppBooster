@@ -1,5 +1,6 @@
-import { Box, Menu, Portal, chakra } from '@chakra-ui/react'
+import { Box, type BoxProps, Menu, Portal, chakra } from '@chakra-ui/react'
 import { type FC, useState } from 'react'
+import { buttonStyles, dropdownStyles } from './styles'
 
 const ChevronDown = ({ ...restProps }) => (
   <svg
@@ -22,15 +23,20 @@ interface Item {
   onClick?: () => void
 }
 
-export const OptionsDropdown: FC<{
-  placeholder?: string
-  items: Array<Item>
-  currentItem?: string
-}> = ({ items, placeholder }) => {
+export const OptionsDropdown: FC<
+  {
+    placeholder?: string
+    items: Array<Item>
+    currentItem?: string
+  } & BoxProps
+> = ({ items, placeholder }) => {
   const [currentItem, setCurrentItem] = useState('')
 
   return (
     <Box
+      css={{
+        ...buttonStyles,
+      }}
       position="absolute"
       right={2}
       top="10px"
@@ -64,34 +70,6 @@ export const OptionsDropdown: FC<{
               borderColor: 'var(--theme-button-options-border-color-disabled)',
               color: 'var(--theme-button-options-color-disabled)',
             }}
-            css={{
-              '& svg': {
-                transition: 'transform var(--base-transition-duration-sm)',
-              },
-              '.light &': {
-                '--theme-button-options-background-color': '#f7f7f7',
-                '--theme-button-options-background-color-hover': '#f7f7f7',
-                '--theme-button-options-border-color': '#e2e0e7',
-                '--theme-button-options-border-color-hover': '#b2b4d0',
-                '--theme-button-options-color': '#4b4d60',
-                '--theme-button-options-color-hover': '#4b4d60',
-                '--theme-button-options-background-color-disabled': '#f7f7f7',
-                '--theme-button-options-border-color-disabled': '#e2e0e7',
-                '--theme-button-options-color-disabled': '#4b4d60',
-              },
-
-              '.dark &': {
-                '--theme-button-options-background-color': 'transparent',
-                '--theme-button-options-background-color-hover': 'transparent',
-                '--theme-button-options-border-color': '#c5c2cb',
-                '--theme-button-options-border-color-hover': '#fff',
-                '--theme-button-options-color': '#c5c2cb',
-                '--theme-button-options-color-hover': '#fff',
-                '--theme-button-options-background-color-disabled': 'transparent',
-                '--theme-button-options-border-color-disabled': '#c5c2cb',
-                '--theme-button-options-color-disabled': '#c5c2cb',
-              },
-            }}
           >
             {placeholder
               ? placeholder
@@ -103,7 +81,10 @@ export const OptionsDropdown: FC<{
         </Menu.Trigger>
         <Portal>
           <Menu.Positioner>
-            <Menu.Content padding={0}>
+            <Menu.Content
+              css={{ ...dropdownStyles }}
+              padding={0}
+            >
               {items.map(({ label, onClick }) => (
                 <Menu.Item
                   backgroundColor="var(--theme-dropdown-item-background-color)"
