@@ -16,28 +16,6 @@ html.light {
   /* Main body */
   --theme-body-background-color: #e2e0e7;
 
-  /* Dropdown */
-  --theme-dropdown-background-color: #fff;
-  --theme-dropdown-border-color: #fff;
-
-  --theme-dropdown-box-shadow: 0 0 20px 0 rgb(0 0 0 / 8%);
-
-  --theme-dropdown-item-background-color: transparent;
-  --theme-dropdown-item-background-color-hover: rgb(0 0 0 / 2%);
-  --theme-dropdown-item-background-color-active: rgb(0 0 0 / 5%);
-
-  --theme-dropdown-item-color: #2e3048;
-  --theme-dropdown-item-color-hover: #2e3048;
-  --theme-dropdown-item-color-active: #2e3048;
-
-  --theme-dropdown-item-border-color: #f0f0f0;
-  --theme-dropdown-item-border-color-hover: #f0f0f0;
-  --theme-dropdown-item-border-color-active: #f0f0f0;
-
-  /* Connect Button */
-
-  /* General message */
-
   /* Spinner */
   --theme-spinner-color: #692581;
 

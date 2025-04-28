@@ -1,4 +1,5 @@
 import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
+import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { Flex, Menu, Portal } from '@chakra-ui/react'
 import {
@@ -84,50 +85,18 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }) => {
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content
-            padding="0"
-            backgroundColor="var(--theme-dropdown-background-color)"
-            borderColor="var(--theme-dropdown-border-color)"
-            boxShadow="var(--theme-dropdown-box-shadow)"
-            width="250px"
-          >
+          <MenuContent width="250px">
             {networks.map(({ icon, id, label }) => (
-              <Menu.Item
-                alignItems="center"
-                backgroundColor="var(--theme-dropdown-item-background-color)"
-                borderBottom="1px solid var(--theme-dropdown-item-border-color)"
-                color="var(--theme-dropdown-item-color)"
-                columnGap={2}
-                cursor="pointer"
-                display="flex"
-                fontSize="16px"
-                fontWeight="400"
-                justifyContent="flex-start"
+              <MenuItem
                 key={`${id}-${label}`}
-                lineHeight="1.4"
-                minHeight="48px"
                 onClick={() => handleClick(id)}
-                overflow="hidden"
-                paddingX={4}
-                transition="background-color var(--base-transition-duration-xs) ease-in-out"
                 value={label}
-                width="250px"
-                _hover={{
-                  backgroundColor: 'var(--theme-dropdown-item-background-color-hover)',
-                  color: 'var(--theme-dropdown-item-color-hover)',
-                  borderBottom: '1px solid var( --theme-dropdown-item-border-color-hover)',
-                }}
-                _active={{
-                  backgroundColor: 'var(--theme-dropdown-item-background-color-active)',
-                  color: 'var(--theme-dropdown-item-color-active)',
-                  borderBottom: '1px solid var( --theme-dropdown-item-border-color-active)',
-                }}
               >
                 {icon}
                 {label}
-              </Menu.Item>
+              </MenuItem>
             ))}
-          </Menu.Content>
+          </MenuContent>
         </Menu.Positioner>
       </Portal>
     </Menu.Root>

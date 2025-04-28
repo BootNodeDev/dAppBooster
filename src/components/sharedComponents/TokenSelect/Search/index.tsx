@@ -1,6 +1,7 @@
 import SearchInput from '@/src/components/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/components/sharedComponents/TokenSelect/Search/NetworkButton'
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
+import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
 import { Flex, type FlexProps, Menu } from '@chakra-ui/react'
 import type { Dispatch, FC, SetStateAction } from 'react'
 
@@ -32,7 +33,7 @@ const Search: FC<SearchProps> = ({
   searchTerm,
   setSearchTerm,
   ...restProps
-}) => {
+}: SearchProps) => {
   return (
     <Flex
       columnGap={2}
@@ -60,42 +61,18 @@ const Search: FC<SearchProps> = ({
             </NetworkButton>
           </Menu.Trigger>
           <Menu.Positioner>
-            <Menu.Content
-              padding="0"
-              backgroundColor="var(--theme-dropdown-background-color)"
-              borderColor="var(--theme-dropdown-border-color)"
-              boxShadow="var(--theme-dropdown-box-shadow)"
-              width="250px"
-            >
+            <MenuContent width="250px">
               {networks.map(({ icon, id, label, onClick }) => (
-                <Menu.Item
-                  backgroundColor="var(--theme-dropdown-item-background-color)"
-                  borderBottom="1px solid var(--theme-dropdown-item-border-color)"
-                  color="var(--theme-dropdown-item-color)"
-                  cursor="pointer"
-                  fontSize="16px"
+                <MenuItem
                   key={id}
-                  minHeight="48px"
                   onClick={onClick}
-                  transition="background-color var(--base-transition-duration-xs) ease-in-out"
                   value={label}
-                  width="250px"
-                  _hover={{
-                    backgroundColor: 'var(--theme-dropdown-item-background-color-hover)',
-                    color: 'var(--theme-dropdown-item-color-hover)',
-                    borderBottom: '1px solid var( --theme-dropdown-item-border-color-hover)',
-                  }}
-                  _active={{
-                    backgroundColor: 'var(--theme-dropdown-item-background-color-active)',
-                    color: 'var(--theme-dropdown-item-color-active)',
-                    borderBottom: '1px solid var( --theme-dropdown-item-border-color-active)',
-                  }}
                 >
                   {icon}
                   {label}
-                </Menu.Item>
+                </MenuItem>
               ))}
-            </Menu.Content>
+            </MenuContent>
           </Menu.Positioner>
         </Menu.Root>
       )}
