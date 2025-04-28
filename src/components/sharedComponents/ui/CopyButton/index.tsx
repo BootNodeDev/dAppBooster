@@ -1,5 +1,6 @@
 import { Button, type ButtonProps } from '@chakra-ui/react'
 import type { ComponentProps, FC, MouseEventHandler } from 'react'
+import css from './styles'
 
 const Copy: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
   <svg
@@ -31,12 +32,8 @@ interface Props extends ButtonProps {
 
 /**
  * @name CopyButton
- *
  * @description A button that copies a value to the clipboard
- *
  * @param {string} value - The value to copy to the clipboard
- * @param {MouseEventHandler<HTMLButtonElement>} [onClick=undefined] - The function to call when the button is clicked. Default is undefined.
- * @param {ReactNode} [children=undefined] - The content of the button. Default is the Copy icon.
  */
 export const CopyButton: FC<Props> = ({
   children = <Copy />,
@@ -56,6 +53,7 @@ export const CopyButton: FC<Props> = ({
       border="none"
       color="var(--theme-copy-button-color)"
       columnGap={2}
+      css={{ ...css }}
       cursor="pointer"
       display="flex"
       fontFamily="var(--base-font-family)"
