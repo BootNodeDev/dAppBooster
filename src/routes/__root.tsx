@@ -11,9 +11,7 @@ import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
 
 // Theme CSS Vars
-import '@/src/styles/base.css'
-import '@/src/styles/light.css'
-import '@/src/styles/dark.css'
+import './base.css'
 
 export const Route = createRootRoute({
   component: Root,
