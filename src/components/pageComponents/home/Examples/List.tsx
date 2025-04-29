@@ -28,7 +28,7 @@ const List: FC<Props> = ({ items, ...restProps }) => {
       {...restProps}
     >
       <Heading
-        color="var(--theme-color-text-primary)"
+        color="var(--theme-text-color)"
         fontFamily="var(--base-font-family)"
         fontSize={{ base: '21px', lg: '36px' }}
         fontWeight="700"

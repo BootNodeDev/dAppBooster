@@ -63,7 +63,7 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
         </Flex>
         <Heading
           as="h3"
-          color="var(--theme-color-text-primary)"
+          color="var(--theme-text-color)"
           fontFamily={'var(--base-font-family)'}
           fontSize="24px"
           fontWeight={700}
@@ -76,14 +76,14 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
         <Text
           css={{
             '& a': {
-              color: 'var(--theme-color-text-primary)',
+              color: 'var(--theme-text-color)',
               textDecoration: 'underline',
               '&:hover': {
                 textDecoration: 'none',
               },
             },
           }}
-          color="var(--theme-color-text-primary)"
+          color="var(--theme-text-color)"
           fontSize="16px"
           fontWeight={500}
           lineHeight="1.5"
