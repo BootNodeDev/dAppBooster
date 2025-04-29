@@ -2,10 +2,12 @@ import Logo from '@/src/components/sharedComponents/ui/Header/Logo'
 import { SwitchThemeButton } from '@/src/components/sharedComponents/ui/SwitchThemeButton'
 import { menuItems } from '@/src/constants/menuItems'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { Link as A, Box, Flex, chakra } from '@chakra-ui/react'
+import { Link as A, chakra } from '@chakra-ui/react'
+import { Drawer } from '@chakra-ui/react'
 import { Link as ReactLink } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
+import styles from './styles'
 
 const MenuIcon = () => (
   <svg
@@ -39,29 +41,36 @@ const CloseIcon = () => (
   </svg>
 )
 
-const Button = chakra('button', {
-  base: {
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    border: 'none',
-    cursor: 'pointer',
-    display: 'flex',
-    height: '30px',
-    justifyContent: 'center',
-    padding: '0',
-    width: '30px',
+const Button = chakra(
+  'button',
+  {
+    base: {
+      alignItems: 'center',
+      backgroundColor: 'transparent',
+      border: 'none',
+      cursor: 'pointer',
+      display: 'flex',
+      height: '30px',
+      justifyContent: 'center',
+      padding: '0',
+      width: '30px',
 
-    '&:active': {
-      opacity: '0.7',
+      '&:active': {
+        opacity: '0.7',
+      },
     },
   },
-})
-
-const ConnectButton = chakra(ConnectWalletButton)
+  {
+    defaultProps: {
+      children: <MenuIcon />,
+      type: 'button',
+    },
+  },
+)
 
 const LinkCSS = {
   alignItems: 'center',
-  color: 'var(--theme-main-menu-color)',
+  color: 'var(--theme-mobile-menu-color)',
   display: 'flex',
   flexDirection: 'column',
   fontSize: '21px',
@@ -70,7 +79,7 @@ const LinkCSS = {
   rowGap: 6,
   textDecoration: 'none',
   _after: {
-    backgroundColor: 'var(--theme-main-menu-color)',
+    backgroundColor: 'var(--theme-mobile-menu-color)',
     borderRadius: '2px',
     content: "''",
     display: 'block',
@@ -84,117 +93,90 @@ const LinkCSS = {
 
 const Link = chakra(ReactLink)
 
-export const MobileMenu = ({ ...restProps }) => {
-  const [isOpen, setIsOpen] = useState(false)
+export const MobileMenu = () => {
   const { setTheme, theme } = useTheme()
+  const [isOpen, setIsOpen] = useState(false)
 
-  return isOpen ? (
-    <Box
-      css={{
-        '--base-mobile-menu-max-width': '375px',
-        '@starting-style': {
-          opacity: 0,
-        },
-      }}
-      backgroundColor="var(--theme-mobile-menu-backdround-color)"
-      content="''"
-      display={{ base: 'block', xl: 'none' }}
-      height="100vh"
-      left="0"
-      opacity="1"
-      position="fixed"
-      top="0"
-      transition="display var(--base-transition-duration-sm) ease-out, opacity var(--base-transition-duration-sm) ease-out"
-      width="100vw"
-      zIndex="0"
-      {...restProps}
+  return (
+    <Drawer.Root
+      open={isOpen}
+      onOpenChange={(e) => setIsOpen(e.open)}
     >
-      <Flex
-        css={{
-          '@starting-style': {
-            right: 'calc(var(--base-mobile-menu-max-width) * -1)',
-          },
-        }}
-        alignItems="center"
-        backgroundColor="var(--theme-main-menu-background-color)"
-        color="var(--theme-main-menu-color)"
-        display="flex"
-        flexDirection="column"
-        height="100vh"
-        padding={2}
-        position="fixed"
-        right="0"
-        top="0"
-        transition="right var(--base-transition-duration, 0.2s) ease-out"
-        width={{ base: '100vw', md: 'var(--base-mobile-menu-max-width)' }}
-        zIndex="10"
-      >
-        <Flex
-          alignItems="center"
-          display="flex"
-          justifyContent="space-between"
-          marginBottom="80px"
-          width="100%"
-        >
-          <Logo
-            alt="dAppBooster - A blockchain boilerplate to kickstart your next Web3 project"
-            marginLeft="16px"
-            width="140px"
-          />
-          <Button
-            aria-label="Close menu"
-            onClick={() => setIsOpen(false)}
-          >
-            <CloseIcon />
-          </Button>
-        </Flex>
-        <ConnectButton
-          marginBottom="40px"
-          maxWidth="fit-content"
+      <Drawer.Backdrop />
+      <Drawer.Trigger asChild>
+        <Button
+          aria-label="Open menu"
+          display={{ xl: 'none' }}
+          margin="0 0 0 auto"
         />
-        <Flex
+      </Drawer.Trigger>
+      <Drawer.Positioner>
+        <Drawer.Content
           alignItems="center"
+          backgroundColor="var(--theme-mobile-menu-background-color)"
+          color="var(--theme-mobile-menu-color)"
+          css={{ ...styles }}
           display="flex"
           flexDirection="column"
-          rowGap={6}
+          padding={3}
         >
-          {menuItems.map(({ href, label, to }, index) => {
-            const key = `menuItem_${index}`
-            return to ? (
-              <Link
-                {...LinkCSS}
-                key={key}
-                onClick={() => setIsOpen(false)}
-                to={to}
-              >
-                {label}
-              </Link>
-            ) : href ? (
-              <A
-                {...LinkCSS}
-                href={href}
-                key={key}
-                onClick={() => setIsOpen(false)}
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                {label}
-              </A>
-            ) : null
-          })}
-          <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
-        </Flex>
-      </Flex>
-    </Box>
-  ) : (
-    <Button
-      aria-label="Open menu"
-      display={{ xl: 'none' }}
-      margin="0 0 0 auto"
-      onClick={() => setIsOpen(true)}
-    >
-      <MenuIcon />
-    </Button>
+          <Drawer.Header
+            alignItems="center"
+            display="flex"
+            justifyContent="space-between"
+            marginBottom={20}
+            padding={0}
+            width="100%"
+          >
+            <Logo
+              alt="dAppBooster - A blockchain boilerplate to kickstart your next Web3 project"
+              width="140px"
+            />
+            <Drawer.CloseTrigger asChild>
+              <Button aria-label="Close menu">
+                <CloseIcon />
+              </Button>
+            </Drawer.CloseTrigger>
+          </Drawer.Header>
+          <Drawer.Body
+            alignItems="center"
+            display="flex"
+            flexDirection="column"
+            rowGap={6}
+          >
+            <ConnectWalletButton
+              marginBottom={10}
+              maxWidth="fit-content"
+            />
+            {menuItems.map(({ href, label, to }, index) => {
+              const key = `menuItem_${index}`
+              return to ? (
+                <Link
+                  {...LinkCSS}
+                  key={key}
+                  onClick={() => setIsOpen(false)}
+                  to={to}
+                >
+                  {label}
+                </Link>
+              ) : href ? (
+                <A
+                  {...LinkCSS}
+                  href={href}
+                  key={key}
+                  onClick={() => setIsOpen(false)}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {label}
+                </A>
+              ) : null
+            })}
+            <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
+          </Drawer.Body>
+        </Drawer.Content>
+      </Drawer.Positioner>
+    </Drawer.Root>
   )
 }
 
