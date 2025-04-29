@@ -1,5 +1,6 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
-import { Flex, Heading, Input, Spinner } from '@chakra-ui/react'
+import Spinner from '@/src/components/sharedComponents/ui/Spinner'
+import { Flex, Heading, Input } from '@chakra-ui/react'
 import { type ChangeEvent, useEffect, useState } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import type { Address } from 'viem'
@@ -15,10 +16,7 @@ const EnsNameSearch = ({ address }: { address?: Address }) => {
   return (
     <>
       {status === 'pending' ? (
-        <Spinner
-          color="var(--theme-spinner-color)"
-          size="md"
-        />
+        <Spinner size="md" />
       ) : status === 'error' ? (
         `Error fetching ENS name (${error.message})`
       ) : data === undefined || data === null ? (

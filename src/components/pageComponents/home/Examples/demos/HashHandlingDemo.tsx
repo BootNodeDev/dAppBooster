@@ -1,8 +1,9 @@
 import HashDemo from '@/src/components/pageComponents/home/Examples/demos/HashDemo'
 import HashInput from '@/src/components/sharedComponents/HashInput'
+import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { DetectedHash } from '@/src/utils/hash'
-import { Box, Flex, Grid, Input, Spinner, chakra } from '@chakra-ui/react'
+import { Box, Flex, Grid, Input, chakra } from '@chakra-ui/react'
 import { useState } from 'react'
 import type { Address } from 'viem'
 import * as chains from 'viem/chains'
@@ -154,10 +155,7 @@ const HashHandlingDemo = ({ ...restProps }) => {
             width="50px"
             zIndex="15"
           >
-            <Spinner
-              color="var(--theme-spinner-color)"
-              size="md"
-            />
+            <Spinner size="md" />
           </Flex>
         )}
         {found && !loading && <IconOK />}

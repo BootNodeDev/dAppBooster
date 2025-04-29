@@ -16,9 +16,6 @@ html.light {
   /* Main body */
   --theme-body-background-color: #e2e0e7;
 
-  /* Spinner */
-  --theme-spinner-color: #692581;
-
   /* Dialog / Modal */
   --theme-mobile-menu-backdround-color: rgb(0 0 0 / 25%);
 }

@@ -16,9 +16,6 @@ html.dark {
   /* Main body */
   --theme-body-background-color: #292b43;
 
-  /* Spinner */
-  --theme-spinner-color: #b886c9;
-
   /* Dialog / Modal */
   --theme-mobile-menu-backdround-color: rgb(0 0 0 / 50%);
 }

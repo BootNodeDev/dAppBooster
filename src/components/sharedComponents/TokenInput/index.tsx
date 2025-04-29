@@ -22,8 +22,9 @@ import {
 import type { UseTokenInputReturnType } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
+import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import type { Token } from '@/src/types/token'
-import { Dialog, type FlexProps, Portal, Spinner } from '@chakra-ui/react'
+import { Dialog, type FlexProps, Portal } from '@chakra-ui/react'
 import { type FC, useMemo, useState } from 'react'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits } from 'viem'
@@ -170,10 +171,7 @@ const TokenInput: FC<Props> = ({
             <BalanceValue>
               {balanceError && 'Error...'}
               {isLoadingBalance ? (
-                <Spinner
-                  color="var(--theme-spinner-color)"
-                  size="sm"
-                />
+                <Spinner size="sm" />
               ) : (
                 `Balance: ${formatUnits(balance ?? 0n, selectedToken?.decimals ?? 0)}`
               )}
