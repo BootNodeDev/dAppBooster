@@ -10,7 +10,7 @@ import { Flex } from '@chakra-ui/react'
 import { Outlet, createRootRoute } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
 
-// Theme CSS Vars
+// Very basic global styling
 import './base.css'
 
 export const Route = createRootRoute({
