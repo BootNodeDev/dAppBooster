@@ -88,7 +88,6 @@ export const GeneralMessage: FC<Props> = ({
       <Heading
         as="h1"
         color="var(--theme-general-message-color-title)"
-        fontFamily="var(--base-font-family)"
         fontSize="22px"
         fontWeight="700"
         lineHeight="1.2"

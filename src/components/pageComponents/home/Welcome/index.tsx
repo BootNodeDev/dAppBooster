@@ -59,7 +59,6 @@ const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
           flexDirection="column"
         >
           <Heading
-            fontFamily="var(--base-font-family)"
             fontSize={{ base: '32px', md: '48px' }}
             fontWeight="800"
             lineHeight="1.2"
@@ -73,7 +72,7 @@ const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
             <br /> blockchain
           </Heading>
           <Text
-            color="var(--theme-text-color)"
+            color="{colors.text.default}"
             fontSize={{ base: '16px', md: '18px' }}
             lineHeight="1.5"
             marginBottom={8}

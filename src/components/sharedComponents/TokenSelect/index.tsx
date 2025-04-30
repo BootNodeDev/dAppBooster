@@ -153,7 +153,6 @@ const TokenSelect = withSuspenseAndRetry<Props>(
       >
         <Heading
           color="var(--theme-token-select-title-color)"
-          fontFamily="var(--base-font-family)"
           fontSize="18px"
           fontWeight="700"
           lineHeight="1.2"

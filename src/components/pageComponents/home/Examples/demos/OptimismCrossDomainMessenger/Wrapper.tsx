@@ -44,7 +44,6 @@ const WrapperComponent: FC<Props> = ({ children, title, ...restProps }) => {
       <Heading
         as="h3"
         color="var(--theme-op-title-color)"
-        fontFamily="var(--base-font-family)"
         fontSize="14px"
         fontWeight="700"
         lineHeight="1.2"

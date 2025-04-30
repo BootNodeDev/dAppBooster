@@ -67,7 +67,6 @@ export const Title: FC<HeadingProps> = ({ children, ...restProps }) => (
   <Heading
     as="h3"
     color="var(--theme-token-input-title-color)"
-    fontFamily="var(--base-font-family)"
     fontSize="14px"
     fontWeight="700"
     lineHeight="1.2"
@@ -128,7 +127,7 @@ const buttonCSS = {
   cursor: 'pointer',
   display: 'flex',
   flexShrink: 0,
-  fontFamily: 'var(--base-font-family)',
+  fontFamily: '{fonts.body}',
   fontSize: { base: '12px', lg: '16px' },
   fontWeight: 500,
   height: 'auto',
@@ -171,7 +170,7 @@ export const SingleToken: FC<FlexProps> = ({ children, ...restProps }) => (
 
 export const ErrorComponent: FC<SpanProps> = ({ children, ...restProps }) => (
   <Span
-    color="var(--theme-color-danger)"
+    color="{colors.danger.default}"
     fontSize="12px"
     fontWeight="700"
     padding="0"

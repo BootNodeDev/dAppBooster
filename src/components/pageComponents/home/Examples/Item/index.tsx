@@ -51,7 +51,7 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
             '--icon-size': '40px',
           }}
           alignItems="center"
-          backgroundColor="var(--theme-color-primary)"
+          backgroundColor="{colors.primary.default}"
           borderRadius="50%"
           color="#fff"
           display="flex"
@@ -63,8 +63,7 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
         </Flex>
         <Heading
           as="h3"
-          color="var(--theme-text-color)"
-          fontFamily={'var(--base-font-family)'}
+          color="{colors.text.default}"
           fontSize="24px"
           fontWeight={700}
           lineHeight="1.2"
@@ -76,14 +75,14 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
         <Text
           css={{
             '& a': {
-              color: 'var(--theme-text-color)',
+              color: '{colors.text.default}',
               textDecoration: 'underline',
               '&:hover': {
                 textDecoration: 'none',
               },
             },
           }}
-          color="var(--theme-text-color)"
+          color="{colors.text.default}"
           fontSize="16px"
           fontWeight={500}
           lineHeight="1.5"

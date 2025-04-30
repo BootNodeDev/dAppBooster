@@ -1,13 +1,8 @@
 'use client'
+
+import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import {
-  Toaster as ChakraToaster,
-  Portal,
-  Spinner,
-  Stack,
-  Toast,
-  createToaster,
-} from '@chakra-ui/react'
+import { Toaster as ChakraToaster, Portal, Stack, Toast, createToaster } from '@chakra-ui/react'
 
 export const notificationToaster = createToaster({
   placement: 'bottom-end',
@@ -27,14 +22,7 @@ export const NotificationToast = () => {
       >
         {(toast) => (
           <Toast.Root width={{ md: 'sm' }}>
-            {toast.type === 'loading' ? (
-              <Spinner
-                size="sm"
-                color="var(--theme-color-primary)"
-              />
-            ) : (
-              <Toast.Indicator />
-            )}
+            {toast.type === 'loading' ? <Spinner size="sm" /> : <Toast.Indicator />}
             <Stack
               gap="1"
               flex="1"
@@ -45,7 +33,7 @@ export const NotificationToast = () => {
                 <Toast.Description
                   css={{
                     a: {
-                      color: 'var(--theme-color-primary)',
+                      color: '{colors.primary.default}',
                     },
                   }}
                 >

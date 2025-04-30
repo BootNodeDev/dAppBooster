@@ -5,16 +5,103 @@ import { ColorModeProvider, type ColorModeProviderProps } from './color-mode'
 
 export function Provider(props: ColorModeProviderProps) {
   const customConfig = defineConfig({
+    theme: {
+      // Use tokens for values that don't change with light / dark themes
+      tokens: {
+        fonts: {
+          body: {
+            value: '"Manrope", "Arial", "Helvetica Neue", "Helvetica", sans-serif',
+          },
+          heading: {
+            value: '{fonts.body}',
+          },
+          mono: {
+            value: '"Roboto Mono", "Courier New", monospace',
+          },
+        },
+      },
+      // Use semantic tokens for light / dark values
+      semanticTokens: {
+        colors: {
+          bg: {
+            default: {
+              value: {
+                _light: '#e2e0e7',
+                _dark: '#292b43',
+              },
+            },
+          },
+          primary: {
+            default: {
+              value: {
+                _light: '#692581',
+                _dark: '#8b46a4',
+              },
+            },
+          },
+          text: {
+            default: {
+              value: {
+                _light: '#4b4d60',
+                _dark: '#e2e0e7',
+              },
+            },
+          },
+          danger: {
+            default: {
+              value: {
+                _light: '#800',
+                _dark: '#800',
+              },
+            },
+          },
+          ok: {
+            default: {
+              value: {
+                _light: '#080',
+                _dark: '#080',
+              },
+            },
+          },
+          warning: {
+            default: {
+              value: {
+                _light: '#cc0',
+                _dark: '#cc0',
+              },
+            },
+          },
+        },
+      },
+      // Some custom animations
+      keyframes: {
+        rotateSwitch: {
+          from: {
+            transform: 'rotate(0)',
+          },
+          to: {
+            transform: 'rotate(360deg)',
+          },
+        },
+        loadingAnimation: {
+          '0%': {
+            backgroundColor: 'var(--theme-skeleton-loading-background-color)',
+          },
+          '50%': {
+            backgroundColor: 'var(--theme-skeleton-loading-background-color-end)',
+          },
+
+          '100%': {
+            backgroundColor: 'var(--theme-skeleton-loading-background-color)',
+          },
+        },
+      },
+    },
     globalCss: {
       //////////////////////////////////////////////////
       // Just some basic stuff, don't add too much here.
       //////////////////////////////////////////////////
       ':root': {
-        // Font families
-        '--base-font-family': '"Manrope", "Arial", "Helvetica Neue", "Helvetica", sans-serif',
-        '--base-font-family-code': '"Roboto Mono", "Courier New", monospace',
-        // Main container max width
-        '--base-container-max-width': '1360px',
         // Transition duration
         '--base-transition-duration-xs': '0.1s',
         '--base-transition-duration-sm': '0.2s',
@@ -22,29 +109,29 @@ export function Provider(props: ColorModeProviderProps) {
         '--base-transition-duration-xl': '0.4s',
         '--base-transition-duration-xxl': '0.5s',
       },
-      'html.light': {
-        // Few basic colors
-        '--theme-color-primary': '#692581',
-        '--theme-title-color': '#2e3048',
-        '--theme-text-color': '#4b4d60',
-        // Danger / OK / warning
-        '--theme-color-danger': '#800',
-        '--theme-color-ok': '#080',
-        '--theme-color-warning': '#cc0',
-        // Main body
-        '--theme-body-background-color': '#e2e0e7',
+      html: {
+        scrollBehavior: 'smooth',
       },
-      'html.dark': {
-        // Few basic colors
-        '--theme-color-primary': '#8b46a4',
-        '--theme-title-color': '#fff',
-        '--theme-text-color': '#e2e0e7',
-        // Danger / OK / warning
-        '--theme-color-danger': '#800',
-        '--theme-color-ok': '#080',
-        '--theme-color-warning': '#cc0',
-        // Main body
-        '--theme-body-background-color': '#292b43',
+      body: {
+        '--moz-osx-font-smoothing': 'grayscale',
+        '--webkit-font-smoothing': 'antialiased',
+        background: '{colors.bg.default}',
+        backgroundPosition: '100% 0',
+        backgroundRepeat: 'no-repeat',
+        color: '{colors.text.default}',
+        fontFamily: '{fonts.body}',
+        lineHeight: 1.5,
+        outlineColor: '{colors.text.default}',
+      },
+      code: {
+        fontFamily: '{fonts.mono}',
+      },
+      a: {
+        color: '{colors.primary.default}',
+      },
+      img: {
+        display: 'block',
+        maxInlineSize: '100%',
       },
     },
   })

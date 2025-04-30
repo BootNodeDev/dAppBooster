@@ -140,7 +140,7 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
         color="var(--theme-subgraph-title-color)"
         columnGap={2}
         display="flex"
-        fontFamily="var(--base-font-family)"
+        fontFamily="{fonts.body}"
         fontSize="16px"
         fontWeight="700"
         lineHeight="1.2"
@@ -212,7 +212,7 @@ const Aave = withSuspenseAndRetry(() => {
         color="var(--theme-subgraph-title-color)"
         columnGap={2}
         display="flex"
-        fontFamily="var(--base-font-family)"
+        fontFamily="{fonts.body}"
         fontSize="16px"
         fontWeight="700"
         lineHeight="1.2"

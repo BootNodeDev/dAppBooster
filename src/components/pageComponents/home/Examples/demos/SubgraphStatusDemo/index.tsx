@@ -79,7 +79,7 @@ const SubgraphStatus: FC<{
         width="fit-content"
         _before={{
           alignItems: 'center',
-          backgroundColor: `${!isSynced ? 'var(--theme-color-danger)' : 'var(--theme-color-ok)'}`,
+          backgroundColor: `${!isSynced ? '{colors.danger.default}' : '{colors.ok.default}'}`,
           borderRadius: '50%',
           content: "''",
           display: 'flex',

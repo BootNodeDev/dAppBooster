@@ -10,7 +10,7 @@ export const Button = chakra(
       borderWidth: '1px',
       cursor: 'pointer',
       display: 'flex',
-      fontFamily: 'var(--base-font-family)',
+      fontFamily: '{fonts.body}',
       fontSize: '15px',
       fontWeight: '400',
       gap: 2,
