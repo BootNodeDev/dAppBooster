@@ -33,7 +33,6 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
   return (
     <chakra.button
       css={{
-        '--base-switch-theme-button-animation-delay': 'var(--base-animation-time, 0.3s)',
         '--base-switch-theme-button-active-state-size': '36px',
         '--base-switch-theme-button-left-start': '4px',
         '--base-switch-theme-button-left-end': '44px',
@@ -61,7 +60,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
       height="44px"
       padding="4px 12px"
       position="relative"
-      transition="background-color var(--base-switch-theme-button-animation-delay) ease-in-out, border-color var(--base-animation-time-sm, 0.2s) ease-in-out"
+      transition="background-color {durations.slow} ease-in-out, border-color {durations.moderate} ease-in-out"
       width="84px"
       onClick={onClick}
       {...restProps}
@@ -79,10 +78,10 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
           {...IconCSS}
           css={{
             '.dark &': {
-              animation: 'rotateSwitch var(--base-switch-theme-button-animation-delay) linear',
+              animation: 'rotateSwitch {durations.slow} linear',
               cursor: 'default',
               path: {
-                transition: 'fill var(--base-switch-theme-button-animation-delay) ease-in-out',
+                transition: 'fill {durations.slow} ease-in-out',
               },
             },
           }}
@@ -101,10 +100,10 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
           {...IconCSS}
           css={{
             '.light &': {
-              animation: 'rotateSwitch var(--base-switch-theme-button-animation-delay) linear',
+              animation: 'rotateSwitch {durations.slow} linear',
               cursor: 'default',
               path: {
-                transition: 'fill var(--base-switch-theme-button-animation-delay) ease-in-out',
+                transition: 'fill {durations.slow} ease-in-out',
               },
             },
           }}
@@ -118,7 +117,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
         top="50%"
         transform="translateY(-50%)"
         left="var(--base-switch-theme-button-active-state-left)"
-        transition="left var(--base-switch-theme-button-animation-delay) ease-in-out"
+        transition="left {durations.slow} ease-in-out"
         width="var(--base-switch-theme-button-active-state-size)"
         zIndex={1}
       />
