@@ -1,15 +1,16 @@
 import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
-import type { ButtonProps } from '@chakra-ui/react'
+import { type ButtonProps, chakra } from '@chakra-ui/react'
 import type { FC } from 'react'
 
-const ChevronDown = () => (
-  <svg
+const ChevronDown: FC = () => (
+  <chakra.svg
     className="chevronDown"
     fill="none"
-    height="24"
+    height="24px"
     viewBox="0 0 24 24"
-    width="24"
+    width="24px"
     xmlns="http://www.w3.org/2000/svg"
+    transition="transform {durations.fast} ease-in-out"
   >
     <title>Chevron down</title>
     <path
@@ -19,7 +20,7 @@ const ChevronDown = () => (
       strokeLinejoin="round"
       strokeWidth="2"
     />
-  </svg>
+  </chakra.svg>
 )
 
 const Button: FC<ButtonProps> = ({ children, ...restProps }) => {
@@ -31,9 +32,6 @@ const Button: FC<ButtonProps> = ({ children, ...restProps }) => {
       paddingLeft={6}
       paddingRight={6}
       css={{
-        '& .chevronDown': {
-          transition: 'transform {durations.fast} ease-in-out',
-        },
         '&[aria-expanded="true"] .chevronDown': {
           transform: 'rotate(180deg)',
         },
