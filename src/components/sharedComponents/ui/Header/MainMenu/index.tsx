@@ -1,9 +1,11 @@
 import { menuItems } from '@/src/constants/menuItems'
-import { Flex, Link, chakra } from '@chakra-ui/react'
+import { Flex, type FlexProps, Link, chakra } from '@chakra-ui/react'
 import { Link as ViteLink } from '@tanstack/react-router'
+import type { FC } from 'react'
+import styles from './styles'
 
 const sharedMenuItemStyles = {
-  color: 'var(--item-color)',
+  color: 'var(--color)',
   fontSize: '16px',
   fontWeight: 500,
   lineHeight: '1.2',
@@ -18,10 +20,14 @@ const sharedMenuItemStyles = {
 
 const Item = chakra(ViteLink)
 
-export const MainMenu = ({ ...restProps }) => {
+export const MainMenu: FC<FlexProps> = ({ css, ...restProps }) => {
   return (
     <Flex
       align="center"
+      css={{
+        ...css,
+        ...styles,
+      }}
       display={{ base: 'none', xl: 'flex' }}
       flex="1"
       gap={10}

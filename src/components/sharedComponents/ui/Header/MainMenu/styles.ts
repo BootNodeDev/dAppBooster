@@ -1,9 +1,9 @@
 export const styles = {
   'html.light &': {
-    '--text-color': '#2e3048',
+    '--color': '#2e3048',
   },
   'html.dark &': {
-    '--text-color': '#fff',
+    '--color': '#fff',
   },
 }
 
