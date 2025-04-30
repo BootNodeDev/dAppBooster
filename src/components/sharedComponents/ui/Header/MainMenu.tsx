@@ -3,7 +3,7 @@ import { Flex, Link, chakra } from '@chakra-ui/react'
 import { Link as ViteLink } from '@tanstack/react-router'
 
 const sharedMenuItemStyles = {
-  color: 'var(--theme-main-menu-item-color)',
+  color: 'var(--item-color)',
   fontSize: '16px',
   fontWeight: 500,
   lineHeight: '1.2',

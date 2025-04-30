@@ -1,6 +1,7 @@
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
+import { MenuContent } from '@/src/components/sharedComponents/ui/Menu'
 import type { Token } from '@/src/types/token'
 import { Flex, Menu, Portal } from '@chakra-ui/react'
 import type { ComponentPropsWithoutRef, FC } from 'react'
@@ -84,18 +85,13 @@ const TokenDropdown: FC<Props> = ({
       </Menu.Trigger>
       <Portal>
         <Menu.Positioner>
-          <Menu.Content
-            padding="0"
-            backgroundColor="var(--theme-dropdown-background-color)"
-            borderColor="var(--theme-dropdown-border-color)"
-            boxShadow="var(--theme-dropdown-box-shadow)"
-          >
+          <MenuContent>
             <TokenSelect
               onTokenSelect={handleTokenSelect}
               showAddTokenButton={showAddTokenButton}
               {...restProps}
             />
-          </Menu.Content>
+          </MenuContent>
         </Menu.Positioner>
       </Portal>
     </Menu.Root>

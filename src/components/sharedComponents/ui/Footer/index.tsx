@@ -11,8 +11,8 @@ export const Footer: FC<FlexProps> = ({ css, ...restProps }) => {
     <Flex
       alignItems="center"
       as="footer"
-      backgroundColor="var(--theme-footer-background-color)"
-      color="var(--theme-footer-text-color)"
+      backgroundColor="var(--background-color)"
+      color="var(--text-color)"
       css={{ ...css, ...styles }}
       direction="column"
       display="flex"
@@ -36,7 +36,7 @@ export const Footer: FC<FlexProps> = ({ css, ...restProps }) => {
           <LogoMini />
         </a>
         <Box
-          backgroundColor="var(--theme-footer-line-color)"
+          backgroundColor="var(--line-color)"
           height="17px"
           width="1px"
         />

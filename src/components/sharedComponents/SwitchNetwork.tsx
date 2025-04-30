@@ -66,7 +66,6 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }) => {
             <>
               <Flex
                 alignItems="center"
-                backgroundColor="var(--theme-switch-network-icon-background-color)"
                 borderRadius="50%"
                 display="flex"
                 height="24px"

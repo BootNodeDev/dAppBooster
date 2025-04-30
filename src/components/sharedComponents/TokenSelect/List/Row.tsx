@@ -73,7 +73,7 @@ const Row: FC<TokenSelectRowProps> = ({
   return (
     <Flex
       alignItems="center"
-      backgroundColor="var(--theme-token-select-row-background-color)"
+      backgroundColor="var(--row-background-color)"
       columnGap={4}
       cursor="pointer"
       height="100%"
@@ -82,7 +82,7 @@ const Row: FC<TokenSelectRowProps> = ({
       transition="background-color {durations.moderate} ease-in-out"
       width="100%"
       _hover={{
-        backgroundColor: 'var(--theme-token-select-row-background-color-hover)',
+        backgroundColor: 'var(--row-background-color-hover)',
       }}
       _active={{
         opacity: 0.8,
@@ -98,13 +98,12 @@ const Row: FC<TokenSelectRowProps> = ({
         />
       </Icon>
       <Box
-        color="var(--theme-token-select-row-token-name-color)"
+        color="var(--row-token-name-color)"
         fontSize="18px"
         fontWeight="500"
         lineHeight="1.2"
         _groupHover={{
-          color:
-            'var(--theme-token-select-row-token-name-color-hover, var(--theme-token-select-row-token-name-color)',
+          color: 'var(--row-token-name-color-hover, var(--row-token-name-color)',
         }}
       >
         {name}

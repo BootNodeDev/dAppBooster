@@ -51,7 +51,7 @@ const CloseIcon = ({ ...restProps }) => (
 
 export const Wrapper: FC<FlexProps> = ({ children, ...restProps }) => (
   <Flex
-    backgroundColor="var(--theme-token-input-background)"
+    backgroundColor="var(--background)"
     borderRadius="8px"
     flexDirection="column"
     maxWidth="100%"
@@ -66,7 +66,7 @@ export const Wrapper: FC<FlexProps> = ({ children, ...restProps }) => (
 export const Title: FC<HeadingProps> = ({ children, ...restProps }) => (
   <Heading
     as="h3"
-    color="var(--theme-token-input-title-color)"
+    color="var(--title-color)"
     fontSize="14px"
     fontWeight="700"
     lineHeight="1.2"
@@ -88,9 +88,9 @@ export const TopRow: FC<FlexProps> = ({ children, ...restProps }) => (
 
 export const Textfield: FC<InputProps> = ({ children, ...restProps }) => (
   <Input
-    backgroundColor="var(--theme-token-input-textfield-background-color)"
-    borderColor="var(--theme-token-input-textfield-border-color)"
-    color="var(--theme-token-input-textfield-color)"
+    backgroundColor="var(--textfield-background-color)"
+    borderColor="var(--textfield-border-color)"
+    color="var(--textfield-color)"
     fontSize={{ base: '24px', lg: '32px' }}
     height="auto"
     minWidth="0"
@@ -98,12 +98,12 @@ export const Textfield: FC<InputProps> = ({ children, ...restProps }) => (
     transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
     type="text"
     _focus={{
-      backgroundColor: 'var(--theme-token-input-textfield-background-color-active)',
-      borderColor: 'var(--theme-token-input-textfield-border-color-active)',
-      color: 'var(--theme-token-input-textfield-color-active)',
+      backgroundColor: 'var(--textfield-background-color-active)',
+      borderColor: 'var(--textfield-border-color-active)',
+      color: 'var(--textfield-color-active)',
     }}
     _placeholder={{
-      color: 'var(--theme-token-input-textfield-placeholder-color)',
+      color: 'var(--textfield-placeholder-color)',
     }}
     {...restProps}
   >
@@ -119,10 +119,10 @@ export const ChevronDown = chakra(BaseChevronDown, {
 
 const buttonCSS = {
   alignItems: 'center',
-  backgroundColor: 'var(--theme-token-input-dropdown-button-background-color)',
-  borderColor: 'var(--theme-token-input-dropdown-button-border-color)',
+  backgroundColor: 'var(--dropdown-button-background-color)',
+  borderColor: 'var(--dropdown-button-border-color)',
   borderRadius: 4,
-  color: 'var(--theme-token-input-dropdown-button-color)',
+  color: 'var(--dropdown-button-color)',
   columnGap: 2,
   cursor: 'pointer',
   display: 'flex',
@@ -134,14 +134,14 @@ const buttonCSS = {
   minWidth: '100px',
   padding: { base: 2, lg: 4 },
   _hover: {
-    backgroundColor: 'var(--theme-token-input-dropdown-button-background-color-hover)',
-    borderColor: 'var(--theme-token-input-dropdown-button-border-color-hover)',
-    color: 'var(--theme-token-input-dropdown-button-color-hover)',
+    backgroundColor: 'var(--dropdown-button-background-color-hover)',
+    borderColor: 'var(--dropdown-button-border-color-hover)',
+    color: 'var(--dropdown-button-color-hover)',
   },
   _active: {
-    backgroundColor: 'var(--theme-token-input-dropdown-button-background-color-active)',
-    borderColor: 'var(--theme-token-input-dropdown-button-border-color-active)',
-    color: 'var(--theme-token-input-dropdown-button-color-active)',
+    backgroundColor: 'var(--dropdown-button-background-color-active)',
+    borderColor: 'var(--dropdown-button-border-color-active)',
+    color: 'var(--dropdown-button-color-active)',
   },
 }
 
@@ -194,7 +194,7 @@ export const BottomRow: FC<FlexProps> = ({ children, ...restProps }) => (
 export const EstimatedUSDValue: FC<FlexProps> = ({ children, ...restProps }) => (
   <Flex
     alignItems="center"
-    color="var(--theme-token-input-estimated-usd-color)"
+    color="var(--estimated-usd-color)"
     fontSize="12px"
     fontWeight="400"
     lineHeight="1.2"
@@ -207,7 +207,7 @@ export const EstimatedUSDValue: FC<FlexProps> = ({ children, ...restProps }) => 
 export const Balance: FC<FlexProps> = ({ children, ...restProps }) => (
   <Flex
     alignItems="center"
-    color="var(--theme-token-input-balance-color)"
+    color="var(--balance-color)"
     columnGap={2}
     {...restProps}
   >
@@ -228,23 +228,23 @@ export const BalanceValue: FC<SpanProps> = ({ children, ...restProps }) => (
 
 export const MaxButton: FC<ButtonProps> = ({ children, ...restProps }) => (
   <chakra.button
-    backgroundColor="var(--theme-token-input-max-button-background-color)"
-    borderColor="var(--theme-token-input-max-button-border-color)"
-    color="var(--theme-token-input-max-button-color)"
+    backgroundColor="var(--max-button-background-color)"
+    borderColor="var(--max-button-border-color)"
+    color="var(--max-button-color)"
     cursor="pointer"
     fontSize="12px"
     fontWeight="400"
     height="22px"
     paddingX={2}
     _hover={{
-      backgroundColor: 'var(--theme-token-input-max-button-background-color-hover)',
-      borderColor: 'var(--theme-token-input-max-button-border-color-hover)',
-      color: 'var(--theme-token-input-max-button-color-hover)',
+      backgroundColor: 'var(--max-button-background-color-hover)',
+      borderColor: 'var(--max-button-border-color-hover)',
+      color: 'var(--max-button-color-hover)',
     }}
     _active={{
-      backgroundColor: 'var(--theme-token-input-max-button-background-color-active)',
-      borderColor: 'var(--theme-token-input-max-button-border-color-active)',
-      color: 'var(--theme-token-input-max-button-color-active)',
+      backgroundColor: 'var(--max-button-background-color-active)',
+      borderColor: 'var(--max-button-border-color-active)',
+      color: 'var(--max-button-color-active)',
     }}
     {...restProps}
   >
@@ -275,7 +275,7 @@ export const CloseButton: FC<ButtonProps> = ({ children, ...restProps }) => (
   <chakra.button
     background="none"
     border="none"
-    color="var(--theme-token-select-title-color-default)"
+    color="var(--title-color-default)"
     cursor="pointer"
     position="absolute"
     right={0}

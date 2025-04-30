@@ -43,10 +43,10 @@ const AddERC20TokenButton: FC<AddERC20TokenButtonProps> = ({
   return isNativeToken(address) ? null : (
     <chakra.button
       alignItems="center"
-      backgroundColor="var(--theme-token-select-add-erc20-token-button-background-color)"
-      border="1px solid var(--theme-token-select-add-erc20-token-button-border-color)"
+      backgroundColor="var(--add-erc20-token-button-background-color)"
+      border="1px solid var(--add-erc20-token-button-border-color)"
       borderRadius={1}
-      color="var(--theme-token-select-add-erc20-token-button-color)"
+      color="var(--add-erc20-token-button-color)"
       cursor="pointer"
       display="flex"
       fontFamily="{fonts.body}"
@@ -61,11 +61,10 @@ const AddERC20TokenButton: FC<AddERC20TokenButtonProps> = ({
       whiteSpace="nowrap"
       _hover={{
         backgroundColor:
-          'var(--theme-token-select-add-erc20-token-button-background-color-hover, var(--theme-token-select-add-erc20-token-button-background-color))',
+          'var(--add-erc20-token-button-background-color-hover, var(--add-erc20-token-button-background-color))',
         borderColor:
-          'var(--theme-token-select-add-erc20-token-button-border-color-hover, var(--theme-token-select-add-erc20-token-button-border-color))',
-        color:
-          'var(--theme-token-select-add-erc20-token-button-color-hover, var(--theme-token-select-add-erc20-token-button-color))',
+          'var(--add-erc20-token-button-border-color-hover, var(--add-erc20-token-button-border-color))',
+        color: 'var(--add-erc20-token-button-color-hover, var(--add-erc20-token-button-color))',
       }}
       disabled={disabled}
       onClick={handleClick}

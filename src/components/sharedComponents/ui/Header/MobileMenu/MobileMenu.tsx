@@ -70,7 +70,7 @@ const Button = chakra(
 
 const LinkCSS = {
   alignItems: 'center',
-  color: 'var(--theme-mobile-menu-color)',
+  color: 'var(--color)',
   display: 'flex',
   flexDirection: 'column',
   fontSize: '21px',
@@ -79,7 +79,7 @@ const LinkCSS = {
   rowGap: 6,
   textDecoration: 'none',
   _after: {
-    backgroundColor: 'var(--theme-mobile-menu-color)',
+    backgroundColor: 'var(--color)',
     borderRadius: '2px',
     content: "''",
     display: 'block',
@@ -113,8 +113,8 @@ export const MobileMenu = () => {
       <Drawer.Positioner>
         <Drawer.Content
           alignItems="center"
-          backgroundColor="var(--theme-mobile-menu-background-color)"
-          color="var(--theme-mobile-menu-color)"
+          backgroundColor="var(--background-color)"
+          color="var(--color)"
           css={{ ...styles }}
           display="flex"
           flexDirection="column"

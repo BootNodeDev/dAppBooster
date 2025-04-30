@@ -4,9 +4,9 @@ import styles from './styles'
 
 export const MenuContent: FC<MenuContentProps> = ({ children, css, ...restProps }) => (
   <Menu.Content
-    backgroundColor="var(--theme-dropdown-background-color)"
-    borderColor="var(--theme-dropdown-border-color)"
-    boxShadow="var(--theme-dropdown-box-shadow)"
+    backgroundColor="var(--background-color)"
+    borderColor="var(--border-color)"
+    boxShadow="var(--box-shadow)"
     css={{ ...css, ...styles }}
     padding="0"
     {...restProps}
@@ -18,9 +18,9 @@ export const MenuContent: FC<MenuContentProps> = ({ children, css, ...restProps 
 export const MenuItem: FC<MenuItemProps> = ({ children, css, ...restProps }) => (
   <Menu.Item
     alignItems="center"
-    backgroundColor="var(--theme-dropdown-item-background-color)"
-    borderBottom="1px solid var(--theme-dropdown-item-border-color)"
-    color="var(--theme-dropdown-item-color)"
+    backgroundColor="var(--item-background-color)"
+    borderBottom="1px solid var(--item-border-color)"
+    color="var(--item-color)"
     columnGap={2}
     cursor="pointer"
     fontSize="16px"
@@ -32,14 +32,14 @@ export const MenuItem: FC<MenuItemProps> = ({ children, css, ...restProps }) => 
     paddingX={4}
     transition="background-color {durations.fast} ease-in-out"
     _hover={{
-      backgroundColor: 'var(--theme-dropdown-item-background-color-hover)',
-      color: 'var(--theme-dropdown-item-color-hover)',
-      borderBottom: '1px solid var( --theme-dropdown-item-border-color-hover)',
+      backgroundColor: 'var(--item-background-color-hover)',
+      color: 'var(--item-color-hover)',
+      borderBottom: '1px solid var( --item-border-color-hover)',
     }}
     _active={{
-      backgroundColor: 'var(--theme-dropdown-item-background-color-active)',
-      color: 'var(--theme-dropdown-item-color-active)',
-      borderBottom: '1px solid var( --theme-dropdown-item-border-color-active)',
+      backgroundColor: 'var(--item-background-color-active)',
+      color: 'var(--item-color-active)',
+      borderBottom: '1px solid var( --item-border-color-active)',
     }}
     {...restProps}
   >

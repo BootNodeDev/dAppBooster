@@ -5,19 +5,19 @@ import styles from './styles'
 
 export const SecondaryButton: FC<ButtonProps> = ({ css, ...restProps }) => (
   <Button
-    backgroundColor="var(--theme-button-secondary-background-color)"
-    borderColor="var(--theme-button-secondary-border-color)"
-    color="var(--theme-button-secondary-color)"
+    backgroundColor="var(--background-color)"
+    borderColor="var(--border-color)"
+    color="var(--color)"
     css={{ ...css, ...styles }}
     _hover={{
-      backgroundColor: 'var(--theme-button-secondary-background-color-hover)',
-      borderColor: 'var(--theme-button-secondary-border-color-hover)',
-      color: 'var(--theme-button-secondary-color-hover)',
+      backgroundColor: 'var(--background-color-hover)',
+      borderColor: 'var(--border-color-hover)',
+      color: 'var(--color-hover)',
     }}
     _disabled={{
-      backgroundColor: 'var(--theme-button-secondary-background-color-disabled)',
-      borderColor: 'var(--theme-button-secondary-border-color-disabled)',
-      color: 'var(--theme-button-secondary-color-disabled)',
+      backgroundColor: 'var(--background-color-disabled)',
+      borderColor: 'var(--border-color-disabled)',
+      color: 'var(--color-disabled)',
     }}
     fontWeight={500}
     {...restProps}

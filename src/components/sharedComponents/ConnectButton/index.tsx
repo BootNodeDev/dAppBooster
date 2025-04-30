@@ -29,23 +29,23 @@ const ConnectButton: FC<ConnectButtonProps> = ({ $isConnected, children, css, ..
   return (
     <Button
       borderRadius={$isConnected ? '30px' : 'sm'}
-      backgroundColor="var(--theme-button-connect-background-color)"
-      borderColor="var(--theme-button-connect-border-color)"
-      color="var(--theme-button-connect-color)"
+      backgroundColor="var(--background-color)"
+      borderColor="var(--border-color)"
+      color="var(--color)"
       css={{ ...css, ...styles }}
       fontWeight="700"
       height="44px"
       fontSize={{ base: $isConnected ? '12px' : '14px', md: $isConnected ? '15px' : '16px' }}
       paddingX={$isConnected ? 2 : 4}
       _hover={{
-        backgroundColor: 'var(--theme-button-connect-background-color-hover)',
-        borderColor: 'var(--theme-button-connect-border-color-hover)',
-        color: 'var(--theme-button-connect-color-hover)',
+        backgroundColor: 'var(--background-color-hover)',
+        borderColor: 'var(--border-color-hover)',
+        color: 'var(--color-hover)',
       }}
       _disabled={{
-        backgroundColor: 'var(--theme-button-connect-background-color-disabled)',
-        borderColor: 'var(--theme-button-connect-border-color-disabled)',
-        color: 'var(--theme-button-connect-color-disabled)',
+        backgroundColor: 'var(--background-color-disabled)',
+        borderColor: 'var(--border-color-disabled)',
+        color: 'var(--color-disabled)',
       }}
       {...restProps}
     >

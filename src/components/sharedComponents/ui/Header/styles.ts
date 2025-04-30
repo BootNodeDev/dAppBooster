@@ -1,14 +1,12 @@
 export const styles = {
   'html.light &': {
-    '--theme-header-background-color': 'transparent',
-    '--theme-header-text-color': '#2e3048',
+    '--text-color': '#2e3048',
     '--theme-main-menu-item-color': '#2e3048',
     '--theme-main-menu-background-color': '#f7f7f7',
     '--theme-main-menu-color': '#2e3048',
   },
   'html.dark &': {
-    '--theme-header-background-color': 'transparent',
-    '--theme-header-text-color': '#fff',
+    '--text-color': '#fff',
     '--theme-main-menu-item-color': '#fff',
     '--theme-main-menu-background-color': '#292b43',
     '--theme-main-menu-color': '#fff',

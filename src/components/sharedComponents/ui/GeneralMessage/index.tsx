@@ -61,10 +61,10 @@ export const GeneralMessage: FC<Props> = ({
   return (
     <BaseCard.Root
       alignItems="center"
-      backgroundColor="var(--theme-general-message-background-color)"
-      borderColor="var(--theme-general-message-border-color)"
+      backgroundColor="var(--background-color)"
+      borderColor="var(--border-color)"
       borderRadius="lg"
-      boxShadow="var(--theme-general-message-box-shadow)"
+      boxShadow="var(--box-shadow)"
       css={{ ...css, ...styles }}
       display="flex"
       flexDirection="column"
@@ -80,14 +80,14 @@ export const GeneralMessage: FC<Props> = ({
       {...restProps}
     >
       <Flex
-        color="var(--theme-general-message-color-icon)"
+        color="var(--color-icon)"
         justifyContent="center"
       >
         {icon}
       </Flex>
       <Heading
         as="h1"
-        color="var(--theme-general-message-color-title)"
+        color="var(--color-title)"
         fontSize="22px"
         fontWeight="700"
         lineHeight="1.2"
@@ -101,7 +101,7 @@ export const GeneralMessage: FC<Props> = ({
         {title}
       </Heading>
       <Flex
-        backgroundColor="var(--theme-general-message-color-message-background)"
+        backgroundColor="var(--color-message-background)"
         flexDirection="column"
         fontSize="16px"
         fontWeight="400"
@@ -114,7 +114,7 @@ export const GeneralMessage: FC<Props> = ({
         p={4}
         rowGap={2}
         borderRadius="md"
-        color="var(--theme-general-message-color-text)"
+        color="var(--color-text)"
         css={{
           '& p': {
             margin: 0,

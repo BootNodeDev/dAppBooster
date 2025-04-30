@@ -1,9 +1,9 @@
 export const styles = {
   'html.light &': {
-    '--theme-spinner-color': '#692581',
+    '--color': '#692581',
   },
   'html.dark &': {
-    '--theme-spinner-color': '#b886c9',
+    '--color': '#b886c9',
   },
 }
 

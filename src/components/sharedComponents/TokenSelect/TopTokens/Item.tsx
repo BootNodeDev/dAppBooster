@@ -20,8 +20,8 @@ const Item: FC<ItemProps> = ({ token, ...restProps }) => {
   return (
     <chakra.button
       alignItems="center"
-      backgroundColor="var(--theme-token-select-top-token-item-background-color)"
-      border="1px solid var(--theme-token-select-top-token-item-border-color)"
+      backgroundColor="var(--top-token-item-background-color)"
+      border="1px solid var(--top-token-item-border-color)"
       borderRadius={8}
       columnGap={2}
       cursor="pointer"
@@ -32,9 +32,8 @@ const Item: FC<ItemProps> = ({ token, ...restProps }) => {
       paddingY={0}
       transition="background-color {durations.moderate} ease-in-out"
       _hover={{
-        backgroundColor: 'var(--theme-token-select-top-token-item-background-color-hover)',
-        borderColor:
-          'var(--theme-token-select-top-token-item-border-color-hover, var(--theme-token-select-top-token-item-border-color))',
+        backgroundColor: 'var(--top-token-item-background-color-hover)',
+        borderColor: 'var(--top-token-item-border-color-hover, var(--top-token-item-border-color))',
       }}
       _active={{
         opacity: 0.8,
@@ -57,13 +56,12 @@ const Item: FC<ItemProps> = ({ token, ...restProps }) => {
         />
       </Flex>
       <Box
-        color="var(--theme-token-select-top-token-item-color)"
+        color="var(--top-token-item-color)"
         fontSize="18px"
         fontWeight="500"
         lineHeight="1.2"
         _groupHover={{
-          color:
-            'var(--theme-token-select-top-token-item-color-hover, var(--theme-token-select-top-token-item-color)',
+          color: 'var(--top-token-item-color-hover, var(--top-token-item-color)',
         }}
       >
         {symbol}

@@ -34,12 +34,12 @@ const Input: FC<InputProps> = ({ className, ...inputProps }) => {
   return (
     <Flex
       alignItems="center"
-      backgroundColor="var(--theme-token-select-search-field-background-color)"
-      borderColor="var(--theme-token-select-search-field-border-color)"
+      backgroundColor="var(--search-field-background-color)"
+      borderColor="var(--search-field-border-color)"
       borderRadius={8}
       borderStyle="solid"
       borderWidth="1px"
-      color="var(--theme-token-select-search-field-color)"
+      color="var(--search-field-color)"
       columnGap={4}
       display="flex"
       flexGrow={1}
@@ -50,12 +50,10 @@ const Input: FC<InputProps> = ({ className, ...inputProps }) => {
       paddingY={0}
       transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
       _focusWithin={{
-        backgroundColor: 'var(--theme-token-select-search-field-background-color-active)',
-        borderColor:
-          'var(--theme-token-select-search-field-border-color-active, var(--theme-textfield-border-color-active))',
-        color: 'var(--theme-token-select-search-field-color-active)',
-        boxShadow:
-          'var(--theme-token-select-search-field-box-shadow-active, var(--theme-textfield-box-shadow-active))',
+        backgroundColor: 'var(--search-field-background-color-active)',
+        borderColor: 'var(--search-field-border-color-active, var(--border-color-active))',
+        color: 'var(--search-field-color-active)',
+        boxShadow: 'var(--search-field-box-shadow-active, var(--box-shadow-active))',
       }}
       className={`${className ? className : ''}`.trim()}
     >
@@ -85,7 +83,7 @@ const Input: FC<InputProps> = ({ className, ...inputProps }) => {
           outline: 'none',
         }}
         _placeholder={{
-          color: 'var(--theme-token-select-search-field-placeholder-color)',
+          color: 'var(--search-field-placeholder-color)',
         }}
         {...inputProps}
       />

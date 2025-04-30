@@ -28,10 +28,10 @@ const NetworkButton: FC<ComponentProps<'button'>> = ({ children, ...restProps })
   <chakra.button
     type="button"
     alignItems="center"
-    backgroundColor="var(--theme-token-select-network-button-background-color)"
+    backgroundColor="var(--network-button-background-color)"
     borderRadius={2}
     border="none"
-    color="var(--theme-token-select-network-button-color)"
+    color="var(--network-button-color)"
     columnGap={2}
     cursor="pointer"
     display="flex"
@@ -40,9 +40,8 @@ const NetworkButton: FC<ComponentProps<'button'>> = ({ children, ...restProps })
     width="88px"
     _hover={{
       backgroundColor:
-        'var(--theme-token-select-network-button-background-color-hover, var(--theme-token-select-network-button-background-color))',
-      color:
-        'var(--theme-token-select-network-button-color-hover, var(--theme-token-select-network-button-color))',
+        'var(--network-button-background-color-hover, var(--network-button-background-color))',
+      color: 'var(--network-button-color-hover, var(--network-button-color))',
     }}
     _active={{
       opacity: 0.7,

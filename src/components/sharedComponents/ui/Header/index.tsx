@@ -18,7 +18,7 @@ export const Header: FC<BoxProps> = ({ css, ...restProps }) => {
   return (
     <Box
       as="header"
-      color="var(--theme-header-text-color)"
+      color="var(--text-color)"
       css={{ ...css, ...styles }}
       flexGrow={0}
       flexShrink={0}

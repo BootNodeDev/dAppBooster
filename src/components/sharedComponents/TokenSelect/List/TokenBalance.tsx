@@ -43,25 +43,23 @@ const TokenBalance = withSuspenseAndRetry<TokenBalanceProps>(({ isLoading, token
       rowGap={1}
     >
       <Box
-        color="var(--theme-token-select-row-token-balance-color)"
+        color="var(--row-token-balance-color)"
         fontSize="16px"
         fontWeight="400"
         lineHeight="1.2"
         _groupHover={{
-          color:
-            'var(--theme-token-select-row-token-balance-color-hover, var(--theme-token-select-row-token-balance-color)',
+          color: 'var(--row-token-balance-color-hover, var(--row-token-balance-color)',
         }}
       >
         {balance}
       </Box>
       <Box
-        color="var(--theme-token-select-row-token-value-color)"
+        color="var(--row-token-value-color)"
         fontSize="12px"
         fontWeight="400"
         lineHeight="1.2"
         _groupHover={{
-          color:
-            'var(--theme-token-select-row-token-value-color-hover, var(--theme-token-select-row-token-value-color)',
+          color: 'var(--row-token-value-color-hover, var(--row-token-value-color)',
         }}
       >
         $ {value}

@@ -42,7 +42,7 @@ const List: FC<TokenSelectListProps> = ({
 }) => {
   return (
     <Flex
-      borderTop="1px solid var(--theme-token-select-list-border-top-color)"
+      borderTop="1px solid var(--list-border-top-color)"
       className={`${className ? className : ''}`.trim()}
       minHeight={`${containerHeight}px`}
       width="100%"
@@ -68,7 +68,7 @@ const List: FC<TokenSelectListProps> = ({
       ) : (
         <Flex
           alignItems="center"
-          backgroundColor="var(--theme-token-select-row-background-color)"
+          backgroundColor="var(--row-background-color)"
           justifyContent="center"
           padding={4}
           transition="background-color {durations.moderate} ease-in-out"

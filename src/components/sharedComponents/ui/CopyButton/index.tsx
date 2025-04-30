@@ -52,7 +52,7 @@ export const CopyButton: FC<Props> = ({
       alignItems="center"
       background="transparent"
       border="none"
-      color="var(--theme-copy-button-color)"
+      color="var(--color)"
       columnGap={2}
       css={{ ...css, ...styles }}
       cursor="pointer"
@@ -71,7 +71,7 @@ export const CopyButton: FC<Props> = ({
       whiteSpace="nowrap"
       width="fit-content"
       _hover={{
-        color: 'var(--theme-copy-button-color-hover)',
+        color: 'var(--color-hover)',
       }}
       _active={{
         opacity: 0.8,

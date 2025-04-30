@@ -134,10 +134,10 @@ const TokenSelect = withSuspenseAndRetry<Props>(
 
     return (
       <Flex
-        backgroundColor="var(--theme-token-select-background-color)"
+        backgroundColor="var(--background-color)"
         borderRadius="8px"
-        border="1px solid var(--theme-token-select-border-color)"
-        boxShadow="var(--theme-token-select-box-shadow)"
+        border="1px solid var(--border-color)"
+        boxShadow="var(--box-shadow)"
         css={{
           ...css,
           ...styles,
@@ -152,7 +152,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
         {...restProps}
       >
         <Heading
-          color="var(--theme-token-select-title-color)"
+          color="var(--title-color)"
           fontSize="18px"
           fontWeight="700"
           lineHeight="1.2"

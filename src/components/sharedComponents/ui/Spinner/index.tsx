@@ -4,7 +4,7 @@ import styles from './styles'
 
 export const Spinner: FC<SpinnerProps> = ({ css, ...restProps }) => (
   <BaseSpinner
-    color="var(--theme-spinner-color)"
+    color="var(--color)"
     css={{
       ...styles,
       ...css,

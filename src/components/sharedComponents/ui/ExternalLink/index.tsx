@@ -46,7 +46,7 @@ export const CopyButton: FC<LinkProps> = ({
   return (
     <Link
       alignItems="center"
-      color="var(--theme-copy-button-color)"
+      color="var(--color)"
       columnGap={8}
       css={{ ...css, ...styles }}
       cursor="pointer"
@@ -62,7 +62,7 @@ export const CopyButton: FC<LinkProps> = ({
       whiteSpace="nowrap"
       width="fit-content"
       _hover={{
-        color: 'var(--theme-copy-button-color-hover)',
+        color: 'var(--color-hover)',
         textDecoration: 'none',
       }}
       _active={{

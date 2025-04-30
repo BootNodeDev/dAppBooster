@@ -38,14 +38,12 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
         '--base-switch-theme-button-left-end': '44px',
 
         '.light &': {
-          '--theme-switch-theme-button-background-color': '#fff',
-          '--base-switch-theme-button-active-state-left':
-            'var(--base-switch-theme-button-left-end)',
+          '--background-color': '#fff',
+          '--button-active-state-left': 'var(--button-left-end)',
         },
         '.dark &': {
-          '--theme-switch-theme-button-background-color': '#24263d',
-          '--base-switch-theme-button-active-state-left':
-            'var(--base-switch-theme-button-left-start)',
+          '--background-color': '#24263d',
+          '--button-active-state-left': 'var(--button-left-start)',
         },
         '.light &:active .iconWrapperDark': {
           opacity: '0.5',
@@ -54,7 +52,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
           opacity: '0.5',
         },
       }}
-      backgroundColor="var(--theme-switch-theme-button-background-color)"
+      backgroundColor="var(--background-color)"
       borderRadius="40px"
       border="none"
       height="44px"
@@ -112,7 +110,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
       <Box
         borderRadius="50%"
         backgroundColor="var(--theme-active-state-background-color, #8b46a4)"
-        height="var(--base-switch-theme-button-active-state-size)"
+        height="var(--button-active-state-size)"
         position="absolute"
         top="50%"
         transform="translateY(-50%)"
