@@ -2,18 +2,19 @@ import Dark from '@/src/components/sharedComponents/ui/SwitchThemeButton/assets/
 import Light from '@/src/components/sharedComponents/ui/SwitchThemeButton/assets/Light'
 import { Box, type ButtonProps, chakra } from '@chakra-ui/react'
 import type { FC } from 'react'
+import styles from './styles'
 
 const Icon = chakra('div', {
   base: {
     alignItems: 'center',
     backgroundColor: 'transparent',
     display: 'flex',
-    height: 'var(--base-switch-theme-button-active-state-size)',
+    height: 'var(--button-active-state-size)',
     justifyContent: 'center',
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    width: 'var(--base-switch-theme-button-active-state-size)',
+    width: 'var(--button-active-state-size)',
     zIndex: '5',
   },
 })
@@ -29,28 +30,23 @@ const IconCSS = {
  *
  * @description A button that switches between light and dark themes.
  */
-export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) => {
+export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, css, ...restProps }) => {
   return (
     <chakra.button
       css={{
-        '--base-switch-theme-button-active-state-size': '36px',
-        '--base-switch-theme-button-left-start': '4px',
-        '--base-switch-theme-button-left-end': '44px',
-
-        '.light &': {
-          '--background-color': '#fff',
-          '--button-active-state-left': 'var(--button-left-end)',
+        '--button-active-state-size': '36px',
+        '--button-left-start': '4px',
+        '--button-left-end': '44px',
+        _active: {
+          '.light & .iconWrapperDark': {
+            opacity: '0.5',
+          },
+          '.dark & .iconWrapperLight': {
+            opacity: '0.5',
+          },
         },
-        '.dark &': {
-          '--background-color': '#24263d',
-          '--button-active-state-left': 'var(--button-left-start)',
-        },
-        '.light &:active .iconWrapperDark': {
-          opacity: '0.5',
-        },
-        '.dark &:active .iconWrapperLight': {
-          opacity: '0.5',
-        },
+        ...css,
+        ...styles,
       }}
       backgroundColor="var(--background-color)"
       borderRadius="40px"
@@ -64,7 +60,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
       {...restProps}
     >
       <Icon
-        left="var(--base-switch-theme-button-left-start)"
+        left="var(--button-left-start)"
         css={{
           '.light &': {
             cursor: 'pointer',
@@ -86,7 +82,7 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
         />
       </Icon>
       <Icon
-        left="var(--base-switch-theme-button-left-end)"
+        left="var(--button-left-end)"
         css={{
           '.dark &': {
             cursor: 'pointer',
@@ -114,9 +110,9 @@ export const SwitchThemeButton: FC<ButtonProps> = ({ onClick, ...restProps }) =>
         position="absolute"
         top="50%"
         transform="translateY(-50%)"
-        left="var(--base-switch-theme-button-active-state-left)"
+        left="var(--button-active-state-left)"
         transition="left {durations.slow} ease-in-out"
-        width="var(--base-switch-theme-button-active-state-size)"
+        width="var(--button-active-state-size)"
         zIndex={1}
       />
     </chakra.button>
