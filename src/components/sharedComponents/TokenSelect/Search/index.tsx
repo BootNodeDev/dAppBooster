@@ -40,11 +40,6 @@ const Search: FC<SearchProps> = ({
       height="72px"
       paddingX={4}
       paddingY={0}
-      css={{
-        '.dbuitkDropdownButton': {
-          height: '100%',
-        },
-      }}
       {...restProps}
     >
       <SearchInput
