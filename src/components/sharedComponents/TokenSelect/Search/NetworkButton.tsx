@@ -49,7 +49,7 @@ const NetworkButton: FC<ComponentProps<'button'>> = ({ children, ...restProps })
     }}
     css={{
       '.chevronDown': {
-        transition: 'transform var(--base-transition-duration-xs) ease-in-out',
+        transition: 'transform {durations.fast} ease-in-out',
       },
       '&[aria-expanded="true"] .chevronDown': {
         transform: 'rotate(180deg)',

@@ -54,7 +54,7 @@ const DocumentationButton: FC<LinkProps> = ({ children = 'Documentation', ...res
     paddingY={0}
     paddingX={4}
     textDecoration="none"
-    transition="background-color var(--base-transition-duration-sm), border-color var(--base-transition-duration-sm), color var(--base-transition-duration-sm)"
+    transition="background-color {durations.moderate}, border-color {durations.moderate}, color {durations.moderate"
     userSelect="none"
     whiteSpace="nowrap"
     _hover={{

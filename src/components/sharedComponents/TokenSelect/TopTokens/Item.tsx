@@ -30,7 +30,7 @@ const Item: FC<ItemProps> = ({ token, ...restProps }) => {
       height="41px"
       paddingX={4}
       paddingY={0}
-      transition="background-color var(--base-transition-duration-sm) ease-in-out"
+      transition="background-color {durations.moderate} ease-in-out"
       _hover={{
         backgroundColor: 'var(--theme-token-select-top-token-item-background-color-hover)',
         borderColor:

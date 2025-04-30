@@ -30,7 +30,7 @@ export const MenuItem: FC<MenuItemProps> = ({ children, css, ...restProps }) => 
     minHeight="48px"
     overflow="hidden"
     paddingX={4}
-    transition="background-color var(--base-transition-duration-xs) ease-in-out"
+    transition="background-color {durations.fast} ease-in-out"
     _hover={{
       backgroundColor: 'var(--theme-dropdown-item-background-color-hover)',
       color: 'var(--theme-dropdown-item-color-hover)',

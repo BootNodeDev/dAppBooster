@@ -95,7 +95,7 @@ export const Textfield: FC<InputProps> = ({ children, ...restProps }) => (
     height="auto"
     minWidth="0"
     padding={{ base: 2, lg: 4 }}
-    transition="border-color var(--base-transition-duration), color var(--base-transition-duration), background-color var(--base-transition-duration)"
+    transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
     type="text"
     _focus={{
       backgroundColor: 'var(--theme-token-input-textfield-background-color-active)',

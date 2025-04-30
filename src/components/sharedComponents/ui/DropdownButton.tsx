@@ -32,7 +32,7 @@ const Button: FC<ButtonProps> = ({ children, ...restProps }) => {
       paddingRight={6}
       css={{
         '& .chevronDown': {
-          transition: 'transform var(--base-transition-duration-xs) ease-in-out',
+          transition: 'transform {durations.fast} ease-in-out',
         },
         '&[aria-expanded="true"] .chevronDown': {
           transform: 'rotate(180deg)',

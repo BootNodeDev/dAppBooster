@@ -124,7 +124,7 @@ const HashHandlingDemo = ({ ...restProps }) => {
               padding={{ base: 2, lg: 4 }}
               paddingRight={12}
               position="relative"
-              transition="border-color var(--base-transition-duration), color var(--base-transition-duration), background-color var(--base-transition-duration)"
+              transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
               type="text"
               width="100%"
               zIndex={10}

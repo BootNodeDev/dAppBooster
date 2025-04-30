@@ -59,7 +59,7 @@ export const OptionsDropdown: FC<
             height="27px"
             paddingX={2}
             paddingY={0}
-            transition="border-color var(--base-transition-duration-sm), background-color var(--base-transition-duration-sm), color var(--base-transition-duration-sm)"
+            transition="border-color {durations.moderate}, background-color {durations.moderate}, color {durations.moderate"
             _hover={{
               backgroundColor: 'var(--theme-button-options-background-color-hover)',
               borderColor: 'var(--theme-button-options-border-color-hover)',

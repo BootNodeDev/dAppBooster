@@ -71,7 +71,7 @@ const List: FC<TokenSelectListProps> = ({
           backgroundColor="var(--theme-token-select-row-background-color)"
           justifyContent="center"
           padding={4}
-          transition="background-color var(--base-transition-duration-sm) ease-in-out"
+          transition="background-color {durations.moderate} ease-in-out"
           width="100%"
         >
           No tokens

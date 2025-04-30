@@ -48,7 +48,7 @@ const Input: FC<InputProps> = ({ className, ...inputProps }) => {
       minWidth={0}
       paddingX={4}
       paddingY={0}
-      transition="border-color var(--base-transition-duration), color var(--base-transition-duration), background-color var(--base-transition-duration)"
+      transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
       _focusWithin={{
         backgroundColor: 'var(--theme-token-select-search-field-background-color-active)',
         borderColor:

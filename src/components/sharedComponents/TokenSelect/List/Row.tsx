@@ -79,7 +79,7 @@ const Row: FC<TokenSelectRowProps> = ({
       height="100%"
       paddingLeft={6}
       paddingRight={6}
-      transition="background-color var(--base-transition-duration-sm) ease-in-out"
+      transition="background-color {durations.moderate} ease-in-out"
       width="100%"
       _hover={{
         backgroundColor: 'var(--theme-token-select-row-background-color-hover)',

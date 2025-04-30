@@ -90,7 +90,6 @@ export function Provider(props: ColorModeProviderProps) {
           '50%': {
             backgroundColor: 'var(--theme-skeleton-loading-background-color-end)',
           },
-
           '100%': {
             backgroundColor: 'var(--theme-skeleton-loading-background-color)',
           },
@@ -101,14 +100,6 @@ export function Provider(props: ColorModeProviderProps) {
       //////////////////////////////////////////////////
       // Just some basic stuff, don't add too much here.
       //////////////////////////////////////////////////
-      ':root': {
-        // Transition duration
-        '--base-transition-duration-xs': '0.1s',
-        '--base-transition-duration-sm': '0.2s',
-        '--base-transition-duration': '0.3s',
-        '--base-transition-duration-xl': '0.4s',
-        '--base-transition-duration-xxl': '0.5s',
-      },
       html: {
         scrollBehavior: 'smooth',
       },

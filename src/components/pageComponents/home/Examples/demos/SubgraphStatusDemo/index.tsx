@@ -85,7 +85,7 @@ const SubgraphStatus: FC<{
           display: 'flex',
           height: 'var(--base-status-size)',
           width: 'var(--base-status-size)',
-          transition: 'background-color var(--base-transition-duration)',
+          transition: 'background-color var({durations.slow})',
         }}
       >
         <Span>
