@@ -1,9 +1,8 @@
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import AddERC20TokenButton from '@/src/components/sharedComponents/TokenSelect/List/AddERC20TokenButton'
 import TokenBalance from '@/src/components/sharedComponents/TokenSelect/List/TokenBalance'
-import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import type { Token } from '@/src/types/token'
-import { Box, Flex, type FlexProps } from '@chakra-ui/react'
+import { Box, Flex, type FlexProps, Skeleton } from '@chakra-ui/react'
 import type { FC } from 'react'
 
 const Icon: FC<{ size: number } & FlexProps> = ({ size, children, ...restProps }) => (
@@ -28,11 +27,11 @@ const BalanceLoading: FC<FlexProps> = ({ ...restProps }) => (
     rowGap={1}
     {...restProps}
   >
-    <SkeletonLoading
+    <Skeleton
       height="19px"
       width="50px"
     />
-    <SkeletonLoading
+    <Skeleton
       height="14px"
       width="50px"
     />

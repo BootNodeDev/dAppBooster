@@ -6,38 +6,40 @@ import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/
 import TokenInput from '@/src/components/sharedComponents/TokenInput'
 import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
-import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
 import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-import { Box } from '@chakra-ui/react'
+import { Box, Flex, Skeleton } from '@chakra-ui/react'
 import { useState } from 'react'
 import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
 
 type Options = 'single' | 'multi'
 
 const SkeletonLoadingTokenInput = () => (
-  <SkeletonLoading
-    $animate={false}
-    display="flex"
+  <Flex
     flexDirection="column"
     height="144px"
     padding={4}
     rowGap={2}
     width="100%"
   >
-    <SkeletonLoading
+    <Skeleton
       height="17px"
       minHeight="0"
       width="80px"
     />
-    <SkeletonLoading
+    <Skeleton
       borderRadius="8px"
       minHeight="58px"
       width="100%"
     />
-  </SkeletonLoading>
+    <Skeleton
+      borderRadius="8px"
+      minHeight="18px"
+      width="100%"
+    />
+  </Flex>
 )
 
 const TokenInputs = withSuspenseAndRetry(

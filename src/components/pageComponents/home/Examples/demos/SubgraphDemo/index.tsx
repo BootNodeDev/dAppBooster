@@ -5,14 +5,13 @@ import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets
 import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
 import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
 import ExternalLink from '@/src/components/sharedComponents/ui/ExternalLink'
-import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import { toaster } from '@/src/components/ui/toaster'
 import { env } from '@/src/env'
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
-import { Box, Flex, Heading, Span } from '@chakra-ui/react'
+import { Box, Flex, Heading, Skeleton, Span } from '@chakra-ui/react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import request from 'graphql-request'
 import { useState } from 'react'
@@ -74,34 +73,35 @@ export const getNetworkIcon = (chainName: string) => (
 )
 
 export const SkeletonLoadingItem = () => (
-  <SkeletonLoading
-    $animate={false}
-    display="flex"
+  <Flex
     flexDirection="column"
     height="auto"
     minHeight="133px"
-    padding={4}
     rowGap="9px"
     width="100%"
   >
-    <SkeletonLoading
+    <Skeleton
       height="28px"
-      paddingBottom={2}
+      paddingBottom={4}
       width="40%"
     />
-    <SkeletonLoading
+    <Skeleton
       height="16px"
       width="100%"
     />
-    <SkeletonLoading
+    <Skeleton
       height="16px"
       width="100%"
     />
-    <SkeletonLoading
+    <Skeleton
       height="16px"
       width="100%"
     />
-  </SkeletonLoading>
+    <Skeleton
+      height="16px"
+      width="100%"
+    />
+  </Flex>
 )
 
 const appSchemas = generateSchemasMapping({

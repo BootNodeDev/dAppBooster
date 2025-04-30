@@ -1,33 +1,30 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import { getNetworkIcon } from '@/src/components/pageComponents/home/Examples/demos/SubgraphDemo'
-import SkeletonLoading from '@/src/components/sharedComponents/ui/SkeletonLoading'
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
-import { Flex, Grid, Heading, Span } from '@chakra-ui/react'
+import { Flex, Grid, Heading, Skeleton, Span } from '@chakra-ui/react'
 import { type FC, useState } from 'react'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
 export const SkeletonLoadingItem = () => (
-  <SkeletonLoading
-    $animate={false}
-    height="auto"
-    display="flex"
+  <Flex
+    bgColor="var(--theme-subgraph-status-background)"
+    borderRadius="4px"
     flexDirection="column"
-    minHeight="55px"
     padding={4}
     rowGap={4}
     width="100%"
   >
-    <SkeletonLoading
+    <Skeleton
       minHeight="20px"
       width="40%"
     />
-    <SkeletonLoading
+    <Skeleton
       minHeight="19px"
       width="100%"
     />
-  </SkeletonLoading>
+  </Flex>
 )
 
 const SubgraphStatus: FC<{

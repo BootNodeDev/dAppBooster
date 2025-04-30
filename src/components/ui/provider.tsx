@@ -83,17 +83,6 @@ export function Provider(props: ColorModeProviderProps) {
             transform: 'rotate(360deg)',
           },
         },
-        loadingAnimation: {
-          '0%': {
-            backgroundColor: 'var(--theme-skeleton-loading-background-color)',
-          },
-          '50%': {
-            backgroundColor: 'var(--theme-skeleton-loading-background-color-end)',
-          },
-          '100%': {
-            backgroundColor: 'var(--theme-skeleton-loading-background-color)',
-          },
-        },
       },
     },
     globalCss: {
