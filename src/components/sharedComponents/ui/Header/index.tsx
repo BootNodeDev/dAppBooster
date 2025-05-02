@@ -22,7 +22,7 @@ export const Header: FC<BoxProps> = ({ css, ...restProps }) => {
       css={{ ...css, ...styles }}
       flexGrow={0}
       flexShrink={0}
-      h={{ lg: '90px' }}
+      h="90px"
       position="relative"
       pt={4}
       zIndex={10}
