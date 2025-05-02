@@ -1,24 +1,22 @@
+import detectHash, { type DetectedHash } from '@/src/utils/hash'
+import { type InputProps, chakra } from '@chakra-ui/react'
 import {
   type ChangeEvent,
-  type ComponentProps,
   type FC,
   type ReactElement,
   useCallback,
   useEffect,
   useState,
 } from 'react'
-
 import { useDebouncedCallback } from 'use-debounce'
 import type { Chain } from 'viem'
 
-import detectHash, { type DetectedHash } from '@/src/utils/hash'
-
-interface HashInputProps extends ComponentProps<'input'> {
+interface HashInputProps extends InputProps {
   chain: Chain
   debounceTime?: number
   onLoading?: (loading: boolean) => void
   onSearch: (result: DetectedHash | null) => void
-  renderInput?: (props: ComponentProps<'input'>) => ReactElement
+  renderInput?: (props: InputProps) => ReactElement
   value?: string
 }
 
@@ -95,7 +93,7 @@ const HashInput: FC<HashInputProps> = ({
       {renderInput ? (
         renderInput({ value: input, onChange: handleChange, ...restProps })
       ) : (
-        <input
+        <chakra.input
           data-testid="hash-input"
           onChange={handleChange}
           type="search"

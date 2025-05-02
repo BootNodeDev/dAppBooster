@@ -1,91 +1,44 @@
-import type { FC, HTMLAttributes } from 'react'
-import styled from 'styled-components'
-
-import { SkeletonLoading } from '@bootnodedev/db-ui-toolkit'
-
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import AddERC20TokenButton from '@/src/components/sharedComponents/TokenSelect/List/AddERC20TokenButton'
-import TokenBalance, {
-  Balance,
-  Value,
-} from '@/src/components/sharedComponents/TokenSelect/List/TokenBalance'
+import TokenBalance from '@/src/components/sharedComponents/TokenSelect/List/TokenBalance'
 import type { Token } from '@/src/types/token'
+import { Box, Flex, type FlexProps, Skeleton } from '@chakra-ui/react'
+import type { FC } from 'react'
 
-const Name = styled.div.attrs(({ className = 'tokenSelectRowName' }) => {
-  return { className }
-})`
-  color: var(--theme-token-select-row-token-name-color, #2e3048);
-  font-size: 1.8rem;
-  font-weight: 500;
-  line-height: 1.2;
-`
+const Icon: FC<{ size: number } & FlexProps> = ({ size, children, ...restProps }) => (
+  <Flex
+    alignItems="center"
+    borderRadius="50%"
+    height={`${size}px`}
+    justifyContent="center"
+    overflow="hidden"
+    width={`${size}px"`}
+    {...restProps}
+  >
+    {children}
+  </Flex>
+)
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectListRow', tabIndex = 0 }) => {
-  return {
-    tabIndex,
-    className,
-  }
-})`
-  align-items: center;
-  background-color: var(--theme-token-select-row-background-color, transparent);
-  column-gap: var(--base-gap-xl, 16px);
-  cursor: pointer;
-  display: flex;
-  height: 100%;
-  padding-left: calc(var(--base-common-padding-xl, 16px) + var(--base-common-padding, 8px));
-  padding-right: calc(var(--base-common-padding-xl, 16px) + var(--base-common-padding, 8px));
-  transition: background-color var(--base-transition-duration-sm, 0.2s) ease-in-out;
-  width: 100%;
+const BalanceLoading: FC<FlexProps> = ({ ...restProps }) => (
+  <Flex
+    alignItems="flex-end"
+    display="flex"
+    flexDirection="column"
+    rowGap={1}
+    {...restProps}
+  >
+    <Skeleton
+      height="19px"
+      width="50px"
+    />
+    <Skeleton
+      height="14px"
+      width="50px"
+    />
+  </Flex>
+)
 
-  &:hover {
-    background-color: var(--theme-token-select-row-background-color-hover, rgb(0 0 0 / 5%));
-
-    ${Name} {
-      color: var(
-        --theme-token-select-row-token-name-color-hover,
-        var(--theme-token-select-row-token-name-color, #2e3048)
-      );
-    }
-
-    ${Balance} {
-      color: var(
-        --theme-token-select-row-token-balance-color-hover,
-        var(--theme-token-select-row-token-balance-color, #2e3048)
-      );
-    }
-
-    ${Value} {
-      color: var(
-        --theme-token-select-row-token-value-color-hover,
-        var(--theme-token-select-row-token-value-color, #2e3048)
-      );
-    }
-  }
-
-  &:active {
-    opacity: 0.8;
-  }
-`
-
-const RightColumn = styled.div`
-  margin-left: auto;
-`
-
-const Icon = styled.div.attrs<{ size: number }>(({ className = 'tokenSelectRowIcon' }) => {
-  return {
-    className,
-  }
-})`
-  align-items: center;
-  border-radius: 50%;
-  display: flex;
-  height: ${({ size }) => size}px;
-  justify-content: center;
-  overflow: hidden;
-  width: ${({ size }) => size}px;
-`
-
-interface TokenSelectRowProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
+interface TokenSelectRowProps extends Omit<FlexProps, 'onClick'> {
   iconSize: number
   isLoadingBalances?: boolean
   onClick: (token: Token) => void
@@ -93,22 +46,6 @@ interface TokenSelectRowProps extends Omit<HTMLAttributes<HTMLDivElement>, 'onCl
   showBalance?: boolean
   token: Token
 }
-
-const BalanceLoading = styled.div.attrs(() => {
-  return {
-    children: (
-      <>
-        <SkeletonLoading style={{ height: '19px', width: '50px' }} />
-        <SkeletonLoading style={{ height: '14px', width: '50px' }} />
-      </>
-    ),
-  }
-})`
-  display: flex;
-  flex-direction: column;
-  row-gap: var(--base-gap-sm, 4px);
-  align-items: flex-end;
-`
 
 /**
  * A row in the token select list.
@@ -133,7 +70,22 @@ const Row: FC<TokenSelectRowProps> = ({
   const { name } = token
 
   return (
-    <Wrapper
+    <Flex
+      alignItems="center"
+      backgroundColor="var(--row-background-color)"
+      columnGap={4}
+      cursor="pointer"
+      height="100%"
+      paddingLeft={6}
+      paddingRight={6}
+      transition="background-color {durations.moderate} ease-in-out"
+      width="100%"
+      _hover={{
+        backgroundColor: 'var(--row-background-color-hover)',
+      }}
+      _active={{
+        opacity: 0.8,
+      }}
       onClick={() => onClick(token)}
       {...restProps}
     >
@@ -143,18 +95,28 @@ const Row: FC<TokenSelectRowProps> = ({
           token={token}
         />
       </Icon>
-      <Name>{name}</Name>
+      <Box
+        color="var(--row-token-name-color)"
+        fontSize="18px"
+        fontWeight="500"
+        lineHeight="1.2"
+        _groupHover={{
+          color: 'var(--row-token-name-color-hover, var(--row-token-name-color)',
+        }}
+      >
+        {name}
+      </Box>
       {showAddTokenButton && <AddERC20TokenButton $token={token}>Add token</AddERC20TokenButton>}
       {showBalance && (
-        <RightColumn>
+        <Box marginLeft="auto">
           <TokenBalance
             isLoading={isLoadingBalances}
             suspenseFallback={<BalanceLoading />}
             token={token}
           />
-        </RightColumn>
+        </Box>
       )}
-    </Wrapper>
+    </Flex>
   )
 }
 

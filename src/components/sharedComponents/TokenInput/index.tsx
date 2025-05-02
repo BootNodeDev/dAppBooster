@@ -1,11 +1,3 @@
-import { type ComponentPropsWithoutRef, type FC, useMemo } from 'react'
-import styled from 'styled-components'
-
-import { Spinner } from '@bootnodedev/db-ui-toolkit'
-import { Modal, useModal } from '@faceless-ui/modal'
-import { type NumberFormatValues, NumericFormat } from 'react-number-format'
-import { formatUnits } from 'viem'
-
 import {
   BigNumberInput,
   type BigNumberInputProps,
@@ -29,14 +21,14 @@ import {
 } from '@/src/components/sharedComponents/TokenInput/Components'
 import type { UseTokenInputReturnType } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
-import BaseTokenSelect, {
-  type TokenSelectProps,
-} from '@/src/components/sharedComponents/TokenSelect'
+import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
+import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import type { Token } from '@/src/types/token'
-
-const TokenSelect = styled(BaseTokenSelect)`
-  position: relative;
-`
+import { Dialog, type FlexProps, Portal } from '@chakra-ui/react'
+import { type FC, useMemo, useState } from 'react'
+import { type NumberFormatValues, NumericFormat } from 'react-number-format'
+import { formatUnits } from 'viem'
+import styles from './styles'
 
 interface TokenInputProps extends Omit<TokenSelectProps, 'onTokenSelect'> {
   singleToken?: boolean
@@ -46,7 +38,7 @@ interface TokenInputProps extends Omit<TokenSelectProps, 'onTokenSelect'> {
 }
 
 /** @ignore */
-type Props = ComponentPropsWithoutRef<'div'> & TokenInputProps
+type Props = FlexProps & TokenInputProps
 
 /**
  * TokenInput component allows users to input token amounts and select tokens from a list.
@@ -65,62 +57,11 @@ type Props = ComponentPropsWithoutRef<'div'> & TokenInputProps
  * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
  * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
  * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
- *
- * @remarks
- * Individual CSS classes are available for deep styling of individual components within TokenSelect:
- *
- * Also theme CSS vars are available for cosmetic changes:
- *
- * Main wrapper:
- * * --theme-token-input-background
- * * --base-token-input-border-radius
- * * --base-token-input-padding
- * * --base-token-input-gap
- *
- * Title
- * * --theme-token-input-title-color
- *
- * Textfield:
- * * --theme-token-input-textfield-background-color
- * * --theme-token-input-textfield-background-color-active
- * * --theme-token-input-textfield-border-color
- * * --theme-token-input-textfield-border-color-active
- * * --theme-token-input-textfield-color
- * * --theme-token-input-textfield-color-active
- * * --theme-token-input-textfield-placeholder-color
- * * --base-token-input-texfield-height
- * * --base-token-input-texfield-font-size
- *
- * Dropdown button:
- * * --theme-token-input-dropdown-button-background-color
- * * --theme-token-input-dropdown-button-background-color-hover
- * * --theme-token-input-dropdown-button-border-color
- * * --theme-token-input-dropdown-button-border-color-hover
- * * --theme-token-input-dropdown-button-border-color-active
- * * --theme-token-input-dropdown-button-color
- * * --theme-token-input-dropdown-button-color-hover
- * * --base-token-input-dropdown-button-padding
- * * --base-token-input-texfield-padding
- *
- * Max Button:
- * * --theme-token-input-max-button-background-color
- * * --theme-token-input-max-button-background-color-hover
- * * --theme-token-input-max-button-border-color
- * * --theme-token-input-max-button-border-color-hover
- * * --theme-token-input-max-button-border-color-active
- * * --theme-token-input-max-button-color
- * * --theme-token-input-max-button-color-hover
- *
- * Estimated USD Value
- * * --theme-token-input-estimated-usd-color
- *
- * Balance
- * *--theme-token-input-balance-color
- *
  */
 const TokenInput: FC<Props> = ({
   containerHeight,
   currentNetworkId,
+  css,
   iconSize,
   itemHeight,
   networks,
@@ -133,7 +74,8 @@ const TokenInput: FC<Props> = ({
   title,
   tokenInput,
   ...restProps
-}) => {
+}: Props) => {
+  const [isOpen, setIsOpen] = useState(false)
   const {
     amount,
     amountError,
@@ -146,8 +88,6 @@ const TokenInput: FC<Props> = ({
     setTokenSelected,
   } = tokenInput
 
-  const { closeModal, openModal } = useModal()
-
   const max = useMemo(
     () => (balance && selectedToken ? balance : BigInt(0)),
     [balance, selectedToken],
@@ -158,7 +98,7 @@ const TokenInput: FC<Props> = ({
   const handleSelectedToken = (token: Token | undefined) => {
     setAmount(BigInt(0))
     setTokenSelected(token)
-    closeModal('token-select')
+    setIsOpen(false)
   }
 
   const handleSetMax = () => {
@@ -167,14 +107,6 @@ const TokenInput: FC<Props> = ({
 
   const handleError: BigNumberInputProps['onError'] = (error) => {
     setAmountError(error?.message)
-  }
-
-  const showTokenSelect = () => {
-    openModal('token-select')
-  }
-
-  if (singleToken && !selectedToken) {
-    return <div>When single token is true, a token is required.</div>
   }
 
   const CurrentToken = () =>
@@ -192,9 +124,17 @@ const TokenInput: FC<Props> = ({
       'Select'
     )
 
-  return (
-    <>
-      <Wrapper {...restProps}>
+  return singleToken && !selectedToken ? (
+    <div>When single token is true, a token is required.</div>
+  ) : (
+    <Dialog.Root
+      open={isOpen}
+      onOpenChange={(state) => setIsOpen(state.open)}
+    >
+      <Wrapper
+        css={{ ...css, ...styles }}
+        {...restProps}
+      >
         {title && <Title>{title}</Title>}
         <TopRow>
           <BigNumberInput
@@ -218,9 +158,11 @@ const TokenInput: FC<Props> = ({
               <CurrentToken />
             </SingleToken>
           ) : (
-            <DropdownButton onClick={showTokenSelect}>
-              <CurrentToken />
-            </DropdownButton>
+            <Dialog.Trigger asChild>
+              <DropdownButton>
+                <CurrentToken />
+              </DropdownButton>
+            </Dialog.Trigger>
           )}
         </TopRow>
         <BottomRow>
@@ -229,10 +171,7 @@ const TokenInput: FC<Props> = ({
             <BalanceValue>
               {balanceError && 'Error...'}
               {isLoadingBalance ? (
-                <Spinner
-                  height={20}
-                  width={20}
-                />
+                <Spinner size="sm" />
               ) : (
                 `Balance: ${formatUnits(balance ?? 0n, selectedToken?.decimals ?? 0)}`
               )}
@@ -247,23 +186,28 @@ const TokenInput: FC<Props> = ({
         </BottomRow>
         {amountError && <ErrorComponent>{amountError}</ErrorComponent>}
       </Wrapper>
-      <Modal slug="token-select">
-        <TokenSelect
-          containerHeight={containerHeight}
-          currentNetworkId={currentNetworkId}
-          iconSize={iconSize}
-          itemHeight={itemHeight}
-          networks={networks}
-          onTokenSelect={handleSelectedToken}
-          placeholder={placeholder}
-          showAddTokenButton={showAddTokenButton}
-          showBalance={showBalance}
-          showTopTokens={showTopTokens}
-        >
-          <CloseButton onClick={() => closeModal('token-select')} />
-        </TokenSelect>
-      </Modal>
-    </>
+      <Portal>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content>
+            <TokenSelect
+              containerHeight={containerHeight}
+              currentNetworkId={currentNetworkId}
+              iconSize={iconSize}
+              itemHeight={itemHeight}
+              networks={networks}
+              onTokenSelect={handleSelectedToken}
+              placeholder={placeholder}
+              showAddTokenButton={showAddTokenButton}
+              showBalance={showBalance}
+              showTopTokens={showTopTokens}
+            >
+              <CloseButton onClick={() => setIsOpen(false)} />
+            </TokenSelect>
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Portal>
+    </Dialog.Root>
   )
 }
 
@@ -278,10 +222,10 @@ function TokenAmountField({
   renderInputProps: RenderInputProps
   thousandSeparator: boolean
 }) {
-  const { inputRef, onChange, ...restProps } = renderInputProps
+  const { onChange, inputRef, ...restProps } = renderInputProps
 
   const isAllowed = ({ value }: NumberFormatValues) => {
-    const [, inputDecimals] = value.toString().split('.')
+    const [inputDecimals] = value.toString().split('.')
 
     if (!inputDecimals) {
       return true
@@ -294,12 +238,10 @@ function TokenAmountField({
     <NumericFormat
       $status={amountError ? 'error' : undefined}
       customInput={Textfield}
-      getInputRef={inputRef}
       isAllowed={isAllowed}
       onValueChange={({ value }) => onChange?.(value)}
       thousandSeparator={thousandSeparator}
-      // NumericFormat has defaultValue prop overwritten and is not compatible with the standard
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // biome-ignore lint/suspicious/noExplicitAny: NumericFormat has defaultValue prop overwritten and is not compatible with the standard
       {...(restProps as any)}
     />
   )

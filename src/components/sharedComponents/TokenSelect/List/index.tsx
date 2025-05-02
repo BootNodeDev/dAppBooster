@@ -1,32 +1,10 @@
-import type { ComponentProps, FC } from 'react'
-import styled from 'styled-components'
-
 import Row from '@/src/components/sharedComponents/TokenSelect/List/Row'
 import VirtualizedList from '@/src/components/sharedComponents/TokenSelect/List/VirtualizedList'
 import type { Token, Tokens } from '@/src/types/token'
+import { Flex, type FlexProps } from '@chakra-ui/react'
+import type { FC } from 'react'
 
-const Wrapper = styled.div.attrs<{ $containerHeight?: number }>(
-  ({ className = 'tokenSelectList' }) => ({
-    className,
-  }),
-)`
-  border-top: 1px solid var(--theme-token-select-list-border-top-color, #e2e0e7);
-  display: flex;
-  min-height: ${({ $containerHeight }) => `${$containerHeight}px`};
-  width: 100%;
-`
-
-const NoTokens = styled.div`
-  align-items: center;
-  background-color: var(--theme-token-select-row-background-color, transparent);
-  display: flex;
-  justify-content: center;
-  padding: var(--base-common-padding-xl, 16px);
-  transition: background-color var(--base-transition-duration-sm, 0.2s) ease-in-out;
-  width: 100%;
-`
-
-interface TokenSelectListProps extends ComponentProps<'div'> {
+interface TokenSelectListProps extends FlexProps {
   containerHeight: number
   iconSize: number
   isLoadingBalances: boolean
@@ -63,9 +41,11 @@ const List: FC<TokenSelectListProps> = ({
   ...restProps
 }) => {
   return (
-    <Wrapper
-      $containerHeight={containerHeight}
+    <Flex
+      borderTop="1px solid var(--list-border-top-color)"
       className={`${className ? className : ''}`.trim()}
+      minHeight={`${containerHeight}px`}
+      width="100%"
     >
       {tokenList?.length ? (
         <VirtualizedList<Token>
@@ -86,9 +66,18 @@ const List: FC<TokenSelectListProps> = ({
           {...restProps}
         />
       ) : (
-        <NoTokens>Nothing to show</NoTokens>
+        <Flex
+          alignItems="center"
+          backgroundColor="var(--row-background-color)"
+          justifyContent="center"
+          padding={4}
+          transition="background-color {durations.moderate} ease-in-out"
+          width="100%"
+        >
+          No tokens
+        </Flex>
       )}
-    </Wrapper>
+    </Flex>
   )
 }
 

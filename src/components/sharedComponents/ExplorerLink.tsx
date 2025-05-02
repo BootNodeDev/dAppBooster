@@ -1,8 +1,8 @@
-import type { ComponentProps, FC } from 'react'
-
 import { type GetExplorerUrlParams, getExplorerLink } from '@/src/utils/getExplorerLink'
+import { type LinkProps, chakra } from '@chakra-ui/react'
+import type { FC } from 'react'
 
-interface ExplorerLinkProps extends GetExplorerUrlParams, ComponentProps<'a'> {
+interface ExplorerLinkProps extends GetExplorerUrlParams, LinkProps {
   text?: string
 }
 
@@ -25,12 +25,12 @@ interface ExplorerLinkProps extends GetExplorerUrlParams, ComponentProps<'a'> {
  */
 export const ExplorerLink: FC<ExplorerLinkProps> = ({ text = 'View on explorer', ...props }) => {
   return (
-    <a
+    <chakra.a
       href={getExplorerLink(props)}
       rel="noopener noreferrer"
       target="_blank"
     >
       {text}
-    </a>
+    </chakra.a>
   )
 }

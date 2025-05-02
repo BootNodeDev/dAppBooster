@@ -1,16 +1,6 @@
+import { Box } from '@chakra-ui/react'
 import type { ComponentProps, FC } from 'react'
-import styled from 'styled-components'
-
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
-
-const ImageWrapper = styled.div<{
-  size: number
-}>`
-  border-radius: 50%;
-  height: ${(props) => `${props.size}px`};
-  overflow: hidden;
-  width: ${(props) => `${props.size}px`};
-`
 
 interface AvatarProps extends ComponentProps<'div'> {
   address: string
@@ -45,7 +35,12 @@ interface AvatarProps extends ComponentProps<'div'> {
 
 const Avatar: FC<AvatarProps> = ({ address, ensImage, ensName, size = 100 }) => {
   return (
-    <ImageWrapper size={size}>
+    <Box
+      borderRadius="50%"
+      height={`${size}px`}
+      overflow="hidden"
+      width={`${size}px`}
+    >
       {ensImage ? (
         <img
           alt={ensName ?? address}
@@ -60,7 +55,7 @@ const Avatar: FC<AvatarProps> = ({ address, ensImage, ensName, size = 100 }) => 
           seed={jsNumberForAddress(address)}
         />
       )}
-    </ImageWrapper>
+    </Box>
   )
 }
 

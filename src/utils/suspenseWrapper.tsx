@@ -1,10 +1,10 @@
-import { type ComponentType, type JSX, type ReactNode, Suspense } from 'react'
-
-import { GeneralMessageDialog, Spinner } from '@bootnodedev/db-ui-toolkit'
+import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
+import { Spinner } from '@chakra-ui/react'
+import { Dialog, Portal } from '@chakra-ui/react'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import { type ComponentType, type JSX, type ReactNode, Suspense } from 'react'
 import { ErrorBoundary, type ErrorBoundaryPropsWithRender } from 'react-error-boundary'
-
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
 
 export type DefaultFallbackFormat = 'dialog' | 'default'
 
@@ -17,8 +17,8 @@ export type WithSuspenseProps = {
 // eslint-disable-next-line react-refresh/only-export-components
 const DefaultFallback = (): JSX.Element => (
   <Spinner
-    height="40"
-    width="40"
+    color="var(--theme-spinner-color)"
+    size="lg"
   />
 )
 
@@ -44,7 +44,21 @@ export const withSuspense = <WrappedProps extends object>(
 
     const fallbackRenderers = {
       default: <>{errorMessage}</>,
-      dialog: <GeneralMessageDialog message={<span>{errorMessage}</span>} />,
+      dialog: (
+        <Dialog.Root
+          open
+          size="xs"
+        >
+          <Portal>
+            <Dialog.Backdrop />
+            <Dialog.Positioner>
+              <Dialog.Content>
+                <GeneralMessage message={<span>{errorMessage}</span>} />
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Portal>
+        </Dialog.Root>
+      ),
     }
 
     const fallback = fallbackRenderers[defaultFallbackFormat] ?? null
@@ -59,6 +73,11 @@ export const withSuspense = <WrappedProps extends object>(
   }
 }
 
+interface ErrorBoundaryPropsWithRenderProps {
+  error: Error
+  resetErrorBoundary: () => void
+}
+
 /**
  * Default fallback render for ErrorBoundary
  *
@@ -69,18 +88,10 @@ export const withSuspense = <WrappedProps extends object>(
 const defaultFallbackRender: ErrorBoundaryPropsWithRender['fallbackRender'] = ({
   error,
   resetErrorBoundary,
-}: {
-  error: Error
-  resetErrorBoundary: () => void
-}) => (
+}: ErrorBoundaryPropsWithRenderProps): ReactNode => (
   <>
-    {error.message}{' '}
-    <button
-      type="button"
-      onClick={resetErrorBoundary}
-    >
-      Try Again
-    </button>
+    <div>{error.message}</div>
+    <PrimaryButton onClick={resetErrorBoundary}>Try Again</PrimaryButton>
   </>
 )
 
@@ -91,17 +102,27 @@ const defaultFallbackRender: ErrorBoundaryPropsWithRender['fallbackRender'] = ({
  * @param {Function} resetErrorBoundary - a function to reset the error boundary
  * @returns {ReactNode}
  */
+
 const defaultFallbackRenderDialog: ErrorBoundaryPropsWithRender['fallbackRender'] = ({
   error,
   resetErrorBoundary,
-}: {
-  error: Error
-  resetErrorBoundary: () => void
-}) => (
-  <GeneralMessageDialog
-    actionButton={<PrimaryButton onClick={resetErrorBoundary}>Try again</PrimaryButton>}
-    message={error.message}
-  />
+}: ErrorBoundaryPropsWithRenderProps): ReactNode => (
+  <Dialog.Root
+    open
+    size="xs"
+  >
+    <Portal>
+      <Dialog.Backdrop />
+      <Dialog.Positioner>
+        <Dialog.Content>
+          <GeneralMessage
+            actionButton={<PrimaryButton onClick={resetErrorBoundary}>Try again</PrimaryButton>}
+            message={error.message}
+          />
+        </Dialog.Content>
+      </Dialog.Positioner>
+    </Portal>
+  </Dialog.Root>
 )
 
 export type WithSuspenseAndRetryProps = {

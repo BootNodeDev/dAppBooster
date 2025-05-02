@@ -1,76 +1,11 @@
-import type { ButtonHTMLAttributes, FC } from 'react'
-import styled from 'styled-components'
-
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import type { Token } from '@/src/types/token'
+import { Box, Flex, chakra } from '@chakra-ui/react'
+import type { ComponentPropsWithoutRef, FC } from 'react'
 
 const ICON_SIZE = 24
 
-const SymbolComponent = styled.div.attrs(({ className = 'tokenSelectTopTokenItemSymbol' }) => {
-  return {
-    className,
-  }
-})`
-  color: var(--theme-token-select-top-token-item-color, #2e3048);
-  font-size: 1.8rem;
-  font-weight: 500;
-  line-height: 1.2;
-`
-
-const Wrapper = styled.button.attrs(({ className = 'tokenSelectTopTokenItem', tabIndex = 0 }) => {
-  return {
-    className,
-    tabIndex,
-  }
-})`
-  align-items: center;
-  background-color: var(--theme-token-select-top-token-item-background-color, #fff);
-  border-radius: var(--base-border-radius, 8px);
-  border: 1px solid var(--theme-token-select-top-token-item-border-color, #e2e0e7);
-  column-gap: var(--base-gap, 8px);
-  cursor: pointer;
-  display: grid;
-  grid-template-columns: ${ICON_SIZE}px 1fr;
-  height: 41px;
-  padding: 0 var(--base-common-padding-xl, 16px);
-  transition: background-color var(--base-transition-duration-sm, 0.2s) ease-in-out;
-
-  &:hover {
-    background-color: var(
-      --theme-token-select-top-token-item-background-color-hover,
-      rgb(0 0 0 / 5%)
-    );
-    border-color: var(
-      --theme-token-select-top-token-item-border-color-hover,
-      var(--theme-token-select-top-token-item-border-color, #e2e0e7)
-    );
-
-    ${SymbolComponent} {
-      color: var(
-        --theme-token-select-top-token-item-color-hover,
-        var(--theme-token-select-top-token-item-color, #2e3048)
-      );
-    }
-  }
-
-  &:active {
-    opacity: 0.8;
-  }
-`
-
-const Icon = styled.div.attrs(({ className = 'tokenSelectTopTokenItemIcon' }) => {
-  return { className }
-})`
-  align-items: center;
-  border-radius: 50%;
-  display: flex;
-  height: ${ICON_SIZE}px;
-  justify-content: center;
-  overflow: hidden;
-  width: ${ICON_SIZE}px;
-`
-
-interface ItemProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ItemProps extends ComponentPropsWithoutRef<'button'> {
   token: Token
 }
 
@@ -83,15 +18,54 @@ const Item: FC<ItemProps> = ({ token, ...restProps }) => {
   const { symbol } = token
 
   return (
-    <Wrapper {...restProps}>
-      <Icon>
+    <chakra.button
+      alignItems="center"
+      backgroundColor="var(--top-token-item-background-color)"
+      border="1px solid var(--top-token-item-border-color)"
+      borderRadius={8}
+      columnGap={2}
+      cursor="pointer"
+      display="grid"
+      gridTemplateColumns={`${ICON_SIZE}px 1fr`}
+      height="41px"
+      paddingX={4}
+      paddingY={0}
+      transition="background-color {durations.moderate} ease-in-out"
+      _hover={{
+        backgroundColor: 'var(--top-token-item-background-color-hover)',
+        borderColor: 'var(--top-token-item-border-color-hover, var(--top-token-item-border-color))',
+      }}
+      _active={{
+        opacity: 0.8,
+      }}
+      {...restProps}
+    >
+      <Flex
+        alignItems="center"
+        borderRadius="50%"
+        display="flex"
+        height={`${ICON_SIZE}px`}
+        justifyContent="center"
+        overflow="hidden"
+        width={`${ICON_SIZE}px"`}
+      >
         <TokenLogo
           size={ICON_SIZE}
           token={token}
         />
-      </Icon>
-      <SymbolComponent>{symbol}</SymbolComponent>
-    </Wrapper>
+      </Flex>
+      <Box
+        color="var(--top-token-item-color)"
+        fontSize="18px"
+        fontWeight="500"
+        lineHeight="1.2"
+        _groupHover={{
+          color: 'var(--top-token-item-color-hover, var(--top-token-item-color)',
+        }}
+      >
+        {symbol}
+      </Box>
+    </chakra.button>
   )
 }
 

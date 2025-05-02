@@ -1,18 +1,16 @@
+import { type InputProps, chakra } from '@chakra-ui/react'
 import {
   type ChangeEvent,
-  type ComponentProps,
   type FC,
   type ReactElement,
   type RefObject,
   useEffect,
   useRef,
 } from 'react'
-
 import { formatUnits, maxUint256, parseUnits } from 'viem'
-
-export type RenderInputProps = Omit<ComponentProps<'input'>, 'onChange'> & {
+export type RenderInputProps = Omit<InputProps, 'onChange'> & {
   onChange: (event: ChangeEvent<HTMLInputElement> | string) => void
-  inputRef: RefObject<HTMLInputElement>
+  inputRef: RefObject<HTMLInputElement | null>
 }
 
 export type BigNumberInputProps = {
@@ -130,7 +128,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   return renderInput ? (
     renderInput({ ...inputProps, inputRef })
   ) : (
-    <input
+    <chakra.input
       {...inputProps}
       ref={inputRef}
     />

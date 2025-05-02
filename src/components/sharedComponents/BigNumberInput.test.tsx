@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom'
 import { render, screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
+import type { DetailedHTMLProps, InputHTMLAttributes } from 'react'
 import { parseUnits } from 'viem'
 import { describe, expect, it, vi } from 'vitest'
 
@@ -124,7 +125,7 @@ describe('BigNumberInput', () => {
       <input
         data-testid="custom-input"
         ref={inputRef}
-        {...props}
+        {...(props as DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>)}
       />
     )
     setup({ renderInput: customRenderInput })

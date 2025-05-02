@@ -6,8 +6,10 @@ import {
   erc20Abi,
   isAddress,
 } from 'viem'
-import { mainnet, polygon, sepolia } from 'viem/chains'
+import { mainnet, optimismSepolia, polygon, sepolia } from 'viem/chains'
 
+import { AAVEWethABI } from '@/src/constants/contracts/abis/AAVEWeth'
+import { AaveFaucetABI } from '@/src/constants/contracts/abis/AaveFaucet'
 import { ENSRegistryABI } from '@/src/constants/contracts/abis/ENSRegistry'
 import { OPL1CrossDomainMessengerProxyABI } from '@/src/constants/contracts/abis/OPL1CrossDomainMessengerProxy'
 import type { ChainsIds } from '@/src/lib/networks.config'
@@ -45,6 +47,21 @@ const contracts = [
       [sepolia.id]: '0x0667161579ce7e84EF2b7333f9F93375a627799B',
     },
     name: 'EnsRegistry',
+  },
+  {
+    abi: AaveFaucetABI,
+    address: {
+      11155111: '0xc959483dba39aa9e78757139af0e9a2edeb3f42d',
+      1: '0x0000000000000000000000000000000000000000',
+    },
+    name: 'AaveFaucet',
+  },
+  {
+    abi: AAVEWethABI,
+    address: {
+      [optimismSepolia.id]: '0x589750BA8aF186cE5B55391B0b7148cAD43a1619',
+    },
+    name: 'AAVEWeth',
   },
   {
     abi: OPL1CrossDomainMessengerProxyABI,
