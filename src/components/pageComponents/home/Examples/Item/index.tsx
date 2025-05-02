@@ -1,3 +1,4 @@
+import DemoButton from '@/src/components/pageComponents/home/Examples/Item/buttons/DemoButton'
 import DocumentationButton from '@/src/components/pageComponents/home/Examples/Item/buttons/DocumentationButton'
 import SourceCodeButton from '@/src/components/pageComponents/home/Examples/Item/buttons/SourceCodeButton'
 import { Flex, type FlexProps, Heading, Text } from '@chakra-ui/react'
@@ -103,6 +104,7 @@ const Item: FC<Props> = ({
             target="_blank"
           />
         )}
+        <DemoButton />
       </Flex>
     </Flex>
   )

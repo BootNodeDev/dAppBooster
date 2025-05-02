@@ -11,7 +11,7 @@ const List: FC<Props> = ({ items, ...restProps }) => {
     <Grid
       minWidth="0"
       gap={6}
-      templateColumns={{ base: '1fr', md: '1fr 1fr', lg: '1fr 1fr 1fr' }}
+      templateColumns={{ base: '1fr', lg: '1fr 1fr', xl: '1fr 1fr 1fr' }}
       w="100%"
       {...restProps}
     >
