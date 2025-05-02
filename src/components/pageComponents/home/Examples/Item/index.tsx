@@ -1,9 +1,8 @@
-import Badge from '@/src/components/pageComponents/home/Examples/Item/Badge'
-import DocumentationButton from '@/src/components/pageComponents/home/Examples/Item/DocumentationButton'
-import SourceCodeButton from '@/src/components/pageComponents/home/Examples/Item/SourceCodeButton'
+import DocumentationButton from '@/src/components/pageComponents/home/Examples/Item/buttons/DocumentationButton'
+import SourceCodeButton from '@/src/components/pageComponents/home/Examples/Item/buttons/SourceCodeButton'
 import { Flex, type FlexProps, Heading, Text } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
-import styles from '../Item/styles'
+import styles from './styles'
 
 export interface Props extends FlexProps {
   demo: ReactNode
@@ -14,7 +13,16 @@ export interface Props extends FlexProps {
   title: string
 }
 
-const Item: FC<Props> = ({ css, demo, href, icon, sourceCodeHref, text, title, ...restProps }) => {
+const Item: FC<Props> = ({
+  css,
+  demo,
+  href,
+  icon,
+  sourceCodeHref,
+  text,
+  title,
+  ...restProps
+}: Props) => {
   return (
     <Flex
       backgroundColor="var(--background-color)"

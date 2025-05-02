@@ -1,5 +1,6 @@
-import { Link, type LinkProps } from '@chakra-ui/react'
+import type { LinkProps } from '@chakra-ui/react'
 import type { FC } from 'react'
+import Button from './Button'
 
 const Icon = () => (
   <svg
@@ -18,60 +19,9 @@ const Icon = () => (
 )
 
 const SourceCodeButton: FC<LinkProps> = ({ children = 'Source code', ...restProps }) => (
-  <Link
-    css={{
-      '.light &': {
-        '--theme-button-source-background-color': 'transparent',
-        '--theme-button-source-background-color-hover': 'transparent',
-        '--theme-button-source-border-color': '#e2e0e7',
-        '--theme-button-source-border-color-hover': '#4b4d60',
-        '--theme-button-source-color': '#4b4d60',
-        '--theme-button-source-color-hover': '#4b4d60',
-        '--theme-button-source-background-color-disabled': 'transparent',
-        '--theme-button-source-border-color-disabled': '#e2e0e7',
-        '--theme-button-source-color-disabled': '#4b4d60',
-      },
-      '.dark &': {
-        '--theme-button-source-background-color': 'transparent',
-        '--theme-button-source-background-color-hover': 'transparent',
-        '--theme-button-source-border-color': '#c5c2cb',
-        '--theme-button-source-border-color-hover': '#fff',
-        '--theme-button-source-color': '#c5c2cb',
-        '--theme-button-source-color-hover': '#fff',
-        '--theme-button-source-background-color-disabled': 'transparent',
-        '--theme-button-source-border-color-disabled': '#c5c2cb',
-        '--theme-button-source-color-disabled': '#c5c2cb',
-      },
-    }}
-    backgroundColor="var(--theme-button-source-background-color)"
-    borderColor="var(--theme-button-source-border-color)"
-    borderWidth={'1px'}
-    borderStyle="solid"
-    color="var(--theme-button-source-color)"
-    fontSize="14px"
-    fontWeight={500}
-    height="43px"
-    maxWidth="fit-content"
-    paddingY={0}
-    paddingX={4}
-    textDecoration="none"
-    transition="background-color {durations.moderate}, border-color {durations.moderate}, color {durations.moderate"
-    userSelect="none"
-    whiteSpace="nowrap"
-    _hover={{
-      backgroundColor: 'var(--theme-button-source-background-color-hover)',
-      borderColor: 'var(--theme-button-source-border-color-hover)',
-      color: 'var(--theme-button-source-color-hover)',
-    }}
-    _disabled={{
-      backgroundColor: 'var(--theme-button-source-background-color-disabled)',
-      borderColor: 'var(--theme-button-source-border-color-disabled)',
-      color: 'var(--theme-button-source-color-disabled)',
-    }}
-    {...restProps}
-  >
-    <Icon /> {children}
-  </Link>
+  <Button {...restProps}>
+    <Icon /> Source Code
+  </Button>
 )
 
 export default SourceCodeButton
