@@ -119,14 +119,37 @@ const Item: FC<Props> = ({
           <Portal>
             <Dialog.Backdrop />
             <Dialog.Positioner>
-              <Dialog.Content minWidth="fit-content">
+              <Dialog.Content
+                // minWidth="fit-content"
+                maxWidth="calc(100vw - 16px)"
+              >
                 <Modal
                   onClose={() => setIsModalOpen(false)}
                   text={text}
                   title={title}
                   width="632px"
                 >
-                  {demo}
+                  <Flex
+                    css={{
+                      'html.light &': {
+                        '--demo-background-color': '#F7F7F7',
+                      },
+                      'html.dark &': {
+                        '--demo-background-color': '#24263D',
+                      },
+                    }}
+                    alignItems="center"
+                    backgroundColor="var(--demo-background-color)"
+                    borderRadius="8px"
+                    flexDirection="column"
+                    height="500px"
+                    justifyContent="center"
+                    padding={5}
+                    position="relative"
+                    width="100%"
+                  >
+                    {demo}
+                  </Flex>
                 </Modal>
               </Dialog.Content>
             </Dialog.Positioner>

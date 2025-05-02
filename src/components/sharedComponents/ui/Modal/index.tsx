@@ -2,7 +2,6 @@ import {
   Card as BaseCard,
   type ButtonProps,
   type CardRootProps,
-  Flex,
   Heading,
   Text,
   chakra,
@@ -85,19 +84,7 @@ export const Modal: FC<Props> = ({ css, children, title, onClose, text, ...restP
         {title}
       </Heading>
       {onClose && <CloseButton onClick={() => onClose()} />}
-      <Flex
-        alignItems="center"
-        backgroundColor="var(--demo-background-color)"
-        borderRadius="8px"
-        flexDirection="column"
-        height="500px"
-        justifyContent="center"
-        padding={5}
-        position="relative"
-        width="100%"
-      >
-        {children ? children : 'No contents'}
-      </Flex>
+      {children ? children : 'No contents'}
       <Text
         borderRadius="md"
         color="var(--text-color)"

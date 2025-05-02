@@ -59,7 +59,7 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }: SwitchNetworkProps)
   }, [walletChainId, networks])
 
   return (
-    <Menu.Root positioning={{ placement: 'bottom-end' }}>
+    <Menu.Root positioning={{ placement: 'bottom' }}>
       <Menu.Trigger asChild>
         <DropdownButton disabled={!isWalletConnected}>
           {networkItem ? (
