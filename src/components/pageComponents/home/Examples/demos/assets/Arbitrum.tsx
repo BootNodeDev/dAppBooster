@@ -11,6 +11,7 @@ const Icon: FC<HTMLChakraProps<'svg'> & SVGAttributes<SVGSVGElement>> = ({ ...re
     xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
+    <title>Icon</title>
     <path
       d="M191.158 380.495C297.186 380.495 381.336 294.674 381.336 190.341C381.336 84.3262 295.503 0.187256 191.158 0.187256C85.1305 0.187256 0.981354 86.009 0.981354 190.341C0.981354 294.674 86.8135 380.495 191.158 380.495Z"
       fill="#2C374B"

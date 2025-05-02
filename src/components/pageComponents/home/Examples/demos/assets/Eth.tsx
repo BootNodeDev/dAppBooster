@@ -12,6 +12,7 @@ const Icon: FC<HTMLChakraProps<'svg'> & SVGAttributes<SVGSVGElement>> = ({ ...re
     xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
+    <title>Icon</title>
     <rect
       fill="#627EEA"
       height="24"

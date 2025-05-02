@@ -11,6 +11,7 @@ const CopyIcon = () => (
     width="17"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <title>Icon</title>
     <path
       d="M13.8333 6H7.83333C7.09695 6 6.5 6.59695 6.5 7.33333V13.3333C6.5 14.0697 7.09695 14.6667 7.83333 14.6667H13.8333C14.5697 14.6667 15.1667 14.0697 15.1667 13.3333V7.33333C15.1667 6.59695 14.5697 6 13.8333 6Z"
       stroke="currentColor"
@@ -36,6 +37,7 @@ const OkIcon = () => (
     width="14"
     xmlns="http://www.w3.org/2000/svg"
   >
+    <title>Icon</title>
     <path
       d="M17.5 1L6.5 12L1.5 7"
       stroke="#29BD7F"

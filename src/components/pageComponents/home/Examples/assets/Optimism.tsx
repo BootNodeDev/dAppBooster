@@ -13,6 +13,7 @@ const Icon: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
     xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
+    <title>Icon</title>
     <circle
       cx="250"
       cy="250"

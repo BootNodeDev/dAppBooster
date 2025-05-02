@@ -87,7 +87,6 @@ const Row: FC<TokenSelectRowProps> = ({
         opacity: 0.8,
       }}
       onClick={() => onClick(token)}
-      role="group"
       {...restProps}
     >
       <Icon size={iconSize}>

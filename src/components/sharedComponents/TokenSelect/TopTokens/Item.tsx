@@ -38,7 +38,6 @@ const Item: FC<ItemProps> = ({ token, ...restProps }) => {
       _active={{
         opacity: 0.8,
       }}
-      role="group"
       {...restProps}
     >
       <Flex

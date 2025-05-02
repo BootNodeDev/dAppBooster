@@ -21,6 +21,7 @@ const Dark: FC<HTMLChakraProps<'svg'> & SVGAttributes<SVGSVGElement>> = ({ css, 
     xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
+    <title>Icon</title>
     <path
       className="path"
       clipRule="evenodd"

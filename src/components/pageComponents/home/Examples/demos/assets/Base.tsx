@@ -11,6 +11,7 @@ const Icon: FC<HTMLChakraProps<'svg'> & SVGAttributes<SVGSVGElement>> = ({ ...re
     width="24px"
     {...restProps}
   >
+    <title>Icon</title>
     <circle
       cx="73"
       cy="73"

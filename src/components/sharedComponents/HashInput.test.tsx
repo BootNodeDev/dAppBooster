@@ -18,7 +18,6 @@ describe('HashInput Component', () => {
     render(
       <HashInput
         chain={mainnet}
-        // biome-ignore lint/suspicious/noEmptyBlockStatements: <explanation>
         onSearch={() => {}}
       />,
     )
