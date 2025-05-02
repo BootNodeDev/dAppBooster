@@ -17,7 +17,6 @@ const Button: FC<LinkProps> = ({ css, children, ...restProps }) => (
     fontSize="14px"
     fontWeight={500}
     height="43px"
-    maxWidth="fit-content"
     paddingY={0}
     paddingX={3}
     textDecoration="none"

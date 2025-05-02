@@ -90,8 +90,9 @@ const Item: FC<Props> = ({
         {text}
       </Text>
       <Flex
+        flexDirection={{ base: 'column', md: 'row' }}
+        gap={2}
         marginTop="auto"
-        columnGap={2}
         paddingTop={6}
       >
         {href && (

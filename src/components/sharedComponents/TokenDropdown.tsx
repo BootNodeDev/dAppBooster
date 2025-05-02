@@ -3,7 +3,7 @@ import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedCompo
 import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
 import { MenuContent } from '@/src/components/sharedComponents/ui/Menu'
 import type { Token } from '@/src/types/token'
-import { Flex, Menu, Portal } from '@chakra-ui/react'
+import { Flex, Menu } from '@chakra-ui/react'
 import type { ComponentPropsWithoutRef, FC } from 'react'
 import { useState } from 'react'
 
