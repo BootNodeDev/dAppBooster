@@ -23,10 +23,11 @@ import TokenInputDemo from '@/src/components/pageComponents/home/Examples/demos/
 import TransactionButtonDemo from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo'
 import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import { ConnectWalletButton as ConnectWalletButtonDemo } from '@/src/providers/Web3Provider'
-import { Box } from '@chakra-ui/react'
-import type { FC, HTMLAttributes } from 'react'
+import { Box, type BoxProps, Flex, Heading, Text, chakra } from '@chakra-ui/react'
+import type { FC } from 'react'
+import styles from './styles'
 
-const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
+const Examples: FC<BoxProps> = ({ css, ...restProps }) => {
   const items: ItemProps[] = [
     {
       demo: <ConnectWalletButtonDemo />,
@@ -200,25 +201,53 @@ const Examples: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
 
   return (
     <Box
+      flexDirection="column"
+      backgroundColor="var(--background-color)"
       css={{
-        '.light &': {
-          '--landing-page-main-background-color': '#f7f7f7',
-        },
-        '.dark &': {
-          '--landing-page-main-background-color': '#2e3048',
-        },
+        ...styles,
+        ...css,
       }}
       id="examples"
-      backgroundColor="var(--landing-page-main-background-color)"
-      flexGrow={1}
+      paddingBottom={{ base: '50px', lg: '130px' }}
+      paddingTop={{ base: '50px', lg: '130px' }}
       {...restProps}
     >
       <Inner
-        alignItems="center"
         flexDirection="column"
-        paddingBottom={{ base: '50px', lg: '100px;' }}
-        paddingTop={{ base: '50px', lg: '100px;' }}
+        rowGap={14}
       >
+        <Flex
+          gap={6}
+          flexDirection={{ base: 'column', lg: 'row' }}
+          justifyContent="space-between"
+        >
+          <Heading
+            color="var(--text-color)"
+            fontSize={{ base: '28px', lg: '36px' }}
+            fontWeight={700}
+            lineHeight={1.2}
+            textAlign={{ base: 'center', lg: 'left' }}
+          >
+            Explore dAppBooster:
+            <br />
+            Interactive Demos in Action
+          </Heading>
+          <Text
+            color="var(--text-color)"
+            fontSize="16px"
+            fontWeight={400}
+            lineHeight={1.5}
+            margin={{ base: '0 auto', lg: '0' }}
+            maxWidth={{ base: 'none', md: '80%', lg: 'none' }}
+            textAlign={{ base: 'center', lg: 'left' }}
+          >
+            Dive into interactive demos showcasing dAppBooster's powerful features. From{' '}
+            <chakra.br display={{ base: 'none', lg: 'block' }} />
+            wallet connectivity to token management, experience the tools that simplify{' '}
+            <chakra.br display={{ base: 'none', lg: 'block' }} />
+            and accelerate your Web3 development.
+          </Text>
+        </Flex>
         <List items={items} />
       </Inner>
     </Box>

@@ -16,19 +16,11 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
 const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...restProps }) => {
   return (
     <Flex
-      css={{
-        '.light &': {
-          '--theme-examples-item-background-color': '#f7f7f7',
-        },
-        '.dark &': {
-          '--theme-examples-item-background-color': '#2e3048',
-        },
-      }}
-      backgroundColor="var(--theme-examples-item-background-color)"
       borderRadius="4px"
       display="flex"
       flexDirection={{ base: 'column', lg: 'row' }}
       rowGap="20px"
+      minWidth="0"
       maxWidth="100%"
       paddingTop={{ base: 8, lg: 4 }}
       paddingBottom="16px"
@@ -108,6 +100,7 @@ const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...res
         </Flex>
       </Flex>
       <Flex
+        display="none"
         alignItems="center"
         backgroundColor="var(--theme-examples-list-background-color)"
         borderRadius="4px"
