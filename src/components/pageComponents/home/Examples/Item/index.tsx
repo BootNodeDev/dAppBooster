@@ -1,10 +1,11 @@
 import Badge from '@/src/components/pageComponents/home/Examples/Item/Badge'
 import DocumentationButton from '@/src/components/pageComponents/home/Examples/Item/DocumentationButton'
 import SourceCodeButton from '@/src/components/pageComponents/home/Examples/Item/SourceCodeButton'
-import { Flex, Heading, Text } from '@chakra-ui/react'
-import type { FC, HTMLAttributes, ReactNode } from 'react'
+import { Flex, type FlexProps, Heading, Text } from '@chakra-ui/react'
+import type { FC, ReactNode } from 'react'
+import styles from '../Item/styles'
 
-export interface Props extends HTMLAttributes<HTMLDivElement> {
+export interface Props extends FlexProps {
   demo: ReactNode
   href?: string
   icon: ReactNode
@@ -13,110 +14,87 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
   title: string
 }
 
-const Item: FC<Props> = ({ demo, href, icon, sourceCodeHref, text, title, ...restProps }) => {
+const Item: FC<Props> = ({ css, demo, href, icon, sourceCodeHref, text, title, ...restProps }) => {
   return (
     <Flex
-      borderRadius="4px"
+      backgroundColor="var(--background-color)"
+      border="1px solid var(--border-color)"
+      borderRadius="8px"
       display="flex"
-      flexDirection={{ base: 'column', lg: 'row' }}
-      rowGap="20px"
+      flexDirection="column"
+      minHeight="288px"
       minWidth="0"
       maxWidth="100%"
-      paddingTop={{ base: 8, lg: 4 }}
-      paddingBottom="16px"
-      paddingRight="16px"
-      paddingLeft={{ base: 4, lg: 8 }}
-      columnGap={{ lg: 8 }}
+      padding={6}
+      css={{
+        ...styles,
+        ...css,
+      }}
       {...restProps}
     >
       <Flex
-        alignItems={{ base: 'center', lg: 'flex-start' }}
-        display="flex"
-        flex="1"
-        flexDirection="column"
-        paddingBottom={{ lg: 0 }}
-        paddingTop={{ lg: 4 }}
-        rowGap={4}
-      >
-        <Flex
-          css={{
-            '--icon-size': '40px',
-          }}
-          alignItems="center"
-          backgroundColor="{colors.primary.default}"
-          borderRadius="50%"
-          color="#fff"
-          display="flex"
-          height="var(--icon-size)"
-          justifyContent="center"
-          width="var(--icon-size)"
-        >
-          {icon}
-        </Flex>
-        <Heading
-          as="h3"
-          color="{colors.text.default}"
-          fontSize="24px"
-          fontWeight={700}
-          lineHeight="1.2"
-          margin="0"
-          textAlign={{ base: 'center', lg: 'left' }}
-        >
-          {title}
-        </Heading>
-        <Text
-          css={{
-            '& a': {
-              color: '{colors.text.default}',
-              textDecoration: 'underline',
-              '&:hover': {
-                textDecoration: 'none',
-              },
-            },
-          }}
-          color="{colors.text.default}"
-          fontSize="16px"
-          fontWeight={500}
-          lineHeight="1.5"
-          margin="0"
-          textAlign={{ base: 'center', lg: 'left' }}
-        >
-          {text}
-        </Text>
-        <Flex columnGap={2}>
-          {href && (
-            <DocumentationButton
-              href={href}
-              target="_blank"
-            />
-          )}
-          {sourceCodeHref && (
-            <SourceCodeButton
-              as="a"
-              href={sourceCodeHref}
-              target="_blank"
-            />
-          )}
-        </Flex>
-      </Flex>
-      <Flex
-        display="none"
+        css={{
+          '--icon-size': '48px',
+        }}
         alignItems="center"
-        backgroundColor="var(--theme-examples-list-background-color)"
-        borderRadius="4px"
-        flex="1"
-        flexDirection="column"
+        border="1px solid var(--icon-border-color)"
+        borderRadius="50%"
+        color="#C670E5"
+        display="flex"
+        height="var(--icon-size)"
         justifyContent="center"
-        minHeight={{ md: '205px' }}
-        minWidth="0"
-        paddingBottom={{ base: 6, md: 6 }}
-        paddingLeft={6}
-        paddingRight={6}
-        paddingTop={{ base: 12, md: 8 }}
-        position="relative"
+        marginBottom={4}
+        width="var(--icon-size)"
       >
-        <Badge />
-        {demo}
+        {icon}
+      </Flex>
+      <Heading
+        as="h3"
+        color="var(--title-color)"
+        fontSize="18px"
+        fontWeight={700}
+        lineHeight="1.5"
+        margin={1}
+      >
+        {title}
+      </Heading>
+      <Text
+        css={{
+          '& a': {
+            color: 'var(--text-color)',
+            textDecoration: 'underline',
+            '&:hover': {
+              textDecoration: 'none',
+            },
+          },
+        }}
+        color="var(--text-color)"
+        fontSize="16px"
+        fontWeight={500}
+        lineHeight="1.6"
+        margin="0"
+        opacity="0.6"
+      >
+        {text}
+      </Text>
+      <Flex
+        marginTop="auto"
+        columnGap={2}
+        paddingTop={6}
+      >
+        {href && (
+          <DocumentationButton
+            href={href}
+            target="_blank"
+          />
+        )}
+        {sourceCodeHref && (
+          <SourceCodeButton
+            as="a"
+            href={sourceCodeHref}
+            target="_blank"
+          />
+        )}
       </Flex>
     </Flex>
   )
