@@ -1,103 +1,162 @@
-import { DarkClouds, LightClouds } from '@/src/components/pageComponents/home/Welcome/Clouds'
-import DocsButton from '@/src/components/pageComponents/home/Welcome/DocsButton'
-import Ghost from '@/src/components/pageComponents/home/Welcome/Ghost'
-import GitClone from '@/src/components/pageComponents/home/Welcome/GitClone'
-import GithubButton from '@/src/components/pageComponents/home/Welcome/GithubButton'
 import { Inner } from '@/src/components/sharedComponents/ui/Inner'
-import { Box, Flex, Heading, Text } from '@chakra-ui/react'
-import type { FC, HTMLAttributes } from 'react'
+import { type FlexProps, Heading, Link, Span, Text, chakra } from '@chakra-ui/react'
+import type { FC } from 'react'
+import styles from './styles'
 
-const Welcome: FC<HTMLAttributes<HTMLElement>> = ({ ...restProps }) => {
+const Arrow = () => (
+  <svg
+    width="16"
+    height="30"
+    viewBox="0 0 16 30"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title>Arrow icon</title>
+    <rect
+      x="0.5"
+      y="0.5"
+      width="15"
+      height="29"
+      rx="7.5"
+      stroke="currentColor"
+    />
+    <path
+      d="M8.5 12C8.5 11.7239 8.27614 11.5 8 11.5C7.72386 11.5 7.5 11.7239 7.5 12L8.5 12ZM7.64645 22.3536C7.84171 22.5488 8.15829 22.5488 8.35355 22.3536L11.5355 19.1716C11.7308 18.9763 11.7308 18.6597 11.5355 18.4645C11.3403 18.2692 11.0237 18.2692 10.8284 18.4645L8 21.2929L5.17157 18.4645C4.97631 18.2692 4.65973 18.2692 4.46447 18.4645C4.2692 18.6597 4.2692 18.9763 4.46447 19.1716L7.64645 22.3536ZM8 12L7.5 12L7.5 22L8 22L8.5 22L8.5 12L8 12Z"
+      fill="currentColor"
+    />
+  </svg>
+)
+
+const Decoration = () => (
+  <chakra.svg
+    display="block"
+    fill="none"
+    height="787px"
+    position="absolute"
+    right="0"
+    top="0"
+    viewBox="0 0 438 787"
+    width="438px"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title>Decoration image</title>
+    <rect
+      x="-131"
+      y="68.5986"
+      width="633"
+      height="1201"
+      rx="316.5"
+      transform="rotate(-45 -131 68.5986)"
+      fill="url(#paint0_linear_1859_3107)"
+    />
+    <defs>
+      <linearGradient
+        id="paint0_linear_1859_3107"
+        x1="-130.992"
+        y1="669.113"
+        x2="501.93"
+        y2="669.113"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#662681" />
+        <stop
+          offset="0.15"
+          stop-color="#692581"
+        />
+        <stop
+          offset="0.26"
+          stop-color="#722381"
+        />
+        <stop
+          offset="0.36"
+          stop-color="#822080"
+        />
+        <stop
+          offset="0.43"
+          stop-color="#931C80"
+        />
+        <stop
+          offset="0.62"
+          stop-color="#B51C7B"
+        />
+        <stop
+          offset="0.87"
+          stop-color="#D91D75"
+        />
+        <stop
+          offset="1"
+          stop-color="#E71D73"
+        />
+      </linearGradient>
+    </defs>
+  </chakra.svg>
+)
+
+const Welcome: FC<FlexProps> = ({ css, ...restProps }: FlexProps) => {
   return (
-    <Flex
-      css={{
-        '.light &': {
-          '--landing-page-main-background-color': '#f7f7f7',
-        },
-        '.dark &': {
-          '--landing-page-main-background-color': '#2e3048',
-        },
-      }}
+    <Inner
       flexDirection="column"
-      minHeight={{ base: 'none', md: '100vh' }}
-      position="relative"
-      zIndex={0}
+      flexGrow="1"
+      minHeight={{ base: 'none', md: 'calc(100vh - 90px)' }}
+      css={{
+        ...styles,
+        ...css,
+      }}
       {...restProps}
     >
-      <Flex
-        justifyContent="center"
-        overflow="hidden"
-        position="relative"
-        width="100%"
-        _before={{
-          content: "''",
-          backgroundColor: 'var(--landing-page-main-background-color)',
-          display: 'block',
-          flexGrow: 1,
-          flexShrink: 1,
-          minWidth: 0,
-        }}
-        _after={{
-          content: "''",
-          backgroundColor: 'var(--landing-page-main-background-color)',
-          display: 'block',
-          flexGrow: 1,
-          flexShrink: 1,
-          minWidth: 0,
+      <Heading
+        color="var(--title-color)"
+        fontSize={{ base: '32px', md: '62px' }}
+        fontWeight="700"
+        lineHeight="1.2"
+        marginBottom={4}
+        marginTop="auto"
+        pt={{ base: 8, md: 0 }}
+        textAlign="center"
+      >
+        Hi, I'm a dApp created
+        <br />
+        using dAppBooster's
+        <br />
+        Web3 template!
+      </Heading>
+      <Text
+        color="var(--text-color)"
+        fontSize={{ base: '16px', md: '18px' }}
+        lineHeight="1.5"
+        textAlign="center"
+      >
+        A cutting-edge foundation built with React to seamlessly
+        <chakra.br display={{ base: 'none', md: 'block' }} />
+        launch your next Web3 project.
+      </Text>
+      <Link
+        alignContent="center"
+        color="var(--button-text-color)"
+        display="flex"
+        flexDirection="column"
+        gap={1}
+        href="#examples"
+        marginBottom={10}
+        marginLeft="auto"
+        marginRight="auto"
+        marginTop="auto"
+        textDecoration="none"
+        _active={{
+          opacity: 0.5,
         }}
       >
-        <LightClouds alt="dAppBooster dark clouds" />
-        <DarkClouds alt="dAppBooster dark clouds" />
-        <Ghost alt="The dAppBooster ghost icon" />
-      </Flex>
-      <Box
-        backgroundColor="var(--landing-page-main-background-color)"
-        flexGrow={1}
-      >
-        <Inner
-          alignItems="center"
-          flexDirection="column"
+        <Span
+          fontSize="12px"
+          fontWeight="400"
+          lineHeight="1.2"
         >
-          <Heading
-            fontSize={{ base: '32px', md: '48px' }}
-            fontWeight="800"
-            lineHeight="1.2"
-            mb={2}
-            pt={{ base: 8, md: 0 }}
-            textAlign="center"
-          >
-            Boost dApp
-            <br />
-            development on the
-            <br /> blockchain
-          </Heading>
-          <Text
-            color="{colors.text.default}"
-            fontSize={{ base: '16px', md: '18px' }}
-            lineHeight="1.5"
-            marginBottom={8}
-            textAlign="center"
-          >
-            A modern blockchain boilerplate built to quickly get
-            <Box
-              as="br"
-              display={{ base: 'none', md: 'block' }}
-            />
-            you started with your next Web3 project.
-          </Text>
-          <Flex
-            display="flex"
-            gap={2}
-            justifyContent="center"
-            marginBottom={8}
-          >
-            <GithubButton />
-            <DocsButton />
-          </Flex>
-          <GitClone />
-        </Inner>
-      </Box>
-    </Flex>
+          Scroll to demos
+        </Span>
+        <Arrow />
+      </Link>
+      <Decoration />
+    </Inner>
   )
 }
 

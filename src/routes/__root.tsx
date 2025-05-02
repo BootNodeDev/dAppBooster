@@ -27,7 +27,7 @@ function Root() {
             <Header />
             <Flex
               as="main"
-              flex="1"
+              direction="column"
             >
               <Outlet />
             </Flex>

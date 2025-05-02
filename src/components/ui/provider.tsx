@@ -26,8 +26,8 @@ export function Provider(props: ColorModeProviderProps) {
           bg: {
             default: {
               value: {
-                _light: '#e2e0e7',
-                _dark: '#292b43',
+                _light: '#f7f7f7',
+                _dark: '#292B43',
               },
             },
           },
