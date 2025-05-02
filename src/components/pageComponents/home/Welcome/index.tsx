@@ -110,7 +110,7 @@ const Welcome: FC<FlexProps> = ({ css, ...restProps }: FlexProps) => {
       >
         <Heading
           color="var(--title-color)"
-          fontSize={{ base: '32px', md: '62px' }}
+          fontSize={{ base: '32px', md: '42px', xl: '62px' }}
           fontWeight="700"
           lineHeight="1.2"
           marginBottom={4}
