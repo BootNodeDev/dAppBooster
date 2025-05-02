@@ -29,7 +29,7 @@ const Arrow = () => (
 
 const Decoration = () => (
   <chakra.svg
-    display="block"
+    display={{ base: 'none', lg: 'block' }}
     fill="none"
     height="787px"
     position="absolute"
@@ -38,6 +38,7 @@ const Decoration = () => (
     viewBox="0 0 438 787"
     width="438px"
     xmlns="http://www.w3.org/2000/svg"
+    zIndex={0}
   >
     <title>Decoration image</title>
     <rect
@@ -94,69 +95,73 @@ const Decoration = () => (
 
 const Welcome: FC<FlexProps> = ({ css, ...restProps }: FlexProps) => {
   return (
-    <Inner
-      flexDirection="column"
-      flexGrow="1"
-      minHeight={{ base: 'none', md: 'calc(100vh - 90px)' }}
-      css={{
-        ...styles,
-        ...css,
-      }}
-      {...restProps}
-    >
-      <Heading
-        color="var(--title-color)"
-        fontSize={{ base: '32px', md: '62px' }}
-        fontWeight="700"
-        lineHeight="1.2"
-        marginBottom={4}
-        marginTop="auto"
-        pt={{ base: 8, md: 0 }}
-        textAlign="center"
-      >
-        Hi, I'm a dApp created
-        <br />
-        using dAppBooster's
-        <br />
-        Web3 template!
-      </Heading>
-      <Text
-        color="var(--text-color)"
-        fontSize={{ base: '16px', md: '18px' }}
-        lineHeight="1.5"
-        textAlign="center"
-      >
-        A cutting-edge foundation built with React to seamlessly
-        <chakra.br display={{ base: 'none', md: 'block' }} />
-        launch your next Web3 project.
-      </Text>
-      <Link
-        alignContent="center"
-        color="var(--button-text-color)"
-        display="flex"
-        flexDirection="column"
-        gap={1}
-        href="#examples"
-        marginBottom={10}
-        marginLeft="auto"
-        marginRight="auto"
-        marginTop="auto"
-        textDecoration="none"
-        _active={{
-          opacity: 0.5,
+    <>
+      <Inner
+        css={{
+          ...styles,
+          ...css,
         }}
+        flexDirection="column"
+        flexGrow="1"
+        minHeight={{ base: 'calc(100vh - 90px)' }}
+        position="relative"
+        zIndex={1}
+        {...restProps}
       >
-        <Span
-          fontSize="12px"
-          fontWeight="400"
+        <Heading
+          color="var(--title-color)"
+          fontSize={{ base: '32px', md: '62px' }}
+          fontWeight="700"
           lineHeight="1.2"
+          marginBottom={4}
+          marginTop="auto"
+          pt={{ base: 8, md: 0 }}
+          textAlign="center"
         >
-          Scroll to demos
-        </Span>
-        <Arrow />
-      </Link>
+          Hi, I'm a dApp created
+          <br />
+          using dAppBooster's
+          <br />
+          Web3 template!
+        </Heading>
+        <Text
+          color="var(--text-color)"
+          fontSize={{ base: '16px', md: '18px' }}
+          lineHeight="1.5"
+          textAlign="center"
+        >
+          A cutting-edge foundation built with React to seamlessly
+          <chakra.br display={{ base: 'none', md: 'block' }} />
+          launch your next Web3 project.
+        </Text>
+        <Link
+          alignContent="center"
+          color="var(--button-text-color)"
+          display="flex"
+          flexDirection="column"
+          gap={1}
+          href="#examples"
+          marginBottom={10}
+          marginLeft="auto"
+          marginRight="auto"
+          marginTop="auto"
+          textDecoration="none"
+          _active={{
+            opacity: 0.5,
+          }}
+        >
+          <Span
+            fontSize="12px"
+            fontWeight="400"
+            lineHeight="1.2"
+          >
+            Scroll to demos
+          </Span>
+          <Arrow />
+        </Link>
+      </Inner>
       <Decoration />
-    </Inner>
+    </>
   )
 }
 

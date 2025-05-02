@@ -36,10 +36,9 @@ export const Header: FC<BoxProps> = ({ css, ...restProps }) => {
         <Box flex={1}>
           <HomeLink
             _active={{ opacity: 0.7 }}
-            display={{ base: 'none', sm: 'flex' }}
             to="/"
           >
-            <Logo minWidth="140px" />
+            <Logo width={{ base: '120px', md: '140px' }} />
           </HomeLink>
         </Box>
         <MainMenu />
