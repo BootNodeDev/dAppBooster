@@ -1,10 +1,16 @@
-import styled, { css } from 'styled-components'
-
 import {
-  Textfield as BaseTextfield,
-  Button,
-  breakpointMediaQuery,
-} from '@bootnodedev/db-ui-toolkit'
+  type ButtonProps,
+  Flex,
+  type FlexProps,
+  Heading,
+  type HeadingProps,
+  Input,
+  type InputProps,
+  Span,
+  type SpanProps,
+  chakra,
+} from '@chakra-ui/react'
+import type { FC } from 'react'
 
 const BaseChevronDown = ({ ...restProps }) => (
   <svg
@@ -43,276 +49,242 @@ const CloseIcon = ({ ...restProps }) => (
   </svg>
 )
 
-export const Wrapper = styled.div.attrs({ className: 'tokenInput' })`
-  background-color: var(--theme-token-input-background, #fff);
-  border-radius: var(
-    --base-token-input-border-radius,
-    var(--base-border-radius, 8px)
-  );
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  padding: var(--base-token-input-padding, var(--base-common-padding-xl, 16px));
-  row-gap: var(--base-token-input-gap, var(--base-gap, 8px));
-`
+export const Wrapper: FC<FlexProps> = ({ children, ...restProps }) => (
+  <Flex
+    backgroundColor="var(--background)"
+    borderRadius="8px"
+    flexDirection="column"
+    maxWidth="100%"
+    padding={4}
+    rowGap={2}
+    {...restProps}
+  >
+    {children}
+  </Flex>
+)
 
-export const Title = styled.h3.attrs({ className: 'tokenInputTitle' })`
-  color: var(--theme-token-input-title-color, #2e3048);
-  font-size: 1.4rem;
-  font-weight: 700;
-  line-height: 1.2;
-`
+export const Title: FC<HeadingProps> = ({ children, ...restProps }) => (
+  <Heading
+    as="h3"
+    color="var(--title-color)"
+    fontSize="14px"
+    fontWeight="700"
+    lineHeight="1.2"
+    {...restProps}
+  >
+    {children}
+  </Heading>
+)
 
-export const TopRow = styled.div.attrs({ className: 'tokenInputTopRow' })`
-  column-gap: var(--base-gap, 8px);
-  display: flex;
-  height: 42px;
+export const TopRow: FC<FlexProps> = ({ children, ...restProps }) => (
+  <Flex
+    columnGap={2}
+    height={{ base: '42px', lg: '58px' }}
+    {...restProps}
+  >
+    {children}
+  </Flex>
+)
 
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      height: 58px;
-    `,
-  )}
-`
+export const Textfield: FC<InputProps> = ({ children, ...restProps }) => (
+  <Input
+    backgroundColor="var(--textfield-background-color)"
+    borderColor="var(--textfield-border-color)"
+    color="var(--textfield-color)"
+    fontSize={{ base: '24px', lg: '32px' }}
+    height="auto"
+    minWidth="0"
+    padding={{ base: 2, lg: 4 }}
+    transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
+    type="text"
+    _focus={{
+      backgroundColor: 'var(--textfield-background-color-active)',
+      borderColor: 'var(--textfield-border-color-active)',
+      color: 'var(--textfield-color-active)',
+    }}
+    _placeholder={{
+      color: 'var(--textfield-placeholder-color)',
+    }}
+    {...restProps}
+  >
+    {children}
+  </Input>
+)
 
-export const Textfield = styled(BaseTextfield).attrs({
-  className: 'tokenInputTextfield',
-})`
-  && {
-    /* Texfield */
-    --theme-textfield-background-color: var(
-      --theme-token-input-textfield-background-color,
-      #fff
-    );
-    --theme-textfield-background-color-active: var(
-      --theme-token-input-textfield-background-color-active,
-      rgb(0 0 0 / 2%)
-    );
-    --theme-textfield-border-color: var(
-      --theme-token-input-textfield-border-color,
-      #e2e0e7
-    );
-    --theme-textfield-border-color-active: var(
-      --theme-token-input-textfield-border-color-active,
-      #e2e0e7
-    );
-    --theme-textfield-color: var(--theme-token-input-textfield-color, #2e3048);
-    --theme-textfield-color-active: var(
-      --theme-token-input-textfield-color-active,
-      #2e3048
-    );
-    --theme-textfield-placeholder-color: var(
-      --theme-token-input-textfield-placeholder-color,
-      rgb(22 29 26 / 60%)
-    );
+export const ChevronDown = chakra(BaseChevronDown, {
+  base: {
+    marginLeft: 2,
+  },
+})
 
-    font-size: 2.4rem;
-    height: auto;
-    min-width: 0;
-    padding: var(
-      --base-token-input-texfield-padding,
-      var(--base-common-padding, 8px)
-    );
+const buttonCSS = {
+  alignItems: 'center',
+  backgroundColor: 'var(--dropdown-button-background-color)',
+  borderColor: 'var(--dropdown-button-border-color)',
+  borderRadius: 4,
+  color: 'var(--dropdown-button-color)',
+  columnGap: 2,
+  cursor: 'pointer',
+  display: 'flex',
+  flexShrink: 0,
+  fontFamily: '{fonts.body}',
+  fontSize: { base: '12px', lg: '16px' },
+  fontWeight: 500,
+  height: 'auto',
+  minWidth: '100px',
+  padding: { base: 2, lg: 4 },
+  _hover: {
+    backgroundColor: 'var(--dropdown-button-background-color-hover)',
+    borderColor: 'var(--dropdown-button-border-color-hover)',
+    color: 'var(--dropdown-button-color-hover)',
+  },
+  _active: {
+    backgroundColor: 'var(--dropdown-button-background-color-active)',
+    borderColor: 'var(--dropdown-button-border-color-active)',
+    color: 'var(--dropdown-button-color-active)',
+  },
+}
 
-    ${breakpointMediaQuery(
-      'tabletPortraitStart',
-      css`
-        font-size: 3.2rem;
-        padding: var(
-          --base-token-input-texfield-padding,
-          0 var(--base-common-padding-xl, 16px)
-        );
-      `,
-    )}
-  }
-`
+export const DropdownButton: FC<ButtonProps> = ({ children, ...restProps }) => (
+  <chakra.button
+    borderStyle="solid"
+    borderWidth="1px"
+    {...buttonCSS}
+    {...restProps}
+  >
+    {children}
+    <ChevronDown />
+  </chakra.button>
+)
 
-export const ChevronDown = styled(BaseChevronDown)`
-  margin-left: var(--base-gap, 8px);
-`
+export const SingleToken: FC<FlexProps> = ({ children, ...restProps }) => (
+  <Flex
+    {...buttonCSS}
+    cursor="default"
+    _hover={{}}
+    {...restProps}
+  >
+    {children}
+  </Flex>
+)
 
-const ButtonCSS = css`
-  --theme-button-background-color: var(
-    --theme-token-input-dropdown-button-background-color,
-    #fff
-  );
-  --theme-button-background-color-hover: var(
-    --theme-token-input-dropdown-button-background-color-hover,
-    rgb(0 0 0 / 5%)
-  );
-  --theme-button-border-color: var(
-    --theme-token-input-dropdown-button-border-color,
-    #e2e0e7
-  );
-  --theme-button-border-color-hover: var(
-    --theme-token-input-dropdown-button-border-color-hover,
-    #e2e0e7
-  );
-  --theme-button-border-color-active: var(
-    --theme-token-input-dropdown-button-border-color-active,
-    #e2e0e7
-  );
-  --theme-button-color: var(--theme-token-input-dropdown-button-color, #2e3048);
-  --theme-button-color-hover: var(
-    --theme-token-input-dropdown-button-color-hover,
-    #2e3048
-  );
+export const ErrorComponent: FC<SpanProps> = ({ children, ...restProps }) => (
+  <Span
+    color="{colors.danger.default}"
+    fontSize="12px"
+    fontWeight="700"
+    padding="0"
+    {...restProps}
+  >
+    {children}
+  </Span>
+)
 
-  flex-shrink: 0;
-  font-size: 1.2rem;
-  font-weight: 500;
-  height: auto;
-  min-width: 100px;
-  padding: var(
-    --base-token-input-dropdown-button-padding,
-    0 var(--base-common-padding, 8px)
-  );
+export const BottomRow: FC<FlexProps> = ({ children, ...restProps }) => (
+  <Flex
+    columnGap={2}
+    justifyContent="space-between"
+    lineHeight={1.2}
+    {...restProps}
+  >
+    {children}
+  </Flex>
+)
 
-  ${breakpointMediaQuery(
-    'tabletPortraitStart',
-    css`
-      font-size: 1.6rem;
-      padding: var(
-        --base-token-input-dropdown-button-padding,
-        0 var(--base-common-padding-xl, 16px)
-      );
-    `,
-  )}
-`
+export const EstimatedUSDValue: FC<FlexProps> = ({ children, ...restProps }) => (
+  <Flex
+    alignItems="center"
+    color="var(--estimated-usd-color)"
+    fontSize="12px"
+    fontWeight="400"
+    lineHeight="1.2"
+    {...restProps}
+  >
+    {children}
+  </Flex>
+)
 
-export const DropdownButton = styled(Button).attrs(({ children }) => {
-  return {
-    className: 'tokenInputDropdownButton',
-    children: (
-      <>
-        {children}
-        <ChevronDown />
-      </>
-    ),
-  }
-})`
-  ${ButtonCSS}
-`
+export const Balance: FC<FlexProps> = ({ children, ...restProps }) => (
+  <Flex
+    alignItems="center"
+    color="var(--balance-color)"
+    columnGap={2}
+    {...restProps}
+  >
+    {children}
+  </Flex>
+)
 
-export const SingleToken = styled.div.attrs(() => {
-  return { className: 'tokenInputSingleToken' }
-})`
-  align-items: center;
-  column-gap: var(--base-button-column-gap, var(--base-gap, 8px));
-  cursor: default;
-  display: flex;
+export const BalanceValue: FC<SpanProps> = ({ children, ...restProps }) => (
+  <Span
+    fontSize="12px"
+    fontWeight="400"
+    lineHeight="1.2"
+    {...restProps}
+  >
+    {children}
+  </Span>
+)
 
-  ${ButtonCSS}
-`
+export const MaxButton: FC<ButtonProps> = ({ children, ...restProps }) => (
+  <chakra.button
+    backgroundColor="var(--max-button-background-color)"
+    borderColor="var(--max-button-border-color)"
+    color="var(--max-button-color)"
+    cursor="pointer"
+    fontSize="12px"
+    fontWeight="400"
+    height="22px"
+    paddingX={2}
+    _hover={{
+      backgroundColor: 'var(--max-button-background-color-hover)',
+      borderColor: 'var(--max-button-border-color-hover)',
+      color: 'var(--max-button-color-hover)',
+    }}
+    _active={{
+      backgroundColor: 'var(--max-button-background-color-active)',
+      borderColor: 'var(--max-button-border-color-active)',
+      color: 'var(--max-button-color-active)',
+    }}
+    {...restProps}
+  >
+    {children}
+  </chakra.button>
+)
 
-export const ErrorComponent = styled.span`
-  color: var(--theme-color-danger, #800);
-  font-size: 1.2rem;
-  font-weight: 700;
-  padding: 0;
-`
+export const Icon: FC<{ $iconSize?: number } & FlexProps> = ({
+  $iconSize,
+  children,
+  ...restProps
+}) => (
+  <Flex
+    alignItems="center"
+    borderRadius="50%"
+    flexShrink="0"
+    height={`${$iconSize}px`}
+    justifyContent="center"
+    overflow="hidden"
+    width={`${$iconSize}px`}
+    {...restProps}
+  >
+    {children}
+  </Flex>
+)
 
-export const BottomRow = styled.div.attrs(() => {
-  return { className: 'tokenInputBottomRow' }
-})`
-  column-gap: var(--base-gap, 8px);
-  display: flex;
-  justify-content: space-between;
-`
-
-export const EstimatedUSDValue = styled.div.attrs(() => {
-  return { className: 'tokenInputEstimatedUSDValue' }
-})`
-  align-items: center;
-  color: var(--theme-token-input-estimated-usd-color, #4b4d60);
-  display: flex;
-  font-size: 1.2rem;
-  font-weight: 400;
-  line-height: 1.2;
-`
-
-export const Balance = styled.div.attrs(() => {
-  return { className: 'tokenInputBalance' }
-})`
-  align-items: center;
-  color: var(--theme-token-input-balance-color, #4b4d60);
-  column-gap: var(--base-gap, 8px);
-  display: flex;
-`
-
-export const BalanceValue = styled.span.attrs(() => {
-  return { className: 'tokenInputBalanceValue' }
-})`
-  font-size: 1.2rem;
-  font-weight: 400;
-  line-height: 1.2;
-`
-
-export const MaxButton = styled(Button).attrs(() => {
-  return {
-    className: 'tokenInputMaxButton',
-  }
-})`
-  /* Max button */
-  --theme-button-background-color: var(
-    --theme-token-input-max-button-background-color,
-    #fff
-  );
-  --theme-button-background-color-hover: var(
-    --theme-token-input-max-button-background-color-hover,
-    rgb(0 0 0 / 5%)
-  );
-  --theme-button-border-color: var(
-    --theme-token-input-max-button-border-color,
-    #e2e0e7
-  );
-  --theme-button-border-color-hover: var(
-    --theme-token-input-max-button-border-color-hover,
-    #e2e0e7
-  );
-  --theme-button-border-color-active: var(
-    --theme-token-input-max-button-border-color-active,
-    #e2e0e7
-  );
-  --theme-button-color: var(--theme-token-input-max-button-color, #8b46a4);
-  --theme-button-color-hover: var(
-    --theme-token-input-max-button-color-hover,
-    #8b46a4
-  );
-
-  font-size: 1.2rem;
-  font-weight: 400;
-  height: 22px;
-  padding-left: var(--base-common-padding, 8px);
-  padding-right: var(--base-common-padding, 8px);
-`
-
-export const Icon = styled.div.attrs<{ $iconSize?: number }>(() => {
-  return { className: 'tokenInputIcon' }
-})`
-  align-items: center;
-  border-radius: 50%;
-  display: flex;
-  flex-shrink: 0;
-  height: ${({ $iconSize }) => $iconSize}px;
-  justify-content: center;
-  overflow: hidden;
-  width: ${({ $iconSize }) => $iconSize}px;
-`
-
-export const CloseButton = styled.button.attrs(() => {
-  return { children: <CloseIcon /> }
-})`
-  background: none;
-  border: none;
-  color: var(--theme-token-select-title-color-default);
-  cursor: pointer;
-  position: absolute;
-  right: calc(var(--base-common-padding, 8px) * 2);
-  top: calc(var(--base-common-padding, 8px) * 5);
-
-  &:active {
-    opacity: 0.7;
-  }
-`
+export const CloseButton: FC<ButtonProps> = ({ children, ...restProps }) => (
+  <chakra.button
+    background="none"
+    border="none"
+    color="var(--title-color-default)"
+    cursor="pointer"
+    position="absolute"
+    right={0}
+    top={10}
+    _active={{
+      opacity: 0.7,
+    }}
+    {...restProps}
+  >
+    <CloseIcon />
+  </chakra.button>
+)

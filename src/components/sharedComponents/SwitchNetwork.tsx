@@ -1,3 +1,7 @@
+import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
+import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { Flex, Menu } from '@chakra-ui/react'
 import {
   type ComponentPropsWithoutRef,
   type FC,
@@ -5,14 +9,8 @@ import {
   useEffect,
   useState,
 } from 'react'
-import styled from 'styled-components'
-
-import { Item as BaseItem, Dropdown } from '@bootnodedev/db-ui-toolkit'
 import * as chains from 'viem/chains'
 import { useSwitchChain } from 'wagmi'
-
-import { PrimaryButton } from '@/src/components/sharedComponents/ui/Buttons'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 
 type NetworkItem = {
   icon: ReactElement
@@ -21,75 +19,6 @@ type NetworkItem = {
 }
 
 export type Networks = Array<NetworkItem>
-
-const ChevronDown = () => (
-  <svg
-    className="chevronDown"
-    fill="none"
-    height="24"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <title>Chevron down</title>
-    <path
-      d="M6 9L12 15L18 9"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-    />
-  </svg>
-)
-
-const Button = styled(PrimaryButton).attrs(({ children, className = 'switchNetworkButton' }) => {
-  return {
-    children: (
-      <>
-        {children} <ChevronDown />
-      </>
-    ),
-    type: 'button',
-    className,
-  }
-})`
-  font-size: 1.6rem;
-  font-weight: 500;
-  height: 48px;
-  padding-left: calc(var(--base-common-padding, 8px) * 3);
-  padding-right: calc(var(--base-common-padding, 8px) * 3);
-
-  .chevronDown {
-    transition: transform var(--base-transition-duration-xs, 0.1s) ease-in-out;
-  }
-
-  .isActive & {
-    .chevronDown {
-      transform: rotate(180deg);
-    }
-  }
-`
-
-const NetworkIcon = styled.div.attrs(() => {
-  return { className: 'switchNetworkNetworkIcon' }
-})`
-  align-items: center;
-  background-color: var(--theme-switch-network-icon-background-color, #fff);
-  border-radius: 50%;
-  display: flex;
-  height: 24px;
-  justify-content: center;
-  overflow: hidden;
-  width: 24px;
-`
-
-const ListItem = styled(BaseItem).attrs(() => {
-  return { className: 'switchNetworkListItem' }
-})`
-  font-size: 1.6rem;
-  min-height: 48px;
-  width: 250px;
-`
 
 interface SwitchNetworkProps extends ComponentPropsWithoutRef<'div'> {
   networks: Networks
@@ -101,7 +30,7 @@ interface SwitchNetworkProps extends ComponentPropsWithoutRef<'div'> {
  * @param {SwitchNetworkProps} props - SwitchNetwork component props.
  * @param {Networks} props.networks - List of networks to display in the dropdown.
  */
-const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks, ...restProps }) => {
+const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }: SwitchNetworkProps) => {
   const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
 
   const { chains: configuredChains, switchChain } = useSwitchChain()
@@ -130,31 +59,44 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks, ...restProps }) => {
   }, [walletChainId, networks])
 
   return (
-    <Dropdown
-      button={
-        <Button>
+    <Menu.Root positioning={{ placement: 'bottom' }}>
+      <Menu.Trigger asChild>
+        <DropdownButton disabled={!isWalletConnected}>
           {networkItem ? (
             <>
-              <NetworkIcon>{networkItem?.icon}</NetworkIcon> {networkItem?.label}
+              <Flex
+                alignItems="center"
+                borderRadius="50%"
+                display="flex"
+                height="24px"
+                justifyContent="center"
+                overflow="hidden"
+                width="24px"
+              >
+                {networkItem?.icon}
+              </Flex>{' '}
+              {networkItem?.label}
             </>
           ) : (
             'Select a network'
           )}
-        </Button>
-      }
-      disabled={!isWalletConnected}
-      items={networks.map(({ icon, id, label }) => (
-        <ListItem
-          key={`${id}-${label}`}
-          onClick={() => handleClick(id)}
-        >
-          {icon}
-          {label}
-        </ListItem>
-      ))}
-      position="right"
-      {...restProps}
-    />
+        </DropdownButton>
+      </Menu.Trigger>
+      <Menu.Positioner>
+        <MenuContent width="250px">
+          {networks.map(({ icon, id, label }) => (
+            <MenuItem
+              key={`${id}-${label}`}
+              onClick={() => handleClick(id)}
+              value={label}
+            >
+              {icon}
+              {label}
+            </MenuItem>
+          ))}
+        </MenuContent>
+      </Menu.Positioner>
+    </Menu.Root>
   )
 }
 

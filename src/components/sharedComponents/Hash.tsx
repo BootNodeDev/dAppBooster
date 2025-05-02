@@ -1,27 +1,10 @@
-import type { ComponentProps, FC, MouseEventHandler } from 'react'
-import styled from 'styled-components'
-
-import { CopyButton, ExternalLink } from '@bootnodedev/db-ui-toolkit'
-
+import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
+import ExternalLink from '@/src/components/sharedComponents/ui/ExternalLink'
 import { getTruncatedHash } from '@/src/utils/strings'
+import { Flex, type FlexProps, Span } from '@chakra-ui/react'
+import type { FC, MouseEventHandler } from 'react'
 
-const Wrapper = styled.div`
-  align-items: center;
-  column-gap: var(--base-gap, 8px);
-  display: flex;
-  max-width: 100%;
-`
-
-const HashValue = styled.span`
-  color: inherit;
-  font-size: inherit;
-  max-width: fit-content;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`
-
-interface HashProps extends Omit<ComponentProps<'div'>, 'onCopy'> {
+interface HashProps extends Omit<FlexProps, 'onCopy'> {
   explorerURL?: string
   hash: string
   onCopy?: MouseEventHandler<HTMLButtonElement>
@@ -53,20 +36,33 @@ const Hash: FC<HashProps> = ({
   showCopyButton = false,
   truncatedHashLength = 6,
   ...restProps
-}) => {
+}: HashProps) => {
   return (
-    <Wrapper {...restProps}>
-      <HashValue>
+    <Flex
+      alignItems="center"
+      columnGap={2}
+      maxWidth="100%"
+      {...restProps}
+    >
+      <Span
+        color="inherit"
+        fontSize="inherit"
+        maxWidth="fit-content"
+        overflow="hidden"
+        textOverflow="ellipsis"
+        whiteSpace="nowrap"
+      >
         {truncatedHashLength === 'disabled' ? hash : getTruncatedHash(hash, truncatedHashLength)}
-      </HashValue>
+      </Span>
       {showCopyButton && (
         <CopyButton
           onClick={onCopy}
           value={hash}
+          aria-label="Copy"
         />
       )}
       {explorerURL && <ExternalLink href={explorerURL} />}
-    </Wrapper>
+    </Flex>
   )
 }
 

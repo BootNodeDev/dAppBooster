@@ -1,32 +1,11 @@
-import type { Dispatch, FC, HTMLAttributes, SetStateAction } from 'react'
-import styled from 'styled-components'
-
-import { Item as BaseItem, Dropdown } from '@bootnodedev/db-ui-toolkit'
-
 import SearchInput from '@/src/components/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/components/sharedComponents/TokenSelect/Search/NetworkButton'
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
+import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
+import { Flex, type FlexProps, Menu } from '@chakra-ui/react'
+import type { Dispatch, FC, SetStateAction } from 'react'
 
-const Wrapper = styled.div.attrs(({ className = 'tokenSelectSearchWrapper' }) => {
-  return { className }
-})`
-  display: flex;
-  column-gap: var(--base-gap, 8px);
-  height: 72px;
-  padding: 0 var(--base-common-padding-xl, 16px);
-
-  .dbuitkDropdownButton {
-    height: 100%;
-  }
-`
-
-const Item = styled(BaseItem)`
-  font-size: 1.6rem;
-  min-height: 48px;
-  width: 250px;
-`
-
-interface SearchProps extends HTMLAttributes<HTMLDivElement> {
+interface SearchProps extends FlexProps {
   currentNetworkId: number
   disabled?: boolean
   networks?: Networks
@@ -54,9 +33,15 @@ const Search: FC<SearchProps> = ({
   searchTerm,
   setSearchTerm,
   ...restProps
-}) => {
+}: SearchProps) => {
   return (
-    <Wrapper {...restProps}>
+    <Flex
+      columnGap={2}
+      height="72px"
+      paddingX={4}
+      paddingY={0}
+      {...restProps}
+    >
       <SearchInput
         disabled={disabled}
         onChange={(e) => setSearchTerm(e.target.value)}
@@ -64,25 +49,29 @@ const Search: FC<SearchProps> = ({
         value={searchTerm}
       />
       {networks && networks.length > 1 && (
-        <Dropdown
-          button={
+        <Menu.Root positioning={{ placement: 'bottom-end' }}>
+          <Menu.Trigger asChild>
             <NetworkButton>
               {networks.find((item) => item.id === currentNetworkId)?.icon}
             </NetworkButton>
-          }
-          items={networks.map(({ icon, id, label, onClick }) => (
-            <Item
-              key={id}
-              onClick={onClick}
-            >
-              {icon}
-              {label}
-            </Item>
-          ))}
-          position="right"
-        />
+          </Menu.Trigger>
+          <Menu.Positioner>
+            <MenuContent width="250px">
+              {networks.map(({ icon, id, label, onClick }) => (
+                <MenuItem
+                  key={id}
+                  onClick={onClick}
+                  value={label}
+                >
+                  {icon}
+                  {label}
+                </MenuItem>
+              ))}
+            </MenuContent>
+          </Menu.Positioner>
+        </Menu.Root>
       )}
-    </Wrapper>
+    </Flex>
   )
 }
 

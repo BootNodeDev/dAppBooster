@@ -1,45 +1,8 @@
-import type { ComponentPropsWithoutRef, FC, MouseEventHandler } from 'react'
-import styled from 'styled-components'
-
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
-
-const Wrapper = styled.button.attrs(({ className = 'tokenSelectAddERC20TokenButton' }) => {
-  return { className }
-})`
-  align-items: center;
-  background-color: var(--theme-token-select-add-erc20-token-button-background-color, #2e3048);
-  border-radius: var(--base-border-radius-sm, 4px);
-  border: 1px solid var(--theme-token-select-add-erc20-token-button-border-color, #2e3048);
-  color: var(--theme-token-select-add-erc20-token-button-color, #fff);
-  cursor: pointer;
-  display: flex;
-  font-family: var(--base-font-family, sans-serif);
-  font-size: 1.1rem;
-  font-weight: 500;
-  height: 21px;
-  line-height: 1;
-  outline: none;
-  padding: 0 var(--base-common-padding, 8px);
-  user-select: none;
-  white-space: nowrap;
-
-  &:hover {
-    background-color: var(
-      --theme-token-select-add-erc20-token-button-background-color-hover,
-      var(--theme-token-select-add-erc20-token-button-background-color, #2e3048)
-    );
-    border-color: var(
-      --theme-token-select-add-erc20-token-button-border-color-hover,
-      var(--theme-token-select-add-erc20-token-button-border-color, #2e3048)
-    );
-    color: var(
-      --theme-token-select-add-erc20-token-button-color-hover,
-      var(--theme-token-select-add-erc20-token-button-color, #fff)
-    );
-  }
-`
+import { chakra } from '@chakra-ui/react'
+import type { ComponentPropsWithoutRef, FC, MouseEventHandler } from 'react'
 
 interface AddERC20TokenButtonProps extends ComponentPropsWithoutRef<'button'> {
   $token: Token
@@ -78,13 +41,37 @@ const AddERC20TokenButton: FC<AddERC20TokenButtonProps> = ({
   }
 
   return isNativeToken(address) ? null : (
-    <Wrapper
+    <chakra.button
+      alignItems="center"
+      backgroundColor="var(--add-erc20-token-button-background-color)"
+      border="1px solid var(--add-erc20-token-button-border-color)"
+      borderRadius={1}
+      color="var(--add-erc20-token-button-color)"
+      cursor="pointer"
+      display="flex"
+      fontFamily="{fonts.body}"
+      fontSize="11px"
+      fontWeight="500"
+      height="21px"
+      lineHeight={1}
+      outline="none"
+      paddingX={2}
+      paddingY="0"
+      userSelect="none"
+      whiteSpace="nowrap"
+      _hover={{
+        backgroundColor:
+          'var(--add-erc20-token-button-background-color-hover, var(--add-erc20-token-button-background-color))',
+        borderColor:
+          'var(--add-erc20-token-button-border-color-hover, var(--add-erc20-token-button-border-color))',
+        color: 'var(--add-erc20-token-button-color-hover, var(--add-erc20-token-button-color))',
+      }}
       disabled={disabled}
       onClick={handleClick}
       {...restProps}
     >
       {children}
-    </Wrapper>
+    </chakra.button>
   )
 }
 

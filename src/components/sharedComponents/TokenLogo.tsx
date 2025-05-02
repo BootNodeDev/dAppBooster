@@ -1,27 +1,11 @@
-import { type ComponentProps, type FC, useCallback, useEffect, useState } from 'react'
-import styled from 'styled-components'
-
 import type { Token } from '@/src/types/token'
+import { Flex } from '@chakra-ui/react'
+import { type ComponentProps, type FC, useCallback, useEffect, useState } from 'react'
 
 interface PlaceholderProps extends ComponentProps<'div'> {
   size: number
   symbol: string
 }
-
-const Wrapper = styled.div<{ $size: number; $backgroundColor: string }>`
-  align-items: center;
-  background-color: ${({ $backgroundColor }) => $backgroundColor};
-  border-radius: 50%;
-  color: #fafafa;
-  display: flex;
-  font-size: 95%;
-  font-weight: 700;
-  height: ${({ $size }) => $size}px;
-  justify-content: center;
-  line-height: 1;
-  text-transform: uppercase;
-  width: ${({ $size }) => $size}px;
-`
 
 const Placeholder: FC<PlaceholderProps> = ({ size, symbol, ...restProps }) => {
   const [backgroundColor, setBackgroundColor] = useState<string>('')
@@ -59,13 +43,23 @@ const Placeholder: FC<PlaceholderProps> = ({ size, symbol, ...restProps }) => {
   }, [symbol, generateHexColor])
 
   return (
-    <Wrapper
-      $backgroundColor={backgroundColor}
-      $size={size}
+    <Flex
+      alignItems="center"
+      backgroundColor={backgroundColor}
+      borderRadius="50%"
+      color="#fafafa"
+      display="flex"
+      fontSize="95%"
+      fontWeight="700"
+      height={`${size}px`}
+      justifyContent="center"
+      lineHeight="1"
+      textTransform="uppercase"
+      width={`${size}px`}
       {...restProps}
     >
       {symbol[0]}
-    </Wrapper>
+    </Flex>
   )
 }
 

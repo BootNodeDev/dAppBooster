@@ -28,20 +28,7 @@ Check out the documentation for more information about building your first dApp:
 Ensure `pnpm` is installed (https://pnpm.io/) and clone the repository.
 
 ```bash
-# Clone the repository
-git clone git@github.com:BootNodeDev/dAppBooster.git my-dapp
-
-# Change the directory
-cd my-dapp
-
-# Checkout the latest release
-git checkout main
-
-# Create a local .env file
-cp .env.example .env.local
-
-# Install the dependencies
-pnpm i
+$ pnpx dappbooster <projectDirectory>
 ```
 
 Now you might want to change your project's name and description in the `package.json` file.
@@ -75,8 +62,6 @@ pnpm dev
 ```
 
 You can start modifying the content of the home page by editing `src/components/pageComponents/home/index.tsx`. The page auto-updates as you edit the file.
-
-You can also modify and see how our Web3 components work in the [demos folder](src/components/pageComponents/home/Examples/demos).
 
 ### Build for production
 
@@ -149,28 +134,3 @@ export const env = createEnv({
 ```
 
 **Note:** if not specified, it will be `undefined` making the app to use the wagmi-defined RPC.
-
-### ESLint configuration for production releases
-
-If you are developing a production application, we recommend updating the [configuration file](.eslintrc) to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```cjs
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-- Replace `plugin:@typescript-eslint/recommended` for `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-
-## Contributing
-
-If you want to contribute to this project, please read the [contributing guidelines](CONTRIBUTING.md). Issues and pull requests are welcome!

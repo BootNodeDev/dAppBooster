@@ -1,6 +1,7 @@
-import { type FC, type PropsWithChildren, createContext, useContext } from 'react'
-
-import toast from 'react-hot-toast'
+import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { NotificationToast, notificationToaster } from '@/src/lib/toast/NotificationToast'
+import { type FC, type PropsWithChildren, type ReactNode, createContext, useContext } from 'react'
 import type {
   Hash,
   ReplacementReturnType,
@@ -8,13 +9,9 @@ import type {
   TransactionExecutionError,
 } from 'viem'
 
-import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { ToastNotification } from '@/src/lib/toast/ToastNotification'
-
 type WatchSignatureArgs = {
   successMessage?: string
-  message: JSX.Element | string
+  message: ReactNode | string
   signaturePromise: Promise<Hash>
   onToastId?: (toastId: string) => void
   showSuccessToast?: boolean
@@ -49,23 +46,31 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
     signaturePromise,
     successMessage = 'Signature received!',
   }: WatchSignatureArgs) {
-    const toastId = toast.loading(() => <ToastNotification message={message} />)
+    const toastId = notificationToaster.create({
+      description: message,
+      type: 'loading',
+    })
     onToastId?.(toastId)
 
     try {
       await signaturePromise
       if (showSuccessToast) {
-        toast.success(<ToastNotification message={successMessage} />, {
+        notificationToaster.create({
+          description: successMessage,
+          type: 'success',
           id: toastId,
         })
       }
     } catch (e) {
       const error = e as TransactionExecutionError | SignMessageErrorType
-      let message = error.message || 'An error occurred'
-      if ('shortMessage' in error) {
-        message = error.shortMessage
-      }
-      toast.error(<ToastNotification message={message} />, { id: toastId })
+      const message =
+        'shortMessage' in error ? error.shortMessage : error.message || 'An error occurred'
+
+      notificationToaster.create({
+        description: message,
+        type: 'success',
+        id: toastId,
+      })
     }
   }
 
@@ -86,7 +91,9 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       return
     }
 
-    toast.loading(() => <ToastNotification message={message} />, {
+    notificationToaster.create({
+      description: message,
+      type: 'loading',
       id: toastId,
     })
 
@@ -100,53 +107,65 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
 
       if (replacedTx !== null) {
         if (['replaced', 'cancelled'].includes(replacedTx.reason)) {
-          toast.error(
-            <div>
-              <div>Transaction has been {replacedTx.reason}!</div>
-              <ExplorerLink
-                chain={chain}
-                hashOrAddress={replacedTx.transaction.hash}
-              />
-            </div>,
-            { id: toastId },
-          )
+          notificationToaster.create({
+            description: (
+              <div>
+                <div>Transaction has been {replacedTx.reason}!</div>
+                <ExplorerLink
+                  chain={chain}
+                  hashOrAddress={replacedTx.transaction.hash}
+                />
+              </div>
+            ),
+            type: 'error',
+            id: toastId,
+          })
         } else {
-          toast.success(
-            <div>
-              <div>{successMessage}</div>
-              <ExplorerLink
-                chain={chain}
-                hashOrAddress={replacedTx.transaction.hash}
-              />
-            </div>,
-            { id: toastId },
-          )
+          notificationToaster.create({
+            description: (
+              <div>
+                <div>{successMessage}</div>
+                <ExplorerLink
+                  chain={chain}
+                  hashOrAddress={replacedTx.transaction.hash}
+                />
+              </div>
+            ),
+            type: 'success',
+            id: toastId,
+          })
         }
         return
       }
 
       if (receipt.status === 'success') {
-        toast.success(
-          <div>
-            <div>{successMessage}</div>
-            <ExplorerLink
-              chain={chain}
-              hashOrAddress={hash}
-            />
-          </div>,
-          { id: toastId },
-        )
+        notificationToaster.create({
+          description: (
+            <div>
+              <div>{successMessage}</div>
+              <ExplorerLink
+                chain={chain}
+                hashOrAddress={hash}
+              />
+            </div>
+          ),
+          type: 'success',
+          id: toastId,
+        })
       } else {
-        toast.error(
-          <div>
-            <div>{errorMessage}</div>
-            <ExplorerLink
-              chain={chain}
-              hashOrAddress={hash}
-            />
-          </div>,
-          { id: toastId },
-        )
+        notificationToaster.create({
+          description: (
+            <div>
+              <div>{errorMessage}</div>
+              <ExplorerLink
+                chain={chain}
+                hashOrAddress={hash}
+              />
+            </div>
+          ),
+          type: 'error',
+          id: toastId,
+        })
       }
     } catch (error) {
       console.error('Error watching hash', error)
@@ -178,6 +197,7 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
   return (
     <TransactionContext.Provider value={{ watchTx, watchHash, watchSignature }}>
       {children}
+      <NotificationToast />
     </TransactionContext.Provider>
   )
 }
@@ -185,6 +205,7 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
 // eslint-disable-next-line react-refresh/only-export-components
 export function useTransactionNotification() {
   const context = useContext(TransactionContext)
+
   if (context === undefined) {
     throw new Error(
       'useTransactionNotification must be used within a TransactionNotificationProvider',
