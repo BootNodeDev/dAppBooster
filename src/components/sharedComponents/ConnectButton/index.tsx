@@ -32,6 +32,7 @@ const ConnectButton: FC<ConnectButtonProps> = ({ $isConnected, children, css, ..
       borderRadius={$isConnected ? '30px' : 'sm'}
       backgroundColor="var(--background-color)"
       borderColor="var(--border-color)"
+      boxShadow="0 2px 4.63px 0 #0000000C, 0 9.6px 13px 0 #00000013, 0 24px 34px 0 #0000001A, 0 48px 80px 0 #00000026"
       color="var(--color)"
       css={{ ...css, ...styles }}
       fontWeight="700"

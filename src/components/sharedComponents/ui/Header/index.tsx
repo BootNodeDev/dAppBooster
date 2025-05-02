@@ -46,7 +46,7 @@ export const Header: FC<BoxProps> = ({ css, ...restProps }) => {
           align="center"
           display={{ base: 'none', xl: 'flex' }}
           flex={1}
-          gap={2}
+          gap={6}
           h="100%"
           justify="flex-end"
         >
