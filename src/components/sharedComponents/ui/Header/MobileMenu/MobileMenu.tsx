@@ -1,10 +1,9 @@
 import Logo from '@/src/components/sharedComponents/ui/Header/Logo'
+import MainMenu from '@/src/components/sharedComponents/ui/Header/MainMenu'
 import { SwitchThemeButton } from '@/src/components/sharedComponents/ui/SwitchThemeButton'
-import { menuItems } from '@/src/constants/menuItems'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { Link as A, chakra } from '@chakra-ui/react'
+import { chakra } from '@chakra-ui/react'
 import { Drawer } from '@chakra-ui/react'
-import { Link as ReactLink } from '@tanstack/react-router'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
 import styles from './styles'
@@ -68,31 +67,6 @@ const Button = chakra(
   },
 )
 
-const LinkCSS = {
-  alignItems: 'center',
-  color: 'var(--color)',
-  display: 'flex',
-  flexDirection: 'column',
-  fontSize: '21px',
-  fontWeight: '500',
-  lineHeight: '1.2',
-  rowGap: 6,
-  textDecoration: 'none',
-  _after: {
-    backgroundColor: 'var(--color)',
-    borderRadius: '2px',
-    content: "''",
-    display: 'block',
-    height: '2px',
-    width: '20px',
-  },
-  _active: {
-    opacity: 0.7,
-  },
-}
-
-const Link = chakra(ReactLink)
-
 export const MobileMenu = () => {
   const { setTheme, theme } = useTheme()
   const [isOpen, setIsOpen] = useState(false)
@@ -124,7 +98,7 @@ export const MobileMenu = () => {
             alignItems="center"
             display="flex"
             justifyContent="space-between"
-            marginBottom={20}
+            marginBottom={10}
             padding={0}
             width="100%"
           >
@@ -148,31 +122,11 @@ export const MobileMenu = () => {
               marginBottom={10}
               maxWidth="fit-content"
             />
-            {menuItems.map(({ href, label, to }, index) => {
-              const key = `menuItem_${index}`
-              return to ? (
-                <Link
-                  {...LinkCSS}
-                  key={key}
-                  onClick={() => setIsOpen(false)}
-                  to={to}
-                >
-                  {label}
-                </Link>
-              ) : href ? (
-                <A
-                  {...LinkCSS}
-                  href={href}
-                  key={key}
-                  onClick={() => setIsOpen(false)}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  {label}
-                </A>
-              ) : null
-            })}
-            <SwitchThemeButton onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')} />
+            <MainMenu />
+            <SwitchThemeButton
+              marginTop="auto"
+              onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            />
           </Drawer.Body>
         </Drawer.Content>
       </Drawer.Positioner>

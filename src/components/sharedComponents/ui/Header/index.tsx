@@ -41,7 +41,11 @@ export const Header: FC<BoxProps> = ({ css, ...restProps }) => {
             <Logo width={{ base: '120px', md: '140px' }} />
           </HomeLink>
         </Box>
-        <MainMenu />
+        <MainMenu
+          flex="1"
+          height="100%"
+          display={{ base: 'none', xl: 'flex' }}
+        />
         <Flex
           align="center"
           display={{ base: 'none', xl: 'flex' }}
