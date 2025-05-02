@@ -6,7 +6,7 @@ export const Inner: FC<FlexProps> = ({ children, ...restProps }) => (
     flexShrink={0}
     maxW="100%"
     mx="auto"
-    px={{ base: 1, md: 2, xl: 4 }}
+    px={{ base: 2, md: 3, xl: 4 }}
     w="1440px"
     {...restProps}
   >
