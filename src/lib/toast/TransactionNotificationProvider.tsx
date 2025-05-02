@@ -1,7 +1,7 @@
 import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { NotificationToast, notificationToaster } from '@/src/lib/toast/NotificationToast'
-import { type FC, type PropsWithChildren, createContext, useContext } from 'react'
+import { type FC, type PropsWithChildren, type ReactNode, createContext, useContext } from 'react'
 import type {
   Hash,
   ReplacementReturnType,
@@ -11,7 +11,7 @@ import type {
 
 type WatchSignatureArgs = {
   successMessage?: string
-  message: JSX.Element | string
+  message: ReactNode | string
   signaturePromise: Promise<Hash>
   onToastId?: (toastId: string) => void
   showSuccessToast?: boolean

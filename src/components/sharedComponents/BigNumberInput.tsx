@@ -10,7 +10,7 @@ import {
 import { formatUnits, maxUint256, parseUnits } from 'viem'
 export type RenderInputProps = Omit<InputProps, 'onChange'> & {
   onChange: (event: ChangeEvent<HTMLInputElement> | string) => void
-  inputRef: RefObject<HTMLInputElement>
+  inputRef: RefObject<HTMLInputElement | null>
 }
 
 export type BigNumberInputProps = {
