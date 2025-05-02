@@ -30,7 +30,7 @@ interface SwitchNetworkProps extends ComponentPropsWithoutRef<'div'> {
  * @param {SwitchNetworkProps} props - SwitchNetwork component props.
  * @param {Networks} props.networks - List of networks to display in the dropdown.
  */
-const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }) => {
+const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }: SwitchNetworkProps) => {
   const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
 
   const { chains: configuredChains, switchChain } = useSwitchChain()
