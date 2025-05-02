@@ -112,6 +112,7 @@ const Item: FC<Props> = ({
           lazyMount
           open={isModalOpen}
           onOpenChange={(e) => setIsModalOpen(e.open)}
+          size="lg"
         >
           <Dialog.Trigger asChild>
             <DemoButton />
@@ -119,10 +120,7 @@ const Item: FC<Props> = ({
           <Portal>
             <Dialog.Backdrop />
             <Dialog.Positioner>
-              <Dialog.Content
-                // minWidth="fit-content"
-                maxWidth="calc(100vw - 16px)"
-              >
+              <Dialog.Content>
                 <Modal
                   onClose={() => setIsModalOpen(false)}
                   text={text}
