@@ -59,34 +59,34 @@ const Decoration = () => (
         y2="669.113"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#662681" />
+        <stop stopColor="#662681" />
         <stop
           offset="0.15"
-          stop-color="#692581"
+          stopColor="#692581"
         />
         <stop
           offset="0.26"
-          stop-color="#722381"
+          stopColor="#722381"
         />
         <stop
           offset="0.36"
-          stop-color="#822080"
+          stopColor="#822080"
         />
         <stop
           offset="0.43"
-          stop-color="#931C80"
+          stopColor="#931C80"
         />
         <stop
           offset="0.62"
-          stop-color="#B51C7B"
+          stopColor="#B51C7B"
         />
         <stop
           offset="0.87"
-          stop-color="#D91D75"
+          stopColor="#D91D75"
         />
         <stop
           offset="1"
-          stop-color="#E71D73"
+          stopColor="#E71D73"
         />
       </linearGradient>
     </defs>

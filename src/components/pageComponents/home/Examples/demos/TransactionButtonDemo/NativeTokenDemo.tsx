@@ -4,7 +4,7 @@ import { withWalletStatusVerifier } from '@/src/components/sharedComponents/Wall
 import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
 import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
-import { Dialog, Portal } from '@chakra-ui/react'
+import { Dialog } from '@chakra-ui/react'
 import { type ReactElement, useState } from 'react'
 import { type Hash, type TransactionReceipt, parseEther } from 'viem'
 import { sepolia } from 'viem/chains'
@@ -57,27 +57,25 @@ const NativeTokenDemo = withWalletStatusVerifier(
             Send 0.1 Sepolia ETH
           </TransactionButton>
         </Wrapper>
-        <Portal>
-          <Dialog.Backdrop />
-          <Dialog.Positioner>
-            <Dialog.Content>
-              <GeneralMessage
-                actionButton={
-                  <PrimaryButton
-                    onClick={() => {
-                      setIsModalOpen(false)
-                      setMinedMessage('')
-                    }}
-                  >
-                    Close
-                  </PrimaryButton>
-                }
-                message={minedMessage}
-                title={'Transaction completed!'}
-              />
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Portal>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content>
+            <GeneralMessage
+              actionButton={
+                <PrimaryButton
+                  onClick={() => {
+                    setIsModalOpen(false)
+                    setMinedMessage('')
+                  }}
+                >
+                  Close
+                </PrimaryButton>
+              }
+              message={minedMessage}
+              title={'Transaction completed!'}
+            />
+          </Dialog.Content>
+        </Dialog.Positioner>
       </Dialog.Root>
     )
   },

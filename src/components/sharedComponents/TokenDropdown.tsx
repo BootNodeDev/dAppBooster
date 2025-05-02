@@ -56,7 +56,7 @@ const TokenDropdown: FC<Props> = ({
     <Menu.Root
       open={isOpen}
       onOpenChange={(state) => setIsOpen(state.open)}
-      positioning={{ placement: 'bottom-end' }}
+      positioning={{ placement: 'bottom' }}
     >
       <Menu.Trigger asChild>
         <DropdownButton>
@@ -83,17 +83,15 @@ const TokenDropdown: FC<Props> = ({
           )}
         </DropdownButton>
       </Menu.Trigger>
-      <Portal>
-        <Menu.Positioner>
-          <MenuContent>
-            <TokenSelect
-              onTokenSelect={handleTokenSelect}
-              showAddTokenButton={showAddTokenButton}
-              {...restProps}
-            />
-          </MenuContent>
-        </Menu.Positioner>
-      </Portal>
+      <Menu.Positioner>
+        <MenuContent scrollbar={'hidden'}>
+          <TokenSelect
+            onTokenSelect={handleTokenSelect}
+            showAddTokenButton={showAddTokenButton}
+            {...restProps}
+          />
+        </MenuContent>
+      </Menu.Positioner>
     </Menu.Root>
   )
 }

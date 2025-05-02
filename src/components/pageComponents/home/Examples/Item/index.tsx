@@ -1,8 +1,9 @@
 import DemoButton from '@/src/components/pageComponents/home/Examples/Item/buttons/DemoButton'
 import DocumentationButton from '@/src/components/pageComponents/home/Examples/Item/buttons/DocumentationButton'
 import SourceCodeButton from '@/src/components/pageComponents/home/Examples/Item/buttons/SourceCodeButton'
-import { Flex, type FlexProps, Heading, Text } from '@chakra-ui/react'
-import type { FC, ReactNode } from 'react'
+import Modal from '@/src/components/sharedComponents/ui/Modal'
+import { Dialog, Flex, type FlexProps, Heading, Portal, Text } from '@chakra-ui/react'
+import { type FC, type ReactNode, useState } from 'react'
 import styles from './styles'
 
 export interface Props extends FlexProps {
@@ -24,6 +25,8 @@ const Item: FC<Props> = ({
   title,
   ...restProps
 }: Props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   return (
     <Flex
       backgroundColor="var(--background-color)"
@@ -104,7 +107,30 @@ const Item: FC<Props> = ({
             target="_blank"
           />
         )}
-        <DemoButton />
+        <Dialog.Root
+          lazyMount
+          open={isModalOpen}
+          onOpenChange={(e) => setIsModalOpen(e.open)}
+        >
+          <Dialog.Trigger asChild>
+            <DemoButton />
+          </Dialog.Trigger>
+          <Portal>
+            <Dialog.Backdrop />
+            <Dialog.Positioner>
+              <Dialog.Content minWidth="fit-content">
+                <Modal
+                  onClose={() => setIsModalOpen(false)}
+                  text={text}
+                  title={title}
+                  width="632px"
+                >
+                  {demo}
+                </Modal>
+              </Dialog.Content>
+            </Dialog.Positioner>
+          </Portal>
+        </Dialog.Root>
       </Flex>
     </Flex>
   )

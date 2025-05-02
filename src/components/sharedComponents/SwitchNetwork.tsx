@@ -1,7 +1,7 @@
 import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
 import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { Flex, Menu, Portal } from '@chakra-ui/react'
+import { Flex, Menu } from '@chakra-ui/react'
 import {
   type ComponentPropsWithoutRef,
   type FC,
@@ -82,22 +82,20 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }: SwitchNetworkProps)
           )}
         </DropdownButton>
       </Menu.Trigger>
-      <Portal>
-        <Menu.Positioner>
-          <MenuContent width="250px">
-            {networks.map(({ icon, id, label }) => (
-              <MenuItem
-                key={`${id}-${label}`}
-                onClick={() => handleClick(id)}
-                value={label}
-              >
-                {icon}
-                {label}
-              </MenuItem>
-            ))}
-          </MenuContent>
-        </Menu.Positioner>
-      </Portal>
+      <Menu.Positioner>
+        <MenuContent width="250px">
+          {networks.map(({ icon, id, label }) => (
+            <MenuItem
+              key={`${id}-${label}`}
+              onClick={() => handleClick(id)}
+              value={label}
+            >
+              {icon}
+              {label}
+            </MenuItem>
+          ))}
+        </MenuContent>
+      </Menu.Positioner>
     </Menu.Root>
   )
 }

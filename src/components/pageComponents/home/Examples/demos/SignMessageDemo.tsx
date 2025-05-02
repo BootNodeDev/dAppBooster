@@ -16,12 +16,12 @@ dAppBooster Team 💪
 const SignMessageDemo = () => {
   return (
     <SignButton
+      as={PrimaryButton}
       fontSize="16px"
       fontWeight="500"
       height="48px"
-      paddingX={6}
-      as={PrimaryButton}
       message={message}
+      paddingX={6}
     />
   )
 }

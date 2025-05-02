@@ -80,43 +80,41 @@ export const OptionsDropdown: FC<
             <ChevronDown />
           </chakra.button>
         </Menu.Trigger>
-        <Portal>
-          <Menu.Positioner>
-            <Menu.Content
-              css={{ ...dropdownStyles }}
-              padding={0}
-            >
-              {items.map(({ label, onClick }) => (
-                <Menu.Item
-                  backgroundColor="var(--theme-dropdown-item-background-color)"
-                  borderBottom="1px solid var( --theme-dropdown-item-border-color)"
-                  color="var(--theme-dropdown-item-color)"
-                  cursor="pointer"
-                  key={label}
-                  onClick={() => {
-                    if (onClick) {
-                      onClick()
-                    }
-                    setCurrentItem(label)
-                  }}
-                  value={label}
-                  _hover={{
-                    backgroundColor: 'var(--theme-dropdown-item-background-color-hover)',
-                    color: 'var(--theme-dropdown-item-color-hover)',
-                    borderBottom: '1px solid var( --theme-dropdown-item-border-color-hover)',
-                  }}
-                  _active={{
-                    backgroundColor: 'var(--theme-dropdown-item-background-color-active)',
-                    color: 'var(--theme-dropdown-item-color-active)',
-                    borderBottom: '1px solid var( --theme-dropdown-item-border-color-active)',
-                  }}
-                >
-                  {label}
-                </Menu.Item>
-              ))}
-            </Menu.Content>
-          </Menu.Positioner>
-        </Portal>
+        <Menu.Positioner>
+          <Menu.Content
+            css={{ ...dropdownStyles }}
+            padding={0}
+          >
+            {items.map(({ label, onClick }) => (
+              <Menu.Item
+                backgroundColor="var(--theme-dropdown-item-background-color)"
+                borderBottom="1px solid var( --theme-dropdown-item-border-color)"
+                color="var(--theme-dropdown-item-color)"
+                cursor="pointer"
+                key={label}
+                onClick={() => {
+                  if (onClick) {
+                    onClick()
+                  }
+                  setCurrentItem(label)
+                }}
+                value={label}
+                _hover={{
+                  backgroundColor: 'var(--theme-dropdown-item-background-color-hover)',
+                  color: 'var(--theme-dropdown-item-color-hover)',
+                  borderBottom: '1px solid var( --theme-dropdown-item-border-color-hover)',
+                }}
+                _active={{
+                  backgroundColor: 'var(--theme-dropdown-item-background-color-active)',
+                  color: 'var(--theme-dropdown-item-color-active)',
+                  borderBottom: '1px solid var( --theme-dropdown-item-border-color-active)',
+                }}
+              >
+                {label}
+              </Menu.Item>
+            ))}
+          </Menu.Content>
+        </Menu.Positioner>
       </Menu.Root>
     </Box>
   )
