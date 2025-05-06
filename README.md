@@ -20,27 +20,18 @@ Check out the documentation for more information about building your first dApp:
 
 ## Requirements
 
-- Node v20+
-- pnpm
+- Node v20+ from https://nodejs.org/
+- pnpm from https://pnpm.io/
 
 ## Installation
 
-Ensure `pnpm` is installed (https://pnpm.io/) and clone the repository.
+Ensure you meet all the requirements and then run the install script and follow the on-screen instructions.
 
 ```bash
-$ pnpx dappbooster <projectDirectory>
+$ pnpm dlx dappbooster dAppBoosterFirstdApp
 ```
 
-Now you might want to change your project's name and description in the `package.json` file.
-
-```json
-{
-  "name": "my-dapp",
-  "description": "My dApp"
-}
-```
-
-Also you might want to change your project's remote repository to a different one.
+**Note:** you might want to change your project's remote repository to a different one.
 
 ```bash
 # Change the remote repository
@@ -52,6 +43,12 @@ git remote set-url origin
 ### Configuration File
 
 Configure the appropriate settings in the `.env.local` file. Most vars are optional and they should be self-explanatory.
+
+**Note:** You MUST provide a [subgraph API key](https://thegraph.com/studio/apikeys/) if you opted for a subgraph-enabled installation. Also you MUST run the `subgraph-codegen` script after you setup the API key.
+
+```bash
+pnpm subgraph-codegen
+```
 
 ## Development
 
@@ -82,7 +79,6 @@ pnpm preview
     - `components/sharedComponents`: Components shared across multiple pages
     - `components/pageComponents`: Components specific to a page
   - `routes/`: TanStack Router routes
-  - `styles/`: App styles
 
 ## Advanced configuration
 
