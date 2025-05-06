@@ -9,7 +9,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignore": ["src/routeTree.gen.ts", "src/subgraphs/"]
+    "ignore": ["src/routeTree.gen.ts"]
   },
   "formatter": {
     "attributePosition": "multiline",
