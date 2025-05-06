@@ -33,7 +33,17 @@ interface AvatarProps extends ComponentProps<'div'> {
  * ```
  */
 
-const Avatar: FC<AvatarProps> = ({ address, ensImage, ensName, size = 100 }) => {
+const Avatar: FC<AvatarProps> = ({
+  address,
+  ensImage,
+  ensName,
+  size = 100,
+}: {
+  address: string
+  ensImage: string | null | undefined
+  ensName: string | null | undefined
+  size?: number
+}) => {
   return (
     <Box
       borderRadius="50%"

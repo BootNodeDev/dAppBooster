@@ -23,7 +23,10 @@ interface ExplorerLinkProps extends GetExplorerUrlParams, LinkProps {
  * />
  * ```
  */
-export const ExplorerLink: FC<ExplorerLinkProps> = ({ text = 'View on explorer', ...props }) => {
+export const ExplorerLink: FC<ExplorerLinkProps> = ({
+  text = 'View on explorer',
+  ...props
+}: ExplorerLinkProps) => {
   return (
     <chakra.a
       href={getExplorerLink(props)}
