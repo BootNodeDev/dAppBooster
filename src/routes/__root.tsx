@@ -28,6 +28,7 @@ function Root() {
             <Flex
               as="main"
               direction="column"
+              flexGrow="1"
             >
               <Outlet />
             </Flex>

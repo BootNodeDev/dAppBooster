@@ -1,7 +1,12 @@
+import { Flex } from '@chakra-ui/react'
 import React from 'react'
 
 export const Home = () => (
-  <div>
+  <Flex
+    alignItems="center"
+    flexGrow={1}
+    justifyContent="center"
+  >
     Welcome to{' '}
     <a
       href="https://dappbooster.dev"
@@ -11,7 +16,7 @@ export const Home = () => (
       dAppBooster
     </a>
     !
-  </div>
+  </Flex>
 )
 
 export default Home
