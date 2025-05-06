@@ -1,13 +1,14 @@
+import Icon from '@/src/components/pageComponents/home/Examples/demos/SwitchNetwork/Icon'
 import Arbitrum from '@/src/components/pageComponents/home/Examples/demos/assets/Arbitrum'
 import Eth from '@/src/components/pageComponents/home/Examples/demos/assets/Eth'
 import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
 import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
-import SwitchNetwork, { type Networks } from '@/src/components/sharedComponents/SwitchNetwork'
+import BaseSwitchNetwork, { type Networks } from '@/src/components/sharedComponents/SwitchNetwork'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
 
-const SwitchNetworkDemo = () => {
+const SwitchNetwork = () => {
   const { isWalletConnected } = useWeb3Status()
   const networks: Networks = [
     {
@@ -33,10 +34,20 @@ const SwitchNetworkDemo = () => {
   ]
 
   return isWalletConnected ? (
-    <SwitchNetwork networks={networks} />
+    <BaseSwitchNetwork networks={networks} />
   ) : (
     <ConnectWalletButton label="Connect to switch network" />
   )
 }
 
-export default SwitchNetworkDemo
+const switchNetwork = {
+  demo: <SwitchNetwork />,
+  sourceCodeHref:
+    'https://github.com/BootNodeDev/dAppBooster/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SwitchNetworkDemo.tsx#L11',
+  href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_SwitchNetwork.SwitchNetwork.html',
+  icon: <Icon />,
+  text: 'Learn how to add or switch networks in supported wallets.',
+  title: 'Add / switch network',
+}
+
+export default switchNetwork

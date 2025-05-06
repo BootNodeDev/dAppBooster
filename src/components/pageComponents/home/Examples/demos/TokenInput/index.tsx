@@ -1,9 +1,10 @@
 import OptionsDropdown from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
+import Icon from '@/src/components/pageComponents/home/Examples/demos/TokenInput/Icon'
 import Arbitrum from '@/src/components/pageComponents/home/Examples/demos/assets/Arbitrum'
 import Eth from '@/src/components/pageComponents/home/Examples/demos/assets/Eth'
 import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
 import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
-import TokenInput from '@/src/components/sharedComponents/TokenInput'
+import BaseTokenInput from '@/src/components/sharedComponents/TokenInput'
 import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
@@ -42,7 +43,10 @@ const SkeletonLoadingTokenInput = () => (
   </Flex>
 )
 
-const TokenInputs = withSuspenseAndRetry(
+/**
+ * Select multi-token or single-token mode
+ */
+const TokenInputMode = withSuspenseAndRetry(
   ({ currentTokenInput }: { currentTokenInput: Options }) => {
     const { isWalletConnected } = useWeb3Status()
     const [currentNetworkId, setCurrentNetworkId] = useState<number>()
@@ -82,7 +86,7 @@ const TokenInputs = withSuspenseAndRetry(
     ]
 
     return (
-      <TokenInput
+      <BaseTokenInput
         currentNetworkId={currentNetworkId}
         networks={networks}
         showAddTokenButton
@@ -100,7 +104,7 @@ const TokenInputs = withSuspenseAndRetry(
  * This demo uses the TokenInput component to show how to use it in a single
  * token or multi token mode.
  */
-const TokenInputDemo = () => {
+const TokenInput = () => {
   const [currentTokenInput, setCurrentTokenInput] = useState<Options>('single')
   const dropdownItems = [
     { label: 'Single token', onClick: () => setCurrentTokenInput('single') },
@@ -116,7 +120,7 @@ const TokenInputDemo = () => {
         items={dropdownItems}
         currentItem={dropdownItems[0].label}
       />
-      <TokenInputs
+      <TokenInputMode
         currentTokenInput={currentTokenInput}
         suspenseFallback={<SkeletonLoadingTokenInput />}
       />
@@ -124,4 +128,26 @@ const TokenInputDemo = () => {
   )
 }
 
-export default TokenInputDemo
+const tokenInput = {
+  demo: <TokenInput />,
+  sourceCodeHref:
+    'https://github.com/BootNodeDev/dAppBooster/blob/f75be6325de83cfef9753bb29f10f8b6e4679cca/src/components/pageComponents/home/Examples/demos/TokenInputDemo.tsx#L38',
+  href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_TokenInput.TokenInput.html',
+  icon: <Icon />,
+  text: (
+    <>
+      <a
+        href="https://bootnodedev.github.io/dAppBooster/variables/sharedComponents_TokenSelect.TokenSelect.html"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Select a token
+      </a>{' '}
+      or specify one beforehand, enter a token amount, auto detect token decimals, user balance, min
+      and max boundaries, format numbers, max button.
+    </>
+  ),
+  title: 'Token input',
+}
+
+export default tokenInput

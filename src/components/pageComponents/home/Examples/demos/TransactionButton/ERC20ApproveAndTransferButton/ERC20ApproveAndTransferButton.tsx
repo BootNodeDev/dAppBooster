@@ -1,4 +1,4 @@
-import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/Wrapper'
+import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
 import { useSuspenseReadErc20Allowance } from '@/src/hooks/generated'
 import { useWeb3Status, useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'

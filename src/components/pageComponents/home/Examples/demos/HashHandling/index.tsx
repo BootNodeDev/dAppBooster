@@ -1,4 +1,5 @@
-import HashDemo from '@/src/components/pageComponents/home/Examples/demos/HashDemo'
+import Hash from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Hash'
+import Icon from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Icon'
 import HashInput from '@/src/components/sharedComponents/HashInput'
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
@@ -55,7 +56,7 @@ const IconOK = ({ ...restProps }) => (
  * We use `HashInput` to validate an address or tx hash, and `Hash` to allow the
  * user to copy it or open it in an block explorer.
  */
-const HashHandlingDemo = ({ ...restProps }) => {
+const HashHandling = ({ ...restProps }) => {
   const [searchResult, setSearchResult] = useState<DetectedHash | null>(null)
   const [loading, setLoading] = useState<boolean | undefined>()
   const notFound = searchResult && searchResult.type === null
@@ -183,7 +184,7 @@ const HashHandlingDemo = ({ ...restProps }) => {
           </Flex>
         )}
       </Box>
-      <HashDemo
+      <Hash
         chain={currentChain}
         hash={searchResult?.data as Address}
         truncatedHashLength="disabled"
@@ -192,4 +193,19 @@ const HashHandlingDemo = ({ ...restProps }) => {
   )
 }
 
-export default HashHandlingDemo
+const hashHandling = {
+  demo: <HashHandling />,
+  href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_Hash.Hash.html',
+  icon: <Icon />,
+  sourceCodeHref:
+    'https://github.com/BootNodeDev/dAppBooster/blob/f75be6325de83cfef9753bb29f10f8b6e4679cca/src/components/pageComponents/home/Examples/demos/hashHandling.tsx#L155',
+  text: (
+    <>
+      Validate an address or hash. Copy or open it in the block explorer for the chain your wallet
+      is connected to (defaults to mainnet).
+    </>
+  ),
+  title: 'Hash handling',
+}
+
+export default hashHandling

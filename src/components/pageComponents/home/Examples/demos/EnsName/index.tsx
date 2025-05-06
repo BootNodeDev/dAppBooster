@@ -1,3 +1,4 @@
+import Icon from '@/src/components/pageComponents/home/Examples/demos/EnsName/Icon'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import { Flex, Heading, Input } from '@chakra-ui/react'
@@ -28,7 +29,7 @@ const EnsNameSearch = ({ address }: { address?: Address }) => {
   )
 }
 
-const EnsNameDemo = () => {
+const EnsName = () => {
   const [ensAddress, setEnsAddress] = useState<Address>()
   const [value, setValue] = useState<string | undefined>()
   const debounceTime = 500
@@ -157,4 +158,25 @@ const EnsNameDemo = () => {
   )
 }
 
-export default EnsNameDemo
+const ensName = {
+  sourceCodeHref:
+    'https://github.com/BootNodeDev/dAppBooster/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/EnsNameDemo.tsx#L101',
+  demo: <EnsName />,
+  icon: <Icon />,
+  text: (
+    <>
+      Resolve{' '}
+      <a
+        href="https://ens.domains/"
+        rel="noreferrer"
+        target="_blank"
+      >
+        ENS
+      </a>{' '}
+      names to their corresponding addresses.
+    </>
+  ),
+  title: 'ENS name',
+}
+
+export default ensName

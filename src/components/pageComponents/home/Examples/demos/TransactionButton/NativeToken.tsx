@@ -1,4 +1,4 @@
-import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/Wrapper'
+import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
@@ -15,7 +15,7 @@ import { useSendTransaction } from 'wagmi'
  *
  * Works only on Sepolia chain.
  */
-const NativeTokenDemo = withWalletStatusVerifier(
+const NativeToken = withWalletStatusVerifier(
   () => {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const { address } = useWeb3StatusConnected()
@@ -84,4 +84,4 @@ const NativeTokenDemo = withWalletStatusVerifier(
   },
 )
 
-export default NativeTokenDemo
+export default NativeToken

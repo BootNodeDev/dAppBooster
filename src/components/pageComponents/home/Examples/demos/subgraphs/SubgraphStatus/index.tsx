@@ -1,5 +1,6 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
-import { getNetworkIcon } from '@/src/components/pageComponents/home/Examples/demos/SubgraphDemo'
+import { getNetworkIcon } from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph'
+import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/SubgraphStatus/Icon'
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
@@ -27,7 +28,7 @@ export const SkeletonLoadingItem = () => (
   </Flex>
 )
 
-const SubgraphStatus: FC<{
+const Status: FC<{
   indexingStatus: ReturnType<typeof useSubgraphIndexingStatus>
 }> = ({ indexingStatus }) => {
   const { chain, isSynced, networkBlockNumber, resource, subgraphBlockNumber } = indexingStatus
@@ -113,7 +114,7 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
     schemaConfig,
   })
 
-  return <SubgraphStatus indexingStatus={indexingStatus} />
+  return <Status indexingStatus={indexingStatus} />
 })
 
 const Aave = withSuspenseAndRetry(() => {
@@ -123,12 +124,12 @@ const Aave = withSuspenseAndRetry(() => {
     schemaConfig,
   })
 
-  return <SubgraphStatus indexingStatus={indexingStatus} />
+  return <Status indexingStatus={indexingStatus} />
 })
 
 const uniswapNetworks = [optimism, polygon, arbitrum]
 
-const List = ({ ...restProps }) => {
+const SubgraphStatus = ({ ...restProps }) => {
   const [currentChain, setCurrentChain] = useState<Chain | undefined>(uniswapNetworks[0])
   const chains = [...uniswapNetworks, base]
 
@@ -180,4 +181,14 @@ const List = ({ ...restProps }) => {
   )
 }
 
-export default List
+const subgraphStatus = {
+  sourceCodeHref:
+    'https://github.com/BootNodeDev/dAppBooster/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SubgraphStatusDemo/List.tsx#L178',
+  demo: <SubgraphStatus />,
+  href: 'https://docs.dappbooster.dev/plugins/subgraphs',
+  icon: <Icon />,
+  text: "Easily check a subgraph's syncing status.",
+  title: 'Subgraph status',
+}
+
+export default subgraphStatus

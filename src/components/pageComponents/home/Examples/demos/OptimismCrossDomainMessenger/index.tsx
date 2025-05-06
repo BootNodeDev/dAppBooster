@@ -1,3 +1,4 @@
+import Icon from '@/src/components/pageComponents/home/Examples/demos/OptimismCrossDomainMessenger/Icon'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/OptimismCrossDomainMessenger/Wrapper'
 import Hash from '@/src/components/sharedComponents/Hash'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
@@ -80,4 +81,25 @@ const OptimismCrossDomainMessenger = withWalletStatusVerifier(
   { chainId: sepolia.id },
 )
 
-export default OptimismCrossDomainMessenger
+const optimismCrossdomainMessenger = {
+  sourceCodeHref:
+    'https://github.com/BootNodeDev/dAppBooster/blob/a524d9d65069652de1d187514cc8d635c2d075fd/src/hooks/useOPL1CrossDomainMessengerProxy.ts',
+  demo: <OptimismCrossDomainMessenger />,
+  href: 'https://bootnodedev.github.io/dAppBooster/functions/hooks_useL1CrossDomainMessengerProxy.useL1CrossDomainMessengerProxy.html',
+  icon: <Icon />,
+  text: (
+    <>
+      Learn more in{' '}
+      <a
+        href="https://docs.optimism.io/builders/app-developers/bridging/messaging"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Optimism cross domain messenger.
+      </a>
+    </>
+  ),
+  title: 'Optimism cross domain messenger',
+}
+
+export default optimismCrossdomainMessenger

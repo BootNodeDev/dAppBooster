@@ -1,0 +1,40 @@
+import Icon from '@/src/components/pageComponents/home/Examples/demos/SignMessage/Icon'
+import SignButton from '@/src/components/sharedComponents/SignButton'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
+
+const message = `
+👻🚀 Welcome to dAppBooster! 🚀👻
+
+By signing this message, you acknowledge the awesome power and potential of dAppBooster.
+
+Empower your dApps!
+
+✨ Keep boosting! ✨
+
+dAppBooster Team 💪
+`
+
+const SignMessage = () => {
+  return (
+    <SignButton
+      as={PrimaryButton}
+      fontSize="16px"
+      fontWeight="500"
+      height="48px"
+      message={message}
+      paddingX={6}
+    />
+  )
+}
+
+const signMessage = {
+  sourceCodeHref:
+    'https://github.com/BootNodeDev/dAppBooster/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SignMessageDemo.tsx#L37',
+  demo: <SignMessage />,
+  href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_SignButton.SignButton.html',
+  icon: <Icon />,
+  text: 'Sign a message with your wallet and get the signature on a dialog.',
+  title: 'Sign button',
+}
+
+export default signMessage

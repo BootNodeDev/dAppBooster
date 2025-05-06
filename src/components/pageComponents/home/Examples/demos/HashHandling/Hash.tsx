@@ -1,4 +1,4 @@
-import Hash from '@/src/components/sharedComponents/Hash'
+import BaseHash from '@/src/components/sharedComponents/Hash'
 import { toaster } from '@/src/components/ui/toaster'
 import { getExplorerLink } from '@/src/utils/getExplorerLink'
 import type { FlexProps } from '@chakra-ui/react'
@@ -17,7 +17,7 @@ interface Props extends FlexProps {
  * Some styles were added. Also we show a toast when the copy button is clicked
  * to let the user know that something has happened.
  */
-const HashDemo: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
+const Hash: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
   const onCopy = (message: string) => {
     const timeDelay = 2500
 
@@ -30,7 +30,7 @@ const HashDemo: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
     })
   }
   return hash ? (
-    <Hash
+    <BaseHash
       css={{
         '.light &': {
           '--theme-hash-background-color': '#fff',
@@ -62,4 +62,4 @@ const HashDemo: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
   ) : null
 }
 
-export default HashDemo
+export default Hash

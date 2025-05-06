@@ -3,6 +3,7 @@ import Arbitrum from '@/src/components/pageComponents/home/Examples/demos/assets
 import Base from '@/src/components/pageComponents/home/Examples/demos/assets/Base'
 import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
 import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
+import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph/Icon'
 import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
 import ExternalLink from '@/src/components/sharedComponents/ui/ExternalLink'
 import { toaster } from '@/src/components/ui/toaster'
@@ -271,7 +272,7 @@ const Aave = withSuspenseAndRetry(() => {
   )
 })
 
-const List = ({ ...restProps }) => {
+const Subgraph = ({ ...restProps }) => {
   const uniswapNetworks = [optimism, polygon, arbitrum]
   const [currentChain, setCurrentChain] = useState<Chain | undefined>(uniswapNetworks[0])
   const chains = [...uniswapNetworks, base]
@@ -323,4 +324,14 @@ const List = ({ ...restProps }) => {
   )
 }
 
-export default List
+const subgraph = {
+  sourceCodeHref:
+    'https://github.com/BootNodeDev/dAppBooster/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SubgraphDemo/List.tsx#L249',
+  demo: <Subgraph />,
+  href: 'https://docs.dappbooster.dev/plugins/subgraphs',
+  icon: <Icon />,
+  text: 'Connect to subgraphs and fetch data from the blockchain the easy way.',
+  title: 'Subgraphs',
+}
+
+export default subgraph

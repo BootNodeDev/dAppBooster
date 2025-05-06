@@ -1,6 +1,6 @@
-import ERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/ERC20ApproveAndTransferButtonDemo/ERC20ApproveAndTransferButton'
-import MintUSDC from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/ERC20ApproveAndTransferButtonDemo/MintUSDC'
-import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButtonDemo/Wrapper'
+import BaseERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/ERC20ApproveAndTransferButton'
+import MintUSDC from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/MintUSDC'
+import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { useSuspenseReadErc20BalanceOf } from '@/src/hooks/generated'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
@@ -57,7 +57,7 @@ const ABIExample = [
  *
  * Works only on Sepolia chain.
  */
-const ERC20ApproveAndTransferButtonDemo = withWalletStatusVerifier(
+const ERC20ApproveAndTransferButton = withWalletStatusVerifier(
   withSuspense(() => {
     const { address } = useWeb3StatusConnected()
     const { writeContractAsync } = useWriteContract()
@@ -96,7 +96,7 @@ const ERC20ApproveAndTransferButtonDemo = withWalletStatusVerifier(
             <MintUSDC onSuccess={refetchBalance} />
           </Wrapper>
         ) : (
-          <ERC20ApproveAndTransferButton
+          <BaseERC20ApproveAndTransferButton
             amount={amount}
             label={`Supply ${formattedAmount} USDC`}
             labelSending="Sending..."
@@ -112,4 +112,4 @@ const ERC20ApproveAndTransferButtonDemo = withWalletStatusVerifier(
   { chainId: sepolia.id }, // this DEMO component only works on sepolia chain
 )
 
-export default ERC20ApproveAndTransferButtonDemo
+export default ERC20ApproveAndTransferButton
