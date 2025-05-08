@@ -1,1 +1,3 @@
-pnpm dlx lint-staged
+# Run lint-staged
+# https://github.com/lint-staged/lint-staged
+pnpm lint-staged
