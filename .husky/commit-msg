@@ -1,1 +1,3 @@
-pnpm dlx commitlint --edit $1
+# from conventional commits
+# https://github.com/conventional-changelog/commitlint
+pnpm commitlint --edit $1
