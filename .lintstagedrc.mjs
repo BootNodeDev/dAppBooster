@@ -1,4 +1,3 @@
 export default {
-  // 'src/**/*': ['biome check --write', 'vitest related --run --coverage=false'],
-  'src/**/*': ['biome check --write'],
+  'src/**/*': ['biome check --write', 'vitest related --run --coverage=false'],
 }
