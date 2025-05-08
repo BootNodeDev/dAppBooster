@@ -1,3 +1,6 @@
-# from conventional commits
+#!/bin/sh
+
+# From conventional commits
 # https://github.com/conventional-changelog/commitlint
-pnpm commitlint --edit $1
+echo "Running commitlint"
+pnpm commitlint --edit "$1"
