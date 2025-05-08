@@ -1,1 +1,6 @@
-pnpm dlx commitlint --edit $1
+#!/bin/sh
+
+# From conventional commits
+# https://github.com/conventional-changelog/commitlint
+echo "Running commitlint"
+pnpm commitlint --edit "$1"

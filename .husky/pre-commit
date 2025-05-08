@@ -1,1 +1,6 @@
-pnpm dlx lint-staged
+#!/bin/sh
+
+# Run lint-staged
+# https://github.com/lint-staged/lint-staged
+echo "Running lint-staged"
+pnpm lint-staged

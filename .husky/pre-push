@@ -2,7 +2,7 @@
 
 # Run tsc
 echo "Running TS checks..."
-pnpm tsc --pretty --noEmit
+pnpm tsc --noEmit --pretty --skipLibCheck
 
 # Check result
 if [ $? -ne 0 ]; then

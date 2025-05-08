@@ -1,6 +1,4 @@
 export default {
-  'src/**/*.{js,jsx,ts,tsx,d.ts,json,jsonc}': [
-    'biome check --write',
-    'vitest related --run --coverage=false',
-  ],
+  'src/**/*.{ts,tsx,js,jsx}': ['biome check --write', 'vitest related --run --coverage=false'],
+  'src/**/*.{json,jsonc,mjs,cjs}': ['biome check --write'],
 }

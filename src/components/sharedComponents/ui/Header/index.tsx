@@ -32,6 +32,7 @@ export const Header: FC<BoxProps> = ({ css, ...restProps }) => {
         align="center"
         h="100%"
         justify="space-between"
+        width="auto"
       >
         <Box flex={1}>
           <HomeLink
@@ -42,9 +43,9 @@ export const Header: FC<BoxProps> = ({ css, ...restProps }) => {
           </HomeLink>
         </Box>
         <MainMenu
+          display={{ base: 'none', xl: 'flex' }}
           flex="1"
           height="100%"
-          display={{ base: 'none', xl: 'flex' }}
         />
         <Flex
           align="center"

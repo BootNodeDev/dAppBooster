@@ -26,6 +26,7 @@ export const Footer: FC<FlexProps> = ({ css, ...restProps }) => {
         align="center"
         columnGap={4}
         justify="center"
+        width="auto"
       >
         <a
           href="https://www.bootnode.dev/"
