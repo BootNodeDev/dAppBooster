@@ -27,7 +27,7 @@ const tokenDropdown = {
     <>
       Allows you to search or select tokens from a list. Uses our{' '}
       <a
-        href="https://bootnodedev.github.io/dAppBooster/variables/sharedComponents_TokenSelect.TokenSelect.html"
+        href="https://bootnodedev.github.io/dAppBooster/variables/components_sharedComponents_TokenSelect.TokenSelect.html"
         rel="noreferrer"
         target="_blank"
       >
