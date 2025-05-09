@@ -109,6 +109,15 @@ export const OptionsDropdown: FC<
                   color: 'var(--theme-dropdown-item-color-active)',
                   borderBottom: '1px solid var( --theme-dropdown-item-border-color-active)',
                 }}
+                _last={{
+                  border: 'none',
+                  _active: {
+                    border: 'none',
+                  },
+                  _hover: {
+                    border: 'none',
+                  },
+                }}
               >
                 {label}
               </Menu.Item>
