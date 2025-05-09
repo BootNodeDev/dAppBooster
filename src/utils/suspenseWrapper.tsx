@@ -14,7 +14,6 @@ export type WithSuspenseProps = {
   suspenseFallback?: ReactNode
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 const DefaultFallback = (): JSX.Element => (
   <Spinner
     color="var(--theme-spinner-color)"

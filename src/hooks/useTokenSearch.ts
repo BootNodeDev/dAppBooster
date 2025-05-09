@@ -41,7 +41,6 @@ export const useTokenSearch = (
   // update the baseList when deps changes
   useEffect(() => {
     setBaseList(tokens)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tokens, ...deps])
 
   // if no searchTerm, return the unfiltered list

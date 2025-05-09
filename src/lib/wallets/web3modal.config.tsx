@@ -14,7 +14,6 @@
 // export const WalletProvider: FC<PropsWithChildren> = ({ children }) => children
 
 // declare global {
-//   // eslint-disable-next-line @typescript-eslint/no-namespace
 //   namespace JSX {
 //     interface IntrinsicElements {
 //       'w3m-button': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>

@@ -202,7 +202,6 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
   )
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export function useTransactionNotification() {
   const context = useContext(TransactionContext)
 

@@ -97,5 +97,4 @@ const defaultConfig = {
 
 const connectkitConfig = getDefaultConfig(defaultConfig)
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const config = createConfig(connectkitConfig)
