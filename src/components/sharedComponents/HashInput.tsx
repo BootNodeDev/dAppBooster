@@ -21,28 +21,31 @@ interface HashInputProps extends InputProps {
 }
 
 /**
- * HashInput Component
+ * HashInput component for entering and detecting blockchain addresses, transaction hashes, or ENS names.
  *
- * This component provides an input field where users can enter an address,
- * transaction hash, or ENS name. It detects the type of input and displays the relevant
- * information based on the detection results.
+ * This component provides an input field that processes user input to detect its type
+ * (address, transaction hash, or ENS name) on a specified blockchain network.
+ * It uses debounced search to prevent excessive requests and can be customized with a custom input renderer.
  *
- * @param {Object} props - Component props
- * @param {Chain} props.chain - The chain to use for detection (use chains from viem)
- * @param {string} [props.value] - Optional value for controlled input
- * @param {number} [props.debounceTime=500] - Optional debounce time for search
- * @param {Function} [props.renderInput] - Optional render function for custom input component
- * @param {Function} [props.onSearch] - Callback function to handle search results
+ * @param {HashInputProps} props - The props for the HashInput component.
+ * @param {Chain} props.chain - The blockchain network to use for detection (from viem chains).
+ * @param {number} [props.debounceTime=500] - Delay in milliseconds before triggering search after input changes.
+ * @param {(loading: boolean) => void} [props.onLoading] - Callback fired when loading state changes.
+ * @param {(result: DetectedHash | null) => void} props.onSearch - Callback fired with detection results.
+ * @param {(props: InputProps) => ReactElement} [props.renderInput] - Custom input renderer function.
+ * @param {string} [props.value] - Controlled input value.
+ * @param {InputProps} [props.restProps] - Additional props inherited from Chakra UI InputProps.
  *
  * @example
  * ```tsx
  * <HashInput
- *    chain={mainnet}
- *    onSearch={(result) => console.log(result)}
+ *   chain={mainnet}
+ *   onSearch={(result) => console.log(result)}
+ *   debounceTime={300}
+ *   placeholder="Enter address, ENS name or transaction hash"
  * />
  * ```
  */
-
 const HashInput: FC<HashInputProps> = ({
   chain,
   debounceTime = 500,
@@ -51,7 +54,7 @@ const HashInput: FC<HashInputProps> = ({
   renderInput,
   value,
   ...restProps
-}) => {
+}: HashInputProps) => {
   const [input, setInput] = useState(value || '')
   const [loading, setLoading] = useState<boolean>(false)
 

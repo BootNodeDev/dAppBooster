@@ -4,7 +4,7 @@ import { type ButtonProps, chakra } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useSignMessage } from 'wagmi'
 
-interface SignButtonPropsProps extends Omit<ButtonProps, 'onError'> {
+interface SignButtonProps extends Omit<ButtonProps, 'onError'> {
   label?: string
   labelSigning?: string
   message: string
@@ -16,23 +16,25 @@ interface SignButtonPropsProps extends Omit<ButtonProps, 'onError'> {
  * SignButton component that allows users to sign a message.
  *
  * @param {SignButtonProps} props - SignButton component props.
- * @param {string} props.message - The message to sign
- * @param {boolean} [props.disabled] - The flag to disable the button
- * @param {Function} [props.onSign] - The callback function to be called when the message is signed
- * @param {Function} [props.onError] - The callback function to be called when an error occurs
- * @param {string} [props.label='Sign Message'] - The label for the button
- * @param {string} [props.labelSigning='Signing...'] - The label for the button when the message is signing
+ * @param {string} props.message - The message to sign.
+ * @param {string|ReactNode} [props.children='Sign Message'] - The content to display in the button.
+ * @param {boolean} [props.disabled] - Whether the button is disabled.
+ * @param {(signature: string) => void} [props.onSign] - Callback function called when the message is signed.
+ * @param {(error: Error) => void} [props.onError] - Callback function called when an error occurs.
+ * @param {string} [props.label='Sign Message'] - The label for the button (alternative to children).
+ * @param {string} [props.labelSigning='Signing...'] - The label for the button when the message is being signed.
+ * @param {ButtonProps} [props.restProps] - Additional props inherited from Chakra UI ButtonProps.
  *
  * @example
  * ```tsx
  * <SignButton
  *   message="Hello, world!"
  *   onError={(error) => console.error(error)}
- *   onSign={(signature) => console.log(data)}
+ *   onSign={(signature) => console.log(signature)}
  * />
  * ```
  */
-const SignButton: FC<SignButtonPropsProps> = withWalletStatusVerifier(
+const SignButton: FC<SignButtonProps> = withWalletStatusVerifier(
   ({
     children = 'Sign Message',
     disabled,
@@ -41,7 +43,7 @@ const SignButton: FC<SignButtonPropsProps> = withWalletStatusVerifier(
     onError,
     onSign,
     ...restProps
-  }: SignButtonPropsProps) => {
+  }: SignButtonProps) => {
     const { watchSignature } = useTransactionNotification()
 
     const { isPending, signMessageAsync } = useSignMessage({

@@ -16,21 +16,31 @@ export interface TokenDropdownProps extends TokenSelectProps {
 type Props = ComponentPropsWithoutRef<'span'> & TokenDropdownProps
 
 /**
- * A dropdown component that allows users to select a token
+ * A dropdown component that allows users to select a token.
  *
- * @param {object} props - TokenDropdown component props.
- * @param {Token} [props.currentToken=undefined] - The current token. Default is undefined.
- * @param {number} [props.iconSize=24] - The size of the token icon. Default is 24.
- * @param {number} [props.currentNetworkId=mainnet.id] - The current network id. Default is mainnet's id.
- * @param {function} props.onTokenSelect - Callback function to be called when a token is selected.
- * @param {Networks} [props.networks] - Optional list of networks to display in the dropdown. The dropdown won't show up if undefined. Default is undefined.
- * @param {string} [props.placeholder='Search by name or address'] - Optional placeholder text for the search input. Default is 'Search by name or address'.
- * @param {number} [props.containerHeight=320] - Optional height of the virtualized tokens list. Default is 320.
- * @param {number} [props.iconSize=32] - Optional size of the token icon in the list. Default is 32.
- * @param {number} [props.itemHeight=64] - Optional height of each item in the list. Default is 64.
- * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
- * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
- * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
+ * @param {TokenDropdownProps & ComponentPropsWithoutRef<'span'>} props - TokenDropdown component props.
+ * @param {Token} [props.currentToken] - The currently selected token.
+ * @param {number} [props.iconSize=24] - The size of the token icon in the dropdown button.
+ * @param {(token: Token | undefined) => void} props.onTokenSelect - Callback function called when a token is selected.
+ * @param {boolean} [props.showAddTokenButton] - Whether to show a button to add a custom token.
+ * @param {number} [props.currentNetworkId] - The current network id to filter tokens.
+ * @param {Networks} [props.networks] - List of networks to display in the dropdown.
+ * @param {string} [props.placeholder] - Placeholder text for the search input.
+ * @param {number} [props.containerHeight] - Height of the virtualized tokens list.
+ * @param {number} [props.itemHeight] - Height of each item in the tokens list.
+ * @param {boolean} [props.showBalance] - Whether to show the token balance in the list.
+ * @param {boolean} [props.showTopTokens] - Whether to show the top tokens section in the list.
+ * @param {ComponentPropsWithoutRef<'span'>} props.restProps - Additional props for the span element.
+ *
+ * @example
+ * ```tsx
+ * <TokenDropdown
+ *   currentToken={daiToken}
+ *   onTokenSelect={(token) => setSelectedToken(token)}
+ *   showAddTokenButton={true}
+ *   showBalance={true}
+ * />
+ * ```
  */
 const TokenDropdown: FC<Props> = ({
   className,

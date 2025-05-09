@@ -7,19 +7,24 @@ interface ExplorerLinkProps extends GetExplorerUrlParams, LinkProps {
 }
 
 /**
- * Link to the explorer for an specific network.
+ * Link to blockchain explorer for the specified network.
  *
- * @param {ExplorerLinkProps} props - The props of the component.
- * @param {Chain} props.chain - The chain object.
- * @param {string} [props.explorerUrl] - The explorer URL.
- * @param {Hash | Address} props.hashOrAddress - The transaction or address to explore.
- * @param {string} [props.text='View on explorer'] - The text to display in the link.
+ * This component renders a link to the appropriate blockchain explorer based on the provided chain
+ * and hash/address, allowing users to view transactions, addresses, or other on-chain data.
+ *
+ * @param {ExplorerLinkProps} props - The props for the ExplorerLink component.
+ * @param {Chain} props.chain - The blockchain network (from viem chains).
+ * @param {string} [props.explorerUrl] - Optional custom explorer URL to override the default.
+ * @param {Hash | Address} props.hashOrAddress - The transaction hash or address to view in the explorer.
+ * @param {string} [props.text='View on explorer'] - The text displayed in the link.
+ * @param {LinkProps} props.restProps - Additional props inherited from Chakra UI LinkProps.
  *
  * @example
  * ```tsx
  * <ExplorerLink
- *    chainId={optimism}k
- *    hashOrAddress="0x1234567890abcdef1234567890abcdef12345678"
+ *   chain={optimism}
+ *   hashOrAddress="0x1234567890abcdef1234567890abcdef12345678"
+ *   text="View transaction"
  * />
  * ```
  */

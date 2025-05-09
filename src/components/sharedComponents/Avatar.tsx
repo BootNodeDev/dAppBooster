@@ -32,7 +32,6 @@ interface AvatarProps extends ComponentProps<'div'> {
  * />
  * ```
  */
-
 const Avatar: FC<AvatarProps> = ({
   address,
   ensImage,

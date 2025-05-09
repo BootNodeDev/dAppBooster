@@ -25,10 +25,27 @@ interface SwitchNetworkProps extends ComponentPropsWithoutRef<'div'> {
 }
 
 /**
- * SwitchNetwork component.
+ * SwitchNetwork component for selecting and switching blockchain networks.
+ *
+ * This component renders a dropdown menu that allows users to select from a list of
+ * blockchain networks and switch the connected wallet to the selected network.
  *
  * @param {SwitchNetworkProps} props - SwitchNetwork component props.
  * @param {Networks} props.networks - List of networks to display in the dropdown.
+ * @param {ReactElement} props.networks[].icon - Icon representing the network.
+ * @param {number} props.networks[].id - Chain ID of the network.
+ * @param {string} props.networks[].label - Display name of the network.
+ * @param {ComponentPropsWithoutRef<'div'>} [props.restProps] - Additional props inherited from div element.
+ *
+ * @example
+ * ```tsx
+ * <SwitchNetwork
+ *   networks={[
+ *     { id: 1, label: "Ethereum", icon: <EthereumIcon /> },
+ *     { id: 10, label: "Optimism", icon: <OptimismIcon /> }
+ *   ]}
+ * />
+ * ```
  */
 const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }: SwitchNetworkProps) => {
   const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)

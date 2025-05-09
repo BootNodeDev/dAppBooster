@@ -77,12 +77,14 @@ interface TokenLogoProps {
  *
  * @param {TokenLogoProps} props - TokenLogo component props.
  * @param {Token} props.token - The token object to display the logo for.
- * @param {number} [props.size=24] - The size of the logo.
+ * @param {number} [props.size=24] - The size of the logo in pixels.
+ * @param {ComponentProps<'img'>} [props.restProps] - Additional props for the img element.
  *
  * @example
  * ```tsx
  * <TokenLogo
- *    token={myToken}
+ *   token={myToken}
+ *   size={32}
  * />
  * ```
  */

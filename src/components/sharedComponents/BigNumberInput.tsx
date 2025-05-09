@@ -27,19 +27,31 @@ export type BigNumberInputProps = {
 }
 
 /**
- * Renders a component for inputting a big number value.
+ * BigNumberInput component for handling bigint values with decimal precision.
+ *
+ * This component provides a way to input and validate numeric values with specific decimal places.
+ * It handles conversion between string representation and bigint values.
+ *
+ * @param {BigNumberInputProps} props - The props for the BigNumberInput component.
+ * @param {boolean} [props.autofocus=false] - Whether to focus the input automatically.
+ * @param {number} props.decimals - The number of decimal places to use.
+ * @param {boolean} [props.disabled=false] - Whether the input is disabled.
+ * @param {bigint} [props.max=maxUint256] - Maximum allowed value.
+ * @param {bigint} [props.min=0] - Minimum allowed value.
+ * @param {(value: bigint) => void} props.onChange - Function called when the value changes.
+ * @param {(error: { value: string; message: string } | null) => void} [props.onError] - Function called when there's an error.
+ * @param {string} [props.placeholder='0.00'] - Placeholder text for the input.
+ * @param {(props: RenderInputProps) => ReactElement} [props.renderInput] - Custom input renderer.
+ * @param {bigint} props.value - The current value.
  *
  * @example
  * ```tsx
  * <BigNumberInput
- *   decimals={token.decimals}
- *   onChange={(newValue) => setValue(newValue)}
- *   value={value}
+ *   decimals={18}
+ *   onChange={(value) => console.log(value)}
+ *   value={BigInt(0)}
  * />
  * ```
- *
- * @category Component
- *
  */
 export const BigNumberInput: FC<BigNumberInputProps> = ({
   autofocus,
@@ -52,7 +64,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   placeholder = '0.00',
   renderInput,
   value,
-}) => {
+}: BigNumberInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   // update inputValue when value changes

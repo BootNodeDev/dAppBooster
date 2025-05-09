@@ -17,20 +17,33 @@ interface TransactionButtonProps extends ButtonProps {
 }
 
 /**
- * TransactionButton component.
- * Use with writeContractSync or sendTransactionSync function to handle the transaction and wait for it.
- * The component will call the onMined callback function when the transaction is mined.
+ * TransactionButton component that handles blockchain transaction submission and monitoring.
+ *
+ * Integrates with writeContractSync or sendTransactionSync functions to handle transaction
+ * submission and wait for confirmation. Displays transaction status and calls the onMined
+ * callback when the transaction is confirmed.
  *
  * @param {TransactionButtonProps} props - TransactionButton component props.
- * @param {Function} props.transaction - The function that initiates the transaction.
- * @param {Function} props.onMined - The callback function to be called when the transaction is mined.
- * @param {boolean} props.disabled - The flag to disable the button.
- * @param {string} props.labelSending - The label for the button when the transaction is pending.
- * @param {number} props.confirmations - The number of confirmations to wait for the transaction.
+ * @param {() => Promise<Hash>} props.transaction - Function that initiates the transaction.
+ * @param {(receipt: TransactionReceipt) => void} [props.onMined] - Callback function called when transaction is mined.
+ * @param {boolean} [props.disabled] - Whether the button is disabled.
+ * @param {string} [props.labelSending='Sending...'] - Button label during pending transaction.
+ * @param {number} [props.confirmations=1] - Number of confirmations to wait for.
+ * @param {ReactNode} [props.children='Send Transaction'] - Button content.
+ * @param {ButtonProps} props.restProps - Additional props inherited from Chakra UI ButtonProps.
  *
- * @returns The transaction button component.
+ * @example
+ * ```tsx
+ * <TransactionButton
+ *   transaction={sendEthTransaction}
+ *   onMined={(receipt) => console.log("Transaction confirmed:", receipt)}
+ *   labelSending="Processing..."
+ *   confirmations={3}
+ * >
+ *   Send ETH
+ * </TransactionButton>
+ * ```
  */
-
 const TransactionButton = withWalletStatusVerifier<TransactionButtonProps>(
   ({
     children = 'Send Transaction',

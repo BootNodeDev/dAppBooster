@@ -69,16 +69,25 @@ const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
 }
 
 /**
- * WalletStatusVerifier HOC
+ * WalletStatusVerifier Component
  *
+ * Checks the wallet connection and chain synchronization status.
+ * - If wallet is not connected, displays fallback component (default: ConnectWalletButton)
+ * - If wallet is connected but on wrong chain, provides option to switch networks
+ * - If wallet is connected and on correct chain, renders children
  *
- * @param {Object} props - HOC props
- * @param {Chain['id']} [props.chainId] - The chain ID to check for synchronization
- * @param {ReactElement} [props.fallback] - The fallback component to render if the wallet is not connected
- * @param {ReactElement} WrappedComponent - The component to render if the wallet is connected and synced
+ * @param {WalletStatusVerifierProps} props - Component props
+ * @param {ChainsIds} [props.chainId] - The required chain ID (defaults to appChainId)
+ * @param {ReactElement} [props.children] - The content to render when wallet is connected and synced
+ * @param {ReactElement} [props.fallback=<ConnectWalletButton />] - Component to render when wallet is not connected
+ * @param {string} [props.labelSwitchChain='Switch to'] - Label for the chain switching button
+ *
  * @example
- * const ComponentWithConection = withWalletStatusVerifier(MyComponent);
- * @returns {FC} The WalletStatusVerifier HOC
+ * ```tsx
+ * <WalletStatusVerifier chainId={1}>
+ *   <MyProtectedComponent />
+ * </WalletStatusVerifier>
+ * ```
  */
 const withWalletStatusVerifier = <P extends object>(
   WrappedComponent: ComponentType<P>,
@@ -110,5 +119,4 @@ const withWalletStatusVerifier = <P extends object>(
   return ComponentWithVerifier
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 export { WalletStatusVerifier, withWalletStatusVerifier }
