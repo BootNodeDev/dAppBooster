@@ -1,13 +1,14 @@
 {
   "plugin": [
     "typedoc-plugin-rename-defaults",
-    "typedoc-plugin-zod",
     "typedoc-plugin-missing-exports",
-    "typedoc-plugin-inline-sources"
+    "typedoc-plugin-inline-sources",
   ],
   "entryPoints": ["./src/**/*.{ts,tsx}"],
   "exclude": [
     "**/*.test.*",
+    "**/*{Provider,Devtools}.tsx",
+    "**/*{styles}.ts",
     "./src/{vite-env.d.ts,main.tsx,routeTree.gen.ts}",
     "./src/lib/{wagmi,wallets}/**/*",
     "./src/routes/**/*",
@@ -15,12 +16,12 @@
     "./src/constants/contracts/**/*",
     "./src/hooks/generated.ts",
     "./src/subgraphs/{gql,queries}/**/*",
-    "./src/pageComponents/**/*",
-    "**/*{Provider,Devtools}.tsx",
-    "./src/sharedComponents/Footer/**/*",
-    "./src/sharedComponents/TokenDropdown/assets/**/*",
-    "./src/sharedComponents/TokenInput/{CloseButton,Components}.tsx",
-    "./src/sharedComponents/{ConnectButton,DropdownButton,Buttons,Header,MainMenu,VirtualizedList}.tsx"
+    "./src/components/ui/**/*",
+    "./src/components/pageComponents/**/*",
+    "./src/components/sharedComponents/ui/**/*",
+    "./src/components/sharedComponents/TanStackReactQueryDevtools.tsx",
+    "./src/components/sharedComponents/TanStackRouterDevtools.tsx",
+    "./src/components/sharedComponents/TokenInput/Components.tsx"
   ],
   "excludeNotDocumented": false,
   "excludeInternal": true,
@@ -43,5 +44,11 @@
   "visibilityFilters": {
     "inherited": true
   },
-  "out": "./docs"
+  "out": "./docs",
+  "blockTags": ["@dev", "@source", "@name", "@description"],
+  "validation": {
+    "invalidLink": true,
+    "notDocumented": false
+  },
+  "skipErrorChecking": true
 }
