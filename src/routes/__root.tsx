@@ -1,5 +1,5 @@
-import { TanStackReactQueryDevtools } from '@/src/components/sharedComponents/TanStackReactQueryDevtools'
-import { TanStackRouterDevtools } from '@/src/components/sharedComponents/TanStackRouterDevtools'
+import { TanStackReactQueryDevtools } from '@/src/components/sharedComponents/dev/TanStackReactQueryDevtools'
+import { TanStackRouterDevtools } from '@/src/components/sharedComponents/dev/TanStackRouterDevtools'
 import { Footer } from '@/src/components/sharedComponents/ui/Footer'
 import { Header } from '@/src/components/sharedComponents/ui/Header'
 import { Provider } from '@/src/components/ui/provider'
