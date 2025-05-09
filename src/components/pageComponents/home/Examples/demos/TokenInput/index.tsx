@@ -135,7 +135,7 @@ const tokenInput = {
   text: (
     <>
       <a
-        href="https://bootnodedev.github.io/dAppBooster/variables/sharedComponents_TokenSelect.TokenSelect.html"
+        href="https://bootnodedev.github.io/dAppBooster/variables/components_sharedComponents_TokenSelect.TokenSelect.html"
         rel="noreferrer"
         target="_blank"
       >
