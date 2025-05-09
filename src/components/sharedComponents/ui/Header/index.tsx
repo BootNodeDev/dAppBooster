@@ -32,7 +32,7 @@ export const Header: FC<BoxProps> = ({ css, ...restProps }) => {
         align="center"
         h="100%"
         justify="space-between"
-        width="auto"
+        width="100%"
       >
         <Box flex={1}>
           <HomeLink

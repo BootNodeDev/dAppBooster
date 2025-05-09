@@ -97,6 +97,7 @@ export function Provider(props: ColorModeProviderProps) {
       //////////////////////////////////////////////////
       html: {
         scrollBehavior: 'smooth',
+        overflowX: 'hidden',
       },
       body: {
         '--moz-osx-font-smoothing': 'grayscale',
@@ -108,6 +109,7 @@ export function Provider(props: ColorModeProviderProps) {
         fontFamily: '{fonts.body}',
         lineHeight: 1.5,
         outlineColor: '{colors.text.default}',
+        overflowX: 'hidden',
       },
       code: {
         fontFamily: '{fonts.mono}',

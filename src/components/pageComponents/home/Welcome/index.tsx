@@ -29,14 +29,14 @@ const Arrow = () => (
 
 const Decoration = () => (
   <chakra.svg
-    display={{ base: 'none', lg: 'block' }}
+    display="block"
     fill="none"
-    height="787px"
+    height={{ base: '360px', md: '550px', xl: '787px' }}
     position="absolute"
-    right="0"
+    right={{ base: '-60px', md: '-100px', xl: '0' }}
     top="0"
     viewBox="0 0 438 787"
-    width="438px"
+    width="auto"
     xmlns="http://www.w3.org/2000/svg"
     zIndex={0}
   >
