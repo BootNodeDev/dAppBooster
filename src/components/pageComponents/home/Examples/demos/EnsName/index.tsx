@@ -159,8 +159,6 @@ const EnsName = () => {
 }
 
 const ensName = {
-  sourceCodeHref:
-    'https://github.com/BootNodeDev/dAppBooster/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/EnsNameDemo.tsx#L101',
   demo: <EnsName />,
   icon: <Icon />,
   text: (

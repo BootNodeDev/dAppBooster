@@ -197,8 +197,6 @@ const hashHandling = {
   demo: <HashHandling />,
   href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_Hash.Hash.html',
   icon: <Icon />,
-  sourceCodeHref:
-    'https://github.com/BootNodeDev/dAppBooster/blob/f75be6325de83cfef9753bb29f10f8b6e4679cca/src/components/pageComponents/home/Examples/demos/hashHandling.tsx#L155',
   text: (
     <>
       Validate an address or hash. Copy or open it in the block explorer for the chain your wallet

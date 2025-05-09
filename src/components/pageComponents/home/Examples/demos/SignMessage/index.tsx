@@ -28,8 +28,6 @@ const SignMessage = () => {
 }
 
 const signMessage = {
-  sourceCodeHref:
-    'https://github.com/BootNodeDev/dAppBooster/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SignMessageDemo.tsx#L37',
   demo: <SignMessage />,
   href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_SignButton.SignButton.html',
   icon: <Icon />,

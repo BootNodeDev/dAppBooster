@@ -130,8 +130,6 @@ const TokenInput = () => {
 
 const tokenInput = {
   demo: <TokenInput />,
-  sourceCodeHref:
-    'https://github.com/BootNodeDev/dAppBooster/blob/f75be6325de83cfef9753bb29f10f8b6e4679cca/src/components/pageComponents/home/Examples/demos/TokenInputDemo.tsx#L38',
   href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_TokenInput.TokenInput.html',
   icon: <Icon />,
   text: (

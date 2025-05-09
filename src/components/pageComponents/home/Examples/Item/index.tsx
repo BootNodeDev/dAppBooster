@@ -1,6 +1,5 @@
 import DemoButton from '@/src/components/pageComponents/home/Examples/Item/buttons/DemoButton'
 import DocumentationButton from '@/src/components/pageComponents/home/Examples/Item/buttons/DocumentationButton'
-import SourceCodeButton from '@/src/components/pageComponents/home/Examples/Item/buttons/SourceCodeButton'
 import Modal from '@/src/components/sharedComponents/ui/Modal'
 import { Dialog, Flex, type FlexProps, Heading, Portal, Text } from '@chakra-ui/react'
 import { type FC, type ReactNode, useState } from 'react'
@@ -10,21 +9,11 @@ export interface Props extends FlexProps {
   demo: ReactNode
   href?: string
   icon: ReactNode
-  sourceCodeHref?: string
   text: string | ReactNode
   title: string
 }
 
-const Item: FC<Props> = ({
-  css,
-  demo,
-  href,
-  icon,
-  sourceCodeHref,
-  text,
-  title,
-  ...restProps
-}: Props) => {
+const Item: FC<Props> = ({ css, demo, href, icon, text, title, ...restProps }: Props) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
@@ -97,13 +86,6 @@ const Item: FC<Props> = ({
         {href && (
           <DocumentationButton
             href={href}
-            target="_blank"
-          />
-        )}
-        {sourceCodeHref && (
-          <SourceCodeButton
-            as="a"
-            href={sourceCodeHref}
             target="_blank"
           />
         )}

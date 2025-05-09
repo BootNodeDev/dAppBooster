@@ -42,8 +42,6 @@ const SwitchNetwork = () => {
 
 const switchNetwork = {
   demo: <SwitchNetwork />,
-  sourceCodeHref:
-    'https://github.com/BootNodeDev/dAppBooster/blob/dac8165b48832fae2fda82ad5e334f972e187d10/src/components/pageComponents/home/Examples/demos/SwitchNetworkDemo.tsx#L11',
   href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_SwitchNetwork.SwitchNetwork.html',
   icon: <Icon />,
   text: 'Learn how to add or switch networks in supported wallets.',

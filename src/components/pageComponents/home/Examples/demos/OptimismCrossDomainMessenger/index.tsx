@@ -82,8 +82,6 @@ const OptimismCrossDomainMessenger = withWalletStatusVerifier(
 )
 
 const optimismCrossdomainMessenger = {
-  sourceCodeHref:
-    'https://github.com/BootNodeDev/dAppBooster/blob/a524d9d65069652de1d187514cc8d635c2d075fd/src/hooks/useOPL1CrossDomainMessengerProxy.ts',
   demo: <OptimismCrossDomainMessenger />,
   href: 'https://bootnodedev.github.io/dAppBooster/functions/hooks_useL1CrossDomainMessengerProxy.useL1CrossDomainMessengerProxy.html',
   icon: <Icon />,
