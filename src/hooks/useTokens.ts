@@ -28,14 +28,42 @@ export const lifiConfig = createConfig({
 })
 
 /**
- * Custom hook for fetching and managing tokens data. It fetches tokens data and optionally token balances.
+ * Custom hook for fetching and managing tokens data with price and balances.
  *
- * @param {Object} params - Params for fetching tokens data.
- * @param {Address} params.account - The account address for which to fetch token balances. If not specified,
- *  the connected account will be used.
- * @param {boolean} params.withBalance - Whether to fetch token balances or not. Defaults to true.
+ * Combines token list data with real-time price and balance information from LI.FI SDK.
+ * Features include:
+ * - Token data fetching from token lists
+ * - Balance fetching for specified accounts across multiple chains
+ * - Price information retrieval
+ * - Automatic sorting by token value (balance × price)
+ * - Periodic refetching for up-to-date balances and prices
  *
- * @returns An object containing tokens data and loading state.
+ * @param {Object} params - Parameters for tokens fetching
+ * @param {Address} [params.account] - Account address for balance fetching (defaults to connected wallet)
+ * @param {Chain['id']} [params.chainId] - Specific chain ID to filter tokens (defaults to all supported chains)
+ * @param {boolean} [params.withBalance=true] - Whether to fetch token balances
+ *
+ * @returns {Object} Token data and loading state
+ * @returns {Token[]} returns.tokens - Array of tokens with price and balance information
+ * @returns {Record<number, Token[]>} returns.tokensByChainId - Tokens organized by chain ID
+ * @returns {boolean} returns.isLoadingBalances - Loading state for token balances and prices
+ *
+ * @example
+ * ```tsx
+ * // Fetch all tokens with balances for connected wallet
+ * const { tokens, tokensByChainId, isLoadingBalances } = useTokens();
+ *
+ * // Fetch tokens for specific chain without balances
+ * const { tokens } = useTokens({
+ *   chainId: 1,
+ *   withBalance: false
+ * });
+ *
+ * // Fetch balances for specific account
+ * const { tokens } = useTokens({
+ *   account: '0x123...'
+ * });
+ * ```
  */
 export const useTokens = (
   {

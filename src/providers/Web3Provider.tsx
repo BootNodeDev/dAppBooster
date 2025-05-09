@@ -9,6 +9,21 @@ const queryClient = new QueryClient()
 
 export { ConnectWalletButton }
 
+/**
+ * Provider component for web3 functionality
+ *
+ * Sets up the necessary providers for blockchain interactions:
+ * - WagmiProvider for blockchain connectivity
+ * - QueryClientProvider for data fetching
+ * - WalletProvider for wallet connection
+ *
+ * @example
+ * ```
+ * <Web3Provider>
+ *   <App />
+ * </Web3Provider>
+ * ```
+ */
 export const Web3Provider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <WagmiProvider config={config}>

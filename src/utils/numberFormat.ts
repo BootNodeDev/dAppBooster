@@ -301,6 +301,28 @@ const TYPE_TO_FORMATTER_RULES = {
   [NumberType.NFTCollectionStats]: ntfCollectionStatsFormatter,
 }
 
+/**
+ * Returns the appropriate formatter for a number based on its value and desired format type.
+ *
+ * This function looks up the correct formatting rule to apply based on the numeric input
+ * and the specified number type. It searches through a predefined set of formatting rules
+ * for the given type and returns the first matching formatter.
+ *
+ * @param {number} input - The numeric value to be formatted
+ * @param {NumberType} type - The type of formatting to apply (e.g., TokenNonTx, FiatTokenPrice)
+ * @returns {Format} A string formatter or Intl.NumberFormat instance to format the input
+ * @throws {Error} If no formatting rule matches or if the formatter type is not configured correctly
+ *
+ * @example
+ * // Get formatter for a token amount in non-transaction context
+ * const formatter = getFormatterRule(0.0005, NumberType.TokenNonTx);
+ * // Returns the '<0.001' string formatter
+ *
+ * @example
+ * // Get formatter for a USD price
+ * const formatter = getFormatterRule(1234.56, NumberType.FiatTokenPrice);
+ * // Returns a TWO_DECIMALS_USD Intl.NumberFormat instance
+ */
 function getFormatterRule(input: number, type: NumberType): Format {
   const rules = TYPE_TO_FORMATTER_RULES[type]
   for (const rule of rules) {
@@ -315,6 +337,38 @@ function getFormatterRule(input: number, type: NumberType): Format {
   throw new Error(`formatter for type ${type} not configured correctly`)
 }
 
+/**
+ * Formats a numeric value according to the specified number type formatting rules.
+ *
+ * This function serves as the main entry point for number formatting throughout the application.
+ * It applies consistent formatting based on the context where the number is displayed (e.g., token amounts,
+ * fiat prices, portfolio balances) using predefined formatter rules.
+ *
+ * @param {Nullish<number>} input - The numeric value to format (can be null or undefined)
+ * @param {NumberType} [type=NumberType.TokenNonTx] - The formatting type to apply
+ * @param {string} [placeholder='-'] - Value to return if input is null or undefined
+ * @returns {string} The formatted number as a string
+ *
+ * @example
+ * // Format a token balance
+ * formatNumber(0.0005, NumberType.TokenNonTx);
+ * // Returns: '<0.001'
+ *
+ * @example
+ * // Format a fiat price with default parameters
+ * formatNumber(1234.567, NumberType.FiatTokenPrice);
+ * // Returns: '$1,234.57'
+ *
+ * @example
+ * // Format a token amount for a transaction with custom placeholder
+ * formatNumber(null, NumberType.TokenTx, 'N/A');
+ * // Returns: 'N/A'
+ *
+ * @example
+ * // Format a gas price
+ * formatNumber(0.0099, NumberType.FiatGasPrice);
+ * // Returns: '<$0.01'
+ */
 export function formatNumber(
   input: Nullish<number>,
   type: NumberType = NumberType.TokenNonTx,
@@ -329,12 +383,70 @@ export function formatNumber(
   return formatter.format(input)
 }
 
+/**
+ * Formats a number or string value according to the specified number type.
+ *
+ * This utility function handles both numeric and string inputs by converting
+ * string values to numbers before applying the appropriate formatting rules.
+ * It provides a convenient way to format values that might come from different
+ * data sources in different types.
+ *
+ * @param {Nullish<number | string>} price - The numeric value or string representation to format
+ * @param {NumberType} type - The formatting type to apply (e.g., TokenNonTx, FiatTokenPrice)
+ * @returns {string} The formatted value as a string, or '-' if the input is null or undefined
+ *
+ * @example
+ * // Format a number
+ * formatNumberOrString(1234.56, NumberType.FiatTokenPrice);
+ * // Returns: '$1,234.56'
+ *
+ * @example
+ * // Format a string representing a number
+ * formatNumberOrString('0.0099', NumberType.FiatGasPrice);
+ * // Returns: '<$0.01'
+ *
+ * @example
+ * // Handle null input
+ * formatNumberOrString(null, NumberType.TokenNonTx);
+ * // Returns: '-'
+ */
 export function formatNumberOrString(price: Nullish<number | string>, type: NumberType): string {
   if (price === null || price === undefined) return '-'
   if (typeof price === 'string') return formatNumber(Number.parseFloat(price), type)
   return formatNumber(price, type)
 }
 
+/**
+ * Formats a numeric value as a USD price using the FiatTokenPrice formatter by default.
+ *
+ * This function is a convenience wrapper around formatNumberOrString that specifically
+ * handles USD price formatting. It applies the appropriate currency symbol, decimal places,
+ * and abbreviations (like K, M, B) according to the provided number type.
+ *
+ * @param {Nullish<number | string>} price - The USD price value to format
+ * @param {NumberType} [type=NumberType.FiatTokenPrice] - The specific USD price formatting type to apply
+ * @returns {string} The formatted USD price as a string (e.g. '$1,234.57', '<$0.01', '$1.23M')
+ *
+ * @example
+ * // Format a standard USD price
+ * formatUSDPrice(1234.567);
+ * // Returns: '$1,234.57'
+ *
+ * @example
+ * // Format a very small USD price
+ * formatUSDPrice(0.000000009876);
+ * // Returns: '<$0.00000001'
+ *
+ * @example
+ * // Format a large USD price
+ * formatUSDPrice(1234567.891);
+ * // Returns: '$1.23M'
+ *
+ * @example
+ * // Format USD price with specific type
+ * formatUSDPrice(0.0099, NumberType.FiatGasPrice);
+ * // Returns: '<$0.01'
+ */
 export function formatUSDPrice(
   price: Nullish<number | string>,
   type: NumberType = NumberType.FiatTokenPrice,
@@ -342,7 +454,37 @@ export function formatUSDPrice(
   return formatNumberOrString(price, type)
 }
 
-/** Formats USD and non-USD prices */
+/**
+ * Formats a numeric value as a price in the specified currency.
+ *
+ * Unlike formatUSDPrice, this function allows for formatting prices in any currency
+ * using the browser's Intl.NumberFormat API. It applies the appropriate currency symbol
+ * and number formatting based on the specified currency code.
+ *
+ * @param {Nullish<number>} price - The price value to format
+ * @param {string} [currency='USD'] - The ISO 4217 currency code (e.g., 'USD', 'EUR', 'JPY')
+ * @returns {string} The formatted price as a string with appropriate currency symbol, or '-' if input is null or undefined
+ *
+ * @example
+ * // Format a USD price (default)
+ * formatFiatPrice(1234.56);
+ * // Returns: '$1,234.56'
+ *
+ * @example
+ * // Format a Euro price
+ * formatFiatPrice(1234.56, 'EUR');
+ * // Returns: '€1,234.56'
+ *
+ * @example
+ * // Format a Japanese Yen price
+ * formatFiatPrice(1234.56, 'JPY');
+ * // Returns: '¥1,235'
+ *
+ * @example
+ * // Handle null input
+ * formatFiatPrice(null);
+ * // Returns: '-'
+ */
 export function formatFiatPrice(price: Nullish<number>, currency = 'USD'): string {
   if (price === null || price === undefined) return '-'
   return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price)

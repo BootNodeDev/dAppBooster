@@ -12,12 +12,28 @@ export type Erc20Balance = {
 }
 
 /**
- * Custom hook to fetch the ERC20 token balance for a given Token address.
+ * Custom hook to fetch an ERC20 token balance for a specific address.
  *
- * @param {Object} params - The params object.
- * @param {Address} params.address - The address for which to fetch the balance.
- * @param {Token} params.token - The ERC20 token object.
- * @returns {Erc20Balance} The ERC20 token balance, error, and loading state.
+ * Uses TanStack Query to efficiently fetch and cache token balances.
+ * The hook handles proper address formatting and ensures the query
+ * only runs when all required parameters are available.
+ *
+ * @param {Object} params - The params object
+ * @param {Address} [params.address] - The wallet address to check the balance for
+ * @param {Token} [params.token] - The ERC20 token object containing address and chainId
+ *
+ * @returns {Erc20Balance} Result object
+ * @returns {bigint} [returns.balance] - The token balance as a bigint
+ * @returns {Error|null} returns.balanceError - Error from balance fetching, if any
+ * @returns {boolean} returns.isLoadingBalance - Loading state indicator
+ *
+ * @example
+ * ```tsx
+ * const { balance, balanceError, isLoadingBalance } = useErc20Balance({
+ *   address: '0x123...',
+ *   token: { address: '0xabc...', chainId: 1, symbol: 'DAI', decimals: 18 }
+ * });
+ * ```
  */
 export const useErc20Balance = ({
   address,

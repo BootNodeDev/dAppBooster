@@ -38,6 +38,24 @@ type TransactionContextValue = {
 
 const TransactionContext = createContext<TransactionContextValue | undefined>(undefined)
 
+/**
+ * Provider component for transaction notifications
+ *
+ * Manages transaction-related notifications including signature requests,
+ * transaction submissions, and transaction confirmations.
+ *
+ * Provides context with methods for:
+ * - watchSignature: Tracks a signature request and displays appropriate notifications
+ * - watchHash: Monitors a transaction by hash and shows its progress/outcome
+ * - watchTx: Combines signature and transaction monitoring in one method
+ *
+ * @example
+ * ```tsx
+ * <TransactionNotificationProvider>
+ *   <App />
+ * </TransactionNotificationProvider>
+ * ```
+ */
 export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ children }) => {
   const { readOnlyClient } = useWeb3Status()
   const chain = readOnlyClient?.chain

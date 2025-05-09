@@ -23,7 +23,7 @@
     "./src/utils/{logger,tokenListsCache}.ts",
     "./src/constants/contracts/**/*",
     "./src/hooks/generated.ts",
-    "./src/subgraphs/{gql,queries}/**/*",
+    "./src/subgraphs/**/*",
     "./src/components/ui/**/*",
     "./src/components/pageComponents/**/*",
     "./src/components/sharedComponents/ui/**/*",

@@ -15,13 +15,43 @@ import { logger } from '@/src/utils/logger'
 import tokenListsCache, { updateTokenListsCache, type TokensMap } from '@/src/utils/tokenListsCache'
 
 /**
- * Loads the list of tokens provided by config
- *  - Filters out the repeated ones (checks by chain-address pair)
- *  - Discards those that do not complain with tokenSchema
+ * Loads and processes token lists from configured sources
  *
- * @dev intended to be used with `Suspense` wrapper around this hook as it's using `useSuspenseQueries`
+ * Fetches tokens from multiple token list URLs defined in configuration,
+ * processes them to create a unified token list with these features:
+ * - Filters duplicate tokens (based on chain-address pair)
+ * - Validates tokens against schema requirements
+ * - Automatically adds native tokens for each chain
+ * - Organizes tokens by chainId for efficient lookup
+ * - Utilizes caching for performance optimization
  *
- * @returns {TokensMap} list of tokens, tokens grouped by chainId, and symbol->chainId
+ * @dev Intended to be used with a `Suspense` wrapper as it uses `useSuspenseQueries`
+ * @dev Uses infinite cache durations as token lists rarely change
+ *
+ * @returns {TokensMap} Object containing:
+ * @returns {Token[]} returns.tokens - Flat array of all unique tokens
+ * @returns {Record<number, Token[]>} returns.tokensByChainId - Tokens grouped by chain ID
+ *
+ * @example
+ * ```tsx
+ * const TokenListComponent = () => {
+ *   const { tokens, tokensByChainId } = useTokenLists();
+ *
+ *   return (
+ *     <div>
+ *       <p>Total tokens: {tokens.length}</p>
+ *       <p>Ethereum tokens: {tokensByChainId[1]?.length || 0}</p>
+ *     </div>
+ *   );
+ * };
+ *
+ * // With Suspense wrapper
+ * const App = () => (
+ *   <Suspense fallback={<div>Loading token lists...</div>}>
+ *     <TokenListComponent />
+ *   </Suspense>
+ * );
+ * ```
  */
 export const useTokenLists = (): TokensMap => {
   const tokenListUrls = useMemo(() => {

@@ -1,10 +1,18 @@
 /**
- * Truncates a string in the middle by replacing the characters between the specified start and end positions with an ellipsis.
+ * Truncates a string in the middle by replacing the middle portion with an ellipsis.
  *
- * @param str - The string to truncate.
- * @param strPositionStart - The starting position of the string to be replaced with an ellipsis.
- * @param strPositionEnd - The ending position of the string to be replaced with an ellipsis.
- * @returns The truncated string.
+ * This function preserves the beginning and ending portions of the string while replacing
+ * the middle section with "..." when the string exceeds a certain length.
+ *
+ * @param {string} str - The original string to truncate
+ * @param {number} strPositionStart - Number of characters to preserve from the beginning
+ * @param {number} strPositionEnd - Number of characters to preserve from the end
+ * @returns {string} The truncated string or the original if no truncation is needed
+ *
+ * @example
+ * // Truncate an Ethereum address
+ * truncateStringInTheMiddle("0x1234567890abcdef1234567890abcdef12345678", 8, 6);
+ * // Returns: "0x123456...345678"
  */
 export const truncateStringInTheMiddle = (
   str: string,
@@ -24,11 +32,30 @@ export const truncateStringInTheMiddle = (
 }
 
 /**
- * This function gets a string in the form 0x12345AaEEdED51C7e3858a782644F5d897595678 and returns
- * something like 0x12345A...595678
+ * Truncates a hash string (like an Ethereum address or transaction hash) by preserving the beginning and end.
  *
- * @param {string} hash - The hash to truncate
- * @param {number} [length=6] - The number of characters to show at the start and end of the hash. Min is 1, max is 16. Default is 6.
+ * This function is specifically designed for blockchain-related hash values with the "0x" prefix,
+ * automatically preserving the prefix in addition to the specified number of characters.
+ *
+ * @param {string} hash - The hash string to truncate (typically starts with "0x")
+ * @param {number} [length=6] - The number of characters to preserve at both start and end
+ *   (min: 1, max: 16, excluding the "0x" prefix)
+ * @returns {string} The truncated hash with ellipsis in the middle
+ *
+ * @example
+ * // Truncate an Ethereum address with default length
+ * getTruncatedHash("0x1234567890abcdef1234567890abcdef12345678");
+ * // Returns: "0x123456...345678"
+ *
+ * @example
+ * // Truncate with custom length
+ * getTruncatedHash("0x1234567890abcdef1234567890abcdef12345678", 4);
+ * // Returns: "0x1234...5678"
+ *
+ * @example
+ * // Truncate with maximum length
+ * getTruncatedHash("0x1234567890abcdef1234567890abcdef12345678", 16);
+ * // Uses maximum of 16: "0x1234567890abcdef...1234567890abcdef"
  */
 export const getTruncatedHash = (hash: string, length = 6): string => {
   const sanitizeLength = (length: number): number => {

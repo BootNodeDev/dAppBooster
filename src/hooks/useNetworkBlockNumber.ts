@@ -5,15 +5,25 @@ import { http, createPublicClient } from 'viem'
 import type { Chain } from 'viem/chains'
 
 /**
- * Custom hook to fetch the block number of a specific network, despite being supported or not by the app config.
+ * Custom hook to fetch the block number of a specific network.
  *
- * @param {Object} params - The parameters for the hook.
- * @param {Chain} params.chain - The chain object representing the network.
- * @param {Omit<UseSuspenseQueryOptions, 'queryKey' | 'queryFn'>} [params.options] - Additional options for the useSuspenseQuery hook.
+ * Creates a dedicated public client specifically for the provided chain,
+ * regardless of whether it's supported in the app configuration.
+ * Uses TanStack Query's suspense mode for data fetching.
  *
- * @dev It has a default refetch interval of 10 seconds that can be overridden by passing the options object.
+ * @param {Object} params - The parameters object
+ * @param {Chain} params.chain - The viem chain object for the target network
+ * @param {Omit<UseSuspenseQueryOptions, 'queryKey' | 'queryFn'>} [params.options] - Optional TanStack Query options
  *
- * @returns {number | undefined} - The block number of the network.
+ * @returns {bigint|undefined} The current block number as a bigint
+ *
+ * @example
+ * ```tsx
+ * const blockNumber = useNetworkBlockNumber({
+ *   chain: optimism,
+ *   options: { refetchInterval: 5000 }
+ * });
+ * ```
  */
 export const useNetworkBlockNumber = ({
   chain,

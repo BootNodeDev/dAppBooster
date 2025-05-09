@@ -32,7 +32,6 @@ interface ConnectButtonProps extends ButtonProps {
  * @param {ConnectButtonProps} props - The props for the ConnectButton component.
  * @param {boolean} [props.isConnected=false] - Indicates if the user is connected. Default is false.
  * @param {React.ReactNode} [props.children] - The content to display inside the button.
- * @param {CSSObject} [props.css] - Additional CSS styles to apply to the button.
  * @param {ButtonProps} [props.restProps] - Additional props inherited from the Button component.
  *
  * @example

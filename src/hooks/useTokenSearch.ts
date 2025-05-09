@@ -21,14 +21,41 @@ type TokenSearch = {
 }
 
 /**
- * A hook that provides a performant search to filter a list of tokens by a searchTerm
- * Internally it uses React's `useDeferredValue`
+ * Custom hook that provides performant token search functionality.
  *
- * @param {object} options - options object
- * @param {string} [options.defaultSearchTerm] - the default search term used to find a partial match against address, symbol, and  name
- * @param {Array} options.tokens - a list of tokens to be filtered by `searchTerm`
- * @param {Array} [deps=[]] - array of dependencies that trigger recalculation of the search
- * @returns {TokenSearch} Object containing searchResult, searchTerm, and setSearchTerm
+ * Enables efficient filtering of token lists by searching through token properties,
+ * using React's `useDeferredValue` to prevent UI blocking during search operations.
+ * The hook searches for matches in token address, symbol, and name properties.
+ *
+ * @param {Object} options - Token search configuration
+ * @param {string} [options.defaultSearchTerm] - Initial search term to filter tokens
+ * @param {Tokens} options.tokens - Array of token objects to search through
+ * @param {DependencyList} [deps=[]] - Additional dependencies that trigger search recalculation
+ *
+ * @returns {Object} Search state and controls
+ * @returns {Tokens} returns.searchResult - Filtered tokens matching the search term
+ * @returns {string} returns.searchTerm - Current search term
+ * @returns {Dispatch<SetStateAction<string>>} returns.setSearchTerm - Function to update search term
+ *
+ * @example
+ * ```tsx
+ * const { tokens } = useTokens();
+ * const { searchResult, searchTerm, setSearchTerm } = useTokenSearch({
+ *   tokens,
+ *   defaultSearchTerm: 'eth'
+ * });
+ *
+ * return (
+ *   <>
+ *     <input
+ *       value={searchTerm}
+ *       onChange={(e) => setSearchTerm(e.target.value)}
+ *       placeholder="Search tokens..."
+ *     />
+ *     <TokenList tokens={searchResult} />
+ *   </>
+ * );
+ * ```
  */
 export const useTokenSearch = (
   { defaultSearchTerm, tokens }: TokenSearchOptions,

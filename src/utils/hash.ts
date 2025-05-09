@@ -38,6 +38,35 @@ export const createPublicClientInstance = (chain: Chain) =>
     transport: http(),
   })
 
+/**
+ * Attempts to resolve an ENS name to its corresponding Ethereum address.
+ *
+ * This function takes an ENS name (e.g., "vitalik.eth"), normalizes it according to
+ * ENS standards, and attempts to resolve it to an Ethereum address using the provided
+ * public client. It returns both the resolved address and a type classification.
+ *
+ * @param {ReturnType<typeof createPublicClientInstance>} publicClient - The Viem public client instance
+ * @param {string} ensName - The ENS name to resolve
+ * @returns {Promise<{ type: HashType; data: HashData }>} Object containing the type ('ENS' if valid, null if invalid)
+ * and data (resolved address if valid, null if invalid)
+ *
+ * @example
+ * ```tsx
+ * // For a valid ENS name
+ * const client = createPublicClientInstance(mainnet);
+ * const result = await detectEnsName(client, 'vitalik.eth');
+ * console.log(result);
+ * // { type: 'ENS', data: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045' }
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // For an invalid ENS name
+ * const result = await detectEnsName(client, 'nonexistent-name.eth');
+ * console.log(result);
+ * // { type: null, data: null }
+ * ```
+ */
 export const detectEnsName = async (
   publicClient: ReturnType<typeof createPublicClientInstance>,
   ensName: string,
@@ -71,6 +100,35 @@ export const detectEnsName = async (
   }
 }
 
+/**
+ * Attempts to retrieve transaction data for a given transaction hash.
+ *
+ * This function queries the blockchain using a provided public client to verify
+ * if the hash corresponds to a valid transaction. If found, returns transaction
+ * data along with its type classification.
+ *
+ * @param {ReturnType<typeof createPublicClientInstance>} publicClient - The Viem public client instance
+ * @param {Hash} hash - The transaction hash to verify and retrieve
+ * @returns {Promise<{ type: HashType; data: HashData }>} Object containing the type ('transaction' if valid, null if invalid)
+ * and data (transaction object if valid, null if invalid)
+ *
+ * @example
+ * ```tsx
+ * // For a valid transaction hash
+ * const client = createPublicClientInstance(mainnet);
+ * const result = await detectTransactionHash(client, '0x4a81638d3cc0d169cb559d165c166f832e2e749847b91d96094f958e8c2b9f91');
+ * console.log(result);
+ * // { type: 'transaction', data: { blockHash: '0x...', blockNumber: 14000000n, ... } }
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // For an invalid transaction hash
+ * const result = await detectTransactionHash(client, '0xabcd1234...');
+ * console.log(result);
+ * // { type: null, data: null }
+ * ```
+ */
 export const detectTransactionHash = async (
   publicClient: ReturnType<typeof createPublicClientInstance>,
   hash: Hash,
@@ -94,6 +152,31 @@ export const detectTransactionHash = async (
   }
 }
 
+/**
+ * Determines whether the provided address is a contract or an Externally Owned Account (EOA).
+ *
+ * The function queries the blockchain to check if there is bytecode deployed at the given address.
+ * If bytecode exists, the address is classified as a contract. Otherwise, it's considered an EOA.
+ *
+ * @param {ReturnType<typeof createPublicClientInstance>} publicClient - The Viem public client instance
+ * @param {Address} address - The blockchain address to check
+ * @returns {Promise<{ type: HashType; data: HashData }>} Object containing the address type ('contract' or 'EOA') and the address itself
+ *
+ * @example
+ * ```tsx
+ * // For a contract address
+ * const client = createPublicClientInstance(mainnet);
+ * const result = await detectAddressType(client, '0x6B175474E89094C44Da98b954EedeAC495271d0F');
+ * console.log(result); // { type: 'contract', data: '0x6B175474E89094C44Da98b954EedeAC495271d0F' }
+ * ```
+ *
+ * @example
+ * ```tsx
+ * // For a wallet address (EOA)
+ * const result = await detectAddressType(client, '0x71C7656EC7ab88b098defB751B7401B5f6d8976F');
+ * console.log(result); // { type: 'EOA', data: '0x71C7656EC7ab88b098defB751B7401B5f6d8976F' }
+ * ```
+ */
 export const detectAddressType = async (
   publicClient: ReturnType<typeof createPublicClientInstance>,
   address: Address,

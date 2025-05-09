@@ -84,17 +84,46 @@ function estimateGasL1CrossDomainMessenger({
 }
 
 /**
- * Custom hook to send a cross-domain message from L1 (mainnet or sepolia) to Optimism.
- * @param {Object} params - The params object.
- * @param {Chain} params.fromChain - The chain from which the message is sent.
- * @param {Address} params.l2ContractAddress - The L2 contract address.
- * @param {ContractNames} params.contractName - The contract name.
- * @param {ContractFunctionName} params.functionName - The contract function name.
- * @param {ContractFunctionArgs} params.args - The contract function arguments.
- * @param {bigint} params.value - The value to send.
- * @returns {Function} The function to send the cross-domain message.
+ * Custom hook to send a cross-domain message from L1 (Ethereum Mainnet or Sepolia) to Optimism.
  *
- * @description https://docs.optimism.io/builders/app-developers/bridging/messaging#for-l1-to-l2-transactions-1
+ * Handles the complex process of sending a message from L1 to L2 through Optimism's
+ * CrossDomainMessenger contract, including:
+ * - Estimating gas on both L1 and L2
+ * - Encoding function data for the message
+ * - Adding safety buffer to gas estimates (20%)
+ * - Executing the cross-chain transaction
+ *
+ * @param {Object} params - The parameters object
+ * @param {Chain} params.fromChain - Source chain (sepolia or mainnet)
+ * @param {Address} params.l2ContractAddress - Target contract address on L2
+ * @param {ContractNames} params.contractName - Name of the contract from contracts registry
+ * @param {ContractFunctionName} params.functionName - Name of function to call on the L2 contract
+ * @param {ContractFunctionArgs} params.args - Arguments to pass to the L2 function
+ * @param {bigint} params.value - Value in wei to send with the transaction
+ *
+ * @returns {Function} Async function that executes the cross-domain message when called
+ *
+ * @example
+ * ```tsx
+ * const sendToOptimism = useL1CrossDomainMessengerProxy({
+ *   fromChain: sepolia,
+ *   l2ContractAddress: '0x...',
+ *   contractName: 'MyContract',
+ *   functionName: 'myFunction',
+ *   args: [arg1, arg2],
+ *   value: parseEther('0.1')
+ * });
+ *
+ * // Later in your code
+ * const handleClick = async () => {
+ *   try {
+ *     const txHash = await sendToOptimism();
+ *     console.log('Transaction sent:', txHash);
+ *   } catch (error) {
+ *     console.error('Failed to send cross-domain message:', error);
+ *   }
+ * };
+ * ```
  */
 export function useL1CrossDomainMessengerProxy({
   fromChain,
