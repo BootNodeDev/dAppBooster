@@ -47,7 +47,7 @@ const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
   children,
   fallback = <ConnectWalletButton />,
   labelSwitchChain = 'Switch to',
-}: { chainId?: Chain['id']; fallback?: ReactElement; children: ReactElement }) => {
+}: WalletStatusVerifierProps) => {
   const { appChainId, isWalletConnected, isWalletSynced, switchChain, walletChainId } =
     useWeb3Status()
 
