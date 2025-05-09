@@ -59,7 +59,7 @@
     "@tanstack/react-query-devtools": "^5.75.1",
     "@tanstack/router-cli": "^1.119.0",
     "@tanstack/router-devtools": "^1.119.1",
-    "@tanstack/router-vite-plugin": "^1.119.0",
+    "@tanstack/router-plugin": "^1.120.3",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",
