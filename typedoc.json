@@ -3,6 +3,7 @@
     "typedoc-plugin-rename-defaults",
     "typedoc-plugin-missing-exports",
     "typedoc-plugin-inline-sources",
+    "typedoc-github-theme"
   ],
   "entryPoints": ["./src/**/*.{ts,tsx}"],
   "exclude": [
@@ -50,5 +51,5 @@
     "invalidLink": true,
     "notDocumented": false
   },
-  "skipErrorChecking": true
+  "skipErrorChecking": true,
 }
