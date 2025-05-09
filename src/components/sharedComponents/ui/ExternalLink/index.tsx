@@ -1,13 +1,13 @@
-import { Link, type LinkProps } from '@chakra-ui/react'
-import type { ComponentProps, FC } from 'react'
+import { Link, type LinkProps, chakra } from '@chakra-ui/react'
+import type { FC, HTMLAttributes } from 'react'
 import styles from './styles'
 
-const LinkSVG: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
-  <svg
+const LinkSVG: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
+  <chakra.svg
     fill="none"
-    height="15"
+    height="18px"
     viewBox="0 0 15 15"
-    width="15"
+    width="17px"
     xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
@@ -30,7 +30,7 @@ const LinkSVG: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
       fill="currentColor"
       fillRule="evenodd"
     />
-  </svg>
+  </chakra.svg>
 )
 
 /**

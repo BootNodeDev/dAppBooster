@@ -255,9 +255,9 @@ const Aave = withSuspenseAndRetry(() => {
             fontSize="16px"
             fontWeight="400"
             lineHeight="1.2"
-            whiteSpace="nowrap"
             overflow="hidden"
             textOverflow="ellipsis"
+            whiteSpace="nowrap"
           >
             {name}
           </Box>

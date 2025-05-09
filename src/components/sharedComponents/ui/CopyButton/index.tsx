@@ -1,13 +1,13 @@
-import { Button, type ButtonProps } from '@chakra-ui/react'
-import type { ComponentProps, FC, MouseEventHandler } from 'react'
+import { type ButtonProps, chakra } from '@chakra-ui/react'
+import type { FC, HTMLAttributes, MouseEventHandler } from 'react'
 import styles from './styles'
 
-const Copy: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
-  <svg
+const Copy: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
+  <chakra.svg
     fill="none"
-    height="15"
+    height="18px"
     viewBox="0 0 15 15"
-    width="15"
+    width="18px"
     xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
@@ -24,7 +24,7 @@ const Copy: FC<ComponentProps<'svg'>> = ({ ...restProps }) => (
       fill="currentColor"
       fillRule="evenodd"
     />
-  </svg>
+  </chakra.svg>
 )
 
 interface Props extends ButtonProps {
@@ -32,9 +32,22 @@ interface Props extends ButtonProps {
 }
 
 /**
- * @name CopyButton
- * @description A button that copies a value to the clipboard
- * @param {string} value - The value to copy to the clipboard
+ * CopyButton component that copies text to the clipboard when clicked.
+ *
+ * Renders a button with a copy icon by default. When clicked, copies the provided
+ * value to the clipboard using the Clipboard API.
+ *
+ * @param {Props} props - CopyButton component props.
+ * @param {string} props.value - The text to copy to the clipboard.
+ * @param {ReactNode} [props.children=<Copy />] - Content to render inside the button.
+ * @param {CSSObject} [props.css] - Custom CSS styling.
+ * @param {MouseEventHandler<HTMLButtonElement>} [props.onClick] - Additional onClick handler.
+ * @param {ButtonProps} props.restProps - Additional props from Chakra UI ButtonProps.
+ *
+ * @example
+ * ```tsx
+ * <CopyButton value="Text to copy">Copy</CopyButton>
+ * ```
  */
 export const CopyButton: FC<Props> = ({
   children = <Copy />,
@@ -49,7 +62,7 @@ export const CopyButton: FC<Props> = ({
   }
 
   return (
-    <Button
+    <chakra.button
       alignItems="center"
       background="transparent"
       border="none"
@@ -86,7 +99,7 @@ export const CopyButton: FC<Props> = ({
       {...restProps}
     >
       {children}
-    </Button>
+    </chakra.button>
   )
 }
 
