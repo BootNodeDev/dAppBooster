@@ -1,6 +1,6 @@
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
-import { useTransactionNotification } from '@/src/lib/toast/TransactionNotificationProvider'
+import { useTransactionNotification } from '@/src/providers/TransactionNotificationProvider'
 import type { ButtonProps } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import type { Hash, TransactionReceipt } from 'viem'

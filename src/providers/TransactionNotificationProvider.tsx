@@ -1,6 +1,9 @@
 import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
+import {
+  NotificationToast,
+  notificationToaster,
+} from '@/src/components/sharedComponents/NotificationToast'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { NotificationToast, notificationToaster } from '@/src/lib/toast/NotificationToast'
 import { type FC, type PropsWithChildren, type ReactNode, createContext, useContext } from 'react'
 import type {
   Hash,

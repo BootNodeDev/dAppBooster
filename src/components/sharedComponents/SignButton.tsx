@@ -1,5 +1,5 @@
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
-import { useTransactionNotification } from '@/src/lib/toast/TransactionNotificationProvider'
+import { useTransactionNotification } from '@/src/providers/TransactionNotificationProvider'
 import { type ButtonProps, chakra } from '@chakra-ui/react'
 import type { FC } from 'react'
 import { useSignMessage } from 'wagmi'
