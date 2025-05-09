@@ -29,7 +29,7 @@ const SignMessage = () => {
 
 const signMessage = {
   demo: <SignMessage />,
-  href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_SignButton.SignButton.html',
+  href: 'https://bootnodedev.github.io/dAppBooster/variables/components_sharedComponents_SignButton.SignButton.html',
   icon: <Icon />,
   text: 'Sign a message with your wallet and get the signature on a dialog.',
   title: 'Sign button',

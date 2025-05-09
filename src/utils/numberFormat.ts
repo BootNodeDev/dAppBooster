@@ -314,14 +314,18 @@ const TYPE_TO_FORMATTER_RULES = {
  * @throws {Error} If no formatting rule matches or if the formatter type is not configured correctly
  *
  * @example
+ * ```tsx
  * // Get formatter for a token amount in non-transaction context
  * const formatter = getFormatterRule(0.0005, NumberType.TokenNonTx);
  * // Returns the '<0.001' string formatter
+ * ```
  *
  * @example
+ * ```tsx
  * // Get formatter for a USD price
  * const formatter = getFormatterRule(1234.56, NumberType.FiatTokenPrice);
  * // Returns a TWO_DECIMALS_USD Intl.NumberFormat instance
+ * ```
  */
 function getFormatterRule(input: number, type: NumberType): Format {
   const rules = TYPE_TO_FORMATTER_RULES[type]
@@ -350,24 +354,32 @@ function getFormatterRule(input: number, type: NumberType): Format {
  * @returns {string} The formatted number as a string
  *
  * @example
+ * ```tsx
  * // Format a token balance
  * formatNumber(0.0005, NumberType.TokenNonTx);
  * // Returns: '<0.001'
+ * ```
  *
  * @example
+ * ```tsx
  * // Format a fiat price with default parameters
  * formatNumber(1234.567, NumberType.FiatTokenPrice);
  * // Returns: '$1,234.57'
+ * ```
  *
  * @example
+ * ```tsx
  * // Format a token amount for a transaction with custom placeholder
  * formatNumber(null, NumberType.TokenTx, 'N/A');
  * // Returns: 'N/A'
+ * ```
  *
  * @example
+ * ```tsx
  * // Format a gas price
  * formatNumber(0.0099, NumberType.FiatGasPrice);
  * // Returns: '<$0.01'
+ * ```
  */
 export function formatNumber(
   input: Nullish<number>,
@@ -396,19 +408,25 @@ export function formatNumber(
  * @returns {string} The formatted value as a string, or '-' if the input is null or undefined
  *
  * @example
+ * ```tsx
  * // Format a number
  * formatNumberOrString(1234.56, NumberType.FiatTokenPrice);
  * // Returns: '$1,234.56'
+ * ```
  *
  * @example
+ * ```tsx
  * // Format a string representing a number
  * formatNumberOrString('0.0099', NumberType.FiatGasPrice);
  * // Returns: '<$0.01'
+ * ```
  *
  * @example
+ * ```tsx
  * // Handle null input
  * formatNumberOrString(null, NumberType.TokenNonTx);
  * // Returns: '-'
+ * ```
  */
 export function formatNumberOrString(price: Nullish<number | string>, type: NumberType): string {
   if (price === null || price === undefined) return '-'
@@ -428,24 +446,32 @@ export function formatNumberOrString(price: Nullish<number | string>, type: Numb
  * @returns {string} The formatted USD price as a string (e.g. '$1,234.57', '<$0.01', '$1.23M')
  *
  * @example
+ * ```tsx
  * // Format a standard USD price
  * formatUSDPrice(1234.567);
  * // Returns: '$1,234.57'
+ * ```
  *
  * @example
+ * ```tsx
  * // Format a very small USD price
  * formatUSDPrice(0.000000009876);
  * // Returns: '<$0.00000001'
+ * ```
  *
  * @example
+ * ```tsx
  * // Format a large USD price
  * formatUSDPrice(1234567.891);
  * // Returns: '$1.23M'
+ * ```
  *
  * @example
+ * ```tsx
  * // Format USD price with specific type
  * formatUSDPrice(0.0099, NumberType.FiatGasPrice);
  * // Returns: '<$0.01'
+ * ```
  */
 export function formatUSDPrice(
   price: Nullish<number | string>,
@@ -466,24 +492,32 @@ export function formatUSDPrice(
  * @returns {string} The formatted price as a string with appropriate currency symbol, or '-' if input is null or undefined
  *
  * @example
+ * ```tsx
  * // Format a USD price (default)
  * formatFiatPrice(1234.56);
  * // Returns: '$1,234.56'
+ * ```
  *
  * @example
+ * ```tsx
  * // Format a Euro price
  * formatFiatPrice(1234.56, 'EUR');
  * // Returns: '€1,234.56'
+ * ```
  *
  * @example
+ * ```tsx
  * // Format a Japanese Yen price
  * formatFiatPrice(1234.56, 'JPY');
  * // Returns: '¥1,235'
+ * ```
  *
  * @example
+ * ```tsx
  * // Handle null input
  * formatFiatPrice(null);
  * // Returns: '-'
+ * ```
  */
 export function formatFiatPrice(price: Nullish<number>, currency = 'USD'): string {
   if (price === null || price === undefined) return '-'

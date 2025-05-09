@@ -38,7 +38,7 @@ const TransactionButton = () => {
 
 const transactionButton = {
   demo: <TransactionButton />,
-  href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_TransactionButton.TransactionButton.html',
+  href: 'https://bootnodedev.github.io/dAppBooster/variables/components_sharedComponents_TransactionButton.TransactionButton.html',
   icon: <Icon />,
   text: (
     <>

@@ -1,11 +1,15 @@
 {
-  "readme": "./README.md",
-  "excludeNotDocumented": false,
-  "excludeInternal": true,
-  "excludePrivate": false,
   "excludeExternals": true,
+  "excludeInternal": true,
+  "excludeNotDocumented": false,
+  "excludePrivate": false,
   "excludeProtected": true,
+  "hideGenerator": true,
+  "name": "dAppBooster",
+  "readme": "./README.md",
+  "skipErrorChecking": true,
   "sourceLinkExternal": true,
+  "out": "./docs",
   "plugin": [
     "typedoc-plugin-rename-defaults",
     "typedoc-plugin-missing-exports",
@@ -31,7 +35,6 @@
     "./src/components/sharedComponents/TanStackRouterDevtools.tsx",
     "./src/components/sharedComponents/TokenInput/Components.tsx"
   ],
-
   "highlightLanguages": [
     "bash",
     "console",
@@ -47,11 +50,9 @@
   "visibilityFilters": {
     "inherited": true
   },
-  "out": "./docs",
   "blockTags": ["@dev", "@source", "@name", "@description"],
   "validation": {
     "invalidLink": true,
     "notDocumented": false
-  },
-  "skipErrorChecking": true
+  }
 }

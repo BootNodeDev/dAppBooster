@@ -18,7 +18,7 @@ export { ConnectWalletButton }
  * - WalletProvider for wallet connection
  *
  * @example
- * ```
+ * ```tsx
  * <Web3Provider>
  *   <App />
  * </Web3Provider>

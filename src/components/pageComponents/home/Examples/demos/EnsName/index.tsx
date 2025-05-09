@@ -161,6 +161,7 @@ const EnsName = () => {
 const ensName = {
   demo: <EnsName />,
   icon: <Icon />,
+  href: 'https://bootnodedev.github.io/dAppBooster/functions/utils_hash.detectEnsName.html',
   text: (
     <>
       Resolve{' '}

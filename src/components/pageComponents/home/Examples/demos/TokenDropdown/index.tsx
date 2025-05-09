@@ -21,7 +21,7 @@ const TokenDropdown: FC = ({ ...restProps }) => {
 
 const tokenDropdown = {
   demo: <TokenDropdown />,
-  href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_TokenDropdown.TokenDropdown.html',
+  href: 'https://bootnodedev.github.io/dAppBooster/variables/components_sharedComponents_TokenDropdown.TokenDropdown.html',
   icon: <Icon />,
   text: (
     <>

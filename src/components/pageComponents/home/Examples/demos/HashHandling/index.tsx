@@ -195,7 +195,7 @@ const HashHandling = ({ ...restProps }) => {
 
 const hashHandling = {
   demo: <HashHandling />,
-  href: 'https://bootnodedev.github.io/dAppBooster/functions/components_sharedComponents_Hash.Hash.html',
+  href: 'https://bootnodedev.github.io/dAppBooster/variables/components_sharedComponents_Hash.Hash.html',
   icon: <Icon />,
   text: (
     <>

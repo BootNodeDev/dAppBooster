@@ -10,9 +10,11 @@
  * @returns {string} The truncated string or the original if no truncation is needed
  *
  * @example
+ * ```tsx
  * // Truncate an Ethereum address
  * truncateStringInTheMiddle("0x1234567890abcdef1234567890abcdef12345678", 8, 6);
  * // Returns: "0x123456...345678"
+ * ```
  */
 export const truncateStringInTheMiddle = (
   str: string,
@@ -43,19 +45,25 @@ export const truncateStringInTheMiddle = (
  * @returns {string} The truncated hash with ellipsis in the middle
  *
  * @example
+ * ```tsx
  * // Truncate an Ethereum address with default length
  * getTruncatedHash("0x1234567890abcdef1234567890abcdef12345678");
  * // Returns: "0x123456...345678"
+ * ```
  *
  * @example
+ * ```tsx
  * // Truncate with custom length
  * getTruncatedHash("0x1234567890abcdef1234567890abcdef12345678", 4);
  * // Returns: "0x1234...5678"
+ * ```
  *
  * @example
+ * ```tsx
  * // Truncate with maximum length
  * getTruncatedHash("0x1234567890abcdef1234567890abcdef12345678", 16);
  * // Uses maximum of 16: "0x1234567890abcdef...1234567890abcdef"
+ * ```
  */
 export const getTruncatedHash = (hash: string, length = 6): string => {
   const sanitizeLength = (length: number): number => {

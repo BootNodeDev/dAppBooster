@@ -16,8 +16,6 @@ export type DetectHash = {
   hashOrString: string
 }
 
-export const isValidTransactionHash = (str: string) => str.length === 66 && isHex(str)
-
 type HashType = 'contract' | 'transaction' | 'ENS' | 'EOA' | null
 
 type HashData = Transaction | Address | string | null
@@ -27,16 +25,35 @@ export type DetectedHash = {
   data: HashData
 }
 
-const invalidHashReturn = {
-  type: null,
-  data: null,
-}
-
 export const createPublicClientInstance = (chain: Chain) =>
   createPublicClient({
     chain,
     transport: http(),
   })
+
+const invalidHashReturn = {
+  type: null,
+  data: null,
+}
+
+/**
+ * Checks if a string is a valid Ethereum transaction hash.
+ *
+ * A valid transaction hash must be 66 characters long (including the '0x' prefix)
+ * and must be a valid hexadecimal string. This function leverages viem's isHex utility
+ * for hex validation.
+ *
+ * @param {string} str - The string to check
+ * @returns {boolean} True if the string is a valid transaction hash, false otherwise
+ *
+ * @example
+ * ```tsx
+ * // Check a valid transaction hash
+ * isValidTransactionHash('0x4a81638d3cc0d169cb559d165c166f832e2e749847b91d96094f958e8c2b9f91');
+ * // Returns: true
+ * ```
+ */
+export const isValidTransactionHash = (str: string) => str.length === 66 && isHex(str)
 
 /**
  * Attempts to resolve an ENS name to its corresponding Ethereum address.
@@ -208,10 +225,12 @@ export const detectAddressType = async (
  * @param {hashOrString} - The hash or string to detect
  * @returns {Promise<DetectedHash>} The detected hash type and data
  * @example
+ * ```tsx
  * const chain = mainnet;
  * const hashOrString = '0x87885aaeeded51c7e3858a782644f5d89759f245';
  * const detected = await detectHash({ chain, hashOrString });
  * { type: 'EOA', data: 'my-ens-name.eth' }
+ * ```
  **/
 const detectHash = async ({ chain, hashOrString }: DetectHash): Promise<DetectedHash> => {
   const publicClient = createPublicClientInstance(chain)
