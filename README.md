@@ -28,7 +28,7 @@ Check out the documentation for more information about building your first dApp:
 Ensure you meet all the requirements and then run the install script and follow the on-screen instructions.
 
 ```bash
-$ pnpm dlx dappbooster dAppBoosterFirstdApp
+$ pnpm dlx dappbooster dAppName
 ```
 
 **Note:** you might want to change your project's remote repository to a different one.
