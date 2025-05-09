@@ -128,11 +128,12 @@ const Welcome: FC<FlexProps> = ({ css, ...restProps }: FlexProps) => {
           color="var(--text-color)"
           fontSize={{ base: '16px', md: '18px' }}
           lineHeight="1.5"
+          margin="0 auto"
+          maxWidth="100%"
           textAlign="center"
+          width="500px"
         >
-          A cutting-edge foundation built with React to seamlessly
-          <chakra.br display={{ base: 'none', md: 'block' }} />
-          launch your next Web3 project.
+          A cutting-edge foundation built with React to seamlessly launch your next Web3 project.
         </Text>
         <Link
           alignContent="center"
