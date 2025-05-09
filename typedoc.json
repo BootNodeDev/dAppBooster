@@ -1,9 +1,16 @@
 {
+  "readme": "./README.md",
+  "excludeNotDocumented": false,
+  "excludeInternal": true,
+  "excludePrivate": false,
+  "excludeExternals": true,
+  "excludeProtected": true,
+  "sourceLinkExternal": true,
   "plugin": [
     "typedoc-plugin-rename-defaults",
     "typedoc-plugin-missing-exports",
     "typedoc-plugin-inline-sources",
-    "typedoc-material-theme"
+    "typedoc-github-theme"
   ],
   "entryPoints": ["./src/**/*.{ts,tsx}"],
   "exclude": [
@@ -24,12 +31,7 @@
     "./src/components/sharedComponents/TanStackRouterDevtools.tsx",
     "./src/components/sharedComponents/TokenInput/Components.tsx"
   ],
-  "excludeNotDocumented": false,
-  "excludeInternal": true,
-  "excludePrivate": false,
-  "excludeExternals": true,
-  "excludeProtected": true,
-  "sourceLinkExternal": true,
+
   "highlightLanguages": [
     "bash",
     "console",
