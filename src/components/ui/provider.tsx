@@ -30,6 +30,12 @@ export function Provider(props: ColorModeProviderProps) {
                 _dark: '#292B43',
               },
             },
+            emphasized: {
+              value: {
+                _light: '#ccc',
+                _dark: '#888',
+              },
+            },
           },
           primary: {
             default: {
