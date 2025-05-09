@@ -66,7 +66,6 @@ const Item: FC<Props> = ({
         fontSize="18px"
         fontWeight={700}
         lineHeight="1.5"
-        margin={1}
       >
         {title}
       </Heading>
