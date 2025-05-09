@@ -101,7 +101,7 @@ const Item: FC<Props> = ({ css, demo, href, icon, text, title, ...restProps }: P
           <Portal>
             <Dialog.Backdrop />
             <Dialog.Positioner>
-              <Dialog.Content>
+              <Dialog.Content width={'auto'}>
                 <Modal
                   onClose={() => setIsModalOpen(false)}
                   text={text}
