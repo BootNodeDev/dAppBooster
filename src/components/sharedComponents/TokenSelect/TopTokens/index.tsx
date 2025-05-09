@@ -15,7 +15,7 @@ interface TopTokensProps extends FlexProps {
  * @param {function} onTokenSelect - Callback function to be called when a token is selected.
  * @param {Tokens} tokens - The list of tokens to display.
  */
-const TopTokens: FC<TopTokensProps> = ({ onTokenSelect, tokens, ...restProps }) => {
+const TopTokens: FC<TopTokensProps> = ({ onTokenSelect, tokens, ...restProps }: function) => {
   const topTokenSymbols = ['op', 'usdc', 'usdt', 'dai', 'weth', 'wbtc', 'aave']
 
   return (

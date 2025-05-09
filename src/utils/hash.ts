@@ -130,7 +130,6 @@ export const detectAddressType = async (
  * const detected = await detectHash({ chain, hashOrString });
  * { type: 'EOA', data: 'my-ens-name.eth' }
  **/
-
 const detectHash = async ({ chain, hashOrString }: DetectHash): Promise<DetectedHash> => {
   const publicClient = createPublicClientInstance(chain)
 
