@@ -54,8 +54,8 @@ export const ConnectWalletButton = ({
       {({ address, isConnected, isConnecting, show, truncatedAddress }) => {
         return (
           <ConnectButton
-            $isConnected={isConnected}
             disabled={isConnecting}
+            isConnected={isConnected}
             onClick={show}
             {...restProps}
           >

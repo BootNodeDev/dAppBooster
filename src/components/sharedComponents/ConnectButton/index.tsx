@@ -23,13 +23,13 @@ const BaseChevronDown = ({ ...restProps }) => (
 const ChevronDown = chakra(BaseChevronDown)
 
 interface ConnectButtonProps extends ButtonProps {
-  $isConnected?: boolean
+  isConnected?: boolean
 }
 
-const ConnectButton: FC<ConnectButtonProps> = ({ $isConnected, children, css, ...restProps }) => {
+const ConnectButton: FC<ConnectButtonProps> = ({ isConnected, children, css, ...restProps }) => {
   return (
     <Button
-      borderRadius={$isConnected ? '30px' : 'sm'}
+      borderRadius={isConnected ? '30px' : 'sm'}
       backgroundColor="var(--background-color)"
       borderColor="var(--border-color)"
       boxShadow="0 2px 4.63px 0 #0000000C, 0 9.6px 13px 0 #00000013, 0 24px 34px 0 #0000001A, 0 48px 80px 0 #00000026"
@@ -37,8 +37,8 @@ const ConnectButton: FC<ConnectButtonProps> = ({ $isConnected, children, css, ..
       css={{ ...css, ...styles }}
       fontWeight="700"
       height="44px"
-      fontSize={{ base: $isConnected ? '12px' : '14px', md: $isConnected ? '15px' : '16px' }}
-      paddingX={$isConnected ? 2 : 4}
+      fontSize={{ base: isConnected ? '12px' : '14px', md: isConnected ? '15px' : '16px' }}
+      paddingX={isConnected ? 2 : 4}
       _hover={{
         backgroundColor: 'var(--background-color-hover)',
         borderColor: 'var(--border-color-hover)',
@@ -52,7 +52,7 @@ const ConnectButton: FC<ConnectButtonProps> = ({ $isConnected, children, css, ..
       {...restProps}
     >
       {children}
-      {$isConnected && (
+      {isConnected && (
         <ChevronDown
           marginLeft={2}
           marginRight={2}
