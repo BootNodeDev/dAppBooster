@@ -25,31 +25,34 @@ export const Footer: FC<FlexProps> = ({ css, ...restProps }) => {
       <Inner
         align="center"
         columnGap={4}
-        justify="center"
-        width="auto"
+        justify="space-between"
       >
-        <a
-          href="https://www.bootnode.dev/"
-          rel="noreferrer"
-          target="_blank"
-          title="Building the future of Web3"
+        <Flex
+          align="center"
+          columnGap={4}
         >
-          <LogoMini />
-        </a>
+          <a
+            href="https://www.bootnode.dev/"
+            rel="noreferrer"
+            target="_blank"
+            title="Building the future of Web3"
+          >
+            <LogoMini />
+          </a>
+          <Box
+            backgroundColor="var(--line-color)"
+            height="17px"
+            width="1px"
+          />
+          <Socials />
+        </Flex>
         <Box
-          backgroundColor="var(--line-color)"
-          height="17px"
-          width="1px"
-        />
-        <Socials />
+          fontSize="12px"
+          lineHeight="1.2"
+        >
+          Version: {packageJSON.version}
+        </Box>
       </Inner>
-      <Box
-        fontSize="12px"
-        lineHeight="1.2"
-        mt={2}
-      >
-        Version: {packageJSON.version}
-      </Box>
     </Flex>
   )
 }
