@@ -9,7 +9,6 @@ import switchNetwork from '@/src/components/pageComponents/home/Examples/demos/S
 import tokenDropdown from '@/src/components/pageComponents/home/Examples/demos/TokenDropdown'
 import tokenInput from '@/src/components/pageComponents/home/Examples/demos/TokenInput'
 import transactionButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton'
-import subgraphs from '@/src/components/pageComponents/home/Examples/demos/subgraphs'
 import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import { Box, type BoxProps, Flex, Heading, Text, chakra } from '@chakra-ui/react'
 import type { FC } from 'react'
@@ -22,7 +21,6 @@ const Examples: FC<BoxProps> = ({ css, ...restProps }) => {
     tokenDropdown,
     tokenInput,
     switchNetwork,
-    ...subgraphs,
     ensName,
     transactionButton,
     signMessage,
