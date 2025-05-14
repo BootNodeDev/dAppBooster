@@ -1,5 +1,5 @@
 # Simple workflow for deploying static content to GitHub Pages
-name: TSDoc Actions
+name: Generate Typedoc (TypeScript) Docs
 
 on:
   # Allows you to run this workflow manually from the Actions tab
@@ -28,7 +28,7 @@ env:
 jobs:
   # Single deploy job since we're just deploying
   deploy:
-    name: Deploy Documentation
+    name: Deploys Typedoc (TypeScript) Documentation
 
     # Deploy to the github-pages environment
     environment:
