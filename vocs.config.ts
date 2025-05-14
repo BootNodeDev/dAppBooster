@@ -44,10 +44,6 @@ export default defineConfig({
           text: 'Subgraphs',
           link: '/recipes/subgraphs',
         },
-        {
-          text: 'Manual installation',
-          link: '/recipes/manual-installation',
-        },
       ],
     },
     {
