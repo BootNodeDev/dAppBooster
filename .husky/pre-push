@@ -5,8 +5,10 @@
 # lint-staged using the configuration from tsconfig.json is not possible and in consequence
 # ignored. Ideally move this to lint-staged if / when that's supported so we don't have to
 # check all the files every time we push to the repo...
+# For the time being: added --incremental (compiles everything only the first time, and just
+# the modified files after that) and some other parameters to make compiling faster.
 echo "Running TypeScript checks..."
-pnpm tsc --noEmit --pretty --skipLibCheck
+pnpm tsc --noEmit --pretty --skipLibCheck --incremental --maxNodeModuleJsDepth 0
 
 # Check result
 if [ $? -ne 0 ]; then

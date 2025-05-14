@@ -10,6 +10,7 @@ node_modules
 *.njsproj
 *.sln
 *.sw?
+tsconfig.tsbuildinfo
 
 # Project folders
 typedoc
