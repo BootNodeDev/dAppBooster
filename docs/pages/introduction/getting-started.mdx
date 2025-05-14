@@ -27,13 +27,22 @@ Get a clean instance of the starter-kit by running this command.
 
 You can select between several configuration options for your installation, remove optional packages, etc. Choose what you need for your particular project.
 
-```bash [pnpm dlx]
+```bash [pnpm]
 $ pnpm dlx dappbooster <dAppName>
 ```
 
-There are no additional configuration requirements for the most part but **if you opted-in for subgraph support**, you'll need to provide the required environment vars in `.env.local`
+> **Note:** you might want to change your project's remote repository to a different one.
 
-> ⚠️ You can use the default values from most of the vars you'll  find in our `.env.example` file, but **you have to provide your own subgraph API key** (otherwise the dApp will not work). You can get one at https://thegraph.com/studio/apikeys/
+```bash [git]
+# Change the remote repository
+git remote set-url origin
+```
+
+## Regarding subgraphs
+
+⚠️ There are no additional configuration requirements for the most part but **if you opted-in for subgraph support**, you'll need to provide the required environment vars in `.env.local`
+
+> You can use the default values from most of the vars you'll  find in our `.env.example` file, but **you have to provide your own subgraph API key** (otherwise the dApp will not work). You can get one at https://thegraph.com/studio/apikeys/
 
 ```bash
 # Subgraph API key
@@ -52,20 +61,15 @@ PUBLIC_SUBGRAPHS_PRODUCTION_URL=''
 
 Read more about using subgraphs in the [subraph recipe](/recipes/subgraphs) and [subgraph plugin](/advanced/subgraph-plugin) sections.
 
-----
+## Running the dApp
 
-Optionally you can also set a [Wallet Connect project id](https://cloud.walletconnect.com) in `.env.local`, but remember: most vars are optional.
+You can run the dApp in dev mode and start modifying the content of the home page by editing `src/components/pageComponents/home/index.tsx`. The page auto-updates as you edit the file.
 
-```bash
-# WalletConnect Project ID
-PUBLIC_WALLETCONNECT_PROJECT_ID=
-```
-
-Run the dApp in dev mode and open the link provided by this command in the browser.
-
-```bash [pnpm dev]
+```bash [pnpm]
 pnpm dev
 ```
+
+Open the link provided by this command in the browser.
 
 ## Warming engines
 
