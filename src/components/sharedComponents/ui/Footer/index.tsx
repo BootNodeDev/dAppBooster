@@ -26,6 +26,7 @@ export const Footer: FC<FlexProps> = ({ css, ...restProps }) => {
         align="center"
         columnGap={4}
         justify="space-between"
+        width="100%"
       >
         <Flex
           align="center"
