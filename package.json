@@ -10,7 +10,7 @@
     "docs:build": "vocs build",
     "docs:dev": "vocs dev",
     "docs:preview": "vocs preview",
-    "generateDocs": "typedoc",
+    "typedoc:build": "typedoc",
     "lint": "pnpm biome check",
     "lint:fix": "pnpm biome check --write",
     "postinstall": "pnpm wagmi-generate",

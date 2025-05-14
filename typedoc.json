@@ -9,7 +9,7 @@
   "readme": "./README.md",
   "skipErrorChecking": true,
   "sourceLinkExternal": true,
-  "out": "./docs",
+  "out": "./typedoc",
   "plugin": [
     "typedoc-plugin-rename-defaults",
     "typedoc-plugin-missing-exports",
