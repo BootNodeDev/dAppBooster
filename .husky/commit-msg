@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# From conventional commits
-# https://github.com/conventional-changelog/commitlint
+# From conventional commits, forces to follow the commit convention.
+# Check https://github.com/conventional-changelog/commitlint for more.
 echo "Running commitlint"
 pnpm commitlint --edit "$1"

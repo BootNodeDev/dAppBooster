@@ -1,6 +1,7 @@
 #!/bin/sh
 
-# Run lint-staged
-# https://github.com/lint-staged/lint-staged
+# Run lint-staged. Performs actions like linting, etc. in staged files only.
+# Check https://github.com/lint-staged/lint-staged for more info.
+# Config: .lintstagedrc.mjs
 echo "Running lint-staged"
 pnpm lint-staged

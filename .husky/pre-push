@@ -1,14 +1,18 @@
 #!/bin/sh
 
-# Run tsc
-echo "Running TS checks..."
+# Run the TypeScript compiler to check for TypeScript errors
+# We have to do this here (as opossed to running it with lint-staged) because whithin
+# lint-staged using the configuration from tsconfig.json is not possible and in consequence
+# ignored. Ideally move this to lint-staged if / when that's supported so we don't have to
+# check all the files every time we push to the repo...
+echo "Running TypeScript checks..."
 pnpm tsc --noEmit --pretty --skipLibCheck
 
 # Check result
 if [ $? -ne 0 ]; then
-  echo "TS checks failed. Push aborted."
+  echo "TypeScript checks failed. Push aborted."
   exit 1
 fi
 
-echo "TS checks passed. Proceeding with push."
+echo "TypeScript checks passed. Proceeding with push."
 exit 0
