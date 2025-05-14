@@ -1,18 +1,5 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
-
+# Defaults folder, editor files and folders, etc.
 node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
 .vscode/*
 .zed
 !.vscode/extensions.json
@@ -24,11 +11,29 @@ dist-ssr
 *.sln
 *.sw?
 
+# Project folders
+typedoc
+coverage
+src/subgraphs/gql
+
+# Project files
+src/hooks/generated.ts
+vite.config.ts.timestamp*
+
+# Project .env files
 .env.local
 .env
 
-coverage
+# Builds
+/dist
+/docs/dist
+dist-ssr
 
-src/hooks/generated.ts
-src/subgraphs/gql
-vite.config.ts.timestamp*
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
