@@ -4,7 +4,7 @@
   "version": "2.0.0.beta.2rc1",
   "type": "module",
   "scripts": {
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit --pretty && vite build",
     "dev": "vite",
     "dev:watch": "routes:watch & vite",
     "docs:build": "vocs build",
