@@ -26,18 +26,15 @@ export default defineConfig({
     },
     {
       text: 'Components',
-      collapsed: true,
-      items: [{ text: 'Introduction', link: '/components/introduction' }],
-    },
-    {
-      text: 'Plugins',
-      collapsed: true,
-      link: '/plugins',
-      items: [{ text: 'Subgraphs', link: '/plugins/subgraphs' }],
+      items: [
+        {
+          text: 'Introduction',
+          link: '/components/introduction',
+        },
+      ],
     },
     {
       text: 'Recipes',
-      collapsed: true,
       items: [
         {
           text: 'My First dapp',
@@ -47,19 +44,22 @@ export default defineConfig({
           text: 'Subgraphs',
           link: '/recipes/subgraphs',
         },
+        {
+          text: 'Manual installation',
+          link: '/recipes/manual-installation',
+        },
       ],
     },
     {
-      text: 'Styling',
-      collapsed: true,
+      text: 'Advanced',
       items: [
         {
-          text: 'Basic Styling',
-          link: '/styling/basic-styling',
+          text: 'Subgraph plugin',
+          link: '/advanced/subgraph-plugin',
         },
         {
-          text: 'Integration with other libraries',
-          link: '/styling/integration',
+          text: 'Manual installation',
+          link: '/advanced/manual-installation',
         },
       ],
     },
