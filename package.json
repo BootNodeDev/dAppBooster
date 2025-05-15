@@ -1,7 +1,7 @@
 {
   "name": "dappbooster",
   "private": true,
-  "version": "2.0.0.beta.2rc3",
+  "version": "2.0.0",
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit --pretty && vite build",
