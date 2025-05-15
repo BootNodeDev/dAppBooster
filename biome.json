@@ -9,7 +9,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignore": ["src/routeTree.gen.ts"]
+    "ignore": ["src/routeTree.gen.ts", ".install-files/**/*"]
   },
   "formatter": {
     "attributePosition": "multiline",

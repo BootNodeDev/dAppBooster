@@ -28,6 +28,7 @@
   },
   "include": ["src"],
   "exclude": [
+    ".install-files",
     "src/subgraphs/queries/aave",
     "src/subgraphs/queries/uniswap",
     "src/hooks/generated.ts",
