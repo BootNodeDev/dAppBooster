@@ -12,7 +12,7 @@ In case the installation script doesn't fit your needs or just because you feel 
 $ git clone git@github.com:BootNodeDev/dAppBooster.git
 ```
 
-### Create .env file
+### Create the .env file
 
 Now move into the project's folder and create a `.env.local` file.
 
@@ -31,9 +31,11 @@ $ pnpm i
 
 This will install **everything** by default, so you'll have to configure and run a few things that are optional if you're using the installation script.
 
-This means that you **have add a subgraph API key**, provide all the subgraph-related env vars (you can use the defaults in `.env.example`, and then run the code generator or otherwise the app will not run.
+This means that you **have add a subgraph [API key](https://thegraph.com/studio/apikeys/)**, provide all the subgraph-related env vars (you can use the defaults in `.env.example`, and then run the code generator or otherwise the app will not run.
 
 :::tip
+**Uninstalling subgraph support**
+
 Optionally you can uninstall everything subgraph related, check the [info below](#subgraphs) to see how.
 :::
 
@@ -68,7 +70,7 @@ $ pnpm remove @bootnodedev/db-subgraph graphql graphql-request @graphql-codegen/
 
 Also consider removing the related files and folders: `src/subgraph`, `src/components/pageComponents/home/Examples/demos/subgraphs` and the references in `/src/components/pageComponents/home/Examples/index.tsx`
 
-And remove the subgraph-related scripts from `package.json`
+Finally remove the subgraph-related scripts from `package.json`
 
 ### Typedoc
 
@@ -100,8 +102,10 @@ $ pnpm remove husky
 
 And remove the `.husky` folder and related scripts from `package.json`
 
-:::tip
-[commitlint](https://commitlint.js.org/) and [lint-staged](https://github.com/lint-staged/lint-staged) are run by Husky's Git hooks, so you might consider removing them. You can run the scripts manuall if you prefer to keep them, though.
+:::warning
+**Git hooks**
+
+[commitlint](https://commitlint.js.org/) and [lint-staged](https://github.com/lint-staged/lint-staged) are run by Husky's Git hooks, so you might consider removing them. You can run the scripts manually if you prefer to keep the packages, though.
 :::
 
 ```bash [Terminal]
@@ -126,7 +130,7 @@ If you don't need [Vercel analytics](https://vercel.com/docs/analytics/quickstar
 $ pnpm remove @vercel/analytics
 ```
 
-And remove the `Analytics` import and tag in `src/routes/__root.tsx`, and also the related script from `package.json`
+And remove the `Analytics` import and tag in `src/routes/__root.tsx`
 
 ### Testing
 

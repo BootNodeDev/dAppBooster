@@ -1,17 +1,20 @@
-# Building Your First dApp [Wrapping and Unwrapping WETH]
+# Building your first dApp [Wrapping and Unwrapping WETH]
 
 ## Introduction
-This guide will walk you through developing your first dApp using dappBooster. You'll learn how to create a simple dApp that enables users to wrap and unwrap WETH (in less than five minutes).
 
-:::tip
+:::warning
+**Initial setup**
+
 Before continuing, be sure to have followed the steps in [getting started](/introduction/getting-started)
 :::
 
-## Network Configuration
+This guide will walk you through developing your first dApp using dappBooster. You'll learn how to create a simple dApp that enables users to wrap and unwrap WETH (in less than five minutes).
+
+## Network configuration
 
 The Sepolia network is pre-configured in [src/lib/networks.config.ts](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/lib/networks.config.ts). Review this file if you're interested in adding more networks by following the existing pattern.
 
-## Contract Configuration
+## Contract configuration
 
 For this example, we have already deployed a smart contract to the Sepolia network. Now it's time to let the dApp know about it existence:
 
@@ -45,7 +48,7 @@ export const contracts = {
 ```
 :::
 
-## Generate WETH hooks
+## Generate the hooks
 
 Use the wagmi utility to generate React hooks for the WETH contract. We have [configured](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/lib/wagmi/config.ts) wagmi to generate hooks with both suspense and promised hooks.
 
@@ -53,7 +56,7 @@ Use the wagmi utility to generate React hooks for the WETH contract. We have [co
 pnpm wagmi-generate
 ```
 
-## Create the weth page
+## Create the page
 
 :::steps
 ### Add a new route
@@ -71,7 +74,7 @@ export const Route = createLazyFileRoute('/weth')({
 
 With this file we are registering a new page under the path `/weth`.
 
-### Create the Weth component
+### Create the component
 
 - Create a new folder `src/components/pageComponents/weth`
 - Create `src/components/pageComponents/weth/index.tsx` with this content:
@@ -87,7 +90,7 @@ export const Weth = () => {
 
 This is just a simple component that we will use to add all the WETH logic.
 
-Now, you can open http://localhost:5173/weth on your dev environment to see it working.
+You can see the new page and component in action in http://localhost:5173/weth
 
 ## Add a custom token list
 
@@ -96,7 +99,7 @@ dappBooster has a set of components and utilities designed to simplify the integ
 Let's add it to our dApp:
 
 :::steps
-### Create tokens JSON file
+### Create the tokens file
 
 Create `public/tokens.json` with the following content:
 
@@ -116,9 +119,9 @@ Create `public/tokens.json` with the following content:
 }
 ```
 
-### Add token list
+### Add the tokens list
 
-Add the new token list to `src/constants/tokenLists.ts` like so:
+Add the new tokens list to `src/constants/tokenLists.ts` like so:
 
 ```tsx [tokenLists.ts] showLineNumbers
 {
@@ -131,12 +134,14 @@ Add the new token list to `src/constants/tokenLists.ts` like so:
 Now, all the token related utilities will make use of this new list.
 
 :::info
+**Get the tokens**
+
 Use the [useTokenLists](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/hooks/useTokenLists.ts) hook it to obtain all the tokens configured.
 :::
 
 ## The TokenInput component
 
-We will use the [TokenInput](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/components/sharedComponents/TokenInput/index.tsx) component. This component will give us the following features:
+We will use the [TokenInput](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/components/sharedComponents/TokenInput/index.tsx) component. This component has this useful features:
 
 * Show the user the token they are interacting with (ETH when wrapping and WETH when unwrapping).
 * It will allow the user to enter the token amount in decimal format and will return the parsed amount in wei.
@@ -402,5 +407,7 @@ export const Weth = () => (
 ```
 
 :::info
+**Giving meaningful information**
+
 The `sendOperation.methodId` is used to provide additional context to the toast notification displayed by the `TransactionButton`. This is optional, but if you include a `methodId` property in the function passed to the transaction property, it will display that context in the toast, offering the user more detailed information.
 :::

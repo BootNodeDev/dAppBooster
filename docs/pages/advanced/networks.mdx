@@ -1,5 +1,7 @@
 # Networks
 
+## Importing a network
+
 To add / remove / edit a network supported by the dApp you can do it directly in the `networks.config.ts` file.
 
 :::steps
@@ -55,6 +57,8 @@ export const env = createEnv({
 ```
 :::
 
-:::tip
+:::warning
+**Unspecified RPC**
+
 If the RPC is not specified, it will be `undefined` and the app will use the wagmi-defined RPC.
 :::

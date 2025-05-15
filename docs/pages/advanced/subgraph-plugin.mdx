@@ -1,10 +1,18 @@
 # dAppBooster Subgraph Plugin
 
-This package provides a flexible and reusable solution for generating [GraphQL](https://graphql.org/) clients using `@graphql-codegen/cli`, integrated with `@tanstack/react-query`. It simplifies the process of setting up and managing GraphQL code generation for multiple subgraphs.
+This package provides a flexible and reusable solution for generating [GraphQL](https://graphql.org/) clients using `@graphql-codegen/cli`, integrated with `@tanstack/react-query`.
+
+It simplifies the process of setting up and managing GraphQL code generation for multiple subgraphs.
 
 ## Installation
 
-The plugin uses pnpm as the preferred package manager. First, install the package along with other required dependencies:
+:::warning
+**Package managers**
+
+The plugin uses pnpm as the preferred package manager.
+:::
+
+First, install the package along with all the required dependencies:
 
 ```bash [Terminal]
 pnpm add @bootnodedev/db-subgraph graphql graphql-request
@@ -19,9 +27,9 @@ pnpm add -D @graphql-codegen/cli @graphql-typed-document-node/core
 ## Usage
 
 ::::steps
-### Set Up CodeGen Configuration
+### Set up the configuration
 
-Create a codegen file `src/subgraphs/codegen.ts` in your project:
+Create a `src/subgraphs/codegen.ts` code generation file in your project:
 
 ```ts [codegen.ts] showLineNumbers
 import { generateCodegenConfig } from "@bootnodedev/db-subgraph";
@@ -41,12 +49,14 @@ export default generateCodegenConfig({
 });
 ```
 :::tip
+**Configuration values**
+
 You can use environment variables, hard-coded values, or a combination of both. Adjust the configuration according to your project's needs.
 :::
 
 This file uses the `generateCodegenConfig` function from our package to create the configuration for `@graphql-codegen/cli`
 
-### Run CodeGen
+### Run the code generation
 
 Add a script to your `package.json` to run the code generation:
 
@@ -58,9 +68,10 @@ Add a script to your `package.json` to run the code generation:
 }
 ```
 
-Now you can generate your GraphQL clients by running:
+Now generate your GraphQL clients by running:
 
 ```bash [Terminal]
+# Generate GraphQL clients
 pnpm run subgraph-codegen
 ```
 ::::
@@ -68,10 +79,12 @@ pnpm run subgraph-codegen
 You can see a live example [here](https://dappbooster.dev/) and the source code of the demos using the plugin [here](https://github.com/BootNodeDev/dAppBooster/tree/main/src/components/pageComponents/home/Examples/demos/subgraphs)
 
 :::info
+**Recipes**
+
 For further information refer to the [subgraphs recipe](/recipes/subgraphs).
 :::
 
-## Configuration Options
+## Configuration options
 
 The `PackageConfig` interface accepts the following options for each subgraph:
 
@@ -89,7 +102,7 @@ The `PackageConfig` interface accepts the following options for each subgraph:
 - `destinationDirectory`: The directory where your typed queries will be generated.
   - defult: `./src/subgraphs/gql`
 
-## Adding ultiple Subgraphs
+## Adding multiple subgraphs
 
 You can configure multiple subgraphs by adding more objects to the `subgraphs` array in your configuration:
 
@@ -107,7 +120,7 @@ export default generateCodegenConfig({
 });
 ```
 
-## Generated Files
+## Generated files
 
 The package will generate GraphQL clients in the `src/subgraphs/gql/` directory, organized by subgraph ID.
 

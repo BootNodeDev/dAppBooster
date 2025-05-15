@@ -1,17 +1,22 @@
 # Subgraphs
 
-This guide will walk you through the use of the [subgraphs plugin](https://www.npmjs.com/package/@bootnodedev/db-subgraph) in dAppBooster, before continuing, be sure to have followed the steps in the [Subgraphs Plugin](/advanced/subgraph-plugin) section.
+:::warning
+**Initial setup**
 
-:::note
-We'll be exploring the consume of the Polygon (137) Uniswap pools query.
+Before continuing, be sure to have followed the steps in the [Subgraphs Plugin](/advanced/subgraph-plugin) section.
 :::
+
+This guide will walk you through the use of the [subgraphs plugin](https://www.npmjs.com/package/@bootnodedev/db-subgraph) in dAppBooster.
+
+We'll implement the consumption of data from the [Polygon (137) Uniswap pools](https://app.uniswap.org/explore/pools/polygon) query.
+
 
 ## Consume the Subgraph
 
 ::::steps
-### Create a query to list Uniswap pools by liquidity
+### Create the query
 
-Create a new file `src/subgraphs/queries/uniswap/pool.ts` with the following content:
+To create a query to list Uniswap pools by liquidity first create a new file `src/subgraphs/queries/uniswap/pool.ts` with the following content:
 
 ```ts [pool.ts] showLineNumbers
 import { graphql } from '@/src/subgraphs/gql/uniswap'
@@ -29,16 +34,17 @@ export const allUniswapPoolsQueryDocument = graphql(/* GraphQL */ `
 `)
 ```
 
-### Run the subgraph-codegen script:
+### Run the code generation script
+
 ```bash [Terminal]
 pnpm subgraph-codegen
 ```
 
 This will consume the query you just created, poll the information from [The Graph](https://thegraph.com/) services and create the types for you.
 
-### Create a component to consume the data
+### Create a component
 
-Create a new component in `src/components/sharedComponents/UniswapPoolsPolygon.tsx` that will consume and show the pool data.
+Create a new component to consume the data in `src/components/sharedComponents/UniswapPoolsPolygon.tsx`. We'll use it to show the pool's data.
 
 ```tsx [UniswapPoolsPolygon.tsx] showLineNumbers
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
@@ -83,6 +89,8 @@ export const UniswapPoolsPolygon = withSuspenseAndRetry(() => {
 Now you can use this component to show this data to the user in any place you want.
 ::::
 
-:::tip
-You can find a working example of this in the [demos list](https://github.com/BootNodeDev/dAppBooster/blob/main/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph/index.tsx)
+:::info
+**Working demo source code**
+
+You can find a working example of this feature in our [demos list](https://github.com/BootNodeDev/dAppBooster/blob/main/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph/index.tsx)
 :::
