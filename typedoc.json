@@ -19,6 +19,7 @@
   "entryPoints": ["./src/**/*.{ts,tsx}"],
   "exclude": [
     "**/*.test.*",
+    "**/styles.ts",
     "**/*{Provider,Devtools}.tsx",
     "**/*{styles}.ts",
     "./src/{vite-env.d.ts,main.tsx,routeTree.gen.ts}",
