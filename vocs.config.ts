@@ -1,10 +1,30 @@
 import { defineConfig } from 'vocs'
 
 export default defineConfig({
+  title: 'dAppBooster',
   description:
-    'Build reliable apps & libraries with lightweight, \
-    composable, and type-safe modules that interface with Ethereum.',
-  title: 'dappBooster',
+    'A modern starter kit built with React to quickly get started with your next web3 project.',
+  iconUrl: '/favicon.svg',
+  logoUrl: '/logo.svg',
+  topNav: [
+    { text: 'dappbooster.dev', link: 'https://dappbooster.dev' },
+    { text: 'demos', link: 'https://demo.dappbooster.dev' },
+    { text: 'blog', link: 'https://blog.bootnode.dev/' },
+  ],
+  socials: [
+    {
+      icon: 'x',
+      link: 'https://x.com/bootnodedev',
+    },
+    {
+      icon: 'github',
+      link: 'https://github.com/BootNodeDev/dAppBooster',
+    },
+    {
+      icon: 'telegram',
+      link: 'https://t.me/dAppBooster',
+    },
+  ],
   sidebar: [
     {
       items: [
