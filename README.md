@@ -19,7 +19,7 @@ Ensure you meet all the requirements, then run the install script and follow the
 
 ```bash
 # Run the install script and follow the instructions
-$ pnpm dlx dappbooster dAppName
+$ pnpm dlx dappbooster <dAppName>
 ```
 
 >A more detailed "Getting Started" guide is available [here](https://docs.dappbooster.dev/introduction/getting-started#installation)
