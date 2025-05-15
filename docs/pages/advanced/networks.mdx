@@ -1,0 +1,60 @@
+# Networks
+
+To add / remove / edit a network supported by the dApp you can do it directly in the `networks.config.ts` file.
+
+:::steps
+### Import network
+
+Import the supported network of your choice, say [Base](https://www.base.org/).
+
+```diff [networks.config.ts]
+- import { mainnet, optimismSepolia, sepolia } from 'viem/chains'
++ import { base, mainnet, optimismSepolia, sepolia } from 'viem/chains'
+
+...
+
+- export const chains = [mainnet, optimismSepolia, sepolia] as const
++ export const chains = [base, mainnet, optimismSepolia, sepolia] as const
+
+```
+
+### Include it in the transports
+
+Use the default RPC provided by [wagmi](https://wagmi.sh/) / [Viem](https://viem.sh/) to include it in the transports.
+
+```diff [networks.config.ts]
+export const transports: RestrictedTransports = {
+    ...
++   [base.id]: http(env.PUBLIC_RPC_BASE),
+}
+```
+:::
+
+## Specifying the RPC
+
+If you want to use an RPC different from the one provided by wagmi
+
+:::steps
+### Define the env variable
+
+```diff [.env.local]
++ PUBLIC_RPC_BASE=https://base.llamarpc.com
+```
+
+### Import
+
+Import the RPC in the `src/env.ts` file
+
+```diff [env.ts]
+export const env = createEnv({
+  client: {
+    ...
++   PUBLIC_RPC_BASE: z.string().optional(),
+  },
+})
+```
+:::
+
+:::tip
+If the RPC is not specified, it will be `undefined` and the app will use the wagmi-defined RPC.
+:::

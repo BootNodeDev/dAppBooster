@@ -3,29 +3,33 @@
 ## Introduction
 This guide will walk you through developing your first dApp using dappBooster. You'll learn how to create a simple dApp that enables users to wrap and unwrap WETH (in less than five minutes).
 
-## Hands-on
-
+:::tip
 Before continuing, be sure to have followed the steps in [getting started](/introduction/getting-started)
+:::
 
-### Network Configuration
+## Network Configuration
 
 The Sepolia network is pre-configured in [src/lib/networks.config.ts](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/lib/networks.config.ts). Review this file if you're interested in adding more networks by following the existing pattern.
 
-### Contract Configuration
+## Contract Configuration
 
-We have already deployed a smart contract to the Sepolia network. Now it'ss time to let the dApp know about it existence:
+For this example, we have already deployed a smart contract to the Sepolia network. Now it's time to let the dApp know about it existence:
 
-1. Download the [ABI](https://sepolia.etherscan.io/address/0xa45f5716cab1a49b107a5de96ec26da26d1eba9e#code) and save it in `src/constants/contracts/abis/WETH.ts` using the following format:
+:::steps
+### ABI download
 
-```tsx
+Download the [ABI](https://sepolia.etherscan.io/address/0xa45f5716cab1a49b107a5de96ec26da26d1eba9e#code) and save it in `src/constants/contracts/abis/WETH.ts` using the following format:
+
+```tsx [WETH.ts] showLineNumbers
 export const WETH_ABI = [
   // ...abi code
 ] as const
 ```
+### Contracts update
 
-2. Update `src/constants/contracts/contracts.ts` with the WETH contract address and ABI:
+Update `src/constants/contracts/contracts.ts` with the WETH contract address and ABI:
 
-```tsx
+```tsx [contracts.ts] showLineNumbers
 import { WETH_ABI } from '@/src/constants/contracts/abis/WETH'
 
 export const contracts = {
@@ -39,20 +43,24 @@ export const contracts = {
   },
 }
 ```
+:::
 
-### Generate WETH hooks
+## Generate WETH hooks
 
 Use the wagmi utility to generate React hooks for the WETH contract. We have [configured](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/lib/wagmi/config.ts) wagmi to generate hooks with both suspense and promised hooks.
 
-```bash
+```bash [Terminal]
 pnpm wagmi-generate
 ```
 
-### Create the weth page
+## Create the weth page
 
-1. Add a new file `/src/routes/weth.lazy.tsx` with the following content:
+:::steps
+### Add a new route
 
-```tsx
+Create a new file `/src/routes/weth.lazy.tsx` with the following content:
+
+```tsx [weth.lazy.tsx] showLineNumbers
 import { createLazyFileRoute } from '@tanstack/react-router'
 import { Weth } from '@/src/components/pageComponents/weth'
 
@@ -63,29 +71,36 @@ export const Route = createLazyFileRoute('/weth')({
 
 With this file we are registering a new page under the path `/weth`.
 
-2. Create a new folder `src/components/pageComponents/weth`.
+### Create the Weth component
 
-3. Create a new file `src/components/pageComponents/weth/index.tsx` with this content:
+- Create a new folder `src/components/pageComponents/weth`
+- Create `src/components/pageComponents/weth/index.tsx` with this content:
 
-```tsx
+```tsx [index.tsx] showLineNumbers
 import { Card } from '@chakra-ui/react'
 
 export const Weth = () => {
   return (<Card.Root display="flex" flexDirection="column" m="auto">Hello User!</Card.Root>
 }
 ```
+:::
 
 This is just a simple component that we will use to add all the WETH logic.
 
-Now, you can open this link [http://localhost:5173/weth](http://localhost:5173/weth) to see it working.
+Now, you can open http://localhost:5173/weth on your dev environment to see it working.
 
-### Add a custom token list
+## Add a custom token list
 
-dappBooster has a set of components and utilities designed to simplify the integration of tokens while following the standard defined by [tokenlists.org](https://tokenlists.org/). As we are working with a home-made WETH token, we will create a custom token link where the only token it holds is our WETH token. Let's add it to our code:
+dappBooster has a set of components and utilities designed to simplify the integration of tokens while following the standard defined by [tokenlists.org](https://tokenlists.org/). As we're working with a home-made WETH token, we will create a custom token link where the only token it holds is our WETH token.
 
-1. Create `public/tokens.json` with the following content:
+Let's add it to our dApp:
 
-```json
+:::steps
+### Create tokens JSON file
+
+Create `public/tokens.json` with the following content:
+
+```json [tokens.json] showLineNumbers
 {
   "name": "custom",
   "tokens": [
@@ -101,33 +116,36 @@ dappBooster has a set of components and utilities designed to simplify the integ
 }
 ```
 
-2. Add the new token list to the following constant `src/constants/tokenLists.ts` like so:
+### Add token list
 
-```tsx
+Add the new token list to `src/constants/tokenLists.ts` like so:
+
+```tsx [tokenLists.ts] showLineNumbers
 {
   // ...
   CUSTOM: '/tokens.json',
 }
 ```
+:::
 
 Now, all the token related utilities will make use of this new list.
 
 :::info
-Use [useTokenLists](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/hooks/useTokenLists.ts) hook it to obtain all the tokens configured.
+Use the [useTokenLists](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/hooks/useTokenLists.ts) hook it to obtain all the tokens configured.
 :::
 
-### The TokenInput component
+## The TokenInput component
 
-We will use the `TokenInput` component. This component will provide us with the following features:
+We will use the [TokenInput](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/components/sharedComponents/TokenInput/index.tsx) component. This component will give us the following features:
 
 * Show the user the token they are interacting with (ETH when wrapping and WETH when unwrapping).
 * It will allow the user to enter the token amount in decimal format and will return the parsed amount in wei.
 * It will fetch the selected token's balance.
 * It will notify the user of any issues found with the input value entered.
 
-Let's modify the `@/src/components/pageComponents/weth` file as follows:
+Let's modify the `/src/components/pageComponents/weth/index.tsx` file as follows:
 
-```tsx
+```tsx [index.tsx] showLineNumbers
 import { Card } from '@chakra-ui/react'
 import { sepolia } from 'viem/chains'
 import TokenInput from '@/src/components/sharedComponents/TokenInput'
@@ -165,13 +183,13 @@ export const Weth = () => {
 
 Now, you should see the `TokenInput` component in action. Connect a wallet with a Sepolia ETH balance, and the component will display it.
 
-### Suspense loading
+## Suspense loading
 
 As you might have noticed, after the page is loaded the component will take some time before appearing. This is happening because dappBooster makes use of [Suspense](https://react.dev/reference/react/Suspense) for some internal requests.
 
-To improve the UX we can show a loading component until the component is ready to be rendered. We'll use a utility function called `withSuspenseAndRetry` to wrap our `Weth` component, and indicate that while the component is fetching data, we want to render a "loading..." text:
+To improve the UX we can show a spinner or skeleton loadin component until the component is ready to be rendered. We'll use a utility function called `withSuspenseAndRetry` to wrap our `Weth` component, and indicate that while the component is fetching data, we want to render a "loading..." text:
 
-```tsx
+```tsx [index.tsx] showLineNumbers
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 export const SuspendedWeth = withSuspenseAndRetry(() => {
@@ -183,7 +201,7 @@ export const Weth = () => (
 )
 ```
 
-### Wallet status & contract interaction
+## Wallet status & contract interaction
 
 Now it's time to develop the functionality for deposit and withdrawal.
 
@@ -191,7 +209,7 @@ We will consume different hooks that will take care of triggering the transactio
 
 Also, we will make use of another special hook [useWeb3Status()](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/hooks/useWeb3Status.tsx) provided by dappBooster. This hook will return important information of the context of the connected wallet and selected chain.
 
-```tsx
+```tsx [index.tsx] showLineNumbers
 import { Card } from '@chakra-ui/react'
 import { Address } from 'viem'
 import { sepolia } from 'viem/chains'
@@ -256,11 +274,11 @@ export const Weth = () => (
 )
 ```
 
-### Deposit, approve and withdraw
+## Deposit, approve and withdraw
 
 After the user enters a valid value, we need a button to trigger one of the possible actions. We will make use of  the [TransactionButton](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/components/sharedComponents/TransactionButton.tsx) component to handle the transaction lifecycle. We will only pass two properties `transaction`, which receives a function returning a promise with a transaction hash, and `onMined` where we will refetch the user balance once the transaction has been mined.
 
-```tsx
+```tsx [index.tsx] showLineNumbers
 import { ChangeEvent, useState } from 'react' // [!code focus]
 import { Card } from '@chakra-ui/react'
 import { Address } from 'viem' // [!code focus]

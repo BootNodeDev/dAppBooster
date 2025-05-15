@@ -1,24 +1,19 @@
 # Subgraphs
 
-## Introduction
-
-This guide will walk you through using the subgraphs plugin.
-
-## Hands-on
-
-Before continuing, be sure to have followed the steps in [subgraphs plugin](/plugins/subgraphs).
+This guide will walk you through the use of the [subgraphs plugin](https://www.npmjs.com/package/@bootnodedev/db-subgraph) in dAppBooster, before continuing, be sure to have followed the steps in the [Subgraphs Plugin](/advanced/subgraph-plugin) section.
 
 :::note
-We'll be exploring the consume of the polygon (137) uniswap pools query.
+We'll be exploring the consume of the Polygon (137) Uniswap pools query.
 :::
 
 ## Consume the Subgraph
 
 ::::steps
+### Create a query to list Uniswap pools by liquidity
 
-### Create a query to list uniswap pools by liquidy:
+Create a new file `src/subgraphs/queries/uniswap/pool.ts` with the following content:
 
-```ts [src/subgraphs/queries/uniswap/pool.ts] showLineNumbers
+```ts [pool.ts] showLineNumbers
 import { graphql } from '@/src/subgraphs/gql/uniswap'
 
 export const allUniswapPoolsQueryDocument = graphql(/* GraphQL */ `
@@ -38,16 +33,16 @@ export const allUniswapPoolsQueryDocument = graphql(/* GraphQL */ `
 ```bash [Terminal]
 pnpm subgraph-codegen
 ```
-:::note
-This will consume the query you just creted, poll the information from The Graph services and create the types for you.
-:::
 
-### Consume the data:
+This will consume the query you just created, poll the information from [The Graph](https://thegraph.com/) services and create the types for you.
+
+### Create a component to consume the data
+
+Create a new component in `src/components/sharedComponents/UniswapPoolsPolygon.tsx` that will consume and show the pool data.
+
 ```tsx [UniswapPoolsPolygon.tsx] showLineNumbers
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
-
 import { useSuspenseQuery } from '@tanstack/react-query'
-
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
@@ -85,8 +80,9 @@ export const UniswapPoolsPolygon = withSuspenseAndRetry(() => {
 })
 ```
 
-:::tip
-You can find a working example at the [dAppBooster Landing Page codebase](https://github.com/BootNodeDev/dAppBoosterLandingPage/blob/main/src/components/pageComponents/home/Examples/demos/SubgraphDemo/index.tsx)
-:::
-
+Now you can use this component to show this data to the user in any place you want.
 ::::
+
+:::tip
+You can find a working example of this in the [demos list](https://github.com/BootNodeDev/dAppBooster/blob/main/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph/index.tsx)
+:::

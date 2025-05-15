@@ -1,0 +1,153 @@
+# Manual Installation
+
+## Overview
+
+In case the installation script doesn't fit your needs or just because you feel adventurous, these are the steps to perform a manual installation:
+
+::::steps
+### Clone the repo
+
+```bash [Terminal]
+# Clone the repo
+$ git clone git@github.com:BootNodeDev/dAppBooster.git
+```
+
+### Create .env file
+
+Now move into the project's folder and create a `.env.local` file.
+
+```bash [Terminal]
+# Create .env.local file
+$ cd dAppBooster
+$ cp .env.example .env.local
+```
+
+### Install the dependencies
+
+```bash [Terminal]
+# Install everything
+$ pnpm i
+```
+
+This will install **everything** by default, so you'll have to configure and run a few things that are optional if you're using the installation script.
+
+This means that you **have add a subgraph API key**, provide all the subgraph-related env vars (you can use the defaults in `.env.example`, and then run the code generator or otherwise the app will not run.
+
+:::tip
+Optionally you can uninstall everything subgraph related, check the [info below](#subgraphs) to see how.
+:::
+
+
+```bash [Terminal]
+# Run the code generator
+$ pnpm subgraph-codegen
+```
+
+### Run the app
+Now you can run the dApp in dev mode and open the link provided by this command in the browser.
+
+```bash [Terminal]
+# Run in dev mode
+$ pnpm dev
+```
+::::
+
+## Optional packages
+
+There are plenty of optional packages you can remove (tip: the installation script does this for you). We think those are useful and make for a better result and developer experience, but you might think different.
+
+Keep reading if you want to remove some or all of these packages.
+
+### Subgraphs
+
+If you don't need subgraph support, remove these packages:
+
+```bash [Terminal]
+$ pnpm remove @bootnodedev/db-subgraph graphql graphql-request @graphql-codegen/cli @graphql-typed-document-node/core
+```
+
+Also consider removing the related files and folders: `src/subgraph`, `src/components/pageComponents/home/Examples/demos/subgraphs` and the references in `/src/components/pageComponents/home/Examples/index.tsx`
+
+And remove the subgraph-related scripts from `package.json`
+
+### Typedoc
+
+If you don't need [Typedoc](https://typedoc.org/):
+
+```bash [Terminal]
+$ pnpm remove typedoc typedoc-github-theme typedoc-plugin-inline-sources typedoc-plugin-missing-exports typedoc-plugin-rename-defaults
+```
+
+And remove the `typedoc.json` file, `typedoc` folder, and related scripts from `package.json`
+
+### Vocs
+
+If you don't need [Vocs](https://vocs.dev/):
+
+```bash [Terminal]
+$ pnpm remove vocs
+```
+
+And remove the `vocs.config.ts` file, `docs` folder, and related scripts from `package.json`
+
+### Husky
+
+If you don't need [Husky](https://typicode.github.io/husky/):
+
+```bash [Terminal]
+$ pnpm remove husky
+```
+
+And remove the `.husky` folder and related scripts from `package.json`
+
+:::tip
+[commitlint](https://commitlint.js.org/) and [lint-staged](https://github.com/lint-staged/lint-staged) are run by Husky's Git hooks, so you might consider removing them. You can run the scripts manuall if you prefer to keep them, though.
+:::
+
+```bash [Terminal]
+$ pnpm remove @commitlint/cli @commitlint/config-conventional lint-staged
+```
+
+### Biome
+
+If you don't need [Biome](https://biomejs.dev/):
+
+```bash [Terminal]
+$ pnpm remove @biomejs/biome
+```
+
+And remove the `biome.json` file and related scripts from `package.json`
+
+### Vercel analytics
+
+If you don't need [Vercel analytics](https://vercel.com/docs/analytics/quickstart):
+
+```bash [Terminal]
+$ pnpm remove @vercel/analytics
+```
+
+And remove the `Analytics` import and tag in `src/routes/__root.tsx`, and also the related script from `package.json`
+
+### Testing
+
+If you don't need automated testing:
+
+```bash [Terminal]
+$ pnpm remove vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event @vitest/coverage-v8
+```
+
+And remove the `setupTests.ts` file and related scripts from `package.json`
+
+### Sitemap
+
+If you don't need a sitemap:
+
+```bash [Terminal]
+$ pnpm remove vite-plugin-sitemap
+```
+
+And remove all references from `vite.config.ts`
+
+### Installation script
+
+Remove the `.install-files` folder.

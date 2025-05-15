@@ -7,9 +7,11 @@ export default defineConfig({
   title: 'dappBooster',
   sidebar: [
     {
-      text: 'Introduction',
-      link: '/',
       items: [
+        {
+          text: 'Introduction',
+          link: '/',
+        },
         {
           text: 'Why dAppBooster',
           link: '/introduction/why-dappBooster',
@@ -17,10 +19,6 @@ export default defineConfig({
         {
           text: 'Getting started',
           link: '/introduction/getting-started',
-        },
-        {
-          text: 'Stack',
-          link: '/introduction/stack',
         },
       ],
     },
@@ -54,8 +52,16 @@ export default defineConfig({
           link: '/advanced/subgraph-plugin',
         },
         {
+          text: 'Networks',
+          link: '/advanced/networks',
+        },
+        {
           text: 'Manual installation',
           link: '/advanced/manual-installation',
+        },
+        {
+          text: 'Tech Stack',
+          link: '/advanced/stack',
         },
       ],
     },
