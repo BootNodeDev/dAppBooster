@@ -1,4 +1,4 @@
-import { defineConfig } from 'vocs'
+import { type SidebarItem, defineConfig } from 'vocs'
 
 export default defineConfig({
   title: 'dAppBooster',
@@ -7,9 +7,18 @@ export default defineConfig({
   iconUrl: '/favicon.svg',
   logoUrl: '/logo.svg',
   topNav: [
-    { text: 'dappbooster.dev', link: 'https://dappbooster.dev' },
-    { text: 'demos', link: 'https://demo.dappbooster.dev' },
-    { text: 'blog', link: 'https://blog.bootnode.dev/' },
+    {
+      text: 'dappbooster.dev',
+      link: 'https://dappbooster.dev',
+    },
+    {
+      text: 'demos',
+      link: 'https://demo.dappbooster.dev',
+    },
+    {
+      text: 'blog',
+      link: 'https://blog.bootnode.dev/',
+    },
   ],
   socials: [
     {
@@ -85,5 +94,5 @@ export default defineConfig({
         },
       ],
     },
-  ],
+  ] as Array<SidebarItem>,
 })
