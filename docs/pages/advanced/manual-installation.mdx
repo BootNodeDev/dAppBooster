@@ -2,7 +2,7 @@
 
 ## Overview
 
-In case the installation script doesn't fit your needs or just because you feel adventurous, these are the steps to perform a manual installation:
+In case the installation script doesn't fit your needs or just because you feel adventurous (or maybe you want to clone the repo and start creating pull requests?), these are the steps to perform a manual installation:
 
 ::::steps
 ### Clone the repo
@@ -29,21 +29,15 @@ $ cp .env.example .env.local
 $ pnpm i
 ```
 
-This will install **everything** by default, so you'll have to configure and run a few things that are optional if you're using the installation script.
+This will install **everything** by default, so you'll have to configure and run a few things to get your app running: most importantly, you **have to add a subgraph [API key](https://thegraph.com/studio/apikeys/)**, provide all the subgraph-related env vars and then run the code generator. Otherwise the app will not work.
 
-This means that you **have add a subgraph [API key](https://thegraph.com/studio/apikeys/)**, provide all the subgraph-related env vars (you can use the defaults in `.env.example`, and then run the code generator or otherwise the app will not run.
+Check [this section](/introduction/getting-started#a-note-regarding-subgraphs) for extra info about configuring subgraphs and running the code generator.
 
 :::tip
 **Uninstalling subgraph support**
 
 Optionally you can uninstall everything subgraph related, check the [info below](#subgraphs) to see how.
 :::
-
-
-```bash [Terminal]
-# Run the code generator
-$ pnpm subgraph-codegen
-```
 
 ### Run the app
 Now you can run the dApp in dev mode and open the link provided by this command in the browser.
@@ -56,7 +50,7 @@ $ pnpm dev
 
 ## Optional packages
 
-There are plenty of optional packages you can remove (tip: the installation script does this for you). We think those are useful and make for a better result and developer experience, but you might think different.
+There are plenty of optional packages you can remove (tip: the installation script does this for you). We think these are useful and make for a better result and developer experience, but you might think different.
 
 Keep reading if you want to remove some or all of these packages.
 
