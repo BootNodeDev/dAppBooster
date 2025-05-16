@@ -6,7 +6,7 @@
 
 [dAppBooster](https://dappbooster.dev) is a template to help you in the development of blockchain frontend applications. It aims to provide an opinionated set of tools and best practices to speed up the development process and make it more reliable.
 
-**Full documentation:** [docs.dappbooster.dev](https://docs.dappbooster.dev/)
+
 
 ## Requirements
 
@@ -15,11 +15,15 @@
 
 ## Installation
 
-Ensure you meet all the requirements, then run the install script and follow the on-screen instructions.
+Run the install script and follow the on-screen instructions.
+
+A more detailed installation guide is available [here](https://docs.dappbooster.dev/introduction/getting-started#installation)
 
 ```bash
 # Run the install script and follow the instructions
 $ pnpm dlx dappbooster <dAppName>
 ```
 
->A more detailed "Getting Started" guide is available [here](https://docs.dappbooster.dev/introduction/getting-started#installation)
+
+- **Full documentation:** https://docs.dappbooster.dev/
+- **Technical documentation:**  https://components.dappbooster.dev 
