@@ -1,9 +1,5 @@
 import OptionsDropdown from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/TokenInput/Icon'
-import Arbitrum from '@/src/components/pageComponents/home/Examples/demos/assets/Arbitrum'
-import Eth from '@/src/components/pageComponents/home/Examples/demos/assets/Eth'
-import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
-import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
 import BaseTokenInput from '@/src/components/sharedComponents/TokenInput'
 import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
@@ -12,6 +8,12 @@ import { useTokenSearch } from '@/src/hooks/useTokenSearch'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { Box, Flex, Skeleton } from '@chakra-ui/react'
+import {
+  NetworkArbitrumOne,
+  NetworkEthereum,
+  NetworkOptimism,
+  NetworkPolygon,
+} from '@web3icons/react'
 import { useState } from 'react'
 import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
 
@@ -60,25 +62,45 @@ const TokenInputMode = withSuspenseAndRetry(
 
     const networks: Networks = [
       {
-        icon: <Eth />,
+        icon: (
+          <NetworkEthereum
+            size={24}
+            variant="background"
+          />
+        ),
         id: mainnet.id,
         label: mainnet.name,
         onClick: () => setCurrentNetworkId(mainnet.id),
       },
       {
-        icon: <Optimism />,
+        icon: (
+          <NetworkOptimism
+            size={24}
+            variant="background"
+          />
+        ),
         id: optimism.id,
         label: optimism.name,
         onClick: () => setCurrentNetworkId(optimism.id),
       },
       {
-        icon: <Arbitrum />,
+        icon: (
+          <NetworkArbitrumOne
+            size={24}
+            variant="background"
+          />
+        ),
         id: arbitrum.id,
         label: arbitrum.name,
         onClick: () => setCurrentNetworkId(arbitrum.id),
       },
       {
-        icon: <Polygon />,
+        icon: (
+          <NetworkPolygon
+            size={24}
+            variant="background"
+          />
+        ),
         id: polygon.id,
         label: polygon.name,
         onClick: () => setCurrentNetworkId(polygon.id),

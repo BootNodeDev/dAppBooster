@@ -4,7 +4,7 @@ import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
-import { Flex, Grid, Heading, Skeleton, Span } from '@chakra-ui/react'
+import { Box, Flex, Grid, Heading, Skeleton, Span } from '@chakra-ui/react'
 import { type FC, useState } from 'react'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
@@ -55,7 +55,12 @@ const Status: FC<{
         title={chain.name}
       >
         {`${resource}@${chain.id}`}
-        {getNetworkIcon(chain.name.toLowerCase())}
+        <Box
+          rounded="full"
+          overflow="hidden"
+        >
+          {getNetworkIcon(chain.name.toLowerCase())}
+        </Box>
       </Heading>
       <Grid
         css={{

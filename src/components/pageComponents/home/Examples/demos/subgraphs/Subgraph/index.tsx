@@ -1,8 +1,4 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
-import Arbitrum from '@/src/components/pageComponents/home/Examples/demos/assets/Arbitrum'
-import Base from '@/src/components/pageComponents/home/Examples/demos/assets/Base'
-import Optimism from '@/src/components/pageComponents/home/Examples/demos/assets/Optimism'
-import Polygon from '@/src/components/pageComponents/home/Examples/demos/assets/Polygon'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph/Icon'
 import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
 import ExternalLink from '@/src/components/sharedComponents/ui/ExternalLink'
@@ -14,6 +10,7 @@ import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
 import { Box, Flex, Heading, Skeleton, Span } from '@chakra-ui/react'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { NetworkArbitrumOne, NetworkBase, NetworkOptimism, NetworkPolygon } from '@web3icons/react'
 import request from 'graphql-request'
 import { useState } from 'react'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
@@ -47,27 +44,27 @@ const Copy = ({ value }: { value: string }) => {
 export const getNetworkIcon = (chainName: string) => (
   <>
     {chainName === 'arbitrum one' && (
-      <Arbitrum
-        height="20px"
-        width="20px"
+      <NetworkArbitrumOne
+        size={20}
+        variant="background"
       />
     )}
     {chainName === 'polygon' && (
-      <Polygon
-        height="20px"
-        width="20px"
+      <NetworkPolygon
+        size={20}
+        variant="background"
       />
     )}
     {chainName === 'op mainnet' && (
-      <Optimism
-        height="20px"
-        width="20px"
+      <NetworkOptimism
+        size={20}
+        variant="background"
       />
     )}
     {chainName === 'base' && (
-      <Base
-        height="20px"
-        width="20px"
+      <NetworkBase
+        size={20}
+        variant="background"
       />
     )}
   </>
@@ -149,7 +146,13 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
         paddingBottom={2}
         title={chain.name}
       >
-        Uniswap Pool {getNetworkIcon(chain.name.toLowerCase())}
+        Uniswap Pool{' '}
+        <Box
+          rounded="full"
+          overflow="hidden"
+        >
+          {getNetworkIcon(chain.name.toLowerCase())}
+        </Box>
       </Heading>
       {data.map((position) => (
         <Flex
@@ -222,7 +225,12 @@ const Aave = withSuspenseAndRetry(() => {
         title={base.name}
       >
         AAVE Reserves
-        {getNetworkIcon(base.name.toLowerCase())}
+        <Box
+          rounded="full"
+          overflow="hidden"
+        >
+          {getNetworkIcon(base.name.toLowerCase())}
+        </Box>
       </Heading>
       {data.map(({ id, name, underlyingAsset }) => (
         <Flex

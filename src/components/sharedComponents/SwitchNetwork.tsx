@@ -1,7 +1,7 @@
 import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
 import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { Flex, Menu } from '@chakra-ui/react'
+import { Box, Flex, Menu } from '@chakra-ui/react'
 import {
   type ComponentPropsWithoutRef,
   type FC,
@@ -90,7 +90,12 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }: SwitchNetworkProps)
                 overflow="hidden"
                 width="24px"
               >
-                {networkItem?.icon}
+                <Box
+                  rounded="full"
+                  overflow="hidden"
+                >
+                  {networkItem?.icon}
+                </Box>
               </Flex>{' '}
               {networkItem?.label}
             </>
@@ -107,7 +112,12 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }: SwitchNetworkProps)
               onClick={() => handleClick(id)}
               value={label}
             >
-              {icon}
+              <Box
+                rounded="full"
+                overflow="hidden"
+              >
+                {icon}
+              </Box>
               {label}
             </MenuItem>
           ))}
