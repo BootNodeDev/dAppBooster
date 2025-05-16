@@ -1,4 +1,4 @@
-[![dAppBooster Logo](https://dappbooster.dev/share/repo_banner.svg)](https://dappbooster.dev)
+[![dAppBooster Logo](https://demo.dappbooster.dev/share/repo_banner.svg)](https://dappbooster.dev)
 
 # dAppBooster
 
