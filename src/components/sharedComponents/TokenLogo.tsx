@@ -1,8 +1,6 @@
 import type { Token } from '@/src/types/token'
 import { Flex } from '@chakra-ui/react'
-import { TokenIcon } from '@web3icons/react'
 import { type ComponentProps, type FC, useCallback, useEffect, useState } from 'react'
-import { useMemo } from 'react'
 
 interface PlaceholderProps extends ComponentProps<'div'> {
   size: number
@@ -93,34 +91,24 @@ interface TokenLogoProps {
 const TokenLogo: FC<TokenLogoProps> = ({ size = 24, token }) => {
   const { logoURI } = token
   const [hasError, setHasError] = useState(false)
-  const memoizedSrc = useMemo(() => (logoURI ? getSrc(logoURI) : ''), [logoURI])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: logoURI is cached and needs to be updated (this code should be refactored)
   useEffect(() => {
     setHasError(false)
   }, [logoURI])
 
-  return (
-    <TokenIcon
-      symbol={token.symbol}
+  return logoURI && !hasError ? (
+    <img
+      alt={token.name}
+      height={`${size}`}
+      onError={() => setHasError(true)}
+      src={getSrc(logoURI)}
+      width={`${size}`}
+    />
+  ) : (
+    <Placeholder
       size={size}
-      variant="background"
-      fallback={
-        logoURI && !hasError ? (
-          <img
-            alt={`${token.name} logo`}
-            height={`${size}`}
-            onError={() => setHasError(true)}
-            src={memoizedSrc}
-            width={`${size}`}
-          />
-        ) : (
-          <Placeholder
-            size={size}
-            symbol={token.symbol}
-          />
-        )
-      }
+      symbol={token.symbol}
     />
   )
 }
