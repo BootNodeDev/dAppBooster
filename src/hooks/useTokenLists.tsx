@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { type JSX, useMemo } from 'react'
 
 import {
   type UseSuspenseQueryOptions,
@@ -13,6 +13,40 @@ import { env } from '@/src/env'
 import { type Token, type TokenList, tokenSchema } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 import tokenListsCache, { updateTokenListsCache, type TokensMap } from '@/src/utils/tokenListsCache'
+
+import {
+  NetworkArbitrumOne,
+  NetworkEthereum,
+  NetworkOptimism,
+  NetworkPolygon,
+} from '@web3icons/react'
+
+const nativeTokenIcons: Record<number, (props: { size: number }) => JSX.Element> = {
+  1: (props) => (
+    <NetworkEthereum
+      variant="background"
+      {...props}
+    />
+  ),
+  10: (props) => (
+    <NetworkOptimism
+      variant="background"
+      {...props}
+    />
+  ),
+  42161: (props) => (
+    <NetworkArbitrumOne
+      variant="background"
+      {...props}
+    />
+  ),
+  137: (props) => (
+    <NetworkPolygon
+      variant="background"
+      {...props}
+    />
+  ),
+}
 
 /**
  * Loads and processes token lists from configured sources
@@ -186,5 +220,6 @@ function buildNativeToken(chainId: Token['chainId']): Token {
     chainId: chainId,
     decimals: tokenInfo.decimals,
     symbol: tokenInfo.symbol,
+    icon: nativeTokenIcons[chainId],
   }
 }

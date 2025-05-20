@@ -1,3 +1,4 @@
+import type { JSX } from 'react'
 import { z } from 'zod'
 
 const address = z.string().regex(/^0x[a-fA-F0-9]{40}$/)
@@ -36,7 +37,9 @@ export const tokenSchema = z.object({
  */
 export const tokensSchema = z.array(tokenSchema)
 
-export type Token = z.infer<typeof tokenSchema>
+export type Token = z.infer<typeof tokenSchema> & {
+  icon?: (props: { size: number }) => JSX.Element
+}
 
 export type Tokens = z.infer<typeof tokensSchema>
 

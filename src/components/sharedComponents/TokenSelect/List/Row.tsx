@@ -12,7 +12,8 @@ const Icon: FC<{ size: number } & FlexProps> = ({ size, children, ...restProps }
     height={`${size}px`}
     justifyContent="center"
     overflow="hidden"
-    width={`${size}px"`}
+    width={`${size}px`}
+    flexShrink={0}
     {...restProps}
   >
     {children}
@@ -89,12 +90,21 @@ const Row: FC<TokenSelectRowProps> = ({
       onClick={() => onClick(token)}
       {...restProps}
     >
-      <Icon size={iconSize}>
-        <TokenLogo
-          size={iconSize}
-          token={token}
-        />
-      </Icon>
+      <Box
+        rounded="full"
+        overflow="hidden"
+      >
+        <Icon size={iconSize}>
+          {token.icon ? (
+            token.icon({ size: iconSize })
+          ) : (
+            <TokenLogo
+              size={iconSize}
+              token={token}
+            />
+          )}
+        </Icon>
+      </Box>
       <Box
         color="var(--row-token-name-color)"
         fontSize="18px"

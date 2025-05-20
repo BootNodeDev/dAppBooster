@@ -49,10 +49,14 @@ const Item: FC<ItemProps> = ({ token, ...restProps }) => {
         overflow="hidden"
         width={`${ICON_SIZE}px"`}
       >
-        <TokenLogo
-          size={ICON_SIZE}
-          token={token}
-        />
+        {token.icon ? (
+          token.icon({ size: ICON_SIZE })
+        ) : (
+          <TokenLogo
+            size={ICON_SIZE}
+            token={token}
+          />
+        )}
       </Flex>
       <Box
         color="var(--top-token-item-color)"
