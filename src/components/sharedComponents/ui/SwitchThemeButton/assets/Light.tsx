@@ -24,7 +24,7 @@ const Light: FC<HTMLChakraProps<'svg'> & SVGAttributes<SVGSVGElement>> = ({
     xmlns="http://www.w3.org/2000/svg"
     {...restProps}
   >
-    <title>Icon</title>
+    <title>Light Theme</title>
     <path
       className="path"
       clipRule="evenodd"

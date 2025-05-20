@@ -11,7 +11,7 @@ const Arrow = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <title>Arrow icon</title>
+    <title>dAppBooster Web3 Components Demos</title>
     <rect
       x="0.5"
       y="0.5"
