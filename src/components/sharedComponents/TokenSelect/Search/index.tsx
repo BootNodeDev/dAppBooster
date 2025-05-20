@@ -2,7 +2,7 @@ import SearchInput from '@/src/components/sharedComponents/TokenSelect/Search/In
 import NetworkButton from '@/src/components/sharedComponents/TokenSelect/Search/NetworkButton'
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
 import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
-import { Flex, type FlexProps, Menu } from '@chakra-ui/react'
+import { Box, Flex, type FlexProps, Menu } from '@chakra-ui/react'
 import type { Dispatch, FC, SetStateAction } from 'react'
 
 interface SearchProps extends FlexProps {
@@ -52,7 +52,12 @@ const Search: FC<SearchProps> = ({
         <Menu.Root positioning={{ placement: 'bottom-end' }}>
           <Menu.Trigger asChild>
             <NetworkButton>
-              {networks.find((item) => item.id === currentNetworkId)?.icon}
+              <Box
+                rounded="full"
+                overflow="hidden"
+              >
+                {networks.find((item) => item.id === currentNetworkId)?.icon}
+              </Box>
             </NetworkButton>
           </Menu.Trigger>
           <Menu.Positioner>
@@ -63,7 +68,12 @@ const Search: FC<SearchProps> = ({
                   onClick={onClick}
                   value={label}
                 >
-                  {icon}
+                  <Box
+                    rounded="full"
+                    overflow="hidden"
+                  >
+                    {icon}
+                  </Box>
                   {label}
                 </MenuItem>
               ))}
