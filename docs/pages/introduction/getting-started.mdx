@@ -16,8 +16,7 @@ Get a clean instance of the starter-kit by running this command.
 You can select between several configuration options for your installation, remove optional packages, etc. Choose what you need for your particular project.
 
 ```bash [Terminal]
-# Run the installation script
-$ pnpm dlx dappbooster <dAppName>
+pnpm dlx dappbooster <dAppName>
 ```
 
 :::warning
@@ -27,7 +26,6 @@ You might want to change your project's remote repository to a different one.
 :::
 
 ```bash [Terminal]
-# Change the remote repository
 git remote set-url origin <repository-url>
 ```
 
@@ -41,7 +39,7 @@ There are no additional configuration requirements for the most part but **if yo
 You can use the default values from most of the vars you'll  find in our `.env.example` file, but **you have to provide your own subgraph API key** (otherwise the dApp will not work). You can get one at https://thegraph.com/studio/apikeys/
 :::
 
-```bash [.env.local]
+```sh [.env.local]
 # Subgraph API key
 PUBLIC_SUBGRAPHS_API_KEY='Your API key'
 # Environment
@@ -63,8 +61,7 @@ After you added your API key and the other subgraph variables, don't forget to r
 :::
 
 ```bash [Terminal]
-# Run the code generator
-$ pnpm subgraph-codegen
+pnpm subgraph-codegen
 ```
 
 :::info
