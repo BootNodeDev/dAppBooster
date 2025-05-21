@@ -2,14 +2,29 @@
 
 ## Overview
 
-In case the installation script doesn't fit your needs or just because you feel adventurous (or maybe you want to clone the repo and start creating pull requests?), these are the steps to perform a manual installation:
+In case the installation script doesn't fit your needs these are the steps to perform a manual installation.
+
+It's also the recommended procedure in case you're a **dAppBooster** developer.
 
 ::::steps
 ### Clone the repo
 
 ```bash [Terminal]
-# Clone the repo
-$ git clone git@github.com:BootNodeDev/dAppBooster.git
+git clone git@github.com:BootNodeDev/dAppBooster.git
+```
+
+### Branch checkout
+
+The default branch is `develop`, which is fine if you're developing new features of fixing bugs, but if you're developing a new product you probably want the production-ready release.
+
+```bash [Terminal]
+git checkout main
+```
+
+Or you can also get the last release (usually in sync with `main`), which is what the install script does.
+
+```bash [Terminal]
+git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
 ```
 
 ### Create the .env file
@@ -17,16 +32,14 @@ $ git clone git@github.com:BootNodeDev/dAppBooster.git
 Now move into the project's folder and create a `.env.local` file.
 
 ```bash [Terminal]
-# Create .env.local file
-$ cd dAppBooster
-$ cp .env.example .env.local
+cd dAppBooster
+cp .env.example .env.local
 ```
 
 ### Install the dependencies
 
 ```bash [Terminal]
-# Install everything
-$ pnpm i
+pnpm i
 ```
 
 This will install **everything** by default, so you'll have to configure and run a few things to get your app running: most importantly, you **have to add a subgraph [API key](https://thegraph.com/studio/apikeys/)**, provide all the subgraph-related env vars and then run the code generator. Otherwise the app will not work.
@@ -43,8 +56,7 @@ Optionally you can uninstall everything subgraph related, check the [info below]
 Now you can run the dApp in dev mode and open the link provided by this command in the browser.
 
 ```bash [Terminal]
-# Run in dev mode
-$ pnpm dev
+pnpm dev
 ```
 ::::
 
@@ -59,7 +71,7 @@ Keep reading if you want to remove some or all of these packages.
 If you don't need subgraph support, remove these packages:
 
 ```bash [Terminal]
-$ pnpm remove @bootnodedev/db-subgraph graphql graphql-request @graphql-codegen/cli @graphql-typed-document-node/core
+pnpm remove @bootnodedev/db-subgraph graphql graphql-request @graphql-codegen/cli @graphql-typed-document-node/core
 ```
 
 Also consider removing the related files and folders: `src/subgraph`, `src/components/pageComponents/home/Examples/demos/subgraphs` and the references in `/src/components/pageComponents/home/Examples/index.tsx`
@@ -71,7 +83,7 @@ Finally remove the subgraph-related scripts from `package.json`
 If you don't need [Typedoc](https://typedoc.org/):
 
 ```bash [Terminal]
-$ pnpm remove typedoc typedoc-github-theme typedoc-plugin-inline-sources typedoc-plugin-missing-exports typedoc-plugin-rename-defaults
+pnpm remove typedoc typedoc-github-theme typedoc-plugin-inline-sources typedoc-plugin-missing-exports typedoc-plugin-rename-defaults
 ```
 
 And remove the `typedoc.json` file, `typedoc` folder, and related scripts from `package.json`
@@ -81,7 +93,7 @@ And remove the `typedoc.json` file, `typedoc` folder, and related scripts from `
 If you don't need [Vocs](https://vocs.dev/):
 
 ```bash [Terminal]
-$ pnpm remove vocs
+pnpm remove vocs
 ```
 
 And remove the `vocs.config.ts` file, `docs` folder, and related scripts from `package.json`
@@ -91,7 +103,7 @@ And remove the `vocs.config.ts` file, `docs` folder, and related scripts from `p
 If you don't need [Husky](https://typicode.github.io/husky/):
 
 ```bash [Terminal]
-$ pnpm remove husky
+pnpm remove husky
 ```
 
 And remove the `.husky` folder and related scripts from `package.json`
@@ -103,7 +115,7 @@ And remove the `.husky` folder and related scripts from `package.json`
 :::
 
 ```bash [Terminal]
-$ pnpm remove @commitlint/cli @commitlint/config-conventional lint-staged
+pnpm remove @commitlint/cli @commitlint/config-conventional lint-staged
 ```
 
 ### Biome
@@ -111,7 +123,7 @@ $ pnpm remove @commitlint/cli @commitlint/config-conventional lint-staged
 If you don't need [Biome](https://biomejs.dev/):
 
 ```bash [Terminal]
-$ pnpm remove @biomejs/biome
+pnpm remove @biomejs/biome
 ```
 
 And remove the `biome.json` file and related scripts from `package.json`
@@ -121,7 +133,7 @@ And remove the `biome.json` file and related scripts from `package.json`
 If you don't need [Vercel analytics](https://vercel.com/docs/analytics/quickstart):
 
 ```bash [Terminal]
-$ pnpm remove @vercel/analytics
+pnpm remove @vercel/analytics
 ```
 
 And remove the `Analytics` import and tag in `src/routes/__root.tsx`
@@ -131,7 +143,7 @@ And remove the `Analytics` import and tag in `src/routes/__root.tsx`
 If you don't need automated testing:
 
 ```bash [Terminal]
-$ pnpm remove vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event @vitest/coverage-v8
+pnpm remove vitest @testing-library/react @testing-library/jest-dom @testing-library/user-event @vitest/coverage-v8
 ```
 
 And remove the `setupTests.ts` file, all the `*.test.tsx` and `*.test.ts` files, and related scripts from `package.json`
@@ -141,7 +153,7 @@ And remove the `setupTests.ts` file, all the `*.test.tsx` and `*.test.ts` files,
 If you don't need a sitemap:
 
 ```bash [Terminal]
-$ pnpm remove vite-plugin-sitemap
+pnpm remove vite-plugin-sitemap
 ```
 
 And remove all references from `vite.config.ts`
