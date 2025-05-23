@@ -2,6 +2,7 @@ import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/d
 import {
   Row,
   RowActions,
+  RowName,
   RowTitle,
   Title,
   Wrapper,
@@ -145,7 +146,9 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
       </Title>
       {data.map((position) => (
         <Row key={position.id}>
-          <RowTitle>{position.pool.symbol}</RowTitle>
+          <RowTitle>
+            <RowName>{position.pool.symbol}</RowName>
+          </RowTitle>
           <RowActions>
             <Copy value={position.pool.id} />
             <ExternalLink
@@ -182,7 +185,9 @@ const Aave = withSuspenseAndRetry(() => {
       </Title>
       {data.map(({ id, name, underlyingAsset }) => (
         <Row key={id}>
-          <RowTitle>{name}</RowTitle>
+          <RowTitle>
+            <RowName>{name}</RowName>
+          </RowTitle>
           <RowActions>
             <Copy value={underlyingAsset} />
             <ExternalLink

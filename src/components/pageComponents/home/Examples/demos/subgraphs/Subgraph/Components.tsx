@@ -46,7 +46,7 @@ export const Row: FC<FlexProps> = ({ children, ...restProps }) => (
   <Flex
     alignItems="center"
     color="var(--theme-subgraph-name-color)"
-    columnGap={1}
+    columnGap={2}
     borderRadius={4}
     padding={2}
     marginInline={-2}
@@ -91,6 +91,17 @@ export const RowTitle: FC<BoxProps> = ({ children, ...restProps }) => (
       width: 'var(--base-size)',
       opacity: 0.6,
     }}
+  >
+    {children}
+  </Box>
+)
+
+export const RowName: FC<BoxProps> = ({ children, ...restProps }) => (
+  <Box
+    overflow="hidden"
+    textOverflow="ellipsis"
+    whiteSpace="nowrap"
+    {...restProps}
   >
     {children}
   </Box>
