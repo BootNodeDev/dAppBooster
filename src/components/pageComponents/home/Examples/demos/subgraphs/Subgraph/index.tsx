@@ -1,4 +1,12 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
+import {
+  Row,
+  RowActions,
+  RowName,
+  RowTitle,
+  Title,
+  Wrapper,
+} from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph/Components'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph/Icon'
 import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
 import ExternalLink from '@/src/components/sharedComponents/ui/ExternalLink'
@@ -8,7 +16,7 @@ import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reser
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
-import { Box, Flex, Heading, Skeleton, Span } from '@chakra-ui/react'
+import { Box, Flex, Skeleton } from '@chakra-ui/react'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { NetworkArbitrumOne, NetworkBase, NetworkOptimism, NetworkPolygon } from '@web3icons/react'
 import request from 'graphql-request'
@@ -126,26 +134,8 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
   const baseUrl = `https://app.uniswap.org/explore/pools/${chainNameMapping[chain.id]}/`
 
   return (
-    <Flex
-      counterReset="item-number"
-      flexDirection="column"
-      padding={{ base: '0 px', lg: 0 }}
-      rowGap={4}
-    >
-      <Heading
-        alignItems="center"
-        as="h3"
-        color="var(--theme-subgraph-title-color)"
-        columnGap={2}
-        display="flex"
-        fontFamily="{fonts.body}"
-        fontSize="16px"
-        fontWeight="700"
-        lineHeight="1.2"
-        margin="0"
-        paddingBottom={2}
-        title={chain.name}
-      >
+    <Wrapper>
+      <Title title={chain.name}>
         Uniswap Pool{' '}
         <Box
           rounded="full"
@@ -153,43 +143,22 @@ const Uniswap = withSuspenseAndRetry(({ chain }: { chain: Chain }) => {
         >
           {getNetworkIcon(chain.name.toLowerCase())}
         </Box>
-      </Heading>
+      </Title>
       {data.map((position) => (
-        <Flex
-          alignItems="center"
-          color="var(--theme-subgraph-name-color)"
-          columnGap={2}
-          display="flex"
-          _before={{
-            '--base-size': '18px',
-            alignItems: 'center',
-            backgroundColor: 'var(--theme-subgraph-bullet-background-color)',
-            borderRadius: '50%',
-            color: 'var(--theme-subgraph-bullet-color)',
-            content: 'counter(item-number, decimal-leading-zero)',
-            counterIncrement: 'item-number',
-            display: 'flex',
-            flexShrink: '0',
-            fontSize: '10px',
-            fontWeight: '700',
-            height: 'var(--base-size)',
-            justifyContent: 'center',
-            letterSpacing: '-1px',
-            lineHeight: '18px',
-            paddingRight: '1px',
-            width: 'var(--base-size)',
-          }}
-          key={position.id}
-        >
-          <Span>{position.pool.symbol}</Span>
-          <Copy value={position.pool.id} />
-          <ExternalLink
-            href={`${baseUrl}${position.pool.id}`}
-            aria-label="Explore"
-          />
-        </Flex>
+        <Row key={position.id}>
+          <RowTitle>
+            <RowName>{position.pool.symbol}</RowName>
+          </RowTitle>
+          <RowActions>
+            <Copy value={position.pool.id} />
+            <ExternalLink
+              href={`${baseUrl}${position.pool.id}`}
+              aria-label="Explore"
+            />
+          </RowActions>
+        </Row>
       ))}
-    </Flex>
+    </Wrapper>
   )
 })
 
@@ -204,26 +173,8 @@ const Aave = withSuspenseAndRetry(() => {
   const baseUrl = 'https://app.aave.com/reserve-overview/?marketName=proto_base_v3&underlyingAsset='
 
   return (
-    <Flex
-      counterReset="item-number"
-      flexDirection="column"
-      padding={{ base: '0 px', lg: 0 }}
-      rowGap={4}
-    >
-      <Heading
-        alignItems="center"
-        as="h3"
-        color="var(--theme-subgraph-title-color)"
-        columnGap={2}
-        display="flex"
-        fontFamily="{fonts.body}"
-        fontSize="16px"
-        fontWeight="700"
-        lineHeight="1.2"
-        margin="0"
-        paddingBottom={2}
-        title={base.name}
-      >
+    <Wrapper>
+      <Title title={base.name}>
         AAVE Reserves
         <Box
           rounded="full"
@@ -231,52 +182,22 @@ const Aave = withSuspenseAndRetry(() => {
         >
           {getNetworkIcon(base.name.toLowerCase())}
         </Box>
-      </Heading>
+      </Title>
       {data.map(({ id, name, underlyingAsset }) => (
-        <Flex
-          alignItems="center"
-          color="var(--theme-subgraph-name-color)"
-          columnGap={2}
-          display="flex"
-          _before={{
-            '--base-size': '18px',
-            alignItems: 'center',
-            backgroundColor: 'var(--theme-subgraph-bullet-background-color)',
-            borderRadius: '50%',
-            color: 'var(--theme-subgraph-bullet-color)',
-            content: 'counter(item-number, decimal-leading-zero)',
-            counterIncrement: 'item-number',
-            display: 'flex',
-            flexShrink: '0',
-            fontSize: '10px',
-            fontWeight: '700',
-            height: 'var(--base-size)',
-            justifyContent: 'center',
-            letterSpacing: '-1px',
-            lineHeight: '1',
-            paddingRight: '1px',
-            width: 'var(--base-size)',
-          }}
-          key={id}
-        >
-          <Box
-            fontSize="16px"
-            fontWeight="400"
-            lineHeight="1.2"
-            overflow="hidden"
-            textOverflow="ellipsis"
-            whiteSpace="nowrap"
-          >
-            {name}
-          </Box>
-          <Copy value={underlyingAsset} />
-          <ExternalLink
-            href={`${baseUrl}${underlyingAsset}`}
-            aria-label="Explore"
-          />
-        </Flex>
+        <Row key={id}>
+          <RowTitle>
+            <RowName>{name}</RowName>
+          </RowTitle>
+          <RowActions>
+            <Copy value={underlyingAsset} />
+            <ExternalLink
+              href={`${baseUrl}${underlyingAsset}`}
+              aria-label="Explore"
+            />
+          </RowActions>
+        </Row>
       ))}
-    </Flex>
+    </Wrapper>
   )
 })
 
@@ -298,16 +219,20 @@ const Subgraph = ({ ...restProps }) => {
     <Flex
       css={{
         '.light &': {
+          '--theme-subgraph-background': '#fff',
+          '--theme-subgraph-row-hover-background': '#fafafa',
           '--theme-subgraph-title-color': '#2e3048',
           '--theme-subgraph-name-color': '#2e3048',
-          '--theme-subgraph-bullet-color': '#f7f7f7',
-          '--theme-subgraph-bullet-background-color': '#2e3048',
+          '--theme-subgraph-bullet-color': '#2e3048',
+          '--theme-subgraph-bullet-background-color': '#e5e5e5',
         },
         '.dark &': {
+          '--theme-subgraph-background': '#3a3c57',
+          '--theme-subgraph-row-hover-background': '#3e405a',
           '--theme-subgraph-title-color': '#fff',
           '--theme-subgraph-name-color': '#fff',
-          '--theme-subgraph-bullet-color': '#2e3048',
-          '--theme-subgraph-bullet-background-color': '#fff',
+          '--theme-subgraph-bullet-color': '#fff',
+          '--theme-subgraph-bullet-background-color': '#4d506f',
         },
       }}
       flexDirection="column"

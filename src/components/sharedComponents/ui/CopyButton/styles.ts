@@ -1,6 +1,6 @@
 export const styles = {
   'html.light &': {
-    '--color': '#000',
+    '--color': '#2e3048',
     '--color-hover': '#8b46a4',
   },
   'html.dark &': {
