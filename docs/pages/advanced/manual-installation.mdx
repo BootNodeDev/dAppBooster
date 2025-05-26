@@ -10,21 +10,32 @@ It's also the recommended procedure in case you're a **dAppBooster** developer.
 ### Clone the repo
 
 ```bash [Terminal]
-git clone git@github.com:BootNodeDev/dAppBooster.git
+git clone git@github.com:BootNodeDev/dAppBooster.git dAppName
+```
+
+### Move into the folder
+
+```bash [Terminal]
+cd dAppName
 ```
 
 ### Branch checkout
 
-The default branch is `develop`, which is fine if you're developing new features of fixing bugs, but if you're developing a new product you probably want the production-ready release.
+The default branch is `develop`, which is fine if you're developing new features of fixing bugsf or dAppBooster, but if you're developing a new product you probably want to checkout the production-ready `main` branch:
 
 ```bash [Terminal]
 git checkout main
 ```
 
-Or you can also get the last release (usually in sync with `main`), which is what the install script does.
+Or you can get the last tag (usually, but not always, in sync with `main`), which is what the install script does.
 
 ```bash [Terminal]
+# fetch tags
+git fetch --tags
+# get the last tag
 git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
+# create a new branch from the tag
+git checkout -b new-branch
 ```
 
 ### Create the .env file
