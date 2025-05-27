@@ -1,5 +1,5 @@
 import Icon from '@/src/components/pageComponents/home/Examples/demos/OptimismCrossDomainMessenger/Icon'
-import Wrapper from '@/src/components/pageComponents/home/Examples/demos/OptimismCrossDomainMessenger/Wrapper'
+import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import Hash from '@/src/components/sharedComponents/Hash'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
 import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
