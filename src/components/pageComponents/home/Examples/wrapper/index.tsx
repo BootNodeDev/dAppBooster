@@ -21,7 +21,7 @@ const WrapperComponent: FC<Props> = ({ children, title, ...restProps }) => {
         },
         '& p': {
           fontSize: '15px',
-          lineHeight: '1.2',
+          lineHeight: '1.4',
           margin: 0,
 
           '&, & a': {
@@ -37,6 +37,7 @@ const WrapperComponent: FC<Props> = ({ children, title, ...restProps }) => {
       flexDirection="column"
       marginTop={{ lg: 6 }}
       padding={4}
+      paddingTop={8}
       rowGap={6}
       width="100%"
       {...restProps}
@@ -44,7 +45,7 @@ const WrapperComponent: FC<Props> = ({ children, title, ...restProps }) => {
       <Heading
         as="h3"
         color="var(--theme-op-title-color)"
-        fontSize="14px"
+        fontSize="16px"
         fontWeight="700"
         lineHeight="1.2"
         margin="0"
