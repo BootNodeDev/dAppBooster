@@ -3,7 +3,6 @@ import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import SignButton from '@/src/components/sharedComponents/SignButton'
 import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
-import { sepolia } from 'viem/chains'
 
 const message = `
 👻🚀 Welcome to dAppBooster! 🚀👻
