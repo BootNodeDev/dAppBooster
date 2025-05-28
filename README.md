@@ -20,8 +20,7 @@ Run the install script and follow the on-screen instructions.
 A more detailed installation guide is available [here](https://docs.dappbooster.dev/introduction/getting-started#installation)
 
 ```bash
-# Run the install script and follow the instructions
-$ pnpm dlx dappbooster <dAppName>
+pnpm dlx dappbooster
 ```
 
 
