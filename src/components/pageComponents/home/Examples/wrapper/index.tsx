@@ -51,7 +51,7 @@ const WrapperComponent: FC<Props> = ({ children, title, ...restProps }) => {
         fontWeight="700"
         lineHeight="1.2"
         margin="0"
-        borderBottom={1}
+        borderBottomWidth="1px"
         borderColor="var(--theme-wrapper-border)"
         borderBottomStyle="solid"
         paddingBottom={2}
