@@ -73,8 +73,8 @@ const EnsName = () => {
           '--theme-token-ens-name-title-color': '#2e3048',
           '--theme-token-ens-name-text-color': '#2e3048',
           '--theme-textfield-color': '#2e3048',
-          '--theme-textfield-background-color': '#fff',
-          '--theme-textfield-background-color-active': 'rgb(0 0 0 / 5%)',
+          '--theme-textfield-background-color': 'transparent',
+          '--theme-textfield-background-color-active': 'rgb(0 0 0 / 3%)',
           '--theme-textfield-border-color': '#c5c2cb',
           '--theme-textfield-placeholder-color': 'rgb(22 29 26 / 60%)',
         },
@@ -83,8 +83,8 @@ const EnsName = () => {
           '--theme-token-ens-name-title-color': '#fff',
           '--theme-token-ens-name-text-color': '#e2e0e7',
           '--theme-textfield-color': '#fff',
-          '--theme-textfield-background-color': '#373954',
-          '--theme-textfield-background-color-active': 'rgb(255 255 255 / 5%)',
+          '--theme-textfield-background-color': 'transparent',
+          '--theme-textfield-background-color-active': 'rgb(0 0 0 / 3%)',
           '--theme-textfield-border-color': '#5f6178',
           '--theme-textfield-placeholder-color': 'rgb(247 247 247 / 60%)',
         },
@@ -132,11 +132,11 @@ const EnsName = () => {
         width="100%"
         zIndex={10}
         _active={{
-          backgroundColor: 'var(--theme-textfield-background-color)',
+          backgroundColor: 'var(--theme-textfield-background-color-active)',
           color: 'var(--theme-textfield-color)',
         }}
         _focus={{
-          backgroundColor: 'var(--theme-textfield-background-color)',
+          backgroundColor: 'var(--theme-textfield-background-color-active)',
           color: 'var(--theme-textfield-color)',
         }}
         _placeholder={{
