@@ -10,9 +10,10 @@ const Icon: FC<{ size: number } & FlexProps> = ({ size, children, ...restProps }
     alignItems="center"
     borderRadius="50%"
     height={`${size}px`}
+    flexShrink={0}
     justifyContent="center"
     overflow="hidden"
-    width={`${size}px"`}
+    width={`${size}px`}
     {...restProps}
   >
     {children}
