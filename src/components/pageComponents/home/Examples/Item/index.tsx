@@ -102,7 +102,7 @@ const Item: FC<Props> = ({ css, demo, href, icon, text, title, ...restProps }: P
           </Dialog.Trigger>
           <Portal>
             <Dialog.Backdrop />
-            <Dialog.Positioner>
+            <Dialog.Positioner paddingBlock={4}>
               <Dialog.Content width={'auto'}>
                 <Modal
                   onClose={() => setIsModalOpen(false)}

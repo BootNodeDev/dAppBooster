@@ -98,7 +98,7 @@ const Row: FC<TokenSelectRowProps> = ({
       </Icon>
       <Box
         color="var(--row-token-name-color)"
-        fontSize="18px"
+        fontSize="16px"
         fontWeight="500"
         lineHeight="1.2"
         _groupHover={{

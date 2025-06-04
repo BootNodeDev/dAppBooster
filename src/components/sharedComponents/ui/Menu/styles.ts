@@ -16,7 +16,7 @@ export const styles = {
   'html.dark &': {
     '--background-color': '#292b43',
     '--border-color': '#292b43',
-    '--box-shadow': '0 9.6px 13px 0 rgb(0 0 0 / 8%)',
+    '--box-shadow': '0 9.6px 24px 0 rgb(0 0 0 / 24%)',
     '--item-background-color': 'transparent',
     '--item-background-color-hover': 'rgb(255 255 255 / 2%)',
     '--item-background-color-active': 'rgb(255 255 255 / 5%)',

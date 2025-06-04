@@ -52,7 +52,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     currentNetworkId,
     css,
     iconSize = 32,
-    itemHeight = 58,
+    itemHeight = 52,
     networks = undefined,
     onTokenSelect,
     placeholder = 'Search by name or address',
@@ -144,11 +144,12 @@ const TokenSelect = withSuspenseAndRetry<Props>(
         }}
         flexDirection="column"
         maxWidth="calc(100vw - 16px)"
-        paddingTop={6}
-        paddingBottom={6}
+        paddingTop={4}
+        paddingBottom={0}
         paddingX={0}
-        rowGap={6}
+        rowGap={4}
         width="540px"
+        overflow="hidden"
         {...restProps}
       >
         <Search

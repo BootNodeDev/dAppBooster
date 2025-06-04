@@ -9,6 +9,8 @@ export const MenuContent: FC<MenuContentProps> = ({ children, css, ...restProps 
     boxShadow="var(--box-shadow)"
     css={{ ...css, ...styles }}
     padding="0"
+    display="flex"
+    alignItems="stretch"
     {...restProps}
   >
     {children}

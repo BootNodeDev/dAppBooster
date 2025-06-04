@@ -45,6 +45,9 @@ const List: FC<TokenSelectListProps> = ({
       borderTop="1px solid var(--list-border-top-color)"
       className={`${className ? className : ''}`.trim()}
       width="100%"
+      flexGrow={1}
+      overflow="hidden"
+      alignItems="stretch"
     >
       {tokenList?.length ? (
         <VirtualizedList<Token>

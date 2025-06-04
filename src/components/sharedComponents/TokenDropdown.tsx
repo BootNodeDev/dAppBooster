@@ -93,7 +93,11 @@ const TokenDropdown: FC<Props> = ({
           )}
         </DropdownButton>
       </Menu.Trigger>
-      <Menu.Positioner>
+      <Menu.Positioner
+        display="flex"
+        flexDirection="column"
+        alignItems="stretch"
+      >
         <MenuContent scrollbar={'hidden'}>
           <TokenSelect
             onTokenSelect={handleTokenSelect}
