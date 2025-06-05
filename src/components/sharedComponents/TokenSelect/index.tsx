@@ -9,7 +9,7 @@ import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { chains } from '@/src/lib/networks.config'
 import type { Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-import { Flex, type FlexProps, Heading } from '@chakra-ui/react'
+import { Flex, type FlexProps } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import type { Chain } from 'viem/chains'
 import styles from './styles'
@@ -52,7 +52,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     currentNetworkId,
     css,
     iconSize = 32,
-    itemHeight = 64,
+    itemHeight = 52,
     networks = undefined,
     onTokenSelect,
     placeholder = 'Search by name or address',
@@ -144,25 +144,14 @@ const TokenSelect = withSuspenseAndRetry<Props>(
         }}
         flexDirection="column"
         maxWidth="calc(100vw - 16px)"
-        paddingTop={10}
-        paddingBottom={6}
+        paddingTop={4}
+        paddingBottom={0}
         paddingX={0}
-        rowGap={6}
+        rowGap={4}
         width="540px"
+        overflow="hidden"
         {...restProps}
       >
-        <Heading
-          color="var(--title-color)"
-          fontSize="18px"
-          fontWeight="700"
-          lineHeight="1.2"
-          margin={0}
-          paddingLeft={4}
-          paddingRight={4}
-          paddingY={0}
-        >
-          Select a token
-        </Heading>
         <Search
           currentNetworkId={chainId}
           disabled={!tokensByChainId[chainId]?.length}

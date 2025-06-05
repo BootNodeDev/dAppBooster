@@ -91,8 +91,10 @@ const Item: FC<Props> = ({ css, demo, href, icon, text, title, ...restProps }: P
         )}
         <Dialog.Root
           lazyMount
+          motionPreset="slide-in-bottom"
           open={isModalOpen}
           onOpenChange={(e) => setIsModalOpen(e.open)}
+          placement="center"
           size="lg"
         >
           <Dialog.Trigger asChild>
@@ -100,7 +102,7 @@ const Item: FC<Props> = ({ css, demo, href, icon, text, title, ...restProps }: P
           </Dialog.Trigger>
           <Portal>
             <Dialog.Backdrop />
-            <Dialog.Positioner>
+            <Dialog.Positioner paddingBlock={4}>
               <Dialog.Content width={'auto'}>
                 <Modal
                   onClose={() => setIsModalOpen(false)}
@@ -121,7 +123,7 @@ const Item: FC<Props> = ({ css, demo, href, icon, text, title, ...restProps }: P
                     backgroundColor="var(--demo-background-color)"
                     borderRadius="8px"
                     flexDirection="column"
-                    height="500px"
+                    minHeight="400px"
                     justifyContent="center"
                     padding={5}
                     position="relative"

@@ -1,6 +1,6 @@
 import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
 import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
-import { Spinner } from '@chakra-ui/react'
+import { Flex, Spinner } from '@chakra-ui/react'
 import { Dialog, Portal } from '@chakra-ui/react'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { type ComponentType, type JSX, type ReactNode, Suspense } from 'react'
@@ -14,11 +14,23 @@ export type WithSuspenseProps = {
   suspenseFallback?: ReactNode
 }
 
-const DefaultFallback = (): JSX.Element => (
-  <Spinner
-    color="var(--theme-spinner-color)"
-    size="lg"
-  />
+const DefaultFallback = ({
+  size = 'lg',
+}: {
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+}): JSX.Element => (
+  <Flex
+    alignItems="center"
+    justifyContent="center"
+    height="100%"
+    width="100%"
+    padding={4}
+  >
+    <Spinner
+      color="var(--theme-spinner-color)"
+      size={size}
+    />
+  </Flex>
 )
 
 /**
@@ -128,6 +140,7 @@ export type WithSuspenseAndRetryProps = {
   fallbackRender?: ErrorBoundaryPropsWithRender['fallbackRender']
   suspenseFallback?: ReactNode
   defaultFallbackFormat?: DefaultFallbackFormat
+  spinnerSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 }
 
 /**
@@ -137,6 +150,7 @@ export type WithSuspenseAndRetryProps = {
  * @param {ReactNode} [fallbackRender] - a custom fallback render for ErrorBoundary
  * @param {DefaultFallbackFormat} [defaultFallbackFormat] - Optional. Can be a dialog or just text (default). Has no effect if `fallbackRender` is provided
  * @param {ReactNode} [suspenseFallback] - a custom fallback for Suspense
+ *  @param {'xs' | 'sm' | 'md' | 'lg' | 'xl'} [spinnerSize] - Optional. Sets the size of the default spinner shown during suspense loading. Default is 'lg'.
  * @returns {ComponentType}
  */
 export const withSuspenseAndRetry = <WrappedProps extends object>(
@@ -146,6 +160,7 @@ export const withSuspenseAndRetry = <WrappedProps extends object>(
     defaultFallbackFormat = 'default',
     fallbackRender: customFallbackRender,
     suspenseFallback,
+    spinnerSize,
     ...restProps
   }: WithSuspenseAndRetryProps & WrappedProps) {
     const fallbackRenderers = {
@@ -166,7 +181,7 @@ export const withSuspenseAndRetry = <WrappedProps extends object>(
             fallbackRender={fallbackRender}
             onReset={reset}
           >
-            <Suspense fallback={suspenseFallback ?? <DefaultFallback />}>
+            <Suspense fallback={suspenseFallback ?? <DefaultFallback size={spinnerSize} />}>
               <WrappedComponent {...(restProps as WrappedProps)} />
             </Suspense>
           </ErrorBoundary>
