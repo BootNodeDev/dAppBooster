@@ -33,29 +33,29 @@ const Hash: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
     <BaseHash
       css={{
         '.light &': {
-          '--theme-hash-background-color': '#fff',
-          '--theme-hash-border-color': '#c5c2cb',
+          '--theme-hash-background-color': '#8aebc2',
           '--theme-hash-color': '#2e3048',
         },
         '.dark &': {
-          '--theme-hash-background-color': '#2e3047',
-          '--theme-hash-border-color': '#5f6178',
+          '--theme-hash-background-color': '#1b7b53',
           '--theme-hash-color': '#fff',
         },
       }}
       backgroundColor="var(--theme-hash-background-color)"
-      border="1px solid var(--theme-hash-border-color)"
-      borderRadius="4px"
+      borderRadius="8px"
       color="var(--theme-hash-color)"
       cursor="default"
       explorerURL={getExplorerLink({ chain, hashOrAddress: hash })}
-      fontSize="16px"
+      fontSize="14px"
       hash={hash}
-      height="34px"
+      minHeight="64px"
       minWidth="0"
       onCopy={() => onCopy(hash)}
-      paddingY={0}
-      paddingX={4}
+      paddingTop={8}
+      paddingRight={{ base: 2, lg: 4 }}
+      paddingBottom={4}
+      paddingLeft={{ base: 2, lg: 4 }}
+      marginTop={-4}
       showCopyButton
       truncatedHashLength={truncatedHashLength}
     />
