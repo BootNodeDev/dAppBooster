@@ -10,9 +10,10 @@ const Icon: FC<{ size: number } & FlexProps> = ({ size, children, ...restProps }
     alignItems="center"
     borderRadius="50%"
     height={`${size}px`}
+    flexShrink={0}
     justifyContent="center"
     overflow="hidden"
-    width={`${size}px"`}
+    width={`${size}px`}
     {...restProps}
   >
     {children}
@@ -97,7 +98,7 @@ const Row: FC<TokenSelectRowProps> = ({
       </Icon>
       <Box
         color="var(--row-token-name-color)"
-        fontSize="18px"
+        fontSize="16px"
         fontWeight="500"
         lineHeight="1.2"
         _groupHover={{

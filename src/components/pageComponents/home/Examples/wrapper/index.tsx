@@ -10,14 +10,16 @@ const WrapperComponent: FC<Props> = ({ children, title, ...restProps }) => {
     <Flex
       css={{
         '.light &': {
-          '--theme-op-background': '#fff',
-          '--theme-op-title-color': '#2e3048',
-          '--theme-op-text-color': '#2e3048',
+          '--theme-wrapper-background': '#fff',
+          '--theme-wrapper-border': '#0000000d',
+          '--theme-wrapper-title-color': '#2e3048',
+          '--theme-wrapper-text-color': '#2e3048',
         },
         '.dark &': {
-          '--theme-op-background': '#373954',
-          '--theme-op-title-color': '#fff',
-          '--theme-op-text-color': '#e2e0e7',
+          '--theme-wrapper-background': '#373954',
+          '--theme-wrapper-border': '#ffffff14',
+          '--theme-wrapper-title-color': '#fff',
+          '--theme-wrapper-text-color': '#e2e0e7',
         },
         '& p': {
           fontSize: '15px',
@@ -25,14 +27,14 @@ const WrapperComponent: FC<Props> = ({ children, title, ...restProps }) => {
           margin: 0,
 
           '&, & a': {
-            color: 'var(--theme-op-text-color)',
+            color: 'var(--theme-wrapper-text-color)',
           },
           '& a:hover': {
             textDecoration: 'none',
           },
         },
       }}
-      backgroundColor="var(--theme-op-background)"
+      backgroundColor="var(--theme-wrapper-background)"
       borderRadius="8px"
       flexDirection="column"
       marginTop={{ lg: 6 }}
@@ -44,11 +46,15 @@ const WrapperComponent: FC<Props> = ({ children, title, ...restProps }) => {
     >
       <Heading
         as="h3"
-        color="var(--theme-op-title-color)"
+        color="var(--theme-wrapper-title-color)"
         fontSize="16px"
         fontWeight="700"
         lineHeight="1.2"
         margin="0"
+        borderBottomWidth="1px"
+        borderColor="var(--theme-wrapper-border)"
+        borderBottomStyle="solid"
+        paddingBottom={2}
       >
         {title}
       </Heading>

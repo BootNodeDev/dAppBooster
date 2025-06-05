@@ -27,7 +27,7 @@ const VirtualizedList = <Item,>({
 
   return (
     <Box
-      height={`${containerHeight}px`}
+      maxHeight={`${containerHeight}px`}
       overflow="auto"
       ref={parentRef}
       width="100%"

@@ -1,10 +1,13 @@
 import Hash from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Hash'
+import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
+
 import Icon from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Icon'
 import HashInput from '@/src/components/sharedComponents/HashInput'
+
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { DetectedHash } from '@/src/utils/hash'
-import { Box, Flex, Grid, Input, chakra } from '@chakra-ui/react'
+import { Box, Flex, Input, chakra } from '@chakra-ui/react'
 import { useState } from 'react'
 import type { Address } from 'viem'
 import * as chains from 'viem/chains'
@@ -30,13 +33,13 @@ const IconOK = ({ ...restProps }) => (
     fill="none"
     height="13px"
     position="absolute"
-    right={16}
+    zIndex={15}
+    right={4}
     top="50%"
     transform="translateY(-50%)"
     viewBox="0 0 19 13"
     width="19px"
     xmlns="http://www.w3.org/2000/svg"
-    z-index="15"
     {...restProps}
   >
     <title>Checkmark Icon</title>
@@ -74,122 +77,123 @@ const HashHandling = ({ ...restProps }) => {
     isWalletConnected && walletChainId ? findChain(walletChainId) || chains.mainnet : chains.mainnet
 
   return (
-    <Grid
-      position="relative"
-      rowGap={2}
-      width="100%"
-      {...restProps}
-    >
-      <Box
-        css={{
-          '--base-horizontal-padding': '16px',
-          '--base-textfield-padding': '0 8px',
-          '--base-textfield-border-radius': '4px',
-          '.light &': {
-            '--theme-textfield-color': '#2e3048',
-            '--theme-textfield-background-color': '#fff',
-            '--theme-textfield-background-color-active': 'rgb(0 0 0 / 5%)',
-            '--theme-textfield-border-color': '#c5c2cb',
-            '--theme-textfield-placeholder-color': 'rgb(22 29 26 / 60%)',
-            '--theme-hash-input-search-status-background-color': '#2e3048',
-          },
+    <Box
+      css={{
+        '--base-horizontal-padding': '16px',
+        '--base-textfield-padding': '0 8px',
+        '--base-textfield-border-radius': '8px',
+        '.light &': {
+          '--theme-textfield-color': '#2e3048',
+          '--theme-textfield-background-color': '#fff',
+          '--theme-textfield-background-color-active': '#f7f7f7',
+          '--theme-textfield-border-color': '#c5c2cb',
+          '--theme-textfield-placeholder-color': 'rgb(22 29 26 / 60%)',
+          '--theme-hash-input-search-status-background-color': '#2e3048',
+        },
 
-          '.dark &': {
-            '--theme-textfield-color': '#fff',
-            '--theme-textfield-background-color': '#373954',
-            '--theme-textfield-background-color-active': 'rgb(255 255 255 / 5%)',
-            '--theme-textfield-border-color': '#5f6178',
-            '--theme-textfield-border-color-error': '#4b4d60',
-            '--theme-textfield-placeholder-color': 'rgb(247 247 247 / 60%)',
-            '--theme-hash-input-search-status-background-color': '#232436',
-          },
-        }}
-        position="relative"
-        width="100%"
+        '.dark &': {
+          '--theme-textfield-color': '#fff',
+          '--theme-textfield-background-color': '#373954',
+          '--theme-textfield-background-color-active': '#33354f',
+          '--theme-textfield-border-color': '#5f6178',
+          '--theme-textfield-placeholder-color': 'rgb(247 247 247 / 60%)',
+          '--theme-hash-input-search-status-background-color': '#2e3048',
+        },
+      }}
+      position="relative"
+      width="100%"
+    >
+      <Wrapper
+        title="Address & Transaction Hash Validator"
+        {...restProps}
       >
-        <HashInput
-          chain={currentChain}
-          onLoading={onLoading}
-          onSearch={setSearchResult}
-          renderInput={({ ...props }) => (
-            <Input
-              backgroundColor="var(--theme-textfield-background-color)"
-              borderColor="var(--theme-textfield-border-color)"
-              borderRadius="8px"
-              color="var(--theme-textfield-color)"
-              display="block"
-              fontSize="14px"
-              height="50px"
-              minWidth="0"
-              outline="none"
-              padding={{ base: 2, lg: 4 }}
-              paddingRight={12}
-              position="relative"
-              transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
-              type="text"
-              width="100%"
-              zIndex={10}
-              _active={{
-                backgroundColor: 'var(--theme-textfield-background-color)',
-                color: 'var(--theme-textfield-color)',
-              }}
-              _focus={{
-                backgroundColor: 'var(--theme-textfield-background-color)',
-                color: 'var(--theme-textfield-color)',
-              }}
-              _placeholder={{
-                color: 'var(--theme-textfield-placeholder-color)',
-              }}
-              placeholder="Address / Tx Hash"
-              {...props}
-            />
-          )}
-        />
-        {loading && (
-          <Flex
-            alignItems="center"
-            height="100%"
-            justifyContent="center"
-            position="absolute"
-            right="0"
-            top="0"
-            width="50px"
-            zIndex="15"
-          >
-            <Spinner size="md" />
-          </Flex>
-        )}
-        {found && !loading && <IconOK />}
-        {notFound && (
-          <Flex
-            alignItems="center"
-            backgroundColor="var(--theme-hash-input-search-status-background-color)"
-            border="1px solid var(--theme-textfield-border-color-error)"
-            borderRadius="var(--base-textfield-border-radius)"
-            color="#fab754"
-            columnGap={2}
-            fontSize="14px"
-            left="0"
-            minHeight="64px"
-            paddingTop={8}
-            paddingRight={4}
-            paddingBottom={4}
-            paddingLeft={4}
-            position="absolute"
-            top="calc(100% - 16px)"
+        <Box>
+          <Box
+            position="relative"
             width="100%"
-            zIndex="5"
           >
-            <AlertIcon /> <span>No results found</span>
-          </Flex>
-        )}
-      </Box>
-      <Hash
-        chain={currentChain}
-        hash={searchResult?.data as Address}
-        truncatedHashLength="disabled"
-      />
-    </Grid>
+            <HashInput
+              chain={currentChain}
+              onLoading={onLoading}
+              onSearch={setSearchResult}
+              renderInput={({ ...props }) => (
+                <Input
+                  backgroundColor="var(--theme-textfield-background-color)"
+                  borderColor="var(--theme-textfield-border-color)"
+                  borderRadius="8px"
+                  color="var(--theme-textfield-color)"
+                  display="block"
+                  fontSize="14px"
+                  height="50px"
+                  minWidth="0"
+                  outline="none"
+                  padding={{ base: 2, lg: 4 }}
+                  paddingRight={12}
+                  position="relative"
+                  transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
+                  type="text"
+                  width="100%"
+                  zIndex={10}
+                  _active={{
+                    backgroundColor: 'var(--theme-textfield-background-color-active)',
+                    color: 'var(--theme-textfield-color)',
+                  }}
+                  _focus={{
+                    backgroundColor: 'var(--theme-textfield-background-color-active)',
+                    color: 'var(--theme-textfield-color)',
+                  }}
+                  _placeholder={{
+                    color: 'var(--theme-textfield-placeholder-color)',
+                  }}
+                  placeholder="Address / Tx Hash"
+                  {...props}
+                />
+              )}
+            />
+
+            {loading && (
+              <Flex
+                alignItems="center"
+                height="100%"
+                justifyContent="center"
+                position="absolute"
+                right="0"
+                top="0"
+                width="50px"
+                zIndex="15"
+              >
+                <Spinner size="md" />
+              </Flex>
+            )}
+            {found && !loading && <IconOK />}
+          </Box>
+          {notFound && (
+            <Flex
+              alignItems="center"
+              backgroundColor="var(--theme-hash-input-search-status-background-color)"
+              borderRadius="var(--base-textfield-border-radius)"
+              color="#fab754"
+              columnGap={2}
+              fontSize="14px"
+              minHeight="64px"
+              paddingTop={8}
+              paddingRight={{ base: 2, lg: 4 }}
+              paddingBottom={4}
+              paddingLeft={{ base: 2, lg: 4 }}
+              marginTop={-4}
+              width="100%"
+            >
+              <AlertIcon /> <span>No results found</span>
+            </Flex>
+          )}
+          <Hash
+            chain={currentChain}
+            hash={searchResult?.data as Address}
+            truncatedHashLength="disabled"
+          />
+        </Box>
+      </Wrapper>
+    </Box>
   )
 }
 

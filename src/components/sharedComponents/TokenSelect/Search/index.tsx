@@ -37,9 +37,10 @@ const Search: FC<SearchProps> = ({
   return (
     <Flex
       columnGap={2}
-      height="72px"
+      height="54px"
       paddingX={4}
       paddingY={0}
+      flexShrink={0}
       {...restProps}
     >
       <SearchInput

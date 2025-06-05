@@ -1,4 +1,5 @@
 import Icon from '@/src/components/pageComponents/home/Examples/demos/TokenDropdown/Icon'
+import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import BaseTokenDropdown from '@/src/components/sharedComponents/TokenDropdown'
 import type { Token } from '@/src/types/token'
 import { type FC, useState } from 'react'
@@ -11,11 +12,14 @@ const TokenDropdown: FC = ({ ...restProps }) => {
   }
 
   return (
-    <BaseTokenDropdown
-      currentToken={currentToken}
-      onTokenSelect={onTokenSelect}
-      {...restProps}
-    />
+    <Wrapper title="Search and select a token">
+      <p>This component enables users to quickly find and choose a token from a predefined list.</p>
+      <BaseTokenDropdown
+        currentToken={currentToken}
+        onTokenSelect={onTokenSelect}
+        {...restProps}
+      />
+    </Wrapper>
   )
 }
 
