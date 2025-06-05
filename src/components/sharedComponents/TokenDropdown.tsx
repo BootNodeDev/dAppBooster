@@ -98,10 +98,14 @@ const TokenDropdown: FC<Props> = ({
         flexDirection="column"
         alignItems="stretch"
       >
-        <MenuContent scrollbar={'hidden'}>
+        <MenuContent
+          scrollbar={'hidden'}
+          minWidth="auto"
+        >
           <TokenSelect
             onTokenSelect={handleTokenSelect}
             showAddTokenButton={showAddTokenButton}
+            spinnerSize="sm"
             {...restProps}
           />
         </MenuContent>
