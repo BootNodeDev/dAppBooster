@@ -4,7 +4,7 @@ import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
-import { Box, Flex, Grid, Heading, Skeleton, Span } from '@chakra-ui/react'
+import { Box, Flex, Heading, Skeleton, Span, Text } from '@chakra-ui/react'
 import { type FC, useState } from 'react'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
@@ -33,13 +33,17 @@ const Status: FC<{
 }> = ({ indexingStatus }) => {
   const { chain, isSynced, networkBlockNumber, resource, subgraphBlockNumber } = indexingStatus
 
+  const barSize = 20
+  const blocksBehind = Math.max(0, Number(networkBlockNumber) - Number(subgraphBlockNumber))
+  const progress = blocksBehind >= barSize ? 0 : ((barSize - blocksBehind) / barSize) * 100
+
   return (
     <Flex
-      bgColor="var(--theme-subgraph-status-background)"
-      borderRadius="4px"
-      flexDirection="column"
+      backgroundColor="var(--theme-subgraph-status-background)"
+      borderRadius="8px"
       padding={4}
-      rowGap={4}
+      flexDirection="column"
+      rowGap={2}
       width="100%"
     >
       <Heading
@@ -52,6 +56,8 @@ const Status: FC<{
         fontWeight="700"
         lineHeight="1.2"
         margin="0"
+        paddingTop={2}
+        paddingBottom={4}
         title={chain.name}
       >
         {`${resource}@${chain.id}`}
@@ -62,44 +68,100 @@ const Status: FC<{
           {getNetworkIcon(chain.name.toLowerCase())}
         </Box>
       </Heading>
-      <Grid
-        css={{
-          '--base-status-size': '10px',
-        }}
+      <Flex
         alignItems="center"
-        color="var(--theme-subgraph-status-data-row-color)"
-        columnGap={2}
-        display="grid"
-        fontSize="16px"
-        fontWeight="400"
-        gridTemplateColumns={{
-          base: 'var(--base-status-size) 1fr',
-          lg: 'var(--base-status-size) auto 10px auto',
-        }}
-        lineHeight="1.2"
-        maxWidth="100%"
-        whiteSpace="nowrap"
-        width="fit-content"
-        _before={{
-          alignItems: 'center',
-          backgroundColor: `${!isSynced ? '{colors.danger.default}' : '{colors.ok.default}'}`,
-          borderRadius: '50%',
-          content: "''",
-          display: 'flex',
-          height: 'var(--base-status-size)',
-          width: 'var(--base-status-size)',
-          transition: 'background-color var({durations.slow})',
-        }}
+        columnGap={4}
+        justifyContent="space-between"
       >
-        <Span>
-          <b>SG:</b> {subgraphBlockNumber.toString()}
-        </Span>
-        <Span display={{ base: 'none', lg: 'block' }}>-</Span>
-        <Span paddingLeft={{ base: 'calc(var(--base-status-size) + 8px)', lg: 0 }}>
-          <b>BC:</b>
-          {networkBlockNumber?.toString() ?? '-'}
-        </Span>
-      </Grid>
+        <Text fontSize="xs">{isSynced ? 'Subgraph is up to date' : 'Subgraph is syncing'}</Text>
+        <Box
+          fontSize="xs"
+          paddingInline={2}
+          lineHeight="2"
+          backgroundColor="var(--theme-subgraph-status-blocks-behind-background)"
+          borderRadius={8}
+        >
+          {networkBlockNumber - subgraphBlockNumber} blocks behind
+        </Box>
+      </Flex>
+
+      <Box
+        width="100%"
+        backgroundColor="var(--theme-subgraph-status-blockchain-color)"
+        borderRadius={6}
+        overflow="hidden"
+      >
+        <Box
+          width={`${Math.max(progress, 5)}%`}
+          transition="width 0.3s"
+          backgroundColor={
+            !isSynced
+              ? 'var(--theme-subgraph-status-subgraph-color)'
+              : 'var(--theme-subgraph-status-subgraph-success-color)'
+          }
+          height="18px"
+          borderRadius={6}
+          overflow="hidden"
+        />
+      </Box>
+      <Flex
+        alignItems="center"
+        columnGap={4}
+        justifyContent="space-between"
+        paddingTop={2}
+      >
+        <Flex
+          flexDirection="column"
+          gap={1}
+          borderLeft={'1px solid '}
+          borderColor={
+            !isSynced
+              ? 'var(--theme-subgraph-status-subgraph-color)'
+              : 'var(--theme-subgraph-status-subgraph-success-color)'
+          }
+          paddingLeft={2}
+        >
+          <Heading
+            as="h4"
+            fontSize="13px"
+            fontWeight="500"
+            lineHeight="1"
+          >
+            Subgraph
+          </Heading>
+          <Span
+            fontSize="12px"
+            fontWeight="300"
+            lineHeight="1"
+          >
+            {subgraphBlockNumber.toString()}
+          </Span>
+        </Flex>
+
+        <Flex
+          flexDirection="column"
+          gap={1}
+          alignItems={'flex-end'}
+          borderRight={'1px solid var(--theme-subgraph-status-blockchain-color)'}
+          paddingRight={2}
+        >
+          <Heading
+            as="h4"
+            fontSize="13px"
+            fontWeight="500"
+            lineHeight="1"
+          >
+            Blockchain
+          </Heading>
+          <Span
+            fontSize="12px"
+            fontWeight="300"
+            lineHeight="1"
+          >
+            {networkBlockNumber?.toString() ?? '-'}
+          </Span>
+        </Flex>
+      </Flex>
     </Flex>
   )
 }
@@ -154,11 +216,19 @@ const SubgraphStatus = ({ ...restProps }) => {
           '--theme-subgraph-status-background': '#fff',
           '--theme-subgraph-status-data-row-color': '#2e3048',
           '--theme-subgraph-status-data-color': '#5f6178',
+          '--theme-subgraph-status-blockchain-color': '#c2c2e5',
+          '--theme-subgraph-status-subgraph-color': '#8B46A4',
+          '--theme-subgraph-status-subgraph-success-color': '#29BD7F',
+          '--theme-subgraph-status-blocks-behind-background': '#24263d17',
         },
         '.dark &': {
           '--theme-subgraph-status-background': '#373954',
           '--theme-subgraph-status-data-row-color': '#fff',
           '--theme-subgraph-status-data-color': '#e2e0e7',
+          '--theme-subgraph-status-blockchain-color': '#131521',
+          '--theme-subgraph-status-subgraph-color': '#8B46A4',
+          '--theme-subgraph-status-subgraph-success-color': '#29BD7F',
+          '--theme-subgraph-status-blocks-behind-background': '#24263d5c',
         },
       }}
       display="flex"
