@@ -1,10 +1,19 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import { getNetworkIcon } from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph'
+import {
+  BarBlockchain,
+  BarSubgraph,
+  Blocks,
+  BlocksBehind,
+  Title,
+  TitleH4,
+  Wrapper,
+} from '@/src/components/pageComponents/home/Examples/demos/subgraphs/SubgraphStatus/Components'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/SubgraphStatus/Icon'
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
-import { Box, Flex, Heading, Skeleton, Span, Text } from '@chakra-ui/react'
+import { Box, Flex, Skeleton, Text } from '@chakra-ui/react'
 import { type FC, useState } from 'react'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
@@ -38,28 +47,8 @@ const Status: FC<{
   const progress = blocksBehind >= barSize ? 0 : ((barSize - blocksBehind) / barSize) * 100
 
   return (
-    <Flex
-      backgroundColor="var(--theme-subgraph-status-background)"
-      borderRadius="8px"
-      padding={4}
-      flexDirection="column"
-      rowGap={2}
-      width="100%"
-    >
-      <Heading
-        alignItems="center"
-        as="h3"
-        color="var(--theme-subgraph-title-color)"
-        columnGap={2}
-        display="flex"
-        fontSize="16px"
-        fontWeight="700"
-        lineHeight="1.2"
-        margin="0"
-        paddingTop={2}
-        paddingBottom={4}
-        title={chain.name}
-      >
+    <Wrapper>
+      <Title title={chain.name}>
         {`${resource}@${chain.id}`}
         <Box
           rounded="full"
@@ -67,43 +56,26 @@ const Status: FC<{
         >
           {getNetworkIcon(chain.name.toLowerCase())}
         </Box>
-      </Heading>
+      </Title>
       <Flex
         alignItems="center"
         columnGap={4}
         justifyContent="space-between"
       >
         <Text fontSize="xs">{isSynced ? 'Subgraph is up to date' : 'Subgraph is syncing'}</Text>
-        <Box
-          fontSize="xs"
-          paddingInline={2}
-          lineHeight="2"
-          backgroundColor="var(--theme-subgraph-status-blocks-behind-background)"
-          borderRadius={8}
-        >
-          {networkBlockNumber - subgraphBlockNumber} blocks behind
-        </Box>
+        <BlocksBehind>{networkBlockNumber - subgraphBlockNumber} blocks behind</BlocksBehind>
       </Flex>
 
-      <Box
-        width="100%"
-        backgroundColor="var(--theme-subgraph-status-blockchain-color)"
-        borderRadius={6}
-        overflow="hidden"
-      >
-        <Box
+      <BarBlockchain>
+        <BarSubgraph
           width={`${Math.max(progress, 5)}%`}
-          transition="width 0.3s"
           backgroundColor={
             !isSynced
               ? 'var(--theme-subgraph-status-subgraph-color)'
               : 'var(--theme-subgraph-status-subgraph-success-color)'
           }
-          height="18px"
-          borderRadius={6}
-          overflow="hidden"
         />
-      </Box>
+      </BarBlockchain>
       <Flex
         alignItems="center"
         columnGap={4}
@@ -121,21 +93,8 @@ const Status: FC<{
           }
           paddingLeft={2}
         >
-          <Heading
-            as="h4"
-            fontSize="13px"
-            fontWeight="500"
-            lineHeight="1"
-          >
-            Subgraph
-          </Heading>
-          <Span
-            fontSize="12px"
-            fontWeight="300"
-            lineHeight="1"
-          >
-            {subgraphBlockNumber.toString()}
-          </Span>
+          <TitleH4>Subgraph</TitleH4>
+          <Blocks>{subgraphBlockNumber.toString()}</Blocks>
         </Flex>
 
         <Flex
@@ -145,24 +104,11 @@ const Status: FC<{
           borderRight={'1px solid var(--theme-subgraph-status-blockchain-color)'}
           paddingRight={2}
         >
-          <Heading
-            as="h4"
-            fontSize="13px"
-            fontWeight="500"
-            lineHeight="1"
-          >
-            Blockchain
-          </Heading>
-          <Span
-            fontSize="12px"
-            fontWeight="300"
-            lineHeight="1"
-          >
-            {networkBlockNumber?.toString() ?? '-'}
-          </Span>
+          <TitleH4>Blockchain</TitleH4>
+          <Blocks>{networkBlockNumber?.toString() ?? '-'}</Blocks>
         </Flex>
       </Flex>
-    </Flex>
+    </Wrapper>
   )
 }
 
