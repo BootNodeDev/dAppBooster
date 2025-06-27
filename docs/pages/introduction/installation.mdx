@@ -1,6 +1,6 @@
-# Getting started [Getting started with dAppBooster in just a few lines of code]
+# Installation [Getting started with dAppBooster in just a few minutes]
 
-## Installation
+## dAppBooster's installation script
 
 :::info
 **Requirements**
@@ -10,7 +10,8 @@
 - For Windows users the tested and recommended way is using [WSL](https://learn.microsoft.com/en-us/windows/wsl/install). There are no guarantees that using `bash` or other terminals will work.
 :::
 
-
+::::steps
+### Run the script
 Get a clean instance of the starter-kit by running this command.
 
 You can select between several configuration options for your installation, remove optional packages, etc. Choose what you need for your particular project.
@@ -19,15 +20,29 @@ You can select between several configuration options for your installation, remo
 pnpm dlx dappbooster
 ```
 
-:::tip
-**Git repository**
-
+### Change the remote (optional)
 After you're finished with the installation, you might want to change your project's remote repository to a different one.
-:::
 
 ```bash [Terminal]
 git remote set-url origin <your-repository-url>
 ```
+
+### Running the dApp
+
+To run the dApp in dev mode use this command and open the link provided in your browser.
+
+```bash [Terminal]
+pnpm dev
+```
+
+You can start modifying the content of the home page by editing `src/components/pageComponents/home/index.tsx`, the page auto-updates as you edit the file.
+::::
+
+:::info
+**Additional configuration**
+
+Check `.env.local` and `.env.example` for additional configurations, most vars are self-explanatory.
+:::
 
 ## A note regarding subgraphs
 
@@ -70,21 +85,6 @@ pnpm subgraph-codegen
 Read more about using subgraphs in the [subraph recipe](/recipes/subgraphs) and [subgraph plugin](/advanced/subgraph-plugin) sections.
 :::
 
-## Running the dApp
-
-You can run the dApp in dev mode and start modifying the content of the home page by editing `src/components/pageComponents/home/index.tsx`. The page auto-updates as you edit the file.
-
-```bash [Terminal]
-pnpm dev
-```
-
-Open the link provided by this command in the browser.
-
-:::info
-**Additional configuration**
-
-Check `.env.local` and `.env.example` for additional configurations, most vars are self-explanatory.
-:::
 
 ## Warming engines
 

@@ -42,12 +42,8 @@ export default defineConfig({
           link: '/',
         },
         {
-          text: 'Why dAppBooster',
-          link: '/introduction/why-dappBooster',
-        },
-        {
-          text: 'Getting started',
-          link: '/introduction/getting-started',
+          text: 'Installation',
+          link: '/introduction/installation',
         },
       ],
     },
