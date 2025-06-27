@@ -62,7 +62,7 @@ const Status: FC<{
         columnGap={4}
         justifyContent="space-between"
       >
-        <Text fontSize="xs">{isSynced ? 'Subgraph is up to date' : 'Subgraph is syncing'}</Text>
+        <Text fontSize="xs">Syncing status</Text>
         <BlocksBehind>{networkBlockNumber - subgraphBlockNumber} blocks behind</BlocksBehind>
       </Flex>
 
