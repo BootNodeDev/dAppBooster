@@ -48,7 +48,7 @@ export const TitleH4: FC<HeadingProps> = ({ children, ...restProps }) => (
     as="h4"
     fontSize="13px"
     fontWeight="500"
-    lineHeight="1"
+    lineHeight="1.2"
     {...restProps}
   >
     {children}
