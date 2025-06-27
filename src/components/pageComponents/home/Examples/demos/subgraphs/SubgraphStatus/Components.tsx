@@ -35,15 +35,15 @@ export const Title: FC<HeadingProps> = ({ children, ...restProps }) => (
     fontWeight="700"
     lineHeight="1.2"
     margin="0"
-    paddingTop={2}
     paddingBottom={4}
+    paddingTop={2}
     {...restProps}
   >
     {children}
   </Heading>
 )
 
-export const TitleH4: FC<HeadingProps> = ({ children, ...restProps }) => (
+export const SubTitle: FC<HeadingProps> = ({ children, ...restProps }) => (
   <Heading
     as="h4"
     fontSize="13px"
@@ -70,32 +70,7 @@ export const BlocksBehind: FC<BoxProps> = ({ children, ...restProps }) => (
     fontSize="xs"
     paddingInline={2}
     lineHeight="2"
-    backgroundColor="var(--theme-subgraph-status-blocks-behind-background)"
     borderRadius={8}
-    {...restProps}
-  >
-    {children}
-  </Box>
-)
-
-export const BarBlockchain: FC<BoxProps> = ({ children, ...restProps }) => (
-  <Box
-    width="100%"
-    backgroundColor="var(--theme-subgraph-status-blockchain-color)"
-    borderRadius={6}
-    overflow="hidden"
-    {...restProps}
-  >
-    {children}
-  </Box>
-)
-
-export const BarSubgraph: FC<BoxProps> = ({ children, ...restProps }) => (
-  <Box
-    transition="width 0.3s"
-    height="18px"
-    borderRadius={6}
-    overflow="hidden"
     {...restProps}
   >
     {children}

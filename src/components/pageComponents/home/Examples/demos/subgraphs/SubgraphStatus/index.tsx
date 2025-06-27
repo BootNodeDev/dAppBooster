@@ -1,19 +1,18 @@
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import { getNetworkIcon } from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph'
 import {
-  BarBlockchain,
-  BarSubgraph,
   Blocks,
   BlocksBehind,
+  SubTitle,
   Title,
-  TitleH4,
   Wrapper,
 } from '@/src/components/pageComponents/home/Examples/demos/subgraphs/SubgraphStatus/Components'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/SubgraphStatus/Icon'
+import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
-import { Box, Flex, Skeleton, Text } from '@chakra-ui/react'
+import { Box, Flex, Skeleton, Span, Text } from '@chakra-ui/react'
 import { type FC, useState } from 'react'
 import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
@@ -41,41 +40,48 @@ const Status: FC<{
   indexingStatus: ReturnType<typeof useSubgraphIndexingStatus>
 }> = ({ indexingStatus }) => {
   const { chain, isSynced, networkBlockNumber, resource, subgraphBlockNumber } = indexingStatus
-
-  const barSize = 20
-  const blocksBehind = Math.max(0, Number(networkBlockNumber) - Number(subgraphBlockNumber))
-  const progress = blocksBehind >= barSize ? 0 : ((barSize - blocksBehind) / barSize) * 100
+  const blocksBehind = networkBlockNumber - subgraphBlockNumber
 
   return (
     <Wrapper>
-      <Title title={chain.name}>
-        {`${resource}@${chain.id}`}
+      <Title
+        textTransform={'capitalize'}
+        title={chain.name}
+      >
+        {`${resource}`}
+        <Span>-</Span>
         <Box
-          rounded="full"
           overflow="hidden"
+          rounded="full"
         >
           {getNetworkIcon(chain.name.toLowerCase())}
         </Box>
+        {`${chain.name}`}
       </Title>
       <Flex
         alignItems="center"
         columnGap={4}
         justifyContent="space-between"
       >
-        <Text fontSize="xs">Syncing status</Text>
-        <BlocksBehind>{networkBlockNumber - subgraphBlockNumber} blocks behind</BlocksBehind>
+        <Text fontSize="md">Syncing status</Text>
+        <Flex
+          alignItems={'center'}
+          columnGap={2}
+          justifyContent={'flex-end'}
+        >
+          {!isSynced && <Spinner size={'xs'} />}
+          <BlocksBehind
+            backgroundColor={
+              isSynced
+                ? 'var(--theme-subgraph-status-subgraph-success-color)'
+                : 'var(--theme-subgraph-status-blocks-behind-background)'
+            }
+          >
+            {/* This is incorrect, but we don't want to show a negative number, do we? */}
+            {Math.abs(Number(blocksBehind))} blocks behind
+          </BlocksBehind>
+        </Flex>
       </Flex>
-
-      <BarBlockchain>
-        <BarSubgraph
-          width={`${Math.max(progress, 5)}%`}
-          backgroundColor={
-            !isSynced
-              ? 'var(--theme-subgraph-status-subgraph-color)'
-              : 'var(--theme-subgraph-status-subgraph-success-color)'
-          }
-        />
-      </BarBlockchain>
       <Flex
         alignItems="center"
         columnGap={4}
@@ -93,19 +99,28 @@ const Status: FC<{
           }
           paddingLeft={2}
         >
-          <TitleH4>Subgraph</TitleH4>
-          <Blocks>{subgraphBlockNumber.toString()}</Blocks>
+          <SubTitle>Subgraph</SubTitle>
+          <Blocks>
+            <b>Current block:</b> {subgraphBlockNumber.toString()}
+          </Blocks>
         </Flex>
 
         <Flex
           flexDirection="column"
           gap={1}
           alignItems={'flex-end'}
-          borderRight={'1px solid var(--theme-subgraph-status-blockchain-color)'}
+          borderRight={'1px solid'}
+          borderColor={
+            !isSynced
+              ? 'var(--theme-subgraph-status-blockchain-color)'
+              : 'var(--theme-subgraph-status-subgraph-success-color)'
+          }
           paddingRight={2}
         >
-          <TitleH4>Blockchain</TitleH4>
-          <Blocks>{networkBlockNumber?.toString() ?? '-'}</Blocks>
+          <SubTitle>Blockchain</SubTitle>
+          <Blocks>
+            <b>Current block:</b> {networkBlockNumber?.toString() ?? '-'}
+          </Blocks>
         </Flex>
       </Flex>
     </Wrapper>
