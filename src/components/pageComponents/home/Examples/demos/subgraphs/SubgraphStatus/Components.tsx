@@ -13,7 +13,7 @@ import type { FC } from 'react'
 export const Wrapper: FC<FlexProps> = ({ children, ...restProps }) => (
   <Flex
     backgroundColor="var(--theme-subgraph-status-background)"
-    borderRadius="8px"
+    borderRadius="lg"
     padding={4}
     flexDirection="column"
     rowGap={2}
