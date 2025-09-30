@@ -4,6 +4,7 @@ import { env } from '@/src/env'
 import { chains, transports } from '@/src/lib/networks.config'
 import type { ButtonProps } from '@chakra-ui/react'
 import { ConnectKitButton, ConnectKitProvider, type Types, getDefaultConfig } from 'connectkit'
+import { Porto } from 'porto'
 import type { FC, ReactNode } from 'react'
 import type { Address } from 'viem'
 import { normalize } from 'viem/ens'
@@ -77,6 +78,10 @@ export const ConnectWalletButton = ({
       }}
     </ConnectKitButton.Custom>
   )
+}
+
+if (env.PUBLIC_ENABLE_PORTO) {
+  Porto.create()
 }
 
 const defaultConfig = {
