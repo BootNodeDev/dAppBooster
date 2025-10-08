@@ -4,11 +4,12 @@ import { env } from '@/src/env'
 import { chains, transports } from '@/src/lib/networks.config'
 import type { ButtonProps } from '@chakra-ui/react'
 import { ConnectKitButton, ConnectKitProvider, type Types, getDefaultConfig } from 'connectkit'
-import { Porto } from 'porto'
 import type { FC, ReactNode } from 'react'
 import type { Address } from 'viem'
 import { normalize } from 'viem/ens'
+
 import { createConfig, useEnsAvatar, useEnsName } from 'wagmi'
+import '@/src/lib/wallets/portoInit'
 
 interface Props {
   address: Address
@@ -78,14 +79,6 @@ export const ConnectWalletButton = ({
       }}
     </ConnectKitButton.Custom>
   )
-}
-
-if (env.PUBLIC_ENABLE_PORTO) {
-  try {
-    Porto.create()
-  } catch (error) {
-    console.error('Failed to initialize Porto:', error)
-  }
 }
 
 const defaultConfig = {
