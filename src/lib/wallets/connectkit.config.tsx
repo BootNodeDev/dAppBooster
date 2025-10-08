@@ -81,7 +81,11 @@ export const ConnectWalletButton = ({
 }
 
 if (env.PUBLIC_ENABLE_PORTO) {
-  Porto.create()
+  try {
+    Porto.create()
+  } catch (error) {
+    console.error('Failed to initialize Porto:', error)
+  }
 }
 
 const defaultConfig = {
