@@ -29,6 +29,7 @@
     "@chakra-ui/react": "^3.17.0",
     "@emotion/react": "^11.14.0",
     "@lifi/sdk": "^3.6.13",
+    "@rainbow-me/rainbowkit": "^2.2.9",
     "@t3-oss/env-core": "^0.13.4",
     "@tanstack/react-query": "^5.75.7",
     "@tanstack/react-router": "^1.120.3",
@@ -93,10 +94,14 @@
       "@biomejs/biome",
       "@parcel/watcher",
       "@swc/core",
-      "ufferutil",
-      "sbuild",
+      "bufferutil",
       "eccak",
-      "tf-8-validate"
+      "esbuild",
+      "keccak",
+      "sbuild",
+      "tf-8-validate",
+      "ufferutil",
+      "utf-8-validate"
     ]
   }
 }

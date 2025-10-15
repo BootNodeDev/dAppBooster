@@ -7,7 +7,7 @@ import { pascalCase } from 'change-case'
  */
 
 // Change this string to use another wallet
-const walletConfigImport = `import { config } from '@/src/lib/wallets/connectkit.config'`
+const walletConfigImport = `import { config } from '@/src/lib/wallets/rainbowkit.config'`
 
 type ActionsResult = {
   name: string
