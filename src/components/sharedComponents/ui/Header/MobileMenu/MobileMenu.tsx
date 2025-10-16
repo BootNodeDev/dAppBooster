@@ -2,7 +2,7 @@ import Logo from '@/src/components/sharedComponents/ui/Header/Logo'
 import MainMenu from '@/src/components/sharedComponents/ui/Header/MainMenu'
 import { SwitchThemeButton } from '@/src/components/sharedComponents/ui/SwitchThemeButton'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { chakra } from '@chakra-ui/react'
+import { Box, chakra } from '@chakra-ui/react'
 import { Drawer } from '@chakra-ui/react'
 import { useTheme } from 'next-themes'
 import { useState } from 'react'
@@ -118,10 +118,12 @@ export const MobileMenu = () => {
             flexDirection="column"
             rowGap={6}
           >
-            <ConnectWalletButton
+            <Box
               marginBottom={10}
               maxWidth="fit-content"
-            />
+            >
+              <ConnectWalletButton />
+            </Box>
             <MainMenu />
             <SwitchThemeButton
               marginTop="auto"
