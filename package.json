@@ -30,6 +30,8 @@
     "@emotion/react": "^11.14.0",
     "@lifi/sdk": "^3.6.13",
     "@rainbow-me/rainbowkit": "^2.2.9",
+    "@reown/appkit": "^1.8.10",
+    "@reown/appkit-adapter-wagmi": "^1.8.10",
     "@t3-oss/env-core": "^0.13.4",
     "@tanstack/react-query": "^5.75.7",
     "@tanstack/react-router": "^1.120.3",
@@ -93,6 +95,7 @@
     "onlyBuiltDependencies": [
       "@biomejs/biome",
       "@parcel/watcher",
+      "@reown/appkit",
       "@swc/core",
       "bufferutil",
       "eccak",
