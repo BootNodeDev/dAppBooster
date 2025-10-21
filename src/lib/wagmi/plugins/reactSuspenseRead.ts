@@ -7,7 +7,7 @@ import { pascalCase } from 'change-case'
  */
 
 // Change this string to use another wallet
-const walletConfigImport = `import { config } from '@/src/lib/wallets/web3modal.config'`
+const walletConfigImport = `import { config } from '@/src/lib/wallets/connectkit.config'`
 
 type ActionsResult = {
   name: string
