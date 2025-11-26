@@ -3,16 +3,15 @@
  * version used: 2.0.8
  */
 
-// import { type ReactNode } from 'react'
+// import type { ReactNode } from 'react'
 
-// import { RainbowKitProvider, type AvatarComponent, ConnectButton } from '@rainbow-me/rainbowkit'
-// import { getDefaultConfig } from 'connectkit'
-// import { createConfig } from 'wagmi'
+// import { type AvatarComponent, ConnectButton, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+// import { getDefaultConfig } from '@rainbow-me/rainbowkit';
 
 // import { env } from '@/src/env'
 // import { chains, transports } from '@/src/lib/networks.config'
 
-// import CustomAvatar from '@/src/components/sharedComponents/ui/Avatar'
+// import CustomAvatar from '@/src/components/sharedComponents/Avatar'
 
 // export const WalletProvider = ({ children }: { children: ReactNode }) => {
 //   return (
@@ -30,6 +29,7 @@
 
 //   // Required API Keys
 //   walletConnectProjectId: env.PUBLIC_WALLETCONNECT_PROJECT_ID,
+//   projectId: env.PUBLIC_WALLETCONNECT_PROJECT_ID,
 
 //   // Required App Info
 //   appName: env.PUBLIC_APP_NAME,
@@ -40,6 +40,4 @@
 //   appIcon: env.PUBLIC_APP_LOGO,
 // } as const
 
-// const rainbowkitConfig = getDefaultConfig(defaultConfig)
-
-// export const config = createConfig(rainbowkitConfig)
+// export const config = getDefaultConfig(defaultConfig)

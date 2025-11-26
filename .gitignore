@@ -11,6 +11,7 @@ node_modules
 *.sln
 *.sw?
 tsconfig.tsbuildinfo
+.tool-versions
 
 # Project folders
 typedoc

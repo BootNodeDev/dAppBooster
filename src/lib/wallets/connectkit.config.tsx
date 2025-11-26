@@ -7,6 +7,7 @@ import { ConnectKitButton, ConnectKitProvider, type Types, getDefaultConfig } fr
 import type { FC, ReactNode } from 'react'
 import type { Address } from 'viem'
 import { normalize } from 'viem/ens'
+
 import { createConfig, useEnsAvatar, useEnsName } from 'wagmi'
 
 interface Props {
