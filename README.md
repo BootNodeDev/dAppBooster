@@ -17,7 +17,7 @@
 
 Run the install script and follow the on-screen instructions.
 
-A more detailed installation guide is available [here](https://docs.dappbooster.dev/introduction/getting-started#installation)
+A more detailed installation guide is available [here](https://docs.dappbooster.dev/introduction/installation)
 
 ```bash
 pnpm dlx dappbooster
