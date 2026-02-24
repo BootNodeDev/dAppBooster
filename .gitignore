@@ -22,6 +22,9 @@ src/subgraphs/gql
 src/hooks/generated.ts
 vite.config.ts.timestamp*
 
+# Claude Code
+.claude/settings.local.json
+
 # Project .env files
 .env.local
 .env
