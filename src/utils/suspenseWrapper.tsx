@@ -4,7 +4,11 @@ import { Flex, Spinner } from '@chakra-ui/react'
 import { Dialog, Portal } from '@chakra-ui/react'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { type ComponentType, type JSX, type ReactNode, Suspense } from 'react'
-import { ErrorBoundary, type ErrorBoundaryPropsWithRender } from 'react-error-boundary'
+import {
+  ErrorBoundary,
+  type ErrorBoundaryPropsWithRender,
+  type FallbackProps,
+} from 'react-error-boundary'
 
 export type DefaultFallbackFormat = 'dialog' | 'default'
 
@@ -84,11 +88,6 @@ export const withSuspense = <WrappedProps extends object>(
   }
 }
 
-interface ErrorBoundaryPropsWithRenderProps {
-  error: Error
-  resetErrorBoundary: () => void
-}
-
 /**
  * Default fallback render for ErrorBoundary
  *
@@ -99,12 +98,16 @@ interface ErrorBoundaryPropsWithRenderProps {
 const defaultFallbackRender: ErrorBoundaryPropsWithRender['fallbackRender'] = ({
   error,
   resetErrorBoundary,
-}: ErrorBoundaryPropsWithRenderProps): ReactNode => (
-  <>
-    <div>{error.message}</div>
-    <PrimaryButton onClick={resetErrorBoundary}>Try Again</PrimaryButton>
-  </>
-)
+}: FallbackProps): ReactNode => {
+  const message = error instanceof Error ? error.message : 'Something went wrong.'
+
+  return (
+    <>
+      <div>{message}</div>
+      <PrimaryButton onClick={resetErrorBoundary}>Try Again</PrimaryButton>
+    </>
+  )
+}
 
 /**
  * Default reset for ErrorBoundary shown on a dialog
@@ -117,24 +120,28 @@ const defaultFallbackRender: ErrorBoundaryPropsWithRender['fallbackRender'] = ({
 const defaultFallbackRenderDialog: ErrorBoundaryPropsWithRender['fallbackRender'] = ({
   error,
   resetErrorBoundary,
-}: ErrorBoundaryPropsWithRenderProps): ReactNode => (
-  <Dialog.Root
-    open
-    size="xs"
-  >
-    <Portal>
-      <Dialog.Backdrop />
-      <Dialog.Positioner>
-        <Dialog.Content>
-          <GeneralMessage
-            actionButton={<PrimaryButton onClick={resetErrorBoundary}>Try again</PrimaryButton>}
-            message={error.message}
-          />
-        </Dialog.Content>
-      </Dialog.Positioner>
-    </Portal>
-  </Dialog.Root>
-)
+}: FallbackProps): ReactNode => {
+  const message = error instanceof Error ? error.message : 'Something went wrong.'
+
+  return (
+    <Dialog.Root
+      open
+      size="xs"
+    >
+      <Portal>
+        <Dialog.Backdrop />
+        <Dialog.Positioner>
+          <Dialog.Content>
+            <GeneralMessage
+              actionButton={<PrimaryButton onClick={resetErrorBoundary}>Try again</PrimaryButton>}
+              message={message}
+            />
+          </Dialog.Content>
+        </Dialog.Positioner>
+      </Portal>
+    </Dialog.Root>
+  )
+}
 
 export type WithSuspenseAndRetryProps = {
   fallbackRender?: ErrorBoundaryPropsWithRender['fallbackRender']
