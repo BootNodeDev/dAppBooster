@@ -1,0 +1,9 @@
+onlyBuiltDependencies:
+  - '@biomejs/biome'
+  - '@parcel/watcher'
+  - '@reown/appkit'
+  - '@swc/core'
+  - bufferutil
+  - esbuild
+  - keccak
+  - utf-8-validate
