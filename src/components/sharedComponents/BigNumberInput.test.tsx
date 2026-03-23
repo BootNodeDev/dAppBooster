@@ -94,7 +94,7 @@ describe('BigNumberInput', () => {
     expect(onError).toHaveBeenCalledWith(expect.objectContaining({ value: '5' }))
   })
 
-  it('calls onError(null) is NOT called for valid values (no error clearing tested via absence)', async () => {
+  it('does not call onError for valid values', async () => {
     const onError = vi.fn()
     renderInput({ decimals: 0, max: BigInt(100), onError })
     const input = screen.getByRole('textbox')
@@ -114,11 +114,10 @@ describe('BigNumberInput', () => {
     expect(lastCall).toBe(BigInt(112))
   })
 
-  it('does not update on maxUint256 overflow', async () => {
+  it('does not call onError when value is within max constraint', async () => {
     const onError = vi.fn()
     renderInput({ decimals: 0, max: maxUint256, onError })
-    // Typing an absurdly large number won't overflow since max = maxUint256
-    // Just verify no onError for normal large numbers
+    // Large but valid number — well within maxUint256, so no error
     const input = screen.getByRole('textbox')
     await userEvent.type(input, '9999999')
     expect(onError).not.toHaveBeenCalled()

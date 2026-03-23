@@ -2,7 +2,7 @@ import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { mainnet } from 'viem/chains'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import HashInput from './HashInput'
 
 const system = createSystem(defaultConfig)
@@ -27,6 +27,11 @@ function renderHashInput(props: Partial<React.ComponentProps<typeof HashInput>> 
 }
 
 describe('HashInput', () => {
+  beforeEach(() => {
+    detectHashMock.mockClear()
+    detectHashMock.mockResolvedValue({ type: 'EOA', data: '0xabc' })
+  })
+
   it('renders without crashing', () => {
     const { input } = renderHashInput()
     expect(input).not.toBeNull()
@@ -52,7 +57,8 @@ describe('HashInput', () => {
 
   it('calls onSearch with null when input is cleared', async () => {
     const onSearch = vi.fn()
-    const { input } = renderHashInput({ onSearch })
+    // debounceTime: 0 to avoid relying on real timers for non-debounce behavior
+    const { input } = renderHashInput({ onSearch, debounceTime: 0 })
     await userEvent.type(input, 'abc')
     await userEvent.clear(input)
     await waitFor(() => {
@@ -60,7 +66,9 @@ describe('HashInput', () => {
     })
   })
 
-  it('calls onSearch with detection result after debounce', async () => {
+  it('calls onSearch with the detected result', async () => {
+    // debounceTime: 0 keeps the test fast; this covers the callback wiring,
+    // not the debounce delay itself (fake timers + waitFor + userEvent conflict in jsdom)
     const onSearch = vi.fn()
     detectHashMock.mockResolvedValueOnce({ type: 'ENS', data: '0x123' })
     renderHashInput({ onSearch, debounceTime: 0 })
