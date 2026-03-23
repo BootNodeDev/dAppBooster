@@ -1,5 +1,7 @@
 # dAppBooster
 
+> This file is mirrored as `AGENTS.md` for non-Claude AI agents. Keep both files in sync when making changes.
+
 A repository template / starter-kit for building decentralized applications (dApps). Built by BootNode based on 5+ years of dApp development. Docs: https://docs.dappbooster.dev/ Components: https://components.dappbooster.dev/
 
 ## Requirements
