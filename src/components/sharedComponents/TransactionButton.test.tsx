@@ -123,10 +123,14 @@ describe('TransactionButton', () => {
     const onMined = vi.fn()
 
     vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(connectedStatus())
-    // Return receipt immediately so effect fires once isPending=true
-    vi.mocked(wagmiModule.useWaitForTransactionReceipt).mockReturnValue({
-      data: mockReceipt,
-    } as ReturnType<typeof wagmiModule.useWaitForTransactionReceipt>)
+    // Only return a receipt when called with the matching hash so the mock
+    // doesn't fire prematurely before the transaction is submitted.
+    vi.mocked(wagmiModule.useWaitForTransactionReceipt).mockImplementation(
+      (config) =>
+        ({
+          data: config?.hash === '0x1' ? mockReceipt : undefined,
+        }) as ReturnType<typeof wagmiModule.useWaitForTransactionReceipt>,
+    )
 
     renderButton({
       transaction: () => Promise.resolve('0x1' as `0x${string}`),

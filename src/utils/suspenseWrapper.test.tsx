@@ -7,12 +7,15 @@ import { withSuspense, withSuspenseAndRetry } from './suspenseWrapper'
 
 const system = createSystem(defaultConfig)
 
-// Silence expected React error boundary console.errors
+// Silence expected React error boundary console.errors.
+// Only restore this specific spy — vi.restoreAllMocks() would also wipe global
+// polyfills set up in setupTests.ts (e.g. ResizeObserver).
+let consoleErrorSpy: ReturnType<typeof vi.spyOn>
 beforeEach(() => {
-  vi.spyOn(console, 'error').mockImplementation(() => {})
+  consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
 })
 afterEach(() => {
-  vi.restoreAllMocks()
+  consoleErrorSpy.mockRestore()
 })
 
 function wrap(ui: ReactNode, withQuery = false) {
