@@ -6,6 +6,7 @@ import {
   type RefObject,
   useEffect,
   useRef,
+  useState,
 } from 'react'
 import { formatUnits, maxUint256, parseUnits } from 'viem'
 export type RenderInputProps = Omit<InputProps, 'onChange'> & {
@@ -66,6 +67,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   value,
 }: BigNumberInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
+  const [hasError, setHasError] = useState(false)
 
   // update inputValue when value changes
   useEffect(() => {
@@ -125,6 +127,9 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
       }] and value is: ${value}`
       console.warn(message)
       onError?.({ value, message })
+      setHasError(true)
+    } else {
+      setHasError(false)
     }
 
     onChange(newValue)
@@ -141,6 +146,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     renderInput({ ...inputProps, inputRef })
   ) : (
     <chakra.input
+      aria-invalid={hasError || undefined}
       {...inputProps}
       ref={inputRef}
     />

@@ -57,8 +57,13 @@ export const ExternalLinkButton: FC<LinkProps> = ({
       fontWeight="400"
       height="fit-content"
       justifyContent="center"
-      outline="none"
       padding="0"
+      _focusVisible={{
+        outline: '2px solid',
+        outlineColor: 'primary.default',
+        outlineOffset: '2px',
+        borderRadius: '2px',
+      }}
       transition="background-color {durations.moderate}, border-color {durations.moderate}, color {durations.moderate"
       whiteSpace="nowrap"
       width="fit-content"

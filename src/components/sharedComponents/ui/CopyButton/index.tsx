@@ -77,8 +77,13 @@ export const CopyButton: FC<Props> = ({
       height="fit-content"
       justifyContent="center"
       lineHeight="1"
-      outline="none"
       padding="0"
+      _focusVisible={{
+        outline: '2px solid',
+        outlineColor: 'primary.default',
+        outlineOffset: '2px',
+        borderRadius: '2px',
+      }}
       textDecoration="none"
       transition="background-color {durations.moderate}, border-color {durations.moderate}, color {durations.moderate"
       userSelect="none"

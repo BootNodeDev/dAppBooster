@@ -202,7 +202,10 @@ const TokenInput: FC<Props> = ({
               showBalance={showBalance}
               showTopTokens={showTopTokens}
             >
-              <CloseButton onClick={() => setIsOpen(false)} />
+              <CloseButton
+                aria-label="Close"
+                onClick={() => setIsOpen(false)}
+              />
             </TokenSelect>
           </Dialog.Content>
         </Dialog.Positioner>
