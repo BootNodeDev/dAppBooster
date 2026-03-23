@@ -21,7 +21,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor-react': ['react', 'react-dom'],
+          'vendor-react': ['react', 'react-dom', 'react-dom/client'],
           'vendor-wagmi': ['wagmi', 'viem'],
           'vendor-tanstack': ['@tanstack/react-query', '@tanstack/react-router'],
           'vendor-chakra': ['@chakra-ui/react'],
