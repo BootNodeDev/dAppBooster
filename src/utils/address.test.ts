@@ -19,8 +19,8 @@ describe('isNativeToken', () => {
     expect(isNativeToken(zeroAddress.toLowerCase())).toBe(true)
   })
 
-  it('returns true for a checksummed zero address', () => {
-    // zeroAddress is already lowercase, but ensure uppercase hex still matches
+  it('returns true for the zero address string literal', () => {
+    // zeroAddress is already lowercase; the literal string is identical — testing the exact value
     expect(isNativeToken('0x0000000000000000000000000000000000000000')).toBe(true)
   })
 
