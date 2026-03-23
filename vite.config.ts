@@ -17,6 +17,19 @@ export default defineConfig({
       hostname: 'https://dappbooster.dev',
     }),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-wagmi': ['wagmi', 'viem'],
+          'vendor-tanstack': ['@tanstack/react-query', '@tanstack/react-router'],
+          'vendor-chakra': ['@chakra-ui/react'],
+          'vendor-web3': ['@reown/appkit', '@reown/appkit-adapter-wagmi'],
+        },
+      },
+    },
+  },
   envPrefix: 'PUBLIC_',
   resolve: {
     alias: {

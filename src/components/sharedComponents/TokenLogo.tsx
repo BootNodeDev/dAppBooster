@@ -101,6 +101,7 @@ const TokenLogo: FC<TokenLogoProps> = ({ size = 24, token }) => {
     <img
       alt={token.name}
       height={`${size}`}
+      loading="lazy"
       onError={() => setHasError(true)}
       src={getSrc(logoURI)}
       width={`${size}`}

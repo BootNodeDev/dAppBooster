@@ -54,6 +54,7 @@ const Avatar: FC<AvatarProps> = ({
         <img
           alt={ensName ?? address}
           height="100%"
+          loading="lazy"
           src={ensImage}
           width="100%"
         />
