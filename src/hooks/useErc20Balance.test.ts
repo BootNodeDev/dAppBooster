@@ -4,7 +4,7 @@ import { renderHook, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { createElement } from 'react'
 import { zeroAddress } from 'viem'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useErc20Balance } from './useErc20Balance'
 
 const mockReadContract = vi.fn()
@@ -37,6 +37,10 @@ const mockToken: Token = {
 const walletAddress = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F' as `0x${string}`
 
 describe('useErc20Balance', () => {
+  beforeEach(() => {
+    mockReadContract.mockClear()
+  })
+
   it('returns undefined balance when address is missing', () => {
     const { result } = renderHook(() => useErc20Balance({ token: mockToken }), { wrapper })
     expect(result.current.balance).toBeUndefined()

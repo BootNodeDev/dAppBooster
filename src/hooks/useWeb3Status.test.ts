@@ -1,5 +1,5 @@
 import { renderHook } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useWeb3Status, useWeb3StatusConnected } from './useWeb3Status'
 
 const mockDisconnect = vi.fn()
@@ -26,6 +26,11 @@ type MockAccount = ReturnType<typeof wagmi.useAccount>
 type MockSwitchChain = ReturnType<typeof wagmi.useSwitchChain>
 
 describe('useWeb3Status', () => {
+  beforeEach(() => {
+    mockDisconnect.mockClear()
+    mockSwitchChain.mockClear()
+  })
+
   it('returns disconnected state when no wallet connected', () => {
     const { result } = renderHook(() => useWeb3Status())
     expect(result.current.isWalletConnected).toBe(false)
@@ -112,7 +117,8 @@ describe('useWeb3StatusConnected', () => {
       isConnected: true,
       isConnecting: false,
     } as unknown as MockAccount
-    vi.mocked(wagmi.useAccount).mockReturnValue(mock)
+    // useWeb3StatusConnected calls useWeb3Status twice; both calls must see connected state
+    vi.mocked(wagmi.useAccount).mockReturnValueOnce(mock).mockReturnValueOnce(mock)
     const { result } = renderHook(() => useWeb3StatusConnected())
     expect(result.current.isWalletConnected).toBe(true)
   })
