@@ -85,7 +85,7 @@ export const CopyButton: FC<Props> = ({
         borderRadius: '2px',
       }}
       textDecoration="none"
-      transition="background-color {durations.moderate}, border-color {durations.moderate}, color {durations.moderate"
+      transition="background-color {durations.moderate}, border-color {durations.moderate}, color {durations.moderate}"
       userSelect="none"
       whiteSpace="nowrap"
       width="fit-content"

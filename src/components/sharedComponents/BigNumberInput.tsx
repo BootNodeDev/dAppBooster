@@ -93,6 +93,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     const { value } = typeof event === 'string' ? { value: event } : event.currentTarget
 
     if (value === '') {
+      setHasError(false)
       onChange(BigInt(0))
       return
     }
@@ -136,6 +137,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   }
 
   const inputProps = {
+    'aria-invalid': (hasError || undefined) as true | undefined,
     disabled,
     onChange: updateValue,
     placeholder,
@@ -146,7 +148,6 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     renderInput({ ...inputProps, inputRef })
   ) : (
     <chakra.input
-      aria-invalid={hasError || undefined}
       {...inputProps}
       ref={inputRef}
     />

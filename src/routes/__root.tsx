@@ -49,6 +49,7 @@ function Root() {
               direction="column"
               flexGrow="1"
               id="main-content"
+              tabIndex={-1}
             >
               <Outlet />
             </Flex>

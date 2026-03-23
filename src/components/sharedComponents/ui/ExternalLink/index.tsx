@@ -64,7 +64,7 @@ export const ExternalLinkButton: FC<LinkProps> = ({
         outlineOffset: '2px',
         borderRadius: '2px',
       }}
-      transition="background-color {durations.moderate}, border-color {durations.moderate}, color {durations.moderate"
+      transition="background-color {durations.moderate}, border-color {durations.moderate}, color {durations.moderate}"
       whiteSpace="nowrap"
       width="fit-content"
       _hover={{
