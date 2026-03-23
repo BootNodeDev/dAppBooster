@@ -1,15 +1,11 @@
-import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
+import { createMockWeb3Status, renderWithProviders } from '@/src/test-utils'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { render, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import tokenInput from './index'
 
-const system = createSystem(defaultConfig)
-
 vi.mock('@/src/hooks/useWeb3Status', () => ({
-  useWeb3Status: vi.fn(() => ({
-    isWalletConnected: false,
-  })),
+  useWeb3Status: vi.fn(() => createMockWeb3Status()),
 }))
 
 vi.mock('@/src/hooks/useTokenLists', () => ({
@@ -29,21 +25,23 @@ vi.mock('@/src/hooks/useTokenSearch', () => ({
 
 vi.mock('@/src/components/sharedComponents/TokenInput/useTokenInput', () => ({
   useTokenInput: vi.fn(() => ({
-    value: '',
-    token: undefined,
-    error: undefined,
-    onChange: vi.fn(),
-    onTokenSelect: vi.fn(),
+    amount: 0n,
+    setAmount: vi.fn(),
+    amountError: null,
+    setAmountError: vi.fn(),
+    balance: 0n,
+    balanceError: null,
+    isLoadingBalance: false,
+    selectedToken: undefined,
+    setTokenSelected: vi.fn(),
   })),
 }))
 
 describe('TokenInput demo', () => {
   it('renders the token input container', () => {
     const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } })
-    render(
-      <QueryClientProvider client={queryClient}>
-        <ChakraProvider value={system}>{tokenInput.demo}</ChakraProvider>
-      </QueryClientProvider>,
+    renderWithProviders(
+      <QueryClientProvider client={queryClient}>{tokenInput.demo}</QueryClientProvider>,
     )
     // The mode dropdown should be visible
     expect(screen.getByText('Single token')).toBeDefined()
