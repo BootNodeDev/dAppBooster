@@ -1,6 +1,7 @@
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { ComponentProps } from 'react'
 import { maxUint256 } from 'viem'
 import { describe, expect, it, vi } from 'vitest'
 import { BigNumberInput } from './BigNumberInput'
@@ -8,7 +9,7 @@ import { BigNumberInput } from './BigNumberInput'
 const system = createSystem(defaultConfig)
 
 function renderInput(
-  props: Partial<React.ComponentProps<typeof BigNumberInput>> & {
+  props: Partial<ComponentProps<typeof BigNumberInput>> & {
     onChange?: (v: bigint) => void
   } = {},
 ) {

@@ -1,6 +1,7 @@
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { ComponentProps } from 'react'
 import { mainnet } from 'viem/chains'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import HashInput from './HashInput'
@@ -12,7 +13,7 @@ vi.mock('@/src/utils/hash', () => ({
   default: (...args: unknown[]) => detectHashMock(...args),
 }))
 
-function renderHashInput(props: Partial<React.ComponentProps<typeof HashInput>> = {}) {
+function renderHashInput(props: Partial<ComponentProps<typeof HashInput>> = {}) {
   const onSearch = props.onSearch ?? vi.fn()
   render(
     <ChakraProvider value={system}>
