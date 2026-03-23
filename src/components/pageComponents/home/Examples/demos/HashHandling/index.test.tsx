@@ -12,9 +12,13 @@ vi.mock('@/src/hooks/useWeb3Status', () => ({
   })),
 }))
 
-vi.mock('@/src/utils/hash', () => ({
-  detectHash: vi.fn(() => Promise.resolve(null)),
-}))
+vi.mock('@/src/utils/hash', () => {
+  const mockFn = vi.fn(() => Promise.resolve(null))
+  return {
+    default: mockFn,
+    detectHash: mockFn,
+  }
+})
 
 describe('HashHandling demo', () => {
   it('renders the hash input field', () => {
