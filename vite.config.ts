@@ -14,7 +14,7 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     Sitemap({
-      hostname: process.env.PUBLIC_APP_URL ?? 'https://demo.dappbooster.dev',
+      hostname: process.env.PUBLIC_APP_URL || 'https://demo.dappbooster.dev',
     }),
   ],
   build: {
