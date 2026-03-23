@@ -24,6 +24,7 @@ vite.config.ts.timestamp*
 
 # Claude Code
 .claude/settings.local.json
+CLAUDE.local.md
 
 # Project .env files
 .env.local
