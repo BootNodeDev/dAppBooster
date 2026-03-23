@@ -11,8 +11,8 @@ describe('env', () => {
     expect(env.PUBLIC_APP_NAME).toBe('dAppBooster Test')
   })
 
-  it('defaults PUBLIC_NATIVE_TOKEN_ADDRESS to zero address when not set', () => {
-    // .env.test sets it to the zero address explicitly
+  it('reads and normalizes PUBLIC_NATIVE_TOKEN_ADDRESS from env', () => {
+    // .env.test sets it to the zero address; the schema lowercases the value
     expect(env.PUBLIC_NATIVE_TOKEN_ADDRESS).toBe(zeroAddress.toLowerCase())
   })
 
@@ -32,7 +32,8 @@ describe('env', () => {
     expect(env.PUBLIC_INCLUDE_TESTNETS).toBe(true)
   })
 
-  it('defaults PUBLIC_SUBGRAPHS_ENVIRONMENT to production', () => {
+  it('reads PUBLIC_SUBGRAPHS_ENVIRONMENT from test env', () => {
+    // .env.test sets it to 'production'; to test the schema default use vi.resetModules()
     expect(env.PUBLIC_SUBGRAPHS_ENVIRONMENT).toBe('production')
   })
 
@@ -40,9 +41,9 @@ describe('env', () => {
     expect(env.PUBLIC_SUBGRAPHS_API_KEY).toBe('test-api-key')
   })
 
-  it('exposes PUBLIC_WALLETCONNECT_PROJECT_ID with empty string default', () => {
+  it('exposes PUBLIC_WALLETCONNECT_PROJECT_ID from test env', () => {
     // .env.test sets it to 'test-project-id'
-    expect(typeof env.PUBLIC_WALLETCONNECT_PROJECT_ID).toBe('string')
+    expect(env.PUBLIC_WALLETCONNECT_PROJECT_ID).toBe('test-project-id')
   })
 
   it('optional RPC vars are undefined when not set in test env', () => {

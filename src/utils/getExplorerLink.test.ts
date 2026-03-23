@@ -12,12 +12,12 @@ const txHash = '0xd85ef8c70dc31a4f8d5bf0331e1eac886935905f15d32e71b348df745cd38e
 describe('getExplorerLink', () => {
   it('returns address URL using chain block explorer', () => {
     const url = getExplorerLink({ chain, hashOrAddress: address })
-    expect(url).toBe(`${chain.blockExplorers?.default.url}/address/${address}`)
+    expect(url).toBe(`https://mock.explorer.url/address/${address}`)
   })
 
   it('returns tx URL using chain block explorer for a hash', () => {
     const url = getExplorerLink({ chain, hashOrAddress: txHash })
-    expect(url).toBe(`${chain.blockExplorers?.default.url}/tx/${txHash}`)
+    expect(url).toBe(`https://mock.explorer.url/tx/${txHash}`)
   })
 
   it('uses custom explorerUrl for an address', () => {

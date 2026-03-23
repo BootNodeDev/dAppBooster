@@ -22,16 +22,21 @@ export function createMockWeb3Status(overrides?: Partial<ReturnType<typeof _mock
 
 function _mockShape() {
   return {
+    // AppWeb3Status
+    readOnlyClient: undefined,
+    appChainId: 1 as number,
+    // WalletWeb3Status
     address: undefined as `0x${string}` | undefined,
-    isConnected: false,
-    isConnecting: false,
-    isDisconnected: true,
-    chainId: undefined as number | undefined,
     balance: undefined,
-    publicClient: undefined,
+    connectingWallet: false,
+    switchingChain: false,
+    isWalletConnected: false,
     walletClient: undefined,
+    isWalletSynced: false,
+    walletChainId: undefined as number | undefined,
+    // Web3Actions
     disconnect: () => {},
-    switchChain: undefined,
+    switchChain: (_chainId?: number) => {},
   }
 }
 
