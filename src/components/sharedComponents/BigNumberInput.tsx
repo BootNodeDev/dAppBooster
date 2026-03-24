@@ -75,7 +75,15 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     if (!current) {
       return
     }
-    const currentInputValue = parseUnits(current.value.replace(/,/g, '') || '0', decimals)
+    // The input may contain an intermediate/unparseable string while the user is
+    // typing; guard against a parseUnits throw so an external value update never
+    // crashes the effect.
+    let currentInputValue: bigint
+    try {
+      currentInputValue = parseUnits(current.value.replace(/,/g, '') || '0', decimals)
+    } catch {
+      currentInputValue = BigInt(-1) // sentinel: force the DOM value to be overwritten
+    }
 
     if (currentInputValue !== value) {
       current.value = formatUnits(value, decimals)
