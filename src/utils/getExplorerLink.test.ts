@@ -39,6 +39,13 @@ describe('getExplorerLink', () => {
     ).toThrow('Invalid hash or address')
   })
 
+  it('throws when chain has no block explorer and no explorerUrl is provided', () => {
+    const chainWithoutExplorer: Chain = { ...chain, blockExplorers: undefined }
+    expect(() => getExplorerLink({ chain: chainWithoutExplorer, hashOrAddress: address })).toThrow(
+      'No block explorer URL available for this chain',
+    )
+  })
+
   it('works with a chain that has no default block explorer (explorerUrl provided)', () => {
     const chainWithoutExplorer: Chain = { ...chain, blockExplorers: undefined }
     const explorerUrl = 'https://fallback.explorer.io'
