@@ -1,4 +1,5 @@
 import { renderHook } from '@testing-library/react'
+import type { Address } from 'viem'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { useWeb3Status, useWeb3StatusConnected } from './useWeb3Status'
 
@@ -40,7 +41,7 @@ describe('useWeb3Status', () => {
 
   it('returns connected state with wallet address', () => {
     const mock = {
-      address: '0xabc123' as `0x${string}`,
+      address: '0xabc123' as Address,
       chainId: 1,
       isConnected: true,
       isConnecting: false,
@@ -53,7 +54,7 @@ describe('useWeb3Status', () => {
 
   it('sets isWalletSynced true when wallet chainId matches app chainId', () => {
     const mock = {
-      address: '0xabc123' as `0x${string}`,
+      address: '0xabc123' as Address,
       chainId: 1,
       isConnected: true,
       isConnecting: false,
@@ -66,7 +67,7 @@ describe('useWeb3Status', () => {
 
   it('sets isWalletSynced false when wallet chainId differs from app chainId', () => {
     const mock = {
-      address: '0xabc123' as `0x${string}`,
+      address: '0xabc123' as Address,
       chainId: 137,
       isConnected: true,
       isConnecting: false,
@@ -112,7 +113,7 @@ describe('useWeb3StatusConnected', () => {
 
   it('returns status when wallet is connected', () => {
     const mock = {
-      address: '0xdeadbeef' as `0x${string}`,
+      address: '0xdeadbeef' as Address,
       chainId: 1,
       isConnected: true,
       isConnecting: false,
