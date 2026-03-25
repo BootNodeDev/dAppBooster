@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 // env.ts reads import.meta.env at module load time.
 // Vitest loads .env.test automatically for the "test" mode,
 // so PUBLIC_APP_NAME, PUBLIC_SUBGRAPHS_*, etc. are set via .env.test.
-import { env } from './env'
+import { env } from '@/src/env'
 
 describe('env', () => {
   it('exposes PUBLIC_APP_NAME from test env', () => {
