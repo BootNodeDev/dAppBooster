@@ -1,5 +1,6 @@
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { render, screen } from '@testing-library/react'
+import type { ReactElement } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import { WalletStatusVerifier, withWalletStatusVerifier } from './WalletStatusVerifier'
 
@@ -36,7 +37,7 @@ function connectedSyncedStatus(overrides = {}) {
   }
 }
 
-function wrap(ui: React.ReactElement) {
+function wrap(ui: ReactElement) {
   return render(<ChakraProvider value={system}>{ui}</ChakraProvider>)
 }
 
