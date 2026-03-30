@@ -126,7 +126,8 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
       // fall-through
     }
 
-    const invalidValue = (min && newValue < min) || (max && newValue > max)
+    const invalidValue =
+      (min !== undefined && newValue < min) || (max !== undefined && newValue > max)
 
     if (invalidValue) {
       const _min = formatUnits(min, decimals)
