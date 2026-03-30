@@ -8,31 +8,29 @@ import type { FC, ReactElement } from 'react'
 import { useSignMessage } from 'wagmi'
 
 interface SignButtonProps extends Omit<ButtonProps, 'onError'> {
+  /** Target chain ID for wallet status verification. */
   chainId?: ChainsIds
+  /** Custom fallback when wallet needs connection. Defaults to ConnectWalletButton. */
   fallback?: ReactElement
+  /** Alternative label for the button. */
   label?: string
+  /** Button label while signing. Defaults to 'Signing...'. */
   labelSigning?: string
+  /** The message to sign. */
   message: string
+  /** Callback function called when an error occurs. */
   onError?: (error: Error) => void
+  /** Callback function called when the message is signed. */
   onSign?: (signature: string) => void
+  /** Label for the switch chain button. Defaults to 'Switch to'. */
   switchChainLabel?: string
 }
 
 /**
- * SignButton component that allows users to sign a message.
+ * Self-contained message signing button with wallet verification.
  *
- * @param {SignButtonProps} props - SignButton component props.
- * @param {string} props.message - The message to sign.
- * @param {string|ReactNode} [props.children='Sign Message'] - The content to display in the button.
- * @param {boolean} [props.disabled] - Whether the button is disabled.
- * @param {(signature: string) => void} [props.onSign] - Callback function called when the message is signed.
- * @param {(error: Error) => void} [props.onError] - Callback function called when an error occurs.
- * @param {string} [props.label='Sign Message'] - The label for the button (alternative to children).
- * @param {string} [props.labelSigning='Signing...'] - The label for the button when the message is being signed.
- * @param {ChainsIds} [props.chainId] - Target chain ID for wallet status verification.
- * @param {ReactElement} [props.fallback] - Custom fallback when wallet needs connect.
- * @param {string} [props.switchChainLabel='Switch to'] - Label for the switch chain button.
- * @param {ButtonProps} [props.restProps] - Additional props inherited from Chakra UI ButtonProps.
+ * Handles wallet connection status internally — shows a connect button if not connected,
+ * a switch chain button if on the wrong chain, or the sign button when ready.
  *
  * @example
  * ```tsx

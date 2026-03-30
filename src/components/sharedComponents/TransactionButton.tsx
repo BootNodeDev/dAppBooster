@@ -11,12 +11,19 @@ import type { Hash, TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
 interface TransactionButtonProps extends ButtonProps {
+  /** Target chain ID for wallet status verification. */
   chainId?: ChainsIds
+  /** Number of confirmations to wait for. Defaults to 1. */
   confirmations?: number
+  /** Custom fallback when wallet needs connection. Defaults to ConnectWalletButton. */
   fallback?: ReactElement
+  /** Button label during pending transaction. Defaults to 'Sending...'. */
   labelSending?: string
+  /** Callback function called when transaction is mined. */
   onMined?: (receipt: TransactionReceipt) => void
+  /** Label for the switch chain button. Defaults to 'Switch to'. */
   switchChainLabel?: string
+  /** Function that initiates the transaction and returns a hash. */
   transaction: {
     (): Promise<Hash>
     methodId?: string
@@ -24,23 +31,10 @@ interface TransactionButtonProps extends ButtonProps {
 }
 
 /**
- * TransactionButton component that handles blockchain transaction submission and monitoring.
+ * Self-contained transaction button with wallet verification, submission, and confirmation tracking.
  *
- * Integrates with writeContractSync or sendTransactionSync functions to handle transaction
- * submission and wait for confirmation. Displays transaction status and calls the onMined
- * callback when the transaction is confirmed.
- *
- * @param {TransactionButtonProps} props - TransactionButton component props.
- * @param {() => Promise<Hash>} props.transaction - Function that initiates the transaction.
- * @param {(receipt: TransactionReceipt) => void} [props.onMined] - Callback function called when transaction is mined.
- * @param {boolean} [props.disabled] - Whether the button is disabled.
- * @param {string} [props.labelSending='Sending...'] - Button label during pending transaction.
- * @param {number} [props.confirmations=1] - Number of confirmations to wait for.
- * @param {ReactNode} [props.children='Send Transaction'] - Button content.
- * @param {ChainsIds} [props.chainId] - Target chain ID for wallet status verification.
- * @param {ReactElement} [props.fallback] - Custom fallback when wallet needs connection.
- * @param {string} [props.switchChainLabel='Switch to'] - Label for the switch chain button.
- * @param {ButtonProps} props.restProps - Additional props inherited from Chakra UI ButtonProps.
+ * Handles wallet connection status internally — shows a connect button if not connected,
+ * a switch chain button if on the wrong chain, or the transaction button when ready.
  *
  * @example
  * ```tsx
