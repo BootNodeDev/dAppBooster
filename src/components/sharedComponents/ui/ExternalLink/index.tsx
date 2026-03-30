@@ -41,6 +41,7 @@ const LinkSVG: FC<HTMLAttributes<SVGElement>> = ({ ...restProps }) => (
 export const ExternalLinkButton: FC<LinkProps> = ({
   children = <LinkSVG />,
   css,
+  rel = 'noopener noreferrer',
   target = '_blank',
   ...restProps
 }: LinkProps) => {
@@ -78,6 +79,7 @@ export const ExternalLinkButton: FC<LinkProps> = ({
         cursor: 'not-allowed',
         opacity: 0.6,
       }}
+      rel={rel}
       target={target}
       {...restProps}
     >
