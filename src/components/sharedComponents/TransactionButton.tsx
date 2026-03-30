@@ -1,15 +1,22 @@
-import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
+import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainButton'
+import { useWalletStatus } from '@/src/hooks/useWalletStatus'
+import type { ChainsIds } from '@/src/lib/networks.config'
 import { useTransactionNotification } from '@/src/providers/TransactionNotificationProvider'
+import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import type { ButtonProps } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import type { ReactElement } from 'react'
 import type { Hash, TransactionReceipt } from 'viem'
 import { useWaitForTransactionReceipt } from 'wagmi'
 
 interface TransactionButtonProps extends ButtonProps {
+  chainId?: ChainsIds
   confirmations?: number
+  fallback?: ReactElement
   labelSending?: string
   onMined?: (receipt: TransactionReceipt) => void
+  switchChainLabel?: string
   transaction: {
     (): Promise<Hash>
     methodId?: string
@@ -30,6 +37,9 @@ interface TransactionButtonProps extends ButtonProps {
  * @param {string} [props.labelSending='Sending...'] - Button label during pending transaction.
  * @param {number} [props.confirmations=1] - Number of confirmations to wait for.
  * @param {ReactNode} [props.children='Send Transaction'] - Button content.
+ * @param {ChainsIds} [props.chainId] - Target chain ID for wallet status verification.
+ * @param {ReactElement} [props.fallback] - Custom fallback when wallet needs connection.
+ * @param {string} [props.switchChainLabel='Switch to'] - Label for the switch chain button.
  * @param {ButtonProps} props.restProps - Additional props inherited from Chakra UI ButtonProps.
  *
  * @example
@@ -44,60 +54,75 @@ interface TransactionButtonProps extends ButtonProps {
  * </TransactionButton>
  * ```
  */
-const TransactionButton = withWalletStatusVerifier<TransactionButtonProps>(
-  ({
-    children = 'Send Transaction',
-    confirmations = 1,
-    disabled,
-    labelSending = 'Sending...',
-    onMined,
-    transaction,
-    ...restProps
-  }) => {
-    const [hash, setHash] = useState<Hash>()
-    const [isPending, setIsPending] = useState<boolean>(false)
+function TransactionButton({
+  chainId,
+  children = 'Send Transaction',
+  confirmations = 1,
+  disabled,
+  fallback = <ConnectWalletButton />,
+  labelSending = 'Sending...',
+  onMined,
+  switchChainLabel = 'Switch to',
+  transaction,
+  ...restProps
+}: TransactionButtonProps) {
+  const { needsConnect, needsChainSwitch, targetChain, switchChain } = useWalletStatus({ chainId })
 
-    const { watchTx } = useTransactionNotification()
-    const { data: receipt } = useWaitForTransactionReceipt({
-      hash: hash,
-      confirmations,
-    })
+  const [hash, setHash] = useState<Hash>()
+  const [isPending, setIsPending] = useState<boolean>(false)
 
-    useEffect(() => {
-      const handleMined = async () => {
-        if (receipt && isPending) {
-          await onMined?.(receipt)
-          setIsPending(false)
-          setHash(undefined)
-        }
-      }
+  const { watchTx } = useTransactionNotification()
+  const { data: receipt } = useWaitForTransactionReceipt({
+    hash: hash,
+    confirmations,
+  })
 
-      handleMined()
-    }, [isPending, onMined, receipt])
-
-    const handleSendTransaction = async () => {
-      setIsPending(true)
-      try {
-        const txPromise = transaction()
-        watchTx({ txPromise, methodId: transaction.methodId })
-        const hash = await txPromise
-        setHash(hash)
-      } catch (error: unknown) {
-        console.error('Error sending transaction', error instanceof Error ? error.message : error)
+  useEffect(() => {
+    const handleMined = async () => {
+      if (receipt && isPending) {
+        await onMined?.(receipt)
         setIsPending(false)
+        setHash(undefined)
       }
     }
 
+    handleMined()
+  }, [isPending, onMined, receipt])
+
+  if (needsConnect) {
+    return fallback
+  }
+
+  if (needsChainSwitch) {
     return (
-      <PrimaryButton
-        disabled={isPending || disabled}
-        onClick={handleSendTransaction}
-        {...restProps}
-      >
-        {isPending ? labelSending : children}
-      </PrimaryButton>
+      <SwitchChainButton onClick={() => switchChain(targetChain.id as ChainsIds)}>
+        {switchChainLabel} {targetChain.name}
+      </SwitchChainButton>
     )
-  },
-)
+  }
+
+  const handleSendTransaction = async () => {
+    setIsPending(true)
+    try {
+      const txPromise = transaction()
+      watchTx({ txPromise, methodId: transaction.methodId })
+      const hash = await txPromise
+      setHash(hash)
+    } catch (error: unknown) {
+      console.error('Error sending transaction', error instanceof Error ? error.message : error)
+      setIsPending(false)
+    }
+  }
+
+  return (
+    <PrimaryButton
+      disabled={isPending || disabled}
+      onClick={handleSendTransaction}
+      {...restProps}
+    >
+      {isPending ? labelSending : children}
+    </PrimaryButton>
+  )
+}
 
 export default TransactionButton
