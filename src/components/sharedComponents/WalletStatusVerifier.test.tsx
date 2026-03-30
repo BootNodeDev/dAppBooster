@@ -1,122 +1,150 @@
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { render, screen } from '@testing-library/react'
-import type { ReactElement } from 'react'
-import { describe, expect, it, vi } from 'vitest'
-import { WalletStatusVerifier, withWalletStatusVerifier } from './WalletStatusVerifier'
+import userEvent from '@testing-library/user-event'
+import { type ReactNode, createElement } from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { WalletStatusVerifier } from './WalletStatusVerifier'
 
-const system = createSystem(defaultConfig)
+const mockSwitchChain = vi.fn()
 
-vi.mock('@/src/hooks/useWeb3Status', () => ({
-  useWeb3Status: vi.fn(),
+vi.mock('@/src/hooks/useWalletStatus', () => ({
+  useWalletStatus: vi.fn(() => ({
+    isReady: false,
+    needsConnect: true,
+    needsChainSwitch: false,
+    targetChain: { id: 1, name: 'Ethereum' },
+    switchChain: mockSwitchChain,
+  })),
 }))
 
 vi.mock('@/src/providers/Web3Provider', () => ({
-  ConnectWalletButton: () => <button type="button">Connect Wallet</button>,
+  ConnectWalletButton: () =>
+    createElement(
+      'button',
+      { type: 'button', 'data-testid': 'connect-wallet-button' },
+      'Connect Wallet',
+    ),
 }))
 
-import * as useWeb3StatusModule from '@/src/hooks/useWeb3Status'
+const { useWalletStatus } = await import('@/src/hooks/useWalletStatus')
+const mockedUseWalletStatus = vi.mocked(useWalletStatus)
 
-// chains[0] = optimismSepolia (id: 11155420) when PUBLIC_INCLUDE_TESTNETS=true (default)
-const OP_SEPOLIA_ID = 11155420 as const
+const system = createSystem(defaultConfig)
 
-function connectedSyncedStatus(overrides = {}) {
-  return {
-    isWalletConnected: true,
-    isWalletSynced: true,
-    walletChainId: OP_SEPOLIA_ID,
-    appChainId: OP_SEPOLIA_ID,
-    switchChain: vi.fn(),
-    disconnect: vi.fn(),
-    address: '0x1234567890abcdef1234567890abcdef12345678' as `0x${string}`,
-    balance: undefined,
-    connectingWallet: false,
-    switchingChain: false,
-    walletClient: undefined,
-    readOnlyClient: undefined,
-    ...overrides,
-  }
-}
-
-function wrap(ui: ReactElement) {
-  return render(<ChakraProvider value={system}>{ui}</ChakraProvider>)
-}
+const renderWithChakra = (ui: ReactNode) =>
+  render(<ChakraProvider value={system}>{ui}</ChakraProvider>)
 
 describe('WalletStatusVerifier', () => {
-  it('renders default ConnectWalletButton fallback when wallet not connected', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(
-      // biome-ignore lint/suspicious/noExplicitAny: partial mock
-      connectedSyncedStatus({ isWalletConnected: false, isWalletSynced: false }) as any,
-    )
-    wrap(
-      <WalletStatusVerifier>
-        <div>Protected Content</div>
-      </WalletStatusVerifier>,
-    )
-    expect(screen.getByText('Connect Wallet')).toBeDefined()
-    expect(screen.queryByText('Protected Content')).toBeNull()
+  beforeEach(() => {
+    vi.clearAllMocks()
   })
 
-  it('renders custom fallback when wallet not connected', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(
-      // biome-ignore lint/suspicious/noExplicitAny: partial mock
-      connectedSyncedStatus({ isWalletConnected: false, isWalletSynced: false }) as any,
+  it('renders default fallback (ConnectWalletButton) when wallet needs connect', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: true,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      switchChain: mockSwitchChain,
+    })
+
+    renderWithChakra(
+      createElement(
+        WalletStatusVerifier,
+        null,
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
     )
-    wrap(
-      <WalletStatusVerifier fallback={<div>Custom Fallback</div>}>
-        <div>Protected Content</div>
-      </WalletStatusVerifier>,
-    )
-    expect(screen.getByText('Custom Fallback')).toBeDefined()
+
+    expect(screen.getByTestId('connect-wallet-button')).toBeInTheDocument()
+    expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 
-  it('renders switch chain button when wallet is on wrong chain', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(
-      // biome-ignore lint/suspicious/noExplicitAny: partial mock
-      connectedSyncedStatus({ isWalletSynced: false, walletChainId: 1 }) as any,
+  it('renders custom fallback when provided and wallet needs connect', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: true,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      switchChain: mockSwitchChain,
+    })
+
+    renderWithChakra(
+      createElement(
+        WalletStatusVerifier,
+        { fallback: createElement('div', { 'data-testid': 'custom-fallback' }, 'Custom') },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
     )
-    wrap(
-      <WalletStatusVerifier>
-        <div>Protected Content</div>
-      </WalletStatusVerifier>,
-    )
-    expect(screen.getByRole('button').textContent?.toLowerCase()).toContain('switch to')
-    expect(screen.queryByText('Protected Content')).toBeNull()
+
+    expect(screen.getByTestId('custom-fallback')).toBeInTheDocument()
+    expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 
-  it('renders children when wallet is connected and synced', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(
-      // biome-ignore lint/suspicious/noExplicitAny: partial mock
-      connectedSyncedStatus() as any,
-    )
-    wrap(
-      <WalletStatusVerifier>
-        <div>Protected Content</div>
-      </WalletStatusVerifier>,
-    )
-    expect(screen.getByText('Protected Content')).toBeDefined()
-  })
-})
+  it('renders switch chain button when wallet needs chain switch', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: false,
+      needsChainSwitch: true,
+      targetChain: { id: 10, name: 'OP Mainnet' } as ReturnType<
+        typeof useWalletStatus
+      >['targetChain'],
+      switchChain: mockSwitchChain,
+    })
 
-describe('withWalletStatusVerifier HOC', () => {
-  const ProtectedComponent = () => <div>Protected Component</div>
-  const Wrapped = withWalletStatusVerifier(ProtectedComponent)
-
-  it('renders fallback when wallet not connected', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(
-      // biome-ignore lint/suspicious/noExplicitAny: partial mock
-      connectedSyncedStatus({ isWalletConnected: false, isWalletSynced: false }) as any,
+    renderWithChakra(
+      createElement(
+        WalletStatusVerifier,
+        null,
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
     )
-    wrap(<Wrapped />)
-    expect(screen.getByText('Connect Wallet')).toBeDefined()
-    expect(screen.queryByText('Protected Component')).toBeNull()
+
+    expect(screen.getByText(/Switch to/)).toBeInTheDocument()
+    expect(screen.getByText(/OP Mainnet/)).toBeInTheDocument()
+    expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 
-  it('renders wrapped component when wallet is connected and synced', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(
-      // biome-ignore lint/suspicious/noExplicitAny: partial mock
-      connectedSyncedStatus() as any,
+  it('renders children when wallet is ready', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: true,
+      needsConnect: false,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      switchChain: mockSwitchChain,
+    })
+
+    renderWithChakra(
+      createElement(
+        WalletStatusVerifier,
+        null,
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
     )
-    wrap(<Wrapped />)
-    expect(screen.getByText('Protected Component')).toBeDefined()
+
+    expect(screen.getByTestId('protected-content')).toBeInTheDocument()
+  })
+
+  it('calls switchChain when switch button is clicked', async () => {
+    const user = userEvent.setup()
+
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: false,
+      needsChainSwitch: true,
+      targetChain: { id: 10, name: 'OP Mainnet' } as ReturnType<
+        typeof useWalletStatus
+      >['targetChain'],
+      switchChain: mockSwitchChain,
+    })
+
+    renderWithChakra(
+      createElement(WalletStatusVerifier, null, createElement('div', null, 'Protected')),
+    )
+
+    const switchButton = screen.getByText(/Switch to/)
+    await user.click(switchButton)
+
+    expect(mockSwitchChain).toHaveBeenCalledWith(10)
   })
 })
