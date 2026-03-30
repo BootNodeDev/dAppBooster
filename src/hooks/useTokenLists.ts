@@ -63,8 +63,8 @@ export const useTokenLists = (): TokensMap => {
     queries: tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
       queryKey: ['tokens-list', url],
       queryFn: () => fetchTokenList(url),
-      staleTime: Number.POSITIVE_INFINITY,
-      gcTime: Number.POSITIVE_INFINITY,
+      staleTime: 60 * 60 * 1000,
+      gcTime: 60 * 60 * 1000,
     })),
     combine: combineTokenLists,
   })
@@ -145,26 +145,48 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
   return tokensMap
 }
 
+const emptyTokenList: TokenList = {
+  name: '',
+  timestamp: '',
+  version: { major: 0, minor: 0, patch: 0 },
+  tokens: [],
+}
+
 /**
- * A wrapper around fetch, to return the parsed JSON or throw an error if something goes wrong
+ * Fetches a token list from a URL. Returns an empty token list on failure
+ * instead of throwing, so one broken source doesn't block the entire app.
  *
- * @param url - a link to a list of tokens or 'default' to use the list added as a dependency to the project
- * @returns {Promise<TokenList>} a token list
+ * @param url - a link to a list of tokens or 'default' to use the bundled list
+ * @returns a token list (empty on failure)
  */
-async function fetchTokenList(url: string): Promise<TokenList> {
+export async function fetchTokenList(url: string): Promise<TokenList> {
   if (url === 'default') {
     return defaultTokens as TokenList
   }
 
-  const result = await fetch(url)
+  try {
+    const result = await fetch(url)
 
-  if (!result.ok) {
-    throw new Error(
-      `Something went wrong. HTTP status code: ${result.status}. Status Message: ${result.statusText}`,
+    if (!result.ok) {
+      console.warn(`Token list fetch failed for ${url}: HTTP ${result.status} ${result.statusText}`)
+      return emptyTokenList
+    }
+
+    const data = await result.json()
+
+    if (!data || typeof data !== 'object' || !Array.isArray(data.tokens)) {
+      console.warn(`Token list fetch for ${url} returned invalid schema; expected a tokens array.`)
+      return emptyTokenList
+    }
+
+    return data as TokenList
+  } catch (error) {
+    console.warn(
+      `Token list fetch failed for ${url}:`,
+      error instanceof Error ? error.message : error,
     )
+    return emptyTokenList
   }
-
-  return result.json()
 }
 
 /**

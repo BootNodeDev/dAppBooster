@@ -36,7 +36,10 @@ vi.mock('@tanstack/react-query', async (importActual) => {
 })
 
 import * as tanstackQuery from '@tanstack/react-query'
-import { useTokenLists } from './useTokenLists'
+import { fetchTokenList, useTokenLists } from './useTokenLists'
+
+const mockFetch = vi.fn()
+vi.stubGlobal('fetch', mockFetch)
 
 const mockToken1: Token = {
   address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
@@ -70,6 +73,87 @@ beforeEach(() => {
   vi.mocked(updateTokenListsCache).mockImplementation((map) => {
     tokenListsCache.tokens = map.tokens
     tokenListsCache.tokensByChainId = map.tokensByChainId
+  })
+})
+
+describe('fetchTokenList', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('returns empty token list on HTTP error', async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 504,
+      statusText: 'Gateway Timeout',
+    })
+
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toEqual([])
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Token list fetch failed'))
+    warnSpy.mockRestore()
+  })
+
+  it('returns empty token list on network error', async () => {
+    mockFetch.mockRejectedValue(new Error('Network error'))
+
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toEqual([])
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Token list fetch failed'),
+      'Network error',
+    )
+    warnSpy.mockRestore()
+  })
+
+  it('returns empty token list on invalid JSON schema', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ error: 'not a token list' }),
+    })
+
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toEqual([])
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('invalid schema'))
+    warnSpy.mockRestore()
+  })
+
+  it('returns token list on valid response', async () => {
+    const validTokenList = {
+      name: 'Test',
+      timestamp: '2026-01-01',
+      version: { major: 1, minor: 0, patch: 0 },
+      tokens: [{ symbol: 'ETH', name: 'Ether', address: '0x0', chainId: 1, decimals: 18 }],
+    }
+
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(validTokenList),
+    })
+
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toHaveLength(1)
+    expect(result.tokens[0].symbol).toBe('ETH')
+  })
+
+  it('returns empty token list when tokens field is not an array', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ tokens: 'not an array' }),
+    })
+
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toEqual([])
+    warnSpy.mockRestore()
   })
 })
 
