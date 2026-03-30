@@ -1,0 +1,130 @@
+import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
+import { render, screen } from '@testing-library/react'
+import type { ReactNode } from 'react'
+import { createElement } from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+
+const mockSwitchChain = vi.fn()
+const mockSignMessageAsync = vi.fn()
+const mockWatchSignature = vi.fn()
+
+vi.mock('@/src/hooks/useWalletStatus', () => ({
+  useWalletStatus: vi.fn(() => ({
+    isReady: false,
+    needsConnect: true,
+    needsChainSwitch: false,
+    targetChain: { id: 1, name: 'Ethereum' },
+    switchChain: mockSwitchChain,
+  })),
+}))
+
+vi.mock('@/src/providers/Web3Provider', () => ({
+  ConnectWalletButton: () =>
+    createElement(
+      'button',
+      { type: 'button', 'data-testid': 'connect-wallet-button' },
+      'Connect Wallet',
+    ),
+}))
+
+vi.mock('@/src/providers/TransactionNotificationProvider', () => ({
+  useTransactionNotification: vi.fn(() => ({
+    watchSignature: mockWatchSignature,
+  })),
+}))
+
+vi.mock('wagmi', () => ({
+  useSignMessage: vi.fn(() => ({
+    isPending: false,
+    signMessageAsync: mockSignMessageAsync,
+  })),
+}))
+
+const { useWalletStatus } = await import('@/src/hooks/useWalletStatus')
+const mockedUseWalletStatus = vi.mocked(useWalletStatus)
+
+const system = createSystem(defaultConfig)
+
+const renderWithChakra = (ui: ReactNode) =>
+  render(<ChakraProvider value={system}>{ui}</ChakraProvider>)
+
+describe('SignButton', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('renders connect button when wallet needs connect', async () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: true,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      switchChain: mockSwitchChain,
+    })
+
+    const { default: SignButton } = await import('./SignButton')
+
+    renderWithChakra(<SignButton message="Hello" />)
+
+    expect(screen.getByTestId('connect-wallet-button')).toBeInTheDocument()
+    expect(screen.queryByText('Sign Message')).toBeNull()
+  })
+
+  it('renders custom fallback when provided and wallet needs connect', async () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: true,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      switchChain: mockSwitchChain,
+    })
+
+    const { default: SignButton } = await import('./SignButton')
+
+    renderWithChakra(
+      <SignButton
+        message="Hello"
+        fallback={createElement('div', { 'data-testid': 'custom-fallback' }, 'Custom')}
+      />,
+    )
+
+    expect(screen.getByTestId('custom-fallback')).toBeInTheDocument()
+    expect(screen.queryByText('Sign Message')).toBeNull()
+  })
+
+  it('renders switch chain button when wallet needs chain switch', async () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: false,
+      needsChainSwitch: true,
+      targetChain: { id: 10, name: 'OP Mainnet' } as ReturnType<
+        typeof useWalletStatus
+      >['targetChain'],
+      switchChain: mockSwitchChain,
+    })
+
+    const { default: SignButton } = await import('./SignButton')
+
+    renderWithChakra(<SignButton message="Hello" />)
+
+    expect(screen.getByText(/Switch to/)).toBeInTheDocument()
+    expect(screen.getByText(/OP Mainnet/)).toBeInTheDocument()
+    expect(screen.queryByText('Sign Message')).toBeNull()
+  })
+
+  it('renders sign button when wallet is ready', async () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: true,
+      needsConnect: false,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      switchChain: mockSwitchChain,
+    })
+
+    const { default: SignButton } = await import('./SignButton')
+
+    renderWithChakra(<SignButton message="Hello" />)
+
+    expect(screen.getByText('Sign Message')).toBeInTheDocument()
+  })
+})
