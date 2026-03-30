@@ -2,7 +2,7 @@ import Icon from '@/src/components/pageComponents/home/Examples/demos/OptimismCr
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import Hash from '@/src/components/sharedComponents/Hash'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
-import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { getContract } from '@/src/constants/contracts/contracts'
 import { useL1CrossDomainMessengerProxy } from '@/src/hooks/useOPL1CrossDomainMessengerProxy'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
@@ -15,27 +15,27 @@ import { parseEther } from 'viem'
 import { optimismSepolia, sepolia } from 'viem/chains'
 import { extractTransactionDepositedLogs, getL2TransactionHash } from 'viem/op-stack'
 
-const OptimismCrossDomainMessenger = withWalletStatusVerifier(
-  withSuspenseAndRetry(() => {
-    // https://sepolia-optimism.etherscan.io/address/0xb50201558b00496a145fe76f7424749556e326d8
-    const AAVEProxy = '0xb50201558b00496a145fe76f7424749556e326d8'
-    const { address: walletAddress, readOnlyClient } = useWeb3StatusConnected()
+const OptimismCrossDomainMessenger = withSuspenseAndRetry(() => {
+  // https://sepolia-optimism.etherscan.io/address/0xb50201558b00496a145fe76f7424749556e326d8
+  const AAVEProxy = '0xb50201558b00496a145fe76f7424749556e326d8'
+  const { address: walletAddress, readOnlyClient } = useWeb3StatusConnected()
 
-    const contract = getContract('AAVEWeth', optimismSepolia.id)
-    const depositValue = parseEther('0.01')
+  const contract = getContract('AAVEWeth', optimismSepolia.id)
+  const depositValue = parseEther('0.01')
 
-    const [l2Hash, setL2Hash] = useState<Address | null>(null)
+  const [l2Hash, setL2Hash] = useState<Address | null>(null)
 
-    const sendCrossChainMessage = useL1CrossDomainMessengerProxy({
-      fromChain: sepolia,
-      contractName: 'AAVEWeth',
-      functionName: 'depositETH',
-      l2ContractAddress: contract.address,
-      args: [AAVEProxy, walletAddress, 0],
-      value: depositValue,
-    })
+  const sendCrossChainMessage = useL1CrossDomainMessengerProxy({
+    fromChain: sepolia,
+    contractName: 'AAVEWeth',
+    functionName: 'depositETH',
+    l2ContractAddress: contract.address,
+    args: [AAVEProxy, walletAddress, 0],
+    value: depositValue,
+  })
 
-    return (
+  return (
+    <WalletStatusVerifier chainId={sepolia.id}>
       <Wrapper title="Execute transaction">
         <p>
           Deposit <b>0.01</b> ETH in{' '}
@@ -76,10 +76,9 @@ const OptimismCrossDomainMessenger = withWalletStatusVerifier(
           </Flex>
         )}
       </Wrapper>
-    )
-  }),
-  { chainId: sepolia.id },
-)
+    </WalletStatusVerifier>
+  )
+})
 
 const optimismCrossdomainMessenger = {
   demo: <OptimismCrossDomainMessenger />,

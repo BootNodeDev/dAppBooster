@@ -1,7 +1,7 @@
 import BaseERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/ERC20ApproveAndTransferButton'
 import MintUSDC from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/MintUSDC'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
-import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { useSuspenseReadErc20BalanceOf } from '@/src/hooks/generated'
 import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import type { Token } from '@/src/types/token'
@@ -57,59 +57,56 @@ const ABIExample = [
  *
  * Works only on Sepolia chain.
  */
-const ERC20ApproveAndTransferButton = withWalletStatusVerifier(
-  withSuspense(() => {
-    const { address } = useWeb3StatusConnected()
-    const { writeContractAsync } = useWriteContract()
+const ERC20ApproveAndTransferButton = withSuspense(() => {
+  const { address } = useWeb3StatusConnected()
+  const { writeContractAsync } = useWriteContract()
 
-    const { data: balance, refetch: refetchBalance } = useSuspenseReadErc20BalanceOf({
-      address: tokenUSDC_sepolia.address as Address,
-      args: [address],
+  const { data: balance, refetch: refetchBalance } = useSuspenseReadErc20BalanceOf({
+    address: tokenUSDC_sepolia.address as Address,
+    args: [address],
+  })
+
+  // AAVE staging contract pool address
+  const spender = '0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951'
+
+  const amount = 10000000000n // 10,000.00 USDC
+
+  const handleTransaction = () =>
+    writeContractAsync({
+      abi: ABIExample,
+      address: spender,
+      functionName: 'supply',
+      args: [tokenUSDC_sepolia.address as Address, amount, address, 0],
     })
+  handleTransaction.methodId = 'Supply USDC'
 
-    // AAVE staging contract pool address
-    const spender = '0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951'
+  const formattedAmount = formatNumberOrString(
+    formatUnits(amount, tokenUSDC_sepolia.decimals),
+    NumberType.TokenTx,
+  )
 
-    const amount = 10000000000n // 10,000.00 USDC
-
-    const handleTransaction = () =>
-      writeContractAsync({
-        abi: ABIExample,
-        address: spender,
-        functionName: 'supply',
-        args: [tokenUSDC_sepolia.address as Address, amount, address, 0],
-      })
-    handleTransaction.methodId = 'Supply USDC'
-
-    const formattedAmount = formatNumberOrString(
-      formatUnits(amount, tokenUSDC_sepolia.decimals),
-      NumberType.TokenTx,
-    )
-
-    return (
-      <>
-        {balance < amount ? (
-          <Wrapper
-            text={'Get Sepolia USDC from Aave faucet'}
-            title={'Mint USDC'}
-          >
-            <MintUSDC onSuccess={refetchBalance} />
-          </Wrapper>
-        ) : (
-          <BaseERC20ApproveAndTransferButton
-            amount={amount}
-            label={`Supply ${formattedAmount} USDC`}
-            labelSending="Sending..."
-            onSuccess={() => refetchBalance}
-            spender={spender}
-            token={tokenUSDC_sepolia}
-            transaction={handleTransaction}
-          />
-        )}
-      </>
-    )
-  }),
-  { chainId: sepolia.id }, // this DEMO component only works on sepolia chain
-)
+  return (
+    <WalletStatusVerifier chainId={sepolia.id}>
+      {balance < amount ? (
+        <Wrapper
+          text={'Get Sepolia USDC from Aave faucet'}
+          title={'Mint USDC'}
+        >
+          <MintUSDC onSuccess={refetchBalance} />
+        </Wrapper>
+      ) : (
+        <BaseERC20ApproveAndTransferButton
+          amount={amount}
+          label={`Supply ${formattedAmount} USDC`}
+          labelSending="Sending..."
+          onSuccess={() => refetchBalance}
+          spender={spender}
+          token={tokenUSDC_sepolia}
+          transaction={handleTransaction}
+        />
+      )}
+    </WalletStatusVerifier>
+  )
+})
 
 export default ERC20ApproveAndTransferButton
