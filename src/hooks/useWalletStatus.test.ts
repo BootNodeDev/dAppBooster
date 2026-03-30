@@ -93,6 +93,7 @@ describe('useWalletStatus', () => {
     expect(result.current.needsChainSwitch).toBe(true)
     expect(result.current.isReady).toBe(false)
     expect(result.current.targetChain).toEqual({ id: 1, name: 'Ethereum' })
+    expect(result.current.targetChainId).toBe(1)
   })
 
   it('returns isReady when connected and on correct chain', () => {
@@ -125,6 +126,7 @@ describe('useWalletStatus', () => {
     expect(result.current.needsChainSwitch).toBe(true)
     expect(result.current.isReady).toBe(false)
     expect(result.current.targetChain).toEqual({ id: 10, name: 'OP Mainnet' })
+    expect(result.current.targetChainId).toBe(10)
   })
 
   it('falls back to chains[0].id when no chainId or appChainId', () => {

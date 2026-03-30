@@ -29,7 +29,8 @@ const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
   fallback = <ConnectWalletButton />,
   labelSwitchChain = 'Switch to',
 }: WalletStatusVerifierProps) => {
-  const { needsConnect, needsChainSwitch, targetChain, switchChain } = useWalletStatus({ chainId })
+  const { needsConnect, needsChainSwitch, targetChain, targetChainId, switchChain } =
+    useWalletStatus({ chainId })
 
   if (needsConnect) {
     return fallback
@@ -37,7 +38,7 @@ const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
 
   if (needsChainSwitch) {
     return (
-      <SwitchChainButton onClick={() => switchChain(targetChain.id as ChainsIds)}>
+      <SwitchChainButton onClick={() => switchChain(targetChainId)}>
         {labelSwitchChain} {targetChain.name}
       </SwitchChainButton>
     )

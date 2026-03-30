@@ -99,7 +99,7 @@ const ERC20ApproveAndTransferButton = withSuspense(() => {
           amount={amount}
           label={`Supply ${formattedAmount} USDC`}
           labelSending="Sending..."
-          onSuccess={() => refetchBalance}
+          onSuccess={() => refetchBalance()}
           spender={spender}
           token={tokenUSDC_sepolia}
           transaction={handleTransaction}

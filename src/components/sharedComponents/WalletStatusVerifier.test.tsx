@@ -13,6 +13,7 @@ vi.mock('@/src/hooks/useWalletStatus', () => ({
     needsConnect: true,
     needsChainSwitch: false,
     targetChain: { id: 1, name: 'Ethereum' },
+    targetChainId: 1,
     switchChain: mockSwitchChain,
   })),
 }))
@@ -45,6 +46,7 @@ describe('WalletStatusVerifier', () => {
       needsConnect: true,
       needsChainSwitch: false,
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      targetChainId: 1,
       switchChain: mockSwitchChain,
     })
 
@@ -66,6 +68,7 @@ describe('WalletStatusVerifier', () => {
       needsConnect: true,
       needsChainSwitch: false,
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      targetChainId: 1,
       switchChain: mockSwitchChain,
     })
 
@@ -89,6 +92,7 @@ describe('WalletStatusVerifier', () => {
       targetChain: { id: 10, name: 'OP Mainnet' } as ReturnType<
         typeof useWalletStatus
       >['targetChain'],
+      targetChainId: 10,
       switchChain: mockSwitchChain,
     })
 
@@ -111,6 +115,7 @@ describe('WalletStatusVerifier', () => {
       needsConnect: false,
       needsChainSwitch: false,
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      targetChainId: 1,
       switchChain: mockSwitchChain,
     })
 
@@ -135,6 +140,7 @@ describe('WalletStatusVerifier', () => {
       targetChain: { id: 10, name: 'OP Mainnet' } as ReturnType<
         typeof useWalletStatus
       >['targetChain'],
+      targetChainId: 10,
       switchChain: mockSwitchChain,
     })
 

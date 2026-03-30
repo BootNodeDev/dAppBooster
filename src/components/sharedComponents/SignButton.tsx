@@ -53,7 +53,8 @@ const SignButton: FC<SignButtonProps> = ({
   switchChainLabel = 'Switch to',
   ...restProps
 }) => {
-  const { needsConnect, needsChainSwitch, targetChain, switchChain } = useWalletStatus({ chainId })
+  const { needsConnect, needsChainSwitch, targetChain, targetChainId, switchChain } =
+    useWalletStatus({ chainId })
   const { watchSignature } = useTransactionNotification()
 
   const { isPending, signMessageAsync } = useSignMessage({
@@ -73,7 +74,7 @@ const SignButton: FC<SignButtonProps> = ({
 
   if (needsChainSwitch) {
     return (
-      <SwitchChainButton onClick={() => switchChain(targetChain.id as ChainsIds)}>
+      <SwitchChainButton onClick={() => switchChain(targetChainId)}>
         {switchChainLabel} {targetChain.name}
       </SwitchChainButton>
     )

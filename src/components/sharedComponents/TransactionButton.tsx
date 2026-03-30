@@ -60,7 +60,8 @@ function TransactionButton({
   transaction,
   ...restProps
 }: TransactionButtonProps) {
-  const { needsConnect, needsChainSwitch, targetChain, switchChain } = useWalletStatus({ chainId })
+  const { needsConnect, needsChainSwitch, targetChain, targetChainId, switchChain } =
+    useWalletStatus({ chainId })
 
   const [hash, setHash] = useState<Hash>()
   const [isPending, setIsPending] = useState<boolean>(false)
@@ -89,7 +90,7 @@ function TransactionButton({
 
   if (needsChainSwitch) {
     return (
-      <SwitchChainButton onClick={() => switchChain(targetChain.id as ChainsIds)}>
+      <SwitchChainButton onClick={() => switchChain(targetChainId)}>
         {switchChainLabel} {targetChain.name}
       </SwitchChainButton>
     )
