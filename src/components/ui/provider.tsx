@@ -57,23 +57,23 @@ export function Provider(props: ColorModeProviderProps) {
             default: {
               value: {
                 _light: '#800',
-                _dark: '#800',
+                _dark: '#ff6666',
               },
             },
           },
           ok: {
             default: {
               value: {
-                _light: '#080',
-                _dark: '#080',
+                _light: '#006600',
+                _dark: '#66ee66',
               },
             },
           },
           warning: {
             default: {
               value: {
-                _light: '#cc0',
-                _dark: '#cc0',
+                _light: '#996600',
+                _dark: '#e6b800',
               },
             },
           },

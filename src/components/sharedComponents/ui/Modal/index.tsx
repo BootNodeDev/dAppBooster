@@ -84,7 +84,12 @@ export const Modal: FC<Props> = ({ css, children, title, onClose, text, ...restP
       >
         {title}
       </Heading>
-      {onClose && <CloseButton onClick={() => onClose()} />}
+      {onClose && (
+        <CloseButton
+          aria-label="Close"
+          onClick={() => onClose()}
+        />
+      )}
       {children ? children : 'No contents'}
       <Text
         borderRadius="md"

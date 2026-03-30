@@ -61,7 +61,12 @@ const Hash: FC<HashProps> = ({
           aria-label="Copy"
         />
       )}
-      {explorerURL && <ExternalLink href={explorerURL} />}
+      {explorerURL && (
+        <ExternalLink
+          aria-label="View on explorer"
+          href={explorerURL}
+        />
+      )}
     </Flex>
   )
 }
