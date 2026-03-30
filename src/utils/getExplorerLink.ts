@@ -19,6 +19,7 @@ export type GetExplorerUrlParams = {
  * @param {string} [params.explorerUrl] - Optional custom explorer URL to override the chain's default explorer
  *
  * @throws {Error} Throws an error if the provided hash or address is invalid
+ * @throws {Error} Throws an error if no explorer URL is available (neither `explorerUrl` nor `chain.blockExplorers`)
  *
  * @returns {string} The complete explorer URL for the given hash or address
  *
@@ -43,15 +44,17 @@ export type GetExplorerUrlParams = {
  * ```
  */
 export const getExplorerLink = ({ chain, explorerUrl, hashOrAddress }: GetExplorerUrlParams) => {
+  const baseUrl = explorerUrl ?? chain.blockExplorers?.default.url
+
+  if (!baseUrl) {
+    throw new Error('No block explorer URL available for this chain')
+  }
+
   if (isAddress(hashOrAddress)) {
-    return explorerUrl
-      ? `${explorerUrl}/address/${hashOrAddress}`
-      : `${chain.blockExplorers?.default.url}/address/${hashOrAddress}`
+    return `${baseUrl}/address/${hashOrAddress}`
   }
   if (isHash(hashOrAddress)) {
-    return explorerUrl
-      ? `${explorerUrl}/tx/${hashOrAddress}`
-      : `${chain.blockExplorers?.default.url}/tx/${hashOrAddress}`
+    return `${baseUrl}/tx/${hashOrAddress}`
   }
 
   throw new Error('Invalid hash or address')

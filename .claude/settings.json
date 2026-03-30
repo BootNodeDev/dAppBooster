@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.dappbooster.dev)",
+      "WebFetch(domain:components.dappbooster.dev)"
+    ]
+  }
+}

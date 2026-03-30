@@ -6,6 +6,7 @@ import {
   type RefObject,
   useEffect,
   useRef,
+  useState,
 } from 'react'
 import { formatUnits, maxUint256, parseUnits } from 'viem'
 export type RenderInputProps = Omit<InputProps, 'onChange'> & {
@@ -66,6 +67,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   value,
 }: BigNumberInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
+  const [hasError, setHasError] = useState(false)
 
   // update inputValue when value changes
   useEffect(() => {
@@ -73,7 +75,15 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     if (!current) {
       return
     }
-    const currentInputValue = parseUnits(current.value.replace(/,/g, '') || '0', decimals)
+    // The input may contain an intermediate/unparseable string while the user is
+    // typing; guard against a parseUnits throw so an external value update never
+    // crashes the effect.
+    let currentInputValue: bigint
+    try {
+      currentInputValue = parseUnits(current.value.replace(/,/g, '') || '0', decimals)
+    } catch {
+      currentInputValue = BigInt(-1) // sentinel: force the DOM value to be overwritten
+    }
 
     if (currentInputValue !== value) {
       current.value = formatUnits(value, decimals)
@@ -91,6 +101,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     const { value } = typeof event === 'string' ? { value: event } : event.currentTarget
 
     if (value === '') {
+      setHasError(false)
       onChange(BigInt(0))
       return
     }
@@ -115,7 +126,8 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
       // fall-through
     }
 
-    const invalidValue = (min && newValue < min) || (max && newValue > max)
+    const invalidValue =
+      (min !== undefined && newValue < min) || (max !== undefined && newValue > max)
 
     if (invalidValue) {
       const _min = formatUnits(min, decimals)
@@ -125,12 +137,16 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
       }] and value is: ${value}`
       console.warn(message)
       onError?.({ value, message })
+      setHasError(true)
+    } else {
+      setHasError(false)
     }
 
     onChange(newValue)
   }
 
   const inputProps = {
+    'aria-invalid': (hasError || undefined) as true | undefined,
     disabled,
     onChange: updateValue,
     placeholder,

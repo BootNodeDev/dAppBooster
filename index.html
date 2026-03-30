@@ -31,6 +31,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
   <meta name="apple-mobile-web-app-title" content="dAppBooster" />
   <link crossorigin="use-credentials" href="/favicon/site.webmanifest" rel="manifest" />
+  <!-- DNS prefetch for blockchain RPC endpoints -->
+  <link rel="dns-prefetch" href="https://eth.llamarpc.com" />
+  <link rel="dns-prefetch" href="https://cloudflare-eth.com" />
+  <link rel="dns-prefetch" href="https://gateway.tenderly.co" />
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -42,6 +46,27 @@
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "BootNode",
+        "url": "https://bootnode.dev",
+        "sameAs": ["https://twitter.com/bootnodedev"]
+      },
+      {
+        "@type": "WebApplication",
+        "name": "dAppBooster",
+        "url": "https://demo.dappbooster.dev/",
+        "description": "A modern blockchain boilerplate built to quickly get you started with the development of your next Web3 project.",
+        "applicationCategory": "DeveloperApplication",
+        "operatingSystem": "Web"
+      }
+    ]
+  }
+  </script>
 </body>
 
 </html>

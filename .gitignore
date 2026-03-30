@@ -22,6 +22,10 @@ src/subgraphs/gql
 src/hooks/generated.ts
 vite.config.ts.timestamp*
 
+# Claude Code
+.claude/settings.local.json
+CLAUDE.local.md
+
 # Project .env files
 .env.local
 .env
@@ -39,3 +43,4 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
+.worktrees
