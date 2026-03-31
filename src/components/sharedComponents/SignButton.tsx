@@ -12,8 +12,6 @@ interface SignButtonProps extends Omit<ButtonProps, 'onError'> {
   chainId?: ChainsIds
   /** Custom fallback when wallet needs connection. Defaults to ConnectWalletButton. */
   fallback?: ReactElement
-  /** Alternative label for the button. */
-  label?: string
   /** Button label while signing. Defaults to 'Signing...'. */
   labelSigning?: string
   /** The message to sign. */
