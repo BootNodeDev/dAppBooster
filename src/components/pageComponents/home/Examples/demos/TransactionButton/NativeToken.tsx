@@ -1,13 +1,11 @@
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
-import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
 import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
-import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { Dialog } from '@chakra-ui/react'
 import { type ReactElement, useState } from 'react'
 import { type Hash, type TransactionReceipt, parseEther } from 'viem'
-import { sepolia } from 'viem/chains'
 import { useSendTransaction } from 'wagmi'
 
 /**
@@ -40,44 +38,42 @@ const NativeToken = () => {
   handleSendTransaction.methodId = 'sendTransaction'
 
   return (
-    <WalletStatusVerifier chainId={sepolia.id}>
-      <Dialog.Root
-        open={isModalOpen}
-        size="xs"
+    <Dialog.Root
+      open={isModalOpen}
+      size="xs"
+    >
+      <Wrapper
+        text="Demo transaction that sends 0.1 Sepolia ETH from / to your wallet."
+        title="Native token demo"
       >
-        <Wrapper
-          text="Demo transaction that sends 0.1 Sepolia ETH from / to your wallet."
-          title="Native token demo"
+        <TransactionButton
+          labelSending="Sending 0.1 ETH..."
+          onMined={handleOnMined}
+          transaction={handleSendTransaction}
         >
-          <TransactionButton
-            labelSending="Sending 0.1 ETH..."
-            onMined={handleOnMined}
-            transaction={handleSendTransaction}
-          >
-            Send 0.1 Sepolia ETH
-          </TransactionButton>
-        </Wrapper>
-        <Dialog.Backdrop />
-        <Dialog.Positioner>
-          <Dialog.Content>
-            <GeneralMessage
-              actionButton={
-                <PrimaryButton
-                  onClick={() => {
-                    setIsModalOpen(false)
-                    setMinedMessage('')
-                  }}
-                >
-                  Close
-                </PrimaryButton>
-              }
-              message={minedMessage}
-              title={'Transaction completed!'}
-            />
-          </Dialog.Content>
-        </Dialog.Positioner>
-      </Dialog.Root>
-    </WalletStatusVerifier>
+          Send 0.1 Sepolia ETH
+        </TransactionButton>
+      </Wrapper>
+      <Dialog.Backdrop />
+      <Dialog.Positioner>
+        <Dialog.Content>
+          <GeneralMessage
+            actionButton={
+              <PrimaryButton
+                onClick={() => {
+                  setIsModalOpen(false)
+                  setMinedMessage('')
+                }}
+              >
+                Close
+              </PrimaryButton>
+            }
+            message={minedMessage}
+            title={'Transaction completed!'}
+          />
+        </Dialog.Content>
+      </Dialog.Positioner>
+    </Dialog.Root>
   )
 }
 

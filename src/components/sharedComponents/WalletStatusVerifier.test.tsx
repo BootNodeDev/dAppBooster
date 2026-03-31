@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { type ReactNode, createElement } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { WalletStatusVerifier } from './WalletStatusVerifier'
+import { WalletStatusVerifier, useWeb3StatusConnected } from './WalletStatusVerifier'
 
 const mockSwitchChain = vi.fn()
 
@@ -15,6 +15,23 @@ vi.mock('@/src/hooks/useWalletStatus', () => ({
     targetChain: { id: 1, name: 'Ethereum' },
     targetChainId: 1,
     switchChain: mockSwitchChain,
+  })),
+}))
+
+vi.mock('@/src/hooks/useWeb3Status', () => ({
+  useWeb3Status: vi.fn(() => ({
+    readOnlyClient: {},
+    appChainId: 1,
+    address: '0xdeadbeef',
+    balance: undefined,
+    connectingWallet: false,
+    switchingChain: false,
+    isWalletConnected: true,
+    walletClient: undefined,
+    isWalletSynced: true,
+    walletChainId: 1,
+    switchChain: vi.fn(),
+    disconnect: vi.fn(),
   })),
 }))
 
@@ -152,5 +169,25 @@ describe('WalletStatusVerifier', () => {
     await user.click(switchButton)
 
     expect(mockSwitchChain).toHaveBeenCalledWith(10)
+  })
+
+  it('provides web3 status context to children when wallet is ready', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: true,
+      needsConnect: false,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      targetChainId: 1,
+      switchChain: mockSwitchChain,
+    })
+
+    const ChildComponent = () => {
+      const { address } = useWeb3StatusConnected()
+      return createElement('div', { 'data-testid': 'address' }, address)
+    }
+
+    renderWithChakra(createElement(WalletStatusVerifier, null, createElement(ChildComponent)))
+
+    expect(screen.getByTestId('address')).toHaveTextContent('0xdeadbeef')
   })
 })

@@ -1,9 +1,8 @@
 import BaseERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/ERC20ApproveAndTransferButton'
 import MintUSDC from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/MintUSDC'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
-import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { useSuspenseReadErc20BalanceOf } from '@/src/hooks/generated'
-import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import type { Token } from '@/src/types/token'
 import { NumberType, formatNumberOrString } from '@/src/utils/numberFormat'
 import { withSuspense } from '@/src/utils/suspenseWrapper'
@@ -85,27 +84,23 @@ const ERC20ApproveAndTransferButton = withSuspense(() => {
     NumberType.TokenTx,
   )
 
-  return (
-    <WalletStatusVerifier chainId={sepolia.id}>
-      {balance < amount ? (
-        <Wrapper
-          text={'Get Sepolia USDC from Aave faucet'}
-          title={'Mint USDC'}
-        >
-          <MintUSDC onSuccess={refetchBalance} />
-        </Wrapper>
-      ) : (
-        <BaseERC20ApproveAndTransferButton
-          amount={amount}
-          label={`Supply ${formattedAmount} USDC`}
-          labelSending="Sending..."
-          onSuccess={() => refetchBalance()}
-          spender={spender}
-          token={tokenUSDC_sepolia}
-          transaction={handleTransaction}
-        />
-      )}
-    </WalletStatusVerifier>
+  return balance < amount ? (
+    <Wrapper
+      text={'Get Sepolia USDC from Aave faucet'}
+      title={'Mint USDC'}
+    >
+      <MintUSDC onSuccess={refetchBalance} />
+    </Wrapper>
+  ) : (
+    <BaseERC20ApproveAndTransferButton
+      amount={amount}
+      label={`Supply ${formattedAmount} USDC`}
+      labelSending="Sending..."
+      onSuccess={() => refetchBalance()}
+      spender={spender}
+      token={tokenUSDC_sepolia}
+      transaction={handleTransaction}
+    />
   )
 })
 

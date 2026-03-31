@@ -1,5 +1,6 @@
 import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
 import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
+import { DeveloperError } from '@/src/utils/DeveloperError'
 import { Flex, Spinner } from '@chakra-ui/react'
 import { Dialog, Portal } from '@chakra-ui/react'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
@@ -101,6 +102,10 @@ const defaultFallbackRender: ErrorBoundaryPropsWithRender['fallbackRender'] = ({
 }: FallbackProps): ReactNode => {
   const message = error instanceof Error ? error.message : 'Something went wrong.'
 
+  if (error instanceof DeveloperError) {
+    return <div>{message}</div>
+  }
+
   return (
     <>
       <div>{message}</div>
@@ -122,6 +127,7 @@ const defaultFallbackRenderDialog: ErrorBoundaryPropsWithRender['fallbackRender'
   resetErrorBoundary,
 }: FallbackProps): ReactNode => {
   const message = error instanceof Error ? error.message : 'Something went wrong.'
+  const isDeveloperError = error instanceof DeveloperError
 
   return (
     <Dialog.Root
@@ -133,7 +139,11 @@ const defaultFallbackRenderDialog: ErrorBoundaryPropsWithRender['fallbackRender'
         <Dialog.Positioner>
           <Dialog.Content>
             <GeneralMessage
-              actionButton={<PrimaryButton onClick={resetErrorBoundary}>Try again</PrimaryButton>}
+              actionButton={
+                isDeveloperError ? undefined : (
+                  <PrimaryButton onClick={resetErrorBoundary}>Try again</PrimaryButton>
+                )
+              }
               message={message}
             />
           </Dialog.Content>
