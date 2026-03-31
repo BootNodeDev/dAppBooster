@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
       }),
     ],
     build: {
-      sourcemap: 'hidden',
+      sourcemap: mode === 'development' ? 'hidden' : false,
       rollupOptions: {
         output: {
           manualChunks: {
