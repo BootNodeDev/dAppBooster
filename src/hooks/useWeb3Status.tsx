@@ -13,7 +13,6 @@ import {
 } from 'wagmi'
 
 import { type ChainsIds, chains } from '@/src/lib/networks.config'
-import type { RequiredNonNull } from '@/src/types/utils'
 
 export type AppWeb3Status = {
   readOnlyClient: UsePublicClientReturnType
@@ -134,12 +133,4 @@ export const useWeb3Status = () => {
   }
 
   return web3Connection
-}
-
-export const useWeb3StatusConnected = () => {
-  const context = useWeb3Status()
-  if (!context.isWalletConnected) {
-    throw new Error('Use useWeb3StatusConnected only when a wallet is connected')
-  }
-  return useWeb3Status() as RequiredNonNull<Web3Status>
 }

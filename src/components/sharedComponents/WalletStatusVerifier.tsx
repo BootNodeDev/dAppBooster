@@ -1,44 +1,47 @@
-import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { type ChainsIds, chains } from '@/src/lib/networks.config'
+import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainButton'
+import { useWalletStatus } from '@/src/hooks/useWalletStatus'
+import { type Web3Status, useWeb3Status } from '@/src/hooks/useWeb3Status'
+import type { ChainsIds } from '@/src/lib/networks.config'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { chakra } from '@chakra-ui/react'
-import type { ComponentType, FC, ReactElement } from 'react'
-import { extractChain } from 'viem'
+import type { RequiredNonNull } from '@/src/types/utils'
+import { DeveloperError } from '@/src/utils/DeveloperError'
+import { type FC, type ReactElement, createContext, useContext } from 'react'
 
-const Button = chakra(PrimaryButton, {
-  base: {
-    fontSize: '16px',
-    fontWeight: 500,
-    height: '48px',
-    paddingLeft: 6,
-    paddingRight: 6,
-  },
-})
+const WalletStatusVerifierContext = createContext<RequiredNonNull<Web3Status> | null>(null)
+
+/**
+ * Returns the connected wallet's Web3 status.
+ *
+ * Must be called inside a `<WalletStatusVerifier>` component tree.
+ * Throws if called outside one.
+ */
+export const useWeb3StatusConnected = () => {
+  const context = useContext(WalletStatusVerifierContext)
+  if (context === null) {
+    throw new DeveloperError(
+      'useWeb3StatusConnected must be used inside a <WalletStatusVerifier> component.',
+    )
+  }
+  return context
+}
 
 interface WalletStatusVerifierProps {
   chainId?: ChainsIds
   children?: ReactElement
   fallback?: ReactElement
-  labelSwitchChain?: string
+  switchChainLabel?: string
 }
 
 /**
- * WalletStatusVerifier Component
+ * Wrapper component that gates content on wallet connection and chain status.
  *
- * This component checks the wallet connection and chain synchronization status.
- * If the wallet is not connected, it displays a fallback component (default: ConnectWalletButton)
- * If the wallet is connected but not synced with the correct chain, it provides an option to switch chain.
- *
- * @param {Object} props - WalletStatusVerifier component props
- * @param {Chain['id']} [props.chainId] - The chain ID to check for synchronization
- * @param {ReactElement} [props.fallback] - The fallback component to render if the wallet is not connected
- * @param {ReactElement} props.children - The children components to render if the wallet is connected and synced
+ * This is the primary API for protecting UI that requires a connected wallet.
+ * Components that call `useWeb3StatusConnected` must be rendered inside this component.
  *
  * @example
  * ```tsx
  * <WalletStatusVerifier>
- *  <AComponentThatRequiresAConnectedWallet />
+ *   <MyProtectedComponent />
  * </WalletStatusVerifier>
  * ```
  */
@@ -46,77 +49,29 @@ const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
   chainId,
   children,
   fallback = <ConnectWalletButton />,
-  labelSwitchChain = 'Switch to',
+  switchChainLabel = 'Switch to',
 }: WalletStatusVerifierProps) => {
-  const { appChainId, isWalletConnected, isWalletSynced, switchChain, walletChainId } =
-    useWeb3Status()
+  const { needsConnect, needsChainSwitch, targetChain, targetChainId, switchChain } =
+    useWalletStatus({ chainId })
+  const web3Status = useWeb3Status()
 
-  const chainToSwitch = extractChain({ chains, id: chainId || appChainId || chains[0].id })
-
-  if (!isWalletConnected) {
+  if (needsConnect) {
     return fallback
   }
 
-  if (!isWalletSynced || walletChainId !== chainToSwitch.id) {
+  if (needsChainSwitch) {
     return (
-      <Button onClick={() => switchChain(chainToSwitch.id)}>
-        {labelSwitchChain} {chainToSwitch?.name}
-      </Button>
+      <SwitchChainButton onClick={() => switchChain(targetChainId)}>
+        {switchChainLabel} {targetChain.name}
+      </SwitchChainButton>
     )
   }
 
-  return children
+  return (
+    <WalletStatusVerifierContext.Provider value={web3Status as RequiredNonNull<Web3Status>}>
+      {children}
+    </WalletStatusVerifierContext.Provider>
+  )
 }
 
-/**
- * WalletStatusVerifier Component
- *
- * Checks the wallet connection and chain synchronization status.
- * - If wallet is not connected, displays fallback component (default: ConnectWalletButton)
- * - If wallet is connected but on wrong chain, provides option to switch networks
- * - If wallet is connected and on correct chain, renders children
- *
- * @param {WalletStatusVerifierProps} props - Component props
- * @param {ChainsIds} [props.chainId] - The required chain ID (defaults to appChainId)
- * @param {ReactElement} [props.children] - The content to render when wallet is connected and synced
- * @param {ReactElement} [props.fallback=<ConnectWalletButton />] - Component to render when wallet is not connected
- * @param {string} [props.labelSwitchChain='Switch to'] - Label for the chain switching button
- *
- * @example
- * ```tsx
- * <WalletStatusVerifier chainId={1}>
- *   <MyProtectedComponent />
- * </WalletStatusVerifier>
- * ```
- */
-const withWalletStatusVerifier = <P extends object>(
-  WrappedComponent: ComponentType<P>,
-  {
-    chainId,
-    fallback = <ConnectWalletButton />,
-    labelSwitchChain = 'Switch to',
-  }: WalletStatusVerifierProps = {},
-): FC<P> => {
-  const ComponentWithVerifier: FC<P> = (props: P) => {
-    const { appChainId, isWalletConnected, isWalletSynced, switchChain, walletChainId } =
-      useWeb3Status()
-
-    const chainToSwitch = extractChain({ chains, id: chainId || appChainId || chains[0].id })
-
-    return !isWalletConnected ? (
-      fallback
-    ) : !isWalletSynced || walletChainId !== chainToSwitch.id ? (
-      <Button onClick={() => switchChain(chainToSwitch.id)}>
-        {labelSwitchChain} {chainToSwitch?.name}
-      </Button>
-    ) : (
-      <WrappedComponent {...props} />
-    )
-  }
-
-  ComponentWithVerifier.displayName = `withWalletStatusVerifier(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`
-
-  return ComponentWithVerifier
-}
-
-export { WalletStatusVerifier, withWalletStatusVerifier }
+export { WalletStatusVerifier }
