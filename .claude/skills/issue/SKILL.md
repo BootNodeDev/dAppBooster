@@ -29,7 +29,7 @@ Create a well-structured GitHub issue using the repo's own templates and `gh` CL
 
 ## Labels
 
-Severity and priority are applied as labels, not form dropdowns. See the Label Conventions section in `AGENTS.md` for the full table and descriptions.
+Severity and priority are applied as labels, not form dropdowns. See the Label Conventions section in `CLAUDE.md` for the full table and descriptions.
 
 - Bugs get a `severity: <level>` label (critical / high / medium / low).
 - Features and epics get a `priority: <level>` label (high / medium / low).
