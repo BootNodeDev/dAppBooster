@@ -1,9 +1,9 @@
-import { LogoMini } from '@/src/components/sharedComponents/ui/Footer/LogoMini'
-import Socials from '@/src/components/sharedComponents/ui/Footer/Socials'
-import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import { Box, Flex, type FlexProps } from '@chakra-ui/react'
 import packageJSON from '@packageJSON'
 import type { FC } from 'react'
+import { LogoMini } from '@/src/components/sharedComponents/ui/Footer/LogoMini'
+import Socials from '@/src/components/sharedComponents/ui/Footer/Socials'
+import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import styles from './styles'
 
 export const Footer: FC<FlexProps> = ({ css, ...restProps }) => {

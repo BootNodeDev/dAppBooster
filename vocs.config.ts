@@ -1,4 +1,4 @@
-import { type SidebarItem, defineConfig } from 'vocs'
+import { defineConfig, type SidebarItem } from 'vocs'
 
 export default defineConfig({
   title: 'dAppBooster',

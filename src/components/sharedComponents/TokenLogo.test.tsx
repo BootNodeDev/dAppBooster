@@ -1,7 +1,7 @@
-import type { Token } from '@/src/types/token'
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
+import type { Token } from '@/src/types/token'
 import TokenLogo from './TokenLogo'
 
 const system = createSystem(defaultConfig)

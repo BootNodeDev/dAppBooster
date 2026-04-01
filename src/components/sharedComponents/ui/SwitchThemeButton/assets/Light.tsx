@@ -1,4 +1,4 @@
-import { type HTMLChakraProps, chakra } from '@chakra-ui/react'
+import { chakra, type HTMLChakraProps } from '@chakra-ui/react'
 import type { FC, SVGAttributes } from 'react'
 
 const Light: FC<HTMLChakraProps<'svg'> & SVGAttributes<SVGSVGElement>> = ({

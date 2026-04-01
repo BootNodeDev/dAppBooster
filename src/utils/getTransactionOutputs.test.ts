@@ -1,10 +1,10 @@
-import { type AbiEvent, type TransactionReceipt, decodeEventLog } from 'viem'
+import { type AbiEvent, decodeEventLog, type TransactionReceipt } from 'viem'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
+  getTransactionOutputs,
   MissingOutputError,
   TransactionOutputError,
-  getTransactionOutputs,
 } from '@/src/utils/getTransactionOutputs'
 
 // Mock the viem decodeEventLog function

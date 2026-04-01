@@ -1,15 +1,13 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "organizeImports": {
-    "enabled": true
-  },
+  "$schema": "https://biomejs.dev/schemas/2.4.10/schema.json",
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "vcs": {
     "clientKind": "git",
     "enabled": true,
     "useIgnoreFile": true
   },
   "files": {
-    "ignore": ["src/routeTree.gen.ts", ".install-files/**/*"]
+    "includes": ["**", "!**/src/routeTree.gen.ts", "!**/.install-files/**/*"]
   },
   "formatter": {
     "attributePosition": "multiline",

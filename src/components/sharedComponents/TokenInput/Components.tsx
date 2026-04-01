@@ -1,5 +1,6 @@
 import {
   type ButtonProps,
+  chakra,
   Flex,
   type FlexProps,
   Heading,
@@ -8,7 +9,6 @@ import {
   type InputProps,
   Span,
   type SpanProps,
-  chakra,
 } from '@chakra-ui/react'
 import type { FC } from 'react'
 

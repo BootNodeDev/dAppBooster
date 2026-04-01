@@ -1,16 +1,14 @@
-import Hash from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Hash'
-import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
-
-import Icon from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Icon'
-import HashInput from '@/src/components/sharedComponents/HashInput'
-
-import Spinner from '@/src/components/sharedComponents/ui/Spinner'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import type { DetectedHash } from '@/src/utils/hash'
-import { Box, Flex, Input, chakra } from '@chakra-ui/react'
+import { Box, chakra, Flex, Input } from '@chakra-ui/react'
 import { useState } from 'react'
 import type { Address } from 'viem'
 import * as chains from 'viem/chains'
+import Hash from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Hash'
+import Icon from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Icon'
+import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
+import HashInput from '@/src/components/sharedComponents/HashInput'
+import Spinner from '@/src/components/sharedComponents/ui/Spinner'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import type { DetectedHash } from '@/src/utils/hash'
 
 const AlertIcon = () => (
   <chakra.svg

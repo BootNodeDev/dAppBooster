@@ -1,6 +1,6 @@
-import Item, { type Props as ItemProps } from '@/src/components/pageComponents/home/Examples/Item'
 import { Grid, type GridProps } from '@chakra-ui/react'
 import type { FC } from 'react'
+import Item, { type Props as ItemProps } from '@/src/components/pageComponents/home/Examples/Item'
 
 interface Props extends GridProps {
   items: ItemProps[]

@@ -1,12 +1,12 @@
 import {
-  http,
   type Address,
   type Chain,
-  type Hash,
-  type Transaction,
   createPublicClient,
+  type Hash,
+  http,
   isAddress,
   isHex,
+  type Transaction,
 } from 'viem'
 import { getBytecode, getEnsAddress, getTransaction } from 'viem/actions'
 import { normalize } from 'viem/ens'

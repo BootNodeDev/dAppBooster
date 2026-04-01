@@ -1,16 +1,16 @@
-import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
-import {
-  NotificationToast,
-  notificationToaster,
-} from '@/src/components/sharedComponents/NotificationToast'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { type FC, type PropsWithChildren, type ReactNode, createContext, useContext } from 'react'
+import { createContext, type FC, type PropsWithChildren, type ReactNode, useContext } from 'react'
 import type {
   Hash,
   ReplacementReturnType,
   SignMessageErrorType,
   TransactionExecutionError,
 } from 'viem'
+import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
+import {
+  NotificationToast,
+  notificationToaster,
+} from '@/src/components/sharedComponents/NotificationToast'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 
 type WatchSignatureArgs = {
   successMessage?: string

@@ -1,4 +1,4 @@
-import { Flex, type FlexProps, Link, type LinkProps, chakra } from '@chakra-ui/react'
+import { chakra, Flex, type FlexProps, Link, type LinkProps } from '@chakra-ui/react'
 import type { FC } from 'react'
 
 const GitHub = () => (
