@@ -1,7 +1,5 @@
 # dAppBooster
 
-> This file is mirrored as `AGENTS.md` for non-Claude AI agents. Keep both files in sync when making changes.
-
 A repository template / starter-kit for building decentralized applications (dApps). Built by BootNode based on 5+ years of dApp development. Docs: https://docs.dappbooster.dev/ Components: https://components.dappbooster.dev/
 
 ## Requirements
@@ -26,8 +24,69 @@ A repository template / starter-kit for building decentralized applications (dAp
 Three hooks run automatically and will block on failure:
 
 - **pre-commit:** lint-staged runs Biome check + Vitest on related files for staged changes
-- **commit-msg:** commitlint enforces conventional commit format. Valid types: `feat`, `fix`, `docs`, `test`, `ci`, `refactor`, `perf`, `chore`, `revert`. PR titles are also validated via CI.
+- **commit-msg:** commitlint enforces conventional commit format. Valid types: `feat`, `fix`, `docs`, `test`, `ci`, `refactor`, `perf`, `chore`, `revert`, `style`, `build`, `wip`, `release`. PR titles are also validated via CI.
 - **pre-push:** full `tsc --noEmit` type check (pushes with type errors will be rejected)
+
+## Commit Standards
+
+Use [Conventional Commits](https://www.conventionalcommits.org/):
+
+**Format:** `type(scope): subject`
+
+- **Scope** is optional: `feat: add login` and `feat(auth): add login` are both valid
+- **Subject** uses imperative mood, lowercase after the colon, no trailing period
+- **Body** (optional): separated by a blank line, explains *what* and *why*
+
+**Prefixes:**
+
+| Prefix | Purpose |
+|--------|---------|
+| `feat` | New feature |
+| `fix` | Bug fix |
+| `chore` | Maintenance, dependencies, config |
+| `docs` | Documentation only |
+| `refactor` | Code change that neither fixes a bug nor adds a feature |
+| `test` | Adding or updating tests |
+| `style` | Formatting, whitespace, semicolons |
+| `ci` | CI/CD pipeline changes |
+| `perf` | Performance improvement |
+| `build` | Build system or external dependencies |
+| `revert` | Reverts a previous commit |
+| `wip` | Work in progress (avoid on main) |
+| `release` | Release-related changes |
+
+## PR Workflow
+
+- Every PR must reference an issue (`Closes #N`)
+- Mirror the issue's acceptance criteria in the PR
+- Self-review your diff before requesting peer review
+- Keep PRs small and focused -- one issue, one PR
+- PR titles use the same conventional commit format (`feat: add user dashboard`)
+
+## Label Conventions
+
+GitHub form dropdowns (like the Severity field in `1-bug.yml`) only work through the web UI. When issues are created via `gh` CLI or REST API, dropdown values become unstructured body text -- not queryable, not consistent. **Labels are the API-reliable mechanism for structured metadata.**
+
+**Severity** (bugs only):
+
+| Label | Description |
+|-------|-------------|
+| `severity: critical` | System down, data loss, or security issue |
+| `severity: high` | Broken feature, no workaround |
+| `severity: medium` | Broken feature, workaround exists |
+| `severity: low` | Cosmetic or minor inconvenience |
+
+**Priority** (features and epics):
+
+| Label | Description |
+|-------|-------------|
+| `priority: high` | Must be addressed in current sprint |
+| `priority: medium` | Should be addressed soon |
+| `priority: low` | Nice to have, can wait |
+
+Labels are queryable: `gh issue list --label "severity: high"`, `gh issue list --label "priority: medium"`.
+
+The `/issue` skill applies these labels automatically when creating issues via CLI. The bug template's severity dropdown is kept for web UI users but is not the source of truth for programmatic workflows.
 
 ## Quick Reference
 
@@ -229,3 +288,33 @@ These files are gitignored and regenerated from source:
 - Mocking: `vi.mock()` for module mocks
 - Component testing: Testing Library + jest-dom matchers
 - Run: `pnpm test` (single run) or `pnpm test:watch`
+- **What to test:** Business logic, API integrations, component behavior
+- **What not to test:** Styling, third-party library internals, trivial getters/setters
+- **Coverage:** Aim for meaningful coverage, not a number. Cover the paths that matter.
+
+## Guardrails
+
+- Do not commit secrets, API keys, or credentials
+- Do not modify CI/CD pipelines without team review
+- Do not skip tests or linting to make a build pass
+- When in doubt, ask -- don't assume
+
+## Change Strategy
+
+- Prefer small, focused diffs over broad refactors
+- Preserve existing UX unless the task explicitly changes it
+- Avoid introducing new patterns when a project pattern already exists
+- Update docs only when behavior or workflow changes
+
+## Validation Checklist
+
+Run before declaring work done:
+
+- `pnpm lint`
+- `pnpm test`
+- `pnpm build` (when feasible for runtime-impacting changes)
+
+## References
+
+- [dAppBooster Docs](https://docs.dappbooster.dev/)
+- [Component Library](https://components.dappbooster.dev/)
