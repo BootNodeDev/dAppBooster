@@ -1,0 +1,102 @@
+name: Spike / Research
+description: Time-boxed investigation to answer a question or reduce uncertainty.
+title: ""
+labels: ["spike"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A spike is not about delivering code — it's about answering a question. Define the question clearly, time-box the effort, and document findings here. The issue itself becomes the deliverable.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question
+      description: What question(s) are we trying to answer? Be specific.
+      placeholder: |
+        Can we use X to solve Y?
+        What are the trade-offs between A and B for our use case?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: timebox
+    attributes:
+      label: Time-box
+      description: Maximum time to spend before reporting back, regardless of outcome.
+      options:
+        - 2 hours
+        - Half day
+        - 1 day
+        - 2 days
+        - 3 days
+    validations:
+      required: true
+
+  - type: textarea
+    id: background
+    attributes:
+      label: Background / What we already know
+      description: Context, prior decisions, links to related issues or docs. Prevents the investigator from repeating work.
+    validations:
+      required: false
+
+  - type: textarea
+    id: method
+    attributes:
+      label: Investigation approach
+      description: How should this be investigated? Prototype, docs research, vendor comparison, proof of concept, talk to someone?
+      placeholder: |
+        - Read the docs for X
+        - Build a minimal prototype that tests Y
+        - Compare options A and B against criteria Z
+    validations:
+      required: false
+
+  - type: dropdown
+    id: output
+    attributes:
+      label: Expected output
+      description: What does "done" look like for this spike?
+      options:
+        - Decision (go / no-go)
+        - Technical recommendation with trade-offs
+        - Proof of concept / prototype
+        - Written summary / findings document
+        - Architecture or design proposal
+      multiple: true
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        ---
+        **The sections below are filled in after the investigation.**
+
+  - type: textarea
+    id: findings
+    attributes:
+      label: Findings
+      description: What did you learn? Evidence, data, demos, links.
+    validations:
+      required: false
+
+  - type: textarea
+    id: conclusions
+    attributes:
+      label: Conclusions & recommendations
+      description: Answers to the original question(s). What do you recommend and why?
+    validations:
+      required: false
+
+  - type: textarea
+    id: next-steps
+    attributes:
+      label: Next steps
+      description: Follow-up issues, decisions to make, or work to schedule based on findings.
+      placeholder: |
+        - [ ] Create issue for...
+        - [ ] Discuss with team...
+    validations:
+      required: false
