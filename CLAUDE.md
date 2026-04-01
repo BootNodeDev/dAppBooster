@@ -26,7 +26,7 @@ System architecture, data flow, provider hierarchy, and structural conventions a
 Three hooks run automatically and will block on failure:
 
 - **pre-commit:** lint-staged runs Biome check + Vitest on related files for staged changes
-- **commit-msg:** commitlint enforces conventional commit format. Valid types: `feat`, `fix`, `docs`, `test`, `ci`, `refactor`, `perf`, `chore`, `revert`, `style`, `build`, `wip`, `release`. PR titles are also validated via CI.
+- **commit-msg:** commitlint enforces conventional commit format. Valid types: `feat`, `fix`, `docs`, `test`, `ci`, `refactor`, `perf`, `chore`, `revert`, `style`, `build`, `hotfix`, `wip`, `release`. PR titles are also validated via CI.
 - **pre-push:** full `tsc --noEmit` type check (pushes with type errors will be rejected)
 
 ## Commit Standards
@@ -54,6 +54,7 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 | `perf` | Performance improvement |
 | `build` | Build system or external dependencies |
 | `revert` | Reverts a previous commit |
+| `hotfix` | Urgent fix that bypasses the normal release cycle |
 | `wip` | Work in progress (avoid on main) |
 | `release` | Release-related changes |
 

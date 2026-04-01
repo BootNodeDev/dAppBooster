@@ -11,6 +11,7 @@ export default {
         'docs',
         'feat',
         'fix',
+        'hotfix',
         'perf',
         'refactor',
         'release',
