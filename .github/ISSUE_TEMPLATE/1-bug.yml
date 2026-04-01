@@ -58,7 +58,7 @@ body:
       render: bash
       placeholder: |
         OS: macOS 15.3
-        Node: 22.x
+        Node: 24.x
         Package: 1.0.0
     validations:
       required: false
