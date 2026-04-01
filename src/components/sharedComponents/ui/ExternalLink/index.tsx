@@ -1,4 +1,4 @@
-import { Link, type LinkProps, chakra } from '@chakra-ui/react'
+import { chakra, Link, type LinkProps } from '@chakra-ui/react'
 import type { FC, HTMLAttributes } from 'react'
 import styles from './styles'
 

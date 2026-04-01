@@ -1,4 +1,4 @@
-import { type ImageProps, chakra } from '@chakra-ui/react'
+import { chakra, type ImageProps } from '@chakra-ui/react'
 import type { FC } from 'react'
 
 const LogoDark =

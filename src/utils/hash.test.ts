@@ -1,7 +1,7 @@
 import type { Chain, Transaction } from 'viem'
 import * as viemActions from 'viem/actions'
 import { mainnet } from 'viem/chains'
-import { type Mock, describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, type Mock, vi } from 'vitest'
 
 import detectHash from '@/src/utils/hash'
 

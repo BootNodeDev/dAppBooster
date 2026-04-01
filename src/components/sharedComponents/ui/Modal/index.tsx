@@ -2,9 +2,9 @@ import {
   Card as BaseCard,
   type ButtonProps,
   type CardRootProps,
+  chakra,
   Heading,
   Text,
-  chakra,
 } from '@chakra-ui/react'
 import type { FC, ReactNode } from 'react'
 import styles from './styles'

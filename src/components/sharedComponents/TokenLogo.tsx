@@ -1,6 +1,6 @@
-import type { Token } from '@/src/types/token'
 import { Flex } from '@chakra-ui/react'
 import { type ComponentProps, type FC, useCallback, useEffect, useState } from 'react'
+import type { Token } from '@/src/types/token'
 
 interface PlaceholderProps extends ComponentProps<'div'> {
   size: number

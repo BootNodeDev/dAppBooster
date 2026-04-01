@@ -1,4 +1,4 @@
-import { Box, type BoxProps, Menu, chakra } from '@chakra-ui/react'
+import { Box, type BoxProps, chakra, Menu } from '@chakra-ui/react'
 import { type FC, useState } from 'react'
 import { buttonStyles, dropdownStyles } from './styles'
 

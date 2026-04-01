@@ -1,8 +1,8 @@
-import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { renderHook } from '@testing-library/react'
 import { createElement } from 'react'
 import type { Address } from 'viem'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import { useWeb3Status } from './useWeb3Status'
 
 const mockDisconnect = vi.fn()
@@ -39,8 +39,8 @@ vi.mock('@/src/providers/Web3Provider', () => ({
     createElement('button', { type: 'button', 'data-testid': 'connect-wallet-button' }, 'Connect'),
 }))
 
-import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 import * as wagmi from 'wagmi'
+import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
 
 const { useWalletStatus } = await import('@/src/hooks/useWalletStatus')
 const mockedUseWalletStatus = vi.mocked(useWalletStatus)

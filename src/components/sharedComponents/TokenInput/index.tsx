@@ -1,3 +1,7 @@
+import { Dialog, type FlexProps, Portal } from '@chakra-ui/react'
+import { type FC, useMemo, useState } from 'react'
+import { type NumberFormatValues, NumericFormat } from 'react-number-format'
+import { formatUnits } from 'viem'
 import {
   BigNumberInput,
   type BigNumberInputProps,
@@ -24,10 +28,6 @@ import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import type { Token } from '@/src/types/token'
-import { Dialog, type FlexProps, Portal } from '@chakra-ui/react'
-import { type FC, useMemo, useState } from 'react'
-import { type NumberFormatValues, NumericFormat } from 'react-number-format'
-import { formatUnits } from 'viem'
 import styles from './styles'
 
 interface TokenInputProps extends Omit<TokenSelectProps, 'onTokenSelect'> {

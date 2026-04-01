@@ -1,6 +1,6 @@
-import { renderWithProviders } from '@/src/test-utils'
 import { screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
+import { renderWithProviders } from '@/src/test-utils'
 import { Home } from './index'
 
 // Mock sub-components that pull in Web3 dependencies to keep this a pure structural test

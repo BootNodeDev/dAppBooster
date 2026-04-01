@@ -1,5 +1,5 @@
-import { extractChain } from 'viem'
 import type { Chain } from 'viem'
+import { extractChain } from 'viem'
 
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { type ChainsIds, chains } from '@/src/lib/networks.config'

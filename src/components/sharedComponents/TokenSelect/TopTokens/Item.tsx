@@ -1,7 +1,7 @@
+import { Box, chakra, Flex } from '@chakra-ui/react'
+import type { ComponentPropsWithoutRef, FC } from 'react'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import type { Token } from '@/src/types/token'
-import { Box, Flex, chakra } from '@chakra-ui/react'
-import type { ComponentPropsWithoutRef, FC } from 'react'
 
 const ICON_SIZE = 24
 

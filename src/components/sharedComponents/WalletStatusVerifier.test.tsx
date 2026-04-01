@@ -1,9 +1,9 @@
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { type ReactNode, createElement } from 'react'
+import { createElement, type ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { WalletStatusVerifier, useWeb3StatusConnected } from './WalletStatusVerifier'
+import { useWeb3StatusConnected, WalletStatusVerifier } from './WalletStatusVerifier'
 
 const mockSwitchChain = vi.fn()
 

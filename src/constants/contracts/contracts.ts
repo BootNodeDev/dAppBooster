@@ -1,10 +1,10 @@
 import {
   type Abi,
   type Address,
-  type ContractFunctionArgs as WagmiContractFunctionArgs,
-  type ContractFunctionName as WagmiContractFunctionName,
   erc20Abi,
   isAddress,
+  type ContractFunctionArgs as WagmiContractFunctionArgs,
+  type ContractFunctionName as WagmiContractFunctionName,
 } from 'viem'
 import { mainnet, optimismSepolia, polygon, sepolia } from 'viem/chains'
 
@@ -85,9 +85,8 @@ export type ContractNames = (typeof contracts)[number]['name']
 type ContractOfName<CN extends ContractNames> = Extract<(typeof contracts)[number], { name: CN }>
 type AbiOfName<CN extends ContractNames> = ContractOfName<CN>['abi']
 
-type AddressRecord<T extends ContractNames> = ContractOfName<T> extends { address: infer K }
-  ? K
-  : never
+type AddressRecord<T extends ContractNames> =
+  ContractOfName<T> extends { address: infer K } ? K : never
 type ChainIdOf<T extends ContractNames> = keyof AddressRecord<T>
 
 export type ContractFunctionName<CN extends ContractNames> = WagmiContractFunctionName<

@@ -1,3 +1,6 @@
+import { Flex, type FlexProps } from '@chakra-ui/react'
+import { useEffect, useRef, useState } from 'react'
+import type { Chain } from 'viem/chains'
 import List from '@/src/components/sharedComponents/TokenSelect/List'
 import Search from '@/src/components/sharedComponents/TokenSelect/Search'
 import TopTokens from '@/src/components/sharedComponents/TokenSelect/TopTokens'
@@ -9,9 +12,6 @@ import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { chains } from '@/src/lib/networks.config'
 import type { Token } from '@/src/types/token'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-import { Flex, type FlexProps } from '@chakra-ui/react'
-import { useEffect, useRef, useState } from 'react'
-import type { Chain } from 'viem/chains'
 import styles from './styles'
 
 export interface TokenSelectProps {

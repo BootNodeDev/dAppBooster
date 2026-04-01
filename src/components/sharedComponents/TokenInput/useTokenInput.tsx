@@ -1,10 +1,10 @@
-import { useErc20Balance } from '@/src/hooks/useErc20Balance'
-import type { Token } from '@/src/types/token'
-import { isNativeToken } from '@/src/utils/address'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { getAddress } from 'viem'
 import { useAccount, usePublicClient } from 'wagmi'
+import { useErc20Balance } from '@/src/hooks/useErc20Balance'
+import type { Token } from '@/src/types/token'
+import { isNativeToken } from '@/src/utils/address'
 
 export type UseTokenInputReturnType = ReturnType<typeof useTokenInput>
 

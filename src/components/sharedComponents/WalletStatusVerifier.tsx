@@ -1,11 +1,11 @@
+import { createContext, type FC, type ReactElement, useContext } from 'react'
 import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainButton'
 import { useWalletStatus } from '@/src/hooks/useWalletStatus'
-import { type Web3Status, useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { useWeb3Status, type Web3Status } from '@/src/hooks/useWeb3Status'
 import type { ChainsIds } from '@/src/lib/networks.config'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import type { RequiredNonNull } from '@/src/types/utils'
 import { DeveloperError } from '@/src/utils/DeveloperError'
-import { type FC, type ReactElement, createContext, useContext } from 'react'
 
 const WalletStatusVerifierContext = createContext<RequiredNonNull<Web3Status> | null>(null)
 

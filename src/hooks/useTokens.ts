@@ -1,15 +1,14 @@
-import { useMemo } from 'react'
-
 import {
-  EVM,
-  type TokenAmount,
-  type TokensResponse,
   createConfig,
+  EVM,
   getChains,
   getTokenBalances,
   getTokens,
+  type TokenAmount,
+  type TokensResponse,
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
+import { useMemo } from 'react'
 import { type Address, type Chain, formatUnits } from 'viem'
 
 import { env } from '@/src/env'
@@ -70,7 +69,11 @@ export const useTokens = (
     account,
     chainId,
     withBalance,
-  }: { account?: Address; chainId?: Chain['id']; withBalance?: boolean } = {
+  }: {
+    account?: Address
+    chainId?: Chain['id']
+    withBalance?: boolean
+  } = {
     withBalance: true,
   },
 ) => {

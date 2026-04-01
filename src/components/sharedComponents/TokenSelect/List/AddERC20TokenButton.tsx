@@ -1,8 +1,8 @@
+import { chakra } from '@chakra-ui/react'
+import type { ComponentPropsWithoutRef, FC, MouseEventHandler } from 'react'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
-import { chakra } from '@chakra-ui/react'
-import type { ComponentPropsWithoutRef, FC, MouseEventHandler } from 'react'
 
 interface AddERC20TokenButtonProps extends ComponentPropsWithoutRef<'button'> {
   $token: Token

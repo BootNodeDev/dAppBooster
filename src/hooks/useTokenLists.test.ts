@@ -1,11 +1,11 @@
-import type { Token } from '@/src/types/token'
-import tokenListsCache, { updateTokenListsCache } from '@/src/utils/tokenListsCache'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { renderHook } from '@testing-library/react'
-import { createElement } from 'react'
 import type { ReactNode } from 'react'
+import { createElement } from 'react'
 import { zeroAddress } from 'viem'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { Token } from '@/src/types/token'
+import tokenListsCache, { updateTokenListsCache } from '@/src/utils/tokenListsCache'
 
 vi.mock('@/src/utils/tokenListsCache', () => {
   const cache = { tokens: [] as Token[], tokensByChainId: {} as Record<number, Token[]> }

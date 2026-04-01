@@ -1,10 +1,10 @@
-import type { Token } from '@/src/types/token'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { renderHook, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { createElement } from 'react'
 import { zeroAddress } from 'viem'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { Token } from '@/src/types/token'
 import { useErc20Balance } from './useErc20Balance'
 
 const mockReadContract = vi.fn()

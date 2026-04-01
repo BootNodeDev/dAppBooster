@@ -1,12 +1,12 @@
-import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
-import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
-import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
-import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
-import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
 import { Dialog } from '@chakra-ui/react'
 import { type ReactElement, useState } from 'react'
-import { type Hash, type TransactionReceipt, parseEther } from 'viem'
+import { type Hash, parseEther, type TransactionReceipt } from 'viem'
 import { useSendTransaction } from 'wagmi'
+import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
+import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
+import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
+import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
 
 /**
  * This demo shows how to send a native token transaction.
