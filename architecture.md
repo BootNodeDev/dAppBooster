@@ -3,7 +3,7 @@
 <!-- Keep this document up to date as the system evolves. It captures structural
      knowledge that helps both humans onboarding and agents building context at
      session start. Focus on the "shape" of the system — not usage instructions
-     (that's AGENTS.md) or API docs (that's code comments). -->
+     (that's CLAUDE.md) or API docs (that's code comments). -->
 
 ## Tech Stack
 
