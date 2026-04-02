@@ -94,6 +94,7 @@
   "packageManager": "pnpm@10.33.0",
   "pnpm": {
     "overrides": {
+      "//": "@bootnodedev/db-subgraph pins ^5; remove this override once it supports ^6 (see BootNodeDev/db-subgraph#1)",
       "@graphql-codegen/cli": "^6"
     }
   }
