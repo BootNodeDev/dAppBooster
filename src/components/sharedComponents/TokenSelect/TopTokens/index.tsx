@@ -44,7 +44,7 @@ const TopTokens: FC<TopTokensProps> = ({ onTokenSelect, tokens, ...restProps }) 
           <Item
             key={`token_${token?.address}`}
             onClick={() => onTokenSelect(token)}
-            // biome-ignore lint/style/noNonNullAssertion: <explanation>
+            // biome-ignore lint/style/noNonNullAssertion: token is defined when rendered via filter above
             token={token!}
           />
         ))}

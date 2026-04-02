@@ -18,20 +18,18 @@ const TransactionButton = () => {
 
   return (
     <WalletStatusVerifier chainId={sepolia.id}>
-      <>
-        <OptionsDropdown items={items} />
-        <Flex
-          alignItems="center"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          paddingTop={{ base: 2, lg: 6 }}
-          width="100%"
-        >
-          {currentTokenInput === 'erc20' && <ERC20ApproveAndTransferButton />}
-          {currentTokenInput === 'native' && <NativeToken />}
-        </Flex>
-      </>
+      <OptionsDropdown items={items} />
+      <Flex
+        alignItems="center"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        paddingTop={{ base: 2, lg: 6 }}
+        width="100%"
+      >
+        {currentTokenInput === 'erc20' && <ERC20ApproveAndTransferButton />}
+        {currentTokenInput === 'native' && <NativeToken />}
+      </Flex>
     </WalletStatusVerifier>
   )
 }

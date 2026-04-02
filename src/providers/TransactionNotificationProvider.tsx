@@ -122,7 +122,6 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       let replacedTx = null as ReplacementReturnType | null
       const receipt = await readOnlyClient.waitForTransactionReceipt({
         hash,
-        // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
         onReplaced: (replacedTxData) => (replacedTx = replacedTxData),
       })
 
@@ -201,7 +200,6 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       message: `Signature requested: ${transactionMessage}`,
       signaturePromise: txPromise,
       showSuccessToast: false,
-      // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
       onToastId: (id) => (toastId = id),
     })
 
