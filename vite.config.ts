@@ -1,7 +1,7 @@
 /// <reference types="vitest/config" />
 import { resolve } from 'node:path'
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 import { defineConfig, loadEnv } from 'vite'
 import Sitemap from 'vite-plugin-sitemap'
 
