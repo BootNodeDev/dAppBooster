@@ -85,7 +85,7 @@
     "typedoc-plugin-missing-exports": "^4.0.0",
     "typedoc-plugin-rename-defaults": "^0.7.3",
     "typescript": "^6",
-    "vite": "^6.3.5",
+    "vite": "^8",
     "vite-plugin-sitemap": "^0.8.2",
     "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.2",
@@ -94,7 +94,6 @@
   "packageManager": "pnpm@10.33.0",
   "pnpm": {
     "overrides": {
-      "//": "@bootnodedev/db-subgraph pins ^5; remove this override once it supports ^6 (see BootNodeDev/db-subgraph#1)",
       "@graphql-codegen/cli": "^6"
     }
   }
