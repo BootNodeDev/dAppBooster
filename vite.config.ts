@@ -4,7 +4,6 @@ import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
 import react from '@vitejs/plugin-react-swc'
 import { defineConfig, loadEnv } from 'vite'
 import Sitemap from 'vite-plugin-sitemap'
-import tsconfigPaths from 'vite-tsconfig-paths'
 
 // https://vitejs.dev/config/
 /** @type {import('vite').UserConfig} */
@@ -14,7 +13,6 @@ export default defineConfig(({ mode }) => {
     plugins: [
       TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
       react(),
-      tsconfigPaths(),
       Sitemap({
         hostname: env.PUBLIC_APP_URL || 'https://demo.dappbooster.dev',
       }),
@@ -47,6 +45,7 @@ export default defineConfig(({ mode }) => {
     },
     envPrefix: 'PUBLIC_',
     resolve: {
+      tsconfigPaths: true,
       alias: {
         '@/src': resolve(__dirname, './src'),
         '@packageJSON': resolve(__dirname, 'package.json'),

@@ -87,7 +87,6 @@
     "typescript": "^6",
     "vite": "^8",
     "vite-plugin-sitemap": "^0.8.2",
-    "vite-tsconfig-paths": "^6.1.1",
     "vitest": "^4.1.2",
     "vocs": "1.4.1"
   },
