@@ -59,7 +59,7 @@
     "@biomejs/biome": "2.4.10",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
-    "@graphql-codegen/cli": "^5.0.6",
+    "@graphql-codegen/cli": "^6",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@parcel/watcher": "^2.5.1",
     "@tanstack/react-query-devtools": "^5.96.1",
@@ -91,5 +91,10 @@
     "vitest": "^4.1.2",
     "vocs": "1.4.1"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "overrides": {
+      "@graphql-codegen/cli": "^6"
+    }
+  }
 }
