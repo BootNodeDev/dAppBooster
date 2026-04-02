@@ -122,7 +122,9 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       let replacedTx = null as ReplacementReturnType | null
       const receipt = await readOnlyClient.waitForTransactionReceipt({
         hash,
-        onReplaced: (replacedTxData) => (replacedTx = replacedTxData),
+        onReplaced: (replacedTxData) => {
+          replacedTx = replacedTxData
+        },
       })
 
       if (replacedTx !== null) {
@@ -200,7 +202,9 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       message: `Signature requested: ${transactionMessage}`,
       signaturePromise: txPromise,
       showSuccessToast: false,
-      onToastId: (id) => (toastId = id),
+      onToastId: (id) => {
+        toastId = id
+      },
     })
 
     const hash = await txPromise
