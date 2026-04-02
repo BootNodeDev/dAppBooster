@@ -25,7 +25,7 @@
     "./src/{vite-env.d.ts,main.tsx,routeTree.gen.ts}",
     "./src/lib/{wagmi,wallets}/**/*",
     "./src/routes/**/*",
-    "./src/utils/{logger,tokenListsCache}.ts",
+    "./src/utils/logger.ts",
     "./src/constants/contracts/**/*",
     "./src/hooks/generated.ts",
     "./src/subgraphs/**/*",
