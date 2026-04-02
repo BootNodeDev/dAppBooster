@@ -26,14 +26,20 @@ export default defineConfig(({ mode }) => {
           manualChunks(id) {
             if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/'))
               return 'vendor-react'
-            if (id.includes('node_modules/wagmi') || id.includes('node_modules/viem'))
+            if (
+              id.includes('node_modules/wagmi') ||
+              id.includes('node_modules/@wagmi/') ||
+              id.includes('node_modules/viem')
+            )
               return 'vendor-wagmi'
             if (
               id.includes('node_modules/@tanstack/react-query') ||
-              id.includes('node_modules/@tanstack/react-router')
+              id.includes('node_modules/@tanstack/react-router') ||
+              id.includes('node_modules/@tanstack/router-core') ||
+              id.includes('node_modules/@tanstack/query-core')
             )
               return 'vendor-tanstack'
-            if (id.includes('node_modules/@chakra-ui/react')) return 'vendor-chakra'
+            if (id.includes('node_modules/@chakra-ui/')) return 'vendor-chakra'
             if (id.includes('node_modules/@reown/appkit')) return 'vendor-web3'
           },
         },
