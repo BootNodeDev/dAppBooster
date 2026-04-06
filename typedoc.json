@@ -51,7 +51,16 @@
   "visibilityFilters": {
     "inherited": true
   },
-  "blockTags": ["@dev", "@source", "@name", "@description", "@param", "@returns", "@example", "@throws"],
+  "blockTags": [
+    "@dev",
+    "@source",
+    "@name",
+    "@description",
+    "@param",
+    "@returns",
+    "@example",
+    "@throws"
+  ],
   "validation": {
     "invalidLink": true,
     "notDocumented": false
