@@ -42,8 +42,8 @@ importers:
         specifier: ^3.13.23
         version: 3.13.23(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@uniswap/default-token-list':
-        specifier: ^18.12.0
-        version: 18.12.0
+        specifier: ^18.13.0
+        version: 18.13.0
       '@vercel/analytics':
         specifier: ^1.5.0
         version: 1.6.1(react@19.2.4)
@@ -3899,8 +3899,8 @@ packages:
   '@ungap/structured-clone@1.3.0':
     resolution: {integrity: sha512-WmoN8qaIAo7WTYWbAZuG8PYEhn5fkz7dZrqTBZ7dtt//lL2Gwms1IcnQ5yHqjDfX8Ft5j4YzDM23f87zBfDe9g==}
 
-  '@uniswap/default-token-list@18.12.0':
-    resolution: {integrity: sha512-M2D7gGuf9rAqgEE3YmA4+p2kwKDr6dxd0GwQRQMlkFHJBvEQldudVBMX9z9SUP3Z1VigBV2E7I107xFbx9ovlg==}
+  '@uniswap/default-token-list@18.13.0':
+    resolution: {integrity: sha512-dtvHgX2RxD3cqqiiJexNrisvn7GCEwS2l6YJSFOTrmnQn+EtpznLuXeKZRpvTu8YhtUyboNJhBw7ZzS9KpRQwg==}
 
   '@upsetjs/venn.js@2.0.0':
     resolution: {integrity: sha512-WbBhLrooyePuQ1VZxrJjtLvTc4NVfpOyKx0sKqioq9bX1C1m7Jgykkn8gLrtwumBioXIqam8DLxp88Adbue6Hw==}
@@ -7668,8 +7668,8 @@ packages:
   preact@10.24.2:
     resolution: {integrity: sha512-1cSoF0aCC8uaARATfrlz4VCBqE8LwZwRfLgkxJOQwAlQt6ayTmi0D9OF7nXid1POI5SZidFuG9CnlXbDfLqY/Q==}
 
-  preact@10.29.0:
-    resolution: {integrity: sha512-wSAGyk2bYR1c7t3SZ3jHcM6xy0lcBcDel6lODcs9ME6Th++Dx2KU+6D3HD8wMMKGA8Wpw7OMd3/4RGzYRpzwRg==}
+  preact@10.29.1:
+    resolution: {integrity: sha512-gQCLc/vWroE8lIpleXtdJhTFDogTdZG9AjMUpVkDf2iTCNwYNWA+u16dL41TqUDJO4gm2IgrcMv3uTpjd4Pwmg==}
 
   prettier@3.8.1:
     resolution: {integrity: sha512-UOnG6LftzbdaHZcKoPFtOcCKztrQ57WkHDeRD9t/PTQtmT0NHSeWWepj6pS0z/N7+08BHFDQVUrfmfMRcZwbMg==}
@@ -10012,7 +10012,7 @@ snapshots:
       eth-json-rpc-filters: 6.0.1
       eventemitter3: 5.0.4
       keccak: 3.0.4
-      preact: 10.29.0
+      preact: 10.29.1
       sha.js: 2.4.12
     transitivePeerDependencies:
       - supports-color
@@ -14242,7 +14242,7 @@ snapshots:
 
   '@ungap/structured-clone@1.3.0': {}
 
-  '@uniswap/default-token-list@18.12.0': {}
+  '@uniswap/default-token-list@18.13.0': {}
 
   '@upsetjs/venn.js@2.0.0':
     optionalDependencies:
@@ -19602,7 +19602,7 @@ snapshots:
 
   preact@10.24.2: {}
 
-  preact@10.29.0: {}
+  preact@10.29.1: {}
 
   prettier@3.8.1: {}
 
