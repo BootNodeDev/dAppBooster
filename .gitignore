@@ -33,6 +33,8 @@ CLAUDE.local.md
 # Builds
 /dist
 /docs/dist
+/docs/superpowers
+/docs/plan
 dist-ssr
 
 # Logs
