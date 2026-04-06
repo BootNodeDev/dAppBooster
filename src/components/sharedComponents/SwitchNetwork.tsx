@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 import * as chains from 'viem/chains'
-import { useSwitchChain } from 'wagmi'
+import { useChains, useSwitchChain } from 'wagmi'
 import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
 import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
@@ -50,7 +50,8 @@ interface SwitchNetworkProps extends ComponentPropsWithoutRef<'div'> {
 const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }: SwitchNetworkProps) => {
   const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
 
-  const { chains: configuredChains, switchChain } = useSwitchChain()
+  const configuredChains = useChains()
+  const { mutate: switchChain } = useSwitchChain()
   const { isWalletConnected, walletChainId, walletClient } = useWeb3Status()
   const [networkItem, setNetworkItem] = useState<NetworkItem>()
 

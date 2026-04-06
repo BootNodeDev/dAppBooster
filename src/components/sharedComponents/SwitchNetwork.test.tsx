@@ -1,6 +1,6 @@
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import SwitchNetwork, { type Networks } from './SwitchNetwork'
 
 const system = createSystem(defaultConfig)
@@ -10,6 +10,7 @@ vi.mock('@/src/hooks/useWeb3Status', () => ({
 }))
 
 vi.mock('wagmi', () => ({
+  useChains: vi.fn(),
   useSwitchChain: vi.fn(),
 }))
 
@@ -30,13 +31,16 @@ function defaultWeb3Status(overrides = {}) {
   }
 }
 
+function defaultChains() {
+  return [
+    { id: 1, name: 'Ethereum' },
+    { id: 137, name: 'Polygon' },
+  ]
+}
+
 function defaultSwitchChain() {
   return {
-    chains: [
-      { id: 1, name: 'Ethereum' },
-      { id: 137, name: 'Polygon' },
-    ],
-    switchChain: vi.fn(),
+    mutate: vi.fn(),
   }
 }
 
@@ -49,6 +53,11 @@ function renderSwitchNetwork(networks = mockNetworks) {
 }
 
 describe('SwitchNetwork', () => {
+  beforeEach(() => {
+    // biome-ignore lint/suspicious/noExplicitAny: partial mock
+    vi.mocked(wagmiModule.useChains).mockReturnValue(defaultChains() as any)
+  })
+
   it('shows "Select a network" when wallet chain does not match any network', () => {
     vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(
       // biome-ignore lint/suspicious/noExplicitAny: partial mock

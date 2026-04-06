@@ -49,7 +49,7 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
   transaction,
 }) => {
   const { address } = useWeb3StatusConnected()
-  const { writeContractAsync } = useWriteContract()
+  const { mutateAsync: writeContractAsync } = useWriteContract()
   const { isWalletConnected, walletChainId } = useWeb3Status()
 
   const { data: allowance, refetch: getAllowance } = useSuspenseReadErc20Allowance({

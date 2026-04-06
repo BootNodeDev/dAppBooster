@@ -3,9 +3,9 @@ import {
   type UseBalanceReturnType,
   type UsePublicClientReturnType,
   type UseWalletClientReturnType,
-  useAccount,
   useBalance,
   useChainId,
+  useConnection,
   useDisconnect,
   usePublicClient,
   useSwitchChain,
@@ -95,13 +95,13 @@ export const useWeb3Status = () => {
     chainId: walletChainId,
     isConnected: isWalletConnected,
     isConnecting: connectingWallet,
-  } = useAccount()
+  } = useConnection()
   const appChainId = useChainId() as ChainsIds
-  const { isPending: switchingChain, switchChain } = useSwitchChain()
+  const { isPending: switchingChain, mutate: switchChain } = useSwitchChain()
   const readOnlyClient = usePublicClient()
   const { data: walletClient } = useWalletClient()
   const { data: balance } = useBalance()
-  const { disconnect } = useDisconnect()
+  const { mutate: disconnect } = useDisconnect()
 
   const isWalletSynced = isWalletConnected && walletChainId === appChainId
 

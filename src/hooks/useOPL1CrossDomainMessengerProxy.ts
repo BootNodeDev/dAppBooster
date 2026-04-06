@@ -142,7 +142,7 @@ export function useL1CrossDomainMessengerProxy({
   walletAddress: Address
 }): () => Promise<Hash> {
   const contract = getContract('OPL1CrossDomainMessengerProxy', fromChain.id)
-  const { writeContractAsync } = useWriteContract()
+  const { mutateAsync: writeContractAsync } = useWriteContract()
 
   return useCallback(async () => {
     const { gas: l2Gas, message } = await l2ContractCallInfo({

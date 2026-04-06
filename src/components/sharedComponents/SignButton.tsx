@@ -55,7 +55,7 @@ const SignButton: FC<SignButtonProps> = ({
     useWalletStatus({ chainId })
   const { watchSignature } = useTransactionNotification()
 
-  const { isPending, signMessageAsync } = useSignMessage({
+  const { isPending, mutateAsync: signMessageAsync } = useSignMessage({
     mutation: {
       onSuccess(data) {
         onSign?.(data)

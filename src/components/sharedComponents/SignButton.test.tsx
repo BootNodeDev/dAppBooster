@@ -37,7 +37,7 @@ vi.mock('@/src/providers/TransactionNotificationProvider', () => ({
 vi.mock('wagmi', () => ({
   useSignMessage: vi.fn(() => ({
     isPending: false,
-    signMessageAsync: mockSignMessageAsync,
+    mutateAsync: mockSignMessageAsync,
   })),
 }))
 

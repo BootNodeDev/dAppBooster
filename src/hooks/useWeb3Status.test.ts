@@ -9,18 +9,18 @@ const mockDisconnect = vi.fn()
 const mockSwitchChain = vi.fn()
 
 vi.mock('wagmi', () => ({
-  useAccount: vi.fn(() => ({
+  useConnection: vi.fn(() => ({
     address: undefined,
     chainId: undefined,
     isConnected: false,
     isConnecting: false,
   })),
   useChainId: vi.fn(() => 1),
-  useSwitchChain: vi.fn(() => ({ isPending: false, switchChain: mockSwitchChain })),
+  useSwitchChain: vi.fn(() => ({ isPending: false, mutate: mockSwitchChain })),
   usePublicClient: vi.fn(() => undefined),
   useWalletClient: vi.fn(() => ({ data: undefined })),
   useBalance: vi.fn(() => ({ data: undefined })),
-  useDisconnect: vi.fn(() => ({ disconnect: mockDisconnect })),
+  useDisconnect: vi.fn(() => ({ mutate: mockDisconnect })),
 }))
 
 vi.mock('@/src/hooks/useWalletStatus', () => ({
@@ -45,7 +45,7 @@ import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletSt
 const { useWalletStatus } = await import('@/src/hooks/useWalletStatus')
 const mockedUseWalletStatus = vi.mocked(useWalletStatus)
 
-type MockAccount = ReturnType<typeof wagmi.useAccount>
+type MockAccount = ReturnType<typeof wagmi.useConnection>
 type MockSwitchChain = ReturnType<typeof wagmi.useSwitchChain>
 
 describe('useWeb3Status', () => {
@@ -68,7 +68,7 @@ describe('useWeb3Status', () => {
       isConnected: true,
       isConnecting: false,
     } as unknown as MockAccount
-    vi.mocked(wagmi.useAccount).mockReturnValueOnce(mock)
+    vi.mocked(wagmi.useConnection).mockReturnValueOnce(mock)
     const { result } = renderHook(() => useWeb3Status())
     expect(result.current.isWalletConnected).toBe(true)
     expect(result.current.address).toBe('0xabc123')
@@ -81,7 +81,7 @@ describe('useWeb3Status', () => {
       isConnected: true,
       isConnecting: false,
     } as unknown as MockAccount
-    vi.mocked(wagmi.useAccount).mockReturnValueOnce(mock)
+    vi.mocked(wagmi.useConnection).mockReturnValueOnce(mock)
     vi.mocked(wagmi.useChainId).mockReturnValueOnce(1)
     const { result } = renderHook(() => useWeb3Status())
     expect(result.current.isWalletSynced).toBe(true)
@@ -94,7 +94,7 @@ describe('useWeb3Status', () => {
       isConnected: true,
       isConnecting: false,
     } as unknown as MockAccount
-    vi.mocked(wagmi.useAccount).mockReturnValueOnce(mock)
+    vi.mocked(wagmi.useConnection).mockReturnValueOnce(mock)
     vi.mocked(wagmi.useChainId).mockReturnValueOnce(1)
     const { result } = renderHook(() => useWeb3Status())
     expect(result.current.isWalletSynced).toBe(false)
@@ -143,7 +143,7 @@ describe('useWeb3StatusConnected', () => {
       switchChain: vi.fn(),
     })
 
-    vi.mocked(wagmi.useAccount).mockReturnValueOnce({
+    vi.mocked(wagmi.useConnection).mockReturnValueOnce({
       address: '0xdeadbeef' as Address,
       chainId: 1,
       isConnected: true,

@@ -16,7 +16,7 @@ import { useWeb3StatusConnected } from '@/src/components/sharedComponents/Wallet
 const NativeToken = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const { address } = useWeb3StatusConnected()
-  const { sendTransactionAsync } = useSendTransaction()
+  const { mutateAsync: sendTransactionAsync } = useSendTransaction()
   const [minedMessage, setMinedMessage] = useState<string | ReactElement>()
 
   const handleOnMined = (receipt: TransactionReceipt) => {

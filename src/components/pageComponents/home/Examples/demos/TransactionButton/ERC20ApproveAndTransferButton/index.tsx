@@ -58,7 +58,7 @@ const ABIExample = [
  */
 const ERC20ApproveAndTransferButton = withSuspense(() => {
   const { address } = useWeb3StatusConnected()
-  const { writeContractAsync } = useWriteContract()
+  const { mutateAsync: writeContractAsync } = useWriteContract()
 
   const { data: balance, refetch: refetchBalance } = useSuspenseReadErc20BalanceOf({
     address: tokenUSDC_sepolia.address as Address,
