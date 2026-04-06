@@ -1,6 +1,6 @@
-import { type GetExplorerUrlParams, getExplorerLink } from '@/src/utils/getExplorerLink'
-import { type LinkProps, chakra } from '@chakra-ui/react'
+import { chakra, type LinkProps } from '@chakra-ui/react'
 import type { FC } from 'react'
+import { type GetExplorerUrlParams, getExplorerLink } from '@/src/utils/getExplorerLink'
 
 interface ExplorerLinkProps extends GetExplorerUrlParams, LinkProps {
   text?: string

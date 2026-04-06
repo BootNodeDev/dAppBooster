@@ -1,7 +1,3 @@
-import Icon from '@/src/components/pageComponents/home/Examples/demos/SwitchNetwork/Icon'
-import BaseSwitchNetwork, { type Networks } from '@/src/components/sharedComponents/SwitchNetwork'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import {
   NetworkArbitrumOne,
   NetworkEthereum,
@@ -9,6 +5,10 @@ import {
   NetworkPolygon,
 } from '@web3icons/react'
 import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
+import Icon from '@/src/components/pageComponents/home/Examples/demos/SwitchNetwork/Icon'
+import BaseSwitchNetwork, { type Networks } from '@/src/components/sharedComponents/SwitchNetwork'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 const SwitchNetwork = () => {
   const { isWalletConnected } = useWeb3Status()

@@ -1,3 +1,10 @@
+import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
+import { Box, Flex, Skeleton } from '@chakra-ui/react'
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { NetworkArbitrumOne, NetworkBase, NetworkOptimism, NetworkPolygon } from '@web3icons/react'
+import request from 'graphql-request'
+import { useState } from 'react'
+import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import {
   Row,
@@ -15,13 +22,6 @@ import { env } from '@/src/env'
 import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
 import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-import { generateSchemasMapping } from '@bootnodedev/db-subgraph'
-import { Box, Flex, Skeleton } from '@chakra-ui/react'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { NetworkArbitrumOne, NetworkBase, NetworkOptimism, NetworkPolygon } from '@web3icons/react'
-import request from 'graphql-request'
-import { useState } from 'react'
-import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
 const chainNameMapping: { [key: number]: string } = {
   [arbitrum.id]: 'arbitrum',

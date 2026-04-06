@@ -1,8 +1,8 @@
+import { Dialog, Flex, type FlexProps, Heading, Portal, Text } from '@chakra-ui/react'
+import { type FC, type ReactNode, useState } from 'react'
 import DemoButton from '@/src/components/pageComponents/home/Examples/Item/buttons/DemoButton'
 import DocumentationButton from '@/src/components/pageComponents/home/Examples/Item/buttons/DocumentationButton'
 import Modal from '@/src/components/sharedComponents/ui/Modal'
-import { Dialog, Flex, type FlexProps, Heading, Portal, Text } from '@chakra-ui/react'
-import { type FC, type ReactNode, useState } from 'react'
 import styles from './styles'
 
 export interface Props extends FlexProps {

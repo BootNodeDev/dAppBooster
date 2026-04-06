@@ -1,9 +1,9 @@
+import { Box, Flex, type FlexProps, Skeleton } from '@chakra-ui/react'
+import type { FC } from 'react'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import AddERC20TokenButton from '@/src/components/sharedComponents/TokenSelect/List/AddERC20TokenButton'
 import TokenBalance from '@/src/components/sharedComponents/TokenSelect/List/TokenBalance'
 import type { Token } from '@/src/types/token'
-import { Box, Flex, type FlexProps, Skeleton } from '@chakra-ui/react'
-import type { FC } from 'react'
 
 const Icon: FC<{ size: number } & FlexProps> = ({ size, children, ...restProps }) => (
   <Flex

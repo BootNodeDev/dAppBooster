@@ -1,11 +1,11 @@
+import { Flex } from '@chakra-ui/react'
+import { useState } from 'react'
+import { sepolia } from 'wagmi/chains'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import ERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Icon'
 import NativeToken from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/NativeToken'
 import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
-import { Flex } from '@chakra-ui/react'
-import { useState } from 'react'
-import { sepolia } from 'wagmi/chains'
 
 type Options = 'erc20' | 'native'
 

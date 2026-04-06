@@ -1,6 +1,3 @@
-import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
-import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import { Box, Flex, Menu } from '@chakra-ui/react'
 import {
   type ComponentPropsWithoutRef,
@@ -11,6 +8,9 @@ import {
 } from 'react'
 import * as chains from 'viem/chains'
 import { useSwitchChain } from 'wagmi'
+import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
+import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 
 type NetworkItem = {
   icon: ReactElement

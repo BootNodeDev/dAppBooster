@@ -1,7 +1,7 @@
-import Dark from '@/src/components/sharedComponents/ui/SwitchThemeButton/assets/Dark'
-import Light from '@/src/components/sharedComponents/ui/SwitchThemeButton/assets/Light'
 import { Box, type ButtonProps, chakra } from '@chakra-ui/react'
 import type { FC } from 'react'
+import Dark from '@/src/components/sharedComponents/ui/SwitchThemeButton/assets/Dark'
+import Light from '@/src/components/sharedComponents/ui/SwitchThemeButton/assets/Light'
 import styles from './styles'
 
 const Icon = chakra('div', {

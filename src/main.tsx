@@ -1,6 +1,5 @@
+import { createRouter, RouterProvider } from '@tanstack/react-router'
 import { StrictMode } from 'react'
-
-import { RouterProvider, createRouter } from '@tanstack/react-router'
 import ReactDOM from 'react-dom/client'
 
 import NotFound404 from '@/src/components/pageComponents/NotFound404'

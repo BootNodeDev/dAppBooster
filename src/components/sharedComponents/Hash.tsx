@@ -1,8 +1,8 @@
+import { Flex, type FlexProps, Span } from '@chakra-ui/react'
+import type { FC, MouseEventHandler } from 'react'
 import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
 import ExternalLink from '@/src/components/sharedComponents/ui/ExternalLink'
 import { getTruncatedHash } from '@/src/utils/strings'
-import { Flex, type FlexProps, Span } from '@chakra-ui/react'
-import type { FC, MouseEventHandler } from 'react'
 
 interface HashProps extends Omit<FlexProps, 'onCopy'> {
   explorerURL?: string

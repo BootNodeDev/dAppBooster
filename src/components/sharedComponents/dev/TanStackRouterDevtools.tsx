@@ -1,4 +1,4 @@
-import { Suspense, lazy } from 'react'
+import { lazy, Suspense } from 'react'
 
 const RouterDevtoolsBase = import.meta.env.PROD
   ? () => null

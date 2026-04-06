@@ -1,6 +1,6 @@
-import { createMockChain } from '@/src/test-utils'
 import type { Chain } from 'viem'
 import { describe, expect, it } from 'vitest'
+import { createMockChain } from '@/src/test-utils'
 import { getExplorerLink } from './getExplorerLink'
 
 const chain = createMockChain()

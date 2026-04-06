@@ -1,14 +1,14 @@
+import type { ButtonProps } from '@chakra-ui/react'
+import type { ReactElement } from 'react'
+import { useEffect, useState } from 'react'
+import type { Hash, TransactionReceipt } from 'viem'
+import { useWaitForTransactionReceipt } from 'wagmi'
 import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
 import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainButton'
 import { useWalletStatus } from '@/src/hooks/useWalletStatus'
 import type { ChainsIds } from '@/src/lib/networks.config'
 import { useTransactionNotification } from '@/src/providers/TransactionNotificationProvider'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import type { ButtonProps } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
-import type { ReactElement } from 'react'
-import type { Hash, TransactionReceipt } from 'viem'
-import { useWaitForTransactionReceipt } from 'wagmi'
 
 interface TransactionButtonProps extends ButtonProps {
   /** Target chain ID for wallet status verification. */

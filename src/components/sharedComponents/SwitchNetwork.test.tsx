@@ -13,8 +13,8 @@ vi.mock('wagmi', () => ({
   useSwitchChain: vi.fn(),
 }))
 
-import * as useWeb3StatusModule from '@/src/hooks/useWeb3Status'
 import * as wagmiModule from 'wagmi'
+import * as useWeb3StatusModule from '@/src/hooks/useWeb3Status'
 
 const mockNetworks: Networks = [
   { id: 1, label: 'Ethereum', icon: <span>ETH</span> },

@@ -1,8 +1,4 @@
-import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
-import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
-import { DeveloperError } from '@/src/utils/DeveloperError'
-import { Flex, Spinner } from '@chakra-ui/react'
-import { Dialog, Portal } from '@chakra-ui/react'
+import { Dialog, Flex, Portal, Spinner } from '@chakra-ui/react'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { type ComponentType, type JSX, type ReactNode, Suspense } from 'react'
 import {
@@ -10,6 +6,9 @@ import {
   type ErrorBoundaryPropsWithRender,
   type FallbackProps,
 } from 'react-error-boundary'
+import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
+import { DeveloperError } from '@/src/utils/DeveloperError'
 
 export type DefaultFallbackFormat = 'dialog' | 'default'
 

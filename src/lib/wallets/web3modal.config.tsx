@@ -3,15 +3,13 @@
  * version used: 4.2.1
  */
 
-import type { DetailedHTMLProps, FC, HTMLAttributes, PropsWithChildren } from 'react'
-
-import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import { createAppKit } from '@reown/appkit/react'
 
-import { env } from '@/src/env'
-
-import { chains } from '@/src/lib/networks.config'
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
+import type { DetailedHTMLProps, FC, HTMLAttributes, PropsWithChildren } from 'react'
 import type { Chain } from 'viem'
+import { env } from '@/src/env'
+import { chains } from '@/src/lib/networks.config'
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => children
 

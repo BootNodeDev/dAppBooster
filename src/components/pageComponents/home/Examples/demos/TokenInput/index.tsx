@@ -1,12 +1,3 @@
-import OptionsDropdown from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
-import Icon from '@/src/components/pageComponents/home/Examples/demos/TokenInput/Icon'
-import BaseTokenInput from '@/src/components/sharedComponents/TokenInput'
-import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
-import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
-import { useTokenLists } from '@/src/hooks/useTokenLists'
-import { useTokenSearch } from '@/src/hooks/useTokenSearch'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { Box, Flex, Skeleton } from '@chakra-ui/react'
 import {
   NetworkArbitrumOne,
@@ -16,6 +7,15 @@ import {
 } from '@web3icons/react'
 import { useState } from 'react'
 import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
+import OptionsDropdown from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
+import Icon from '@/src/components/pageComponents/home/Examples/demos/TokenInput/Icon'
+import BaseTokenInput from '@/src/components/sharedComponents/TokenInput'
+import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
+import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
+import { useTokenLists } from '@/src/hooks/useTokenLists'
+import { useTokenSearch } from '@/src/hooks/useTokenSearch'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 type Options = 'single' | 'multi'
 

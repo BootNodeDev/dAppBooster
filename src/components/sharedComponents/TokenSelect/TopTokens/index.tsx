@@ -1,8 +1,8 @@
+import { Flex, type FlexProps } from '@chakra-ui/react'
+import type { FC } from 'react'
 import Item from '@/src/components/sharedComponents/TokenSelect/TopTokens/Item'
 import type { Token, Tokens } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
-import { Flex, type FlexProps } from '@chakra-ui/react'
-import type { FC } from 'react'
 
 interface TopTokensProps extends FlexProps {
   onTokenSelect: (token: Token | undefined) => void

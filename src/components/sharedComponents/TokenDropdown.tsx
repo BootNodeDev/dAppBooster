@@ -1,11 +1,11 @@
+import { Flex, Menu } from '@chakra-ui/react'
+import type { ComponentPropsWithoutRef, FC } from 'react'
+import { useState } from 'react'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
 import { MenuContent } from '@/src/components/sharedComponents/ui/Menu'
 import type { Token } from '@/src/types/token'
-import { Flex, Menu } from '@chakra-ui/react'
-import type { ComponentPropsWithoutRef, FC } from 'react'
-import { useState } from 'react'
 
 export interface TokenDropdownProps extends TokenSelectProps {
   currentToken?: Token | undefined

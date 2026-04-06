@@ -1,8 +1,8 @@
+import { Flex, type FlexProps } from '@chakra-ui/react'
+import type { FC } from 'react'
 import Row from '@/src/components/sharedComponents/TokenSelect/List/Row'
 import VirtualizedList from '@/src/components/sharedComponents/TokenSelect/List/VirtualizedList'
 import type { Token, Tokens } from '@/src/types/token'
-import { Flex, type FlexProps } from '@chakra-ui/react'
-import type { FC } from 'react'
 
 interface TokenSelectListProps extends FlexProps {
   containerHeight: number

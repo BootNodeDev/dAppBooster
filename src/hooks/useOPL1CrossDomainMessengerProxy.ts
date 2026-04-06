@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { type Address, type Hash, createPublicClient, encodeFunctionData } from 'viem'
+import { type Address, createPublicClient, encodeFunctionData, type Hash } from 'viem'
 import type { mainnet } from 'viem/chains'
 import { optimism, optimismSepolia, sepolia } from 'viem/chains'
 import { useWriteContract } from 'wagmi'

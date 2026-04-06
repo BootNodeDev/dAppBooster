@@ -1,4 +1,4 @@
-import { type InputProps, chakra } from '@chakra-ui/react'
+import { chakra, type InputProps } from '@chakra-ui/react'
 import {
   type ChangeEvent,
   type FC,

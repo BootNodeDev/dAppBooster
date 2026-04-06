@@ -1,7 +1,7 @@
-import type { Token } from '@/src/types/token'
-import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { Box, Flex } from '@chakra-ui/react'
 import { formatUnits } from 'viem'
+import type { Token } from '@/src/types/token'
+import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 interface TokenBalanceProps {
   isLoading?: boolean

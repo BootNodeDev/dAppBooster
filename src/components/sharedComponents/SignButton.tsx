@@ -1,11 +1,11 @@
+import { type ButtonProps, chakra } from '@chakra-ui/react'
+import type { FC, ReactElement } from 'react'
+import { useSignMessage } from 'wagmi'
 import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainButton'
 import { useWalletStatus } from '@/src/hooks/useWalletStatus'
 import type { ChainsIds } from '@/src/lib/networks.config'
 import { useTransactionNotification } from '@/src/providers/TransactionNotificationProvider'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
-import { type ButtonProps, chakra } from '@chakra-ui/react'
-import type { FC, ReactElement } from 'react'
-import { useSignMessage } from 'wagmi'
 
 interface SignButtonProps extends Omit<ButtonProps, 'onError'> {
   /** Target chain ID for wallet status verification. */
