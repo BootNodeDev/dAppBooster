@@ -25,7 +25,7 @@ import tokenListsCache, { type TokensMap, updateTokenListsCache } from '@/src/ut
  * - Utilizes caching for performance optimization
  *
  * @dev Intended to be used with a `Suspense` wrapper as it uses `useSuspenseQueries`
- * @dev Uses infinite cache durations as token lists rarely change
+ * @dev Uses 1-hour cache durations (staleTime/gcTime) as token lists rarely change
  *
  * @returns {TokensMap} Object containing:
  * @returns {Token[]} returns.tokens - Flat array of all unique tokens
@@ -62,8 +62,8 @@ export const useTokenLists = (): TokensMap => {
     queries: tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
       queryKey: ['tokens-list', url],
       queryFn: () => fetchTokenList(url),
-      staleTime: Number.POSITIVE_INFINITY,
-      gcTime: Number.POSITIVE_INFINITY,
+      staleTime: 60 * 60 * 1000,
+      gcTime: 60 * 60 * 1000,
     })),
     combine: combineTokenLists,
   })
