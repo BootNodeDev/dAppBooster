@@ -148,7 +148,7 @@ describe('useWeb3StatusConnected', () => {
       chainId: 1,
       isConnected: true,
       isConnecting: false,
-    } as unknown as ReturnType<typeof wagmi.useAccount>)
+    } as unknown as ReturnType<typeof wagmi.useConnection>)
 
     const wrapper = ({ children }: { children: React.ReactNode }) =>
       createElement(WalletStatusVerifier, null, children)
