@@ -1,6 +1,18 @@
 import { Box } from '@chakra-ui/react'
 import type { ComponentProps, FC } from 'react'
-import Jazzicon, { jsNumberForAddress } from 'react-jazzicon'
+// react-jazzicon is CJS with __esModule. Vite 8's pre-bundler wraps it as
+// `export default module.exports`, so the default import is the module.exports
+// object, not the component. Node.js/Vitest gives the component directly.
+import _Jazzicon, { jsNumberForAddress as _jsNFA } from 'react-jazzicon'
+
+// Vite 8 pre-bundler wraps CJS __esModule packages as `export default module.exports`,
+// so the default import may be the module.exports object instead of exports.default.
+type CJSModule = Record<string, unknown>
+const _mod = _Jazzicon as unknown as CJSModule
+const Jazzicon: typeof _Jazzicon =
+  typeof _Jazzicon === 'function' ? _Jazzicon : (_mod.default as typeof _Jazzicon)
+const jsNumberForAddress: typeof _jsNFA =
+  typeof _jsNFA === 'function' ? _jsNFA : (_mod.jsNumberForAddress as typeof _jsNFA)
 
 interface AvatarProps extends ComponentProps<'div'> {
   address: string
