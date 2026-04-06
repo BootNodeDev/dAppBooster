@@ -49,6 +49,7 @@ export default defineConfig(({ mode }) => {
       alias: {
         '@/src': resolve(__dirname, './src'),
         '@packageJSON': resolve(__dirname, 'package.json'),
+        buffer: 'buffer/',
       },
     },
     test: {
