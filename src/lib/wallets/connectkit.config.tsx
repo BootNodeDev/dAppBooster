@@ -91,7 +91,7 @@ const defaultConfig = {
 
   // Optional App Info
   appDescription: env.PUBLIC_APP_DESCRIPTION,
-  appUrl: env.PUBLIC_APP_URL,
+  appUrl: typeof window !== 'undefined' ? window.location.origin : env.PUBLIC_APP_URL,
   appIcon: env.PUBLIC_APP_LOGO,
 } as const
 

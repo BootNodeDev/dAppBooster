@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 
 import NotFound404 from '@/src/components/pageComponents/NotFound404'
 import { routeTree } from '@/src/routeTree.gen'
+import { printAppInfo } from '@/src/utils/printAppInfo'
 
 const router = createRouter({
   routeTree,
@@ -16,7 +17,9 @@ declare module '@tanstack/react-router' {
   }
 }
 
-// biome-ignore lint/style/noNonNullAssertion: <explanation>
+printAppInfo()
+
+// biome-ignore lint/style/noNonNullAssertion: root element is guaranteed by index.html
 const rootElement = document.getElementById('root')!
 
 if (!rootElement.innerHTML) {

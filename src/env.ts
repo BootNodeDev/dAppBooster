@@ -6,7 +6,7 @@ const zBoolean = z
   .enum(['true', 'false'])
   .transform((value) => value === 'true')
   .optional()
-  .default('true')
+  .default(true)
 
 /**
  * Represents the environment configuration object.

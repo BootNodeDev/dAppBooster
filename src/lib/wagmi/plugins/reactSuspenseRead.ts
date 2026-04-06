@@ -12,7 +12,7 @@ const walletConfigImport = `import { config } from '@/src/lib/wallets/connectkit
 type ActionsResult = {
   name: string
 
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+  // biome-ignore lint/suspicious/noExplicitAny: wagmi plugin API does not expose typed ABI item types
   run: ({ contracts }: { contracts: any[] }) => Promise<{
     imports: string
     content: string
@@ -29,7 +29,7 @@ export function reactSuspenseRead(config: ActionsConfig = {}): ActionsResult {
 
       const actionNames = new Set<string>()
 
-      // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+      // biome-ignore lint/suspicious/noExplicitAny: wagmi plugin API does not expose typed ABI item types
       const isReadFunction = (item: any) =>
         item.type === 'function' &&
         (item.stateMutability === 'view' || item.stateMutability === 'pure')

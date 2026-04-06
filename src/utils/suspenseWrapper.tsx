@@ -41,10 +41,7 @@ const DefaultFallback = ({
  * A generic wrapper for all the components that use suspense
  *
  * @param WrappedComponent - a component that will be wrapped inside ErrorBoundary and Suspense
- * @param {ReactNode} [errorFallback] - a custom fallback for ErrorBoundary
- * @param {ReactNode} [suspenseFallback] - a custom fallback for Suspense
- * @param {DefaultFallbackFormat} [defaultFallbackFormat] - Optional. Can be a dialog or just text or custom component (default).
- * @returns {ComponentType}
+ * @returns {ComponentType} component accepting {@link WithSuspenseProps}
  */
 export const withSuspense = <WrappedProps extends object>(
   WrappedComponent: ComponentType<WrappedProps>,
@@ -163,11 +160,7 @@ export type WithSuspenseAndRetryProps = {
  * A wrapper for a component that uses suspense, with the capacity to retry if a useSuspenseQuery fails
  *
  * @param WrappedComponent - a component wrapped inside a tanstack's QueryErrorResetBoundary, ErrorBoundary, and a Suspense
- * @param {ReactNode} [fallbackRender] - a custom fallback render for ErrorBoundary
- * @param {DefaultFallbackFormat} [defaultFallbackFormat] - Optional. Can be a dialog or just text (default). Has no effect if `fallbackRender` is provided
- * @param {ReactNode} [suspenseFallback] - a custom fallback for Suspense
- *  @param {'xs' | 'sm' | 'md' | 'lg' | 'xl'} [spinnerSize] - Optional. Sets the size of the default spinner shown during suspense loading. Default is 'lg'.
- * @returns {ComponentType}
+ * @returns {ComponentType} component accepting {@link WithSuspenseAndRetryProps}
  */
 export const withSuspenseAndRetry = <WrappedProps extends object>(
   WrappedComponent: ComponentType<WrappedProps>,

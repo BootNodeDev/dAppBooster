@@ -94,7 +94,7 @@ export const useTokens = (
 
   const dAppChainsId = chainId
     ? [chainId]
-    : Object.keys(tokensData.tokensByChainId).map((id) => Number.parseInt(id))
+    : Object.keys(tokensData.tokensByChainId).map((id) => Number.parseInt(id, 10))
   const lifiChainsId = chains?.map((chain) => chain.id) ?? []
   const chainsToFetch = dAppChainsId.filter((id) => lifiChainsId.includes(id))
 
@@ -111,11 +111,11 @@ export const useTokens = (
     queryKey: ['lifi', 'tokens', 'balances', account, chainsToFetch],
     queryFn: () =>
       getTokenBalances(
-        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        // biome-ignore lint/style/noNonNullAssertion: guarded by enabled: canFetchBalance && !!tokensPricesByChain
         account!,
-        // biome-ignore lint/style/noNonNullAssertion: <explanation>
+        // biome-ignore lint/style/noNonNullAssertion: guarded by enabled: canFetchBalance && !!tokensPricesByChain
         Object.entries(tokensPricesByChain!.tokens)
-          .filter(([chainId]) => chainsToFetch.includes(Number.parseInt(chainId)))
+          .filter(([chainId]) => chainsToFetch.includes(Number.parseInt(chainId, 10)))
           .flatMap(([, tokens]) => tokens),
       ),
     staleTime: BALANCE_EXPIRATION_TIME,
@@ -167,7 +167,6 @@ function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, Toke
     (acc, [chainId, tokens]) => {
       acc[chainId] = {}
 
-      // biome-ignore lint/complexity/noForEach: <explanation>
       tokens.forEach((token) => {
         acc[chainId][token.address] = token.priceUSD ?? '0'
       })

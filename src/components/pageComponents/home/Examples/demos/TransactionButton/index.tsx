@@ -18,6 +18,7 @@ const TransactionButton = () => {
 
   return (
     <WalletStatusVerifier chainId={sepolia.id}>
+      {/* biome-ignore lint/complexity/noUselessFragments: WalletStatusVerifier expects a single ReactElement child */}
       <>
         <OptionsDropdown items={items} />
         <Flex
