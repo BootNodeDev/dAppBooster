@@ -62,8 +62,8 @@ export const useTokenLists = (): TokensMap => {
     queries: tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
       queryKey: ['tokens-list', url],
       queryFn: () => fetchTokenList(url),
-      staleTime: 60 * 60 * 1000,
-      gcTime: 60 * 60 * 1000,
+      staleTime: Number.POSITIVE_INFINITY,
+      gcTime: Number.POSITIVE_INFINITY,
     })),
     combine: combineTokenLists,
   })
