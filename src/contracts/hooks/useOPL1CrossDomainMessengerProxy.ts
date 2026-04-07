@@ -1,11 +1,23 @@
-import { useCallback } from 'react'
+/**
+ * Builds TransactionParams for a cross-domain message from L1 to Optimism L2.
+ *
+ * This is a Level 5 escape hatch — pure async function using viem for OP-specific
+ * gas estimation and calldata encoding. The result feeds into useTransaction().execute()
+ * or <TransactionButton> at Level 1-2.
+ *
+ * @precondition fromChain is sepolia or mainnet
+ * @precondition walletAddress is a valid connected account
+ * @postcondition returns TransactionParams targeting L1CrossDomainMessenger.sendMessage
+ * @postcondition gas field includes 20% safety buffer over combined L1+L2 estimates
+ */
 
 import { type Address, createPublicClient, encodeFunctionData, type Hash } from 'viem'
 import type { mainnet } from 'viem/chains'
 import { optimism, optimismSepolia, sepolia } from 'viem/chains'
-import { useWriteContract } from 'wagmi'
 
 import { transports } from '@/src/core/types'
+import type { TransactionParams } from '@/src/sdk/core'
+import type { EvmContractCall } from '@/src/sdk/core/evm/types'
 import {
   type ContractFunctionArgs,
   type ContractFunctionName,
@@ -13,7 +25,17 @@ import {
   getContract,
 } from '../definitions'
 
-async function l2ContractCallInfo({
+export interface BuildCrossDomainMessageConfig {
+  fromChain: typeof sepolia | typeof mainnet
+  l2ContractAddress: Address
+  contractName: ContractNames
+  functionName: ContractFunctionName<ContractNames>
+  args: ContractFunctionArgs<ContractNames, ContractFunctionName<ContractNames>>
+  value: bigint
+  walletAddress: Address
+}
+
+async function estimateL2Gas({
   contractName,
   functionName,
   args,
@@ -21,10 +43,10 @@ async function l2ContractCallInfo({
   walletAddress,
   chain,
 }: {
-  args: ContractFunctionArgs<typeof contractName, typeof functionName>
+  args: ContractFunctionArgs<ContractNames, ContractFunctionName<ContractNames>>
   chain: typeof optimismSepolia | typeof optimism
   contractName: ContractNames
-  functionName: ContractFunctionName<typeof contractName>
+  functionName: ContractFunctionName<ContractNames>
   value?: bigint
   walletAddress: Address
 }) {
@@ -39,10 +61,10 @@ async function l2ContractCallInfo({
     address: contract.address,
     abi: contract.abi,
     functionName,
-    // biome-ignore lint/suspicious/noExplicitAny: TS does not infer correctly the type of valueuseop
+    // biome-ignore lint/suspicious/noExplicitAny: viem generic inference limitation
     args: args as any,
     account: walletAddress,
-    // biome-ignore lint/suspicious/noExplicitAny: TS does not infer correctly the type of value
+    // biome-ignore lint/suspicious/noExplicitAny: viem generic inference limitation
     value: value as any,
   })
 
@@ -55,7 +77,7 @@ async function l2ContractCallInfo({
   return { message, gas }
 }
 
-function estimateGasL1CrossDomainMessenger({
+async function estimateL1Gas({
   chain,
   l2Gas,
   message,
@@ -78,108 +100,58 @@ function estimateGasL1CrossDomainMessenger({
     abi: contract.abi,
     functionName: 'sendMessage',
     args: [contract.address, message, Number(l2Gas)],
-    value: value,
+    value,
   })
 }
 
 /**
- * Custom hook to send a cross-domain message from L1 (Ethereum Mainnet or Sepolia) to Optimism.
+ * Builds TransactionParams for an L1→L2 cross-domain message via OP stack.
  *
- * Handles the complex process of sending a message from L1 to L2 through Optimism's
- * CrossDomainMessenger contract, including:
- * - Estimating gas on both L1 and L2
- * - Encoding function data for the message
- * - Adding safety buffer to gas estimates (20%)
- * - Executing the cross-chain transaction
+ * Call this on user action (e.g., button click), then pass the result
+ * to useTransaction().execute(params) or <TransactionButton params={params}>.
  *
- * @param {Object} params - The parameters object
- * @param {Chain} params.fromChain - Source chain (sepolia or mainnet)
- * @param {Address} params.l2ContractAddress - Target contract address on L2
- * @param {ContractNames} params.contractName - Name of the contract from contracts registry
- * @param {ContractFunctionName} params.functionName - Name of function to call on the L2 contract
- * @param {ContractFunctionArgs} params.args - Arguments to pass to the L2 function
- * @param {bigint} params.value - Value in wei to send with the transaction
- *
- * @returns {Function} Async function that executes the cross-domain message when called
- *
- * @example
- * ```tsx
- * const sendToOptimism = useL1CrossDomainMessengerProxy({
- *   fromChain: sepolia,
- *   l2ContractAddress: '0x...',
- *   contractName: 'MyContract',
- *   functionName: 'myFunction',
- *   args: [arg1, arg2],
- *   value: parseEther('0.1')
- * });
- *
- * // Later in your code
- * const handleClick = async () => {
- *   try {
- *     const txHash = await sendToOptimism();
- *     console.log('Transaction sent:', txHash);
- *   } catch (error) {
- *     console.error('Failed to send cross-domain message:', error);
- *   }
- * };
- * ```
+ * @precondition wallet must be connected to fromChain
+ * @postcondition returns TransactionParams with EvmContractCall targeting sendMessage
  */
-export function useL1CrossDomainMessengerProxy({
-  fromChain,
-  l2ContractAddress,
-  contractName,
-  functionName,
-  args,
-  value,
-  walletAddress,
-}: {
-  fromChain: typeof sepolia | typeof mainnet
-  l2ContractAddress: Address
-  contractName: ContractNames
-  functionName: ContractFunctionName<typeof contractName>
-  args: ContractFunctionArgs<typeof contractName, typeof functionName>
-  value: bigint
-  walletAddress: Address
-}) {
-  const contract = getContract('OPL1CrossDomainMessengerProxy', fromChain.id)
-  const { writeContractAsync } = useWriteContract()
+export async function buildCrossDomainMessageParams(
+  config: BuildCrossDomainMessageConfig,
+): Promise<TransactionParams> {
+  const { fromChain, l2ContractAddress, contractName, functionName, args, value, walletAddress } =
+    config
 
-  return useCallback(async () => {
-    const { gas: l2Gas, message } = await l2ContractCallInfo({
-      contractName,
-      functionName,
-      args,
-      value,
-      walletAddress,
-      chain: fromChain === sepolia ? optimismSepolia : optimism,
-    })
+  const l2Chain = fromChain === sepolia ? optimismSepolia : optimism
 
-    const l1Gas = await estimateGasL1CrossDomainMessenger({
-      chain: fromChain,
-      message,
-      value,
-      l2Gas,
-    })
-
-    return writeContractAsync({
-      chainId: fromChain.id,
-      abi: contract.abi,
-      address: contract.address,
-      functionName: 'sendMessage',
-      args: [l2ContractAddress, message, Number(l2Gas)],
-      value,
-      gas: ((l1Gas + l2Gas) * 120n) / 100n,
-    })
-  }, [
+  const { gas: l2Gas, message } = await estimateL2Gas({
     contractName,
     functionName,
     args,
     value,
     walletAddress,
-    fromChain,
-    writeContractAsync,
-    contract.abi,
-    contract.address,
-    l2ContractAddress,
-  ])
+    chain: l2Chain,
+  })
+
+  const l1Gas = await estimateL1Gas({
+    chain: fromChain,
+    message,
+    value,
+    l2Gas,
+  })
+
+  const contract = getContract('OPL1CrossDomainMessengerProxy', fromChain.id)
+
+  const payload: EvmContractCall = {
+    contract: {
+      address: contract.address,
+      abi: [...contract.abi],
+      functionName: 'sendMessage',
+      args: [l2ContractAddress, message, Number(l2Gas)],
+    },
+    value,
+    gas: ((l1Gas + l2Gas) * 120n) / 100n,
+  }
+
+  return {
+    chainId: fromChain.id,
+    payload,
+  }
 }
