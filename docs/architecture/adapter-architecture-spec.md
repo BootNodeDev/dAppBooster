@@ -1804,6 +1804,115 @@ const bridge = useTransactionFlow([
 
 ---
 
+## Consumer Error Handling Guide
+
+This section maps every user-facing action to the exact SDK errors it can produce, documents whether the hook handles those errors internally or propagates them, and clarifies the two distinct error handling patterns consumers encounter.
+
+### Per-action error table
+
+Each row lists a user action, the SDK error classes that can be thrown, and how the hook layer handles them. "Propagates" means the consumer must `try/catch`. "Catches + re-throws" means the hook sets its `error` state AND re-throws — the consumer can read `error` reactively or `try/catch` the async call.
+
+| User Action | Possible Errors | Hook Behavior |
+|---|---|---|
+| Connect wallet | `WalletNotInstalledError`, `WalletConnectionRejectedError`, `ChainNotSupportedError` | `useWallet().connect()` propagates — consumer must try/catch |
+| Disconnect wallet | _(none — no-op if already disconnected)_ | `useWallet().disconnect()` propagates (but does not throw in practice) |
+| Sign message | `WalletNotConnectedError`, `SigningRejectedError` | `useWallet().signMessage()` propagates — consumer must try/catch |
+| Sign typed data | `WalletNotConnectedError`, `SigningRejectedError`, `CapabilityNotSupportedError` | `useWallet().signTypedData()` propagates — consumer must try/catch. `CapabilityNotSupportedError` is thrown synchronously if the adapter does not support the capability. |
+| Switch chain | `WalletNotConnectedError`, `ChainNotSupportedError` | `useWallet().switchChain()` propagates — consumer must try/catch |
+| Execute transaction | `AdapterNotFoundError`, `WalletNotConnectedError`, `TransactionNotReadyError`, `PreStepsNotExecutedError`, `InsufficientFundsError`, `InvalidSignerError`, `ChainNotSupportedError` | `useTransaction().execute()` catches all, sets `error` state, fires `lifecycle.onError`, AND re-throws |
+| Prepare transaction | `AdapterNotFoundError`, `TransactionNotReadyError`, `InsufficientFundsError` | `useTransaction().prepare()` catches all, sets `error` state AND re-throws |
+| Execute single pre-step | `Error` (prepare not called), `RangeError` (index out of bounds), `AdapterNotFoundError`, `WalletNotConnectedError` | `useTransaction().executePreStep()` — precondition errors (`Error`, `RangeError`, `AdapterNotFoundError`, `WalletNotConnectedError`) propagate directly without setting `error` state. Execution errors (from adapter `execute`/`confirm`) are caught, set `error` state, and re-thrown. |
+| Execute all pre-steps | Same as single pre-step (delegates to `executePreStep`) | `useTransaction().executeAllPreSteps()` — errors propagate from `executePreStep` |
+| Resolve wallet adapter | `AdapterNotFoundError`, `AmbiguousAdapterError` | `useWallet()` throws synchronously during render — React error boundary catches |
+| Provider initialization | `ChainRegistryConflictError`, `Error` (chainType mismatch) | `DAppBoosterProvider` throws synchronously during render — React error boundary catches |
+
+### Error semantics: `ChainNotSupportedError` vs `AdapterNotFoundError`
+
+Both errors mean "this chain doesn't work" to a consumer, but they occur at different levels:
+
+- **`AdapterNotFoundError`** — thrown by the hook resolution layer. No registered adapter's `supportedChains` includes the requested `chainId`. This means the SDK has no adapter at all for this chain.
+  - **Throw sites:** `useWallet()` (via `resolveAdapter()`), `useTransaction().execute()`, `useTransaction().prepare()`, `useTransaction().executePreStep()`
+
+- **`ChainNotSupportedError`** — thrown by the adapter itself. An adapter was found but its own validation rejects the `chainId`. This occurs inside adapter methods like `connect()`, `switchChain()`, and `execute()`.
+  - **Throw sites:** `WalletAdapter.connect()` (when `options.chainId` is not in `supportedChains`), `WalletAdapter.switchChain()`, `TransactionAdapter.execute()`
+
+In practice, `AdapterNotFoundError` fires first (during resolution) if no adapter matches. `ChainNotSupportedError` fires later (during execution) if the adapter was resolved via a different chain but the target chain is not supported.
+
+### Error semantics: `InvalidSignerError`
+
+`InvalidSignerError` is an internal safety check at the adapter boundary. The `TransactionAdapter.execute()` method validates that the signer it receives is the correct type (e.g., a viem `WalletClient` for EVM). This guards against passing an SVM signer to an EVM adapter. Consumers should not normally encounter this error — it indicates a misconfigured adapter stack, not a user action failure.
+
+### Hook error handling patterns
+
+The SDK uses two distinct patterns for error handling at the hook layer:
+
+#### Pattern 1: `useWallet` methods — raw passthrough
+
+All `useWallet()` methods (`connect`, `disconnect`, `signMessage`, `signTypedData`, `switchChain`, `getSigner`) delegate directly to the adapter. Errors propagate unmodified to the consumer. There is no `error` state on the return object.
+
+```ts
+const { connect, signMessage } = useWallet({ chainType: 'evm' })
+
+try {
+  await connect()
+} catch (err) {
+  if (err instanceof WalletConnectionRejectedError) {
+    // User cancelled — show a dismissable message
+  }
+  if (err instanceof WalletNotInstalledError) {
+    // Wallet not found — show install instructions
+  }
+}
+
+try {
+  const result = await signMessage({ message: 'Hello' })
+} catch (err) {
+  if (err instanceof SigningRejectedError) {
+    // User cancelled signing
+  }
+}
+```
+
+The `signMessage` and `signTypedData` wrappers fire `walletLifecycle.onSignError` before re-throwing, but the error still propagates to the consumer.
+
+#### Pattern 2: `useTransaction` methods — catch, set state, re-throw
+
+All `useTransaction()` async methods (`execute`, `prepare`, `executePreStep`, `executeAllPreSteps`) catch errors, set the `error` property on the hook return, and re-throw. Consumers can handle errors in two ways:
+
+**Reactive (read `error` state):**
+
+```ts
+const { execute, error, phase } = useTransaction()
+
+// In a click handler:
+execute(params).catch(() => {})  // swallow — read error reactively
+
+// In JSX:
+{error && <ErrorBanner message={error.message} />}
+```
+
+**Imperative (try/catch):**
+
+```ts
+const { execute } = useTransaction()
+
+try {
+  const result = await execute(params)
+  // success
+} catch (err) {
+  if (err instanceof TransactionNotReadyError) {
+    // preparation failed
+  }
+  if (err instanceof PreStepsNotExecutedError) {
+    // manual pre-steps not completed
+  }
+}
+```
+
+**Important nuance for `executePreStep`:** Precondition checks (prepare not called, index out of bounds, adapter not found, wallet not connected) throw directly without setting `error` state. Only errors during the actual on-chain execution (adapter `execute`/`confirm` calls) go through the catch-set-rethrow pattern. This means the reactive `error` state only captures execution failures, not programmer errors.
+
+---
+
 ## 12. Migration Path
 
 ### From current codebase to adapter architecture
