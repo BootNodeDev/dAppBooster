@@ -5,7 +5,8 @@ import NotFound404 from './NotFound404'
 
 const system = createSystem(defaultConfig)
 
-vi.mock('@tanstack/react-router', () => ({
+vi.mock('@tanstack/react-router', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@tanstack/react-router')>()),
   useNavigate: vi.fn(() => vi.fn()),
 }))
 

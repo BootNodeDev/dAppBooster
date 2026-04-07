@@ -7,7 +7,7 @@ import MainMenu from '@/src/components/sharedComponents/ui/Header/MainMenu'
 import MobileMenu from '@/src/components/sharedComponents/ui/Header/MobileMenu/MobileMenu'
 import { Inner } from '@/src/components/sharedComponents/ui/Inner'
 import { SwitchThemeButton } from '@/src/components/sharedComponents/ui/SwitchThemeButton'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import { ConnectWalletButton } from '@/src/wallet/providers'
 import styles from './styles'
 
 const HomeLink = chakra(Link)

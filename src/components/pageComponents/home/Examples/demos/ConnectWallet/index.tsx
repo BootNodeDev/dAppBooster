@@ -1,5 +1,5 @@
 import Icon from '@/src/components/pageComponents/home/Examples/demos/ConnectWallet/Icon'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import { ConnectWalletButton } from '@/src/wallet/providers'
 
 const connectWallet = {
   demo: <ConnectWalletButton />,

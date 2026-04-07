@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Logo from '@/src/components/sharedComponents/ui/Header/Logo'
 import MainMenu from '@/src/components/sharedComponents/ui/Header/MainMenu'
 import { SwitchThemeButton } from '@/src/components/sharedComponents/ui/SwitchThemeButton'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import { ConnectWalletButton } from '@/src/wallet/providers'
 import styles from './styles'
 
 const MenuIcon = () => (

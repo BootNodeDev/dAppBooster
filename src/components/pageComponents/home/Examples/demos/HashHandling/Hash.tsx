@@ -1,9 +1,8 @@
 import type { FlexProps } from '@chakra-ui/react'
 import type { FC } from 'react'
 import type { Address, Chain } from 'viem'
-import BaseHash from '@/src/components/sharedComponents/Hash'
-import { toaster } from '@/src/components/ui/toaster'
-import { getExplorerLink } from '@/src/utils/getExplorerLink'
+import { Hash as BaseHash, toaster } from '@/src/core/components'
+import { getExplorerLink } from '@/src/core/utils'
 
 interface Props extends FlexProps {
   chain: Chain

@@ -1,6 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
-import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
-import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
+import { GeneralMessage, PrimaryButton } from '@/src/core/components'
 
 const Icon = () => (
   <svg

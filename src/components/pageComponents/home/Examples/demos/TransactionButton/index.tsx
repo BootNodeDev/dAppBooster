@@ -5,7 +5,7 @@ import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/d
 import ERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Icon'
 import NativeToken from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/NativeToken'
-import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { WalletStatusVerifier } from '@/src/wallet/components'
 
 type Options = 'erc20' | 'native'
 

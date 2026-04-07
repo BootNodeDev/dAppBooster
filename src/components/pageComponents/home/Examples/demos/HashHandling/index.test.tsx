@@ -5,14 +5,14 @@ import hashHandling from './index'
 
 const system = createSystem(defaultConfig)
 
-vi.mock('@/src/hooks/useWeb3Status', () => ({
+vi.mock('@/src/wallet/hooks/useWeb3Status', () => ({
   useWeb3Status: vi.fn(() => ({
     isWalletConnected: false,
     walletChainId: undefined,
   })),
 }))
 
-vi.mock('@/src/utils/hash', () => {
+vi.mock('@/src/core/utils/hash', () => {
   const mockFn = vi.fn(() => Promise.resolve(null))
   return {
     default: mockFn,

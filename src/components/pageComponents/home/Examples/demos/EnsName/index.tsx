@@ -6,7 +6,7 @@ import { useEnsName } from 'wagmi'
 import { mainnet } from 'wagmi/chains'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/EnsName/Icon'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
-import Spinner from '@/src/components/sharedComponents/ui/Spinner'
+import { Spinner } from '@/src/core/components'
 
 const EnsNameSearch = ({ address }: { address?: Address }) => {
   const { data, error, status } = useEnsName({

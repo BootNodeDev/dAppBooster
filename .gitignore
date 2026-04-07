@@ -16,15 +16,11 @@ tsconfig.tsbuildinfo
 # Project folders
 typedoc
 coverage
-src/subgraphs/gql
+src/data/adapters/subgraph/gql
 
 # Project files
-src/hooks/generated.ts
+src/contracts/generated.ts
 vite.config.ts.timestamp*
-
-# Claude Code
-.claude/settings.local.json
-CLAUDE.local.md
 
 # Project .env files
 .env.local
@@ -45,4 +41,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-.worktrees
+.vercel
+.env*.local
+
+# Local/unversioned
+.claude/
+.env.local.bkp
+docs/superpowers/

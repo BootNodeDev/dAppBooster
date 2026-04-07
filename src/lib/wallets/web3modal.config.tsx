@@ -17,6 +17,10 @@ declare global {
   namespace JSX {
     interface IntrinsicElements {
       'w3m-button': DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>
+      'appkit-button': DetailedHTMLProps<
+        HTMLAttributes<HTMLElement> & { label?: string },
+        HTMLElement
+      >
     }
   }
 }

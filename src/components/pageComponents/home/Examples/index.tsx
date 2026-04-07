@@ -12,7 +12,7 @@ import tokenInput from '@/src/components/pageComponents/home/Examples/demos/Toke
 import transactionButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton'
 import type { Props as ItemProps } from '@/src/components/pageComponents/home/Examples/Item'
 import List from '@/src/components/pageComponents/home/Examples/List'
-import { Inner } from '@/src/components/sharedComponents/ui/Inner'
+import { Inner } from '@/src/core/components'
 import styles from './styles'
 
 const Examples: FC<BoxProps> = ({ css, ...restProps }) => {

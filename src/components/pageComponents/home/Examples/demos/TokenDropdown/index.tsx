@@ -1,8 +1,8 @@
 import { type FC, useState } from 'react'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/TokenDropdown/Icon'
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
-import BaseTokenDropdown from '@/src/components/sharedComponents/TokenDropdown'
-import type { Token } from '@/src/types/token'
+import { TokenDropdown as BaseTokenDropdown } from '@/src/tokens/components'
+import type { Token } from '@/src/tokens/types'
 
 const TokenDropdown: FC = ({ ...restProps }) => {
   const [currentToken, setCurrentToken] = useState<Token>()

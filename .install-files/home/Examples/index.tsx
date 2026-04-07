@@ -9,7 +9,7 @@ import switchNetwork from '@/src/components/pageComponents/home/Examples/demos/S
 import tokenDropdown from '@/src/components/pageComponents/home/Examples/demos/TokenDropdown'
 import tokenInput from '@/src/components/pageComponents/home/Examples/demos/TokenInput'
 import transactionButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton'
-import { Inner } from '@/src/components/sharedComponents/ui/Inner'
+import { Inner } from '@/src/core/components'
 import { Box, type BoxProps, Flex, Heading, Text, chakra } from '@chakra-ui/react'
 import type { FC } from 'react'
 import styles from './styles'

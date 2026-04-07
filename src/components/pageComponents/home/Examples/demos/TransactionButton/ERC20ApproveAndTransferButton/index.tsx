@@ -4,11 +4,10 @@ import { useWriteContract } from 'wagmi'
 import BaseERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/ERC20ApproveAndTransferButton'
 import MintUSDC from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/MintUSDC'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
-import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
-import { useSuspenseReadErc20BalanceOf } from '@/src/hooks/generated'
-import type { Token } from '@/src/types/token'
-import { formatNumberOrString, NumberType } from '@/src/utils/numberFormat'
-import { withSuspense } from '@/src/utils/suspenseWrapper'
+import { useSuspenseReadErc20BalanceOf } from '@/src/contracts/generated'
+import { formatNumberOrString, NumberType, withSuspense } from '@/src/core/utils'
+import type { Token } from '@/src/tokens/types'
+import { useWeb3StatusConnected } from '@/src/wallet/components'
 
 // USDC token on Sepolia chain
 const tokenUSDC_sepolia: Token = {

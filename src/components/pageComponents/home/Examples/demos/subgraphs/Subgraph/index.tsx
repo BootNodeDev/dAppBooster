@@ -15,13 +15,11 @@ import {
   Wrapper,
 } from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph/Components'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph/Icon'
-import CopyButton from '@/src/components/sharedComponents/ui/CopyButton'
-import ExternalLink from '@/src/components/sharedComponents/ui/ExternalLink'
-import { toaster } from '@/src/components/ui/toaster'
+import { CopyButton, ExternalLinkButton as ExternalLink, toaster } from '@/src/core/components'
+import { withSuspenseAndRetry } from '@/src/core/utils'
+import { allAaveReservesQueryDocument } from '@/src/data/adapters/subgraph/queries/aave/reserves'
+import { allUniswapPoolsQueryDocument } from '@/src/data/adapters/subgraph/queries/uniswap/pools'
 import { env } from '@/src/env'
-import { allAaveReservesQueryDocument } from '@/src/subgraphs/queries/aave/reserves'
-import { allUniswapPoolsQueryDocument } from '@/src/subgraphs/queries/uniswap/pools'
-import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 const chainNameMapping: { [key: number]: string } = {
   [arbitrum.id]: 'arbitrum',

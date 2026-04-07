@@ -5,13 +5,13 @@ import switchNetwork from './index'
 
 const system = createSystem(defaultConfig)
 
-vi.mock('@/src/hooks/useWeb3Status', () => ({
+vi.mock('@/src/wallet/hooks', () => ({
   useWeb3Status: vi.fn(() => ({
     isWalletConnected: false,
   })),
 }))
 
-vi.mock('@/src/providers/Web3Provider', () => ({
+vi.mock('@/src/wallet/providers', () => ({
   ConnectWalletButton: () => <button type="button">Connect Wallet</button>,
 }))
 

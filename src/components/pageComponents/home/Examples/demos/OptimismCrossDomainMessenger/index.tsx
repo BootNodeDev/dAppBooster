@@ -6,16 +6,12 @@ import { optimismSepolia, sepolia } from 'viem/chains'
 import { extractTransactionDepositedLogs, getL2TransactionHash } from 'viem/op-stack'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/OptimismCrossDomainMessenger/Icon'
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
-import Hash from '@/src/components/sharedComponents/Hash'
-import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
-import {
-  useWeb3StatusConnected,
-  WalletStatusVerifier,
-} from '@/src/components/sharedComponents/WalletStatusVerifier'
-import { getContract } from '@/src/constants/contracts/contracts'
-import { useL1CrossDomainMessengerProxy } from '@/src/hooks/useOPL1CrossDomainMessengerProxy'
-import { getExplorerLink } from '@/src/utils/getExplorerLink'
-import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
+import { getContract } from '@/src/contracts/definitions'
+import { useL1CrossDomainMessengerProxy } from '@/src/contracts/hooks/useOPL1CrossDomainMessengerProxy'
+import { Hash } from '@/src/core/components'
+import { getExplorerLink, withSuspenseAndRetry } from '@/src/core/utils'
+import { LegacyTransactionButton as TransactionButton } from '@/src/transactions/components'
+import { useWeb3StatusConnected, WalletStatusVerifier } from '@/src/wallet/components'
 
 const OptimismCrossDomainMessenger = withSuspenseAndRetry(() => {
   // https://sepolia-optimism.etherscan.io/address/0xb50201558b00496a145fe76f7424749556e326d8

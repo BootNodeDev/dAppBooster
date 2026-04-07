@@ -1,8 +1,8 @@
 import Icon from '@/src/components/pageComponents/home/Examples/demos/SignMessage/Icon'
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
-import SignButton from '@/src/components/sharedComponents/SignButton'
-import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
-import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { PrimaryButton } from '@/src/core/components'
+import { SignButton } from '@/src/transactions/components'
+import { WalletStatusVerifier } from '@/src/wallet/components'
 
 const message = `
 👻🚀 Welcome to dAppBooster! 🚀👻

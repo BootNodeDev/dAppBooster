@@ -1,6 +1,6 @@
 import { chakra, type FlexProps, Heading, Link, Span, Text } from '@chakra-ui/react'
 import type { FC } from 'react'
-import { Inner } from '@/src/components/sharedComponents/ui/Inner'
+import { Inner } from '@/src/core/components'
 import styles from './styles'
 
 const Arrow = () => (

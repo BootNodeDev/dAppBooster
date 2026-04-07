@@ -12,9 +12,9 @@ import {
   Wrapper,
 } from '@/src/components/pageComponents/home/Examples/demos/subgraphs/SubgraphStatus/Components'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/SubgraphStatus/Icon'
-import Spinner from '@/src/components/sharedComponents/ui/Spinner'
+import { Spinner } from '@/src/core/components'
+import { withSuspenseAndRetry } from '@/src/core/utils'
 import { env } from '@/src/env'
-import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 export const SkeletonLoadingItem = () => (
   <Flex

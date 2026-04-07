@@ -18,17 +18,17 @@
     "preview": "vite preview",
     "routes:generate": "tsr generate",
     "routes:watch": "tsr watch",
-    "subgraph-codegen": "graphql-codegen --config ./src/subgraphs/codegen.ts",
+    "subgraph-codegen": "graphql-codegen --config ./src/data/adapters/subgraph/codegen.ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "wagmi-generate": "wagmi generate --config src/lib/wagmi/config.ts"
+    "wagmi-generate": "wagmi generate --config src/contracts/wagmi/config.ts"
   },
   "dependencies": {
     "@bootnodedev/db-subgraph": "^0.1.2",
-    "@chakra-ui/react": "^3.34.0",
+    "@chakra-ui/react": "^3.17.0",
     "@emotion/react": "^11.14.0",
-    "@lifi/sdk": "^3.16.3",
+    "@lifi/sdk": "^3.6.13",
     "@rainbow-me/rainbowkit": "^2.2.9",
     "@reown/appkit": "^1.8.19",
     "@reown/appkit-adapter-wagmi": "^1.8.19",

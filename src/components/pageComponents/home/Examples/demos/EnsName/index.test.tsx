@@ -5,7 +5,8 @@ import ensName from './index'
 
 const system = createSystem(defaultConfig)
 
-vi.mock('wagmi', () => ({
+vi.mock('wagmi', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('wagmi')>()),
   useEnsName: vi.fn(() => ({ data: undefined, error: undefined, status: 'pending' })),
 }))
 

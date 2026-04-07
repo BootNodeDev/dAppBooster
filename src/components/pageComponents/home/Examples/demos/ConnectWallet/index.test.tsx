@@ -5,7 +5,7 @@ import connectWallet from './index'
 
 const system = createSystem(defaultConfig)
 
-vi.mock('@/src/providers/Web3Provider', () => ({
+vi.mock('@/src/wallet/providers', () => ({
   ConnectWalletButton: () => <button type="button">Connect Wallet</button>,
 }))
 

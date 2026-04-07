@@ -62,6 +62,8 @@ export type Web3Status = AppWeb3Status & WalletWeb3Status & Web3Actions
  * @returns {Function} returns.switchChain - Function to switch to a different chain
  * @returns {Function} returns.disconnect - Function to disconnect wallet
  *
+ * @deprecated Use {@link useWallet} or `useChainRegistry` from `@/src/sdk/react/hooks` instead.
+ *
  * @example
  * ```tsx
  * const {

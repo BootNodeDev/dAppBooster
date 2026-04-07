@@ -7,8 +7,8 @@ const system = createSystem(defaultConfig)
 
 // Mock the shared component to avoid its deep dependency chain
 // (TokenSelect uses withSuspenseAndRetry, useTokenLists, useTokens, etc.)
-vi.mock('@/src/components/sharedComponents/TokenDropdown', () => ({
-  default: () => <div data-testid="token-dropdown-mock">Token Dropdown</div>,
+vi.mock('@/src/tokens/components', () => ({
+  TokenDropdown: () => <div data-testid="token-dropdown-mock">Token Dropdown</div>,
 }))
 
 describe('TokenDropdown demo', () => {

@@ -17,6 +17,7 @@ interface WalletStatus {
   switchChain: (chainId: ChainsIds) => void
 }
 
+/** @deprecated Use {@link useWallet} from `@/src/sdk/react/hooks` instead. */
 export const useWalletStatus = (options?: UseWalletStatusOptions): WalletStatus => {
   const { appChainId, isWalletConnected, isWalletSynced, switchChain, walletChainId } =
     useWeb3Status()
