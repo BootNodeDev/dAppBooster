@@ -10,6 +10,7 @@ export const MenuContent: FC<MenuContentProps> = ({ children, css, ...restProps 
     css={{ ...css, ...styles }}
     padding="0"
     display="flex"
+    flexDirection="column"
     alignItems="stretch"
     {...restProps}
   >
