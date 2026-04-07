@@ -24,6 +24,15 @@ const mockChainWithEndpoint = {
   endpoints: [{ url: 'https://rpc.example.com', protocol: 'json-rpc' as const }],
 }
 
+const mockChainWithExplorer = {
+  ...mockChainWithEndpoint,
+  explorer: {
+    url: 'https://etherscan.io',
+    txPath: '/tx/{id}',
+    addressPath: '/address/{id}',
+  },
+}
+
 const makeWrapper =
   (config: Parameters<typeof DAppBoosterProvider>[0]['config']) =>
   ({ children }: { children: ReactNode }) =>
@@ -86,5 +95,41 @@ describe('useReadOnly', () => {
       endpoint: mockChainWithEndpoint.endpoints[0],
       chainId: mockChainWithEndpoint.chainId,
     })
+  })
+
+  it('returns address in the result when address option is provided', () => {
+    const wrapper = makeWrapper({ chains: [mockChainWithExplorer] })
+    const { result } = renderHook(() => useReadOnly({ chainId: 1, address: '0xabc' }), {
+      wrapper,
+    })
+    expect(result.current.address).toBe('0xabc')
+  })
+
+  it('returns null address when address option is not provided', () => {
+    const wrapper = makeWrapper({ chains: [mockChainWithExplorer] })
+    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), { wrapper })
+    expect(result.current.address).toBeNull()
+  })
+
+  it('returns explorerAddressUrl when address and explorer config are present', () => {
+    const wrapper = makeWrapper({ chains: [mockChainWithExplorer] })
+    const { result } = renderHook(() => useReadOnly({ chainId: 1, address: '0xabc' }), {
+      wrapper,
+    })
+    expect(result.current.explorerAddressUrl).toBe('https://etherscan.io/address/0xabc')
+  })
+
+  it('returns null explorerAddressUrl when address is not provided', () => {
+    const wrapper = makeWrapper({ chains: [mockChainWithExplorer] })
+    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), { wrapper })
+    expect(result.current.explorerAddressUrl).toBeNull()
+  })
+
+  it('returns null explorerAddressUrl when chain has no explorer', () => {
+    const wrapper = makeWrapper({ chains: [mockChain] })
+    const { result } = renderHook(() => useReadOnly({ chainId: 1, address: '0xabc' }), {
+      wrapper,
+    })
+    expect(result.current.explorerAddressUrl).toBeNull()
   })
 })
