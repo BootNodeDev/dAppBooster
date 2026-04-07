@@ -4,7 +4,7 @@ import type { ReactNode } from 'react'
 import { createElement } from 'react'
 import { zeroAddress } from 'viem'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Token } from '@/src/types/token'
+import { type Token, tokenSchema } from '@/src/types/token'
 import tokenListsCache, { updateTokenListsCache } from '@/src/utils/tokenListsCache'
 
 vi.mock('@/src/utils/tokenListsCache', () => {
@@ -154,6 +154,28 @@ describe('fetchTokenList', () => {
 
     expect(result.tokens).toEqual([])
     warnSpy.mockRestore()
+  })
+
+  describe("'default' bundled token list", () => {
+    it('returns a non-empty tokens array', async () => {
+      const result = await fetchTokenList('default')
+
+      expect(Array.isArray(result.tokens)).toBe(true)
+      expect(result.tokens.length).toBeGreaterThan(0)
+    })
+
+    it('every EVM token entry conforms to tokenSchema', async () => {
+      const result = await fetchTokenList('default')
+
+      // The bundled list includes non-EVM tokens (e.g. Solana with base58 addresses)
+      // alongside EVM tokens. Non-EVM entries are filtered out downstream by useTokenLists
+      // via safeParse. Here we validate only the EVM-addressable subset.
+      const evmTokens = result.tokens.filter(({ address }) => /^0x[a-fA-F0-9]{40}$/.test(address))
+      expect(evmTokens.length).toBeGreaterThan(0)
+      for (const token of evmTokens) {
+        expect(() => tokenSchema.parse(token)).not.toThrow()
+      }
+    })
   })
 })
 
