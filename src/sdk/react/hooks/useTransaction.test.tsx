@@ -358,4 +358,299 @@ describe('useTransaction', () => {
 
     expect(globalOnError).toHaveBeenCalledWith('prepare', expect.any(Error))
   })
+
+  describe('manual pre-step control', () => {
+    const preStep1: PreStep = {
+      label: 'Approve USDC',
+      params: { chainId: 1, payload: { type: 'approve-1' } },
+    }
+    const preStep2: PreStep = {
+      label: 'Approve WETH',
+      params: { chainId: 1, payload: { type: 'approve-2' } },
+    }
+
+    it('prepare() stores the prepare result and transitions to prepare phase', async () => {
+      const txAdapter = makeMockTxAdapter({
+        prepare: vi.fn(async () => ({ ready: true })),
+      })
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      await act(async () => {
+        const prepared = await result.current.prepare({
+          ...testParams,
+          preSteps: [preStep1],
+        })
+        expect(prepared.ready).toBe(true)
+      })
+
+      expect(result.current.prepareResult).toEqual({ ready: true })
+    })
+
+    it('prepare() throws TransactionNotReadyError when prepare returns ready: false', async () => {
+      const txAdapter = makeMockTxAdapter({
+        prepare: vi.fn(async () => ({ ready: false, reason: 'Insufficient balance' })),
+      })
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      let caught: unknown
+      await act(async () => {
+        try {
+          await result.current.prepare({
+            ...testParams,
+            preSteps: [preStep1],
+          })
+        } catch (error) {
+          caught = error
+        }
+      })
+
+      expect(caught).toBeInstanceOf(TransactionNotReadyError)
+    })
+
+    it('preStepStatuses is populated after prepare() with preSteps', async () => {
+      const txAdapter = makeMockTxAdapter({
+        prepare: vi.fn(async () => ({ ready: true })),
+      })
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      expect(result.current.preStepStatuses).toEqual([])
+
+      await act(async () => {
+        await result.current.prepare({
+          ...testParams,
+          preSteps: [preStep1, preStep2],
+        })
+      })
+
+      expect(result.current.preStepStatuses).toEqual(['pending', 'pending'])
+    })
+
+    it('executePreStep(index) executes a single pre-step and updates its status', async () => {
+      const txAdapter = makeMockTxAdapter()
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      await act(async () => {
+        await result.current.prepare({
+          ...testParams,
+          preSteps: [preStep1, preStep2],
+        })
+      })
+
+      await act(async () => {
+        await result.current.executePreStep(0)
+      })
+
+      expect(result.current.preStepStatuses[0]).toBe('completed')
+      expect(result.current.preStepStatuses[1]).toBe('pending')
+      expect(result.current.preStepResults[0]).toBeDefined()
+      expect(result.current.preStepResults[0]?.status).toBe('success')
+    })
+
+    it('executePreStep(index) throws when prepare() has not been called', async () => {
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper(),
+      })
+
+      let caught: unknown
+      await act(async () => {
+        try {
+          await result.current.executePreStep(0)
+        } catch (error) {
+          caught = error
+        }
+      })
+
+      expect(caught).toBeInstanceOf(Error)
+      expect((caught as Error).message).toContain('prepare')
+    })
+
+    it('executePreStep(index) throws for out-of-bounds index', async () => {
+      const txAdapter = makeMockTxAdapter()
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      await act(async () => {
+        await result.current.prepare({
+          ...testParams,
+          preSteps: [preStep1],
+        })
+      })
+
+      let caught: unknown
+      await act(async () => {
+        try {
+          await result.current.executePreStep(5)
+        } catch (error) {
+          caught = error
+        }
+      })
+
+      expect(caught).toBeInstanceOf(RangeError)
+    })
+
+    it('executeAllPreSteps() executes all pending pre-steps in order', async () => {
+      const executionOrder: number[] = []
+      const txAdapter = makeMockTxAdapter({
+        execute: vi.fn(async (params) => {
+          const payload = params.payload as { type?: string }
+          if (payload.type === 'approve-1') {
+            executionOrder.push(1)
+          }
+          if (payload.type === 'approve-2') {
+            executionOrder.push(2)
+          }
+          return { chainType: 'evm', id: '0xhash', chainId: 1 }
+        }),
+      })
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      await act(async () => {
+        await result.current.prepare({
+          ...testParams,
+          preSteps: [preStep1, preStep2],
+        })
+      })
+
+      await act(async () => {
+        await result.current.executeAllPreSteps()
+      })
+
+      expect(executionOrder).toEqual([1, 2])
+      expect(result.current.preStepStatuses).toEqual(['completed', 'completed'])
+      expect(result.current.preStepResults).toHaveLength(2)
+    })
+
+    it('executeAllPreSteps() skips already-completed pre-steps', async () => {
+      const txAdapter = makeMockTxAdapter()
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      await act(async () => {
+        await result.current.prepare({
+          ...testParams,
+          preSteps: [preStep1, preStep2],
+        })
+      })
+
+      // Execute only the first pre-step
+      await act(async () => {
+        await result.current.executePreStep(0)
+      })
+
+      // Now execute all — should skip index 0
+      await act(async () => {
+        await result.current.executeAllPreSteps()
+      })
+
+      // execute called: 1 for preStep0, 1 for preStep1 = 2 total (not 3)
+      expect(txAdapter.execute).toHaveBeenCalledTimes(2)
+      expect(result.current.preStepStatuses).toEqual(['completed', 'completed'])
+    })
+
+    it('execute() succeeds after all pre-steps are manually completed', async () => {
+      const txAdapter = makeMockTxAdapter()
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      const paramsWithPreSteps = { ...testParams, preSteps: [preStep1, preStep2] }
+
+      await act(async () => {
+        await result.current.prepare(paramsWithPreSteps)
+      })
+
+      await act(async () => {
+        await result.current.executeAllPreSteps()
+      })
+
+      await act(async () => {
+        const txResult = await result.current.execute(paramsWithPreSteps)
+        expect(txResult.status).toBe('success')
+      })
+
+      expect(result.current.result?.status).toBe('success')
+    })
+
+    it('execute() throws PreStepsNotExecutedError when pre-steps are not all completed and autoPreSteps is false', async () => {
+      const txAdapter = makeMockTxAdapter()
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      const paramsWithPreSteps = { ...testParams, preSteps: [preStep1, preStep2] }
+
+      await act(async () => {
+        await result.current.prepare(paramsWithPreSteps)
+      })
+
+      // Only complete the first pre-step
+      await act(async () => {
+        await result.current.executePreStep(0)
+      })
+
+      let caught: unknown
+      await act(async () => {
+        try {
+          await result.current.execute(paramsWithPreSteps)
+        } catch (error) {
+          caught = error
+        }
+      })
+
+      expect(caught).toBeInstanceOf(PreStepsNotExecutedError)
+      expect((caught as PreStepsNotExecutedError).pendingCount).toBe(1)
+    })
+
+    it('marks pre-step as failed when executePreStep encounters an error', async () => {
+      const txAdapter = makeMockTxAdapter({
+        execute: vi.fn(async () => {
+          throw new Error('pre-step execution failed')
+        }),
+      })
+
+      const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      await act(async () => {
+        await result.current.prepare({
+          ...testParams,
+          preSteps: [preStep1],
+        })
+      })
+
+      let caught: unknown
+      await act(async () => {
+        try {
+          await result.current.executePreStep(0)
+        } catch (error) {
+          caught = error
+        }
+      })
+
+      expect(caught).toBeInstanceOf(Error)
+      expect(result.current.preStepStatuses[0]).toBe('failed')
+    })
+  })
 })

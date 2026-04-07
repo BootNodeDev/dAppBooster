@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import type { TransactionLifecycle, TransactionPhase } from '../../core/adapters/lifecycle'
 import type {
   ConfirmOptions,
@@ -18,6 +18,9 @@ import { useProviderContext } from '../provider/context'
 
 export type TransactionExecutionPhase = 'idle' | 'prepare' | 'preStep' | 'submit' | 'confirm'
 
+/** Status of an individual pre-step in the manual pre-step control flow. */
+export type PreStepStatus = 'pending' | 'executing' | 'completed' | 'failed'
+
 export interface UseTransactionOptions {
   /** Per-operation lifecycle hooks — merged with global lifecycle. Global fires first. */
   lifecycle?: TransactionLifecycle
@@ -33,9 +36,13 @@ export interface UseTransactionReturn {
   ref: TransactionRef | null
   result: TransactionResult | null
   preStepResults: TransactionResult[]
+  preStepStatuses: PreStepStatus[]
   explorerUrl: string | null
   error: Error | null
   execute: (params: TransactionParams) => Promise<TransactionResult>
+  prepare: (params: TransactionParams) => Promise<PrepareResult>
+  executePreStep: (index: number) => Promise<TransactionResult>
+  executeAllPreSteps: () => Promise<TransactionResult[]>
   reset: () => void
 }
 
@@ -92,7 +99,12 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
   const [ref, setRef] = useState<TransactionRef | null>(null)
   const [result, setResult] = useState<TransactionResult | null>(null)
   const [preStepResults, setPreStepResults] = useState<TransactionResult[]>([])
+  const [preStepStatuses, setPreStepStatuses] = useState<PreStepStatus[]>([])
   const [error, setError] = useState<Error | null>(null)
+
+  const preparedParamsRef = useRef<TransactionParams | null>(null)
+  const preStepStatusesRef = useRef<PreStepStatus[]>([])
+  const preStepResultsRef = useRef<TransactionResult[]>([])
 
   const explorerUrl = useMemo(
     () => (ref ? getExplorerUrl(registry, { chainId: ref.chainId, tx: ref.id }) : null),
@@ -105,7 +117,11 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
     setRef(null)
     setResult(null)
     setPreStepResults([])
+    setPreStepStatuses([])
     setError(null)
+    preparedParamsRef.current = null
+    preStepStatusesRef.current = []
+    preStepResultsRef.current = []
   }, [])
 
   const { lifecycle: localLifecycle, autoPreSteps = true, confirmOptions } = options
@@ -147,22 +163,30 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
         if (params.preSteps && params.preSteps.length > 0) {
           currentPhase = 'preStep'
           if (!autoPreSteps) {
-            throw new PreStepsNotExecutedError(params.preSteps.length)
-          }
-          setPhase('preStep')
-          for (const [index, preStep] of params.preSteps.entries()) {
-            fireLifecycle('onPreStep', globalLifecycle, localLifecycle, preStep, index)
-            const preStepRef = await transactionAdapter.execute(preStep.params, signer)
-            const preStepResult = await transactionAdapter.confirm(preStepRef, confirmOptions)
-            fireLifecycle(
-              'onPreStepComplete',
-              globalLifecycle,
-              localLifecycle,
-              preStep,
-              index,
-              preStepResult,
-            )
-            setPreStepResults((previous) => [...previous, preStepResult])
+            const statuses = preStepStatusesRef.current
+            const pendingCount = statuses.filter((s) => s !== 'completed').length
+            if (statuses.length !== params.preSteps.length || pendingCount > 0) {
+              throw new PreStepsNotExecutedError(
+                statuses.length === params.preSteps.length ? pendingCount : params.preSteps.length,
+              )
+            }
+            // All pre-steps already completed manually — skip to main tx
+          } else {
+            setPhase('preStep')
+            for (const [index, preStep] of params.preSteps.entries()) {
+              fireLifecycle('onPreStep', globalLifecycle, localLifecycle, preStep, index)
+              const preStepRef = await transactionAdapter.execute(preStep.params, signer)
+              const preStepResult = await transactionAdapter.confirm(preStepRef, confirmOptions)
+              fireLifecycle(
+                'onPreStepComplete',
+                globalLifecycle,
+                localLifecycle,
+                preStep,
+                index,
+                preStepResult,
+              )
+              setPreStepResults((previous) => [...previous, preStepResult])
+            }
           }
         }
 
@@ -210,15 +234,186 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
     ],
   )
 
+  /**
+   * Standalone prepare — resolves the transaction adapter, calls prepare(),
+   * fires the onPrepare lifecycle, and initializes preStepStatuses.
+   *
+   * @precondition params.chainId must match a registered TransactionAdapter
+   * @postcondition prepareResult state is set; preStepStatuses initialized to 'pending' for each preStep
+   * @throws {AdapterNotFoundError} if no transaction adapter supports params.chainId
+   * @throws {TransactionNotReadyError} if prepare() returns ready === false
+   */
+  const prepare = useCallback(
+    async (params: TransactionParams): Promise<PrepareResult> => {
+      const chainIdStr = String(params.chainId)
+
+      try {
+        const transactionAdapter = Object.values(transactionAdapters).find((adapter) =>
+          adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
+        )
+
+        if (!transactionAdapter) {
+          throw new AdapterNotFoundError(params.chainId, 'transaction')
+        }
+
+        setPhase('prepare')
+        const prepared = await transactionAdapter.prepare(params)
+        setPrepareResult(prepared)
+        fireLifecycle('onPrepare', globalLifecycle, localLifecycle, prepared)
+
+        if (!prepared.ready) {
+          throw new TransactionNotReadyError(prepared.reason ?? 'Transaction preparation failed.')
+        }
+
+        const stepCount = params.preSteps?.length ?? 0
+        const initialStatuses: PreStepStatus[] = Array.from<PreStepStatus>({
+          length: stepCount,
+        }).fill('pending')
+        setPreStepStatuses(initialStatuses)
+        preStepStatusesRef.current = initialStatuses
+        preStepResultsRef.current = new Array(stepCount)
+
+        preparedParamsRef.current = params
+        setPhase('idle')
+        return prepared
+      } catch (err) {
+        const errorObj = err instanceof Error ? err : new Error(String(err))
+        setError(errorObj)
+        setPhase('idle')
+        throw errorObj
+      }
+    },
+    [transactionAdapters, globalLifecycle, localLifecycle],
+  )
+
+  /**
+   * Execute a single pre-step by index, updating its status through the
+   * executing -> completed | failed lifecycle.
+   *
+   * @precondition prepare() must have been called first
+   * @precondition index must be within bounds of the preSteps array
+   * @postcondition preStepStatuses[index] is 'completed' on success, 'failed' on error
+   * @throws {Error} if prepare() has not been called
+   * @throws {RangeError} if index is out of bounds
+   */
+  const executePreStep = useCallback(
+    async (index: number): Promise<TransactionResult> => {
+      const params = preparedParamsRef.current
+      if (!params) {
+        throw new Error('Cannot executePreStep: prepare() has not been called.')
+      }
+
+      const preSteps = params.preSteps ?? []
+      if (index < 0 || index >= preSteps.length) {
+        throw new RangeError(
+          `Pre-step index ${index} is out of bounds (0..${preSteps.length - 1}).`,
+        )
+      }
+
+      const chainIdStr = String(params.chainId)
+
+      const transactionAdapter = Object.values(transactionAdapters).find((adapter) =>
+        adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
+      )
+      const walletAdapter = Object.values(walletAdapters).find((adapter) =>
+        adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
+      )
+
+      if (!transactionAdapter) {
+        throw new AdapterNotFoundError(params.chainId, 'transaction')
+      }
+      if (!walletAdapter) {
+        throw new AdapterNotFoundError(params.chainId, 'wallet')
+      }
+
+      const signer = await walletAdapter.getSigner()
+      if (signer === null) {
+        throw new WalletNotConnectedError()
+      }
+
+      const preStep = preSteps[index]
+
+      const updateStatus = (status: PreStepStatus) => {
+        preStepStatusesRef.current = preStepStatusesRef.current.map((s, i) =>
+          i === index ? status : s,
+        )
+        setPreStepStatuses([...preStepStatusesRef.current])
+      }
+
+      try {
+        setPhase('preStep')
+        updateStatus('executing')
+
+        fireLifecycle('onPreStep', globalLifecycle, localLifecycle, preStep, index)
+        const preStepRef = await transactionAdapter.execute(preStep.params, signer)
+        const preStepResult = await transactionAdapter.confirm(preStepRef, confirmOptions)
+        fireLifecycle(
+          'onPreStepComplete',
+          globalLifecycle,
+          localLifecycle,
+          preStep,
+          index,
+          preStepResult,
+        )
+
+        updateStatus('completed')
+
+        preStepResultsRef.current[index] = preStepResult
+        setPreStepResults([...preStepResultsRef.current])
+
+        setPhase('idle')
+        return preStepResult
+      } catch (err) {
+        updateStatus('failed')
+        const errorObj = err instanceof Error ? err : new Error(String(err))
+        setError(errorObj)
+        setPhase('idle')
+        throw errorObj
+      }
+    },
+    [transactionAdapters, walletAdapters, globalLifecycle, localLifecycle, confirmOptions],
+  )
+
+  /**
+   * Execute all pending pre-steps in order, skipping already-completed ones.
+   *
+   * @precondition prepare() must have been called first
+   * @postcondition all preStepStatuses are 'completed' on success
+   * @throws {Error} if prepare() has not been called
+   */
+  const executeAllPreSteps = useCallback(async (): Promise<TransactionResult[]> => {
+    const params = preparedParamsRef.current
+    if (!params) {
+      throw new Error('Cannot executeAllPreSteps: prepare() has not been called.')
+    }
+
+    const preSteps = params.preSteps ?? []
+    const results: TransactionResult[] = []
+
+    for (let i = 0; i < preSteps.length; i++) {
+      if (preStepStatusesRef.current[i] === 'completed') {
+        continue
+      }
+      const stepResult = await executePreStep(i)
+      results.push(stepResult)
+    }
+
+    return results
+  }, [executePreStep])
+
   return {
     phase,
     prepareResult,
     ref,
     result,
     preStepResults,
+    preStepStatuses,
     explorerUrl,
     error,
     execute,
+    prepare,
+    executePreStep,
+    executeAllPreSteps,
     reset,
   }
 }

@@ -268,8 +268,12 @@ describe('TransactionButton', () => {
       ref: null,
       result: null,
       preStepResults: [],
+      preStepStatuses: [],
       explorerUrl: null,
       error: null,
+      prepare: vi.fn(),
+      executePreStep: vi.fn(),
+      executeAllPreSteps: vi.fn(),
     })
 
     renderWithChakra(<TransactionButton params={testParams}>Send ETH</TransactionButton>)
@@ -288,8 +292,12 @@ describe('TransactionButton', () => {
       ref: null,
       result: null,
       preStepResults: [],
+      preStepStatuses: [],
       explorerUrl: null,
       error: null,
+      prepare: vi.fn(),
+      executePreStep: vi.fn(),
+      executeAllPreSteps: vi.fn(),
     })
 
     renderWithChakra(

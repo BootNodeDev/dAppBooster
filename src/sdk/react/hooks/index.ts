@@ -5,6 +5,7 @@ export { useMultiWallet } from './useMultiWallet'
 export type { UseReadOnlyOptions, UseReadOnlyReturn } from './useReadOnly'
 export { useReadOnly } from './useReadOnly'
 export type {
+  PreStepStatus,
   TransactionExecutionPhase,
   UseTransactionOptions,
   UseTransactionReturn,
