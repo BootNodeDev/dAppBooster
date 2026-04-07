@@ -1,7 +1,8 @@
 import { chakra } from '@chakra-ui/react'
 import type { ComponentPropsWithoutRef, FC, MouseEventHandler } from 'react'
+import { useWalletClient } from 'wagmi'
 import { isNativeToken } from '@/src/core/utils'
-import { useWeb3Status } from '@/src/wallet/hooks'
+import { useWallet } from '@/src/sdk/react/hooks'
 import type { Token } from '../../../types'
 
 interface AddERC20TokenButtonProps extends ComponentPropsWithoutRef<'button'> {
@@ -20,7 +21,10 @@ const AddERC20TokenButton: FC<AddERC20TokenButtonProps> = ({
   onClick,
   ...restProps
 }) => {
-  const { isWalletConnected, walletChainId, walletClient } = useWeb3Status()
+  const { status } = useWallet()
+  const { data: walletClient } = useWalletClient()
+  const isWalletConnected = status.connected
+  const walletChainId = status.connectedChainIds[0] as number | undefined
   const { address, chainId, decimals, logoURI, symbol } = $token
   const disabled = !isWalletConnected || walletChainId !== chainId
 

@@ -1,9 +1,9 @@
 import { Flex, type FlexProps } from '@chakra-ui/react'
 import { useEffect, useRef, useState } from 'react'
 import type { Chain } from 'viem/chains'
-import { chains } from '@/src/core/types'
+import { type ChainsIds, chains } from '@/src/core/types'
 import { withSuspenseAndRetry } from '@/src/core/utils'
-import { useWeb3Status } from '@/src/wallet/hooks'
+import { useChainRegistry, useWallet } from '@/src/sdk/react/hooks'
 import { useTokenSearch } from '../../hooks/useTokenSearch'
 import { useTokens } from '../../hooks/useTokens'
 import type { Token } from '../../types'
@@ -61,7 +61,13 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     showTopTokens = false,
     ...restProps
   }) => {
-    const { appChainId, walletChainId } = useWeb3Status()
+    const { status } = useWallet()
+    const registry = useChainRegistry()
+    const walletChainId = status.connectedChainIds[0] as number | undefined
+    const allChains = registry.getAllChains()
+    const appChainId = (allChains.length > 0 ? allChains[0].chainId : undefined) as
+      | ChainsIds
+      | undefined
 
     const [chainId, setChainId] = useState<Chain['id']>(() =>
       getValidChainId({

@@ -13,7 +13,7 @@ import { type Address, type Chain, formatUnits } from 'viem'
 
 import { logger } from '@/src/core/utils'
 import { env } from '@/src/env'
-import { useWeb3Status } from '@/src/wallet/hooks'
+import { useWallet } from '@/src/sdk/react/hooks'
 import type { Token, Tokens } from '../types'
 import type { TokensMap } from '../utils/tokenListsCache'
 import { useTokenLists } from './useTokenLists'
@@ -77,7 +77,8 @@ export const useTokens = (
     withBalance: true,
   },
 ) => {
-  const { address } = useWeb3Status()
+  const { status } = useWallet()
+  const address = status.activeAccount as Address | undefined
   const tokensData = useTokenLists()
   account ??= address
 
