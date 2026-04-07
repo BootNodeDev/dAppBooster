@@ -1,0 +1,42 @@
+I'm continuing work on the dAppBooster adapter architecture spec.
+
+Current state:
+- Branch `feat/sdk-architecture` — NOT pushed. Rebased onto develop (PR #427 merged 2026-04-01). Single commit `30e00e46b` on top of develop. 239 tests pass.
+- Full adapter architecture spec at `docs/architecture/adapter-architecture-spec.md` — NOT committed. ~1800 lines, 13 sections + Appendix A.
+- Human-oriented overview at `docs/architecture/adapter-architecture-overview.md` — NOT committed. For sharing with engineering team.
+- @dappbooster npm org reserved on npmjs.com (owner: fernandomg, to be transferred to bootnodedev).
+
+Spec covers (all approved + stress-reviewed):
+1. ChainDescriptor: CAIP-2, typed EndpointConfig, AddressConfig, feeCurrency, explorer `{id}`, icon
+2. WalletAdapter: accounts[], activeAccount, reconnect(), signTypedData optional via capabilities, switchChain, connectedChainIds[]
+3. TransactionAdapter: prepare/execute/confirm, preSteps consumer-provided, Design by Contract on all methods
+4. Lifecycle hooks: TransactionLifecycle (onSubmit) + WalletLifecycle (onSign, global-only). createNotificationLifecycle(registry) factory.
+5. DAppBoosterProvider: WalletAdapterBundle (adapter + Provider), auto chain registry
+6. Hooks: useWallet (throws AmbiguousAdapterError if multiple + no options), useTransaction (autoPreSteps false, executePreStep(i)), useMultiWallet, useReadOnly, useChainRegistry
+7. Headless-first: @dappbooster/core → @dappbooster/react → @dappbooster/chakra
+8. EVM adapter: EvmConnectorConfig split core/react, uses @wagmi/core actions (not React hooks), WalletAdapterBundle returns Provider
+9. PreStep helpers: createApprovalPreStep, createPermitPreStep
+10. wrapAdapter() utility for adapter composition (FHE, logging)
+11. Codegen: `pnpm codegen` dual output (React hooks + framework-agnostic actions)
+12. 14 reference use cases, 4-phase migration path
+13. Monorepo structure: packages/core, packages/react, packages/chakra, templates/, apps/demo
+14. Chain tiers: T1 (EVM, SVM, MoveVM, Cosmos), T2 (StarkNet, Substrate, NEAR, TON), T3 excluded
+
+Stress review completed:
+- 3-agent review found 26 issues (9 blockers, 5 contradictions, 8 incomplete, 4 warnings)
+- ALL resolved and applied to spec with Design by Contract annotations
+- Architecture validated as sound — all issues were interface-level, no structural redesign needed
+
+Decisions made:
+- Monorepo: Turborepo + pnpm workspaces + Changesets
+- npm scope: @dappbooster/*
+- Connectors: subpath exports with optional peer deps (not separate packages)
+- Task 2 (#wallet alias): absorbed into adapter architecture
+- PreSteps: consumer-provided, not auto-detected; SDK ships helper functions for common patterns
+
+Next steps:
+1. Finish any remaining spec review (user was reviewing when session ended)
+2. Transition to implementation planning (writing-plans skill)
+3. Push feat/sdk-architecture branch, open PR for domain reorg
+
+Check memory for full context, then read `docs/architecture/adapter-architecture-spec.md` to get up to speed on the spec.
