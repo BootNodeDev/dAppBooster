@@ -2,7 +2,7 @@ import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { render, screen } from '@testing-library/react'
 import { createElement, type ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { WalletGuard } from './WalletGuard'
+import { WalletGuard, type WalletRequirement } from './WalletGuard'
 
 const mockSwitchChain = vi.fn()
 
@@ -29,6 +29,12 @@ vi.mock('../hooks', () => ({
     getChainsByType: vi.fn(() => []),
     getAllChains: vi.fn(() => []),
   })),
+  useMultiWallet: vi.fn(() => ({
+    wallets: {},
+    getWallet: vi.fn(() => undefined),
+    getWalletByChainId: vi.fn(() => undefined),
+    connectedAddresses: {},
+  })),
 }))
 
 vi.mock('@/src/wallet/providers', () => ({
@@ -49,9 +55,10 @@ vi.mock('@/src/wallet/components/SwitchChainButton', () => ({
     ),
 }))
 
-const { useWallet, useChainRegistry } = await import('../hooks')
+const { useWallet, useChainRegistry, useMultiWallet } = await import('../hooks')
 const mockedUseWallet = vi.mocked(useWallet)
 const mockedUseChainRegistry = vi.mocked(useChainRegistry)
+const mockedUseMultiWallet = vi.mocked(useMultiWallet)
 
 const system = createSystem(defaultConfig)
 
@@ -176,5 +183,99 @@ describe('WalletGuard', () => {
     )
 
     expect(screen.getByTestId('protected-content')).toBeInTheDocument()
+  })
+})
+
+describe('WalletGuard multi-chain (require prop)', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('renders children when all requirements are met', () => {
+    const evmWallet = makeWalletReady()
+    const svmWallet = {
+      ...makeWalletReady(),
+      adapterKey: 'svm',
+      adapter: { chainType: 'svm', supportedChains: [] } as never,
+    }
+
+    mockedUseMultiWallet.mockReturnValue({
+      wallets: { evm: evmWallet, svm: svmWallet },
+      getWallet: vi.fn((chainType: string) => {
+        if (chainType === 'evm') {
+          return evmWallet
+        }
+        if (chainType === 'svm') {
+          return svmWallet
+        }
+        return undefined
+      }),
+      getWalletByChainId: vi.fn(() => undefined),
+      connectedAddresses: { evm: '0xabc', svm: 'abc123' },
+    })
+
+    const requirements: WalletRequirement[] = [{ chainType: 'evm' }, { chainType: 'svm' }]
+
+    renderWithChakra(
+      createElement(
+        WalletGuard,
+        { require: requirements },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
+    )
+
+    expect(screen.getByTestId('protected-content')).toBeInTheDocument()
+    expect(screen.queryByTestId('connect-wallet-button')).toBeNull()
+  })
+
+  it('renders fallback when first requirement is not met', () => {
+    mockedUseMultiWallet.mockReturnValue({
+      wallets: {},
+      getWallet: vi.fn(() => undefined),
+      getWalletByChainId: vi.fn(() => undefined),
+      connectedAddresses: {},
+    })
+
+    const requirements: WalletRequirement[] = [{ chainType: 'evm' }]
+
+    renderWithChakra(
+      createElement(
+        WalletGuard,
+        { require: requirements },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
+    )
+
+    expect(screen.getByTestId('connect-wallet-button')).toBeInTheDocument()
+    expect(screen.queryByTestId('protected-content')).toBeNull()
+  })
+
+  it('renders fallback for second unmet requirement when first is met', () => {
+    const evmWallet = makeWalletReady()
+
+    mockedUseMultiWallet.mockReturnValue({
+      wallets: { evm: evmWallet },
+      getWallet: vi.fn((chainType: string) => {
+        if (chainType === 'evm') {
+          return evmWallet
+        }
+        return undefined
+      }),
+      getWalletByChainId: vi.fn(() => undefined),
+      connectedAddresses: { evm: '0xabc' },
+    })
+
+    const requirements: WalletRequirement[] = [{ chainType: 'evm' }, { chainType: 'svm' }]
+
+    renderWithChakra(
+      createElement(
+        WalletGuard,
+        { require: requirements },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
+    )
+
+    expect(screen.getByTestId('connect-wallet-button')).toBeInTheDocument()
+    expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 })
