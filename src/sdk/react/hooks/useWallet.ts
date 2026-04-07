@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from 'react'
-import type { WalletLifecycle } from '../../core/adapters/lifecycle'
 import type {
   ChainSigner,
   ConnectOptions,
@@ -15,23 +14,8 @@ import {
   AmbiguousAdapterError,
   CapabilityNotSupportedError,
 } from '../../core/errors'
+import { wrapSignMessage, wrapSignTypedData } from '../internal/walletLifecycle'
 import { useProviderContext } from '../provider/context'
-
-function fireWalletLifecycle<K extends keyof WalletLifecycle>(
-  key: K,
-  lifecycle: WalletLifecycle | undefined,
-  ...args: Parameters<NonNullable<WalletLifecycle[K]>>
-): void {
-  const fn = lifecycle?.[key] as ((...a: unknown[]) => void) | undefined
-  if (!fn) {
-    return
-  }
-  try {
-    fn(...(args as unknown[]))
-  } catch (err) {
-    console.error(`useWallet lifecycle hook "${key}" threw:`, err)
-  }
-}
 
 export interface UseWalletOptions {
   /** Resolve by chainId — finds the adapter whose supportedChains includes this chainId. */
@@ -161,36 +145,18 @@ export function useWallet(options: UseWalletOptions = {}): UseWalletReturn {
     !status.connectedChainIds.some((id) => chainIdMatch(id, chainId))
 
   const signMessage = useCallback(
-    async (input: SignMessageInput): Promise<SignatureResult> => {
-      fireWalletLifecycle('onSign', walletLifecycle, 'message', input)
-      try {
-        const result = await adapter.signMessage(input)
-        fireWalletLifecycle('onSignComplete', walletLifecycle, result)
-        return result
-      } catch (err) {
-        const error = err instanceof Error ? err : new Error(String(err))
-        fireWalletLifecycle('onSignError', walletLifecycle, error)
-        throw err
-      }
-    },
+    (input: SignMessageInput): Promise<SignatureResult> =>
+      wrapSignMessage(adapter, walletLifecycle)(input),
     [adapter, walletLifecycle],
   )
 
   const signTypedDataImpl = useCallback(
-    async (input: SignTypedDataInput): Promise<SignatureResult> => {
-      if (!adapter.signTypedData) {
+    (input: SignTypedDataInput): Promise<SignatureResult> => {
+      const wrapped = wrapSignTypedData(adapter, walletLifecycle)
+      if (!wrapped) {
         throw new CapabilityNotSupportedError('signTypedData')
       }
-      fireWalletLifecycle('onSign', walletLifecycle, 'typedData', input)
-      try {
-        const result = await adapter.signTypedData(input)
-        fireWalletLifecycle('onSignComplete', walletLifecycle, result)
-        return result
-      } catch (err) {
-        const error = err instanceof Error ? err : new Error(String(err))
-        fireWalletLifecycle('onSignError', walletLifecycle, error)
-        throw err
-      }
+      return wrapped(input)
     },
     [adapter, walletLifecycle],
   )

@@ -1,70 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
-import type { WalletLifecycle } from '../../core/adapters/lifecycle'
-import type {
-  SignatureResult,
-  SignMessageInput,
-  SignTypedDataInput,
-  WalletAdapter,
-  WalletStatus,
-} from '../../core/adapters/wallet'
+import type { WalletStatus } from '../../core/adapters/wallet'
+import { wrapSignMessage, wrapSignTypedData } from '../internal/walletLifecycle'
 import { useProviderContext } from '../provider/context'
 import type { UseWalletReturn } from './useWallet'
-
-function fireWalletLifecycle<K extends keyof WalletLifecycle>(
-  key: K,
-  lifecycle: WalletLifecycle | undefined,
-  ...args: Parameters<NonNullable<WalletLifecycle[K]>>
-): void {
-  const fn = lifecycle?.[key] as ((...a: unknown[]) => void) | undefined
-  if (!fn) {
-    return
-  }
-  try {
-    fn(...(args as unknown[]))
-  } catch (err) {
-    console.error(`useMultiWallet lifecycle hook "${key}" threw:`, err)
-  }
-}
-
-function wrapSignMessage(
-  adapter: WalletAdapter,
-  lifecycle: WalletLifecycle | undefined,
-): (input: SignMessageInput) => Promise<SignatureResult> {
-  return async (input) => {
-    fireWalletLifecycle('onSign', lifecycle, 'message', input)
-    try {
-      const result = await adapter.signMessage(input)
-      fireWalletLifecycle('onSignComplete', lifecycle, result)
-      return result
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error(String(err))
-      fireWalletLifecycle('onSignError', lifecycle, error)
-      throw err
-    }
-  }
-}
-
-function wrapSignTypedData(
-  adapter: WalletAdapter,
-  lifecycle: WalletLifecycle | undefined,
-): ((input: SignTypedDataInput) => Promise<SignatureResult>) | undefined {
-  if (!adapter.signTypedData) {
-    return undefined
-  }
-  const { signTypedData } = adapter
-  return async (input) => {
-    fireWalletLifecycle('onSign', lifecycle, 'typedData', input)
-    try {
-      const result = await signTypedData(input)
-      fireWalletLifecycle('onSignComplete', lifecycle, result)
-      return result
-    } catch (err) {
-      const error = err instanceof Error ? err : new Error(String(err))
-      fireWalletLifecycle('onSignError', lifecycle, error)
-      throw err
-    }
-  }
-}
 
 /** Returns one UseWalletReturn entry per registered wallet adapter, keyed by adapter name. */
 export type UseMultiWalletReturn = Record<string, UseWalletReturn>
