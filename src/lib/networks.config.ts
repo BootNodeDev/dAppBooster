@@ -18,10 +18,12 @@ export type ChainsIds = (typeof chains)[number]['id']
 
 type RestrictedTransports = Record<ChainsIds, Transport>
 export const transports: RestrictedTransports = {
-  [mainnet.id]: http(env.PUBLIC_RPC_MAINNET),
-  [arbitrum.id]: http(env.PUBLIC_RPC_ARBITRUM),
-  [optimism.id]: http(env.PUBLIC_RPC_OPTIMISM),
-  [optimismSepolia.id]: http(env.PUBLIC_RPC_OPTIMISM_SEPOLIA),
-  [polygon.id]: http(env.PUBLIC_RPC_POLYGON),
-  [sepolia.id]: http(env.PUBLIC_RPC_SEPOLIA),
+  [mainnet.id]: http(env.PUBLIC_RPC_MAINNET || 'https://ethereum-rpc.publicnode.com'),
+  [arbitrum.id]: http(env.PUBLIC_RPC_ARBITRUM || 'https://arbitrum-one-rpc.publicnode.com'),
+  [optimism.id]: http(env.PUBLIC_RPC_OPTIMISM || 'https://optimism-rpc.publicnode.com'),
+  [optimismSepolia.id]: http(
+    env.PUBLIC_RPC_OPTIMISM_SEPOLIA || 'https://optimism-sepolia-rpc.publicnode.com',
+  ),
+  [polygon.id]: http(env.PUBLIC_RPC_POLYGON || 'https://polygon-bor-rpc.publicnode.com'),
+  [sepolia.id]: http(env.PUBLIC_RPC_SEPOLIA || 'https://ethereum-sepolia-rpc.publicnode.com'),
 }
