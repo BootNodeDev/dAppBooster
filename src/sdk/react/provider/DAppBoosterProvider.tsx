@@ -52,6 +52,14 @@ function ConnectModalBridge({
  * the bundle's Provider tree. The resulting `open` functions are stored per
  * adapter key so that `useWallet` can resolve the correct modal for any adapter.
  *
+ * @precondition each wallet adapter's supportedChains entries must have chainType matching adapter.chainType
+ * @precondition each transaction adapter's supportedChains entries must have chainType matching adapter.chainType
+ * @precondition no two chain descriptors with the same caip2Id may be structurally different
+ * @postcondition ChainRegistry is built from config.chains + wallet + transaction adapter chains (deduped)
+ * @postcondition all bundle Providers are nested in the React tree
+ * @postcondition connect modal open functions are registered per adapter key
+ * @throws {Error} if any adapter's supportedChains contains a chainType mismatch
+ * @throws {ChainRegistryConflictError} if duplicate chainId or caip2Id with different descriptors
  * @note Memoize the `config` prop (e.g. with `useMemo`) to avoid rebuilding
  * the chain registry on every parent re-render.
  */

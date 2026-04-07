@@ -61,6 +61,23 @@ function fireLifecycle<K extends keyof TransactionLifecycle>(
 /**
  * Executes a chain transaction through the registered TransactionAdapter,
  * managing phase transitions, preSteps, lifecycle hooks, and error state.
+ *
+ * @precondition must be called inside a DAppBoosterProvider
+ * @postcondition execute() runs the full cycle: prepare -> preSteps -> submit -> confirm
+ * @postcondition lifecycle hooks fire: global (from provider) first, per-transaction (from options) second
+ * @postcondition hook errors in lifecycle callbacks are logged but never abort the transaction
+ * @invariant phase transitions follow: idle -> prepare -> preStep -> submit -> confirm -> idle
+ *
+ * execute() contract:
+ * @precondition params.chainId must match a registered TransactionAdapter
+ * @precondition params.chainId must match a registered WalletAdapter
+ * @precondition wallet must be connected (getSigner() !== null)
+ * @precondition if autoPreSteps === false and preSteps exist -> throws PreStepsNotExecutedError
+ * @postcondition returns TransactionResult with status 'success', 'reverted', or 'timeout'
+ * @throws {AdapterNotFoundError} if no transaction or wallet adapter supports params.chainId
+ * @throws {WalletNotConnectedError} if wallet is not connected
+ * @throws {TransactionNotReadyError} if prepare() returns ready === false
+ * @throws {PreStepsNotExecutedError} if autoPreSteps === false and preSteps exist
  */
 export function useTransaction(options: UseTransactionOptions = {}): UseTransactionReturn {
   const {

@@ -18,8 +18,11 @@ export interface ChainRegistry {
 /**
  * Creates an immutable ChainRegistry from the provided descriptors.
  *
- * Throws ChainRegistryConflictError at construction time if any two descriptors
- * share the same chainId or the same caip2Id.
+ * @precondition no two descriptors share the same chainId
+ * @precondition no two descriptors share the same caip2Id
+ * @postcondition registry is immutable — lookups never mutate internal state
+ * @postcondition getAllChains() returns a copy of the input array
+ * @throws {ChainRegistryConflictError} if any two descriptors share the same chainId or caip2Id
  */
 export function createChainRegistry(chains: ChainDescriptor[]): ChainRegistry {
   const byChainId = new Map<string | number, ChainDescriptor>()

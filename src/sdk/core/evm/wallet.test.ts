@@ -292,8 +292,15 @@ describe('createEvmWalletAdapter — unit tests', () => {
 
   describe('switchChain()', () => {
     it('throws ChainNotSupportedError for unsupported chainId', async () => {
+      vi.mocked(getAccount).mockReturnValue(makeConnectedAccount())
       const { adapter } = makeAdapter()
       await expect(adapter.switchChain(999999)).rejects.toThrow(ChainNotSupportedError)
+    })
+
+    it('throws WalletNotConnectedError when switchChain is called while disconnected', async () => {
+      vi.mocked(getAccount).mockReturnValue(makeDisconnectedAccount())
+      const { adapter } = makeAdapter()
+      await expect(adapter.switchChain(mainnet.id)).rejects.toThrow(WalletNotConnectedError)
     })
   })
 

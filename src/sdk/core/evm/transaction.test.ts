@@ -3,7 +3,7 @@ import { mainnet } from 'viem/chains'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { TransactionRef } from '../adapters/transaction'
-import { InsufficientFundsError, InvalidSignerError } from '../errors'
+import { ChainNotSupportedError, InsufficientFundsError, InvalidSignerError } from '../errors'
 import { createEvmTransactionAdapter } from './transaction'
 import type { EvmContractCall, EvmRawTransaction } from './types'
 
@@ -190,6 +190,25 @@ describe('createEvmTransactionAdapter', () => {
     await expect(
       adapter.execute({ chainId: mainnet.id, payload: { to: '0xabc' } as never }, null as never),
     ).rejects.toThrow(InvalidSignerError)
+  })
+
+  it('throws ChainNotSupportedError when execute targets an unsupported chain', async () => {
+    const adapter = createEvmTransactionAdapter({
+      chains: [mainnet],
+      transports: { [mainnet.id]: http() },
+    })
+
+    const mockWalletClient = {
+      sendTransaction: vi.fn().mockResolvedValue('0xhash'),
+      writeContract: vi.fn(),
+    }
+
+    await expect(
+      adapter.execute(
+        { chainId: 999999, payload: { to: '0xabc' as `0x${string}` } as EvmRawTransaction },
+        mockWalletClient as never,
+      ),
+    ).rejects.toThrow(ChainNotSupportedError)
   })
 
   it('returns TransactionRef with hash for EvmRawTransaction', async () => {

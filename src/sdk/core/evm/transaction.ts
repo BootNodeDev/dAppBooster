@@ -16,7 +16,7 @@ import type {
   TransactionResult,
 } from '../adapters/transaction'
 import type { ChainSigner } from '../adapters/wallet'
-import { InsufficientFundsError, InvalidSignerError } from '../errors'
+import { ChainNotSupportedError, InsufficientFundsError, InvalidSignerError } from '../errors'
 import { fromViemChain } from './chains'
 import type { EvmContractCall, EvmRawTransaction, EvmTransactionPayload } from './types'
 
@@ -41,6 +41,12 @@ function isWalletClient(signer: unknown): signer is WalletClient {
 
 /**
  * Creates an EVM TransactionAdapter backed by viem's PublicClient (reads) and WalletClient (writes).
+ *
+ * @precondition config.chains entries must have corresponding transports
+ * @postcondition returned adapter.chainType === 'evm'
+ * @postcondition returned adapter.supportedChains matches config.chains (mapped via fromViemChain)
+ * @invariant adapter.chainType never changes after construction
+ * @invariant adapter.supportedChains never changes after construction
  */
 export function createEvmTransactionAdapter(
   config: EvmTransactionConfig = { chains: [], transports: {} },
@@ -72,6 +78,14 @@ export function createEvmTransactionAdapter(
       confirmationModel: 'blockConfirmations',
     },
 
+    /**
+     * Estimates gas and validates readiness for the given transaction params.
+     *
+     * @precondition params.chainId is in supportedChains
+     * @postcondition if ready === true -> execute() can be called with these params
+     * @postcondition if ready === false -> reason explains why (human-readable)
+     * @throws {InsufficientFundsError} if balance too low for gas estimation
+     */
     async prepare(params: TransactionParams): Promise<PrepareResult> {
       const numericId =
         typeof params.chainId === 'string' ? Number.parseInt(params.chainId, 10) : params.chainId
@@ -138,9 +152,24 @@ export function createEvmTransactionAdapter(
       }
     },
 
+    /**
+     * Submits the transaction to the network via the provided WalletClient signer.
+     *
+     * @precondition signer is a valid WalletClient for this adapter's chainType
+     * @precondition params.chainId is in supportedChains
+     * @postcondition returns TransactionRef with a unique id (tx hash)
+     * @postcondition the transaction has been submitted to the network (not yet confirmed)
+     * @throws {InvalidSignerError} if signer is not a WalletClient
+     * @throws {ChainNotSupportedError} if chainId not in supportedChains
+     */
     async execute(params: TransactionParams, signer: ChainSigner): Promise<TransactionRef> {
       if (!isWalletClient(signer)) {
         throw new InvalidSignerError('WalletClient')
+      }
+      const numericId =
+        typeof params.chainId === 'string' ? Number.parseInt(params.chainId, 10) : params.chainId
+      if (!publicClients.has(numericId)) {
+        throw new ChainNotSupportedError(params.chainId)
       }
 
       const payload = params.payload as EvmTransactionPayload
@@ -171,6 +200,14 @@ export function createEvmTransactionAdapter(
       return { chainType: 'evm', id: hash as string, chainId: params.chainId }
     },
 
+    /**
+     * Waits for the transaction to be confirmed or times out.
+     *
+     * @precondition ref was returned by a previous execute() call on this adapter
+     * @postcondition result.status is 'success', 'reverted', or 'timeout'
+     * @postcondition if 'success' -> result.receipt contains a viem TransactionReceipt
+     * @throws never (timeout returns TransactionResult with status: 'timeout')
+     */
     async confirm(ref: TransactionRef, options?: ConfirmOptions): Promise<TransactionResult> {
       const publicClient = getPublicClient(ref.chainId)
       const hash = ref.id as Hex

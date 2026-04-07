@@ -106,6 +106,16 @@ function toWalletStatus(account: ReturnType<typeof getAccount>): WalletStatus {
 // Factory
 // ---------------------------------------------------------------------------
 
+/**
+ * Creates a browser-side EVM WalletAdapter backed by wagmi actions and a connector UI.
+ *
+ * @precondition config.chains.length >= 1
+ * @precondition config.connector provides createConfig and WalletProvider
+ * @postcondition returned adapter.chainType === 'evm'
+ * @postcondition returned adapter.supportedChains matches config.chains (mapped via fromViemChain)
+ * @invariant adapter.chainType never changes after construction
+ * @invariant adapter.supportedChains never changes after construction
+ */
 export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBundle {
   const wagmiConfig =
     config.wagmiConfig ?? config.connector.createConfig(config.chains, config.transports)
@@ -132,6 +142,17 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBu
       },
     },
 
+    /**
+     * Connects to the first available wagmi connector.
+     *
+     * @precondition none (can be called when already connected — reconnects)
+     * @postcondition getStatus().connected === true
+     * @postcondition result.accounts.length >= 1
+     * @postcondition result.activeAccount is included in result.accounts
+     * @throws {WalletNotInstalledError} if no connector is available
+     * @throws {WalletConnectionRejectedError} if user cancels
+     * @throws {ChainNotSupportedError} if options.chainId is not in supportedChains
+     */
     async connect(options?: ConnectOptions): Promise<WalletConnection> {
       const connector = wagmiConfig.connectors[0]
       if (!connector) {
@@ -159,6 +180,13 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBu
       }
     },
 
+    /**
+     * Restores a previous wallet session on page reload.
+     *
+     * @precondition none
+     * @postcondition if session exists -> returns WalletConnection, getStatus().connected === true
+     * @postcondition if no session -> returns null, getStatus() unchanged
+     */
     async reconnect(): Promise<WalletConnection | null> {
       const results = await reconnect(wagmiConfig)
       if (results.length === 0) {
@@ -173,14 +201,36 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBu
       }
     },
 
+    /**
+     * Disconnects the active wallet session.
+     *
+     * @precondition none (no-op if already disconnected)
+     * @postcondition getStatus().connected === false
+     * @postcondition getSigner() === null
+     */
     async disconnect(): Promise<void> {
       await disconnect(wagmiConfig)
     },
 
+    /**
+     * Returns the current wallet connection status snapshot.
+     *
+     * @precondition none (callable at any time)
+     * @postcondition returns current snapshot — not reactive
+     * @invariant if connected === false -> activeAccount === null, connectedChainIds === []
+     * @invariant if connected === true -> activeAccount !== null, connectedChainIds.length >= 1
+     */
     getStatus(): WalletStatus {
       return toWalletStatus(getAccount(wagmiConfig))
     },
 
+    /**
+     * Subscribes to wallet status changes (account and chain changes).
+     *
+     * @precondition none
+     * @postcondition listener fires on every status change
+     * @returns unsubscribe function — calling it stops notifications
+     */
     onStatusChange(listener: (status: WalletStatus) => void): () => void {
       const unsubAccount = watchAccount(wagmiConfig, {
         onChange(account) {
@@ -198,6 +248,14 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBu
       }
     },
 
+    /**
+     * Signs an arbitrary message with the connected wallet.
+     *
+     * @precondition getStatus().connected === true
+     * @postcondition result.address matches the signing account
+     * @throws {WalletNotConnectedError} if precondition violated
+     * @throws {SigningRejectedError} if user cancels
+     */
     async signMessage(input: SignMessageInput): Promise<SignatureResult> {
       const account = getAccount(wagmiConfig)
       if (!account.isConnected || !account.address) {
@@ -214,6 +272,15 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBu
       }
     },
 
+    /**
+     * Signs EIP-712 typed data with the connected wallet.
+     *
+     * @precondition getStatus().connected === true
+     * @precondition metadata.capabilities.signTypedData === true
+     * @postcondition result.address matches the signing account
+     * @throws {WalletNotConnectedError} if not connected
+     * @throws {SigningRejectedError} if user cancels
+     */
     async signTypedData(input: SignTypedDataInput): Promise<SignatureResult> {
       const account = getAccount(wagmiConfig)
       if (!account.isConnected || !account.address) {
@@ -234,6 +301,13 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBu
       }
     },
 
+    /**
+     * Returns the chain-native signer (wagmi WalletClient) for transaction execution.
+     *
+     * @precondition none
+     * @postcondition if connected -> returns chain-native signer (never null)
+     * @postcondition if not connected -> returns null
+     */
     async getSigner(): Promise<ChainSigner | null> {
       const account = getAccount(wagmiConfig)
       if (!account.isConnected) {
@@ -242,7 +316,20 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBu
       return getWalletClient(wagmiConfig)
     },
 
+    /**
+     * Switches the connected wallet to the specified chain.
+     *
+     * @precondition getStatus().connected === true
+     * @precondition chainId is in supportedChains
+     * @postcondition chainId is included in getStatus().connectedChainIds
+     * @throws {WalletNotConnectedError} if not connected
+     * @throws {ChainNotSupportedError} if chainId not in supportedChains
+     */
     async switchChain(chainId: string | number): Promise<void> {
+      const account = getAccount(wagmiConfig)
+      if (!account.isConnected) {
+        throw new WalletNotConnectedError()
+      }
       const numericId = typeof chainId === 'string' ? Number.parseInt(chainId, 10) : chainId
       const isSupported = supportedChains.some((chain) => chain.chainId === numericId)
       if (!isSupported) {

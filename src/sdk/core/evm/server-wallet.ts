@@ -31,6 +31,14 @@ export interface EvmServerWalletConfig {
 /**
  * Creates a server-side EVM wallet adapter backed by a private key.
  * Returns no Provider — server wallets have no UI layer.
+ *
+ * @precondition config.privateKey is a valid hex-encoded private key
+ * @precondition config.chain is a valid viem Chain
+ * @postcondition returned adapter.chainType === 'evm'
+ * @postcondition returned bundle has no Provider (server wallets have no UI)
+ * @invariant adapter.chainType never changes after construction
+ * @invariant adapter.supportedChains never changes after construction
+ * @invariant getStatus().connected === true (always connected)
  */
 export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdapterBundle {
   const account = privateKeyToAccount(config.privateKey)
@@ -58,6 +66,13 @@ export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdap
       },
     },
 
+    /**
+     * No-op connect — server wallet is always connected via private key.
+     *
+     * @precondition none
+     * @postcondition returns WalletConnection with the private key account
+     * @postcondition result.accounts.length === 1
+     */
     async connect(_options?: ConnectOptions): Promise<WalletConnection> {
       return {
         accounts: [account.address],
@@ -66,7 +81,12 @@ export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdap
       }
     },
 
-    // Server wallet is always connected — reconnect() always returns a connection, never null.
+    /**
+     * Always returns a connection — server wallet is always connected.
+     *
+     * @precondition none
+     * @postcondition always returns WalletConnection (never null)
+     */
     async reconnect(): Promise<WalletConnection | null> {
       return {
         accounts: [account.address],
@@ -75,10 +95,24 @@ export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdap
       }
     },
 
+    /**
+     * No-op — private key wallet is always connected and cannot be disconnected.
+     *
+     * @precondition none
+     * @postcondition getStatus().connected remains true
+     */
     async disconnect(): Promise<void> {
       // no-op: private key wallet is always connected
     },
 
+    /**
+     * Returns wallet status — always connected for server wallets.
+     *
+     * @precondition none
+     * @postcondition connected === true
+     * @postcondition activeAccount === the private key's derived address
+     * @invariant status never changes for a private key wallet
+     */
     getStatus(): WalletStatus {
       return {
         connected: true,
@@ -88,6 +122,13 @@ export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdap
       }
     },
 
+    /**
+     * Emits current status immediately; no further changes occur for a server wallet.
+     *
+     * @precondition none
+     * @postcondition listener fires once with current (always-connected) status
+     * @returns unsubscribe function (no-op — status never changes)
+     */
     onStatusChange(listener: (status: WalletStatus) => void): () => void {
       // Emit current status immediately so callers receive initial state without polling.
       listener({
@@ -101,6 +142,12 @@ export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdap
       }
     },
 
+    /**
+     * Signs an arbitrary message with the server wallet's private key.
+     *
+     * @precondition none (server wallet is always connected)
+     * @postcondition result.address matches the private key's derived address
+     */
     async signMessage(input: SignMessageInput): Promise<SignatureResult> {
       const message = input.message instanceof Uint8Array ? { raw: input.message } : input.message
       const signature = await walletClient.signMessage({ message } as Parameters<
@@ -109,6 +156,12 @@ export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdap
       return { signature, address: account.address }
     },
 
+    /**
+     * Signs EIP-712 typed data with the server wallet's private key.
+     *
+     * @precondition none (server wallet is always connected)
+     * @postcondition result.address matches the private key's derived address
+     */
     async signTypedData(input: SignTypedDataInput): Promise<SignatureResult> {
       const signature = await walletClient.signTypedData({
         domain: input.domain,
@@ -119,10 +172,22 @@ export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdap
       return { signature, address: account.address }
     },
 
+    /**
+     * Returns the viem WalletClient — always available for server wallets.
+     *
+     * @precondition none
+     * @postcondition always returns the WalletClient (never null)
+     */
     async getSigner(): Promise<ChainSigner | null> {
       return walletClient
     },
 
+    /**
+     * Always throws — server wallets are bound to a single chain.
+     *
+     * @precondition none
+     * @throws {CapabilityNotSupportedError} always (switchChain not supported)
+     */
     async switchChain(_chainId: string | number): Promise<void> {
       throw new CapabilityNotSupportedError('switchChain')
     },
