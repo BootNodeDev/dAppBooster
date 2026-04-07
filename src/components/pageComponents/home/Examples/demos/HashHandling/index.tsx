@@ -7,7 +7,7 @@ import Icon from '@/src/components/pageComponents/home/Examples/demos/HashHandli
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import { HashInput, Spinner } from '@/src/core/components'
 import type { DetectedHash } from '@/src/core/utils'
-import { useWeb3Status } from '@/src/wallet/hooks'
+import { useWallet } from '@/src/sdk/react/hooks'
 
 const AlertIcon = () => (
   <chakra.svg
@@ -61,7 +61,9 @@ const HashHandling = ({ ...restProps }) => {
   const [loading, setLoading] = useState<boolean | undefined>()
   const notFound = searchResult && searchResult.type === null
   const found = searchResult && searchResult.type !== null
-  const { isWalletConnected, walletChainId } = useWeb3Status()
+  const { status } = useWallet()
+  const isWalletConnected = status.connected
+  const walletChainId = status.connectedChainIds[0] as number | undefined
 
   const onLoading = (isLoading: boolean) => {
     setLoading(isLoading)

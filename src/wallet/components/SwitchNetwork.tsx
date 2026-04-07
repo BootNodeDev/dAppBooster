@@ -7,9 +7,9 @@ import {
   useState,
 } from 'react'
 import * as chains from 'viem/chains'
-import { useSwitchChain } from 'wagmi'
+import { useSwitchChain, useWalletClient } from 'wagmi'
 import { DropdownButton, MenuContent, MenuItem } from '@/src/core/components'
-import { useWeb3Status } from '../hooks/useWeb3Status'
+import { useWallet } from '@/src/sdk/react/hooks'
 
 type NetworkItem = {
   icon: ReactElement
@@ -50,7 +50,10 @@ const SwitchNetwork: FC<SwitchNetworkProps> = ({ networks }: SwitchNetworkProps)
   const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
 
   const { chains: configuredChains, switchChain } = useSwitchChain()
-  const { isWalletConnected, walletChainId, walletClient } = useWeb3Status()
+  const { status } = useWallet()
+  const { data: walletClient } = useWalletClient()
+  const isWalletConnected = status.connected
+  const walletChainId = status.connectedChainIds[0] as number | undefined
   const [networkItem, setNetworkItem] = useState<NetworkItem>()
 
   const handleClick = (chainId: number) => {

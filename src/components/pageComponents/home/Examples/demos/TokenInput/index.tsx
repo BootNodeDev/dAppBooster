@@ -10,10 +10,10 @@ import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
 import OptionsDropdown from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/TokenInput/Icon'
 import { withSuspenseAndRetry } from '@/src/core/utils'
+import { useWallet } from '@/src/sdk/react/hooks'
 import { TokenInput as BaseTokenInput } from '@/src/tokens/components'
 import { useTokenInput, useTokenLists, useTokenSearch } from '@/src/tokens/hooks'
 import type { Networks } from '@/src/tokens/types'
-import { useWeb3Status } from '@/src/wallet/hooks'
 
 type Options = 'single' | 'multi'
 
@@ -48,7 +48,9 @@ const SkeletonLoadingTokenInput = () => (
  */
 const TokenInputMode = withSuspenseAndRetry(
   ({ currentTokenInput }: { currentTokenInput: Options }) => {
-    const { isWalletConnected } = useWeb3Status()
+    const {
+      status: { connected: isWalletConnected },
+    } = useWallet()
     const [currentNetworkId, setCurrentNetworkId] = useState<number>()
     const { tokensByChainId } = useTokenLists()
     const { searchResult } = useTokenSearch({

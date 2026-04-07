@@ -1,8 +1,6 @@
 'use client'
 
 import { Toaster as ChakraToaster, createToaster, Portal, Stack, Toast } from '@chakra-ui/react'
-// TODO(task-3): move to app shell — core/ should not import from wallet/
-import { useWeb3Status } from '@/src/wallet/hooks'
 import Spinner from './Spinner'
 
 export const notificationToaster = createToaster({
@@ -13,9 +11,7 @@ export const notificationToaster = createToaster({
 })
 
 export const NotificationToast = () => {
-  const { readOnlyClient } = useWeb3Status()
-  const chain = readOnlyClient?.chain
-  return !chain ? null : (
+  return (
     <Portal>
       <ChakraToaster
         toaster={notificationToaster}

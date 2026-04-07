@@ -5,10 +5,9 @@ import hashHandling from './index'
 
 const system = createSystem(defaultConfig)
 
-vi.mock('@/src/wallet/hooks/useWeb3Status', () => ({
-  useWeb3Status: vi.fn(() => ({
-    isWalletConnected: false,
-    walletChainId: undefined,
+vi.mock('@/src/sdk/react/hooks', () => ({
+  useWallet: vi.fn(() => ({
+    status: { connected: false, activeAccount: null, connectedChainIds: [], connecting: false },
   })),
 }))
 

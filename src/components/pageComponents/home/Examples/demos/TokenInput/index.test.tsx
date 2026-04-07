@@ -1,11 +1,13 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
-import { createMockWeb3Status, renderWithProviders } from '@/src/test-utils'
+import { renderWithProviders } from '@/src/test-utils'
 import tokenInput from './index'
 
-vi.mock('@/src/hooks/useWeb3Status', () => ({
-  useWeb3Status: vi.fn(() => createMockWeb3Status()),
+vi.mock('@/src/sdk/react/hooks', () => ({
+  useWallet: vi.fn(() => ({
+    status: { connected: false, activeAccount: null, connectedChainIds: [], connecting: false },
+  })),
 }))
 
 vi.mock('@/src/hooks/useTokenLists', () => ({
