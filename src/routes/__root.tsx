@@ -1,6 +1,8 @@
 import {
   Footer,
   Header,
+  NotificationToast,
+  notificationToaster,
   Provider,
   TanStackReactQueryDevtools,
   TanStackRouterDevtools,
@@ -8,8 +10,11 @@ import {
 } from '@/src/core/components'
 import { chains, transports } from '@/src/core/types'
 import { createEvmTransactionAdapter, createEvmWalletAdapter } from '@/src/sdk/core/evm'
-import { DAppBoosterProvider } from '@/src/sdk/react'
-import { TransactionNotificationProvider } from '@/src/transactions/providers'
+import {
+  createNotificationLifecycle,
+  createSigningNotificationLifecycle,
+  DAppBoosterProvider,
+} from '@/src/sdk/react'
 import { connector, config as wagmiConfig } from '@/src/wallet/connectors/wagmi.config'
 import '@/src/wallet/connectors/portoInit'
 import { Flex } from '@chakra-ui/react'
@@ -31,9 +36,19 @@ const evmTransactionAdapter = createEvmTransactionAdapter({
   transports,
 })
 
+const notificationLifecycle = createNotificationLifecycle({
+  toaster: notificationToaster,
+})
+
+const signingLifecycle = createSigningNotificationLifecycle({
+  toaster: notificationToaster,
+})
+
 const dappboosterConfig = {
   wallets: { evm: evmWalletBundle },
   transactions: { evm: evmTransactionAdapter },
+  lifecycle: notificationLifecycle,
+  walletLifecycle: signingLifecycle,
 }
 
 export const Route = createRootRoute({
@@ -44,26 +59,25 @@ function Root() {
   return (
     <Provider>
       <DAppBoosterProvider config={dappboosterConfig}>
-        <TransactionNotificationProvider>
+        <Flex
+          direction="column"
+          minH="100vh"
+          w="100%"
+        >
+          <Header />
           <Flex
+            as="main"
             direction="column"
-            minH="100vh"
-            w="100%"
+            flexGrow="1"
           >
-            <Header />
-            <Flex
-              as="main"
-              direction="column"
-              flexGrow="1"
-            >
-              <Outlet />
-            </Flex>
-            <Footer />
-            <TanStackReactQueryDevtools />
-            <TanStackRouterDevtools />
+            <Outlet />
           </Flex>
-          <Toaster />
-        </TransactionNotificationProvider>
+          <Footer />
+          <TanStackReactQueryDevtools />
+          <TanStackRouterDevtools />
+        </Flex>
+        <Toaster />
+        <NotificationToast />
       </DAppBoosterProvider>
       <Analytics />
     </Provider>

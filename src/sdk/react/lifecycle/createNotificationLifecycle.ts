@@ -1,5 +1,7 @@
-import type { TransactionLifecycle } from '../../core/adapters/lifecycle'
-import type { TransactionResult } from '../../core/adapters/transaction'
+import type { TransactionLifecycle, WalletLifecycle } from '../../core/adapters/lifecycle'
+import type { TransactionRef, TransactionResult } from '../../core/adapters/transaction'
+import { getExplorerUrl } from '../../core/chain/explorer'
+import type { ChainRegistry } from '../../core/chain/registry'
 
 /** Minimal interface for the toast notification API. */
 export interface ToasterAPI {
@@ -19,21 +21,71 @@ export interface NotificationLifecycleMessages {
   reverted?: string
   /** Shown when an error occurs. Defaults to the error message. */
   error?: string
+  /** Shown when a transaction is replaced (speed-up or cancellation). Defaults to a message including the reason. */
+  replaced?: string
+  /** Shown when a transaction is cancelled. Defaults to a message including the reason. */
+  cancelled?: string
+}
+
+export interface SigningNotificationMessages {
+  /** Shown when a signature is requested. Defaults to 'Signature requested'. */
+  signatureRequested?: string
+  /** Shown when a signature is received. Defaults to 'Signature received!'. */
+  signatureReceived?: string
+  /** Shown when a signing error occurs. Defaults to the error message. */
+  error?: string
 }
 
 export interface NotificationLifecycleOptions {
   toaster: ToasterAPI
   messages?: NotificationLifecycleMessages
+  /** When provided, explorer URLs are appended to confirm and replace toasts. */
+  registry?: ChainRegistry
+}
+
+export interface SigningNotificationLifecycleOptions {
+  toaster: ToasterAPI
+  messages?: SigningNotificationMessages
+}
+
+/** Extracts the most user-friendly message from an error, preferring viem's shortMessage. */
+function extractErrorMessage(error: Error): string {
+  if (
+    'shortMessage' in error &&
+    typeof (error as Record<string, unknown>).shortMessage === 'string'
+  ) {
+    return (error as Record<string, unknown>).shortMessage as string
+  }
+  return error.message
 }
 
 /**
- * Creates a TransactionLifecycle that fires toast notifications for submit, confirm, and error events.
+ * Builds an explorer URL suffix for a transaction, or empty string if unavailable.
+ *
+ * @precondition ref.id is a valid transaction hash and ref.chainId is a known chain
+ * @postcondition returns a string like ' — https://etherscan.io/tx/0x...' or ''
+ */
+function buildExplorerSuffix(registry: ChainRegistry | undefined, ref: TransactionRef): string {
+  if (!registry) {
+    return ''
+  }
+  const url = getExplorerUrl(registry, { chainId: ref.chainId, tx: ref.id })
+  return url ? ` — ${url}` : ''
+}
+
+/**
+ * Creates a TransactionLifecycle that fires toast notifications for submit, confirm, replace, and error events.
  *
  * Pass the result to useTransaction({ lifecycle }) or TransactionButton lifecycle prop.
+ *
+ * @precondition toaster implements the ToasterAPI interface
+ * @postcondition returned lifecycle fires toasts for onSubmit, onConfirm, onReplace, and onError
+ * @postcondition when registry is provided, confirm and replace toasts include explorer URLs
  */
 export function createNotificationLifecycle({
   toaster,
   messages = {},
+  registry,
 }: NotificationLifecycleOptions): TransactionLifecycle {
   let toastId: string | undefined
 
@@ -46,18 +98,65 @@ export function createNotificationLifecycle({
     },
     onConfirm(result: TransactionResult) {
       const isSuccess = result.status === 'success'
+      const suffix = buildExplorerSuffix(registry, result.ref)
       toaster.create({
         description: isSuccess
-          ? (messages.confirmed ?? 'Transaction confirmed!')
-          : (messages.reverted ?? 'Transaction was reverted'),
+          ? `${messages.confirmed ?? 'Transaction confirmed!'}${suffix}`
+          : `${messages.reverted ?? 'Transaction was reverted'}${suffix}`,
         type: isSuccess ? 'success' : 'error',
         id: toastId,
       })
       toastId = undefined
     },
+    onReplace(_oldRef: TransactionRef, newRef: TransactionRef, reason: string) {
+      const suffix = buildExplorerSuffix(registry, newRef)
+      toaster.create({
+        description: messages.replaced ?? `Transaction ${reason}${suffix}`,
+        type: 'loading',
+        id: toastId,
+      })
+    },
     onError(_phase, error) {
       toaster.create({
-        description: messages.error ?? error.message,
+        description: messages.error ?? extractErrorMessage(error),
+        type: 'error',
+        id: toastId,
+      })
+      toastId = undefined
+    },
+  }
+}
+
+/**
+ * Creates a WalletLifecycle that fires toast notifications for signing operations.
+ *
+ * @precondition toaster implements the ToasterAPI interface
+ * @postcondition returned lifecycle fires toasts for onSign, onSignComplete, and onSignError
+ */
+export function createSigningNotificationLifecycle({
+  toaster,
+  messages = {},
+}: SigningNotificationLifecycleOptions): WalletLifecycle {
+  let toastId: string | undefined
+
+  return {
+    onSign() {
+      toastId = toaster.create({
+        description: messages.signatureRequested ?? 'Signature requested',
+        type: 'loading',
+      })
+    },
+    onSignComplete() {
+      toaster.create({
+        description: messages.signatureReceived ?? 'Signature received!',
+        type: 'success',
+        id: toastId,
+      })
+      toastId = undefined
+    },
+    onSignError(error) {
+      toaster.create({
+        description: messages.error ?? extractErrorMessage(error),
         type: 'error',
         id: toastId,
       })
