@@ -35,7 +35,7 @@ vi.mock('@/src/hooks/useWeb3Status', () => ({
   })),
 }))
 
-vi.mock('@/src/providers/Web3Provider', () => ({
+vi.mock('@/src/wallet/providers', () => ({
   ConnectWalletButton: () =>
     createElement(
       'button',

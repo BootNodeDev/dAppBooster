@@ -3,9 +3,9 @@ import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainB
 import { useWalletStatus } from '@/src/hooks/useWalletStatus'
 import { useWeb3Status, type Web3Status } from '@/src/hooks/useWeb3Status'
 import type { ChainsIds } from '@/src/lib/networks.config'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import type { RequiredNonNull } from '@/src/types/utils'
 import { DeveloperError } from '@/src/utils/DeveloperError'
+import { ConnectWalletButton } from '@/src/wallet/providers'
 
 const WalletStatusVerifierContext = createContext<RequiredNonNull<Web3Status> | null>(null)
 
@@ -14,6 +14,8 @@ const WalletStatusVerifierContext = createContext<RequiredNonNull<Web3Status> | 
  *
  * Must be called inside a `<WalletStatusVerifier>` component tree.
  * Throws if called outside one.
+ *
+ * @deprecated Use the new SDK hooks from `@/src/sdk/react/hooks` instead.
  */
 export const useWeb3StatusConnected = () => {
   const context = useContext(WalletStatusVerifierContext)
@@ -37,6 +39,8 @@ interface WalletStatusVerifierProps {
  *
  * This is the primary API for protecting UI that requires a connected wallet.
  * Components that call `useWeb3StatusConnected` must be rendered inside this component.
+ *
+ * @deprecated Use {@link WalletGuard} from `@/src/sdk/react` instead.
  *
  * @example
  * ```tsx
