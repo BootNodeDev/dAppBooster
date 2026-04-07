@@ -1,14 +1,41 @@
-import { chakra, Flex } from '@chakra-ui/react'
+import {
+  Footer,
+  Header,
+  Provider,
+  TanStackReactQueryDevtools,
+  TanStackRouterDevtools,
+  Toaster,
+} from '@/src/core/components'
+import { chains, transports } from '@/src/core/types'
+import { createEvmTransactionAdapter, createEvmWalletAdapter } from '@/src/sdk/core/evm'
+import { DAppBoosterProvider } from '@/src/sdk/react'
+import { TransactionNotificationProvider } from '@/src/transactions/providers'
+import { connector, config as wagmiConfig } from '@/src/wallet/connectors/wagmi.config'
+import '@/src/wallet/connectors/portoInit'
+import { Flex } from '@chakra-ui/react'
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { Analytics } from '@vercel/analytics/react'
-import { TanStackReactQueryDevtools } from '@/src/components/sharedComponents/dev/TanStackReactQueryDevtools'
-import { TanStackRouterDevtools } from '@/src/components/sharedComponents/dev/TanStackRouterDevtools'
-import { Footer } from '@/src/components/sharedComponents/ui/Footer'
-import { Header } from '@/src/components/sharedComponents/ui/Header'
-import { Provider } from '@/src/components/ui/provider'
-import { Toaster } from '@/src/components/ui/toaster'
-import { TransactionNotificationProvider } from '@/src/providers/TransactionNotificationProvider'
-import { Web3Provider } from '@/src/providers/Web3Provider'
+import type { Chain } from 'viem'
+
+const evmChains: Chain[] = [...chains]
+
+const evmWalletBundle = createEvmWalletAdapter({
+  connector,
+  chains: evmChains,
+  transports,
+  wagmiConfig,
+})
+
+const evmTransactionAdapter = createEvmTransactionAdapter({
+  chains: evmChains,
+  transports,
+})
+
+const dappboosterConfig = {
+  wallets: { evm: evmWalletBundle },
+  transactions: { evm: evmTransactionAdapter },
+}
+
 export const Route = createRootRoute({
   component: Root,
 })
@@ -16,33 +43,18 @@ export const Route = createRootRoute({
 function Root() {
   return (
     <Provider>
-      <Web3Provider>
+      <DAppBoosterProvider config={dappboosterConfig}>
         <TransactionNotificationProvider>
           <Flex
             direction="column"
             minH="100vh"
             w="100%"
           >
-            <chakra.a
-              bg="bg.default"
-              color="text.default"
-              href="#main-content"
-              left={0}
-              p={2}
-              position="absolute"
-              top="-100%"
-              zIndex="tooltip"
-              _focusVisible={{ top: 0 }}
-            >
-              Skip to main content
-            </chakra.a>
             <Header />
             <Flex
               as="main"
               direction="column"
               flexGrow="1"
-              id="main-content"
-              tabIndex={-1}
             >
               <Outlet />
             </Flex>
@@ -52,7 +64,7 @@ function Root() {
           </Flex>
           <Toaster />
         </TransactionNotificationProvider>
-      </Web3Provider>
+      </DAppBoosterProvider>
       <Analytics />
     </Provider>
   )
