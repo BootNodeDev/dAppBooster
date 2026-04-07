@@ -160,8 +160,8 @@ describe('fetchTokenList', () => {
     it('returns a non-empty tokens array', async () => {
       const result = await fetchTokenList('default')
 
-      expect(Array.isArray(result.tokens)).toBe(true)
       expect(result.tokens.length).toBeGreaterThan(0)
+      expect(mockFetch).not.toHaveBeenCalled()
     })
 
     it('every EVM token conforms to tokenSchema', async () => {
@@ -175,6 +175,7 @@ describe('fetchTokenList', () => {
       for (const token of evmTokens) {
         expect(() => tokenSchema.parse(token)).not.toThrow()
       }
+      expect(mockFetch).not.toHaveBeenCalled()
     })
   })
 })
