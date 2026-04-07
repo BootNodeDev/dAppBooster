@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { createElement } from 'react'
 import { describe, expect, it, vi } from 'vitest'
 import type { WalletAdapter, WalletStatus } from '../../core/adapters/wallet'
+import type { ChainDescriptor } from '../../core/chain/descriptor'
 import { DAppBoosterProvider } from '../provider/DAppBoosterProvider'
 import { useMultiWallet } from './useMultiWallet'
 
@@ -17,20 +18,29 @@ const mockStatus: WalletStatus = {
   connecting: false,
 }
 
+const evmChain: ChainDescriptor = {
+  caip2Id: 'eip155:1',
+  chainId: 1,
+  name: 'Ethereum',
+  chainType: 'evm',
+  nativeCurrency: { symbol: 'ETH', decimals: 18 },
+  addressConfig: { format: 'hex', patterns: [], example: '0x...' },
+}
+
+const svmChain: ChainDescriptor = {
+  caip2Id: 'solana:mainnet',
+  chainId: 'solana:mainnet',
+  name: 'Solana',
+  chainType: 'solana',
+  nativeCurrency: { symbol: 'SOL', decimals: 9 },
+  addressConfig: { format: 'base58', patterns: [], example: '...' },
+}
+
 const makeMockAdapter = (overrides?: Partial<WalletAdapter>): WalletAdapter => {
   const unsubscribe = vi.fn()
   return {
     chainType: 'evm',
-    supportedChains: [
-      {
-        caip2Id: 'eip155:1',
-        chainId: 1,
-        name: 'Ethereum',
-        chainType: 'evm',
-        nativeCurrency: { symbol: 'ETH', decimals: 18 },
-        addressConfig: { format: 'hex', patterns: [], example: '0x...' },
-      },
-    ],
+    supportedChains: [evmChain],
     metadata: {
       chainType: 'evm',
       capabilities: { signTypedData: false, switchChain: false },
@@ -49,6 +59,36 @@ const makeMockAdapter = (overrides?: Partial<WalletAdapter>): WalletAdapter => {
   } as unknown as WalletAdapter
 }
 
+const makeMockWalletAdapter = ({
+  chainType,
+  supportedChains,
+  connected,
+  activeAccount,
+}: {
+  chainType: string
+  supportedChains: ChainDescriptor[]
+  connected: boolean
+  activeAccount: string | null
+}): WalletAdapter => {
+  const status: WalletStatus = {
+    connected,
+    activeAccount,
+    connectedChainIds: connected ? supportedChains.map((c) => c.chainId) : [],
+    connecting: false,
+  }
+  return makeMockAdapter({
+    chainType,
+    supportedChains,
+    metadata: {
+      chainType,
+      capabilities: { signTypedData: false, switchChain: false },
+      formatAddress: (addr: string) => addr,
+      availableWallets: () => [],
+    },
+    getStatus: vi.fn(() => status),
+  })
+}
+
 const makeWrapper =
   (wallets: Record<string, { adapter: WalletAdapter }>) =>
   ({ children }: { children: ReactNode }) =>
@@ -60,32 +100,23 @@ const makeEmptyWrapper =
     createElement(DAppBoosterProvider, { config: {} }, children)
 
 describe('useMultiWallet', () => {
-  it('returns empty record with no adapters', () => {
+  it('returns empty wallets record with no adapters', () => {
     const wrapper = makeEmptyWrapper()
     const { result } = renderHook(() => useMultiWallet(), { wrapper })
-    expect(result.current).toEqual({})
+    expect(result.current.wallets).toEqual({})
   })
 
   it('returns one entry per adapter', () => {
     const evmAdapter = makeMockAdapter({ chainType: 'evm' })
     const solAdapter = makeMockAdapter({
       chainType: 'solana',
-      supportedChains: [
-        {
-          caip2Id: 'solana:mainnet',
-          chainId: 'solana:mainnet',
-          name: 'Solana',
-          chainType: 'solana',
-          nativeCurrency: { symbol: 'SOL', decimals: 9 },
-          addressConfig: { format: 'base58', patterns: [], example: '...' },
-        },
-      ],
+      supportedChains: [svmChain],
     })
     const wrapper = makeWrapper({ evm: { adapter: evmAdapter }, solana: { adapter: solAdapter } })
     const { result } = renderHook(() => useMultiWallet(), { wrapper })
-    expect(Object.keys(result.current)).toHaveLength(2)
-    expect(result.current).toHaveProperty('evm')
-    expect(result.current).toHaveProperty('solana')
+    expect(Object.keys(result.current.wallets)).toHaveLength(2)
+    expect(result.current.wallets).toHaveProperty('evm')
+    expect(result.current.wallets).toHaveProperty('solana')
   })
 
   it('status is correct for connected adapter', () => {
@@ -98,9 +129,9 @@ describe('useMultiWallet', () => {
     const adapter = makeMockAdapter({ getStatus: vi.fn(() => connectedStatus) })
     const wrapper = makeWrapper({ evm: { adapter } })
     const { result } = renderHook(() => useMultiWallet(), { wrapper })
-    expect(result.current.evm.status).toEqual(connectedStatus)
-    expect(result.current.evm.isReady).toBe(true)
-    expect(result.current.evm.needsConnect).toBe(false)
+    expect(result.current.wallets.evm.status).toEqual(connectedStatus)
+    expect(result.current.wallets.evm.isReady).toBe(true)
+    expect(result.current.wallets.evm.needsConnect).toBe(false)
   })
 
   it('status subscription updates when onStatusChange fires', () => {
@@ -125,7 +156,7 @@ describe('useMultiWallet', () => {
       capturedListener?.(updatedStatus)
     })
 
-    expect(result.current.evm.status).toEqual(updatedStatus)
+    expect(result.current.wallets.evm.status).toEqual(updatedStatus)
   })
 
   it('calls unsubscribes for all adapters on unmount', () => {
@@ -134,16 +165,7 @@ describe('useMultiWallet', () => {
     const evmAdapter = makeMockAdapter({ onStatusChange: vi.fn(() => unsubscribeEvm) })
     const solAdapter = makeMockAdapter({
       chainType: 'solana',
-      supportedChains: [
-        {
-          caip2Id: 'solana:mainnet',
-          chainId: 'solana:mainnet',
-          name: 'Solana',
-          chainType: 'solana',
-          nativeCurrency: { symbol: 'SOL', decimals: 9 },
-          addressConfig: { format: 'base58', patterns: [], example: '...' },
-        },
-      ],
+      supportedChains: [svmChain],
       onStatusChange: vi.fn(() => unsubscribeSol),
     })
     const wrapper = makeWrapper({ evm: { adapter: evmAdapter }, solana: { adapter: solAdapter } })
@@ -151,5 +173,134 @@ describe('useMultiWallet', () => {
     unmount()
     expect(unsubscribeEvm).toHaveBeenCalledOnce()
     expect(unsubscribeSol).toHaveBeenCalledOnce()
+  })
+})
+
+describe('useMultiWallet convenience methods', () => {
+  it('getWallet returns the wallet entry matching chainType', () => {
+    const evmAdapter = makeMockWalletAdapter({
+      chainType: 'evm',
+      supportedChains: [evmChain],
+      connected: true,
+      activeAccount: '0xabc',
+    })
+    const solanaAdapter = makeMockWalletAdapter({
+      chainType: 'solana',
+      supportedChains: [svmChain],
+      connected: true,
+      activeAccount: 'ABC123',
+    })
+    const wrapper = makeWrapper({
+      evm: { adapter: evmAdapter },
+      solana: { adapter: solanaAdapter },
+    })
+    const { result } = renderHook(() => useMultiWallet(), { wrapper })
+
+    const evmWallet = result.current.getWallet('evm')
+    expect(evmWallet).toBeDefined()
+    expect(evmWallet?.adapter.chainType).toBe('evm')
+  })
+
+  it('getWallet returns undefined for unregistered chainType', () => {
+    const evmAdapter = makeMockWalletAdapter({
+      chainType: 'evm',
+      supportedChains: [evmChain],
+      connected: false,
+      activeAccount: null,
+    })
+    const wrapper = makeWrapper({ evm: { adapter: evmAdapter } })
+    const { result } = renderHook(() => useMultiWallet(), { wrapper })
+
+    expect(result.current.getWallet('solana')).toBeUndefined()
+  })
+
+  it('getWalletByChainId returns the wallet entry whose adapter supports that chainId', () => {
+    const evmAdapter = makeMockWalletAdapter({
+      chainType: 'evm',
+      supportedChains: [evmChain],
+      connected: true,
+      activeAccount: '0xabc',
+    })
+    const wrapper = makeWrapper({ evm: { adapter: evmAdapter } })
+    const { result } = renderHook(() => useMultiWallet(), { wrapper })
+
+    const wallet = result.current.getWalletByChainId(1)
+    expect(wallet).toBeDefined()
+    expect(wallet?.adapter.chainType).toBe('evm')
+  })
+
+  it('getWalletByChainId returns undefined for unsupported chainId', () => {
+    const evmAdapter = makeMockWalletAdapter({
+      chainType: 'evm',
+      supportedChains: [evmChain],
+      connected: false,
+      activeAccount: null,
+    })
+    const wrapper = makeWrapper({ evm: { adapter: evmAdapter } })
+    const { result } = renderHook(() => useMultiWallet(), { wrapper })
+
+    expect(result.current.getWalletByChainId(999)).toBeUndefined()
+  })
+
+  it('connectedAddresses returns a record of adapter name to activeAccount for connected wallets', () => {
+    const evmAdapter = makeMockWalletAdapter({
+      chainType: 'evm',
+      supportedChains: [evmChain],
+      connected: true,
+      activeAccount: '0xabc',
+    })
+    const solanaAdapter = makeMockWalletAdapter({
+      chainType: 'solana',
+      supportedChains: [svmChain],
+      connected: true,
+      activeAccount: 'ABC123',
+    })
+    const wrapper = makeWrapper({
+      evm: { adapter: evmAdapter },
+      solana: { adapter: solanaAdapter },
+    })
+    const { result } = renderHook(() => useMultiWallet(), { wrapper })
+
+    expect(result.current.connectedAddresses).toEqual({
+      evm: '0xabc',
+      solana: 'ABC123',
+    })
+  })
+
+  it('connectedAddresses omits disconnected wallets', () => {
+    const evmAdapter = makeMockWalletAdapter({
+      chainType: 'evm',
+      supportedChains: [evmChain],
+      connected: true,
+      activeAccount: '0xabc',
+    })
+    const solanaAdapter = makeMockWalletAdapter({
+      chainType: 'solana',
+      supportedChains: [svmChain],
+      connected: false,
+      activeAccount: null,
+    })
+    const wrapper = makeWrapper({
+      evm: { adapter: evmAdapter },
+      solana: { adapter: solanaAdapter },
+    })
+    const { result } = renderHook(() => useMultiWallet(), { wrapper })
+
+    expect(result.current.connectedAddresses).toEqual({ evm: '0xabc' })
+    expect(result.current.connectedAddresses).not.toHaveProperty('solana')
+  })
+
+  it('wallets record is still accessible on the return value', () => {
+    const evmAdapter = makeMockWalletAdapter({
+      chainType: 'evm',
+      supportedChains: [evmChain],
+      connected: false,
+      activeAccount: null,
+    })
+    const wrapper = makeWrapper({ evm: { adapter: evmAdapter } })
+    const { result } = renderHook(() => useMultiWallet(), { wrapper })
+
+    expect(result.current.wallets.evm).toBeDefined()
+    expect(result.current.wallets.evm.adapter.chainType).toBe('evm')
   })
 })
