@@ -164,7 +164,7 @@ describe('fetchTokenList', () => {
       expect(result.tokens.length).toBeGreaterThan(0)
     })
 
-    it('every EVM token entry conforms to tokenSchema', async () => {
+    it('every EVM token conforms to tokenSchema', async () => {
       const result = await fetchTokenList('default')
 
       // The bundled list includes non-EVM tokens (e.g. Solana with base58 addresses)

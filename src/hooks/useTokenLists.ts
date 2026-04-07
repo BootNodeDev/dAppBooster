@@ -98,7 +98,10 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
     new Map(
       results
         .flatMap((result) => result.data.tokens)
-        // ensure that only valid tokens are consumed in runtime
+        // tokenSchema enforces EVM address format (0x + 40 hex chars), so non-EVM entries
+        // (e.g. Solana tokens from @uniswap/default-token-list v18+) are silently dropped here.
+        // Supporting non-EVM chains would require changes to the address schema, chain config,
+        // wallet integration, and contract lookup -- out of scope for this EVM-focused starter kit.
         .filter((token) => {
           const result = tokenSchema.safeParse(token)
 
