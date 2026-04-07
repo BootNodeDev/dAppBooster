@@ -1,15 +1,13 @@
 import { type ButtonProps, chakra } from '@chakra-ui/react'
 import type { FC, ReactElement } from 'react'
-import { useSignMessage } from 'wagmi'
+import { useState } from 'react'
 import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainButton'
-import { useWalletStatus } from '@/src/hooks/useWalletStatus'
-import type { ChainsIds } from '@/src/lib/networks.config'
-import { useTransactionNotification } from '@/src/providers/TransactionNotificationProvider'
-import { ConnectWalletButton } from '@/src/providers/Web3Provider'
+import { useChainRegistry, useWallet } from '@/src/sdk/react/hooks'
+import { ConnectWalletButton } from '@/src/wallet/providers'
 
 interface SignButtonProps extends Omit<ButtonProps, 'onError'> {
   /** Target chain ID for wallet status verification. */
-  chainId?: ChainsIds
+  chainId?: string | number
   /** Custom fallback when wallet needs connection. Defaults to ConnectWalletButton. */
   fallback?: ReactElement
   /** Button label while signing. Defaults to 'Signing...'. */
@@ -51,42 +49,40 @@ const SignButton: FC<SignButtonProps> = ({
   switchChainLabel = 'Switch to',
   ...restProps
 }) => {
-  const { needsConnect, needsChainSwitch, targetChain, targetChainId, switchChain } =
-    useWalletStatus({ chainId })
-  const { watchSignature } = useTransactionNotification()
+  const wallet = useWallet({ chainId })
+  const registry = useChainRegistry()
+  const [isPending, setIsPending] = useState(false)
 
-  const { isPending, signMessageAsync } = useSignMessage({
-    mutation: {
-      onSuccess(data) {
-        onSign?.(data)
-      },
-      onError(error) {
-        onError?.(error)
-      },
-    },
-  })
-
-  if (needsConnect) {
+  if (wallet.needsConnect) {
     return fallback
   }
 
-  if (needsChainSwitch) {
+  if (wallet.needsChainSwitch && chainId !== undefined) {
+    const targetChain = registry.getChain(chainId)
     return (
-      <SwitchChainButton onClick={() => switchChain(targetChainId)}>
-        {switchChainLabel} {targetChain.name}
+      <SwitchChainButton onClick={() => wallet.switchChain(chainId)}>
+        {switchChainLabel} {targetChain?.name ?? String(chainId)}
       </SwitchChainButton>
     )
+  }
+
+  const handleSign = async () => {
+    setIsPending(true)
+    try {
+      const result = await wallet.signMessage({ message })
+      onSign?.(result.signature)
+    } catch (error) {
+      const errorObj = error instanceof Error ? error : new Error(String(error))
+      onError?.(errorObj)
+    } finally {
+      setIsPending(false)
+    }
   }
 
   return (
     <chakra.button
       disabled={disabled || isPending}
-      onClick={() => {
-        watchSignature({
-          message: 'Signing message...',
-          signaturePromise: signMessageAsync({ message }),
-        })
-      }}
+      onClick={handleSign}
       {...restProps}
     >
       {isPending ? labelSigning : children}
