@@ -1,11 +1,11 @@
 import { Flex } from '@chakra-ui/react'
 import { useState } from 'react'
-import { sepolia } from 'wagmi/chains'
+import { sepolia } from 'viem/chains'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import ERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Icon'
 import NativeToken from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/NativeToken'
-import { WalletStatusVerifier } from '@/src/wallet/components'
+import { WalletGuard } from '@/src/sdk/react/components'
 
 type Options = 'erc20' | 'native'
 
@@ -17,23 +17,20 @@ const TransactionButton = () => {
   ]
 
   return (
-    <WalletStatusVerifier chainId={sepolia.id}>
-      {/* biome-ignore lint/complexity/noUselessFragments: WalletStatusVerifier expects a single ReactElement child */}
-      <>
-        <OptionsDropdown items={items} />
-        <Flex
-          alignItems="center"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          paddingTop={{ base: 2, lg: 6 }}
-          width="100%"
-        >
-          {currentTokenInput === 'erc20' && <ERC20ApproveAndTransferButton />}
-          {currentTokenInput === 'native' && <NativeToken />}
-        </Flex>
-      </>
-    </WalletStatusVerifier>
+    <WalletGuard chainId={sepolia.id}>
+      <OptionsDropdown items={items} />
+      <Flex
+        alignItems="center"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        paddingTop={{ base: 2, lg: 6 }}
+        width="100%"
+      >
+        {currentTokenInput === 'erc20' && <ERC20ApproveAndTransferButton />}
+        {currentTokenInput === 'native' && <NativeToken />}
+      </Flex>
+    </WalletGuard>
   )
 }
 

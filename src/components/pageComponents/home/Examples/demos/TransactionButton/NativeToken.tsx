@@ -1,11 +1,14 @@
 import { Dialog } from '@chakra-ui/react'
 import { type ReactElement, useState } from 'react'
-import { type Hash, parseEther, type TransactionReceipt } from 'viem'
-import { useSendTransaction } from 'wagmi'
+import type { Address, TransactionReceipt } from 'viem'
+import { parseEther } from 'viem'
+import { sepolia } from 'viem/chains'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import { GeneralMessage, PrimaryButton } from '@/src/core/components'
-import { LegacyTransactionButton as TransactionButton } from '@/src/transactions/components'
-import { useWeb3StatusConnected } from '@/src/wallet/components'
+import type { TransactionParams, TransactionResult } from '@/src/sdk/core'
+import type { EvmRawTransaction } from '@/src/sdk/core/evm/types'
+import { useWallet } from '@/src/sdk/react/hooks'
+import { TransactionButton } from '@/src/transactions/components'
 
 /**
  * This demo shows how to send a native token transaction.
@@ -14,11 +17,12 @@ import { useWeb3StatusConnected } from '@/src/wallet/components'
  */
 const NativeToken = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const { address } = useWeb3StatusConnected()
-  const { sendTransactionAsync } = useSendTransaction()
+  const wallet = useWallet({ chainId: sepolia.id })
+  const address = wallet.status.activeAccount as Address
   const [minedMessage, setMinedMessage] = useState<string | ReactElement>()
 
-  const handleOnMined = (receipt: TransactionReceipt) => {
+  const handleConfirm = (result: TransactionResult) => {
+    const receipt = result.receipt as TransactionReceipt
     setMinedMessage(
       <>
         <b>Hash:</b> <span>{receipt.transactionHash}</span>
@@ -27,14 +31,13 @@ const NativeToken = () => {
     setIsModalOpen(true)
   }
 
-  const handleSendTransaction = (): Promise<Hash> => {
-    // Send native token
-    return sendTransactionAsync({
+  const sendParams: TransactionParams = {
+    chainId: sepolia.id,
+    payload: {
       to: address,
       value: parseEther('0.1'),
-    })
+    } satisfies EvmRawTransaction,
   }
-  handleSendTransaction.methodId = 'sendTransaction'
 
   return (
     <Dialog.Root
@@ -47,8 +50,8 @@ const NativeToken = () => {
       >
         <TransactionButton
           labelSending="Sending 0.1 ETH..."
-          onMined={handleOnMined}
-          transaction={handleSendTransaction}
+          lifecycle={{ onConfirm: handleConfirm }}
+          params={sendParams}
         >
           Send 0.1 Sepolia ETH
         </TransactionButton>

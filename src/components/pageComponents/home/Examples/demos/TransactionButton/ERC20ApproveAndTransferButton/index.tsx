@@ -1,13 +1,14 @@
-import { type Address, formatUnits } from 'viem'
+import { type Abi, type Address, formatUnits } from 'viem'
 import { sepolia } from 'viem/chains'
-import { useWriteContract } from 'wagmi'
 import BaseERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/ERC20ApproveAndTransferButton'
 import MintUSDC from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton/MintUSDC'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import { useSuspenseReadErc20BalanceOf } from '@/src/contracts/generated'
 import { formatNumberOrString, NumberType, withSuspense } from '@/src/core/utils'
+import type { TransactionParams } from '@/src/sdk/core'
+import type { EvmContractCall } from '@/src/sdk/core/evm/types'
+import { useWallet } from '@/src/sdk/react/hooks'
 import type { Token } from '@/src/tokens/types'
-import { useWeb3StatusConnected } from '@/src/wallet/components'
 
 // USDC token on Sepolia chain
 const tokenUSDC_sepolia: Token = {
@@ -56,8 +57,8 @@ const ABIExample = [
  * Works only on Sepolia chain.
  */
 const ERC20ApproveAndTransferButton = withSuspense(() => {
-  const { address } = useWeb3StatusConnected()
-  const { writeContractAsync } = useWriteContract()
+  const wallet = useWallet({ chainId: sepolia.id })
+  const address = wallet.status.activeAccount as Address
 
   const { data: balance, refetch: refetchBalance } = useSuspenseReadErc20BalanceOf({
     address: tokenUSDC_sepolia.address as Address,
@@ -67,16 +68,19 @@ const ERC20ApproveAndTransferButton = withSuspense(() => {
   // AAVE staging contract pool address
   const spender = '0x6Ae43d3271ff6888e7Fc43Fd7321a503ff738951'
 
-  const amount = 10000000000n // 10,000.00 USDC
+  const amount = BigInt(10000000000) // 10,000.00 USDC
 
-  const handleTransaction = () =>
-    writeContractAsync({
-      abi: ABIExample,
-      address: spender,
-      functionName: 'supply',
-      args: [tokenUSDC_sepolia.address as Address, amount, address, 0],
-    })
-  handleTransaction.methodId = 'Supply USDC'
+  const transferParams: TransactionParams = {
+    chainId: sepolia.id,
+    payload: {
+      contract: {
+        address: spender,
+        abi: ABIExample as Abi,
+        functionName: 'supply',
+        args: [tokenUSDC_sepolia.address as Address, amount, address, 0],
+      },
+    } satisfies EvmContractCall,
+  }
 
   const formattedAmount = formatNumberOrString(
     formatUnits(amount, tokenUSDC_sepolia.decimals),
@@ -98,7 +102,7 @@ const ERC20ApproveAndTransferButton = withSuspense(() => {
       onSuccess={() => refetchBalance()}
       spender={spender}
       token={tokenUSDC_sepolia}
-      transaction={handleTransaction}
+      transferParams={transferParams}
     />
   )
 })

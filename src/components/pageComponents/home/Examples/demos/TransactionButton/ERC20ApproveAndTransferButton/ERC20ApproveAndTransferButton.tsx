@@ -1,42 +1,30 @@
 import type { FC } from 'react'
-import { type Address, erc20Abi, type Hash, type TransactionReceipt } from 'viem'
-import * as chains from 'viem/chains'
-import { useWriteContract } from 'wagmi'
+import { type Abi, type Address, erc20Abi } from 'viem'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import { useSuspenseReadErc20Allowance } from '@/src/contracts/generated'
-import { getExplorerLink } from '@/src/core/utils'
+import type { TransactionParams } from '@/src/sdk/core'
+import { getExplorerUrl } from '@/src/sdk/core/chain/explorer'
+import type { EvmContractCall } from '@/src/sdk/core/evm/types'
+import { useChainRegistry, useWallet } from '@/src/sdk/react/hooks'
 import type { Token } from '@/src/tokens/types'
-import { LegacyTransactionButton as TransactionButton } from '@/src/transactions/components'
-import { useWeb3StatusConnected } from '@/src/wallet/components'
-import { useWeb3Status } from '@/src/wallet/hooks'
+import { TransactionButton } from '@/src/transactions/components'
 
 interface Props {
   amount: bigint
   disabled?: boolean
   label?: string
   labelSending?: string
-  onSuccess?: (receipt: TransactionReceipt) => void
+  onSuccess?: () => void
   spender: Address
   token: Token
-  transaction: () => Promise<Hash>
+  transferParams: TransactionParams
 }
 
 /**
  * Dynamically renders either an approval button or a transaction button based on the user's current token allowance.
  * After the approval, the transaction button will be rendered.
  *
- * @dev Use with <Suspense> to add an skeleton loader while fetching the allowance.
- *
- * @param {Props}
- * @param {Token} props.token - The token to be approved.
- * @param {Address} props.spender - The address of the spender to be approved.
- * @param {bigint} props.amount - The amount of tokens to approve (or send).
- * @param {Function} props.onMined - The callback function to be called when transaction is mined.
- * @param {boolean} props.disabled - The flag to disable the button.
- * @param {Function} props.transaction - The transaction function that send after approval.
- * @param {string} props.label - The label for the button.
- * @param {string} props.labelSending - The label for the button when the transaction is pending.
- *
+ * @dev Use with <Suspense> to add a skeleton loader while fetching the allowance.
  */
 const ERC20ApproveAndTransferButton: FC<Props> = ({
   amount,
@@ -46,34 +34,32 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
   onSuccess,
   spender,
   token,
-  transaction,
+  transferParams,
 }) => {
-  const { address } = useWeb3StatusConnected()
-  const { writeContractAsync } = useWriteContract()
-  const { isWalletConnected, walletChainId } = useWeb3Status()
+  const wallet = useWallet({ chainId: token.chainId })
+  const address = wallet.status.activeAccount as Address
+  const registry = useChainRegistry()
 
-  const { data: allowance, refetch: getAllowance } = useSuspenseReadErc20Allowance({
+  const { data: allowance, refetch: refetchAllowance } = useSuspenseReadErc20Allowance({
     address: token.address as Address, // TODO: token.address should be Address type
     args: [address, spender],
   })
 
   const isApprovalRequired = allowance < amount
 
-  const handleApprove = () => {
-    return writeContractAsync({
-      abi: erc20Abi,
-      address: token.address as Address,
-      functionName: 'approve',
-      args: [spender, amount],
-    })
+  const approveParams: TransactionParams = {
+    chainId: token.chainId,
+    payload: {
+      contract: {
+        address: token.address as Address,
+        abi: erc20Abi as Abi,
+        functionName: 'approve',
+        args: [spender, amount],
+      },
+    } satisfies EvmContractCall,
   }
-  handleApprove.methodId = 'Approve USDC'
 
-  const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
-
-  // mainnet is the default chain if not connected or the chain is not found
-  const currentChain =
-    isWalletConnected && walletChainId ? findChain(walletChainId) || chains.mainnet : chains.mainnet
+  const explorerUrl = getExplorerUrl(registry, { chainId: token.chainId, address: spender })
 
   return isApprovalRequired ? (
     <Wrapper
@@ -84,8 +70,8 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
         disabled={disabled}
         key="approve"
         labelSending={`Approving ${token.symbol}`}
-        onMined={() => getAllowance()}
-        transaction={handleApprove}
+        lifecycle={{ onConfirm: () => refetchAllowance() }}
+        params={approveParams}
       >
         Approve
       </TransactionButton>
@@ -96,7 +82,7 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
         <>
           Supply {token.symbol} to the{' '}
           <a
-            href={getExplorerLink({ chain: currentChain, hashOrAddress: spender })}
+            href={explorerUrl ?? '#'}
             rel="noreferrer"
             target="_blank"
           >
@@ -108,12 +94,11 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
       title="Execute the transaction"
     >
       <TransactionButton
-        as={TransactionButton}
         disabled={disabled}
         key="send"
         labelSending={labelSending}
-        onMined={onSuccess}
-        transaction={transaction}
+        lifecycle={{ onConfirm: () => onSuccess?.() }}
+        params={transferParams}
       >
         {label}
       </TransactionButton>
