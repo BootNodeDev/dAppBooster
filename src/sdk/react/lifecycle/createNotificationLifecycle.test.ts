@@ -247,7 +247,7 @@ describe('createNotificationLifecycle', () => {
   })
 
   describe('shortMessage extraction for viem errors', () => {
-    it('uses shortMessage when present on error', () => {
+    it('uses formatErrorMessage to extract friendly message from viem errors', () => {
       const lifecycle = createNotificationLifecycle({ toaster: mockToaster })
       lifecycle.onSubmit?.({ chainType: 'evm', id: '0x1', chainId: 1 })
 
@@ -259,7 +259,7 @@ describe('createNotificationLifecycle', () => {
       expect(mockCreate).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
-          description: 'User rejected the request',
+          description: 'Transaction rejected by user',
           type: 'error',
         }),
       )
@@ -356,7 +356,7 @@ describe('createSigningNotificationLifecycle', () => {
     )
   })
 
-  it('uses shortMessage from viem errors', () => {
+  it('uses formatErrorMessage to extract friendly message from viem errors', () => {
     const lifecycle = createSigningNotificationLifecycle({ toaster: mockToaster })
     lifecycle.onSign?.('message', { message: 'Hello' })
 
@@ -367,7 +367,7 @@ describe('createSigningNotificationLifecycle', () => {
 
     expect(mockCreate).toHaveBeenNthCalledWith(
       2,
-      expect.objectContaining({ description: 'User rejected' }),
+      expect.objectContaining({ description: 'Transaction rejected by user' }),
     )
   })
 

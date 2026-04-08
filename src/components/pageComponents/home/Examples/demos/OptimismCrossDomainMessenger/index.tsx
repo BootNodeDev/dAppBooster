@@ -12,6 +12,7 @@ import { buildCrossDomainMessageParams } from '@/src/contracts/hooks/useOPL1Cros
 import { Hash, PrimaryButton, Spinner } from '@/src/core/components'
 import { withSuspenseAndRetry } from '@/src/core/utils'
 import { getExplorerUrl } from '@/src/sdk/core/chain/explorer'
+import { formatErrorMessage } from '@/src/sdk/core/errors/format'
 import { useChainRegistry, useTransaction, useWallet } from '@/src/sdk/react/hooks'
 
 /**
@@ -96,13 +97,7 @@ const OptimismCrossDomainMessenger = withSuspenseAndRetry(() => {
           'Deposit ETH'
         )}
       </PrimaryButton>
-      {tx.error && (
-        <Flex color="danger">
-          {'shortMessage' in tx.error
-            ? (tx.error as { shortMessage: string }).shortMessage
-            : tx.error.message}
-        </Flex>
-      )}
+      {tx.error && <Flex color="danger">{formatErrorMessage(tx.error)}</Flex>}
       {l2Hash && (
         <Flex
           alignItems="center"

@@ -2,6 +2,7 @@ import type { TransactionLifecycle, WalletLifecycle } from '../../core/adapters/
 import type { TransactionRef, TransactionResult } from '../../core/adapters/transaction'
 import { getExplorerUrl } from '../../core/chain/explorer'
 import type { ChainRegistry } from '../../core/chain/registry'
+import { formatErrorMessage } from '../../core/errors/format'
 
 /** Minimal interface for the toast notification API. */
 export interface ToasterAPI {
@@ -46,17 +47,6 @@ export interface NotificationLifecycleOptions {
 export interface SigningNotificationLifecycleOptions {
   toaster: ToasterAPI
   messages?: SigningNotificationMessages
-}
-
-/** Extracts the most user-friendly message from an error, preferring viem's shortMessage. */
-function extractErrorMessage(error: Error): string {
-  if (
-    'shortMessage' in error &&
-    typeof (error as Record<string, unknown>).shortMessage === 'string'
-  ) {
-    return (error as Record<string, unknown>).shortMessage as string
-  }
-  return error.message
 }
 
 /**
@@ -118,7 +108,7 @@ export function createNotificationLifecycle({
     },
     onError(_phase, error) {
       toaster.create({
-        description: messages.error ?? extractErrorMessage(error),
+        description: messages.error ?? formatErrorMessage(error),
         type: 'error',
         ...(toastId ? { id: toastId } : {}),
       })
@@ -156,7 +146,7 @@ export function createSigningNotificationLifecycle({
     },
     onSignError(error) {
       toaster.create({
-        description: messages.error ?? extractErrorMessage(error),
+        description: messages.error ?? formatErrorMessage(error),
         type: 'error',
         ...(toastId ? { id: toastId } : {}),
       })

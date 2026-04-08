@@ -174,3 +174,9 @@ export class AmbiguousAdapterError extends Error {
     this.availableChainTypes = [...availableChainTypes]
   }
 }
+
+// ---------------------------------------------------------------------------
+// Error formatting utilities
+// ---------------------------------------------------------------------------
+
+export { extractViemErrorMessage, formatErrorMessage, sanitizeErrorMessage } from './format'

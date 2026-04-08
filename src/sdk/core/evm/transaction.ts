@@ -16,7 +16,12 @@ import type {
   TransactionResult,
 } from '../adapters/transaction'
 import type { ChainSigner } from '../adapters/wallet'
-import { ChainNotSupportedError, InsufficientFundsError, InvalidSignerError } from '../errors'
+import {
+  ChainNotSupportedError,
+  formatErrorMessage,
+  InsufficientFundsError,
+  InvalidSignerError,
+} from '../errors'
 import { fromViemChain } from './chains'
 import type { EvmContractCall, EvmRawTransaction, EvmTransactionPayload } from './types'
 
@@ -145,17 +150,10 @@ export function createEvmTransactionAdapter(
         }
       } catch (err) {
         const error = err instanceof Error ? err : new Error(String(err))
-        const fullMessage = error.message
-        if (fullMessage.includes('insufficient funds')) {
+        if (error.message.includes('insufficient funds')) {
           throw new InsufficientFundsError()
         }
-        // Prefer viem's shortMessage for user-friendly display
-        const reason =
-          'shortMessage' in error &&
-          typeof (error as Record<string, unknown>).shortMessage === 'string'
-            ? ((error as Record<string, unknown>).shortMessage as string)
-            : fullMessage
-        return { ready: false, reason }
+        return { ready: false, reason: formatErrorMessage(error) }
       }
     },
 
