@@ -144,11 +144,18 @@ export function createEvmTransactionAdapter(
           },
         }
       } catch (err) {
-        const message = err instanceof Error ? err.message : String(err)
-        if (message.includes('insufficient funds')) {
+        const error = err instanceof Error ? err : new Error(String(err))
+        const fullMessage = error.message
+        if (fullMessage.includes('insufficient funds')) {
           throw new InsufficientFundsError()
         }
-        return { ready: false, reason: message }
+        // Prefer viem's shortMessage for user-friendly display
+        const reason =
+          'shortMessage' in error &&
+          typeof (error as Record<string, unknown>).shortMessage === 'string'
+            ? ((error as Record<string, unknown>).shortMessage as string)
+            : fullMessage
+        return { ready: false, reason }
       }
     },
 
