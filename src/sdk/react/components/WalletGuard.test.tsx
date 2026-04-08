@@ -92,36 +92,6 @@ describe('WalletGuard', () => {
     expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 
-  it('renders deprecated fallback when provided and needsConnect (no renderConnect)', () => {
-    render(
-      createElement(
-        WalletGuard,
-        { fallback: createElement('div', { 'data-testid': 'custom-fallback' }, 'Custom') },
-        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
-      ),
-    )
-
-    expect(screen.getByTestId('custom-fallback')).toBeInTheDocument()
-    expect(screen.queryByTestId('protected-content')).toBeNull()
-  })
-
-  it('prefers renderConnect over fallback when both provided', () => {
-    render(
-      createElement(
-        WalletGuard,
-        {
-          renderConnect: () =>
-            createElement('button', { type: 'button', 'data-testid': 'render-connect' }, 'RC'),
-          fallback: createElement('div', { 'data-testid': 'custom-fallback' }, 'Fallback'),
-        },
-        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
-      ),
-    )
-
-    expect(screen.getByTestId('render-connect')).toBeInTheDocument()
-    expect(screen.queryByTestId('custom-fallback')).toBeNull()
-  })
-
   it('renders renderSwitchChain when needsChainSwitch with correct props', async () => {
     const user = userEvent.setup()
     mockedUseWallet.mockReturnValue({

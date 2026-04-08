@@ -8,8 +8,8 @@ import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/SwitchNetwork/Icon'
 import { useWallet } from '@/src/sdk/react/hooks'
 import { SwitchNetwork as BaseSwitchNetwork } from '@/src/wallet/components'
+import type { Networks } from '@/src/wallet/components/SwitchNetwork'
 import { ConnectWalletButton } from '@/src/wallet/providers'
-import type { Networks } from '@/src/wallet/types'
 
 const SwitchNetwork = () => {
   const {

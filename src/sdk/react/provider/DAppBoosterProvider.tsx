@@ -46,7 +46,7 @@ function ConnectModalBridge({
  *
  * Automatically mounts each wallet bundle's Provider (wagmi, query client,
  * wallet-specific UI provider) so the active connector is determined entirely
- * by the `config.wallets` you pass in — no hardcoded Web3Provider.
+ * by the `config.wallets` you pass in.
  *
  * Each bundle's `useConnectModal` hook is called via a bridge component inside
  * the bundle's Provider tree. The resulting `open` functions are stored per

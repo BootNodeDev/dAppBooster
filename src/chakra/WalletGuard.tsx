@@ -1,4 +1,4 @@
-import type { FC, ReactElement, ReactNode } from 'react'
+import type { FC, ReactNode } from 'react'
 import {
   WalletGuard as HeadlessWalletGuard,
   type WalletRequirement,
@@ -10,7 +10,6 @@ interface ChakraWalletGuardProps {
   chainId?: string | number
   chainType?: string
   children?: ReactNode
-  fallback?: ReactElement
   require?: WalletRequirement[]
   switchChainLabel?: string
 }
@@ -25,7 +24,6 @@ export const WalletGuard: FC<ChakraWalletGuardProps> = ({
   chainId,
   chainType,
   children,
-  fallback,
   require: requirements,
   switchChainLabel = 'Switch to',
 }) => {
@@ -33,7 +31,6 @@ export const WalletGuard: FC<ChakraWalletGuardProps> = ({
     <HeadlessWalletGuard
       chainId={chainId}
       chainType={chainType}
-      fallback={fallback}
       require={requirements}
       renderConnect={() => (
         <ConnectWalletButton

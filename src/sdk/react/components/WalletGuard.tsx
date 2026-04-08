@@ -22,8 +22,6 @@ export interface WalletGuardProps {
   chainId?: string | number
   chainType?: string
   children?: ReactNode
-  /** @deprecated Use renderConnect instead. Kept for backward compatibility. */
-  fallback?: ReactElement
   /**
    * Multi-chain requirements. When provided, the guard checks each requirement
    * and renders children only when all are met. Mutually exclusive with
@@ -76,7 +74,6 @@ const SingleChainGuard: FC<WalletGuardProps> = ({
   chainId,
   chainType,
   children,
-  fallback,
   renderConnect,
   renderSwitchChain,
 }) => {
@@ -86,9 +83,6 @@ const SingleChainGuard: FC<WalletGuardProps> = ({
   if (wallet.needsConnect) {
     if (renderConnect) {
       return renderConnect()
-    }
-    if (fallback) {
-      return fallback
     }
     return null
   }
