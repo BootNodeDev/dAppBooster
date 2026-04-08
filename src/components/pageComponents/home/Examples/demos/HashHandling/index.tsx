@@ -187,7 +187,14 @@ const HashHandling = ({ ...restProps }) => {
           )}
           <Hash
             chain={currentChain}
-            hash={searchResult?.data as Address}
+            hash={
+              searchResult?.type === 'transaction' &&
+              searchResult.data &&
+              typeof searchResult.data === 'object' &&
+              'hash' in searchResult.data
+                ? (searchResult.data.hash as Address)
+                : (searchResult?.data as Address)
+            }
             truncatedHashLength="disabled"
           />
         </Box>
