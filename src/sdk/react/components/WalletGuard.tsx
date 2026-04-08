@@ -1,6 +1,4 @@
 import type { FC, ReactElement, ReactNode } from 'react'
-import SwitchChainButton from '@/src/wallet/components/SwitchChainButton'
-import { ConnectWalletButton } from '@/src/wallet/providers'
 import { useChainRegistry, useMultiWallet, useWallet } from '../hooks'
 
 /** A single wallet requirement for multi-chain gating. */
@@ -13,10 +11,18 @@ export interface WalletRequirement {
   label?: string
 }
 
+/** Props passed to the renderSwitchChain render prop. */
+export interface SwitchChainRenderProps {
+  chainId: string | number
+  chainName: string
+  onSwitch: () => void
+}
+
 export interface WalletGuardProps {
   chainId?: string | number
   chainType?: string
   children?: ReactNode
+  /** @deprecated Use renderConnect instead. Kept for backward compatibility. */
   fallback?: ReactElement
   /**
    * Multi-chain requirements. When provided, the guard checks each requirement
@@ -24,13 +30,17 @@ export interface WalletGuardProps {
    * top-level chainId/chainType props.
    */
   require?: WalletRequirement[]
+  /** Render prop for the connect wallet UI. Called when wallet needs connection. */
+  renderConnect?: () => ReactElement
+  /** Render prop for the switch chain UI. Called when wallet is on wrong chain. */
+  renderSwitchChain?: (props: SwitchChainRenderProps) => ReactElement
   switchChainLabel?: string
 }
 
 /**
  * Gates content on wallet connection and correct chain.
- * Shows ConnectWalletButton when disconnected, SwitchChainButton when on wrong chain,
- * or renders children when ready.
+ * Headless component: uses render props for connect/switch UI.
+ * Returns null when no render prop is provided for the needed state.
  *
  * Supports two mutually exclusive modes:
  * - **Single-chain** (chainId/chainType props): uses useWallet for one adapter
@@ -38,13 +48,20 @@ export interface WalletGuardProps {
  *
  * @precondition Either `require` or `chainId`/`chainType` should be provided, not both
  * @postcondition Renders children only when all wallet requirements are satisfied
- * @throws Never — renders fallback UI instead of throwing
+ * @throws Never — renders fallback UI or null instead of throwing
  */
 export const WalletGuard: FC<WalletGuardProps> = (props) => {
   const { require: requirements, children } = props
 
   if (requirements && requirements.length > 0) {
-    return <MultiChainGuard requirements={requirements}>{children}</MultiChainGuard>
+    return (
+      <MultiChainGuard
+        {...props}
+        requirements={requirements}
+      >
+        {children}
+      </MultiChainGuard>
+    )
   }
 
   return <SingleChainGuard {...props} />
@@ -59,34 +76,40 @@ const SingleChainGuard: FC<WalletGuardProps> = ({
   chainId,
   chainType,
   children,
-  fallback = (
-    <ConnectWalletButton
-      chainId={chainId}
-      chainType={chainType}
-    />
-  ),
-  switchChainLabel = 'Switch to',
+  fallback,
+  renderConnect,
+  renderSwitchChain,
 }) => {
   const wallet = useWallet({ chainId, chainType })
   const registry = useChainRegistry()
 
   if (wallet.needsConnect) {
-    return fallback
+    if (renderConnect) {
+      return renderConnect()
+    }
+    if (fallback) {
+      return fallback
+    }
+    return null
   }
 
   if (wallet.needsChainSwitch && chainId !== undefined) {
-    const targetChain = registry.getChain(chainId)
-    return (
-      <SwitchChainButton onClick={() => wallet.switchChain(chainId)}>
-        {switchChainLabel} {targetChain?.name ?? String(chainId)}
-      </SwitchChainButton>
-    )
+    if (renderSwitchChain) {
+      const targetChain = registry.getChain(chainId)
+      const chainName = targetChain?.name ?? String(chainId)
+      return renderSwitchChain({
+        chainId,
+        chainName,
+        onSwitch: () => wallet.switchChain(chainId),
+      })
+    }
+    return null
   }
 
   return children
 }
 
-interface MultiChainGuardProps {
+interface MultiChainGuardProps extends WalletGuardProps {
   requirements: WalletRequirement[]
   children?: ReactNode
 }
@@ -97,7 +120,12 @@ interface MultiChainGuardProps {
  * @precondition useMultiWallet hook is available via provider context
  * @postcondition Renders children only when every requirement has a connected wallet
  */
-const MultiChainGuard: FC<MultiChainGuardProps> = ({ requirements, children }) => {
+const MultiChainGuard: FC<MultiChainGuardProps> = ({
+  requirements,
+  children,
+  renderConnect,
+  renderSwitchChain,
+}) => {
   const { getWallet, getWalletByChainId } = useMultiWallet()
   const registry = useChainRegistry()
 
@@ -110,22 +138,24 @@ const MultiChainGuard: FC<MultiChainGuardProps> = ({ requirements, children }) =
           : undefined
 
     if (!wallet || wallet.needsConnect) {
-      return (
-        <ConnectWalletButton
-          chainId={requirement.chainId}
-          chainType={requirement.chainType}
-        />
-      )
+      if (renderConnect) {
+        return renderConnect()
+      }
+      return null
     }
 
     const requirementChainId = requirement.chainId
     if (wallet.needsChainSwitch && requirementChainId !== undefined) {
-      const targetChain = registry.getChain(requirementChainId)
-      return (
-        <SwitchChainButton onClick={() => wallet.switchChain(requirementChainId)}>
-          Switch to {targetChain?.name ?? String(requirementChainId)}
-        </SwitchChainButton>
-      )
+      if (renderSwitchChain) {
+        const targetChain = registry.getChain(requirementChainId)
+        const chainName = targetChain?.name ?? String(requirementChainId)
+        return renderSwitchChain({
+          chainId: requirementChainId,
+          chainName,
+          onSwitch: () => wallet.switchChain(requirementChainId),
+        })
+      }
+      return null
     }
   }
 

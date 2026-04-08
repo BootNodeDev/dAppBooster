@@ -41,8 +41,10 @@ vi.mock('@/src/sdk/react/hooks', () => ({
   })),
 }))
 
-vi.mock('@/src/wallet/providers', () => ({
-  ConnectWalletButton: () => <button type="button">Connect Wallet</button>,
+vi.mock('@/src/chakra', () => ({
+  WalletGuard: ({ children: _children }: { children: React.ReactNode }) => (
+    <button type="button">Connect Wallet</button>
+  ),
 }))
 
 describe('SignMessage demo', () => {

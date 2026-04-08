@@ -1,1 +1,1 @@
-export { ConnectWalletButton } from '../sdk/react/components/ConnectWalletButton'
+export { ConnectWalletButton } from '../chakra/ConnectWalletButton'

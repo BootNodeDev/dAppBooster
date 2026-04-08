@@ -4,6 +4,7 @@ import type { Address, TransactionReceipt } from 'viem'
 import { parseEther } from 'viem'
 import { optimismSepolia, sepolia } from 'viem/chains'
 import { extractTransactionDepositedLogs, getL2TransactionHash } from 'viem/op-stack'
+import { WalletGuard } from '@/src/chakra'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/OptimismCrossDomainMessenger/Icon'
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import { getContract } from '@/src/contracts/definitions'
@@ -11,7 +12,6 @@ import { buildCrossDomainMessageParams } from '@/src/contracts/hooks/useOPL1Cros
 import { Hash, PrimaryButton, Spinner } from '@/src/core/components'
 import { withSuspenseAndRetry } from '@/src/core/utils'
 import { getExplorerUrl } from '@/src/sdk/core/chain/explorer'
-import { WalletGuard } from '@/src/sdk/react/components'
 import { useChainRegistry, useTransaction, useWallet } from '@/src/sdk/react/hooks'
 
 /**

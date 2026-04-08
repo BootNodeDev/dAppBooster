@@ -1,6 +1,6 @@
-import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { render, screen } from '@testing-library/react'
-import { createElement, type ReactNode } from 'react'
+import userEvent from '@testing-library/user-event'
+import { createElement } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { WalletGuard, type WalletRequirement } from './WalletGuard'
 
@@ -37,33 +37,10 @@ vi.mock('../hooks', () => ({
   })),
 }))
 
-vi.mock('@/src/wallet/providers', () => ({
-  ConnectWalletButton: () =>
-    createElement(
-      'button',
-      { type: 'button', 'data-testid': 'connect-wallet-button' },
-      'Connect Wallet',
-    ),
-}))
-
-vi.mock('@/src/wallet/components/SwitchChainButton', () => ({
-  default: ({ children, onClick }: { children: ReactNode; onClick?: () => void }) =>
-    createElement(
-      'button',
-      { type: 'button', 'data-testid': 'switch-chain-button', onClick },
-      children,
-    ),
-}))
-
 const { useWallet, useChainRegistry, useMultiWallet } = await import('../hooks')
 const mockedUseWallet = vi.mocked(useWallet)
 const mockedUseChainRegistry = vi.mocked(useChainRegistry)
 const mockedUseMultiWallet = vi.mocked(useMultiWallet)
-
-const system = createSystem(defaultConfig)
-
-const renderWithChakra = (ui: ReactNode) =>
-  render(createElement(ChakraProvider, { value: system } as never, ui))
 
 const makeWalletReady = () => ({
   adapter: {} as never,
@@ -86,8 +63,8 @@ describe('WalletGuard', () => {
     vi.clearAllMocks()
   })
 
-  it('renders fallback when wallet needsConnect', () => {
-    renderWithChakra(
+  it('renders nothing when wallet needsConnect and no render props provided', () => {
+    const { container } = render(
       createElement(
         WalletGuard,
         null,
@@ -95,12 +72,28 @@ describe('WalletGuard', () => {
       ),
     )
 
-    expect(screen.getByTestId('connect-wallet-button')).toBeInTheDocument()
+    expect(container.innerHTML).toBe('')
     expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 
-  it('renders custom fallback when provided and needsConnect', () => {
-    renderWithChakra(
+  it('renders renderConnect when wallet needsConnect', () => {
+    render(
+      createElement(
+        WalletGuard,
+        {
+          renderConnect: () =>
+            createElement('button', { type: 'button', 'data-testid': 'custom-connect' }, 'Connect'),
+        },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
+    )
+
+    expect(screen.getByTestId('custom-connect')).toBeInTheDocument()
+    expect(screen.queryByTestId('protected-content')).toBeNull()
+  })
+
+  it('renders deprecated fallback when provided and needsConnect (no renderConnect)', () => {
+    render(
       createElement(
         WalletGuard,
         { fallback: createElement('div', { 'data-testid': 'custom-fallback' }, 'Custom') },
@@ -112,7 +105,25 @@ describe('WalletGuard', () => {
     expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 
-  it('renders switch chain button when needsChainSwitch', () => {
+  it('prefers renderConnect over fallback when both provided', () => {
+    render(
+      createElement(
+        WalletGuard,
+        {
+          renderConnect: () =>
+            createElement('button', { type: 'button', 'data-testid': 'render-connect' }, 'RC'),
+          fallback: createElement('div', { 'data-testid': 'custom-fallback' }, 'Fallback'),
+        },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
+    )
+
+    expect(screen.getByTestId('render-connect')).toBeInTheDocument()
+    expect(screen.queryByTestId('custom-fallback')).toBeNull()
+  })
+
+  it('renders renderSwitchChain when needsChainSwitch with correct props', async () => {
+    const user = userEvent.setup()
     mockedUseWallet.mockReturnValue({
       ...makeWalletReady(),
       needsConnect: false,
@@ -135,7 +146,40 @@ describe('WalletGuard', () => {
       getAllChains: vi.fn(() => []),
     })
 
-    renderWithChakra(
+    render(
+      createElement(
+        WalletGuard,
+        {
+          chainId: 10,
+          renderSwitchChain: ({ chainName, onSwitch }) =>
+            createElement(
+              'button',
+              { type: 'button', 'data-testid': 'switch-chain-btn', onClick: onSwitch },
+              `Switch to ${chainName}`,
+            ),
+        },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
+    )
+
+    const switchBtn = screen.getByTestId('switch-chain-btn')
+    expect(switchBtn).toBeInTheDocument()
+    expect(switchBtn).toHaveTextContent('Switch to OP Mainnet')
+    expect(screen.queryByTestId('protected-content')).toBeNull()
+
+    await user.click(switchBtn)
+    expect(mockSwitchChain).toHaveBeenCalledWith(10)
+  })
+
+  it('renders nothing when needsChainSwitch and no renderSwitchChain provided', () => {
+    mockedUseWallet.mockReturnValue({
+      ...makeWalletReady(),
+      needsConnect: false,
+      needsChainSwitch: true,
+      isReady: false,
+    })
+
+    const { container } = render(
       createElement(
         WalletGuard,
         { chainId: 10 },
@@ -143,16 +187,14 @@ describe('WalletGuard', () => {
       ),
     )
 
-    expect(screen.getByTestId('switch-chain-button')).toBeInTheDocument()
-    expect(screen.getByText(/Switch to/)).toBeInTheDocument()
-    expect(screen.getByText(/OP Mainnet/)).toBeInTheDocument()
+    expect(container.innerHTML).toBe('')
     expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 
   it('renders children when wallet is ready', () => {
     mockedUseWallet.mockReturnValue(makeWalletReady())
 
-    renderWithChakra(
+    render(
       createElement(
         WalletGuard,
         null,
@@ -174,7 +216,7 @@ describe('WalletGuard', () => {
       },
     })
 
-    renderWithChakra(
+    render(
       createElement(
         WalletGuard,
         { chainId: 10 },
@@ -216,7 +258,7 @@ describe('WalletGuard multi-chain (require prop)', () => {
 
     const requirements: WalletRequirement[] = [{ chainType: 'evm' }, { chainType: 'svm' }]
 
-    renderWithChakra(
+    render(
       createElement(
         WalletGuard,
         { require: requirements },
@@ -225,10 +267,9 @@ describe('WalletGuard multi-chain (require prop)', () => {
     )
 
     expect(screen.getByTestId('protected-content')).toBeInTheDocument()
-    expect(screen.queryByTestId('connect-wallet-button')).toBeNull()
   })
 
-  it('renders fallback when first requirement is not met', () => {
+  it('renders renderConnect when first requirement is not met', () => {
     mockedUseMultiWallet.mockReturnValue({
       wallets: {},
       getWallet: vi.fn(() => undefined),
@@ -238,7 +279,37 @@ describe('WalletGuard multi-chain (require prop)', () => {
 
     const requirements: WalletRequirement[] = [{ chainType: 'evm' }]
 
-    renderWithChakra(
+    render(
+      createElement(
+        WalletGuard,
+        {
+          require: requirements,
+          renderConnect: () =>
+            createElement(
+              'button',
+              { type: 'button', 'data-testid': 'multi-connect' },
+              'Connect EVM',
+            ),
+        },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
+    )
+
+    expect(screen.getByTestId('multi-connect')).toBeInTheDocument()
+    expect(screen.queryByTestId('protected-content')).toBeNull()
+  })
+
+  it('renders nothing when requirement not met and no renderConnect', () => {
+    mockedUseMultiWallet.mockReturnValue({
+      wallets: {},
+      getWallet: vi.fn(() => undefined),
+      getWalletByChainId: vi.fn(() => undefined),
+      connectedAddresses: {},
+    })
+
+    const requirements: WalletRequirement[] = [{ chainType: 'evm' }]
+
+    const { container } = render(
       createElement(
         WalletGuard,
         { require: requirements },
@@ -246,11 +317,71 @@ describe('WalletGuard multi-chain (require prop)', () => {
       ),
     )
 
-    expect(screen.getByTestId('connect-wallet-button')).toBeInTheDocument()
+    expect(container.innerHTML).toBe('')
     expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 
-  it('renders fallback for second unmet requirement when first is met', () => {
+  it('renders renderSwitchChain for multi-chain when needsChainSwitch', async () => {
+    const user = userEvent.setup()
+    const evmWallet = {
+      ...makeWalletReady(),
+      needsChainSwitch: true,
+      isReady: false,
+    }
+
+    mockedUseMultiWallet.mockReturnValue({
+      wallets: { evm: evmWallet },
+      getWallet: vi.fn(() => undefined),
+      getWalletByChainId: vi.fn((chainId: string | number) => {
+        if (String(chainId) === '10') {
+          return evmWallet
+        }
+        return undefined
+      }),
+      connectedAddresses: { evm: '0xabc' },
+    })
+
+    mockedUseChainRegistry.mockReturnValue({
+      getChain: vi.fn(() => ({
+        name: 'OP Mainnet',
+        chainId: 10,
+        caip2Id: 'eip155:10',
+        chainType: 'evm',
+        nativeCurrency: { symbol: 'ETH', decimals: 18 },
+        addressConfig: { format: 'hex' as const, patterns: [], example: '0x...' },
+      })),
+      getChainByCaip2: vi.fn(() => null),
+      getChainType: vi.fn(() => null),
+      getChainsByType: vi.fn(() => []),
+      getAllChains: vi.fn(() => []),
+    })
+
+    const requirements: WalletRequirement[] = [{ chainId: 10 }]
+
+    render(
+      createElement(
+        WalletGuard,
+        {
+          require: requirements,
+          renderSwitchChain: ({ chainName, onSwitch }) =>
+            createElement(
+              'button',
+              { type: 'button', 'data-testid': 'multi-switch', onClick: onSwitch },
+              `Switch to ${chainName}`,
+            ),
+        },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
+    )
+
+    const switchBtn = screen.getByTestId('multi-switch')
+    expect(switchBtn).toHaveTextContent('Switch to OP Mainnet')
+
+    await user.click(switchBtn)
+    expect(mockSwitchChain).toHaveBeenCalledWith(10)
+  })
+
+  it('renders renderConnect for second unmet requirement when first is met', () => {
     const evmWallet = makeWalletReady()
 
     mockedUseMultiWallet.mockReturnValue({
@@ -267,15 +398,23 @@ describe('WalletGuard multi-chain (require prop)', () => {
 
     const requirements: WalletRequirement[] = [{ chainType: 'evm' }, { chainType: 'svm' }]
 
-    renderWithChakra(
+    render(
       createElement(
         WalletGuard,
-        { require: requirements },
+        {
+          require: requirements,
+          renderConnect: () =>
+            createElement(
+              'button',
+              { type: 'button', 'data-testid': 'multi-connect' },
+              'Connect SVM',
+            ),
+        },
         createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
       ),
     )
 
-    expect(screen.getByTestId('connect-wallet-button')).toBeInTheDocument()
+    expect(screen.getByTestId('multi-connect')).toBeInTheDocument()
     expect(screen.queryByTestId('protected-content')).toBeNull()
   })
 })

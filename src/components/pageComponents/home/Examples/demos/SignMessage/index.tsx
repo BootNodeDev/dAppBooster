@@ -1,7 +1,7 @@
+import { WalletGuard } from '@/src/chakra'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/SignMessage/Icon'
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import { PrimaryButton } from '@/src/core/components'
-import { WalletGuard } from '@/src/sdk/react/components'
 import { SignButton } from '@/src/transactions/components'
 
 const message = `
