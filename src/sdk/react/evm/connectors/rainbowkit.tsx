@@ -1,4 +1,3 @@
-import type { AvatarComponent } from '@rainbow-me/rainbowkit'
 import {
   getDefaultConfig,
   RainbowKitProvider,
@@ -10,11 +9,10 @@ import '@rainbow-me/rainbowkit/styles.css'
 import type { FC, ReactNode } from 'react'
 import type { Chain, Transport } from 'viem'
 
-import { Avatar as CustomAvatar } from '@/src/core/components'
 import type { EvmConnectorConfig } from '../types'
 
 const WalletProvider: FC<{ children: ReactNode }> = ({ children }) => (
-  <RainbowKitProvider avatar={CustomAvatar as AvatarComponent}>{children}</RainbowKitProvider>
+  <RainbowKitProvider>{children}</RainbowKitProvider>
 )
 
 function useConnectModal() {
