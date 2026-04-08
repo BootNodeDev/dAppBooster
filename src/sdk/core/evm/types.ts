@@ -1,4 +1,3 @@
-import type { FC, ReactNode } from 'react'
 import type { Abi, Address, Chain, Hex, Transport } from 'viem'
 import type { Config } from 'wagmi'
 
@@ -32,11 +31,4 @@ export type EvmTransactionPayload = EvmRawTransaction | EvmContractCall
 /** Core (framework-agnostic) EVM connector config. */
 export interface EvmCoreConnectorConfig {
   createConfig(chains: Chain[], transports: Record<number, Transport>): Config
-}
-
-/** React-layer EVM connector config — extends core with UI components. */
-export interface EvmConnectorConfig extends EvmCoreConnectorConfig {
-  WalletProvider: FC<{ children: ReactNode }>
-  /** Hook that returns functions to open the connector's connect and account modals. */
-  useConnectModal: () => { open: () => void; openAccount?: () => void }
 }

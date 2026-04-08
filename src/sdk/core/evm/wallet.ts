@@ -1,11 +1,10 @@
 /**
  * EVM implementation of the WalletAdapter interface using @wagmi/core actions.
+ * Framework-agnostic — no React imports.
  */
 
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import type { FC, ReactNode } from 'react'
 import type { Chain, Transport } from 'viem'
-import { type Config, WagmiProvider } from 'wagmi'
+import type { Config } from 'wagmi'
 import {
   connect,
   disconnect,
@@ -20,7 +19,6 @@ import {
   watchChainId,
 } from 'wagmi/actions'
 
-import type { WalletAdapterBundle } from '../adapters/provider'
 import type {
   ChainSigner,
   ConnectOptions,
@@ -40,17 +38,20 @@ import {
   WalletNotInstalledError,
 } from '../errors'
 import { fromViemChain } from './chains'
-import type { EvmConnectorConfig } from './types'
+import type { EvmCoreConnectorConfig } from './types'
 
 // ---------------------------------------------------------------------------
 // Public config interface
 // ---------------------------------------------------------------------------
 
+/** Return type of createEvmWalletAdapter — the adapter plus the wagmiConfig for use by the React bundle. */
+export type EvmWalletAdapterResult = WalletAdapter<'evm'> & { wagmiConfig: Config }
+
 export interface EvmWalletConfig {
-  connector: EvmConnectorConfig
+  coreConnector: EvmCoreConnectorConfig
   chains: Chain[]
   transports: Record<number, Transport>
-  /** Pre-created wagmi Config. If provided, used directly instead of calling connector.createConfig(). */
+  /** Pre-created wagmi Config. If provided, used directly instead of calling coreConnector.createConfig(). */
   wagmiConfig?: Config
 }
 
@@ -107,20 +108,21 @@ function toWalletStatus(account: ReturnType<typeof getAccount>): WalletStatus {
 // ---------------------------------------------------------------------------
 
 /**
- * Creates a browser-side EVM WalletAdapter backed by wagmi actions and a connector UI.
+ * Creates a browser-side EVM WalletAdapter backed by wagmi actions.
+ * Returns the adapter directly (no React Provider) — use createEvmWalletBundle for the React wrapper.
  *
  * @precondition config.chains.length >= 1
- * @precondition config.connector provides createConfig and WalletProvider
+ * @precondition config.coreConnector provides createConfig
  * @postcondition returned adapter.chainType === 'evm'
  * @postcondition returned adapter.supportedChains matches config.chains (mapped via fromViemChain)
+ * @postcondition returned adapter.wagmiConfig is the wagmi Config used internally
  * @invariant adapter.chainType never changes after construction
  * @invariant adapter.supportedChains never changes after construction
  */
-export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBundle {
+export function createEvmWalletAdapter(config: EvmWalletConfig): EvmWalletAdapterResult {
   const wagmiConfig =
-    config.wagmiConfig ?? config.connector.createConfig(config.chains, config.transports)
+    config.wagmiConfig ?? config.coreConnector.createConfig(config.chains, config.transports)
   const supportedChains = config.chains.map(fromViemChain)
-  const queryClient = new QueryClient()
 
   const adapter: WalletAdapter<'evm'> = {
     chainType: 'evm',
@@ -342,13 +344,5 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): WalletAdapterBu
     },
   }
 
-  const Provider: FC<{ children: ReactNode }> = ({ children }) => (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <config.connector.WalletProvider>{children}</config.connector.WalletProvider>
-      </QueryClientProvider>
-    </WagmiProvider>
-  )
-
-  return { adapter, Provider, useConnectModal: config.connector.useConnectModal }
+  return Object.assign(adapter, { wagmiConfig })
 }

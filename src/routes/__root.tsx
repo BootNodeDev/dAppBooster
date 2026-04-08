@@ -9,8 +9,9 @@ import {
   Toaster,
 } from '@/src/core/components'
 import { chains, transports } from '@/src/core/types'
-import { createEvmTransactionAdapter, createEvmWalletAdapter } from '@/src/sdk/core/evm'
+import { createEvmTransactionAdapter } from '@/src/sdk/core/evm'
 import {
+  createEvmWalletBundle,
   createNotificationLifecycle,
   createSigningNotificationLifecycle,
   DAppBoosterProvider,
@@ -24,7 +25,7 @@ import type { Chain } from 'viem'
 
 const evmChains: Chain[] = [...chains]
 
-const evmWalletBundle = createEvmWalletAdapter({
+const evmWalletBundle = createEvmWalletBundle({
   connector,
   chains: evmChains,
   transports,

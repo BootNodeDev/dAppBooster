@@ -1,4 +1,3 @@
-import type { ReactNode } from 'react'
 import { http } from 'viem'
 import { mainnet } from 'viem/chains'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
@@ -22,7 +21,7 @@ import {
   WalletNotConnectedError,
   WalletNotInstalledError,
 } from '../errors'
-import { connectkitConnector } from './connectors'
+import type { EvmCoreConnectorConfig } from './types'
 import { createEvmWalletAdapter } from './wallet'
 
 // ---------------------------------------------------------------------------
@@ -49,10 +48,7 @@ vi.mock('wagmi/actions', async (importOriginal) => {
 
 vi.mock('wagmi', async (importOriginal) => {
   const actual = await importOriginal<typeof import('wagmi')>()
-  return {
-    ...actual,
-    WagmiProvider: ({ children }: { children: ReactNode }) => children,
-  }
+  return { ...actual }
 })
 
 // ---------------------------------------------------------------------------
@@ -126,9 +122,18 @@ describe('createEvmWalletAdapter — unit tests', () => {
     vi.mocked(getConnectors).mockReturnValue([])
   })
 
+  const stubCoreConnector: EvmCoreConnectorConfig = {
+    createConfig(chains, transports) {
+      return createConfig({
+        chains: chains as [typeof mainnet],
+        transports,
+      })
+    },
+  }
+
   function makeAdapter() {
     return createEvmWalletAdapter({
-      connector: connectkitConnector,
+      coreConnector: stubCoreConnector,
       chains: [mainnet],
       transports: { [mainnet.id]: http() },
       wagmiConfig,
@@ -142,7 +147,7 @@ describe('createEvmWalletAdapter — unit tests', () => {
   describe('getStatus()', () => {
     it('maps connected account to WalletStatus', () => {
       vi.mocked(getAccount).mockReturnValue(makeConnectedAccount('0xabc' as `0x${string}`, 1))
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       expect(adapter.getStatus()).toEqual<WalletStatus>({
         connected: true,
         activeAccount: '0xabc',
@@ -153,7 +158,7 @@ describe('createEvmWalletAdapter — unit tests', () => {
 
     it('maps disconnected state', () => {
       vi.mocked(getAccount).mockReturnValue(makeDisconnectedAccount())
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       expect(adapter.getStatus()).toEqual<WalletStatus>({
         connected: false,
         activeAccount: null,
@@ -164,7 +169,7 @@ describe('createEvmWalletAdapter — unit tests', () => {
 
     it('maps connecting state', () => {
       vi.mocked(getAccount).mockReturnValue(makeConnectingAccount())
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       expect(adapter.getStatus()).toEqual<WalletStatus>({
         connected: false,
         activeAccount: null,
@@ -180,12 +185,12 @@ describe('createEvmWalletAdapter — unit tests', () => {
 
   describe('metadata', () => {
     it('chainType is "evm"', () => {
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       expect(adapter.metadata.chainType).toBe('evm')
     })
 
     it('capabilities has signTypedData and switchChain true', () => {
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       expect(adapter.metadata.capabilities).toEqual({ signTypedData: true, switchChain: true })
     })
   })
@@ -197,7 +202,7 @@ describe('createEvmWalletAdapter — unit tests', () => {
   describe('signMessage()', () => {
     it('throws WalletNotConnectedError when disconnected', async () => {
       vi.mocked(getAccount).mockReturnValue(makeDisconnectedAccount())
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       await expect(adapter.signMessage({ message: 'hello' })).rejects.toThrow(
         WalletNotConnectedError,
       )
@@ -208,14 +213,14 @@ describe('createEvmWalletAdapter — unit tests', () => {
       vi.mocked(signMessage).mockRejectedValue(
         Object.assign(new Error('User rejected request'), { name: 'UserRejectedRequestError' }),
       )
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       await expect(adapter.signMessage({ message: 'hello' })).rejects.toThrow(SigningRejectedError)
     })
 
     it('returns SignatureResult with signature and address when connected', async () => {
       vi.mocked(getAccount).mockReturnValue(makeConnectedAccount(TEST_ADDRESS, 1))
       vi.mocked(signMessage).mockResolvedValue('0xsig' as `0x${string}`)
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       const result = await adapter.signMessage({ message: 'test' })
       expect(result).toEqual({ signature: '0xsig', address: TEST_ADDRESS })
     })
@@ -223,7 +228,7 @@ describe('createEvmWalletAdapter — unit tests', () => {
     it('passes Uint8Array message as raw form', async () => {
       vi.mocked(getAccount).mockReturnValue(makeConnectedAccount(TEST_ADDRESS, 1))
       vi.mocked(signMessage).mockResolvedValue('0xsig' as `0x${string}`)
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       const bytes = new Uint8Array([1, 2, 3])
       await adapter.signMessage({ message: bytes })
       expect(vi.mocked(signMessage)).toHaveBeenCalledWith(
@@ -243,7 +248,7 @@ describe('createEvmWalletAdapter — unit tests', () => {
       vi.mocked(connect).mockRejectedValue(
         Object.assign(new Error('User rejected'), { name: 'UserRejectedRequestError' }),
       )
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       await expect(adapter.connect()).rejects.toThrow(WalletConnectionRejectedError)
     })
 
@@ -252,13 +257,13 @@ describe('createEvmWalletAdapter — unit tests', () => {
       vi.mocked(connect).mockRejectedValue(
         Object.assign(new Error('Connector not found'), { name: 'ConnectorNotFoundError' }),
       )
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       await expect(adapter.connect()).rejects.toThrow(WalletNotInstalledError)
     })
 
     it('throws ChainNotSupportedError when options.chainId is not in supportedChains', async () => {
       wagmiConfig = makeConfig({ withConnector: true })
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       await expect(adapter.connect({ chainId: 999999 })).rejects.toThrow(ChainNotSupportedError)
     })
   })
@@ -273,14 +278,14 @@ describe('createEvmWalletAdapter — unit tests', () => {
       vi.mocked(getWalletClient).mockResolvedValue({ type: 'walletClient' } as unknown as Awaited<
         ReturnType<typeof getWalletClient>
       >)
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       const signer = await adapter.getSigner()
       expect(signer).not.toBeNull()
     })
 
     it('returns null when disconnected', async () => {
       vi.mocked(getAccount).mockReturnValue(makeDisconnectedAccount())
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       const signer = await adapter.getSigner()
       expect(signer).toBeNull()
     })
@@ -293,13 +298,13 @@ describe('createEvmWalletAdapter — unit tests', () => {
   describe('switchChain()', () => {
     it('throws ChainNotSupportedError for unsupported chainId', async () => {
       vi.mocked(getAccount).mockReturnValue(makeConnectedAccount())
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       await expect(adapter.switchChain(999999)).rejects.toThrow(ChainNotSupportedError)
     })
 
     it('throws WalletNotConnectedError when switchChain is called while disconnected', async () => {
       vi.mocked(getAccount).mockReturnValue(makeDisconnectedAccount())
-      const { adapter } = makeAdapter()
+      const adapter = makeAdapter()
       await expect(adapter.switchChain(mainnet.id)).rejects.toThrow(WalletNotConnectedError)
     })
   })
@@ -309,7 +314,22 @@ describe('createEvmWalletAdapter — unit tests', () => {
   // -------------------------------------------------------------------------
 
   it('chainType is "evm"', () => {
-    const { adapter } = makeAdapter()
+    const adapter = makeAdapter()
     expect(adapter.chainType).toBe('evm')
+  })
+
+  // -------------------------------------------------------------------------
+  // return shape
+  // -------------------------------------------------------------------------
+
+  it('returns WalletAdapter directly with wagmiConfig, not a bundle', () => {
+    const adapter = makeAdapter()
+    // Adapter is returned directly — not wrapped in { adapter, Provider }
+    expect(adapter.chainType).toBe('evm')
+    expect(adapter.wagmiConfig).toBeDefined()
+    expect(adapter.getStatus).toBeTypeOf('function')
+    // No bundle properties
+    expect('Provider' in adapter).toBe(false)
+    expect('useConnectModal' in adapter).toBe(false)
   })
 })

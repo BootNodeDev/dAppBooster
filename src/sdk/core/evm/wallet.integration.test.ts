@@ -10,10 +10,19 @@ import { createConfig } from 'wagmi'
 import { mock } from 'wagmi/connectors'
 
 import type { WalletStatus } from '../adapters/wallet'
-import { connectkitConnector } from './connectors'
+import type { EvmCoreConnectorConfig } from './types'
 import { createEvmWalletAdapter } from './wallet'
 
 const TEST_ADDRESS = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266' as const
+
+const stubCoreConnector: EvmCoreConnectorConfig = {
+  createConfig(chains, transports) {
+    return createConfig({
+      chains: chains as [typeof mainnet],
+      transports,
+    })
+  },
+}
 
 function makeRealConfig() {
   return createConfig({
@@ -26,8 +35,8 @@ function makeRealConfig() {
 describe('createEvmWalletAdapter — integration tests', () => {
   it('connect → getStatus → disconnect lifecycle', async () => {
     const wagmiConfig = makeRealConfig()
-    const { adapter } = createEvmWalletAdapter({
-      connector: connectkitConnector,
+    const adapter = createEvmWalletAdapter({
+      coreConnector: stubCoreConnector,
       chains: [mainnet],
       transports: { [mainnet.id]: http() },
       wagmiConfig,
@@ -45,8 +54,8 @@ describe('createEvmWalletAdapter — integration tests', () => {
 
   it('onStatusChange subscription fires on connect', async () => {
     const wagmiConfig = makeRealConfig()
-    const { adapter } = createEvmWalletAdapter({
-      connector: connectkitConnector,
+    const adapter = createEvmWalletAdapter({
+      coreConnector: stubCoreConnector,
       chains: [mainnet],
       transports: { [mainnet.id]: http() },
       wagmiConfig,
