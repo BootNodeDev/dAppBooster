@@ -104,7 +104,7 @@ export function createNotificationLifecycle({
           ? `${messages.confirmed ?? 'Transaction confirmed!'}${suffix}`
           : `${messages.reverted ?? 'Transaction was reverted'}${suffix}`,
         type: isSuccess ? 'success' : 'error',
-        id: toastId,
+        ...(toastId ? { id: toastId } : {}),
       })
       toastId = undefined
     },
@@ -113,14 +113,14 @@ export function createNotificationLifecycle({
       toaster.create({
         description: messages.replaced ?? `Transaction ${reason}${suffix}`,
         type: 'loading',
-        id: toastId,
+        ...(toastId ? { id: toastId } : {}),
       })
     },
     onError(_phase, error) {
       toaster.create({
         description: messages.error ?? extractErrorMessage(error),
         type: 'error',
-        id: toastId,
+        ...(toastId ? { id: toastId } : {}),
       })
       toastId = undefined
     },
@@ -150,7 +150,7 @@ export function createSigningNotificationLifecycle({
       toaster.create({
         description: messages.signatureReceived ?? 'Signature received!',
         type: 'success',
-        id: toastId,
+        ...(toastId ? { id: toastId } : {}),
       })
       toastId = undefined
     },
@@ -158,7 +158,7 @@ export function createSigningNotificationLifecycle({
       toaster.create({
         description: messages.error ?? extractErrorMessage(error),
         type: 'error',
-        id: toastId,
+        ...(toastId ? { id: toastId } : {}),
       })
       toastId = undefined
     },
