@@ -3,6 +3,8 @@
  * No runtime code — types only.
  */
 
+// Type-only import — erased at compile time. Used by WalletAdapterBundle.Provider
+// which must be JSX-renderable. No runtime React dependency.
 import type { FC, ReactNode } from 'react'
 import type { ChainDescriptor, EndpointConfig } from '../chain'
 import type { TransactionLifecycle, WalletLifecycle } from './lifecycle'
