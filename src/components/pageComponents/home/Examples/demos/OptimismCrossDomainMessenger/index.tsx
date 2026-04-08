@@ -96,7 +96,13 @@ const OptimismCrossDomainMessenger = withSuspenseAndRetry(() => {
           'Deposit ETH'
         )}
       </PrimaryButton>
-      {tx.error && <Flex color="danger">{tx.error.message}</Flex>}
+      {tx.error && (
+        <Flex color="danger">
+          {'shortMessage' in tx.error
+            ? (tx.error as { shortMessage: string }).shortMessage
+            : tx.error.message}
+        </Flex>
+      )}
       {l2Hash && (
         <Flex
           alignItems="center"
