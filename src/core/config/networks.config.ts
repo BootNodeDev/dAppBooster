@@ -5,12 +5,20 @@
  * @packageDocumentation
  */
 import { http, type Transport } from 'viem'
-import { arbitrum, mainnet, optimism, optimismSepolia, polygon, sepolia } from 'viem/chains'
+import {
+  arbitrum,
+  baseSepolia,
+  mainnet,
+  optimism,
+  optimismSepolia,
+  polygon,
+  sepolia,
+} from 'viem/chains'
 
 import { env } from '@/src/env'
 import { includeTestnets } from './common'
 
-const devChains = [optimismSepolia, sepolia] as const
+const devChains = [baseSepolia, optimismSepolia, sepolia] as const
 const prodChains = [mainnet, polygon, arbitrum, optimism] as const
 const allChains = [...devChains, ...prodChains] as const
 export const chains = includeTestnets ? allChains : prodChains
@@ -24,4 +32,5 @@ export const transports: RestrictedTransports = {
   [optimismSepolia.id]: http(env.PUBLIC_RPC_OPTIMISM_SEPOLIA),
   [polygon.id]: http(env.PUBLIC_RPC_POLYGON),
   [sepolia.id]: http(env.PUBLIC_RPC_SEPOLIA),
+  [baseSepolia.id]: http(env.PUBLIC_RPC_BASE_SEPOLIA),
 }

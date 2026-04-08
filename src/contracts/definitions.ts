@@ -6,7 +6,7 @@ import {
   type ContractFunctionArgs as WagmiContractFunctionArgs,
   type ContractFunctionName as WagmiContractFunctionName,
 } from 'viem'
-import { mainnet, optimismSepolia, polygon, sepolia } from 'viem/chains'
+import { baseSepolia, mainnet, optimismSepolia, polygon, sepolia } from 'viem/chains'
 
 import type { ChainsIds } from '@/src/core/types'
 import { AAVEWethABI } from './abis/AAVEWeth'
@@ -51,8 +51,9 @@ const contracts = [
   {
     abi: AaveFaucetABI,
     address: {
-      11155111: '0xc959483dba39aa9e78757139af0e9a2edeb3f42d',
-      1: '0x0000000000000000000000000000000000000000',
+      [sepolia.id]: '0xc959483dba39aa9e78757139af0e9a2edeb3f42d',
+      [baseSepolia.id]: '0xD9145b5F45Ad4519c7ACcD6E0A4A82e83bB8A6Dc',
+      [mainnet.id]: '0x0000000000000000000000000000000000000000',
     },
     name: 'AaveFaucet',
   },

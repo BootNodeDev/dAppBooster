@@ -2,7 +2,7 @@ import { Dialog } from '@chakra-ui/react'
 import { type ReactElement, useState } from 'react'
 import type { Address, TransactionReceipt } from 'viem'
 import { parseEther } from 'viem'
-import { sepolia } from 'viem/chains'
+import { baseSepolia } from 'viem/chains'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import { GeneralMessage, PrimaryButton } from '@/src/core/components'
 import type { TransactionParams, TransactionResult } from '@/src/sdk/core'
@@ -13,11 +13,11 @@ import { TransactionButton } from '@/src/transactions/components'
 /**
  * This demo shows how to send a native token transaction.
  *
- * Works only on Sepolia chain.
+ * Works only on Base Sepolia chain.
  */
 const NativeToken = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const wallet = useWallet({ chainId: sepolia.id })
+  const wallet = useWallet({ chainId: baseSepolia.id })
   const address = wallet.status.activeAccount as Address
   const [minedMessage, setMinedMessage] = useState<string | ReactElement>()
 
@@ -32,7 +32,7 @@ const NativeToken = () => {
   }
 
   const sendParams: TransactionParams = {
-    chainId: sepolia.id,
+    chainId: baseSepolia.id,
     payload: {
       to: address,
       value: parseEther('0.1'),

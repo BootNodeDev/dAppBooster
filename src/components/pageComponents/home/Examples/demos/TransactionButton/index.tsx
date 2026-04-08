@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react'
 import { useState } from 'react'
-import { sepolia } from 'viem/chains'
+import { baseSepolia } from 'viem/chains'
 import { WalletGuard } from '@/src/chakra'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import ERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton'
@@ -17,7 +17,7 @@ const TransactionButton = () => {
   ]
 
   return (
-    <WalletGuard chainId={sepolia.id}>
+    <WalletGuard chainId={baseSepolia.id}>
       <OptionsDropdown items={items} />
       <Flex
         alignItems="center"

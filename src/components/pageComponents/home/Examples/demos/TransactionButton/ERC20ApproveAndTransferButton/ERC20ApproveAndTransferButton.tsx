@@ -37,13 +37,17 @@ const ERC20ApproveAndTransferButton: FC<Props> = ({
   transferParams,
 }) => {
   const wallet = useWallet({ chainId: token.chainId })
-  const address = wallet.status.activeAccount as Address
+  const address = wallet.status.activeAccount as Address | null
   const registry = useChainRegistry()
 
-  const { data: allowance, refetch: refetchAllowance } = useSuspenseReadErc20Allowance({
-    address: token.address as Address, // TODO: token.address should be Address type
-    args: [address, spender],
+  const { data: allowance = BigInt(0), refetch: refetchAllowance } = useSuspenseReadErc20Allowance({
+    address: token.address as Address,
+    args: [address ?? ('0x0000000000000000000000000000000000000000' as Address), spender],
   })
+
+  if (!address) {
+    return null
+  }
 
   const isApprovalRequired = allowance < amount
 
