@@ -76,8 +76,8 @@ export interface TransactionAdapter<TChainType extends string = string> {
   readonly supportedChains: ChainDescriptor[]
   readonly metadata: TransactionAdapterMetadata
 
-  /** Validates and estimates a transaction before execution. */
-  prepare(params: TransactionParams): Promise<PrepareResult>
+  /** Validates and estimates a transaction before execution. Signer is optional — used for accurate gas estimation. */
+  prepare(params: TransactionParams, signer?: ChainSigner): Promise<PrepareResult>
   /** Submits the transaction using the provided signer. Returns a ref immediately. */
   execute(params: TransactionParams, signer: ChainSigner): Promise<TransactionRef>
   /** Polls until the transaction reaches a terminal state. */

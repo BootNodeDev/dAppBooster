@@ -91,7 +91,7 @@ export function createEvmTransactionAdapter(
      * @postcondition if ready === false -> reason explains why (human-readable)
      * @throws {InsufficientFundsError} if balance too low for gas estimation
      */
-    async prepare(params: TransactionParams): Promise<PrepareResult> {
+    async prepare(params: TransactionParams, signer?: ChainSigner): Promise<PrepareResult> {
       const numericId =
         typeof params.chainId === 'string' ? Number.parseInt(params.chainId, 10) : params.chainId
       const publicClient = publicClients.get(numericId)
@@ -119,6 +119,9 @@ export function createEvmTransactionAdapter(
 
       const payload = params.payload as EvmTransactionPayload
 
+      // Extract account from signer for gas estimation — prevents "approve from zero address" errors
+      const account = signer && isWalletClient(signer) ? signer.account : undefined
+
       try {
         const estimatedGas = isEvmContractCall(payload)
           ? await publicClient.estimateContractGas({
@@ -127,11 +130,13 @@ export function createEvmTransactionAdapter(
               functionName: payload.contract.functionName,
               args: payload.contract.args,
               value: payload.value,
+              account: account ?? undefined,
             })
           : await publicClient.estimateGas({
               to: (payload as EvmRawTransaction).to,
               data: (payload as EvmRawTransaction).data,
               value: (payload as EvmRawTransaction).value,
+              account: account ?? undefined,
             })
 
         const gasPrice = await publicClient.getGasPrice()

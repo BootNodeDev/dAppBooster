@@ -152,7 +152,7 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
         }
 
         setPhase('prepare')
-        const prepared = await transactionAdapter.prepare(params)
+        const prepared = await transactionAdapter.prepare(params, signer)
         setPrepareResult(prepared)
         fireLifecycle('onPrepare', globalLifecycle, localLifecycle, prepared)
 
@@ -256,8 +256,14 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
           throw new AdapterNotFoundError(params.chainId, 'transaction')
         }
 
+        // Resolve signer for gas estimation (optional — prepare works without it)
+        const walletAdapter = Object.values(walletAdapters).find((adapter) =>
+          adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
+        )
+        const prepareSigner = walletAdapter ? await walletAdapter.getSigner() : null
+
         setPhase('prepare')
-        const prepared = await transactionAdapter.prepare(params)
+        const prepared = await transactionAdapter.prepare(params, prepareSigner ?? undefined)
         setPrepareResult(prepared)
         fireLifecycle('onPrepare', globalLifecycle, localLifecycle, prepared)
 
@@ -283,7 +289,7 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
         throw errorObj
       }
     },
-    [transactionAdapters, globalLifecycle, localLifecycle],
+    [transactionAdapters, walletAdapters, globalLifecycle, localLifecycle],
   )
 
   /**
