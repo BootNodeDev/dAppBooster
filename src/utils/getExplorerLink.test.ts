@@ -32,11 +32,10 @@ describe('getExplorerLink', () => {
     expect(url).toBe(`${explorerUrl}/tx/${txHash}`)
   })
 
-  it('throws for an invalid hash or address', () => {
-    expect(() =>
-      // biome-ignore lint/suspicious/noExplicitAny: intentionally testing invalid input
-      getExplorerLink({ chain, hashOrAddress: 'not-valid' as any }),
-    ).toThrow('Invalid hash or address')
+  it('returns null for an invalid hash or address', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: intentionally testing invalid input
+    const result = getExplorerLink({ chain, hashOrAddress: 'not-valid' as any })
+    expect(result).toBeNull()
   })
 
   it('throws when chain has no block explorer and no explorerUrl is provided', () => {

@@ -57,5 +57,5 @@ export const getExplorerLink = ({ chain, explorerUrl, hashOrAddress }: GetExplor
     return `${baseUrl}/tx/${hashOrAddress}`
   }
 
-  throw new Error('Invalid hash or address')
+  return null
 }

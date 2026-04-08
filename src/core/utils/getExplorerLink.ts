@@ -42,7 +42,11 @@ export type GetExplorerUrlParams = {
  * // Returns: "https://optimistic.etherscan.io/tx/0x123...abc"
  * ```
  */
-export const getExplorerLink = ({ chain, explorerUrl, hashOrAddress }: GetExplorerUrlParams) => {
+export const getExplorerLink = ({
+  chain,
+  explorerUrl,
+  hashOrAddress,
+}: GetExplorerUrlParams): string | null => {
   if (isAddress(hashOrAddress)) {
     return explorerUrl
       ? `${explorerUrl}/address/${hashOrAddress}`
@@ -54,5 +58,5 @@ export const getExplorerLink = ({ chain, explorerUrl, hashOrAddress }: GetExplor
       : `${chain.blockExplorers?.default.url}/tx/${hashOrAddress}`
   }
 
-  throw new Error('Invalid hash or address')
+  return null
 }

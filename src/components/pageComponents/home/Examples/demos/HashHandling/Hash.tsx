@@ -44,7 +44,7 @@ const Hash: FC<Props> = ({ chain, hash, truncatedHashLength }) => {
       borderRadius="8px"
       color="var(--theme-hash-color)"
       cursor="default"
-      explorerURL={getExplorerLink({ chain, hashOrAddress: hash })}
+      explorerURL={getExplorerLink({ chain, hashOrAddress: hash }) ?? ''}
       fontSize="14px"
       hash={hash}
       minHeight="64px"

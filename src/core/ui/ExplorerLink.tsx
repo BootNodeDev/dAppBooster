@@ -34,7 +34,7 @@ export const ExplorerLink: FC<ExplorerLinkProps> = ({
 }: ExplorerLinkProps) => {
   return (
     <chakra.a
-      href={getExplorerLink(props)}
+      href={getExplorerLink(props) ?? '#'}
       rel="noopener noreferrer"
       target="_blank"
     >
