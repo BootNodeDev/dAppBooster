@@ -9,7 +9,7 @@ import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/d
 import { Spinner } from '@/src/core/components'
 
 const EnsNameSearch = ({ address }: { address?: Address }) => {
-  const { data, error, status } = useEnsName({
+  const { data, status } = useEnsName({
     address: address,
     chainId: mainnet.id,
   })
@@ -19,7 +19,7 @@ const EnsNameSearch = ({ address }: { address?: Address }) => {
       {status === 'pending' ? (
         <Spinner size="md" />
       ) : status === 'error' ? (
-        `Error fetching ENS name (${error.message})`
+        'ENS resolution unavailable'
       ) : data === undefined || data === null ? (
         'Not available'
       ) : (
