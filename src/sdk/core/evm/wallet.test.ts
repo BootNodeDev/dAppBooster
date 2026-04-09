@@ -150,6 +150,16 @@ describe('createEvmWalletAdapter — unit tests', () => {
     ).toThrow('createEvmWalletAdapter requires at least one chain')
   })
 
+  it('throws when coreConnector does not provide createConfig', () => {
+    expect(() =>
+      createEvmWalletAdapter({
+        coreConnector: {} as never,
+        chains: [mainnet],
+        transports: { [mainnet.id]: http() },
+      }),
+    ).toThrow('config.coreConnector must provide a createConfig function')
+  })
+
   // -------------------------------------------------------------------------
   // getStatus()
   // -------------------------------------------------------------------------

@@ -125,6 +125,11 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): EvmWalletAdapte
       'createEvmWalletAdapter requires at least one chain. Provide chains in config.chains.',
     )
   }
+  if (typeof config.coreConnector?.createConfig !== 'function') {
+    throw new Error(
+      'createEvmWalletAdapter: config.coreConnector must provide a createConfig function.',
+    )
+  }
   const wagmiConfig =
     config.wagmiConfig ?? config.coreConnector.createConfig(config.chains, config.transports)
   const supportedChains = config.chains.map(fromViemChain)
