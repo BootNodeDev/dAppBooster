@@ -120,6 +120,11 @@ function toWalletStatus(account: ReturnType<typeof getAccount>): WalletStatus {
  * @invariant adapter.supportedChains never changes after construction
  */
 export function createEvmWalletAdapter(config: EvmWalletConfig): EvmWalletAdapterResult {
+  if (config.chains.length === 0) {
+    throw new Error(
+      'createEvmWalletAdapter requires at least one chain. Provide chains in config.chains.',
+    )
+  }
   const wagmiConfig =
     config.wagmiConfig ?? config.coreConnector.createConfig(config.chains, config.transports)
   const supportedChains = config.chains.map(fromViemChain)

@@ -140,6 +140,16 @@ describe('createEvmWalletAdapter — unit tests', () => {
     })
   }
 
+  it('throws when config.chains is empty', () => {
+    expect(() =>
+      createEvmWalletAdapter({
+        coreConnector: stubCoreConnector,
+        chains: [],
+        transports: {},
+      }),
+    ).toThrow('createEvmWalletAdapter requires at least one chain')
+  })
+
   // -------------------------------------------------------------------------
   // getStatus()
   // -------------------------------------------------------------------------
