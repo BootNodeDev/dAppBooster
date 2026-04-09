@@ -141,7 +141,12 @@ describe('BigNumberInput with renderInput (NumericFormat)', () => {
           decimals={18}
           value={value}
           onChange={onChange}
-          renderInput={({ onChange: handleChange, value: displayVal, ...restProps }) => (
+          renderInput={({
+            onChange: handleChange,
+            value: displayVal,
+            inputRef: _inputRef,
+            ...restProps
+          }) => (
             <NumericFormat
               thousandSeparator
               onValueChange={({ value: v }) => handleChange(v)}
