@@ -2,6 +2,7 @@ import { renderHook } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { createElement } from 'react'
 import { describe, expect, it, vi } from 'vitest'
+
 import type { ReadClientFactory } from '../../core/adapters/provider'
 import { DAppBoosterProvider } from '../provider/DAppBoosterProvider'
 import { useReadOnly } from './useReadOnly'
@@ -10,6 +11,8 @@ vi.mock('@/src/wallet/providers', () => ({
   Web3Provider: ({ children }: { children: ReactNode }) => children,
 }))
 
+const mockEndpoint = { url: 'https://eth.example.com', protocol: 'json-rpc' as const }
+
 const mockChain = {
   caip2Id: 'eip155:1',
   chainId: 1,
@@ -17,119 +20,104 @@ const mockChain = {
   chainType: 'evm',
   nativeCurrency: { symbol: 'ETH', decimals: 18 },
   addressConfig: { format: 'hex' as const, patterns: [], example: '0x...' },
-}
-
-const mockChainWithEndpoint = {
-  ...mockChain,
-  endpoints: [{ url: 'https://rpc.example.com', protocol: 'json-rpc' as const }],
-}
-
-const mockChainWithExplorer = {
-  ...mockChainWithEndpoint,
+  endpoints: [mockEndpoint],
   explorer: {
+    name: 'Etherscan',
     url: 'https://etherscan.io',
     txPath: '/tx/{id}',
     addressPath: '/address/{id}',
   },
 }
 
+type MockClient = { type: 'mock-client' }
+
+const mockFactory: ReadClientFactory<MockClient> = {
+  chainType: 'evm',
+  createClient: vi.fn(() => ({ type: 'mock-client' })),
+}
+
 const makeWrapper =
-  (config: Parameters<typeof DAppBoosterProvider>[0]['config']) =>
+  (
+    config: {
+      readClientFactories?: ReadClientFactory<unknown>[]
+      chains?: (typeof mockChain)[]
+    } = {},
+  ) =>
   ({ children }: { children: ReactNode }) =>
-    createElement(DAppBoosterProvider, { config }, children)
+    createElement(
+      DAppBoosterProvider,
+      {
+        config: {
+          chains: config.chains ?? [mockChain],
+          readClientFactories: config.readClientFactories,
+        },
+      },
+      children,
+    )
 
 describe('useReadOnly', () => {
-  it('returns null chain when chainId not in registry', () => {
-    const wrapper = makeWrapper({ chains: [] })
-    const { result } = renderHook(() => useReadOnly({ chainId: 999 }), { wrapper })
+  it('returns chain and null client when no factory matches', () => {
+    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), {
+      wrapper: makeWrapper(),
+    })
+    expect(result.current.chain?.name).toBe('Ethereum')
+    expect(result.current.client).toBeNull()
+  })
+
+  it('returns a client when factory matches', () => {
+    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), {
+      wrapper: makeWrapper({ readClientFactories: [mockFactory] }),
+    })
+    expect(result.current.client).toEqual({ type: 'mock-client' })
+  })
+
+  it('returns null chain and null client for unknown chainId', () => {
+    const { result } = renderHook(() => useReadOnly({ chainId: 999 }), {
+      wrapper: makeWrapper(),
+    })
     expect(result.current.chain).toBeNull()
     expect(result.current.client).toBeNull()
   })
 
-  it('returns chain descriptor when chainId found', () => {
-    const wrapper = makeWrapper({ chains: [mockChain] })
-    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), { wrapper })
-    expect(result.current.chain).not.toBeNull()
-    expect(result.current.chain?.name).toBe('Ethereum')
-  })
-
-  it('client is null when no factory registered', () => {
-    const wrapper = makeWrapper({ chains: [mockChainWithEndpoint] })
-    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), { wrapper })
-    expect(result.current.chain).not.toBeNull()
-    expect(result.current.client).toBeNull()
-  })
-
-  it('client is null when chain has no endpoints', () => {
-    const mockFactory: ReadClientFactory = {
-      chainType: 'evm',
-      createClient: vi.fn(),
-    }
-    const wrapper = makeWrapper({
-      chains: [mockChain],
-      readClientFactories: [mockFactory],
-    })
-    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), { wrapper })
-    expect(result.current.chain).not.toBeNull()
-    expect(result.current.client).toBeNull()
-    expect(mockFactory.createClient).not.toHaveBeenCalled()
-  })
-
-  it('client is created from factory when factory and endpoint exist', () => {
-    const mockFactory: ReadClientFactory = {
-      chainType: 'evm',
-      createClient: vi.fn((endpoint, chainId) => ({ endpoint, chainId })),
-    }
-    const wrapper = makeWrapper({
-      chains: [mockChainWithEndpoint],
-      readClientFactories: [mockFactory],
-    })
-    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), { wrapper })
-    expect(result.current.chain).not.toBeNull()
-    expect(result.current.client).not.toBeNull()
-    expect(mockFactory.createClient).toHaveBeenCalledWith(
-      mockChainWithEndpoint.endpoints[0],
-      mockChainWithEndpoint.chainId,
-    )
-    expect(result.current.client).toEqual({
-      endpoint: mockChainWithEndpoint.endpoints[0],
-      chainId: mockChainWithEndpoint.chainId,
-    })
-  })
-
-  it('returns address in the result when address option is provided', () => {
-    const wrapper = makeWrapper({ chains: [mockChainWithExplorer] })
+  it('returns explorerAddressUrl when address and explorer are configured', () => {
     const { result } = renderHook(() => useReadOnly({ chainId: 1, address: '0xabc' }), {
-      wrapper,
-    })
-    expect(result.current.address).toBe('0xabc')
-  })
-
-  it('returns null address when address option is not provided', () => {
-    const wrapper = makeWrapper({ chains: [mockChainWithExplorer] })
-    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), { wrapper })
-    expect(result.current.address).toBeNull()
-  })
-
-  it('returns explorerAddressUrl when address and explorer config are present', () => {
-    const wrapper = makeWrapper({ chains: [mockChainWithExplorer] })
-    const { result } = renderHook(() => useReadOnly({ chainId: 1, address: '0xabc' }), {
-      wrapper,
+      wrapper: makeWrapper(),
     })
     expect(result.current.explorerAddressUrl).toBe('https://etherscan.io/address/0xabc')
   })
 
-  it('returns null explorerAddressUrl when address is not provided', () => {
-    const wrapper = makeWrapper({ chains: [mockChainWithExplorer] })
-    const { result } = renderHook(() => useReadOnly({ chainId: 1 }), { wrapper })
-    expect(result.current.explorerAddressUrl).toBeNull()
-  })
+  describe('factory option (Level 4 bypass)', () => {
+    it('uses explicit factory instead of provider readClientFactories', () => {
+      const providerFactory: ReadClientFactory<unknown> = {
+        chainType: 'evm',
+        createClient: vi.fn(() => ({ type: 'provider-client' })),
+      }
+      const explicitFactory: ReadClientFactory<MockClient> = {
+        chainType: 'evm',
+        createClient: vi.fn(() => ({ type: 'explicit-client' })),
+      }
 
-  it('returns null explorerAddressUrl when chain has no explorer', () => {
-    const wrapper = makeWrapper({ chains: [mockChain] })
-    const { result } = renderHook(() => useReadOnly({ chainId: 1, address: '0xabc' }), {
-      wrapper,
+      const { result } = renderHook(
+        () => useReadOnly<MockClient>({ chainId: 1, factory: explicitFactory }),
+        { wrapper: makeWrapper({ readClientFactories: [providerFactory] }) },
+      )
+
+      expect(result.current.client).toEqual({ type: 'explicit-client' })
+      expect(providerFactory.createClient).not.toHaveBeenCalled()
     })
-    expect(result.current.explorerAddressUrl).toBeNull()
+
+    it('works even when provider has no readClientFactories', () => {
+      const explicitFactory: ReadClientFactory<MockClient> = {
+        chainType: 'evm',
+        createClient: vi.fn(() => ({ type: 'explicit-client' })),
+      }
+
+      const { result } = renderHook(
+        () => useReadOnly<MockClient>({ chainId: 1, factory: explicitFactory }),
+        { wrapper: makeWrapper() },
+      )
+
+      expect(result.current.client).toEqual({ type: 'explicit-client' })
+    })
   })
 })

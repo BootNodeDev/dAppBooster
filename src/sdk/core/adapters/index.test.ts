@@ -56,7 +56,7 @@ describe('adapter interfaces', () => {
     const _txLifecycle: TransactionLifecycle | undefined = undefined
     const _walletLifecycle: WalletLifecycle | undefined = undefined
     const _bundle: WalletAdapterBundle | undefined = undefined
-    const _factory: ReadClientFactory | undefined = undefined
+    const _factory: ReadClientFactory<unknown> | undefined = undefined
     const _config: DAppBoosterConfig | undefined = undefined
     void _signer
     void _options
