@@ -18,15 +18,17 @@ export interface WalletAdapterBundle {
   Provider?: FC<{ children: ReactNode }>
   /** Hook that returns functions to open the connector's connect and account modals. */
   useConnectModal?: () => { open: () => void; openAccount?: () => void }
+  /** Factory for creating read-only RPC clients specific to this adapter's chain type. */
+  readClientFactory?: ReadClientFactory<unknown>
 }
 
 /**
  * Factory for creating chain-type-specific read-only RPC clients.
  * Used to configure read operations without requiring a connected wallet.
  */
-export interface ReadClientFactory {
+export interface ReadClientFactory<TClient> {
   readonly chainType: string
-  createClient(endpoint: EndpointConfig, chainId: string | number): unknown
+  createClient(endpoint: EndpointConfig, chainId: string | number): TClient
 }
 
 /**
@@ -41,7 +43,7 @@ export interface DAppBoosterConfig {
   /** Chains the app operates on. Merged with each adapter's supportedChains at runtime. */
   chains?: ChainDescriptor[]
   /** Factories for constructing read-only RPC clients per chain type. */
-  readClientFactories?: ReadClientFactory[]
+  readClientFactories?: ReadClientFactory<unknown>[]
   /** Global transaction lifecycle hooks applied to all transactions. */
   lifecycle?: TransactionLifecycle
   /** Global wallet lifecycle hooks applied to all signing operations. */

@@ -12,7 +12,7 @@ export interface DAppBoosterContextValue {
   registry: ChainRegistry
   lifecycle: TransactionLifecycle | undefined
   walletLifecycle: WalletLifecycle | undefined
-  readClientFactories: ReadClientFactory[]
+  readClientFactories: ReadClientFactory<unknown>[]
   /** Per-adapter modal openers, populated by bridge components inside bundle providers. */
   connectModalsRef: RefObject<Record<string, { open: () => void; openAccount?: () => void }>>
 }
