@@ -30,12 +30,12 @@ type MockSvmClient = { type: 'svm-client' }
 
 const evmFactory: ReadClientFactory<MockEvmClient> = {
   chainType: 'evm',
-  createClient: vi.fn(() => ({ type: 'evm-client' })),
+  createClient: vi.fn(() => ({ type: 'evm-client' }) as MockEvmClient),
 }
 
 const svmFactory: ReadClientFactory<MockSvmClient> = {
   chainType: 'svm',
-  createClient: vi.fn(() => ({ type: 'svm-client' })),
+  createClient: vi.fn(() => ({ type: 'svm-client' }) as MockSvmClient),
 }
 
 describe('createReadClient', () => {

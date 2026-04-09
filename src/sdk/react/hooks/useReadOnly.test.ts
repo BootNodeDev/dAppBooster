@@ -33,7 +33,7 @@ type MockClient = { type: 'mock-client' }
 
 const mockFactory: ReadClientFactory<MockClient> = {
   chainType: 'evm',
-  createClient: vi.fn(() => ({ type: 'mock-client' })),
+  createClient: vi.fn(() => ({ type: 'mock-client' }) as MockClient),
 }
 
 const makeWrapper =
@@ -94,7 +94,7 @@ describe('useReadOnly', () => {
       }
       const explicitFactory: ReadClientFactory<MockClient> = {
         chainType: 'evm',
-        createClient: vi.fn(() => ({ type: 'explicit-client' })),
+        createClient: vi.fn(() => ({ type: 'mock-client' }) as MockClient),
       }
 
       const { result } = renderHook(
@@ -102,14 +102,14 @@ describe('useReadOnly', () => {
         { wrapper: makeWrapper({ readClientFactories: [providerFactory] }) },
       )
 
-      expect(result.current.client).toEqual({ type: 'explicit-client' })
+      expect(result.current.client).toEqual({ type: 'mock-client' })
       expect(providerFactory.createClient).not.toHaveBeenCalled()
     })
 
     it('works even when provider has no readClientFactories', () => {
       const explicitFactory: ReadClientFactory<MockClient> = {
         chainType: 'evm',
-        createClient: vi.fn(() => ({ type: 'explicit-client' })),
+        createClient: vi.fn(() => ({ type: 'mock-client' }) as MockClient),
       }
 
       const { result } = renderHook(
@@ -117,7 +117,7 @@ describe('useReadOnly', () => {
         { wrapper: makeWrapper() },
       )
 
-      expect(result.current.client).toEqual({ type: 'explicit-client' })
+      expect(result.current.client).toEqual({ type: 'mock-client' })
     })
   })
 })
