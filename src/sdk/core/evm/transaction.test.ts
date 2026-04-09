@@ -39,6 +39,15 @@ describe('createEvmTransactionAdapter', () => {
     )
   })
 
+  it('throws when a chain has no corresponding transport', () => {
+    expect(() =>
+      createEvmTransactionAdapter({
+        chains: [mainnet],
+        transports: {},
+      }),
+    ).toThrow('chain "Ethereum" (id: 1) has no transport configured')
+  })
+
   // ---------------------------------------------------------------------------
   // structural / metadata
   // ---------------------------------------------------------------------------

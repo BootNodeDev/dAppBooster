@@ -61,6 +61,13 @@ export function createEvmTransactionAdapter(
       'createEvmTransactionAdapter requires at least one chain. Provide chains in config.chains.',
     )
   }
+  for (const chain of config.chains) {
+    if (!config.transports[chain.id]) {
+      throw new Error(
+        `createEvmTransactionAdapter: chain "${chain.name}" (id: ${chain.id}) has no transport configured.`,
+      )
+    }
+  }
   const publicClients = new Map<number, PublicClient>(
     config.chains.map((chain) => [
       chain.id,
