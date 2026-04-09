@@ -1,4 +1,6 @@
 export { connectkitConnector, rainbowkitConnector, reownConnector } from './connectors'
+export type { UseEvmReadOnlyOptions } from './read-only'
+export { useEvmReadOnly } from './read-only'
 export type { EvmConnectorConfig } from './types'
 export type { EvmWalletBundleConfig } from './wallet-bundle'
 export { createEvmWalletBundle } from './wallet-bundle'
