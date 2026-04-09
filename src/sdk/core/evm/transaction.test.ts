@@ -33,6 +33,12 @@ describe('createEvmTransactionAdapter', () => {
     vi.mocked(createPublicClient).mockReturnValue(mockPublicClient as never)
   })
 
+  it('throws when config.chains is empty', () => {
+    expect(() => createEvmTransactionAdapter({ chains: [], transports: {} })).toThrow(
+      'createEvmTransactionAdapter requires at least one chain',
+    )
+  })
+
   // ---------------------------------------------------------------------------
   // structural / metadata
   // ---------------------------------------------------------------------------

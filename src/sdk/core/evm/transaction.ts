@@ -54,8 +54,13 @@ function isWalletClient(signer: unknown): signer is WalletClient {
  * @invariant adapter.supportedChains never changes after construction
  */
 export function createEvmTransactionAdapter(
-  config: EvmTransactionConfig = { chains: [], transports: {} },
+  config: EvmTransactionConfig,
 ): TransactionAdapter<'evm'> {
+  if (config.chains.length === 0) {
+    throw new Error(
+      'createEvmTransactionAdapter requires at least one chain. Provide chains in config.chains.',
+    )
+  }
   const publicClients = new Map<number, PublicClient>(
     config.chains.map((chain) => [
       chain.id,
