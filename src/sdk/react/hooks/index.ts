@@ -6,6 +6,7 @@ export type { UseReadOnlyOptions, UseReadOnlyReturn } from './useReadOnly'
 export { useReadOnly } from './useReadOnly'
 export type {
   PreStepStatus,
+  ResolvedAdapters,
   TransactionExecutionPhase,
   UseTransactionOptions,
   UseTransactionReturn,
