@@ -3,10 +3,12 @@ import type { TransactionLifecycle, TransactionPhase } from '../../core/adapters
 import type {
   ConfirmOptions,
   PrepareResult,
+  TransactionAdapter,
   TransactionParams,
   TransactionRef,
   TransactionResult,
 } from '../../core/adapters/transaction'
+import type { WalletAdapter } from '../../core/adapters/wallet'
 import { getExplorerUrl } from '../../core/chain/explorer'
 import {
   AdapterNotFoundError,
@@ -28,6 +30,16 @@ export interface UseTransactionOptions {
   autoPreSteps?: boolean
   /** Options forwarded to confirm(). */
   confirmOptions?: ConfirmOptions
+  /** Explicit transaction adapter — bypasses provider resolution when set. */
+  transactionAdapter?: TransactionAdapter
+  /** Explicit wallet adapter — bypasses provider resolution when set. */
+  walletAdapter?: WalletAdapter
+}
+
+/** Resolved adapter pair returned by resolveAdapters(). */
+export interface ResolvedAdapters {
+  transactionAdapter: TransactionAdapter
+  walletAdapter: WalletAdapter
 }
 
 export interface UseTransactionReturn {
@@ -43,6 +55,7 @@ export interface UseTransactionReturn {
   prepare: (params: TransactionParams) => Promise<PrepareResult>
   executePreStep: (index: number) => Promise<TransactionResult>
   executeAllPreSteps: () => Promise<TransactionResult[]>
+  resolveAdapters: (chainId: string | number) => ResolvedAdapters
   reset: () => void
 }
 
@@ -124,27 +137,49 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
     preStepResultsRef.current = []
   }, [])
 
-  const { lifecycle: localLifecycle, autoPreSteps = true, confirmOptions } = options
+  const {
+    lifecycle: localLifecycle,
+    autoPreSteps = true,
+    confirmOptions,
+    transactionAdapter: explicitTxAdapter,
+    walletAdapter: explicitWalletAdapter,
+  } = options
+
+  /** Resolves the transaction and wallet adapter pair for a given chainId. */
+  const resolveAdapters = useCallback(
+    (chainId: string | number): ResolvedAdapters => {
+      const chainIdStr = String(chainId)
+
+      const transactionAdapter =
+        explicitTxAdapter ??
+        Object.values(transactionAdapters).find((adapter) =>
+          adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
+        )
+
+      const walletAdapter =
+        explicitWalletAdapter ??
+        Object.values(walletAdapters).find((adapter) =>
+          adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
+        )
+
+      if (!transactionAdapter) {
+        throw new AdapterNotFoundError(chainId, 'transaction')
+      }
+      if (!walletAdapter) {
+        throw new AdapterNotFoundError(chainId, 'wallet')
+      }
+
+      return { transactionAdapter, walletAdapter }
+    },
+    [transactionAdapters, walletAdapters, explicitTxAdapter, explicitWalletAdapter],
+  )
 
   const execute = useCallback(
     async (params: TransactionParams): Promise<TransactionResult> => {
-      const chainIdStr = String(params.chainId)
       let currentPhase: TransactionPhase = 'prepare'
 
       try {
-        const transactionAdapter = Object.values(transactionAdapters).find((adapter) =>
-          adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
-        )
-        const walletAdapter = Object.values(walletAdapters).find((adapter) =>
-          adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
-        )
-
-        if (!transactionAdapter) {
-          throw new AdapterNotFoundError(params.chainId, 'transaction')
-        }
-        if (!walletAdapter) {
-          throw new AdapterNotFoundError(params.chainId, 'wallet')
-        }
+        const { transactionAdapter, walletAdapter } = resolveAdapters(params.chainId)
 
         const signer = await walletAdapter.getSigner()
         if (signer === null) {
@@ -224,14 +259,7 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
         throw errorObj
       }
     },
-    [
-      transactionAdapters,
-      walletAdapters,
-      localLifecycle,
-      autoPreSteps,
-      confirmOptions,
-      globalLifecycle,
-    ],
+    [resolveAdapters, localLifecycle, autoPreSteps, confirmOptions, globalLifecycle],
   )
 
   /**
@@ -245,25 +273,29 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
    */
   const prepare = useCallback(
     async (params: TransactionParams): Promise<PrepareResult> => {
-      const chainIdStr = String(params.chainId)
-
       try {
-        const transactionAdapter = Object.values(transactionAdapters).find((adapter) =>
-          adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
-        )
+        const chainIdStr = String(params.chainId)
 
-        if (!transactionAdapter) {
+        const resolvedTxAdapter =
+          explicitTxAdapter ??
+          Object.values(transactionAdapters).find((adapter) =>
+            adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
+          )
+
+        if (!resolvedTxAdapter) {
           throw new AdapterNotFoundError(params.chainId, 'transaction')
         }
 
         // Resolve signer for gas estimation (optional — prepare works without it)
-        const walletAdapter = Object.values(walletAdapters).find((adapter) =>
-          adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
-        )
-        const prepareSigner = walletAdapter ? await walletAdapter.getSigner() : null
+        const resolvedWalletAdapter =
+          explicitWalletAdapter ??
+          Object.values(walletAdapters).find((adapter) =>
+            adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
+          )
+        const prepareSigner = resolvedWalletAdapter ? await resolvedWalletAdapter.getSigner() : null
 
         setPhase('prepare')
-        const prepared = await transactionAdapter.prepare(params, prepareSigner ?? undefined)
+        const prepared = await resolvedTxAdapter.prepare(params, prepareSigner ?? undefined)
         setPrepareResult(prepared)
         fireLifecycle('onPrepare', globalLifecycle, localLifecycle, prepared)
 
@@ -289,7 +321,14 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
         throw errorObj
       }
     },
-    [transactionAdapters, walletAdapters, globalLifecycle, localLifecycle],
+    [
+      transactionAdapters,
+      walletAdapters,
+      explicitTxAdapter,
+      explicitWalletAdapter,
+      globalLifecycle,
+      localLifecycle,
+    ],
   )
 
   /**
@@ -316,21 +355,7 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
         )
       }
 
-      const chainIdStr = String(params.chainId)
-
-      const transactionAdapter = Object.values(transactionAdapters).find((adapter) =>
-        adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
-      )
-      const walletAdapter = Object.values(walletAdapters).find((adapter) =>
-        adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
-      )
-
-      if (!transactionAdapter) {
-        throw new AdapterNotFoundError(params.chainId, 'transaction')
-      }
-      if (!walletAdapter) {
-        throw new AdapterNotFoundError(params.chainId, 'wallet')
-      }
+      const { transactionAdapter, walletAdapter } = resolveAdapters(params.chainId)
 
       const signer = await walletAdapter.getSigner()
       if (signer === null) {
@@ -377,7 +402,7 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
         throw errorObj
       }
     },
-    [transactionAdapters, walletAdapters, globalLifecycle, localLifecycle, confirmOptions],
+    [resolveAdapters, globalLifecycle, localLifecycle, confirmOptions],
   )
 
   /**
@@ -420,6 +445,7 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
     prepare,
     executePreStep,
     executeAllPreSteps,
+    resolveAdapters,
     reset,
   }
 }

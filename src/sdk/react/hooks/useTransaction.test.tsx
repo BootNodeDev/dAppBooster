@@ -8,7 +8,11 @@ import type {
   TransactionParams,
 } from '../../core/adapters/transaction'
 import type { WalletAdapter } from '../../core/adapters/wallet'
-import { PreStepsNotExecutedError, TransactionNotReadyError } from '../../core/errors'
+import {
+  AdapterNotFoundError,
+  PreStepsNotExecutedError,
+  TransactionNotReadyError,
+} from '../../core/errors'
 import { DAppBoosterProvider } from '../provider/DAppBoosterProvider'
 import { useTransaction } from './useTransaction'
 
@@ -651,6 +655,138 @@ describe('useTransaction', () => {
 
       expect(caught).toBeInstanceOf(Error)
       expect(result.current.preStepStatuses[0]).toBe('failed')
+    })
+  })
+
+  describe('resolveAdapters', () => {
+    it('returns resolveAdapters function on the hook return', () => {
+      const { result } = renderHook(() => useTransaction(), { wrapper: makeWrapper() })
+      expect(typeof result.current.resolveAdapters).toBe('function')
+    })
+
+    it('resolves transaction and wallet adapters by chainId', () => {
+      const txAdapter = makeMockTxAdapter()
+      const walletAdapter = makeMockWalletAdapter()
+
+      const { result } = renderHook(() => useTransaction(), {
+        wrapper: makeWrapper({ txAdapter, walletAdapter }),
+      })
+
+      const resolved = result.current.resolveAdapters(1)
+      expect(resolved.transactionAdapter).toBe(txAdapter)
+      expect(resolved.walletAdapter).toBe(walletAdapter)
+    })
+
+    it('throws AdapterNotFoundError for unknown chainId', () => {
+      const { result } = renderHook(() => useTransaction(), { wrapper: makeWrapper() })
+
+      expect(() => result.current.resolveAdapters(999)).toThrow(AdapterNotFoundError)
+    })
+
+    it('throws AdapterNotFoundError when no wallet adapter matches', () => {
+      const txAdapter = makeMockTxAdapter()
+      const { result } = renderHook(() => useTransaction(), {
+        wrapper: makeWrapper({ txAdapter }),
+      })
+
+      expect(() => result.current.resolveAdapters(999)).toThrow(AdapterNotFoundError)
+    })
+  })
+
+  describe('explicit adapter options', () => {
+    it('execute() uses explicit transactionAdapter instead of provider lookup', async () => {
+      const explicitTxAdapter = makeMockTxAdapter()
+      const providerTxAdapter = makeMockTxAdapter()
+
+      const { result } = renderHook(
+        () => useTransaction({ transactionAdapter: explicitTxAdapter }),
+        { wrapper: makeWrapper({ txAdapter: providerTxAdapter }) },
+      )
+
+      await act(async () => {
+        await result.current.execute(testParams)
+      })
+
+      expect(explicitTxAdapter.prepare).toHaveBeenCalledOnce()
+      expect(providerTxAdapter.prepare).not.toHaveBeenCalled()
+    })
+
+    it('execute() uses explicit walletAdapter for signer instead of provider lookup', async () => {
+      const explicitWalletAdapter = makeMockWalletAdapter()
+      const providerWalletAdapter = makeMockWalletAdapter()
+
+      const { result } = renderHook(
+        () => useTransaction({ walletAdapter: explicitWalletAdapter }),
+        { wrapper: makeWrapper({ walletAdapter: providerWalletAdapter }) },
+      )
+
+      await act(async () => {
+        await result.current.execute(testParams)
+      })
+
+      expect(explicitWalletAdapter.getSigner).toHaveBeenCalledOnce()
+      expect(providerWalletAdapter.getSigner).not.toHaveBeenCalled()
+    })
+
+    it('can mix explicit transactionAdapter with provider-resolved walletAdapter', async () => {
+      const explicitTxAdapter = makeMockTxAdapter()
+      const providerWalletAdapter = makeMockWalletAdapter()
+
+      const { result } = renderHook(
+        () => useTransaction({ transactionAdapter: explicitTxAdapter }),
+        { wrapper: makeWrapper({ walletAdapter: providerWalletAdapter }) },
+      )
+
+      await act(async () => {
+        await result.current.execute(testParams)
+      })
+
+      expect(explicitTxAdapter.prepare).toHaveBeenCalledOnce()
+      expect(providerWalletAdapter.getSigner).toHaveBeenCalledOnce()
+    })
+
+    it('prepare() uses explicit transactionAdapter', async () => {
+      const explicitTxAdapter = makeMockTxAdapter()
+      const providerTxAdapter = makeMockTxAdapter()
+
+      const { result } = renderHook(
+        () => useTransaction({ transactionAdapter: explicitTxAdapter, autoPreSteps: false }),
+        { wrapper: makeWrapper({ txAdapter: providerTxAdapter }) },
+      )
+
+      await act(async () => {
+        await result.current.prepare(testParams)
+      })
+
+      expect(explicitTxAdapter.prepare).toHaveBeenCalledOnce()
+      expect(providerTxAdapter.prepare).not.toHaveBeenCalled()
+    })
+
+    it('executePreStep() uses explicit adapters', async () => {
+      const explicitTxAdapter = makeMockTxAdapter()
+      const explicitWalletAdapter = makeMockWalletAdapter()
+      const preStep: PreStep = { label: 'Approve', params: { chainId: 1, payload: {} } }
+
+      const { result } = renderHook(
+        () =>
+          useTransaction({
+            transactionAdapter: explicitTxAdapter,
+            walletAdapter: explicitWalletAdapter,
+            autoPreSteps: false,
+          }),
+        { wrapper: makeWrapper() },
+      )
+
+      await act(async () => {
+        await result.current.prepare({ ...testParams, preSteps: [preStep] })
+      })
+
+      await act(async () => {
+        await result.current.executePreStep(0)
+      })
+
+      expect(explicitTxAdapter.execute).toHaveBeenCalled()
+      expect(explicitWalletAdapter.getSigner).toHaveBeenCalled()
     })
   })
 })
