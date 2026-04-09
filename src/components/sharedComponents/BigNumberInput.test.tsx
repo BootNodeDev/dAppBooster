@@ -146,7 +146,8 @@ describe('BigNumberInput with renderInput (NumericFormat)', () => {
               thousandSeparator
               onValueChange={({ value: v }) => handleChange(v)}
               value={displayVal as string | undefined}
-              {...restProps}
+              // biome-ignore lint/suspicious/noExplicitAny: mirrors TokenAmountField pattern
+              {...(restProps as any)}
             />
           )}
           {...props}
