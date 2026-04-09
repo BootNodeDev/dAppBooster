@@ -68,7 +68,9 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
 }: BigNumberInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [hasError, setHasError] = useState(false)
-  const [displayValue, setDisplayValue] = useState('')
+  const [displayValue, setDisplayValue] = useState(() =>
+    value === BigInt(0) ? '' : formatUnits(value, decimals),
+  )
   const prevValueRef = useRef(value)
   const prevDecimalsRef = useRef(decimals)
 
