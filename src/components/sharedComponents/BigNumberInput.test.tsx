@@ -194,4 +194,9 @@ describe('BigNumberInput with renderInput (NumericFormat)', () => {
     await userEvent.type(input, '0')
     expect(input.value).toBe('0')
   })
+
+  it('shows formatted initial value when mounted with non-zero value', () => {
+    const { input } = renderWithNumericFormat({}, parseUnits('1000', 18))
+    expect(input.value).toBe('1,000')
+  })
 })
