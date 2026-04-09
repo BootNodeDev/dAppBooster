@@ -120,7 +120,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
 
     if (value === '') {
       prevValueRef.current = BigInt(0)
-      setDisplayValue('')
+      if (renderInput) setDisplayValue('')
       setHasError(false)
       onChange(BigInt(0))
       return
@@ -164,7 +164,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
 
     // Set prevValueRef before onChange so the render-time sync doesn't override the user's input.
     prevValueRef.current = newValue
-    setDisplayValue(value)
+    if (renderInput) setDisplayValue(value)
     onChange(newValue)
   }
 

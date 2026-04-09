@@ -135,10 +135,12 @@ describe('BigNumberInput with renderInput (NumericFormat)', () => {
   ) {
     const onChange = props.onChange ?? vi.fn()
 
-    const makeJsx = (value: bigint) => (
+    const initialDecimals = props.decimals ?? 18
+
+    const makeJsx = (value: bigint, decimals = initialDecimals) => (
       <ChakraProvider value={system}>
         <BigNumberInput
-          decimals={18}
+          decimals={decimals}
           value={value}
           onChange={onChange}
           renderInput={({
@@ -165,7 +167,7 @@ describe('BigNumberInput with renderInput (NumericFormat)', () => {
     return {
       input: container.querySelector('input') as HTMLInputElement,
       onChange,
-      rerender: (newValue: bigint) => rerender(makeJsx(newValue)),
+      rerender: (newValue: bigint, decimals?: number) => rerender(makeJsx(newValue, decimals)),
     }
   }
 
@@ -203,5 +205,18 @@ describe('BigNumberInput with renderInput (NumericFormat)', () => {
   it('shows formatted initial value when mounted with non-zero value', () => {
     const { input } = renderWithNumericFormat({}, parseUnits('1000', 18))
     expect(input.value).toBe('1,000')
+  })
+
+  it('reformats value when decimals change (token switch)', async () => {
+    const value = parseUnits('1000', 18)
+    const { input, rerender } = renderWithNumericFormat({}, value)
+    await waitFor(() => {
+      expect(input.value).toBe('1,000')
+    })
+    // Same bigint but with 6 decimals produces a completely different display value
+    rerender(value, 6)
+    await waitFor(() => {
+      expect(input.value).toBe('1,000,000,000,000,000')
+    })
   })
 })
