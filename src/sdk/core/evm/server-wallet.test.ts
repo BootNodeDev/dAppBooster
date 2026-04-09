@@ -1,4 +1,5 @@
 import type { WalletClient } from 'viem'
+import { mainnet } from 'viem/chains'
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
 
 import { CapabilityNotSupportedError } from '../errors'
@@ -125,5 +126,24 @@ describe('createEvmServerWallet', () => {
       chain: mockChain as never,
     })
     expect(bundle.Provider).toBeUndefined()
+  })
+
+  it('throws when privateKey is not 0x-prefixed', () => {
+    expect(() =>
+      createEvmServerWallet({
+        privateKey:
+          'abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234' as `0x${string}`,
+        chain: mainnet,
+      }),
+    ).toThrow('privateKey must be a 0x-prefixed 66-character hex string')
+  })
+
+  it('throws when privateKey is wrong length', () => {
+    expect(() =>
+      createEvmServerWallet({
+        privateKey: '0xabcd' as `0x${string}`,
+        chain: mainnet,
+      }),
+    ).toThrow('privateKey must be a 0x-prefixed 66-character hex string')
   })
 })

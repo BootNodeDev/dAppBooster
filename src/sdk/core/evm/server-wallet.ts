@@ -41,6 +41,11 @@ export interface EvmServerWalletConfig {
  * @invariant getStatus().connected === true (always connected)
  */
 export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdapterBundle {
+  if (!config.privateKey.startsWith('0x') || config.privateKey.length !== 66) {
+    throw new Error(
+      'createEvmServerWallet: privateKey must be a 0x-prefixed 66-character hex string.',
+    )
+  }
   const account = privateKeyToAccount(config.privateKey)
   const walletClient = createWalletClient({
     account,
