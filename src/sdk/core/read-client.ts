@@ -5,7 +5,7 @@ import type { ChainRegistry } from './chain/registry'
  * Creates a typed read-only client using a specific factory.
  * For CLI tools, agent scripts, and other non-React consumers.
  *
- * @precondition chainId is registered in the registry
+ * @expects chainId is registered in the registry
  * @postcondition returns a typed client, or null if chain/endpoint not found
  */
 export function createReadClient<TClient>(
@@ -28,7 +28,7 @@ export function createReadClient<TClient>(
  * Resolves a read-only client from a heterogeneous factory array.
  * For multi-VM loops where the chain type isn't known ahead of time.
  *
- * @precondition chainId is registered in the registry
+ * @expects chainId is registered in the registry
  * @postcondition returns a client, or null if chain/factory/endpoint not found
  */
 export function resolveReadClient(

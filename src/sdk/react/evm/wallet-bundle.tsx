@@ -34,8 +34,8 @@ export interface EvmWalletBundleConfig {
  * Wraps the core createEvmWalletAdapter with WagmiProvider, QueryClientProvider, and the
  * connector's WalletProvider.
  *
- * @precondition config.chains.length >= 1
- * @precondition config.connector provides createConfig, WalletProvider, and useConnectModal
+ * @expects config.chains.length >= 1
+ * @expects config.connector provides createConfig, WalletProvider, and useConnectModal
  * @postcondition returned bundle.adapter.chainType === 'evm'
  * @postcondition returned bundle.Provider wraps children with wagmi + query + connector providers
  */

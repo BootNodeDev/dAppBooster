@@ -10,13 +10,13 @@ export interface UseMultiWalletReturn {
   wallets: Record<string, UseWalletReturn>
   /**
    * Returns the wallet entry whose adapter matches the given chainType.
-   * @precondition chainType is a non-empty string
+   * @expects chainType is a non-empty string
    * @postcondition returns the first matching UseWalletReturn or undefined
    */
   getWallet(chainType: string): UseWalletReturn | undefined
   /**
    * Returns the wallet entry whose adapter's supportedChains includes the given chainId.
-   * @precondition chainId is a string or number identifying a chain
+   * @expects chainId is a string or number identifying a chain
    * @postcondition returns the first matching UseWalletReturn or undefined
    */
   getWalletByChainId(chainId: string | number): UseWalletReturn | undefined

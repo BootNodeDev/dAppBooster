@@ -9,7 +9,7 @@ import type {
 /**
  * Invokes a single WalletLifecycle hook by key, swallowing any error it throws.
  *
- * @precondition key must be a valid WalletLifecycle method name
+ * @expects key must be a valid WalletLifecycle method name
  * @postcondition the hook is called with args if defined; errors are logged, never propagated
  * @throws never — errors thrown by hooks are caught and logged to console.error
  */
@@ -32,7 +32,7 @@ export function fireWalletLifecycle<K extends keyof WalletLifecycle>(
 /**
  * Wraps adapter.signMessage with lifecycle dispatch (onSign, onSignComplete, onSignError).
  *
- * @precondition adapter must implement signMessage
+ * @expects adapter must implement signMessage
  * @postcondition returned function delegates to adapter.signMessage with full lifecycle hooks
  * @throws re-throws the original error from adapter.signMessage after firing onSignError
  */
@@ -58,7 +58,7 @@ export function wrapSignMessage(
  * Wraps adapter.signTypedData with lifecycle dispatch (onSign, onSignComplete, onSignError).
  * Returns undefined when the adapter does not support signTypedData.
  *
- * @precondition adapter may or may not have signTypedData
+ * @expects adapter may or may not have signTypedData
  * @postcondition returns undefined if adapter.signTypedData is not defined
  * @postcondition returned function (when defined) delegates with full lifecycle hooks
  * @throws re-throws the original error from adapter.signTypedData after firing onSignError

@@ -98,7 +98,7 @@ export function createEvmTransactionAdapter(
     /**
      * Estimates gas and validates readiness for the given transaction params.
      *
-     * @precondition params.chainId is in supportedChains
+     * @expects params.chainId is in supportedChains
      * @postcondition if ready === true -> execute() can be called with these params
      * @postcondition if ready === false -> reason explains why (human-readable)
      * @throws {InsufficientFundsError} if balance too low for gas estimation
@@ -225,7 +225,7 @@ export function createEvmTransactionAdapter(
     /**
      * Waits for the transaction to be confirmed or times out.
      *
-     * @precondition ref was returned by a previous execute() call on this adapter
+     * @expects ref was returned by a previous execute() call on this adapter
      * @postcondition result.status is 'success', 'reverted', or 'timeout'
      * @postcondition if 'success' -> result.receipt contains a viem TransactionReceipt
      * @throws never (timeout returns TransactionResult with status: 'timeout')

@@ -13,8 +13,8 @@ export interface UseEvmReadOnlyOptions {
  * Typed EVM read-only hook. Returns a viem PublicClient for the given chain.
  * Self-sufficient — works even without provider readClientFactories configured.
  *
- * @precondition Must be called inside a DAppBoosterProvider
- * @precondition chainId must be an EVM chain registered in the provider
+ * @expects Must be called inside a DAppBoosterProvider
+ * @expects chainId must be an EVM chain registered in the provider
  * @postcondition returns { client: PublicClient | null, chain, address, explorerAddressUrl }
  */
 export function useEvmReadOnly(options: UseEvmReadOnlyOptions): UseReadOnlyReturn<PublicClient> {

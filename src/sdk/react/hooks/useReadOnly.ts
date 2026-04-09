@@ -10,7 +10,7 @@ export interface UseReadOnlyOptions<TClient = unknown> {
   address?: string
   /**
    * Level 4 escape hatch: explicit factory — bypasses provider resolution.
-   * @precondition factory.chainType should match the chain's chainType
+   * @expects factory.chainType should match the chain's chainType
    */
   factory?: ReadClientFactory<TClient>
 }
@@ -30,8 +30,8 @@ export interface UseReadOnlyReturn<TClient = unknown> {
  * The client is created by the matching ReadClientFactory — either from the explicit `factory` option
  * (Level 4 bypass) or from the provider's readClientFactories.
  *
- * @precondition Must be called inside a DAppBoosterProvider
- * @precondition options.chainId identifies a chain registered in the provider config
+ * @expects Must be called inside a DAppBoosterProvider
+ * @expects options.chainId identifies a chain registered in the provider config
  * @postcondition returns chain descriptor and read-only client (null when chain/factory/endpoint missing)
  * @postcondition returns address as-is from options, or null when not provided
  * @postcondition returns explorerAddressUrl when both address and chain explorer config are present

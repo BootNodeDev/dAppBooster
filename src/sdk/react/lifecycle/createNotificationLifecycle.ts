@@ -52,7 +52,7 @@ export interface SigningNotificationLifecycleOptions {
 /**
  * Builds an explorer URL suffix for a transaction, or empty string if unavailable.
  *
- * @precondition ref.id is a valid transaction hash and ref.chainId is a known chain
+ * @expects ref.id is a valid transaction hash and ref.chainId is a known chain
  * @postcondition returns a string like ' — https://etherscan.io/tx/0x...' or ''
  */
 function buildExplorerSuffix(registry: ChainRegistry | undefined, ref: TransactionRef): string {
@@ -68,7 +68,7 @@ function buildExplorerSuffix(registry: ChainRegistry | undefined, ref: Transacti
  *
  * Pass the result to useTransaction({ lifecycle }) or TransactionButton lifecycle prop.
  *
- * @precondition toaster implements the ToasterAPI interface
+ * @expects toaster implements the ToasterAPI interface
  * @postcondition returned lifecycle fires toasts for onSubmit, onConfirm, onReplace, and onError
  * @postcondition when registry is provided, confirm and replace toasts include explorer URLs
  */
@@ -120,7 +120,7 @@ export function createNotificationLifecycle({
 /**
  * Creates a WalletLifecycle that fires toast notifications for signing operations.
  *
- * @precondition toaster implements the ToasterAPI interface
+ * @expects toaster implements the ToasterAPI interface
  * @postcondition returned lifecycle fires toasts for onSign, onSignComplete, and onSignError
  */
 export function createSigningNotificationLifecycle({

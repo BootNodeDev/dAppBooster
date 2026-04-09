@@ -288,7 +288,7 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): EvmWalletAdapte
      * Signs EIP-712 typed data with the connected wallet.
      *
      * @precondition getStatus().connected === true
-     * @precondition metadata.capabilities.signTypedData === true
+     * @expects metadata.capabilities.signTypedData === true
      * @postcondition result.address matches the signing account
      * @throws {WalletNotConnectedError} if not connected
      * @throws {SigningRejectedError} if user cancels

@@ -8,8 +8,8 @@ type ExplorerParams =
 /**
  * Builds an explorer URL for a transaction, address, or block.
  *
- * @precondition registry is a valid ChainRegistry
- * @precondition params.chainId identifies a chain, params contains exactly one of tx/address/block
+ * @expects registry is a valid ChainRegistry
+ * @expects params.chainId identifies a chain, params contains exactly one of tx/address/block
  * @postcondition returns a fully qualified URL string, or null if chain/explorer/path not found
  * @postcondition if explorer.queryParams is defined, they are appended as URL search params
  */

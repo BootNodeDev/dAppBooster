@@ -33,7 +33,7 @@ export interface EvmServerWalletConfig {
  * Returns no Provider — server wallets have no UI layer.
  *
  * @precondition config.privateKey is a valid hex-encoded private key
- * @precondition config.chain is a valid viem Chain
+ * @expects config.chain is a valid viem Chain
  * @postcondition returned adapter.chainType === 'evm'
  * @postcondition returned bundle has no Provider (server wallets have no UI)
  * @invariant adapter.chainType never changes after construction

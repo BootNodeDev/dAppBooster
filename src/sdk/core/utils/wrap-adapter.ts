@@ -16,7 +16,7 @@ export interface WrapAdapterHooks {
    * Always return an args array — return the input unchanged for pass-through.
    * Errors propagate (not fire-and-forget).
    *
-   * @precondition args is the original arguments array
+   * @expects args is the original arguments array
    * @postcondition returned array replaces args for the method call
    * @throws any error thrown here aborts the method call
    */
@@ -41,7 +41,7 @@ export interface WrapAdapterHooks {
    * Always return a value — return the input unchanged for pass-through.
    * Errors propagate (not fire-and-forget).
    *
-   * @precondition result is the resolved value from the method
+   * @expects result is the resolved value from the method
    * @postcondition returned value replaces the method result
    * @throws any error thrown here aborts the call
    */
@@ -66,7 +66,7 @@ function collectMethodKeys(obj: object): string[] {
  *
  * Execution order: `beforeCall` -> `onBefore` -> method -> `onAfter` -> `afterCall`
  *
- * @precondition adapter is a non-null object
+ * @expects adapter is a non-null object
  * @postcondition returned object has the same interface as adapter with hooks applied
  * @throws errors from `beforeCall`/`afterCall` propagate; observation hook errors are swallowed
  */

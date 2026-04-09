@@ -62,7 +62,7 @@ interface ResolvedAdapter {
 /**
  * Resolves a single WalletAdapter from the registered adapters using the provided options.
  *
- * @precondition if options.adapter is set, it is used directly (bypasses provider resolution)
+ * @expects if options.adapter is set, it is used directly (bypasses provider resolution)
  * @precondition if options.chainType is set, at least one adapter must match that chainType
  * @precondition if options.chainId is set, at least one adapter must support that chainId
  * @postcondition if exactly one adapter is registered and no options given, returns that adapter
@@ -111,7 +111,7 @@ function resolveAdapter(
  * Pass `chainType`, `chainId`, or `adapter` in options to disambiguate when multiple adapters
  * are registered. With a single adapter and no options, it resolves automatically.
  *
- * @precondition must be called inside a DAppBoosterProvider
+ * @expects must be called inside a DAppBoosterProvider
  * @precondition if multiple adapters registered, options must include chainType, chainId, or adapter
  * @postcondition status is reactive — re-renders on every wallet status change
  * @postcondition signMessage/signTypedData fire global walletLifecycle hooks from provider

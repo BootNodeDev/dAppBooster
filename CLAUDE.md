@@ -100,6 +100,7 @@ The `/issue` skill applies these labels automatically when creating issues via C
 - Path aliases: `@/src/*` and `@packageJSON`
 - All env vars prefixed with `PUBLIC_` and validated in `src/env.ts`
 - JSDoc comments on exported functions/components (follow existing patterns)
+- Use `@precondition` in JSDoc ONLY for conditions enforced at runtime with a throw/guard. Use `@expects` for documented assumptions the caller is responsible for (TypeScript-enforced, gracefully handled, or downstream-validated). If you write `@precondition`, the function MUST validate and throw on violation.
 
 ## Styling
 

@@ -25,7 +25,7 @@ export interface WalletGuardProps {
   /**
    * Level 4 escape hatch: explicit wallet adapter — bypasses provider resolution.
    * Only applies in single-chain mode (not with `require` prop).
-   * @precondition if adapter provided, require must not be set (single-chain mode only)
+   * @expects if adapter provided, require must not be set (single-chain mode only)
    */
   adapter?: WalletAdapter
   children?: ReactNode
@@ -51,7 +51,7 @@ export interface WalletGuardProps {
  * - **Single-chain** (chainId/chainType props): uses useWallet for one adapter
  * - **Multi-chain** (require prop): uses useMultiWallet, checks each requirement
  *
- * @precondition Either `require` or `chainId`/`chainType` should be provided, not both
+ * @expects Either `require` or `chainId`/`chainType` should be provided, not both
  * @postcondition Renders children only when all wallet requirements are satisfied
  * @throws Never — renders fallback UI or null instead of throwing
  */
@@ -74,7 +74,7 @@ export const WalletGuard: FC<WalletGuardProps> = (props) => {
 
 /**
  * Internal component for single-chain wallet gating (original behavior).
- * @precondition useWallet hook is available via provider context
+ * @expects useWallet hook is available via provider context
  * @postcondition Renders children when wallet is connected to the correct chain
  */
 const SingleChainGuard: FC<WalletGuardProps> = ({
@@ -119,7 +119,7 @@ interface MultiChainGuardProps extends WalletGuardProps {
 /**
  * Internal component for multi-chain wallet gating.
  * Iterates requirements and renders fallback for the first unmet one.
- * @precondition useMultiWallet hook is available via provider context
+ * @expects useMultiWallet hook is available via provider context
  * @postcondition Renders children only when every requirement has a connected wallet
  */
 const MultiChainGuard: FC<MultiChainGuardProps> = ({

@@ -32,12 +32,12 @@ export interface UseTransactionOptions {
   confirmOptions?: ConfirmOptions
   /**
    * Explicit transaction adapter — bypasses provider resolution when set.
-   * @precondition if provided, must support the chainId used in execute()/prepare()
+   * @expects if provided, must support the chainId used in execute()/prepare()
    */
   transactionAdapter?: TransactionAdapter
   /**
    * Explicit wallet adapter — bypasses provider resolution when set.
-   * @precondition if provided, must be connected when execute() is called
+   * @expects if provided, must be connected when execute() is called
    */
   walletAdapter?: WalletAdapter
 }
@@ -88,7 +88,7 @@ function fireLifecycle<K extends keyof TransactionLifecycle>(
  * Executes a chain transaction through the registered TransactionAdapter,
  * managing phase transitions, preSteps, lifecycle hooks, and error state.
  *
- * @precondition must be called inside a DAppBoosterProvider
+ * @expects must be called inside a DAppBoosterProvider
  * @postcondition execute() runs the full cycle: prepare -> preSteps -> submit -> confirm
  * @postcondition lifecycle hooks fire: global (from provider) first, per-transaction (from options) second
  * @postcondition hook errors in lifecycle callbacks are logged but never abort the transaction

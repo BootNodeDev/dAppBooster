@@ -6,7 +6,7 @@ import type { EndpointConfig } from '../chain/descriptor'
 /**
  * Read-only client factory for EVM chains. Wraps viem's createPublicClient.
  *
- * @precondition endpoint.url is a valid JSON-RPC URL
+ * @expects endpoint.url is a valid JSON-RPC URL
  * @postcondition returns a viem PublicClient for read-only chain queries
  */
 export const evmReadClientFactory: ReadClientFactory<PublicClient> = {

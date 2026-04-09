@@ -11,7 +11,7 @@
 /**
  * Extracts shortMessage from viem errors, walking the cause chain if needed.
  *
- * @precondition error is any value (null-safe)
+ * @expects error is any value (null-safe)
  * @postcondition returns the first shortMessage or details found, or null
  */
 export function extractViemErrorMessage(error: unknown): string | null {
@@ -40,7 +40,7 @@ export function extractViemErrorMessage(error: unknown): string | null {
  * Strips technical data (hex, addresses, viem internals) from error messages.
  * Acts as a safety net so no raw data leaks to the user.
  *
- * @precondition message is a non-empty string
+ * @expects message is a non-empty string
  * @postcondition returns a sanitized string with technical data removed
  */
 export function sanitizeErrorMessage(message: string): string {
@@ -81,7 +81,7 @@ export function sanitizeErrorMessage(message: string): string {
  * 3. Extract revert reason from "execution reverted: ..." pattern
  * 4. Sanitize remaining verbose messages (strip hex, addresses, technical blocks)
  *
- * @precondition error is any value — string, Error, viem error, null, undefined
+ * @expects error is any value — string, Error, viem error, null, undefined
  * @postcondition returns a clean, user-friendly string (never empty, never throws)
  */
 export function formatErrorMessage(error: unknown): string {
