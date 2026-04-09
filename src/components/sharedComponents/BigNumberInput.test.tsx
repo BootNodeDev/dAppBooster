@@ -145,7 +145,7 @@ describe('BigNumberInput with renderInput (NumericFormat)', () => {
             <NumericFormat
               thousandSeparator
               onValueChange={({ value: v }) => handleChange(v)}
-              value={displayVal}
+              value={displayVal as string | undefined}
               {...restProps}
             />
           )}
