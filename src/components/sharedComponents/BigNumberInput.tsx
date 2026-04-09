@@ -68,8 +68,22 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
 }: BigNumberInputProps) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [hasError, setHasError] = useState(false)
+  const [displayValue, setDisplayValue] = useState('')
+  const prevValueRef = useRef(value)
+  const prevDecimalsRef = useRef(decimals)
 
-  // update inputValue when value changes
+  // Sync displayValue when an external change updates value or decimals (e.g. max click, token change).
+  // Using render-time state update to avoid a visible flash between renders.
+  if (prevValueRef.current !== value || prevDecimalsRef.current !== decimals) {
+    prevValueRef.current = value
+    prevDecimalsRef.current = decimals
+    setDisplayValue(value === BigInt(0) ? '' : formatUnits(value, decimals))
+  }
+
+  // DOM sync for the native input path (no renderInput).
+  // When renderInput is provided (e.g. NumericFormat), inputRef is not attached to the DOM
+  // and this effect is a no-op. External value changes for that path are handled via
+  // the displayValue state above.
   useEffect(() => {
     const current = inputRef.current
     if (!current) {
@@ -101,6 +115,8 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
     const { value } = typeof event === 'string' ? { value: event } : event.currentTarget
 
     if (value === '') {
+      prevValueRef.current = BigInt(0)
+      setDisplayValue('')
       setHasError(false)
       onChange(BigInt(0))
       return
@@ -142,6 +158,9 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
       setHasError(false)
     }
 
+    // Set prevValueRef before onChange so the render-time sync doesn't override the user's input.
+    prevValueRef.current = newValue
+    setDisplayValue(value)
     onChange(newValue)
   }
 
@@ -154,7 +173,7 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   }
 
   return renderInput ? (
-    renderInput({ ...inputProps, inputRef })
+    renderInput({ ...inputProps, inputRef, value: displayValue })
   ) : (
     <chakra.input
       {...inputProps}

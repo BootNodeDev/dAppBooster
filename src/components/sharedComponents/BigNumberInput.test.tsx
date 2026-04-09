@@ -1,8 +1,9 @@
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ComponentProps } from 'react'
-import { maxUint256 } from 'viem'
+import { NumericFormat } from 'react-number-format'
+import { maxUint256, parseUnits } from 'viem'
 import { describe, expect, it, vi } from 'vitest'
 import { BigNumberInput } from './BigNumberInput'
 
@@ -122,5 +123,74 @@ describe('BigNumberInput', () => {
     const input = screen.getByRole('textbox')
     await userEvent.type(input, '9999999')
     expect(onError).not.toHaveBeenCalled()
+  })
+})
+
+describe('BigNumberInput with renderInput (NumericFormat)', () => {
+  function renderWithNumericFormat(
+    props: Partial<ComponentProps<typeof BigNumberInput>> & {
+      onChange?: (v: bigint) => void
+    } = {},
+    initialValue = BigInt(0),
+  ) {
+    const onChange = props.onChange ?? vi.fn()
+
+    const makeJsx = (value: bigint) => (
+      <ChakraProvider value={system}>
+        <BigNumberInput
+          decimals={18}
+          value={value}
+          onChange={onChange}
+          renderInput={({ onChange: handleChange, value: displayVal, ...restProps }) => (
+            <NumericFormat
+              thousandSeparator
+              onValueChange={({ value: v }) => handleChange(v)}
+              value={displayVal}
+              {...restProps}
+            />
+          )}
+          {...props}
+        />
+      </ChakraProvider>
+    )
+
+    const { container, rerender } = render(makeJsx(initialValue))
+
+    return {
+      input: container.querySelector('input') as HTMLInputElement,
+      onChange,
+      rerender: (newValue: bigint) => rerender(makeJsx(newValue)),
+    }
+  }
+
+  it('shows empty input (placeholder) when value is 0n', () => {
+    const { input } = renderWithNumericFormat()
+    expect(input.value).toBe('')
+  })
+
+  it('formats value with thousand separators when value changes externally', async () => {
+    const { input, rerender } = renderWithNumericFormat()
+    rerender(parseUnits('1000', 18))
+    await waitFor(() => {
+      expect(input.value).toBe('1,000')
+    })
+  })
+
+  it('shows empty input after value resets to 0n', async () => {
+    const { input, rerender } = renderWithNumericFormat()
+    rerender(parseUnits('1000', 18))
+    await waitFor(() => {
+      expect(input.value).toBe('1,000')
+    })
+    rerender(BigInt(0))
+    await waitFor(() => {
+      expect(input.value).toBe('')
+    })
+  })
+
+  it('preserves user-typed "0" without clearing to placeholder', async () => {
+    const { input } = renderWithNumericFormat()
+    await userEvent.type(input, '0')
+    expect(input.value).toBe('0')
   })
 })
