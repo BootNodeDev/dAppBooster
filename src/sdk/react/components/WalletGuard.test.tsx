@@ -196,6 +196,25 @@ describe('WalletGuard', () => {
 
     expect(screen.getByTestId('protected-content')).toBeInTheDocument()
   })
+
+  it('passes adapter prop to useWallet for single-chain mode', () => {
+    const customAdapter = {} as never
+
+    mockedUseWallet.mockReturnValue(makeWalletReady())
+
+    render(
+      createElement(
+        WalletGuard,
+        { adapter: customAdapter, chainId: 1 },
+        createElement('div', { 'data-testid': 'protected-content' }, 'Protected'),
+      ),
+    )
+
+    expect(mockedUseWallet).toHaveBeenCalledWith(
+      expect.objectContaining({ adapter: customAdapter }),
+    )
+    expect(screen.getByTestId('protected-content')).toBeInTheDocument()
+  })
 })
 
 describe('WalletGuard multi-chain (require prop)', () => {

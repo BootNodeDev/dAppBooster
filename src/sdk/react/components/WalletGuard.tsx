@@ -1,4 +1,5 @@
 import type { FC, ReactElement, ReactNode } from 'react'
+import type { WalletAdapter } from '../../core/adapters/wallet'
 import { useChainRegistry, useMultiWallet, useWallet } from '../hooks'
 
 /** A single wallet requirement for multi-chain gating. */
@@ -21,6 +22,12 @@ export interface SwitchChainRenderProps {
 export interface WalletGuardProps {
   chainId?: string | number
   chainType?: string
+  /**
+   * Level 4 escape hatch: explicit wallet adapter — bypasses provider resolution.
+   * Only applies in single-chain mode (not with `require` prop).
+   * @precondition if adapter provided, require must not be set (single-chain mode only)
+   */
+  adapter?: WalletAdapter
   children?: ReactNode
   /**
    * Multi-chain requirements. When provided, the guard checks each requirement
@@ -73,11 +80,12 @@ export const WalletGuard: FC<WalletGuardProps> = (props) => {
 const SingleChainGuard: FC<WalletGuardProps> = ({
   chainId,
   chainType,
+  adapter,
   children,
   renderConnect,
   renderSwitchChain,
 }) => {
-  const wallet = useWallet({ chainId, chainType })
+  const wallet = useWallet({ chainId, chainType, adapter })
   const registry = useChainRegistry()
 
   if (wallet.needsConnect) {
