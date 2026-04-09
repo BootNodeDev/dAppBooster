@@ -7,7 +7,11 @@ import {
   useMemo,
   useRef,
 } from 'react'
-import type { DAppBoosterConfig, WalletAdapterBundle } from '../../core/adapters/provider'
+import type {
+  DAppBoosterConfig,
+  ReadClientFactory,
+  WalletAdapterBundle,
+} from '../../core/adapters/provider'
 import type { ChainDescriptor } from '../../core/chain/descriptor'
 import { createChainRegistry } from '../../core/chain/registry'
 import type { DAppBoosterContextValue } from './context'
@@ -126,13 +130,28 @@ export const DAppBoosterProvider: FC<DAppBoosterProviderProps> = ({ config = {},
 
     const registry = createChainRegistry(deduped)
 
+    // Collect read client factories: explicit config first, then auto-contributed from bundles
+    const explicitFactories = config.readClientFactories ?? []
+    const bundleFactories = wallets
+      .map(([, bundle]) => bundle.readClientFactory)
+      .filter((f): f is ReadClientFactory<unknown> => f != null)
+
+    const seenFactoryTypes = new Set<string>()
+    const allFactories: ReadClientFactory<unknown>[] = []
+    for (const factory of [...explicitFactories, ...bundleFactories]) {
+      if (!seenFactoryTypes.has(factory.chainType)) {
+        seenFactoryTypes.add(factory.chainType)
+        allFactories.push(factory)
+      }
+    }
+
     return {
       walletAdapters: Object.fromEntries(wallets.map(([key, bundle]) => [key, bundle.adapter])),
       transactionAdapters: config.transactions ?? {},
       registry,
       lifecycle: config.lifecycle,
       walletLifecycle: config.walletLifecycle,
-      readClientFactories: config.readClientFactories ?? [],
+      readClientFactories: allFactories,
       connectModalsRef,
     }
   }, [config])

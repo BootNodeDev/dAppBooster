@@ -210,3 +210,88 @@ describe('useProviderContext', () => {
     expect(() => renderHook(() => useProviderContext(), { wrapper })).toThrow('chainType mismatch')
   })
 })
+
+describe('auto-contribute readClientFactories', () => {
+  it('collects readClientFactory from wallet bundles', () => {
+    const mockFactory = {
+      chainType: 'evm',
+      createClient: vi.fn(() => ({ type: 'auto-client' })),
+    }
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <DAppBoosterProvider
+        config={{
+          wallets: {
+            evm: {
+              adapter: mockAdapter,
+              readClientFactory: mockFactory,
+            },
+          },
+        }}
+      >
+        {children}
+      </DAppBoosterProvider>
+    )
+
+    const { result } = renderHook(() => useProviderContext(), { wrapper })
+    expect(result.current.readClientFactories).toHaveLength(1)
+    expect(result.current.readClientFactories[0].chainType).toBe('evm')
+  })
+
+  it('explicit readClientFactories take precedence over bundle factories', () => {
+    const bundleFactory = {
+      chainType: 'evm',
+      createClient: vi.fn(() => ({ type: 'bundle-client' })),
+    }
+    const explicitFactory = {
+      chainType: 'evm',
+      createClient: vi.fn(() => ({ type: 'explicit-client' })),
+    }
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <DAppBoosterProvider
+        config={{
+          wallets: {
+            evm: {
+              adapter: mockAdapter,
+              readClientFactory: bundleFactory,
+            },
+          },
+          readClientFactories: [explicitFactory],
+        }}
+      >
+        {children}
+      </DAppBoosterProvider>
+    )
+
+    const { result } = renderHook(() => useProviderContext(), { wrapper })
+    expect(result.current.readClientFactories).toHaveLength(1)
+    expect(result.current.readClientFactories[0].createClient(null as never, 1)).toEqual({
+      type: 'explicit-client',
+    })
+  })
+
+  it('deduplicates factories by chainType', () => {
+    const factory1 = { chainType: 'evm', createClient: vi.fn() }
+    const factory2 = { chainType: 'evm', createClient: vi.fn() }
+
+    const wrapper = ({ children }: { children: ReactNode }) => (
+      <DAppBoosterProvider
+        config={{
+          wallets: {
+            evm1: { adapter: mockAdapter, readClientFactory: factory1 },
+            evm2: {
+              adapter: { ...mockAdapter } as unknown as WalletAdapter,
+              readClientFactory: factory2,
+            },
+          },
+        }}
+      >
+        {children}
+      </DAppBoosterProvider>
+    )
+
+    const { result } = renderHook(() => useProviderContext(), { wrapper })
+    expect(result.current.readClientFactories).toHaveLength(1)
+  })
+})
