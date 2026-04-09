@@ -1,3 +1,3 @@
-export { connectkitConnector } from './connectkit'
-export { rainbowkitConnector } from './rainbowkit'
-export { reownConnector } from './reown'
+export { createConnectkitConnector } from './connectkit'
+export { createRainbowkitConnector } from './rainbowkit'
+export { createReownConnector } from './reown'

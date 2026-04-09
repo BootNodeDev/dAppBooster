@@ -2,9 +2,8 @@ import { createAppKit, useAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { FC, PropsWithChildren } from 'react'
 import type { Chain, Transport } from 'viem'
-import { env } from '@/src/env'
 
-import type { EvmConnectorConfig } from '../types'
+import type { ConnectorAppMetadata, EvmConnectorConfig } from '../types'
 
 const WalletProvider: FC<PropsWithChildren> = ({ children }) => <>{children}</>
 
@@ -13,36 +12,34 @@ function useConnectModal() {
   return { open }
 }
 
-/** Reown/AppKit-backed EVM connector. */
-export const reownConnector: EvmConnectorConfig = {
-  createConfig(chains: Chain[], transports: Record<number, Transport>) {
-    const projectId = env.PUBLIC_WALLETCONNECT_PROJECT_ID
+/** Creates a Reown/AppKit-backed EVM connector from app metadata. */
+export function createReownConnector(metadata: ConnectorAppMetadata): EvmConnectorConfig {
+  return {
+    createConfig(chains: Chain[], transports: Record<number, Transport>) {
+      const wagmiAdapter = new WagmiAdapter({
+        networks: chains as unknown as Chain[],
+        transports,
+        projectId: metadata.walletConnectProjectId,
+      })
 
-    const metadata = {
-      name: env.PUBLIC_APP_NAME,
-      description: env.PUBLIC_APP_DESCRIPTION ?? '',
-      url: env.PUBLIC_APP_URL ?? '',
-      icons: [env.PUBLIC_APP_LOGO ?? ''],
-    }
+      createAppKit({
+        adapters: [wagmiAdapter],
+        networks: chains as unknown as [Chain, ...Chain[]],
+        metadata: {
+          name: metadata.appName,
+          description: metadata.appDescription ?? '',
+          url: metadata.appUrl ?? '',
+          icons: [metadata.appIcon ?? ''],
+        },
+        projectId: metadata.walletConnectProjectId,
+        features: {
+          analytics: true,
+        },
+      })
 
-    const wagmiAdapter = new WagmiAdapter({
-      networks: chains as unknown as Chain[],
-      transports,
-      projectId,
-    })
-
-    createAppKit({
-      adapters: [wagmiAdapter],
-      networks: chains as unknown as [Chain, ...Chain[]],
-      metadata,
-      projectId,
-      features: {
-        analytics: true,
-      },
-    })
-
-    return wagmiAdapter.wagmiConfig
-  },
-  WalletProvider,
-  useConnectModal,
+      return wagmiAdapter.wagmiConfig
+    },
+    WalletProvider,
+    useConnectModal,
+  }
 }
