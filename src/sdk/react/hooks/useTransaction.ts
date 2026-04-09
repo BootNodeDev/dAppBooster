@@ -30,9 +30,15 @@ export interface UseTransactionOptions {
   autoPreSteps?: boolean
   /** Options forwarded to confirm(). */
   confirmOptions?: ConfirmOptions
-  /** Explicit transaction adapter — bypasses provider resolution when set. */
+  /**
+   * Explicit transaction adapter — bypasses provider resolution when set.
+   * @precondition if provided, must support the chainId used in execute()/prepare()
+   */
   transactionAdapter?: TransactionAdapter
-  /** Explicit wallet adapter — bypasses provider resolution when set. */
+  /**
+   * Explicit wallet adapter — bypasses provider resolution when set.
+   * @precondition if provided, must be connected when execute() is called
+   */
   walletAdapter?: WalletAdapter
 }
 
@@ -145,22 +151,44 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
     walletAdapter: explicitWalletAdapter,
   } = options
 
-  /** Resolves the transaction and wallet adapter pair for a given chainId. */
-  const resolveAdapters = useCallback(
-    (chainId: string | number): ResolvedAdapters => {
+  /** Finds the transaction adapter for a chainId, checking the explicit option first. */
+  const findTransactionAdapter = useCallback(
+    (chainId: string | number): TransactionAdapter | undefined => {
       const chainIdStr = String(chainId)
-
-      const transactionAdapter =
+      return (
         explicitTxAdapter ??
         Object.values(transactionAdapters).find((adapter) =>
           adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
         )
+      )
+    },
+    [transactionAdapters, explicitTxAdapter],
+  )
 
-      const walletAdapter =
+  /** Finds the wallet adapter for a chainId, checking the explicit option first. */
+  const findWalletAdapter = useCallback(
+    (chainId: string | number): WalletAdapter | undefined => {
+      const chainIdStr = String(chainId)
+      return (
         explicitWalletAdapter ??
         Object.values(walletAdapters).find((adapter) =>
           adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
         )
+      )
+    },
+    [walletAdapters, explicitWalletAdapter],
+  )
+
+  /**
+   * Resolves the transaction and wallet adapter pair for a given chainId.
+   *
+   * @precondition chainId matches a registered TransactionAdapter and WalletAdapter
+   * @throws {AdapterNotFoundError} if no adapter supports the given chainId
+   */
+  const resolveAdapters = useCallback(
+    (chainId: string | number): ResolvedAdapters => {
+      const transactionAdapter = findTransactionAdapter(chainId)
+      const walletAdapter = findWalletAdapter(chainId)
 
       if (!transactionAdapter) {
         throw new AdapterNotFoundError(chainId, 'transaction')
@@ -171,7 +199,7 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
 
       return { transactionAdapter, walletAdapter }
     },
-    [transactionAdapters, walletAdapters, explicitTxAdapter, explicitWalletAdapter],
+    [findTransactionAdapter, findWalletAdapter],
   )
 
   const execute = useCallback(
@@ -274,24 +302,14 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
   const prepare = useCallback(
     async (params: TransactionParams): Promise<PrepareResult> => {
       try {
-        const chainIdStr = String(params.chainId)
-
-        const resolvedTxAdapter =
-          explicitTxAdapter ??
-          Object.values(transactionAdapters).find((adapter) =>
-            adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
-          )
+        const resolvedTxAdapter = findTransactionAdapter(params.chainId)
 
         if (!resolvedTxAdapter) {
           throw new AdapterNotFoundError(params.chainId, 'transaction')
         }
 
-        // Resolve signer for gas estimation (optional — prepare works without it)
-        const resolvedWalletAdapter =
-          explicitWalletAdapter ??
-          Object.values(walletAdapters).find((adapter) =>
-            adapter.supportedChains.some((chain) => String(chain.chainId) === chainIdStr),
-          )
+        // Resolve wallet adapter for gas estimation (optional — prepare works without a signer)
+        const resolvedWalletAdapter = findWalletAdapter(params.chainId)
         const prepareSigner = resolvedWalletAdapter ? await resolvedWalletAdapter.getSigner() : null
 
         setPhase('prepare')
@@ -321,14 +339,7 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
         throw errorObj
       }
     },
-    [
-      transactionAdapters,
-      walletAdapters,
-      explicitTxAdapter,
-      explicitWalletAdapter,
-      globalLifecycle,
-      localLifecycle,
-    ],
+    [findTransactionAdapter, findWalletAdapter, globalLifecycle, localLifecycle],
   )
 
   /**

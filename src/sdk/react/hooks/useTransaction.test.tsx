@@ -684,12 +684,15 @@ describe('useTransaction', () => {
     })
 
     it('throws AdapterNotFoundError when no wallet adapter matches', () => {
-      const txAdapter = makeMockTxAdapter()
+      const chain999 = { ...mockChain, chainId: 999, caip2Id: 'eip155:999', name: 'Unknown' }
+      const txAdapter = makeMockTxAdapter({ supportedChains: [chain999] })
+      // walletAdapter from makeWrapper only supports chain 1
       const { result } = renderHook(() => useTransaction(), {
         wrapper: makeWrapper({ txAdapter }),
       })
 
       expect(() => result.current.resolveAdapters(999)).toThrow(AdapterNotFoundError)
+      expect(() => result.current.resolveAdapters(999)).toThrow('No wallet adapter found')
     })
   })
 
