@@ -274,6 +274,7 @@ describe('TransactionButton', () => {
       prepare: vi.fn(),
       executePreStep: vi.fn(),
       executeAllPreSteps: vi.fn(),
+      resolveAdapters: vi.fn(),
     })
 
     renderWithChakra(<TransactionButton params={testParams}>Send ETH</TransactionButton>)
@@ -298,6 +299,7 @@ describe('TransactionButton', () => {
       prepare: vi.fn(),
       executePreStep: vi.fn(),
       executeAllPreSteps: vi.fn(),
+      resolveAdapters: vi.fn(),
     })
 
     renderWithChakra(
