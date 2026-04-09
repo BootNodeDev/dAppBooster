@@ -79,7 +79,9 @@ export const BigNumberInput: FC<BigNumberInputProps> = ({
   if (prevValueRef.current !== value || prevDecimalsRef.current !== decimals) {
     prevValueRef.current = value
     prevDecimalsRef.current = decimals
-    setDisplayValue(value === BigInt(0) ? '' : formatUnits(value, decimals))
+    if (renderInput) {
+      setDisplayValue(value === BigInt(0) ? '' : formatUnits(value, decimals))
+    }
   }
 
   // DOM sync for the native input path (no renderInput).
