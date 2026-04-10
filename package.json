@@ -13,7 +13,8 @@
     "typedoc:build": "typedoc",
     "lint": "pnpm biome check",
     "lint:fix": "pnpm biome check --write",
-    "postinstall": "pnpm wagmi-generate",
+    "codegen": "tsx scripts/codegen.ts",
+    "postinstall": "pnpm codegen",
     "prepare": "husky",
     "preview": "vite preview",
     "routes:generate": "tsr generate",
@@ -22,7 +23,7 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "wagmi-generate": "wagmi generate --config src/contracts/wagmi/config.ts"
+    "wagmi-generate": "pnpm codegen"
   },
   "dependencies": {
     "@bootnodedev/db-subgraph": "^0.1.2",
