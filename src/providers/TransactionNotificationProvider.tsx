@@ -89,7 +89,7 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
 
       notificationToaster.create({
         description: message,
-        type: 'success',
+        type: 'error',
         id: toastId,
       })
     }
