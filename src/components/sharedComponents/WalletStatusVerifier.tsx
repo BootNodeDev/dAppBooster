@@ -1,4 +1,4 @@
-import { createContext, type FC, type ReactElement, useContext } from 'react'
+import { createContext, type FC, type ReactElement, type ReactNode, useContext } from 'react'
 import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainButton'
 import { useWalletStatus } from '@/src/hooks/useWalletStatus'
 import { useWeb3Status, type Web3Status } from '@/src/hooks/useWeb3Status'
@@ -27,7 +27,7 @@ export const useWeb3StatusConnected = () => {
 
 interface WalletStatusVerifierProps {
   chainId?: ChainsIds
-  children?: ReactElement
+  children?: ReactNode
   fallback?: ReactElement
   switchChainLabel?: string
 }
