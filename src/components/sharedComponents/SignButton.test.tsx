@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { createElement } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import SignButton from './SignButton'
 
 const mockSwitchChain = vi.fn()
 const mockSignMessageAsync = vi.fn()
@@ -54,7 +55,7 @@ describe('SignButton', () => {
     vi.clearAllMocks()
   })
 
-  it('renders connect button when wallet needs connect', async () => {
+  it('renders connect button when wallet needs connect', () => {
     mockedUseWalletStatus.mockReturnValue({
       isReady: false,
       needsConnect: true,
@@ -63,8 +64,6 @@ describe('SignButton', () => {
       targetChainId: 1,
       switchChain: mockSwitchChain,
     })
-
-    const { default: SignButton } = await import('./SignButton')
 
     renderWithChakra(<SignButton message="Hello" />)
 
@@ -72,7 +71,7 @@ describe('SignButton', () => {
     expect(screen.queryByText('Sign Message')).toBeNull()
   })
 
-  it('renders custom fallback when provided and wallet needs connect', async () => {
+  it('renders custom fallback when provided and wallet needs connect', () => {
     mockedUseWalletStatus.mockReturnValue({
       isReady: false,
       needsConnect: true,
@@ -81,8 +80,6 @@ describe('SignButton', () => {
       targetChainId: 1,
       switchChain: mockSwitchChain,
     })
-
-    const { default: SignButton } = await import('./SignButton')
 
     renderWithChakra(
       <SignButton
@@ -95,7 +92,7 @@ describe('SignButton', () => {
     expect(screen.queryByText('Sign Message')).toBeNull()
   })
 
-  it('renders switch chain button when wallet needs chain switch', async () => {
+  it('renders switch chain button when wallet needs chain switch', () => {
     mockedUseWalletStatus.mockReturnValue({
       isReady: false,
       needsConnect: false,
@@ -107,8 +104,6 @@ describe('SignButton', () => {
       switchChain: mockSwitchChain,
     })
 
-    const { default: SignButton } = await import('./SignButton')
-
     renderWithChakra(<SignButton message="Hello" />)
 
     expect(screen.getByText(/Switch to/)).toBeInTheDocument()
@@ -116,7 +111,7 @@ describe('SignButton', () => {
     expect(screen.queryByText('Sign Message')).toBeNull()
   })
 
-  it('renders sign button when wallet is ready', async () => {
+  it('renders sign button when wallet is ready', () => {
     mockedUseWalletStatus.mockReturnValue({
       isReady: true,
       needsConnect: false,
@@ -125,8 +120,6 @@ describe('SignButton', () => {
       targetChainId: 1,
       switchChain: mockSwitchChain,
     })
-
-    const { default: SignButton } = await import('./SignButton')
 
     renderWithChakra(<SignButton message="Hello" />)
 
