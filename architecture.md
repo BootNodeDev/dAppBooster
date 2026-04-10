@@ -259,7 +259,7 @@ To add a new contract: save the ABI, add it to the contracts array, run `pnpm wa
 
 **`WalletStatusVerifier`** component (`src/components/sharedComponents/WalletStatusVerifier.tsx`) -- renders a fallback cascade based on wallet state:
 1. Not connected -> `ConnectWalletButton`
-2. Connected but `walletChainId !== appChainId` -> "Switch to [Network]" button
+2. Connected but `walletChainId !== targetChainId` (where `targetChainId` is the optional `chainId` prop if provided, otherwise `appChainId`) -> "Switch to [Network]" button
 3. Connected + synced -> renders children
 
 `useWeb3StatusConnected()` (same file) -- companion hook that provides typed connected-wallet status (`address`, `readOnlyClient`, etc.) inside the `<WalletStatusVerifier>` tree. Throws a `DeveloperError` if called outside it.
