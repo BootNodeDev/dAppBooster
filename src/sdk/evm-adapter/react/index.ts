@@ -1,5 +1,10 @@
 // React barrel: full browser dApp bundle (wagmi + React providers).
 
+export {
+  createConnectkitConnector,
+  createRainbowkitConnector,
+  createReownConnector,
+} from './connectors'
 export type { UseEvmReadOnlyOptions } from './read-only'
 export { useEvmReadOnly } from './read-only'
 export type { ConnectorAppMetadata, EvmConnectorConfig } from './types'

@@ -8,7 +8,7 @@ import '@rainbow-me/rainbowkit/styles.css'
 import type { FC, ReactNode } from 'react'
 import type { Chain, Transport } from 'viem'
 
-import type { ConnectorAppMetadata, EvmConnectorConfig } from '../react/types'
+import type { ConnectorAppMetadata, EvmConnectorConfig } from '../types'
 
 const WalletProvider: FC<{ children: ReactNode }> = ({ children }) => (
   <RainbowKitProvider>{children}</RainbowKitProvider>

@@ -3,7 +3,7 @@ import type { FC, ReactNode } from 'react'
 import type { Chain, Transport } from 'viem'
 import { createConfig } from 'wagmi'
 
-import type { ConnectorAppMetadata, EvmConnectorConfig } from '../react/types'
+import type { ConnectorAppMetadata, EvmConnectorConfig } from '../types'
 
 const WalletProvider: FC<{ children: ReactNode }> = ({ children }) => (
   <ConnectKitProvider

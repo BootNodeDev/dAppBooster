@@ -2,7 +2,7 @@ import { http } from 'viem'
 import { mainnet } from 'viem/chains'
 import { describe, expect, it } from 'vitest'
 
-import type { ConnectorAppMetadata } from '../react/types'
+import type { ConnectorAppMetadata } from '../types'
 import { createConnectkitConnector } from './connectkit'
 import { createRainbowkitConnector } from './rainbowkit'
 import { createReownConnector } from './reown'
