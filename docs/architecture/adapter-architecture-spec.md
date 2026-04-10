@@ -186,7 +186,7 @@ The SDK ships default `ChainDescriptor` sets for EVM chains via a factory functi
 
 ```typescript
 import { mainnet, optimism, arbitrum } from 'viem/chains'
-import { fromViemChain } from '@dappbooster/core/evm'
+import { fromViemChain } from '@dappbooster/evm-adapter'
 
 const chains = [mainnet, optimism, arbitrum].map(fromViemChain)
 // Each gets caip2Id, chainId, explorer, endpoints, addressConfig auto-populated from viem
@@ -689,8 +689,9 @@ Duplicate chainIds across sources are allowed **only if they resolve to the same
 **Minimal EVM dApp:**
 
 ```tsx
-import { createEvmWalletAdapter, createEvmTransactionAdapter } from '@dappbooster/core'
-import { connectkitConnector } from '@dappbooster/core/evm/connectors'
+import { createEvmTransactionAdapter } from '@dappbooster/evm-adapter'
+import { createEvmWalletAdapter } from '@dappbooster/evm-adapter/wagmi'
+import { connectkitConnector } from '@dappbooster/evm-adapter/react/connectors'
 import { DAppBoosterProvider } from '@dappbooster/react'
 import { mainnet, optimism } from 'viem/chains'
 
@@ -1166,12 +1167,12 @@ The factory returns a `WalletAdapterBundle` (adapter + Provider). The Provider c
 **EvmConnectorConfig is split between core and react:**
 
 ```typescript
-// In @dappbooster/core/evm — framework-agnostic part
+// In @dappbooster/evm-adapter/wagmi — wagmi-coupled part
 interface EvmCoreConnectorConfig {
   createConfig: (chains: Chain[], transports: Record<number, Transport>) => WagmiConfig
 }
 
-// In @dappbooster/react/evm — React-specific part (returned by connector subpath exports)
+// In @dappbooster/evm-adapter/react — React-specific part (returned by connector factories)
 interface EvmConnectorConfig extends EvmCoreConnectorConfig {
   WalletProvider: FC<{ children: ReactNode }>  // ConnectKitProvider, RainbowKitProvider, etc.
   useConnectModal: () => { open: () => void }  // hook to open the connector's connect/account modal
@@ -1199,7 +1200,7 @@ Internal mapping (uses `@wagmi/core` actions, NOT React hooks — framework-agno
 
 The three existing connector configs (`connectkit.config.tsx`, `rainbowkit.config.tsx`, `reown.config.tsx`) become `EvmConnectorConfig` implementations.
 
-Connector adapters live as subpath exports of `@dappbooster/core/evm/connectors` (core config) and `@dappbooster/react/evm/connectors` (React Provider/Button). They are EVM wallet connection logic, not styling concerns — a Tailwind app uses the same ConnectKit connector as a Chakra app.
+Connector adapters live as subpath exports of `@dappbooster/evm-adapter/react/connectors` (React Provider + connect modal hook). They are EVM wallet connection logic, not styling concerns — a Tailwind app uses the same ConnectKit connector as a Chakra app. `EvmCoreConnectorConfig` (wagmi-only, no React) lives in `@dappbooster/evm-adapter/wagmi`.
 
 ### EvmTransactionAdapter
 
@@ -1266,7 +1267,7 @@ The SDK ships convenience functions for common PreStep patterns. These are the *
 import {
   createApprovalPreStep,
   createPermitPreStep,
-} from '@dappbooster/core/evm'
+} from '@dappbooster/evm-adapter'
 
 // ERC-20 approval before a swap/transfer/deposit
 const approvalStep = createApprovalPreStep({
@@ -1629,7 +1630,7 @@ The app must use exactly ONE wagmi `Config` instance at runtime. Generated contr
 The config lives at `src/wallet/connectors/wagmi.config.ts`:
 ```typescript
 import { chains, transports } from '@/src/core/types'
-import { rainbowkitConnector } from '@/src/sdk/core/evm'  // or connectkitConnector, reownConnector
+import { createRainbowkitConnector } from '@/src/sdk/evm-adapter/react/connectors'  // or connectkit, reown
 export const config = rainbowkitConnector.createConfig([...chains], transports)
 ```
 

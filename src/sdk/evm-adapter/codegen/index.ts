@@ -7,6 +7,8 @@ const GENERATED_OUTPUT = 'src/contracts/generated.ts'
 /**
  * EVM codegen plugin. Wraps wagmi-cli to generate typed React hooks
  * and framework-agnostic actions from contract ABIs.
+ *
+ * @throws {Error} When wagmi-cli execution fails (e.g., missing config, invalid ABIs)
  */
 const evmCodegenPlugin: CodegenPlugin = {
   name: 'evm-wagmi',
