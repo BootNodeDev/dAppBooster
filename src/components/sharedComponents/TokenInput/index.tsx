@@ -229,7 +229,7 @@ function TokenAmountField({
   const { onChange, inputRef, ...restProps } = renderInputProps
 
   const isAllowed = ({ value }: NumberFormatValues) => {
-    const [inputDecimals] = value.toString().split('.')
+    const [, inputDecimals] = value.toString().split('.')
 
     if (!inputDecimals) {
       return true
