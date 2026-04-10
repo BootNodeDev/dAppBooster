@@ -303,13 +303,13 @@ The only adapter we ship initially. It wraps the existing wagmi/viem code — no
 
 ### Connectors are subpath exports
 
-ConnectKit, RainbowKit, and Reown are EVM-specific connector adapters. They live in `@dappbooster/core` as subpath exports with optional peer dependencies:
+ConnectKit, RainbowKit, and Reown are EVM-specific connector adapters. They are React-based and live in `@dappbooster/evm-adapter/react/connectors` as subpath exports with optional peer dependencies:
 
 ```typescript
-import { connectkitConnector } from '@dappbooster/core/evm/connectors'
+import { createConnectkitConnector } from '@dappbooster/evm-adapter/react/connectors'
 ```
 
-If you use ConnectKit, install `connectkit`. If you use RainbowKit, install `@rainbow-me/rainbowkit`. A CLI tool installs neither.
+If you use ConnectKit, install `connectkit`. If you use RainbowKit, install `@rainbow-me/rainbowkit`. A CLI tool or agent script imports from `@dappbooster/evm-adapter` (viem only) and installs neither.
 
 ### Generated hooks still work
 
