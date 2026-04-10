@@ -39,10 +39,7 @@ const EnsName = () => {
   }, debounceTime)
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value as Address
-
-    setValue(value)
-    debouncedSearch(value)
+    setValue(e.target.value as Address)
   }
 
   const addresses = [

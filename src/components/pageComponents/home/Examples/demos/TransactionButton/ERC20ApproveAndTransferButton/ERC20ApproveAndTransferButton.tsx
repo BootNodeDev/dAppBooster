@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import { type Abi, type Address, erc20Abi } from 'viem'
-import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
+import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import { useSuspenseReadErc20Allowance } from '@/src/contracts/generated'
 import type { TransactionParams } from '@/src/sdk/core'
 import { getExplorerUrl } from '@/src/sdk/core/chain/explorer'
