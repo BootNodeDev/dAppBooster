@@ -1,8 +1,8 @@
-import type { TransactionLifecycle, WalletLifecycle } from '../../core/adapters/lifecycle'
 import type { TransactionRef, TransactionResult } from '../../core/adapters/transaction'
 import { getExplorerUrl } from '../../core/chain/explorer'
 import type { ChainRegistry } from '../../core/chain/registry'
 import { formatErrorMessage } from '../../core/errors/format'
+import type { TransactionLifecycle, WalletLifecycle } from '../../core/lifecycle'
 
 /** Minimal interface for the toast notification API. */
 export interface ToasterAPI {

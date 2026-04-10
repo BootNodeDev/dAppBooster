@@ -1,7 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import type { TransactionLifecycle } from '../../core/adapters/lifecycle'
 import type {
   PreStep,
   TransactionAdapter,
@@ -13,6 +12,7 @@ import {
   PreStepsNotExecutedError,
   TransactionNotReadyError,
 } from '../../core/errors'
+import type { TransactionLifecycle } from '../../core/lifecycle'
 import { DAppBoosterProvider } from '../provider/DAppBoosterProvider'
 import { useTransaction } from './useTransaction'
 

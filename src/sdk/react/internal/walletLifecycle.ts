@@ -1,10 +1,10 @@
-import type { WalletLifecycle } from '../../core/adapters/lifecycle'
 import type {
   SignatureResult,
   SignMessageInput,
   SignTypedDataInput,
   WalletAdapter,
 } from '../../core/adapters/wallet'
+import type { WalletLifecycle } from '../../core/lifecycle'
 
 /**
  * Invokes a single WalletLifecycle hook by key, swallowing any error it throws.

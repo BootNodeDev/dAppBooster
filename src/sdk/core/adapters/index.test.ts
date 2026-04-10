@@ -1,4 +1,5 @@
 import { describe, it } from 'vitest'
+import type { TransactionLifecycle, TransactionPhase, WalletLifecycle } from '../lifecycle'
 import type {
   ChainSigner,
   ConfirmOptions,
@@ -12,9 +13,7 @@ import type {
   SignTypedDataInput,
   TransactionAdapter,
   TransactionAdapterMetadata,
-  TransactionLifecycle,
   TransactionParams,
-  TransactionPhase,
   TransactionRef,
   TransactionResult,
   WalletAdapter,
@@ -22,7 +21,6 @@ import type {
   WalletAdapterMetadata,
   WalletConnection,
   WalletInfo,
-  WalletLifecycle,
   WalletStatus,
 } from './index'
 

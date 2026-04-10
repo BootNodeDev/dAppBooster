@@ -1,10 +1,10 @@
 import type { RefObject } from 'react'
 import { createContext, useContext } from 'react'
-import type { TransactionLifecycle, WalletLifecycle } from '../../core/adapters/lifecycle'
 import type { ReadClientFactory } from '../../core/adapters/provider'
 import type { TransactionAdapter } from '../../core/adapters/transaction'
 import type { WalletAdapter } from '../../core/adapters/wallet'
 import type { ChainRegistry } from '../../core/chain/registry'
+import type { TransactionLifecycle, WalletLifecycle } from '../../core/lifecycle'
 
 export interface DAppBoosterContextValue {
   walletAdapters: Record<string, WalletAdapter>

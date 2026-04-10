@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useRef, useState } from 'react'
-import type { TransactionLifecycle, TransactionPhase } from '../../core/adapters/lifecycle'
 import type {
   ConfirmOptions,
   PrepareResult,
@@ -16,6 +15,7 @@ import {
   TransactionNotReadyError,
   WalletNotConnectedError,
 } from '../../core/errors'
+import type { TransactionLifecycle, TransactionPhase } from '../../core/lifecycle'
 import { useProviderContext } from '../provider/context'
 
 export type TransactionExecutionPhase = 'idle' | 'prepare' | 'preStep' | 'submit' | 'confirm'

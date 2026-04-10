@@ -7,7 +7,7 @@
 // which must be JSX-renderable. No runtime React dependency.
 import type { FC, ReactNode } from 'react'
 import type { ChainDescriptor, EndpointConfig } from '../chain'
-import type { TransactionLifecycle, WalletLifecycle } from './lifecycle'
+import type { TransactionLifecycle, WalletLifecycle } from '../lifecycle'
 import type { TransactionAdapter } from './transaction'
 import type { WalletAdapter } from './wallet'
 

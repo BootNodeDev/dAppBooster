@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { WalletLifecycle } from '../../core/adapters/lifecycle'
 import type {
   SignatureResult,
   SignMessageInput,
   SignTypedDataInput,
   WalletAdapter,
 } from '../../core/adapters/wallet'
+import type { WalletLifecycle } from '../../core/lifecycle'
 import { fireWalletLifecycle, wrapSignMessage, wrapSignTypedData } from './walletLifecycle'
 
 // ---------------------------------------------------------------------------
