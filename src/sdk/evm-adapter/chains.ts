@@ -1,6 +1,6 @@
 import type { Chain } from 'viem'
 
-import type { ChainDescriptor } from '../chain'
+import type { ChainDescriptor } from '../core/chain'
 
 /**
  * Converts a viem Chain object into a ChainDescriptor for use in the dAppBooster adapter layer.

@@ -13,15 +13,15 @@ import {
 } from 'wagmi/actions'
 import { mock } from 'wagmi/connectors'
 
-import type { WalletStatus } from '../adapters/wallet'
+import type { WalletStatus } from '../../core/adapters/wallet'
 import {
   ChainNotSupportedError,
   SigningRejectedError,
   WalletConnectionRejectedError,
   WalletNotConnectedError,
   WalletNotInstalledError,
-} from '../errors'
-import type { EvmCoreConnectorConfig } from './types'
+} from '../../core/errors'
+import type { EvmCoreConnectorConfig } from '../types'
 import { createEvmWalletAdapter } from './wallet'
 
 // ---------------------------------------------------------------------------

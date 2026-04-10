@@ -6,7 +6,7 @@ import { baseSepolia } from 'viem/chains'
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import { GeneralMessage, PrimaryButton } from '@/src/core/components'
 import type { TransactionParams, TransactionResult } from '@/src/sdk/core'
-import type { EvmRawTransaction } from '@/src/sdk/core/evm/types'
+import type { EvmRawTransaction } from '@/src/sdk/evm-adapter'
 import { useWallet } from '@/src/sdk/react/hooks'
 import { TransactionButton } from '@/src/transactions/components'
 

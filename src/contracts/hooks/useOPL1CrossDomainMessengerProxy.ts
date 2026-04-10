@@ -17,7 +17,7 @@ import { optimism, optimismSepolia, sepolia } from 'viem/chains'
 
 import { transports } from '@/src/core/types'
 import type { TransactionParams } from '@/src/sdk/core'
-import type { EvmContractCall } from '@/src/sdk/core/evm/types'
+import type { EvmContractCall } from '@/src/sdk/evm-adapter'
 import {
   type ContractFunctionArgs,
   type ContractFunctionName,

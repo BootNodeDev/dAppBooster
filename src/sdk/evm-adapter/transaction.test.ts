@@ -2,8 +2,8 @@ import { createPublicClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { TransactionRef } from '../adapters/transaction'
-import { ChainNotSupportedError, InsufficientFundsError, InvalidSignerError } from '../errors'
+import type { TransactionRef } from '../core/adapters/transaction'
+import { ChainNotSupportedError, InsufficientFundsError, InvalidSignerError } from '../core/errors'
 import { createEvmTransactionAdapter } from './transaction'
 import type { EvmContractCall, EvmRawTransaction } from './types'
 

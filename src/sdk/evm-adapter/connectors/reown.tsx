@@ -3,7 +3,7 @@ import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { FC, PropsWithChildren } from 'react'
 import type { Chain, Transport } from 'viem'
 
-import type { ConnectorAppMetadata, EvmConnectorConfig } from '../types'
+import type { ConnectorAppMetadata, EvmConnectorConfig } from '../react/types'
 
 const WalletProvider: FC<PropsWithChildren> = ({ children }) => <>{children}</>
 

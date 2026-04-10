@@ -1,8 +1,7 @@
 import type { PublicClient } from 'viem'
-
-import { evmReadClientFactory } from '../../core/evm/read-client'
-import type { UseReadOnlyReturn } from '../hooks/useReadOnly'
-import { useReadOnly } from '../hooks/useReadOnly'
+import type { UseReadOnlyReturn } from '../../react/hooks/useReadOnly'
+import { useReadOnly } from '../../react/hooks/useReadOnly'
+import { evmReadClientFactory } from '../read-client'
 
 export interface UseEvmReadOnlyOptions {
   chainId: string | number

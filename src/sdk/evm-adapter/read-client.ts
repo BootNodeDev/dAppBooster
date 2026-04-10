@@ -1,7 +1,7 @@
 import { createPublicClient, http, type PublicClient } from 'viem'
 
-import type { ReadClientFactory } from '../adapters/provider'
-import type { EndpointConfig } from '../chain/descriptor'
+import type { ReadClientFactory } from '../core/adapters/provider'
+import type { EndpointConfig } from '../core/chain/descriptor'
 
 /**
  * Read-only client factory for EVM chains. Wraps viem's createPublicClient.

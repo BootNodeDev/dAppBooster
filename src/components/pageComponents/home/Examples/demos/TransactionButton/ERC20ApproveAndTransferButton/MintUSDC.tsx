@@ -3,7 +3,7 @@ import { baseSepolia } from 'viem/chains'
 import { AaveFaucetABI } from '@/src/contracts/abis/AaveFaucet'
 import { getContract } from '@/src/contracts/definitions'
 import type { TransactionParams } from '@/src/sdk/core'
-import type { EvmContractCall } from '@/src/sdk/core/evm/types'
+import type { EvmContractCall } from '@/src/sdk/evm-adapter'
 import { useWallet } from '@/src/sdk/react/hooks'
 import { TransactionButton } from '@/src/transactions/components'
 

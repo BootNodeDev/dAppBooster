@@ -9,7 +9,7 @@
  */
 import { chains, transports } from '@/src/core/types'
 import { env } from '@/src/env'
-import { createConnectkitConnector } from '@/src/sdk/react/evm'
+import { createConnectkitConnector } from '@/src/sdk/evm-adapter/connectors'
 
 export const connector = createConnectkitConnector({
   appName: env.PUBLIC_APP_NAME,

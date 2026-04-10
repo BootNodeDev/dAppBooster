@@ -29,16 +29,16 @@ import type {
   WalletConnection,
   WalletInfo,
   WalletStatus,
-} from '../adapters/wallet'
+} from '../../core/adapters/wallet'
 import {
   ChainNotSupportedError,
   SigningRejectedError,
   WalletConnectionRejectedError,
   WalletNotConnectedError,
   WalletNotInstalledError,
-} from '../errors'
-import { fromViemChain } from './chains'
-import type { EvmCoreConnectorConfig } from './types'
+} from '../../core/errors'
+import { fromViemChain } from '../chains'
+import type { EvmCoreConnectorConfig } from '../types'
 
 // ---------------------------------------------------------------------------
 // Public config interface

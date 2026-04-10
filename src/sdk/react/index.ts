@@ -1,5 +1,4 @@
 export * from './components'
-export * from './evm'
 export * from './hooks'
 export * from './lifecycle'
 export * from './provider'

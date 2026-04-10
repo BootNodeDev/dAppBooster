@@ -14,14 +14,14 @@ import type {
   TransactionParams,
   TransactionRef,
   TransactionResult,
-} from '../adapters/transaction'
-import type { ChainSigner } from '../adapters/wallet'
+} from '../core/adapters/transaction'
+import type { ChainSigner } from '../core/adapters/wallet'
 import {
   ChainNotSupportedError,
   formatErrorMessage,
   InsufficientFundsError,
   InvalidSignerError,
-} from '../errors'
+} from '../core/errors'
 import { fromViemChain } from './chains'
 import type { EvmContractCall, EvmRawTransaction, EvmTransactionPayload } from './types'
 

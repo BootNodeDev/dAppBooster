@@ -4,7 +4,7 @@
 
 import type { Address, Hex } from 'viem'
 
-import type { PreStep } from '../adapters/transaction'
+import type { PreStep } from '../core/adapters/transaction'
 import type { EvmContractCall } from './types'
 
 // ---------------------------------------------------------------------------

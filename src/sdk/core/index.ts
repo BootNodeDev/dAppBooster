@@ -4,6 +4,4 @@
 
 export * from './adapters'
 export * from './errors'
-// TEMPORARY: EVM re-export until Workstream 2 completes the extraction
-export * from './evm'
 export { createReadClient, resolveReadClient } from './read-client'

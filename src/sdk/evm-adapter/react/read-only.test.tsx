@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { createElement } from 'react'
 import { describe, expect, it, vi } from 'vitest'
-import { DAppBoosterProvider } from '../provider/DAppBoosterProvider'
+import { DAppBoosterProvider } from '../../react/provider/DAppBoosterProvider'
 import { useEvmReadOnly } from './read-only'
 
 vi.mock('@/src/wallet/providers', () => ({

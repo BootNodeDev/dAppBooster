@@ -7,7 +7,7 @@ import type { Chain, Hex, Transport } from 'viem'
 import { createWalletClient, http } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 
-import type { WalletAdapterBundle } from '../adapters/provider'
+import type { WalletAdapterBundle } from '../core/adapters/provider'
 import type {
   ChainSigner,
   ConnectOptions,
@@ -18,8 +18,8 @@ import type {
   WalletConnection,
   WalletInfo,
   WalletStatus,
-} from '../adapters/wallet'
-import { CapabilityNotSupportedError } from '../errors'
+} from '../core/adapters/wallet'
+import { CapabilityNotSupportedError } from '../core/errors'
 import { fromViemChain } from './chains'
 
 export interface EvmServerWalletConfig {

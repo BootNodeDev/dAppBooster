@@ -2,7 +2,7 @@ import type { WalletClient } from 'viem'
 import { mainnet } from 'viem/chains'
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
 
-import { CapabilityNotSupportedError } from '../errors'
+import { CapabilityNotSupportedError } from '../core/errors'
 import { createEvmServerWallet } from './server-wallet'
 
 vi.mock('viem', async (importOriginal) => {

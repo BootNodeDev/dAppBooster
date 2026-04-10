@@ -9,8 +9,8 @@ import type { Chain, Transport } from 'viem'
 import { type Config, WagmiProvider } from 'wagmi'
 
 import type { WalletAdapterBundle } from '../../core/adapters/provider'
-import { evmReadClientFactory } from '../../core/evm/read-client'
-import { createEvmWalletAdapter } from '../../core/evm/wallet'
+import { evmReadClientFactory } from '../read-client'
+import { createEvmWalletAdapter } from '../wagmi/wallet'
 import type { EvmConnectorConfig } from './types'
 
 // ---------------------------------------------------------------------------

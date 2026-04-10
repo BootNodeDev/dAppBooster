@@ -6,7 +6,7 @@ import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import { useSuspenseReadErc20BalanceOf } from '@/src/contracts/generated'
 import { formatNumberOrString, NumberType, withSuspense } from '@/src/core/utils'
 import type { TransactionParams } from '@/src/sdk/core'
-import type { EvmContractCall } from '@/src/sdk/core/evm/types'
+import type { EvmContractCall } from '@/src/sdk/evm-adapter'
 import { useWallet } from '@/src/sdk/react/hooks'
 import type { Token } from '@/src/tokens/types'
 
