@@ -38,7 +38,7 @@ import {
   WalletNotInstalledError,
 } from '../../core/errors'
 import { fromViemChain } from '../chains'
-import type { EvmCoreConnectorConfig } from '../types'
+import type { EvmCoreConnectorConfig } from './types'
 
 // ---------------------------------------------------------------------------
 // Public config interface

@@ -1,5 +1,4 @@
-import type { Abi, Address, Chain, Hex, Transport } from 'viem'
-import type { Config } from 'wagmi'
+import type { Abi, Address, Hex } from 'viem'
 
 /** Raw EVM transaction — direct calldata to an address. */
 export interface EvmRawTransaction {
@@ -27,8 +26,3 @@ export interface EvmContractCall {
 
 /** EVM transaction payload — discriminated union of raw tx or contract call. */
 export type EvmTransactionPayload = EvmRawTransaction | EvmContractCall
-
-/** Core (framework-agnostic) EVM connector config. */
-export interface EvmCoreConnectorConfig {
-  createConfig(chains: Chain[], transports: Record<number, Transport>): Config
-}

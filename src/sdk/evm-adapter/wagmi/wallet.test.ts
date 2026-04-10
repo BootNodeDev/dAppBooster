@@ -21,7 +21,7 @@ import {
   WalletNotConnectedError,
   WalletNotInstalledError,
 } from '../../core/errors'
-import type { EvmCoreConnectorConfig } from '../types'
+import type { EvmCoreConnectorConfig } from './types'
 import { createEvmWalletAdapter } from './wallet'
 
 // ---------------------------------------------------------------------------

@@ -10,7 +10,7 @@ import { createConfig } from 'wagmi'
 import { mock } from 'wagmi/connectors'
 
 import type { WalletStatus } from '../../core/adapters/wallet'
-import type { EvmCoreConnectorConfig } from '../types'
+import type { EvmCoreConnectorConfig } from './types'
 import { createEvmWalletAdapter } from './wallet'
 
 const TEST_ADDRESS = '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266' as const

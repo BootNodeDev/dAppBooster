@@ -1,6 +1,6 @@
 import type { FC, ReactNode } from 'react'
 
-import type { EvmCoreConnectorConfig } from '../types'
+import type { EvmCoreConnectorConfig } from '../wagmi/types'
 
 /** App metadata passed to connector factories. Decouples SDK from app env config. */
 export interface ConnectorAppMetadata {

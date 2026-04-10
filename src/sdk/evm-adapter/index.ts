@@ -11,7 +11,6 @@ export type { EvmTransactionConfig } from './transaction'
 export { createEvmTransactionAdapter } from './transaction'
 export type {
   EvmContractCall,
-  EvmCoreConnectorConfig,
   EvmRawTransaction,
   EvmTransactionPayload,
 } from './types'
