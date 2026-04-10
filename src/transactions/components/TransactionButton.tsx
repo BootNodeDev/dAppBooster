@@ -67,7 +67,8 @@ function TransactionButton({
     try {
       await execute(params)
     } catch {
-      // useTransaction sets error state internally
+      // Error already set in hook state and onError lifecycle fired.
+      // Swallow re-throw to prevent unhandled promise rejection.
     }
   }
 

@@ -204,6 +204,16 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
 
   const execute = useCallback(
     async (params: TransactionParams): Promise<TransactionResult> => {
+      // Clear results from any previous execution before starting.
+      // Ensures each execute() call starts with a clean slate —
+      // no manual reset() needed between calls in multi-step flows.
+      // Only clears execution results (ref, result, error), NOT preparation
+      // state (prepareResult, preStepStatuses) which may have been set by
+      // a manual prepare() + executePreStep() workflow.
+      setRef(null)
+      setResult(null)
+      setError(null)
+
       let currentPhase: TransactionPhase = 'prepare'
 
       try {
