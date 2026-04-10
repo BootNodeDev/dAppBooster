@@ -3,8 +3,13 @@
  * No runtime code — types only.
  */
 
-import type { PrepareResult, PreStep, TransactionRef, TransactionResult } from './transaction'
-import type { SignatureResult, SignMessageInput, SignTypedDataInput } from './wallet'
+import type {
+  PrepareResult,
+  PreStep,
+  TransactionRef,
+  TransactionResult,
+} from '../adapters/transaction'
+import type { SignatureResult, SignMessageInput, SignTypedDataInput } from '../adapters/wallet'
 
 /** Identifies which phase of the transaction flow an error occurred in. */
 export type TransactionPhase = 'prepare' | 'preStep' | 'submit' | 'confirm'
