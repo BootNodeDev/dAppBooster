@@ -222,7 +222,6 @@ When adding a new provider: place it inside the outermost provider it depends on
 
 **Web3 connection state** (`src/hooks/useWeb3Status.tsx`):
 - `useWeb3Status()` -- returns `{ readOnlyClient, appChainId, address, isWalletConnected, isWalletSynced, switchChain, disconnect, ... }`
-- `useWeb3StatusConnected()` -- same but throws if wallet is not connected; callers must ensure the wallet is connected before rendering
 
 **Token hooks**:
 - `useTokens()` -- token list + LI.FI prices + account balances, sorted by balance value
@@ -262,6 +261,8 @@ To add a new contract: save the ABI, add it to the contracts array, run `pnpm wa
 1. Not connected -> `ConnectWalletButton`
 2. Connected but `walletChainId !== appChainId` -> "Switch to [Network]" button
 3. Connected + synced -> renders children
+
+`useWeb3StatusConnected()` (same file) -- companion hook that provides typed connected-wallet status (`address`, `readOnlyClient`, etc.) inside the `<WalletStatusVerifier>` tree. Throws a `DeveloperError` if called outside it.
 
 `TransactionButton` and `SignButton` use the `useWalletStatus()` hook directly for inline wallet state checks rather than wrapping with the `WalletStatusVerifier` component.
 
