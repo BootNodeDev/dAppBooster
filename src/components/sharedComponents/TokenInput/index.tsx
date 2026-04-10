@@ -102,6 +102,7 @@ const TokenInput: FC<Props> = ({
   }
 
   const handleSetMax = () => {
+    setAmountError(null)
     setAmount(max)
   }
 
