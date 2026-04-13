@@ -1,8 +1,8 @@
 # dAppBooster Adapter Architecture
 
 > **Follow-up to:** [Domain Folder Architecture](https://hackmd.io/@feper/ryUoesKj-l)
-> **Status:** Design complete, implementation planning next
-> **Date:** 2026-04-01
+> **Status:** Phases 1–4 implemented. See [Migration Path](./adapter-spec/07-migration-and-monorepo.md#12-migration-path) for what landed in each phase and what remains.
+> **Date:** 2026-04-01 (initial), 2026-04-13 (last update)
 
 ## Where we are
 
