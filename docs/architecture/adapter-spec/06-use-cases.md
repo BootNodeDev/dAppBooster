@@ -15,17 +15,27 @@
 
 ```typescript
 import { createEvmTransactionAdapter, createEvmServerWallet } from '@dappbooster/evm-adapter'
+import { http } from 'viem'
+import { mainnet } from 'viem/chains'
 
-const wallet = createEvmServerWallet({ privateKey: process.env.AGENT_PK })
-const evm = createEvmTransactionAdapter()
+const wallet = createEvmServerWallet({
+  privateKey: process.env.AGENT_PK as `0x${string}`,
+  chain: mainnet,
+})
+const evm = createEvmTransactionAdapter({
+  chains: [mainnet],
+  transports: { [mainnet.id]: http() },
+})
 
 // Same four-phase cycle as frontend
 const prepared = await evm.prepare({
   chainId: 1,
-  payload: { contract: { abi: usdcAbi, functionName: 'transfer', args: [to, amount] }, to: usdcAddress },
+  payload: { contract: { address: usdcAddress, abi: usdcAbi, functionName: 'transfer', args: [to, amount] } },
 })
 
-const ref = await evm.execute(prepared.params, wallet.getSigner())
+const signer = await wallet.adapter.getSigner()
+if (!signer) throw new Error('Server wallet has no signer')
+const ref = await evm.execute(prepared.params, signer)
 const result = await evm.confirm(ref)
 ```
 
@@ -60,11 +70,20 @@ Same adapters with server-side signers. Lifecycle hooks plug into monitoring/ale
 ### Three consumers, one core
 
 ```
-@dappbooster/core (adapters, interfaces, types)
-  ├── @dappbooster/react (hooks) → @dappbooster/chakra (styled components)
-  ├── Agent scripts (Node.js, direct adapter usage)
-  └── CLI tools (terminal, direct adapter usage)
+@dappbooster/core (interfaces, types, errors only — zero deps)
+   ↑
+   ├── @dappbooster/evm-adapter (viem-only root, /wagmi, /react sub-paths)
+   │     ├── Agent scripts (Node.js, root sub-path: server wallet + tx adapter)
+   │     ├── CLI tools (terminal, root sub-path + core/chain registry)
+   │     └── Browser dApps (combine /react bundle with @dappbooster/react)
+   │
+   ├── @dappbooster/react (hooks, provider — depends on core only)
+   │     └── @dappbooster/chakra (styled components — depends on react)
+   │
+   └── (future) @dappbooster/svm-adapter, /cosmos-adapter, etc. — same shape as evm-adapter
 ```
+
+Adapter packages depend on `@dappbooster/core` (peer) and ship their own runtime deps (viem for EVM, `@solana/web3.js` for SVM, etc.). `@dappbooster/react` consumes core interfaces and resolves adapters at runtime via `DAppBoosterProvider`. Agents import the adapter root (no React, no wagmi) and call factories directly.
 
 ### Documentation strategy for agents
 
@@ -85,9 +104,19 @@ Structure:
 # @dappbooster SDK — Agent Context
 
 ## Package map
-@dappbooster/core → adapters, types, chain registry (no framework dependency)
-@dappbooster/react → hooks, provider (React 19+)
-@dappbooster/chakra → styled components (Chakra UI 3)
+@dappbooster/core              → interfaces, types, errors only — zero runtime deps
+@dappbooster/core/chain        → ChainDescriptor, ChainRegistry, getExplorerUrl
+@dappbooster/core/utils        → wrapAdapter
+@dappbooster/core/lifecycle    → TransactionLifecycle, WalletLifecycle types
+@dappbooster/evm-adapter       → createEvmTransactionAdapter, createEvmServerWallet, fromViemChain (viem only)
+@dappbooster/evm-adapter/wagmi → createEvmWalletAdapter (wagmi + viem, no React)
+@dappbooster/evm-adapter/react → createEvmWalletBundle, useEvmReadOnly (React + wagmi)
+@dappbooster/evm-adapter/react/connectors → createConnectkitConnector / createRainbowkitConnector / createReownConnector
+@dappbooster/react/hooks       → useWallet, useTransaction, useReadOnly, useChainRegistry, useMultiWallet
+@dappbooster/react/provider    → DAppBoosterProvider, useProviderContext
+@dappbooster/react/components  → headless ConnectWalletButton, WalletGuard
+@dappbooster/react/lifecycle   → createNotificationLifecycle, createSigningNotificationLifecycle
+@dappbooster/chakra            → styled components (depends on @dappbooster/react)
 
 ## Decision tree
 

@@ -203,7 +203,9 @@ interface TransactionAdapter<TChainType extends string = string> {
   //   Note:          prepare() does NOT auto-detect ERC-20 approvals. Consumers provide
   //                  preSteps explicitly, or use the optional approval hint on EVM payloads.
   //   Throws:        ChainNotSupportedError if chainId not in supportedChains
-  prepare(params: TransactionParams): Promise<PrepareResult>
+  //   Note:          signer is optional — adapters use it (when supplied) for accurate gas estimation
+  //                  against the connected account. When omitted, fees fall back to public client defaults.
+  prepare(params: TransactionParams, signer?: ChainSigner): Promise<PrepareResult>
 
   // execute()
   //   Precondition:  signer is a valid ChainSigner for this adapter's chainType
@@ -289,19 +291,42 @@ interface TransactionAdapterMetadata {
 Creates public (read-only) clients for chains without wallet or transaction adapters. Used by `useReadOnly` for the zero-adapter, read-only use case (portfolio trackers, data dashboards).
 
 ```typescript
-interface ReadClientFactory {
+interface ReadClientFactory<TClient = unknown> {
   // Invariant: chainType never changes after construction
   readonly chainType: string
 
   // createClient()
   //   Precondition:  endpoint URL is reachable
   //   Postcondition: returns a public client capable of read-only chain queries
-  //   Note:          client type is chain-specific (viem PublicClient for EVM, Connection for SVM)
-  createClient(endpoint: EndpointConfig, chainId: string | number): unknown
+  //   Note:          TClient is chain-specific — e.g., viem PublicClient for EVM, Connection for SVM
+  createClient(endpoint: EndpointConfig, chainId: string | number): TClient
 }
 ```
 
-The SDK ships `evmReadClientFactory` (wraps viem's `createPublicClient`). Other factories ship with their adapter packages. When a wallet or transaction adapter is registered, its read-client factory is included automatically.
+The factory is generic so adapter packages can ship a strongly-typed version: `ReadClientFactory<PublicClient>` for EVM, `ReadClientFactory<Connection>` for SVM. Consumers importing `evmReadClientFactory` from `@dappbooster/evm-adapter` get `PublicClient` inferred automatically through `useEvmReadOnly()` or `useReadOnly({ factory: evmReadClientFactory })`.
+
+Each wallet bundle can auto-contribute its factory via `WalletAdapterBundle.readClientFactory` — `DAppBoosterProvider` collects them (deduped by `chainType`) into the internal factory registry, so consumers of adapter-registered chains do not need to pass `readClientFactories` explicitly. See [Provider and Hooks](./03-provider-and-hooks.md#usereadonly).
+
+### WalletAdapterBundle
+
+Factories that need React providers return a bundle instead of a bare adapter. The bundle type is defined here (interface layer) and consumed by `DAppBoosterProvider`.
+
+```typescript
+interface WalletAdapterBundle {
+  adapter: WalletAdapter
+  // React provider required by this adapter (e.g., WagmiProvider + QueryClientProvider + connector Provider).
+  // Omit for non-React adapters (server wallets, CLI).
+  Provider?: FC<{ children: ReactNode }>
+  // Hook to open the connector's connect/account modals. The `open` / `openAccount` functions are
+  // captured by a bridge component inside the bundle's Provider tree.
+  useConnectModal?: () => { open: () => void; openAccount?: () => void }
+  // Optional read-client factory auto-contributed to the provider's factory registry.
+  // Deduped by chainType across all bundles.
+  readClientFactory?: ReadClientFactory<unknown>
+}
+```
+
+The `FC` and `ReactNode` type imports are the only reason `@dappbooster/core` has a compile-time dependency on React types — they are erased at runtime. The runtime React code (`WagmiProvider` composition, the bridge component) lives in the adapter packages, not in core.
 
 ---
 

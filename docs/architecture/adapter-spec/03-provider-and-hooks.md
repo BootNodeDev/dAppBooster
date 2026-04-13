@@ -40,28 +40,37 @@ interface WalletAdapterBundle {
   Provider?: FC<{ children: ReactNode }>
   // Hook to open the connector's connect/account modal.
   // Called via a bridge component inside the bundle's Provider tree.
-  // The resulting `open` function is stored per adapter key in the context ref.
-  useConnectModal?: () => { open: () => void }
+  // The resulting `open` / `openAccount` functions are stored per adapter key in the context ref.
+  useConnectModal?: () => { open: () => void; openAccount?: () => void }
+  // Read client factory auto-contributed by this bundle (e.g., evmReadClientFactory).
+  // The provider deduplicates by chainType when collecting factories from all bundles,
+  // so consumers don't need to pass readClientFactories explicitly when they already
+  // registered an adapter for that chain type.
+  readClientFactory?: ReadClientFactory<unknown>
 }
 ```
 
 The `WalletAdapterBundle` solves the React provider wrapping problem: EVM adapters need WagmiProvider, QueryClientProvider, and ConnectKitProvider in the React tree. The adapter factory returns these as a composed `Provider` component. `DAppBoosterProvider` nests all bundle Providers internally — the consumer sees one provider.
 
 ```typescript
-// createEvmWalletAdapter returns a bundle
-const evmBundle = createEvmWalletAdapter({
+// createEvmWalletBundle returns the full bundle — adapter + React provider + modal + read factory.
+const evmBundle = createEvmWalletBundle({
   chains: [mainnet, optimism],
-  connector: connectkitConnector,
+  transports: { [mainnet.id]: http(), [optimism.id]: http() },
+  connector: createConnectkitConnector({ appName, walletConnectProjectId }),
 })
-// evmBundle.adapter → WalletAdapter methods
-// evmBundle.Provider → WagmiProvider + QueryClientProvider + ConnectKitProvider (composed)
+// evmBundle.adapter           → WalletAdapter<'evm'> methods
+// evmBundle.Provider          → WagmiProvider + QueryClientProvider + ConnectKitProvider (composed)
+// evmBundle.useConnectModal   → opens ConnectKit's connect/account modals
+// evmBundle.readClientFactory → evmReadClientFactory (auto-contributed to the provider's registry)
 
 // Server wallets have no Provider
-const serverBundle = createEvmServerWallet({ privateKey })
-// serverBundle.adapter → WalletAdapter methods
+const serverBundle = createEvmServerWallet({ privateKey, chain: mainnet })
+// serverBundle.adapter  → WalletAdapter<'evm'> methods (connect() is a no-op)
 // serverBundle.Provider → undefined
 ```
-```
+
+Also update the `createEvmWalletAdapter` example above — that function returns the EVM wallet adapter (`WalletAdapter<'evm'> & { wagmiConfig }`). The bundle (`adapter + Provider + useConnectModal + readClientFactory`) is returned by `createEvmWalletBundle` from `@dappbooster/evm-adapter/react`. See [EVM Adapter](./05-evm-adapter.md) for the exact factories.
 
 ### Chain resolution
 
@@ -80,8 +89,8 @@ Duplicate chainIds across sources are allowed **only if they resolve to the same
 ```tsx
 import { createEvmTransactionAdapter } from '@dappbooster/evm-adapter'
 import { createEvmWalletAdapter } from '@dappbooster/evm-adapter/wagmi'
-import { connectkitConnector } from '@dappbooster/evm-adapter/react/connectors'
-import { DAppBoosterProvider } from '@dappbooster/react'
+import { createConnectkitConnector } from '@dappbooster/evm-adapter/react/connectors'
+import { DAppBoosterProvider } from '@dappbooster/react/provider'
 import { mainnet, optimism } from 'viem/chains'
 
 <DAppBoosterProvider config={{
@@ -212,6 +221,7 @@ interface UseWalletReturn {
 
   // Modal
   openConnectModal(): void     // opens the correct connector's modal for this adapter (no-op if none registered)
+  openAccountModal(): void     // opens the connector's account modal when available (no-op if the connector didn't provide openAccount)
 
   // Resolution info
   adapterKey: string | null    // the key under which this adapter was registered in DAppBoosterConfig.wallets
@@ -232,8 +242,13 @@ function useTransaction(options?: UseTransactionOptions): UseTransactionReturn
 
 interface UseTransactionOptions {
   lifecycle?: TransactionLifecycle  // per-transaction hooks
-  autoPreSteps?: boolean           // default: true — auto-execute preSteps before main tx
-  confirmOptions?: ConfirmOptions  // forwarded to adapter.confirm()
+  autoPreSteps?: boolean            // default: true — auto-execute preSteps before main tx
+  confirmOptions?: ConfirmOptions   // forwarded to adapter.confirm()
+  // Escape hatch — bypass provider resolution entirely.
+  // When either is set, the hook uses the provided adapter for that role instead of
+  // looking one up from DAppBoosterProvider context.
+  transactionAdapter?: TransactionAdapter
+  walletAdapter?: WalletAdapter
 }
 ```
 
@@ -251,23 +266,39 @@ interface UseTransactionReturn {
   ref: TransactionRef | null
   result: TransactionResult | null
   preStepResults: TransactionResult[]
+  preStepStatuses: PreStepStatus[]  // per-step status: 'pending' | 'executing' | 'completed' | 'failed'
   error: Error | null
 
   // Metadata
   explorerUrl: string | null  // resolved from ChainRegistry using ref.id
 
   // Main execution — runs the full cycle: prepare → preSteps → submit → confirm
-  //   Precondition: if autoPreSteps === false and preSteps exist → throws PreStepsNotExecutedError
+  //   Precondition: if autoPreSteps === false and preSteps with pending status exist → throws PreStepsNotExecutedError
   execute(params: TransactionParams): Promise<TransactionResult>
+
+  // Standalone prepare — runs prepare() only and stores the result, without submitting.
+  // Useful for previewing gas estimates or discovering preSteps before asking the user to confirm.
+  prepare(params: TransactionParams): Promise<PrepareResult>
+
+  // Manual per-step control — execute a single preStep by index (0-based).
+  // Throws RangeError if index is out of bounds, WalletNotConnectedError if no signer,
+  // AdapterNotFoundError if adapters cannot be resolved for params.chainId.
+  executePreStep(index: number): Promise<TransactionResult>
+
+  // Manual all-steps control — execute every pending preStep sequentially.
+  // Resolves to an empty array if there are no preSteps.
+  executeAllPreSteps(): Promise<TransactionResult[]>
+
+  // Resolve the wallet and transaction adapters for a given chainId without executing anything.
+  // Escape hatch for consumers that need direct adapter access (Level 3 in the escape hatch list).
+  resolveAdapters(chainId: string | number): ResolvedAdapters
 
   // Reset all state back to idle
   reset(): void
 }
 ```
 
-**PreStep execution.** When `autoPreSteps: true` (default), `execute()` runs all preSteps sequentially before the main transaction. When `autoPreSteps: false`, `execute()` throws `PreStepsNotExecutedError` if preSteps exist.
-
-> **Phase 3:** Manual pre-step control — `executePreStep(index)`, `executeAllPreSteps()`, and standalone `prepare()` — to support per-step approval UX (show each approval, let user confirm). Not yet implemented.
+**PreStep execution.** When `autoPreSteps: true` (default), `execute()` runs all preSteps sequentially before the main transaction. When `autoPreSteps: false`, `execute()` throws `PreStepsNotExecutedError` if preSteps with pending status exist. For per-step approval UX (show each approval, let the user confirm one at a time), use `executePreStep(index)` or `executeAllPreSteps()` and gate `execute()` until all steps report `'completed'` status.
 
 Internal flow of `execute(params)`:
 
@@ -289,50 +320,73 @@ For apps needing multiple simultaneous connections (bridge, portfolio).
 ```typescript
 function useMultiWallet(): UseMultiWalletReturn
 
-// Returns a Record<string, UseWalletReturn> keyed by adapter name from DAppBoosterConfig.wallets.
-// Each entry includes wallet lifecycle hook dispatch (signMessage/signTypedData fire walletLifecycle)
-// and openConnectModal resolved to the correct adapter.
-type UseMultiWalletReturn = Record<string, UseWalletReturn>
-```
+interface UseMultiWalletReturn {
+  // All wallet adapters keyed by the name they were registered under in DAppBoosterConfig.wallets.
+  // Each entry is a full UseWalletReturn (same shape as useWallet()), including wallet lifecycle
+  // hook dispatch and openConnectModal resolved to the correct adapter.
+  wallets: Record<string, UseWalletReturn>
 
-> **Phase 3:** Convenience methods — `getWallet(chainType)`, `getWalletByChainId(chainId)`, and aggregated `connectedAddresses` summary. Currently consumers iterate the record directly.
+  // Lookup by chain type (adapter key) — returns undefined if not registered.
+  getWallet(chainType: string): UseWalletReturn | undefined
+
+  // Lookup by chainId — resolves chainType via ChainRegistry, then returns that wallet.
+  // Returns undefined if the chainId is not registered.
+  getWalletByChainId(chainId: string | number): UseWalletReturn | undefined
+
+  // Aggregated summary: { [adapterKey]: activeAccount } — only includes currently connected wallets.
+  connectedAddresses: Record<string, string>
+}
+```
 
 ### useReadOnly
 
 For data fetching without wallet connection — arbitrary addresses, no signing.
 
 ```typescript
-function useReadOnly(options: UseReadOnlyOptions): UseReadOnlyReturn
+function useReadOnly<TClient = unknown>(options: UseReadOnlyOptions<TClient>): UseReadOnlyReturn<TClient>
 
-interface UseReadOnlyOptions {
+interface UseReadOnlyOptions<TClient = unknown> {
   chainId: string | number
+  // Optional arbitrary address tied to this read session — e.g., the wallet being inspected
+  // in a portfolio tracker. The address is echoed back on the return and used to compute
+  // explorerAddressUrl. Consumers who only need a read client can omit it.
+  address?: string
+  // Escape hatch — pass a specific factory instead of resolving from the provider registry.
+  // Useful when you need a typed client (e.g., PublicClient) without registering the factory.
+  factory?: ReadClientFactory<TClient>
 }
 
-interface UseReadOnlyReturn {
+interface UseReadOnlyReturn<TClient = unknown> {
   chain: ChainDescriptor | null
-  client: unknown  // chain-specific read client (e.g. viem PublicClient for EVM)
+  client: TClient | null            // chain-specific read client (e.g. viem PublicClient for EVM)
+  address: string | null            // echoed from options.address, or null if omitted
+  explorerAddressUrl: string | null // computed via getExplorerUrl when chain.explorer and address are both set
 }
 ```
 
-Creating a public client requires knowing the chain type (EVM uses viem's `createPublicClient`, SVM uses `@solana/web3.js Connection`). The hook resolves this through a `ReadClientFactory` — a lightweight registry of "given a chain type + endpoint, create a read client."
+Creating a public client requires knowing the chain type (EVM uses viem's `createPublicClient`, SVM uses `@solana/web3.js Connection`). The hook resolves this through a `ReadClientFactory` — a lightweight, typed registry of "given a chain type + endpoint, create a read client."
 
 ```typescript
-interface ReadClientFactory {
+interface ReadClientFactory<TClient = unknown> {
   readonly chainType: string
-  createClient(endpoint: EndpointConfig, chainId: string | number): unknown
+  createClient(endpoint: EndpointConfig, chainId: string | number): TClient
 }
 ```
 
-The SDK ships `evmReadClientFactory` (wraps viem). Other factories ship with their adapter packages. Factories are registered in the provider config:
+The EVM adapter ships `evmReadClientFactory` (wraps viem, `TClient = PublicClient`). Other factories ship with their adapter packages. Factories are auto-contributed to the provider in two ways:
+
+1. **Automatic** — any `WalletAdapterBundle.readClientFactory` is collected into the provider's factory registry (deduped by `chainType`). Apps with registered adapters get read-only support with zero extra config.
+2. **Explicit** — `DAppBoosterConfig.readClientFactories` lets you register factories for chains that have no wallet/transaction adapter (read-only dashboards, portfolio trackers).
 
 ```typescript
 <DAppBoosterProvider config={{
   chains: [...evmChains, solanaMainnet],
-  readClientFactories: [evmReadClientFactory, svmReadClientFactory],
+  // Only needed when a chain has NO adapter registered. Factories from adapter bundles
+  // are collected automatically — no need to list evmReadClientFactory here if the EVM
+  // wallet bundle is already in config.wallets.
+  readClientFactories: [svmReadClientFactory],
 }}>
 ```
-
-> **Phase 3:** Auto-contribute read factories from registered adapters (zero-config for apps that already have wallet/transaction adapters). Add optional `address` param and `explorerAddressUrl` to the return. Currently `readClientFactories` must be explicitly provided.
 
 ### useChainRegistry
 
@@ -359,8 +413,8 @@ Returns the registry built by the provider. Useful for components that need chai
 
 1. Use `<TransactionButton>` (style package) — zero boilerplate
 2. Use `useTransaction()` (react) — control UI, SDK handles lifecycle
-3. Use `useTransaction().adapter` — raw adapter for one-off customization
-4. Pass explicit `adapter` prop — bypass provider entirely
-5. Use `@dappbooster/core` directly — no React, no provider, no hooks
+3. Use `useTransaction().resolveAdapters(chainId)` — raw wallet and transaction adapters for one-off customization, still inside the React tree
+4. Pass explicit `transactionAdapter` / `walletAdapter` options to `useTransaction()` — bypass provider resolution entirely
+5. Use `@dappbooster/evm-adapter` (or the relevant adapter package) directly — `createEvmTransactionAdapter`, `createEvmServerWallet`, `adapter.execute(params, signer)` — no React, no provider, no hooks
 
-Each level peels back one layer. Agents default to level 1. Experienced devs go to level 2. Edge cases go deeper.
+Each level peels back one layer. Agents default to level 1. Experienced devs go to level 2. Edge cases go deeper. `@dappbooster/core` is the contract layer (interfaces, types, errors) — you do not call it directly; you consume it through an adapter package.

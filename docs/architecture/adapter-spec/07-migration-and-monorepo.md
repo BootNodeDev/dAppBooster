@@ -39,17 +39,32 @@ Pending (tracked for Phase 2 completion before Phase 3):
 
 **Phase 3: Extract style package**
 
-- Move styled components to `@dappbooster/chakra`
-- `@dappbooster/react` contains only hooks and provider
-- `@dappbooster/core` contains only interfaces, types, adapters, and utilities
-- Remove deprecated hooks
-- `ConnectWalletButton` avatar/ENS display — build on `useReadOnly(address)` to fetch ENS name + avatar without wagmi hooks, making it adapter-agnostic
-- Demo dialog z-index conflict — RainbowKit modal's close button is unresponsive when opened from inside a Chakra `Dialog` portal due to competing stacking contexts. Fix by adjusting z-index or closing the demo dialog when the connect modal opens
+Done:
 
-**Phase 4: Multi-chain adapters**
+- Styled components moved to `src/chakra/` (will become `@dappbooster/chakra`)
+- `@dappbooster/react` (under `src/sdk/react/`) contains only hooks, provider, and headless components
+- Deprecated hooks removed (`useWeb3Status`, `useWalletStatus`)
+- `ConnectWalletButton` is fully adapter-agnostic (headless render-prop API in `@dappbooster/react/components`, Chakra wrapper in `@dappbooster/chakra`)
+- Demo dialog z-index conflict resolved
 
-- Community or official SVM, Cosmos, Sui, Aptos adapters
-- `pnpm codegen` script replaces `pnpm wagmi-generate`
+**Phase 4: Pluggable foundation (DONE)**
+
+Done:
+
+- `@dappbooster/core` reorganized into sub-path exports (`/chain`, `/utils`, `/lifecycle`); root barrel is empty
+- EVM extracted from `@dappbooster/core` into a sibling package `@dappbooster/evm-adapter` with three layers (root viem-only, `/wagmi`, `/react`, `/react/connectors`)
+- Codegen orchestrator: `pnpm codegen` replaces `pnpm wagmi-generate` (alias kept for migration). Plugins discovered via `src/sdk/<adapter>/codegen/index.ts` convention or `dappbooster.codegen` field in installed `@dappbooster/*` packages
+- `WalletAdapterBundle.readClientFactory` auto-contributes read clients to the provider — no explicit `readClientFactories` config needed when adapters are registered
+- `useReadOnly` accepts `address` and returns `{ client, chain, address, explorerAddressUrl }`
+- `WalletGuard` supports multi-chain via `require: WalletRequirement[]`
+- `useTransaction` exposes manual `executePreStep(index)` / `executeAllPreSteps()` / standalone `prepare()`
+- `wrapAdapter` supports transform hooks (`beforeCall`, `afterCall`) alongside observation hooks
+- All public SDK exports carry DbC annotations enforced at runtime where applicable
+
+Pending (future phases):
+
+- Monorepo extraction — actual `packages/` layout with pnpm workspaces, Turborepo, Changesets. Internal sub-folder boundaries already match the target package boundaries, so this is a packaging step, not a code restructuring.
+- Multi-chain adapters — `@dappbooster/svm-adapter`, `@dappbooster/cosmos-adapter`, `@dappbooster/sui-adapter`, `@dappbooster/aptos-adapter`. Each follows the same three-layer shape as `@dappbooster/evm-adapter`.
 - Reference use case apps built and published
 
 **Phase 4+ consideration: DataAdapter interface**
@@ -72,15 +87,17 @@ This only justifies itself when consumers need to swap data sources for the same
 
 ### What stays, what changes, what goes
 
-| Current | Phase 1 | Phase 2 | Phase 3 |
-|---|---|---|---|
-| `useWeb3Status` | Exists + new `useWallet` | Deprecated | Removed |
-| `useWalletStatus` | Exists + new `useWallet` | Deprecated | Removed |
-| `TransactionButton` | Unchanged | Adapter-backed internally | Moves to `@dappbooster/chakra` |
-| `Web3Provider` | Exists + `DAppBoosterProvider` wraps it | `DAppBoosterProvider` replaces it | Removed |
-| `TransactionNotificationProvider` | Exists + global lifecycle hooks | Lifecycle hooks replace it | Removed |
-| `connectkit.config.tsx` | Unchanged | Becomes `EvmConnectorConfig` | Same |
-| `wagmi-generate` script | Unchanged | Unchanged | Becomes `pnpm codegen` |
+| Current | Phase 1 | Phase 2 | Phase 3 | Phase 4 |
+|---|---|---|---|---|
+| `useWeb3Status` | Exists + new `useWallet` | Deprecated | Removed | Removed |
+| `useWalletStatus` | Exists + new `useWallet` | Deprecated | Removed | Removed |
+| `TransactionButton` | Unchanged | Adapter-backed internally | Moves to `@dappbooster/chakra` | Same |
+| `Web3Provider` | Exists + `DAppBoosterProvider` wraps it | `DAppBoosterProvider` replaces it | Removed | Removed |
+| `TransactionNotificationProvider` | Exists + global lifecycle hooks | Lifecycle hooks replace it | Removed | Removed |
+| `connectkit.config.tsx` | Unchanged | Becomes `EvmConnectorConfig` | Same | Now `createConnectkitConnector` factory in `@dappbooster/evm-adapter/react/connectors` |
+| `wagmi-generate` script | Unchanged | Unchanged | Same | `pnpm codegen` (alias kept) |
+| EVM adapter location | `@dappbooster/core/evm` (planned) | Same | Same | Extracted to `@dappbooster/evm-adapter` (root viem-only, `/wagmi`, `/react`, `/react/connectors` sub-paths) |
+| Core barrel | `export *` from sub-modules | Same | Same | Empty root for `react`; explicit named exports for `core`; chain/utils/lifecycle have own sub-paths |
 
 ---
 
@@ -93,64 +110,74 @@ The monorepo is managed with **pnpm workspaces** (package management), **Turbore
 ```
 dAppBooster/                            ← monorepo root
 ├── packages/
-│   ├── core/                           ← @dappbooster/core
+│   ├── core/                           ← @dappbooster/core (zero runtime deps)
 │   │   ├── package.json
 │   │   └── src/
-│   │       ├── adapters/               # WalletAdapter, TransactionAdapter interfaces
-│   │       │   ├── wallet.ts           # WalletAdapter interface
-│   │       │   ├── transaction.ts      # TransactionAdapter interface
-│   │       │   └── lifecycle.ts        # TransactionLifecycle, WalletLifecycle
-│   │       ├── chain/                  # ChainDescriptor, ChainRegistry, getExplorerUrl
-│   │       │   ├── descriptor.ts       # ChainDescriptor, CurrencyInfo, ExplorerConfig, etc.
+│   │       ├── adapters/               # WalletAdapter, TransactionAdapter, ReadClientFactory, WalletAdapterBundle interfaces
+│   │       │   ├── wallet.ts
+│   │       │   ├── transaction.ts
+│   │       │   └── provider.ts
+│   │       ├── chain/                  # @dappbooster/core/chain sub-path
+│   │       │   ├── descriptor.ts       # ChainDescriptor, CurrencyInfo, ExplorerConfig, AddressConfig, EndpointConfig
 │   │       │   ├── registry.ts         # createChainRegistry, ChainRegistry interface
 │   │       │   └── explorer.ts         # getExplorerUrl utility
-│   │       ├── evm/                    # EVM adapter implementations
-│   │       │   ├── connectors/         # Subpath exports with optional peer deps
-│   │       │   │   ├── connectkit.ts   # connectkitConnector
-│   │       │   │   ├── rainbowkit.ts   # rainbowkitConnector
-│   │       │   │   └── reown.ts        # reownConnector
-│   │       │   ├── wallet.ts           # EvmWalletAdapter (wraps wagmi)
-│   │       │   ├── transaction.ts      # EvmTransactionAdapter (wraps viem)
-│   │       │   ├── server-wallet.ts    # EvmServerWallet (private key signer)
-│   │       │   ├── chains.ts           # fromViemChain factory, default EVM descriptors
-│   │       │   └── types.ts            # EvmTransactionPayload, EvmConnectorConfig
-│   │       ├── tokens/                 # Token types, token list config, cache utils
-│   │       ├── data/                   # Data adapter interfaces
-│   │       ├── types/                  # Shared types (ChainsIds, utility types)
-│   │       └── utils/                  # String utils, address utils
+│   │       ├── lifecycle/              # @dappbooster/core/lifecycle sub-path
+│   │       │   └── lifecycle.ts        # TransactionLifecycle, WalletLifecycle, TransactionPhase
+│   │       ├── errors/                 # All typed error classes (root export)
+│   │       ├── utils/                  # @dappbooster/core/utils sub-path — wrapAdapter, formatErrorMessage
+│   │       └── read-client.ts          # createReadClient, resolveReadClient (root export)
 │   │
-│   ├── react/                          ← @dappbooster/react
-│   │   ├── package.json                # depends on @dappbooster/core
+│   ├── evm-adapter/                    ← @dappbooster/evm-adapter (sibling of core, NOT inside it)
+│   │   ├── package.json                # depends on @dappbooster/core (peer); ships viem
 │   │   └── src/
-│   │       ├── provider/               # DAppBoosterProvider, context
-│   │       ├── hooks/
-│   │       │   ├── useWallet.ts
-│   │       │   ├── useTransaction.ts
-│   │       │   ├── useMultiWallet.ts
-│   │       │   ├── useReadOnly.ts
-│   │       │   ├── useChainRegistry.ts
-│   │       │   ├── useTokenLists.ts
-│   │       │   ├── useTokens.ts
-│   │       │   ├── useErc20Balance.ts
-│   │       │   └── useTokenSearch.ts
-│   │       └── types/
+│   │       ├── index.ts                # Root barrel: createEvmTransactionAdapter, createEvmServerWallet, fromViemChain, evmReadClientFactory, createApprovalPreStep, createPermitPreStep
+│   │       ├── transaction.ts          # createEvmTransactionAdapter (viem)
+│   │       ├── server-wallet.ts        # createEvmServerWallet (private key signer)
+│   │       ├── chains.ts               # fromViemChain
+│   │       ├── pre-steps.ts            # createApprovalPreStep, createPermitPreStep
+│   │       ├── read-client.ts          # evmReadClientFactory
+│   │       ├── types.ts                # EvmRawTransaction, EvmContractCall, EvmTransactionPayload (viem-only)
+│   │       ├── codegen/                # @dappbooster/evm-adapter codegen plugin (referenced by package.json "dappbooster.codegen")
+│   │       │   └── index.ts            # Default-exported CodegenPlugin wrapping wagmi-cli
+│   │       ├── wagmi/                  # /wagmi sub-path — wagmi + viem, no React
+│   │       │   ├── index.ts            # createEvmWalletAdapter, EvmCoreConnectorConfig
+│   │       │   ├── wallet.ts
+│   │       │   └── types.ts
+│   │       └── react/                  # /react sub-path — React + wagmi
+│   │           ├── index.ts            # createEvmWalletBundle, useEvmReadOnly, EvmConnectorConfig, ConnectorAppMetadata
+│   │           ├── wallet-bundle.tsx
+│   │           ├── read-only.ts
+│   │           ├── types.ts
+│   │           └── connectors/         # /react/connectors sub-path — React connector factories
+│   │               ├── connectkit.tsx  # createConnectkitConnector (peer dep: connectkit)
+│   │               ├── rainbowkit.tsx  # createRainbowkitConnector (peer dep: @rainbow-me/rainbowkit)
+│   │               └── reown.tsx       # createReownConnector (peer dep: @reown/appkit + adapter-wagmi)
 │   │
-│   ├── chakra/                         ← @dappbooster/chakra
-│   │   ├── package.json                # depends on @dappbooster/react
+│   ├── react/                          ← @dappbooster/react (depends on core only)
+│   │   ├── package.json                # depends on @dappbooster/core (peer)
 │   │   └── src/
-│   │       ├── components/
-│   │       │   ├── TransactionButton.tsx
-│   │       │   ├── SignButton.tsx
-│   │       │   ├── WalletGuard.tsx
-│   │       │   ├── ConnectWalletButton.tsx
-│   │       │   ├── SwitchChain.tsx
-│   │       │   ├── ExplorerLink.tsx
-│   │       │   ├── Hash.tsx
-│   │       │   ├── HashInput.tsx
-│   │       │   ├── BigNumberInput.tsx
-│   │       │   ├── NotificationToaster.tsx
-│   │       │   └── tokens/             # TokenSelect, TokenInput, TokenLogo, TokenDropdown
-│   │       └── styles/
+│   │       ├── index.ts                # Empty (export {}) — sub-paths are canonical
+│   │       ├── provider/               # @dappbooster/react/provider — DAppBoosterProvider, useProviderContext
+│   │       ├── hooks/                  # @dappbooster/react/hooks — useWallet, useTransaction, useMultiWallet, useReadOnly, useChainRegistry
+│   │       ├── components/             # @dappbooster/react/components — headless ConnectWalletButton, WalletGuard
+│   │       └── lifecycle/              # @dappbooster/react/lifecycle — createNotificationLifecycle, createSigningNotificationLifecycle
+│   │
+│   ├── codegen/                        ← @dappbooster/codegen (orchestrator + types)
+│   │   ├── package.json                # zero runtime deps
+│   │   └── src/
+│   │       ├── types.ts                # CodegenPlugin, CodegenResult interfaces
+│   │       ├── discover.ts             # discoverLocalPlugins, discoverPackagePlugins, discoverAllPlugins
+│   │       ├── run.ts                  # runCodegen orchestrator
+│   │       └── index.ts                # Public API barrel
+│   │
+│   ├── chakra/                         ← @dappbooster/chakra (depends on @dappbooster/react)
+│   │   ├── package.json
+│   │   └── src/
+│   │       ├── ConnectWalletButton.tsx # Chakra wrapper around the headless component
+│   │       ├── WalletGuard.tsx         # Chakra wrapper
+│   │       ├── TransactionButton.tsx   # Styled, wraps useWallet + useTransaction
+│   │       ├── SignButton.tsx          # Styled, wraps useWallet().signMessage
+│   │       └── (future) ExplorerLink.tsx, SwitchChain.tsx, NotificationToaster.tsx
 │   │
 │   └── create-dappbooster/             ← CLI scaffolding tool
 │       ├── package.json
@@ -189,14 +216,22 @@ dAppBooster/                            ← monorepo root
 ### Package dependency chain
 
 ```
-@dappbooster/core       ← no framework dependency
-    ↓
-@dappbooster/react      ← depends on core
-    ↓
-@dappbooster/chakra     ← depends on react (and transitively core)
+              @dappbooster/core (zero runtime deps)
+                       ↑           ↑
+                       │           │
+   @dappbooster/evm-adapter    @dappbooster/react
+   (viem; wagmi at /wagmi;     (depends on core; no adapter dep)
+    React at /react)                ↑
+                                    │
+                            @dappbooster/chakra
+                            (depends on react)
+
+   @dappbooster/codegen (zero deps) — consumed by scripts/codegen.ts and per-adapter codegen plugins
 ```
 
-`apps/demo` and `templates/*` depend on all three. CLI tools and agent scripts depend on `core` only.
+Adapters and `@dappbooster/react` are siblings — both depend on `core`, neither depends on the other. `@dappbooster/react`'s provider accepts any adapter that implements core's interfaces; the adapter is supplied at runtime.
+
+`apps/demo` and `templates/*` typically depend on all four (`core`, `evm-adapter`, `react`, `chakra`). Agent scripts depend on `core` + the adapter root they need (e.g., `@dappbooster/evm-adapter`) — no React, no wagmi, no connector code bundled.
 
 ### Package cross-references (pnpm workspaces)
 
@@ -239,48 +274,77 @@ The domain folder structure from Task 1 was an intermediate step. In the monorep
 | `src/core/config/`, `types/`, `utils/` | `packages/core/` | Chain config, shared types, utilities |
 | `src/core/ui/` (ExplorerLink, Hash, BigNumberInput...) | `packages/chakra/` | Styled components |
 | `src/core/ui/` (Header, Footer, Modal, buttons, Chakra setup) | `templates/evm-defi/` | App layout, design system |
-| `src/wallet/connectors/` | `packages/core/src/evm/connectors/` | Subpath exports |
-| `src/wallet/hooks/`, `providers/` | `packages/core/src/evm/` | Internals of EvmWalletAdapter |
-| `src/wallet/components/` | `packages/chakra/` | WalletGuard, SwitchChain, ConnectButton |
+| `src/wallet/connectors/` | `packages/evm-adapter/src/react/connectors/` | Subpath exports (React-based connectors) |
+| `src/wallet/hooks/`, `providers/` | `packages/evm-adapter/src/wagmi/` | Internals of createEvmWalletAdapter |
+| `src/wallet/components/` | `packages/chakra/` | WalletGuard, SwitchChain, ConnectButton (Chakra wrappers around headless components in `packages/react/src/components/`) |
 | `src/transactions/providers/` | **Removed** | Replaced by lifecycle hooks |
 | `src/transactions/components/` | `packages/chakra/` | TransactionButton, SignButton |
 | `src/tokens/hooks/` | `packages/react/` | Token data hooks |
 | `src/tokens/types/`, `config/`, `utils/` | `packages/core/` | Token infrastructure |
 | `src/tokens/components/` | `packages/chakra/` | TokenSelect, TokenInput |
-| `src/contracts/wagmi/` | `packages/core/src/evm/` | wagmi config + plugins |
+| `src/contracts/wagmi/` | `templates/evm-defi/src/contracts/wagmi/` (consumer-side wagmi config + plugins; the orchestrator that runs them is `@dappbooster/codegen` + `@dappbooster/evm-adapter` codegen plugin) | wagmi config + plugins |
 | `src/contracts/abis/`, `definitions.ts` | `templates/evm-defi/` | App-specific contracts |
 | `src/data/` (adapter infrastructure) | `packages/core/` | Data adapter pattern |
 | `src/data/` (queries, generated types) | `templates/evm-defi/` | App-specific data |
 | `src/components/pageComponents/`, `src/routes/` | `apps/demo/` | Demo app |
 
-### Subpath exports for EVM connectors
+### Subpath exports for the EVM adapter
 
-Connector adapters are thin (~20-30 lines) and use optional peer dependencies:
+`@dappbooster/core` exposes only contract types and chain utilities — it has zero adapter code, zero peer deps, and zero EVM-specific exports:
 
 ```json
 // packages/core/package.json
 {
   "exports": {
     ".": "./src/index.ts",
-    "./evm": "./src/evm/index.ts",
-    "./evm/connectors/connectkit": "./src/evm/connectors/connectkit.ts",
-    "./evm/connectors/rainbowkit": "./src/evm/connectors/rainbowkit.ts",
-    "./evm/connectors/reown": "./src/evm/connectors/reown.ts"
-  },
-  "peerDependencies": {
-    "connectkit": "^2.0.0",
-    "@rainbow-me/rainbowkit": "^2.0.0",
-    "@reown/appkit-adapter-wagmi": "^1.0.0"
-  },
-  "peerDependenciesMeta": {
-    "connectkit": { "optional": true },
-    "@rainbow-me/rainbowkit": { "optional": true },
-    "@reown/appkit-adapter-wagmi": { "optional": true }
+    "./chain": "./src/chain/index.ts",
+    "./utils": "./src/utils/index.ts",
+    "./lifecycle": "./src/lifecycle/index.ts"
   }
 }
 ```
 
-CLI tools and agent scripts import `@dappbooster/core` — no connector peer dep installed, no connector code bundled.
+The EVM adapter ships its three layers as independently-importable sub-paths, with React and connector libraries declared as **optional peer dependencies**. An agent script that imports the root sub-path installs only viem; a browser dApp that imports `/react` opts into wagmi + React; a connector sub-path opts into one specific connector library.
+
+```json
+// packages/evm-adapter/package.json
+{
+  "name": "@dappbooster/evm-adapter",
+  "exports": {
+    ".": "./src/index.ts",
+    "./wagmi": "./src/wagmi/index.ts",
+    "./react": "./src/react/index.ts",
+    "./react/connectors/connectkit": "./src/react/connectors/connectkit.tsx",
+    "./react/connectors/rainbowkit": "./src/react/connectors/rainbowkit.tsx",
+    "./react/connectors/reown": "./src/react/connectors/reown.tsx"
+  },
+  "dependencies": {
+    "viem": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@dappbooster/core": "workspace:*",
+    "wagmi": "^2.0.0",
+    "react": ">=18",
+    "connectkit": "^2.0.0",
+    "@rainbow-me/rainbowkit": "^2.0.0",
+    "@reown/appkit": "^1.0.0",
+    "@reown/appkit-adapter-wagmi": "^1.0.0"
+  },
+  "peerDependenciesMeta": {
+    "wagmi": { "optional": true },
+    "react": { "optional": true },
+    "connectkit": { "optional": true },
+    "@rainbow-me/rainbowkit": { "optional": true },
+    "@reown/appkit": { "optional": true },
+    "@reown/appkit-adapter-wagmi": { "optional": true }
+  },
+  "dappbooster": {
+    "codegen": "./src/codegen/index.ts"
+  }
+}
+```
+
+CLI tools and agent scripts import `@dappbooster/evm-adapter` — viem only, no wagmi, no React, no connector code bundled. Browser dApps import `/react` (and one connector sub-path) to opt into the full UI integration.
 
 ---
 

@@ -136,7 +136,9 @@ interface ChainRegistry {
 function createChainRegistry(chains: ChainDescriptor[]): ChainRegistry
 ```
 
-If two descriptors declare the same `chainId` or the same `caip2Id`, `createChainRegistry` throws at construction time — fail fast, fail loud.
+If two descriptors declare the same `chainId` or the same `caip2Id` (without being structurally identical), `createChainRegistry` throws `ChainRegistryConflictError` at construction time — fail fast, fail loud. The error carries `chainId`, `caip2Id`, and a `conflictOn: 'chainId' | 'caip2Id'` discriminator so consumers can tell which key clashed.
+
+Lookups (`getChain`, `getChainByCaip2`, `getChainType`) are coerced: a descriptor registered with numeric chainId `1` is also findable with the string `'1'` and vice versa. This is intentional for cross-VM lookups where chainIds may arrive from the network or URL as strings.
 
 ### Explorer URL utility
 
