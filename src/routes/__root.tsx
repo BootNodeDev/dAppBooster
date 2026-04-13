@@ -14,8 +14,8 @@ import { createEvmWalletBundle } from '@/src/sdk/evm-adapter/react'
 import {
   createNotificationLifecycle,
   createSigningNotificationLifecycle,
-  DAppBoosterProvider,
-} from '@/src/sdk/react'
+} from '@/src/sdk/react/lifecycle'
+import { DAppBoosterProvider } from '@/src/sdk/react/provider'
 import { connector, config as wagmiConfig } from '@/src/wallet/connectors/wagmi.config'
 import '@/src/wallet/connectors/portoInit'
 import { Flex } from '@chakra-ui/react'

@@ -44,7 +44,7 @@ Level 1:  <TransactionButton />          ← zero boilerplate (style package)
 Level 2:  useTransaction()               ← control the UI (react hooks)
 Level 3:  useTransaction().adapter       ← raw adapter access
 Level 4:  adapter prop                   ← bypass provider entirely
-Level 5:  @dappbooster/core directly     ← no React, no provider, no hooks
+Level 5:  @dappbooster/evm-adapter       ← no React, no provider, no hooks
 ```
 
 Agents default to Level 1. Experienced devs go to Level 2. Edge cases go deeper.
@@ -324,7 +324,7 @@ If you use ConnectKit, install `connectkit`. If you use RainbowKit, install `@ra
 ### Agent script (Node.js)
 
 ```typescript
-import { createEvmTransactionAdapter, createEvmServerWallet } from '@dappbooster/core'
+import { createEvmTransactionAdapter, createEvmServerWallet } from '@dappbooster/evm-adapter'
 
 const wallet = createEvmServerWallet({ privateKey: process.env.AGENT_PK })
 const evm = createEvmTransactionAdapter()
@@ -336,7 +336,7 @@ const result = await evm.confirm(ref)
 ### CLI tool
 
 ```typescript
-import { createChainRegistry, getExplorerUrl } from '@dappbooster/core'
+import { createChainRegistry, getExplorerUrl } from '@dappbooster/core/chain'
 const registry = createChainRegistry([...evmChains, solanaMainnet])
 
 for (const chain of registry.getAllChains()) {

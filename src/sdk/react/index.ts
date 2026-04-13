@@ -1,37 +1,12 @@
-// --- Components ---
-export type {
-  ConnectWalletButtonRenderProps,
-  SwitchChainRenderProps,
-  WalletGuardProps,
-  WalletRequirement,
-} from './components'
-export { ConnectWalletButton, WalletGuard } from './components'
-// --- Hooks ---
-export type {
-  ChainRegistry,
-  PreStepStatus,
-  ResolvedAdapters,
-  TransactionExecutionPhase,
-  UseMultiWalletReturn,
-  UseReadOnlyOptions,
-  UseReadOnlyReturn,
-  UseTransactionOptions,
-  UseTransactionReturn,
-  UseWalletOptions,
-  UseWalletReturn,
-} from './hooks'
-export { useChainRegistry, useMultiWallet, useReadOnly, useTransaction, useWallet } from './hooks'
-
-// --- Lifecycle ---
-export type {
-  NotificationLifecycleMessages,
-  NotificationLifecycleOptions,
-  SigningNotificationLifecycleOptions,
-  SigningNotificationMessages,
-  ToasterAPI,
-} from './lifecycle'
-export { createNotificationLifecycle, createSigningNotificationLifecycle } from './lifecycle'
-
-// --- Provider ---
-export type { DAppBoosterContextValue } from './provider'
-export { DAppBoosterProvider, useProviderContext } from './provider'
+// Intentionally empty.
+//
+// `@dappbooster/react` exports nothing from its root barrel.
+// Each symbol has exactly ONE canonical import path via a sub-barrel:
+//
+//   @/src/sdk/react/components  — ConnectWalletButton, WalletGuard
+//   @/src/sdk/react/hooks       — useWallet, useTransaction, useReadOnly, useChainRegistry, useMultiWallet
+//   @/src/sdk/react/lifecycle   — createNotificationLifecycle, createSigningNotificationLifecycle
+//   @/src/sdk/react/provider    — DAppBoosterProvider, useProviderContext
+//
+// This enforces agent-deterministic imports: the sub-path signals the layer.
+export {}

@@ -10,7 +10,7 @@ vi.mock('@/src/sdk/react/hooks', () => ({
   })),
 }))
 
-vi.mock('@/src/hooks/useTokenLists', () => ({
+vi.mock('@/src/tokens/hooks/useTokenLists', () => ({
   useTokenLists: vi.fn(() => ({
     tokens: [],
     tokensByChainId: {},
@@ -19,13 +19,13 @@ vi.mock('@/src/hooks/useTokenLists', () => ({
   })),
 }))
 
-vi.mock('@/src/hooks/useTokenSearch', () => ({
+vi.mock('@/src/tokens/hooks/useTokenSearch', () => ({
   useTokenSearch: vi.fn(() => ({
     searchResult: [],
   })),
 }))
 
-vi.mock('@/src/components/sharedComponents/TokenInput/useTokenInput', () => ({
+vi.mock('@/src/tokens/components/TokenInput/useTokenInput', () => ({
   useTokenInput: vi.fn(() => ({
     amount: 0n,
     setAmount: vi.fn(),

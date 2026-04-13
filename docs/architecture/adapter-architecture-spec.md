@@ -738,7 +738,10 @@ import { mainnet, optimism } from 'viem/chains'
 **Read-only portfolio tracker (no adapters):**
 
 ```tsx
-import { evmChains } from '@dappbooster/core/chains'
+import { mainnet, optimism, arbitrum } from 'viem/chains'
+import { fromViemChain } from '@dappbooster/evm-adapter'
+
+const evmChains = [mainnet, optimism, arbitrum].map(fromViemChain)
 
 <DAppBoosterProvider config={{
   chains: [...evmChains, solanaMainnet, cosmosHub],
@@ -1309,7 +1312,7 @@ Additional helpers to be added as common patterns emerge:
 The SDK provides `wrapAdapter()` for composing adapters — adding observation hooks around every method call without implementing a full adapter from scratch. This is the formal mechanism for patterns like logging, analytics, and error monitoring.
 
 ```typescript
-import { wrapAdapter } from '@dappbooster/core'
+import { wrapAdapter } from '@dappbooster/core/utils'
 
 // wrapAdapter()
 //   Precondition:  adapter is any object with function methods
@@ -1439,12 +1442,12 @@ Only configured chain types trigger codegen. An EVM-only project runs `pnpm code
 
 ### @dappbooster/core as a blockchain runtime
 
-`@dappbooster/core` is framework-agnostic. It runs anywhere JavaScript runs — browser, Node.js, Deno, Bun, edge functions. This makes it the blockchain interaction layer for:
+`@dappbooster/core` is framework-agnostic. It runs anywhere JavaScript runs — browser, Node.js, Deno, Bun, edge functions. For EVM, install `@dappbooster/evm-adapter` alongside core (viem-only, no React). This makes it the blockchain interaction layer for:
 
 **AI agent scripts:**
 
 ```typescript
-import { createEvmTransactionAdapter, createEvmServerWallet } from '@dappbooster/core'
+import { createEvmTransactionAdapter, createEvmServerWallet } from '@dappbooster/evm-adapter'
 
 const wallet = createEvmServerWallet({ privateKey: process.env.AGENT_PK })
 const evm = createEvmTransactionAdapter()
@@ -1464,7 +1467,7 @@ No React. No browser. No wagmi. Same typed adapters, same lifecycle hooks (for l
 **CLI tools:**
 
 ```typescript
-import { createChainRegistry, getExplorerUrl } from '@dappbooster/core'
+import { createChainRegistry, getExplorerUrl } from '@dappbooster/core/chain'
 
 const registry = createChainRegistry([...evmChains, solanaMainnet])
 
@@ -1601,7 +1604,7 @@ Each use case demonstrates a different composition of SDK primitives. These are 
 - **Use cases 2, 12**: Wallet-only apps (no transaction adapter) are first-class
 - **Use case 3**: Zero-adapter apps (read-only) are first-class
 - **Use cases 4, 10**: Multi-chain apps compose adapters independently
-- **Use cases 6, 7, 8**: Non-browser use cases work with `@dappbooster/core` alone
+- **Use cases 6, 7, 8**: Non-browser use cases work with `@dappbooster/core` + `@dappbooster/evm-adapter` (viem-only, no React)
 - **Use case 9**: Adapter interfaces accommodate non-standard transaction models (UserOps, bundlers)
 - **Use case 11**: Lifecycle hooks support multi-party flows
 - **Use cases 13, 14**: Pre-processing (ZK proofs, FHE encryption) composes with standard adapters via PreStep and middleware
@@ -1612,7 +1615,7 @@ When an agent needs to implement one of these use cases, follow this decision tr
 
 1. **Does the app need a wallet connection?** Yes → register wallet adapters in `DAppBoosterConfig.wallets`. No → skip wallets, use `chains` + `readClientFactories` for read-only.
 2. **Does the app send transactions?** Yes → register transaction adapters in `DAppBoosterConfig.transactions`. No → skip transactions.
-3. **Is this a React app?** Yes → use `DAppBoosterProvider` + hooks (`useWallet`, `useTransaction`). No → use `@dappbooster/core` directly (adapter factories, no provider).
+3. **Is this a React app?** Yes → use `DAppBoosterProvider` + hooks (`useWallet`, `useTransaction`). No → use the adapter factories directly (`@dappbooster/evm-adapter` for EVM, analogous packages for other chains — no provider).
 4. **Which chain types?** EVM is the only shipped adapter. For other chains, implement `WalletAdapter` and/or `TransactionAdapter` against the interfaces.
 5. **Which EVM connector?** Pass one of `connectkitConnector`, `rainbowkitConnector`, or `reownConnector` to `createEvmWalletAdapter({ connector })`. This is a one-line config choice.
 

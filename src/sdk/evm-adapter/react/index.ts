@@ -1,10 +1,12 @@
-// React barrel: full browser dApp bundle (wagmi + React providers).
+// React layer of @dappbooster/evm-adapter.
+//
+// This barrel exposes symbols defined directly in this directory.
+// Connectors live at their own sub-path:
+//
+//   @/src/sdk/evm-adapter/react/connectors — createConnectkitConnector, createRainbowkitConnector, createReownConnector
+//
+// Each symbol has exactly one canonical import path.
 
-export {
-  createConnectkitConnector,
-  createRainbowkitConnector,
-  createReownConnector,
-} from './connectors'
 export type { UseEvmReadOnlyOptions } from './read-only'
 export { useEvmReadOnly } from './read-only'
 export type { ConnectorAppMetadata, EvmConnectorConfig } from './types'
