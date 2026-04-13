@@ -411,10 +411,26 @@ Returns the registry built by the provider. Useful for components that need chai
 
 ### Escape hatch progression
 
-1. Use `<TransactionButton>` (style package) — zero boilerplate
-2. Use `useTransaction()` (react) — control UI, SDK handles lifecycle
-3. Use `useTransaction().resolveAdapters(chainId)` — raw wallet and transaction adapters for one-off customization, still inside the React tree
-4. Pass explicit `transactionAdapter` / `walletAdapter` options to `useTransaction()` — bypass provider resolution entirely
-5. Use `@dappbooster/evm-adapter` (or the relevant adapter package) directly — `createEvmTransactionAdapter`, `createEvmServerWallet`, `adapter.execute(params, signer)` — no React, no provider, no hooks
+See [Escape hatch strategy](../adapter-architecture-spec.md#escape-hatch-strategy) in the index for the strategic intent. Each level below is a concrete implementation target with both the current monorepo-internal path (what works in this repo today) and the future published package path (what consumers will import after monorepo extraction).
 
-Each level peels back one layer. Agents default to level 1. Experienced devs go to level 2. Edge cases go deeper. `@dappbooster/core` is the contract layer (interfaces, types, errors) — you do not call it directly; you consume it through an adapter package.
+1. **`<TransactionButton>`** — zero boilerplate for common flows. Style-package component gates on wallet readiness and runs the full transaction cycle on click.
+   - Current: `@/src/transactions/components` (will consolidate into `src/chakra/` alongside other styled components)
+   - Future package: `@dappbooster/chakra`
+
+2. **`useTransaction()`** — custom UI, SDK-managed lifecycle. The hook owns state transitions, fires lifecycle hooks, and resolves adapters from the provider context. Consumers control the markup.
+   - Current: `@/src/sdk/react/hooks` (use the `/hooks` sub-path, not the empty root barrel)
+   - Future package: `@dappbooster/react/hooks`
+
+3. **`useTransaction().resolveAdapters(chainId)`** — adapter access via provider context for one-off customization (e.g., call `adapter.prepare()` yourself, inspect adapter metadata). Provider-based resolution still handles the lookup; you just operate on the raw adapters.
+   - Same import as Level 2 — this is a method on the hook return.
+
+4. **Explicit adapter options** — bypass provider resolution entirely. Pass the adapter you want to use and the hook/helper uses it directly, no registry lookup. Useful for tests, sandboxes, and consumers that manage adapters outside a React tree.
+   - `useTransaction({ transactionAdapter, walletAdapter })` — same import as Level 2
+   - `useWallet({ adapter })` — `@/src/sdk/react/hooks` today, `@dappbooster/react/hooks` future
+
+5. **Direct adapter factories** — no React, no provider, no hooks. Intended surface for CLI tools, agent scripts, relayers, and any non-React consumer. Call `createEvmTransactionAdapter`, `createEvmServerWallet`, and invoke `adapter.prepare() → adapter.execute(params, signer) → adapter.confirm(ref)` directly.
+   - Current: `@/src/sdk/evm-adapter` (root — viem only), `@/src/sdk/evm-adapter/wagmi` (add wagmi for browser connectors)
+   - Future packages: `@dappbooster/evm-adapter`, `@dappbooster/evm-adapter/wagmi`
+   - `@dappbooster/core` (current: `@/src/sdk/core`) is the contract layer — interfaces, types, and error classes only. Consumers do not call core directly; they consume it through an adapter package.
+
+Agents default to Level 1. Each level peels back one abstraction layer. Escalate one level at a time, driven by a concrete limitation at the current level — never jump straight from Level 1 to Level 5.

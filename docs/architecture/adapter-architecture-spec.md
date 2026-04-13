@@ -24,6 +24,20 @@ The architecture enables dAppBooster to serve as the go-to SDK for **any** block
 - **One canonical import path per symbol.** Each exported symbol has exactly one valid import path. Sub-paths are canonical (`@dappbooster/react/hooks`, `@dappbooster/evm-adapter/wagmi`); root barrels are either curated aggregators or empty (`export {}`). No `export *`. This is the enforcement mechanism behind agent-deterministic — without it, agents face N valid paths to the same symbol and decisions become non-deterministic.
 - **Errors are typed and discoverable.** Every error the SDK can raise is a named class (`WalletNotConnectedError`, `ChainNotSupportedError`, `AdapterNotFoundError`, `InsufficientFundsError`, `PreStepsNotExecutedError`, `TransactionNotReadyError`, `CapabilityNotSupportedError`, `AmbiguousAdapterError`, etc.) with typed contextual properties. Consumers `try/catch` on the class, not on string parsing. Lifecycle hooks (`onError`) are observers — they never absorb errors. Errors thrown from operations propagate to the caller; errors thrown from observation hooks are swallowed so they never abort the operation. See the [Consumer Error Handling Guide](./adapter-spec/06-use-cases.md#consumer-error-handling-guide) for per-action mapping.
 
+### Escape hatch strategy
+
+The "Layered escape hatches" principle is **progressive disclosure**: common flows take one line; uncommon flows take more. Each layer is a superset of the layer below it — you never lose access to what the lower layer offered, you just opt out of its sugar.
+
+Strategic intent:
+
+- **Happy path is one line.** Agents and first-time consumers ship the 90% case with a single component. Zero research, zero config.
+- **Escalation is cheap and reversible.** Moving from Level N to Level N+1 is always a single import change and a few additional lines. You never rewrite from scratch to go deeper, and you can climb back up later.
+- **Every level is first-class.** Level 5 (raw adapter factories) is not a workaround or a last resort — it is the intended surface for CLI tools, agent scripts, relayers, and any non-React consumer. Lower levels exist *on top of it*, not *instead of it*. The same code paths run at every level.
+- **Agents escalate one level at a time.** "I need to go deeper" comes from a concrete limitation at the current level (e.g., I need to swap the adapter for a custom one, I need to skip provider resolution), never from taste or uncertainty. Agents should never jump from Level 1 to Level 5; they should try Levels 2, 3, 4 in order and stop at the first level that meets the requirement.
+- **Lower levels are discoverable from higher ones.** `useTransaction()` exposes `resolveAdapters(chainId)` so consumers at Level 2 can escalate to Level 3 without leaving the hook. The hook exposes the adapters so consumers don't have to re-resolve from the provider context themselves.
+
+See [Provider and Hooks → Escape hatch progression](./adapter-spec/03-provider-and-hooks.md#escape-hatch-progression) for the five concrete levels with import paths.
+
 ### Package structure
 
 ```

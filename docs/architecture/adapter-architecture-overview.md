@@ -37,17 +37,20 @@ A Tailwind user imports `core` + `react` and writes their own 30-line components
 
 ### Escape hatch progression
 
-Every layer is independently replaceable:
+Every layer is independently replaceable. Each level peels back one abstraction; every level is first-class (Level 5 is not a last resort — it is the intended surface for agent scripts, CLI tools, and relayers).
 
 ```
-Level 1:  <TransactionButton />          ← zero boilerplate (style package)
-Level 2:  useTransaction()               ← control the UI (react hooks)
-Level 3:  useTransaction().adapter       ← raw adapter access
-Level 4:  adapter prop                   ← bypass provider entirely
-Level 5:  @dappbooster/evm-adapter       ← no React, no provider, no hooks
+Level 1:  <TransactionButton />                            ← zero boilerplate (style package)
+Level 2:  useTransaction()                                 ← control the UI (react hooks)
+Level 3:  useTransaction().resolveAdapters(chainId)        ← raw adapter access via provider context
+Level 4:  useTransaction({ transactionAdapter, walletAdapter })  ← bypass provider resolution entirely
+Level 5:  @dappbooster/evm-adapter (createEvmServerWallet, createEvmTransactionAdapter)
+          ← no React, no provider, no hooks
 ```
 
-Agents default to Level 1. Experienced devs go to Level 2. Edge cases go deeper.
+Agents default to Level 1. Experienced devs go to Level 2. Edge cases escalate one level at a time, driven by a concrete limitation — never jump straight from Level 1 to Level 5.
+
+See [Escape hatch strategy](./adapter-architecture-spec.md#escape-hatch-strategy) for the rationale and [Provider and Hooks → Escape hatch progression](./adapter-spec/03-provider-and-hooks.md#escape-hatch-progression) for the detailed levels with current + future import paths.
 
 ---
 
