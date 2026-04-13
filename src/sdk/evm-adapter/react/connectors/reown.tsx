@@ -12,7 +12,12 @@ function useConnectModal() {
   return { open }
 }
 
-/** Creates a Reown/AppKit-backed EVM connector from app metadata. */
+/**
+ * Creates a Reown/AppKit-backed EVM connector from app metadata.
+ *
+ * @expects metadata.appName and metadata.walletConnectProjectId are non-empty strings
+ * @postcondition returns an EvmConnectorConfig whose createConfig() initializes AppKit and returns the wagmi Config
+ */
 export function createReownConnector(metadata: ConnectorAppMetadata): EvmConnectorConfig {
   return {
     createConfig(chains: Chain[], transports: Record<number, Transport>) {

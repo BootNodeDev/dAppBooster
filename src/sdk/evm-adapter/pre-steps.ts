@@ -33,6 +33,11 @@ export interface ApprovalPreStepParams {
 
 /**
  * Creates a PreStep for ERC-20 approve(spender, amount).
+ *
+ * @expects params.token and params.spender are valid Address values
+ * @expects params.amount is a non-negative bigint
+ * @expects params.chainId is registered in the chain registry the consumer will resolve against
+ * @postcondition returns a PreStep wrapping an EvmContractCall for ERC-20 `approve`
  */
 export function createApprovalPreStep(params: ApprovalPreStepParams): PreStep {
   return {
@@ -87,6 +92,11 @@ export interface PermitPreStepParams {
 
 /**
  * Creates a PreStep for EIP-2612 permit(owner, spender, value, deadline, v, r, s).
+ *
+ * @expects all address, bigint, and signature fields are EIP-2612 compliant
+ * @expects params.deadline is a future unix timestamp in seconds
+ * @expects params.chainId is registered in the chain registry the consumer will resolve against
+ * @postcondition returns a PreStep wrapping an EvmContractCall for ERC-20 `permit`
  */
 export function createPermitPreStep(params: PermitPreStepParams): PreStep {
   return {

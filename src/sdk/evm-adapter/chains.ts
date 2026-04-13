@@ -4,6 +4,10 @@ import type { ChainDescriptor } from '../core/chain'
 
 /**
  * Converts a viem Chain object into a ChainDescriptor for use in the dAppBooster adapter layer.
+ *
+ * @expects chain is a well-formed viem Chain (id, name, nativeCurrency present)
+ * @postcondition returns a ChainDescriptor with chainType = 'evm', caip2Id = `eip155:{id}`, and hex address config
+ * @postcondition explorer is populated when chain.blockExplorers.default exists, otherwise undefined
  */
 export function fromViemChain(chain: Chain): ChainDescriptor {
   const explorer = chain.blockExplorers?.default

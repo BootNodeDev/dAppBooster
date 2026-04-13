@@ -21,6 +21,11 @@ interface ConnectWalletButtonProps extends UseWalletOptions {
  * Resolves the wallet adapter via `useWallet(options)` and delegates all
  * rendering to the `render` prop. In a multi-wallet setup, pass `chainType`
  * or `chainId` to target a specific adapter's modal.
+ *
+ * @precondition Must be rendered inside a DAppBoosterProvider
+ * @expects walletOptions resolve to a registered wallet adapter (chainType/chainId matches)
+ * @postcondition invokes render() with { status, truncatedAddress, onConnect, onManageAccount }
+ * @throws {Error} When rendered outside a DAppBoosterProvider (via useWallet → useProviderContext)
  */
 export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({ render, ...walletOptions }) => {
   const { status, openConnectModal, openAccountModal } = useWallet(walletOptions)

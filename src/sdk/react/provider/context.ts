@@ -19,6 +19,13 @@ export interface DAppBoosterContextValue {
 
 export const DAppBoosterContext = createContext<DAppBoosterContextValue | null>(null)
 
+/**
+ * Returns the DAppBoosterProvider context value.
+ *
+ * @precondition Must be called inside a DAppBoosterProvider
+ * @postcondition returns the non-null DAppBoosterContextValue
+ * @throws {Error} When called outside a DAppBoosterProvider
+ */
 export function useProviderContext(): DAppBoosterContextValue {
   const context = useContext(DAppBoosterContext)
   if (!context) {

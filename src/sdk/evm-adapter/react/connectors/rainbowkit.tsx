@@ -23,7 +23,12 @@ function useConnectModal() {
   }
 }
 
-/** Creates a RainbowKit-backed EVM connector from app metadata. */
+/**
+ * Creates a RainbowKit-backed EVM connector from app metadata.
+ *
+ * @expects metadata.appName and metadata.walletConnectProjectId are non-empty strings
+ * @postcondition returns an EvmConnectorConfig with RainbowKit's WalletProvider and useConnectModal/useAccountModal
+ */
 export function createRainbowkitConnector(metadata: ConnectorAppMetadata): EvmConnectorConfig {
   return {
     createConfig(chains: Chain[], transports: Record<number, Transport>) {
