@@ -11,14 +11,16 @@ The only adapter the SDK ships at launch. It wraps the existing dAppBooster code
 
 ### Package layout recap
 
-`@dappbooster/evm-adapter` is a pluggable adapter package with three layers, each with a distinct dependency footprint:
+`@dappbooster/evm-adapter` is a pluggable adapter package with **three dependency layers** — root (viem), `/wagmi` (adds wagmi), `/react` (adds React). The connector factories live as per-library sub-paths under the React layer, so installing one connector library does not bundle the others:
 
-| Sub-path | Dependencies | Purpose |
-|---|---|---|
-| `@dappbooster/evm-adapter` (root) | viem | `createEvmTransactionAdapter`, `createEvmServerWallet`, `fromViemChain`, `evmReadClientFactory`, `createApprovalPreStep`, `createPermitPreStep` — usable in agent scripts, CLI tools, relayers |
-| `@dappbooster/evm-adapter/wagmi` | wagmi + viem | `createEvmWalletAdapter`, `EvmCoreConnectorConfig` — browser wallet connection without React |
-| `@dappbooster/evm-adapter/react` | React + wagmi + viem | `createEvmWalletBundle`, `useEvmReadOnly`, `EvmConnectorConfig` — full dApp integration |
-| `@dappbooster/evm-adapter/react/connectors` | React + wagmi + connector lib | `createConnectkitConnector`, `createRainbowkitConnector`, `createReownConnector` |
+| Sub-path | Layer | Dependencies | Purpose |
+|---|---|---|---|
+| `@dappbooster/evm-adapter` (root) | root | viem | `createEvmTransactionAdapter`, `createEvmServerWallet`, `fromViemChain`, `evmReadClientFactory`, `createApprovalPreStep`, `createPermitPreStep` — usable in agent scripts, CLI tools, relayers |
+| `@dappbooster/evm-adapter/wagmi` | wagmi | wagmi + viem | `createEvmWalletAdapter`, `EvmCoreConnectorConfig` — browser wallet connection without React |
+| `@dappbooster/evm-adapter/react` | react | React + wagmi + viem | `createEvmWalletBundle`, `useEvmReadOnly`, `EvmConnectorConfig` — full dApp integration |
+| `@dappbooster/evm-adapter/react/connectors/connectkit` | react (sub-path) | React + wagmi + `connectkit` | `createConnectkitConnector` |
+| `@dappbooster/evm-adapter/react/connectors/rainbowkit` | react (sub-path) | React + wagmi + `@rainbow-me/rainbowkit` | `createRainbowkitConnector` |
+| `@dappbooster/evm-adapter/react/connectors/reown` | react (sub-path) | React + wagmi + `@reown/appkit` | `createReownConnector` |
 
 ### EvmWalletAdapter (wagmi layer)
 

@@ -72,7 +72,7 @@ interface WalletAdapter {
 
 ### TransactionAdapter
 
-Owns the four-phase transaction lifecycle. **Optional** — auth-only apps skip this entirely.
+Owns the transaction lifecycle. **Optional** — auth-only apps skip this entirely.
 
 ```typescript
 interface TransactionAdapter {
@@ -82,7 +82,9 @@ interface TransactionAdapter {
 }
 ```
 
-The four phases — **prepare → execute → confirm → report** — are universal across every blockchain. The implementation differs per chain. That's what adapters are for.
+Three adapter methods — **prepare → execute → confirm** — universal across every blockchain. The implementation differs per chain; that's what adapters are for.
+
+The hook layer (`useTransaction`) tracks five execution states (`'idle' | 'prepare' | 'preStep' | 'submit' | 'confirm'`) because the consumer-visible flow includes the idle baseline AND a separate `preStep` phase that runs intermediate transactions discovered by `prepare()` (e.g., ERC-20 approvals). The lifecycle hook surface aligns with these phases, not with adapter methods. See [Adapters](./adapter-spec/02-adapters.md) for the full method contracts and [Provider and Hooks](./adapter-spec/03-provider-and-hooks.md) for the hook state machine.
 
 ### Why two, not one?
 
@@ -97,7 +99,7 @@ The four phases — **prepare → execute → confirm → report** — are unive
 
 Two sets of hooks for cross-cutting concerns (notifications, analytics, logging):
 
-**TransactionLifecycle** — fires during the transaction four-phase cycle:
+**TransactionLifecycle** — fires during the transaction execution cycle:
 
 ```
 onPrepare → onPreStep → onSubmit → onConfirm
@@ -303,11 +305,16 @@ The only adapter we ship initially. It wraps the existing wagmi/viem code — no
 
 ### Connectors are subpath exports
 
-ConnectKit, RainbowKit, and Reown are EVM-specific connector adapters. They are React-based and live in `@dappbooster/evm-adapter/react/connectors` as subpath exports with optional peer dependencies:
+ConnectKit, RainbowKit, and Reown are EVM-specific connector adapters. They are React-based and each ships as its OWN subpath export with optional peer dependencies — install only the connector library you actually use:
 
 ```typescript
-import { createConnectkitConnector } from '@dappbooster/evm-adapter/react/connectors'
+import { createConnectkitConnector } from '@dappbooster/evm-adapter/react/connectors/connectkit'
+// or:
+import { createRainbowkitConnector } from '@dappbooster/evm-adapter/react/connectors/rainbowkit'
+import { createReownConnector }      from '@dappbooster/evm-adapter/react/connectors/reown'
 ```
+
+Per-connector sub-paths mean the bundler only pulls in the connector library you import. A dApp using ConnectKit installs `connectkit` as a peer dep and never bundles RainbowKit or Reown code.
 
 If you use ConnectKit, install `connectkit`. If you use RainbowKit, install `@rainbow-me/rainbowkit`. A CLI tool or agent script imports from `@dappbooster/evm-adapter` (viem only) and installs neither.
 
