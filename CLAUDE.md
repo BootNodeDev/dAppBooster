@@ -11,7 +11,7 @@ System architecture, data flow, provider hierarchy, and structural conventions a
 
 ## Setup
 
-1. `pnpm install` (postinstall automatically runs `pnpm wagmi-generate`)
+1. `pnpm install` (postinstall automatically runs `pnpm codegen`)
 2. `cp .env.example .env.local`
 3. Edit `.env.local`:
    - `PUBLIC_APP_NAME` is mandatory
@@ -127,7 +127,7 @@ The `/issue` skill applies these labels automatically when creating issues via C
 
 1. Save ABI in `src/constants/contracts/abis/YourContract.ts` (export as const)
 2. Register in `src/constants/contracts/contracts.ts` with name, ABI, and addresses per chain
-3. Run `pnpm wagmi-generate` to auto-generate typed hooks in `src/hooks/generated.ts`
+3. Run `pnpm codegen` to auto-generate typed hooks in `src/contracts/generated.ts`
 
 The contracts array uses `as const satisfies ContractConfig<Abi>[]` for full type inference. Follow this pattern.
 
@@ -156,7 +156,7 @@ Use `getContract(name, chainId)` to retrieve a typed contract config at runtime 
 
 These files are gitignored and regenerated from source:
 
-- `src/hooks/generated.ts` -- regenerate with `pnpm wagmi-generate`
+- `src/contracts/generated.ts` -- regenerate with `pnpm codegen`
 - `src/routeTree.gen.ts` -- regenerate with `pnpm routes:generate`
 - `src/subgraphs/gql/` -- regenerate with `pnpm subgraph-codegen`
 

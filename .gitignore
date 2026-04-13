@@ -48,3 +48,9 @@ lerna-debug.log*
 .claude/
 .env.local.bkp
 docs/superpowers/
+
+# Process artifacts — specs/plans/memos live on disk only, never in git
+/CODE_REVIEW_MEMO.md
+/PHASE*_IMPLEMENTATION_GUIDE.md
+/PR_DESCRIPTION.md
+docs/architecture/address-config-spec.md
