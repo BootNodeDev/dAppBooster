@@ -139,7 +139,6 @@ describe('TokenBalance', () => {
       isLoadingBalance: false,
     })
     renderTokenBalance({ isLoading: false, token: erc20Token })
-    // TODO: surface error state instead of silently rendering 0
     expect(screen.getByText('0')).toBeDefined()
     expect(screen.getByText('N/A')).toBeDefined()
   })

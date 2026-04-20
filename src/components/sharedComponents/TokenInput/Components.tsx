@@ -277,7 +277,7 @@ export const CloseButton: FC<ButtonProps> = ({ children, ...restProps }) => (
     border="none"
     color="var(--title-color-default)"
     cursor="pointer"
-    marginLeft={'auto'}
+    marginLeft="auto"
     marginRight={4}
     marginBottom={4}
     marginTop={0}

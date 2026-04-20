@@ -56,7 +56,6 @@ const TokenBalance = withSuspenseAndRetry<TokenBalanceProps>(({ isLoading, token
   const isNative = isNativeToken(token.address)
   const hasExtensions = !!token.extensions
 
-  // Both hooks are called unconditionally; `enabled` flags prevent unnecessary fetches.
   const { data: nativeBalanceData, isLoading: isLoadingNative } = useBalance({
     address,
     chainId: token.chainId,
@@ -86,7 +85,6 @@ const TokenBalance = withSuspenseAndRetry<TokenBalanceProps>(({ isLoading, token
     )
   }
 
-  // No LI.FI data - show two skeletons while on-chain fetch is in flight, then balance + N/A for USD.
   const isLoadingFallback = isNative ? isLoadingNative : isLoadingErc20
   if (isLoadingFallback) {
     return <BalanceLoading />

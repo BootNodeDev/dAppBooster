@@ -9,12 +9,13 @@ import {
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { type Address, type Chain, formatUnits, zeroAddress } from 'viem'
+import { type Address, type Chain, formatUnits } from 'viem'
 
 import { env } from '@/src/env'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { Token, Tokens } from '@/src/types/token'
+import { toLocalNativeAddress } from '@/src/utils/address'
 import { logger } from '@/src/utils/logger'
 import type { TokensMap } from '@/src/utils/tokenListsCache'
 
@@ -104,7 +105,7 @@ export const useTokens = (
     staleTime: BALANCE_EXPIRATION_TIME,
     refetchInterval: BALANCE_EXPIRATION_TIME,
     gcTime: Number.POSITIVE_INFINITY,
-    enabled: canFetchBalance && !!chains && chainsToFetch.length > 0,
+    enabled: canFetchBalance && chainsToFetch.length > 0,
   })
 
   const { data: tokensBalances, isLoading: isLoadingBalances } = useQuery({
@@ -165,20 +166,13 @@ export function udpateTokensBalances(
 ) {
   const [balanceTokens, prices] = results
 
-  // LI.FI reports native tokens at the zero address. Rewrite it to the app's
-  // configured native sentinel (env.PUBLIC_NATIVE_TOKEN_ADDRESS) so the downstream
-  // lookup keyed on local token addresses matches. No-op when the app is left on
-  // the default zero-address sentinel.
-  const toLocalAddress = (address: string): string =>
-    address.toLowerCase() === zeroAddress ? env.PUBLIC_NATIVE_TOKEN_ADDRESS : address
-
   logger.time('extending tokens with balance info')
   const priceByChainAddress = Object.entries(prices.tokens).reduce(
     (acc, [chainId, tokens]) => {
       acc[chainId] = {}
 
       tokens.forEach((token) => {
-        acc[chainId][toLocalAddress(token.address)] = token.priceUSD ?? '0'
+        acc[chainId][toLocalNativeAddress(token.address)] = token.priceUSD ?? '0'
       })
 
       return acc
@@ -192,7 +186,8 @@ export function udpateTokensBalances(
         acc[balanceToken.chainId] = {}
       }
 
-      acc[balanceToken.chainId][toLocalAddress(balanceToken.address)] = balanceToken.amount ?? 0n
+      acc[balanceToken.chainId][toLocalNativeAddress(balanceToken.address)] =
+        balanceToken.amount ?? 0n
 
       return acc
     },

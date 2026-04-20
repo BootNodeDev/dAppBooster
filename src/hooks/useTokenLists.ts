@@ -58,7 +58,7 @@ export const useTokenLists = (): TokensMap => {
     return env.PUBLIC_USE_DEFAULT_TOKENS ? ['default', ...urls] : urls
   }, [])
 
-  const enabledBundledLists = bundledTokenLists.filter((b) => b.enabled)
+  const enabledBundledLists = useMemo(() => bundledTokenLists.filter((b) => b.enabled), [])
 
   return useSuspenseQueries({
     queries: [

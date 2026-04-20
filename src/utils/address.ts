@@ -1,3 +1,4 @@
+import { zeroAddress } from 'viem'
 import { env } from '@/src/env'
 
 /**
@@ -19,3 +20,11 @@ import { env } from '@/src/env'
 export const isNativeToken = (address: string) => {
   return address.toLowerCase() === env.PUBLIC_NATIVE_TOKEN_ADDRESS
 }
+
+/**
+ * LI.FI reports native tokens at the zero address. Rewrite it to the app's
+ * configured native sentinel (env.PUBLIC_NATIVE_TOKEN_ADDRESS) so lookups keyed
+ * on local token addresses match. No-op when the app uses the zero-address sentinel.
+ */
+export const toLocalNativeAddress = (address: string): string =>
+  address.toLowerCase() === zeroAddress ? env.PUBLIC_NATIVE_TOKEN_ADDRESS : address

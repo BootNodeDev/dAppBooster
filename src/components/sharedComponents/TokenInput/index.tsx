@@ -2,7 +2,6 @@ import { Dialog, type FlexProps, Portal } from '@chakra-ui/react'
 import { type FC, useMemo, useState } from 'react'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits } from 'viem'
-import * as viemChains from 'viem/chains'
 import {
   BigNumberInput,
   type BigNumberInputProps,
@@ -30,6 +29,7 @@ import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedCompo
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import { NO_PRICE_DATA_LABEL } from '@/src/constants/common'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { chains } from '@/src/lib/networks.config'
 import type { Token } from '@/src/types/token'
 import styles from './styles'
 
@@ -99,7 +99,7 @@ const TokenInput: FC<Props> = ({
   const { appChainId, walletChainId } = useWeb3Status()
   const activeChainId = selectedToken?.chainId ?? currentNetworkId ?? walletChainId ?? appChainId
   const isTestnetChain = useMemo(
-    () => Object.values(viemChains).find((c) => c.id === activeChainId)?.testnet === true,
+    () => chains.find((c) => c.id === activeChainId)?.testnet === true,
     [activeChainId],
   )
 
