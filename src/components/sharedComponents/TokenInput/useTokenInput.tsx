@@ -54,7 +54,7 @@ export function useTokenInput(token?: Token) {
     token: selectedToken,
   })
 
-  const publicClient = usePublicClient({ chainId: token?.chainId })
+  const publicClient = usePublicClient({ chainId: selectedToken?.chainId })
 
   const isNative = selectedToken?.address ? isNativeToken(selectedToken.address) : false
   const {
