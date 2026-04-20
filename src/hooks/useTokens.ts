@@ -9,7 +9,7 @@ import {
 } from '@lifi/sdk'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
-import { type Address, type Chain, formatUnits } from 'viem'
+import { type Address, type Chain, formatUnits, zeroAddress } from 'viem'
 
 import { env } from '@/src/env'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
@@ -159,8 +159,18 @@ export const useTokens = (
  * @param results - The results containing the balance tokens and prices.
  * @returns An object containing the updated tokens and tokens grouped by chain ID.
  */
-function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, TokensResponse]) {
+export function udpateTokensBalances(
+  tokens: Tokens,
+  results: [Array<TokenAmount>, TokensResponse],
+) {
   const [balanceTokens, prices] = results
+
+  // LI.FI reports native tokens at the zero address. Rewrite it to the app's
+  // configured native sentinel (env.PUBLIC_NATIVE_TOKEN_ADDRESS) so the downstream
+  // lookup keyed on local token addresses matches. No-op when the app is left on
+  // the default zero-address sentinel.
+  const toLocalAddress = (address: string): string =>
+    address.toLowerCase() === zeroAddress ? env.PUBLIC_NATIVE_TOKEN_ADDRESS : address
 
   logger.time('extending tokens with balance info')
   const priceByChainAddress = Object.entries(prices.tokens).reduce(
@@ -168,7 +178,7 @@ function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, Toke
       acc[chainId] = {}
 
       tokens.forEach((token) => {
-        acc[chainId][token.address] = token.priceUSD ?? '0'
+        acc[chainId][toLocalAddress(token.address)] = token.priceUSD ?? '0'
       })
 
       return acc
@@ -182,7 +192,7 @@ function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, Toke
         acc[balanceToken.chainId] = {}
       }
 
-      acc[balanceToken.chainId][balanceToken.address] = balanceToken.amount ?? 0n
+      acc[balanceToken.chainId][toLocalAddress(balanceToken.address)] = balanceToken.amount ?? 0n
 
       return acc
     },
