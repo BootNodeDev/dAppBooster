@@ -104,7 +104,7 @@ export const useTokens = (
     staleTime: BALANCE_EXPIRATION_TIME,
     refetchInterval: BALANCE_EXPIRATION_TIME,
     gcTime: Number.POSITIVE_INFINITY,
-    enabled: canFetchBalance && !!chains,
+    enabled: canFetchBalance && !!chains && chainsToFetch.length > 0,
   })
 
   const { data: tokensBalances, isLoading: isLoadingBalances } = useQuery({
