@@ -43,7 +43,7 @@ describe('TokenInput demo', () => {
     renderWithProviders(
       <QueryClientProvider client={queryClient}>{tokenInput.demo}</QueryClientProvider>,
     )
-    // The mode dropdown should be visible
-    expect(screen.getByText('Single token')).toBeDefined()
+    // The mode dropdown should be visible with the default mode selected
+    expect(screen.getByText('Multi token')).toBeDefined()
   })
 })

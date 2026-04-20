@@ -144,10 +144,10 @@ const TokenInputMode = withSuspenseAndRetry(
  * token or multi token mode.
  */
 const TokenInput = () => {
-  const [currentTokenInput, setCurrentTokenInput] = useState<Options>('single')
+  const [currentTokenInput, setCurrentTokenInput] = useState<Options>('multi')
   const dropdownItems = [
-    { label: 'Single token', onClick: () => setCurrentTokenInput('single') },
     { label: 'Multi token', onClick: () => setCurrentTokenInput('multi') },
+    { label: 'Single token', onClick: () => setCurrentTokenInput('single') },
   ]
 
   return (
