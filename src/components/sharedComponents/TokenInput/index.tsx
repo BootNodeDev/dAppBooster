@@ -2,6 +2,7 @@ import { Dialog, type FlexProps, Portal } from '@chakra-ui/react'
 import { type FC, useMemo, useState } from 'react'
 import { type NumberFormatValues, NumericFormat } from 'react-number-format'
 import { formatUnits } from 'viem'
+import * as viemChains from 'viem/chains'
 import {
   BigNumberInput,
   type BigNumberInputProps,
@@ -28,6 +29,7 @@ import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import { NO_PRICE_DATA_LABEL } from '@/src/constants/common'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { Token } from '@/src/types/token'
 import styles from './styles'
 
@@ -94,12 +96,21 @@ const TokenInput: FC<Props> = ({
     [balance, selectedToken],
   )
 
+  const { appChainId, walletChainId } = useWeb3Status()
+  const activeChainId = selectedToken?.chainId ?? currentNetworkId ?? walletChainId ?? appChainId
+  const isTestnetChain = useMemo(
+    () => Object.values(viemChains).find((c) => c.id === activeChainId)?.testnet === true,
+    [activeChainId],
+  )
+
   const estimatedUSDValue = useMemo(() => {
-    const priceUSD = selectedToken?.extensions?.priceUSD
-    if (!priceUSD || !amount) return null
-    const tokenAmount = Number.parseFloat(formatUnits(amount, selectedToken?.decimals ?? 0))
-    return (Number.parseFloat(priceUSD as string) * tokenAmount).toFixed(2)
-  }, [selectedToken, amount])
+    if (isTestnetChain) return null
+    if (!selectedToken) return 0
+    const priceUSD = selectedToken.extensions?.priceUSD
+    if (priceUSD === undefined || priceUSD === null) return 0
+    const tokenAmount = Number.parseFloat(formatUnits(amount, selectedToken.decimals ?? 0))
+    return Number.parseFloat(priceUSD as string) * tokenAmount
+  }, [isTestnetChain, selectedToken, amount])
 
   const selectIconSize = 24
   const decimals = selectedToken ? selectedToken.decimals : 2
@@ -177,7 +188,7 @@ const TokenInput: FC<Props> = ({
         </TopRow>
         <BottomRow>
           <EstimatedUSDValue>
-            {estimatedUSDValue !== null ? `~$${estimatedUSDValue}` : NO_PRICE_DATA_LABEL}
+            {estimatedUSDValue === null ? NO_PRICE_DATA_LABEL : `~$${estimatedUSDValue.toFixed(2)}`}
           </EstimatedUSDValue>
           <Balance>
             <BalanceValue>
