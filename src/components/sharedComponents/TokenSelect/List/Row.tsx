@@ -1,7 +1,8 @@
-import { Box, Flex, type FlexProps, Skeleton } from '@chakra-ui/react'
+import { Box, Flex, type FlexProps } from '@chakra-ui/react'
 import type { FC } from 'react'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import AddERC20TokenButton from '@/src/components/sharedComponents/TokenSelect/List/AddERC20TokenButton'
+import BalanceLoading from '@/src/components/sharedComponents/TokenSelect/List/BalanceLoading'
 import TokenBalance from '@/src/components/sharedComponents/TokenSelect/List/TokenBalance'
 import type { Token } from '@/src/types/token'
 
@@ -17,25 +18,6 @@ const Icon: FC<{ size: number } & FlexProps> = ({ size, children, ...restProps }
     {...restProps}
   >
     {children}
-  </Flex>
-)
-
-const BalanceLoading: FC<FlexProps> = ({ ...restProps }) => (
-  <Flex
-    alignItems="flex-end"
-    display="flex"
-    flexDirection="column"
-    rowGap={1}
-    {...restProps}
-  >
-    <Skeleton
-      height="19px"
-      width="50px"
-    />
-    <Skeleton
-      height="14px"
-      width="50px"
-    />
   </Flex>
 )
 

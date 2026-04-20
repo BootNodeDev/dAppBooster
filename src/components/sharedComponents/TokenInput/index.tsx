@@ -27,6 +27,7 @@ import type { UseTokenInputReturnType } from '@/src/components/sharedComponents/
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
+import { NO_PRICE_DATA_LABEL } from '@/src/constants/common'
 import type { Token } from '@/src/types/token'
 import styles from './styles'
 
@@ -176,7 +177,7 @@ const TokenInput: FC<Props> = ({
         </TopRow>
         <BottomRow>
           <EstimatedUSDValue>
-            {estimatedUSDValue !== null ? `~$${estimatedUSDValue}` : 'N/A'}
+            {estimatedUSDValue !== null ? `~$${estimatedUSDValue}` : NO_PRICE_DATA_LABEL}
           </EstimatedUSDValue>
           <Balance>
             <BalanceValue>

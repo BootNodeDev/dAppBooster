@@ -1,11 +1,13 @@
-import { Box, Flex, Skeleton } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { formatUnits } from 'viem'
 import { useBalance } from 'wagmi'
+import { NO_PRICE_DATA_LABEL } from '@/src/constants/common'
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
+import BalanceLoading from './BalanceLoading'
 
 interface TokenBalanceProps {
   isLoading?: boolean
@@ -17,7 +19,7 @@ const balanceBoxProps = {
   fontSize: '16px',
   fontWeight: '400',
   lineHeight: '1.2',
-  _groupHover: { color: 'var(--row-token-balance-color-hover, var(--row-token-balance-color)' },
+  _groupHover: { color: 'var(--row-token-balance-color-hover, var(--row-token-balance-color))' },
 } as const
 
 const valueBoxProps = {
@@ -25,7 +27,7 @@ const valueBoxProps = {
   fontSize: '12px',
   fontWeight: '400',
   lineHeight: '1.2',
-  _groupHover: { color: 'var(--row-token-value-color-hover, var(--row-token-value-color)' },
+  _groupHover: { color: 'var(--row-token-value-color-hover, var(--row-token-value-color))' },
 } as const
 
 const flexProps = {
@@ -84,23 +86,20 @@ const TokenBalance = withSuspenseAndRetry<TokenBalanceProps>(({ isLoading, token
     )
   }
 
-  // No LI.FI data — skeleton for balance while on-chain fetch is in flight, N/A immediately for value.
+  // No LI.FI data - show two skeletons while on-chain fetch is in flight, then balance + N/A for USD.
   const isLoadingFallback = isNative ? isLoadingNative : isLoadingErc20
+  if (isLoadingFallback) {
+    return <BalanceLoading />
+  }
+
   const fallbackBalance = isNative
     ? formatUnits(nativeBalanceData?.value ?? 0n, token.decimals)
     : formatUnits(erc20Balance ?? 0n, token.decimals)
 
   return (
     <Flex {...flexProps}>
-      {isLoadingFallback ? (
-        <Skeleton
-          height="19px"
-          width="50px"
-        />
-      ) : (
-        <Box {...balanceBoxProps}>{fallbackBalance}</Box>
-      )}
-      <Box {...valueBoxProps}>N/A</Box>
+      <Box {...balanceBoxProps}>{fallbackBalance}</Box>
+      <Box {...valueBoxProps}>{NO_PRICE_DATA_LABEL}</Box>
     </Flex>
   )
 })

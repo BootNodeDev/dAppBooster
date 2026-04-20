@@ -121,7 +121,7 @@ export const useTokens = (
     staleTime: BALANCE_EXPIRATION_TIME,
     refetchInterval: BALANCE_EXPIRATION_TIME,
     gcTime: Number.POSITIVE_INFINITY,
-    enabled: canFetchBalance && !!tokensPricesByChain,
+    enabled: canFetchBalance && !!tokensPricesByChain && chainsToFetch.length > 0,
   })
 
   const cache = useMemo(() => {

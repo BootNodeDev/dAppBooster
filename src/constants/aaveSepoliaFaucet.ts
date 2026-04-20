@@ -2,14 +2,16 @@ import { getAddress } from 'viem'
 import { sepolia } from 'viem/chains'
 import type { TokenList } from '@/src/types/token'
 
-const TW = 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets'
+// trustwallet/assets pinned 2026-04-18; bump SHA when icons need updating
+const TW_SHA = 'a2c7ba6ca5cc1f16f1be80f642618396ed6df6be'
+const TW = `https://raw.githubusercontent.com/trustwallet/assets/${TW_SHA}/blockchains/ethereum/assets`
 
-// Source: AAVE v3 Sepolia deployment — https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Sepolia.sol
+// Source: AAVE v3 Sepolia deployment - https://github.com/bgd-labs/aave-address-book/blob/main/src/AaveV3Sepolia.sol
 // Addresses are the underlying ERC-20 assets (not aTokens).
 // logoURIs point to Trust Wallet CDN using each token's mainnet checksummed address.
 export const aaveSepoliaFaucetTokens: TokenList = {
   name: 'AAVE Sepolia Faucet',
-  timestamp: '2024-01-01T00:00:00Z',
+  timestamp: '2026-04-20T00:00:00Z',
   version: { major: 1, minor: 0, patch: 0 },
   tokens: [
     {
