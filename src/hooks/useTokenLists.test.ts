@@ -28,6 +28,7 @@ vi.mock('@/src/env', () => ({
 
 vi.mock('@/src/constants/tokenLists', () => ({
   tokenLists: {},
+  bundledTokenLists: [],
 }))
 
 vi.mock('@tanstack/react-query', async (importActual) => {

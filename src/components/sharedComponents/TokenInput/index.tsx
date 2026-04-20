@@ -92,6 +92,14 @@ const TokenInput: FC<Props> = ({
     () => (balance && selectedToken ? balance : BigInt(0)),
     [balance, selectedToken],
   )
+
+  const estimatedUSDValue = useMemo(() => {
+    const priceUSD = selectedToken?.extensions?.priceUSD
+    if (!priceUSD || !amount) return null
+    const tokenAmount = Number.parseFloat(formatUnits(amount, selectedToken?.decimals ?? 0))
+    return (Number.parseFloat(priceUSD as string) * tokenAmount).toFixed(2)
+  }, [selectedToken, amount])
+
   const selectIconSize = 24
   const decimals = selectedToken ? selectedToken.decimals : 2
 
@@ -167,7 +175,9 @@ const TokenInput: FC<Props> = ({
           )}
         </TopRow>
         <BottomRow>
-          <EstimatedUSDValue>~$0.00</EstimatedUSDValue>
+          <EstimatedUSDValue>
+            {estimatedUSDValue !== null ? `~$${estimatedUSDValue}` : 'N/A'}
+          </EstimatedUSDValue>
           <Balance>
             <BalanceValue>
               {balanceError && 'Error...'}
