@@ -197,7 +197,9 @@ export async function fetchTokenList(url: string): Promise<TokenList> {
   }
 }
 
-const chainsById = new Map(Object.values(chains).map((c) => [c.id, c]))
+const chainsById: Map<number, (typeof chains)[keyof typeof chains]> = new Map(
+  Object.values(chains).map((c) => [c.id, c]),
+)
 
 /**
  * Builds a native token object based on the chain ID.
