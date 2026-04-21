@@ -11,7 +11,20 @@ body:
   - type: markdown
     attributes:
       value: |
-        > **Priority:** When using `gh` CLI or REST API, apply `priority: <level>` labels (e.g., `--label "priority: high"`). See the Label Conventions section in `CLAUDE.md` for the full table.
+        > **Programmatic creation:** When using `gh` CLI or REST API, apply `priority: <level>` labels instead of using the Priority dropdown (e.g., `--label "priority: high"`). See the Label Conventions section in `CLAUDE.md` for the full table.
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgently does this need to be addressed?
+      options:
+        - Critical — blocking work, system down, or security issue
+        - High — must be addressed in current sprint
+        - Medium — should be addressed soon
+        - Low — nice to have, can wait
+    validations:
+      required: false
 
   - type: textarea
     id: objective

@@ -61,35 +61,31 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 ## PR Workflow
 
 - Every PR must reference an issue (`Closes #N`)
+
+  > No related issue? Use `No related issue.` as the first line of the Summary section.
+
 - Mirror the issue's acceptance criteria in the PR
 - Self-review your diff before requesting peer review
 - Keep PRs small and focused -- one issue, one PR
 - PR titles use the same conventional commit format (`feat: add user dashboard`)
+- Use `/sdlc:create-pr` to create PRs -- it reads the template and fills every section automatically
 
 ## Label Conventions
 
-GitHub form dropdowns (like the Severity field in `1-bug.yml`) only work through the web UI. When issues are created via `gh` CLI or REST API, dropdown values become unstructured body text -- not queryable, not consistent. **Labels are the API-reliable mechanism for structured metadata.**
+GitHub form dropdowns (like the Priority field in issue templates) only work through the web UI. When issues are created via `gh` CLI or REST API, dropdown values become unstructured body text -- not queryable, not consistent. **Labels are the API-reliable mechanism for structured metadata.**
 
-**Severity** (bugs only):
-
-| Label | Description |
-|-------|-------------|
-| `severity: critical` | System down, data loss, or security issue |
-| `severity: high` | Broken feature, no workaround |
-| `severity: medium` | Broken feature, workaround exists |
-| `severity: low` | Cosmetic or minor inconvenience |
-
-**Priority** (features and epics):
+**Priority** (bugs, features, and epics):
 
 | Label | Description |
 |-------|-------------|
+| `priority: critical` | Blocking work, system down, or security issue |
 | `priority: high` | Must be addressed in current sprint |
 | `priority: medium` | Should be addressed soon |
 | `priority: low` | Nice to have, can wait |
 
-Labels are queryable: `gh issue list --label "severity: high"`, `gh issue list --label "priority: medium"`.
+Labels are queryable: `gh issue list --label "priority: high"`.
 
-The `/issue` skill applies these labels automatically when creating issues via CLI. The bug template's severity dropdown is kept for web UI users but is not the source of truth for programmatic workflows.
+The `/sdlc:issue` skill applies these labels automatically when creating issues via CLI. Bug, feature, and epic templates include a Priority dropdown for web UI users, but labels are the source of truth for programmatic workflows.
 
 ## Code Style
 
