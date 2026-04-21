@@ -222,6 +222,30 @@ describe('useTokenLists', () => {
     expect(nativeToken?.symbol).toBe('ETH')
   })
 
+  it('filters out tokens whose chainId is not present in viem/chains and does not log', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: mocking internal combine param
+    vi.mocked(tanstackQuery.useSuspenseQueries).mockImplementation(({ combine }: any) => {
+      const ropstenToken: Token = {
+        address: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+        chainId: 3,
+        decimals: 18,
+        name: 'Wrapped Ether (Ropsten)',
+        symbol: 'WETH',
+      }
+      return combine([mockSuspenseQueryResult([mockToken1, ropstenToken])])
+    })
+
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const { result } = renderHook(() => useTokenLists(), { wrapper })
+
+    expect(result.current.tokens.some((t) => t.chainId === 3)).toBe(false)
+    expect(result.current.tokensByChainId[3]).toBeUndefined()
+    expect(errorSpy).not.toHaveBeenCalled()
+    expect(result.current.tokens.some((t) => t.address === mockToken1.address)).toBe(true)
+
+    errorSpy.mockRestore()
+  })
+
   it('filters out tokens that fail schema validation', () => {
     // biome-ignore lint/suspicious/noExplicitAny: mocking internal combine param
     vi.mocked(tanstackQuery.useSuspenseQueries).mockImplementation(({ combine }: any) => {
