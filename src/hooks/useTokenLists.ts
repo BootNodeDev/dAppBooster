@@ -13,6 +13,11 @@ import { type Token, type TokenList, tokenSchema } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 import tokenListsCache, { type TokensMap, updateTokenListsCache } from '@/src/utils/tokenListsCache'
 
+const chainsById: Map<number, (typeof chains)[keyof typeof chains]> = new Map()
+for (const chain of Object.values(chains)) {
+  if (!chainsById.has(chain.id)) chainsById.set(chain.id, chain)
+}
+
 /**
  * Loads and processes token lists from configured sources
  *
@@ -122,18 +127,9 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
   const tokensMap = uniqueTokens.reduce<TokensMap>(
     (acc, token) => {
       if (!acc.tokensByChainId[token.chainId]) {
-        try {
-          // if there's a native token for the chain
-          const nativeToken = buildNativeToken(token.chainId)
-
-          // add it to the list
-          acc.tokensByChainId[token.chainId] = [nativeToken]
-          acc.tokens.push(nativeToken)
-        } catch (err) {
-          console.error(err)
-          // if there's no native token for the chain, ignore the error
-          acc.tokensByChainId[token.chainId] = []
-        }
+        const nativeToken = buildNativeToken(token.chainId)
+        acc.tokensByChainId[token.chainId] = [nativeToken]
+        acc.tokens.push(nativeToken)
       }
 
       acc.tokens.push(token)
@@ -196,10 +192,6 @@ export async function fetchTokenList(url: string): Promise<TokenList> {
     return emptyTokenList
   }
 }
-
-const chainsById: Map<number, (typeof chains)[keyof typeof chains]> = new Map(
-  Object.values(chains).map((c) => [c.id, c]),
-)
 
 /**
  * Builds a native token object based on the chain ID.

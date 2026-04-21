@@ -241,6 +241,7 @@ describe('useTokenLists', () => {
     expect(result.current.tokens.some((t) => t.chainId === 3)).toBe(false)
     expect(result.current.tokensByChainId[3]).toBeUndefined()
     expect(errorSpy).not.toHaveBeenCalled()
+    expect(result.current.tokens.some((t) => t.address === mockToken1.address)).toBe(true)
 
     errorSpy.mockRestore()
   })
