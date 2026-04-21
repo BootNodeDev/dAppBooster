@@ -190,10 +190,10 @@ const TokenInput: FC<Props> = ({
           <EstimatedUSDValue>
             {estimatedUSDValue === null ? (
               NO_PRICE_DATA_LABEL
-            ) : selectedToken && !isTestnetChain && (isLoadingPrice || isLoadingBalance) ? (
+            ) : selectedToken && (isLoadingPrice || isLoadingBalance) ? (
               <Spinner size="sm" />
             ) : (
-              `~$${(estimatedUSDValue as number).toFixed(2)}`
+              `~$${estimatedUSDValue.toFixed(2)}`
             )}
           </EstimatedUSDValue>
           <Balance>
