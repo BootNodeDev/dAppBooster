@@ -1,11 +1,11 @@
+import { Flex, Menu } from '@chakra-ui/react'
+import type { ComponentPropsWithoutRef, FC } from 'react'
+import { useState } from 'react'
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import DropdownButton from '@/src/components/sharedComponents/ui/DropdownButton'
 import { MenuContent } from '@/src/components/sharedComponents/ui/Menu'
 import type { Token } from '@/src/types/token'
-import { Flex, Menu } from '@chakra-ui/react'
-import type { ComponentPropsWithoutRef, FC } from 'react'
-import { useState } from 'react'
 
 export interface TokenDropdownProps extends TokenSelectProps {
   currentToken?: Token | undefined
@@ -28,8 +28,9 @@ type Props = ComponentPropsWithoutRef<'span'> & TokenDropdownProps
  * @param {string} [props.placeholder] - Placeholder text for the search input.
  * @param {number} [props.containerHeight] - Height of the virtualized tokens list.
  * @param {number} [props.itemHeight] - Height of each item in the tokens list.
- * @param {boolean} [props.showBalance] - Whether to show the token balance in the list.
+ * @param {boolean} [props.showBalance] - Whether to show the token balance column in each row.
  * @param {boolean} [props.showTopTokens] - Whether to show the top tokens section in the list.
+ * @param {boolean} [props.sortByBalance] - Sort tokens with a positive balance to the top, ordered by USD value descending. Defaults to true when a wallet is connected.
  * @param {ComponentPropsWithoutRef<'span'>} props.restProps - Additional props for the span element.
  *
  * @example

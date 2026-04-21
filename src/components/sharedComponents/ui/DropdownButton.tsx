@@ -1,6 +1,6 @@
-import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
 import { type ButtonProps, chakra } from '@chakra-ui/react'
 import type { FC } from 'react'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
 
 const ChevronDown: FC = () => (
   <chakra.svg

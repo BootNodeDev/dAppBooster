@@ -1,6 +1,6 @@
-import Button from '@/src/components/sharedComponents/ui/Button'
 import type { ButtonProps } from '@chakra-ui/react'
 import type { FC } from 'react'
+import Button from '@/src/components/sharedComponents/ui/Button'
 import styles from './styles'
 
 export const SecondaryButton: FC<ButtonProps> = ({ css, ...restProps }) => (

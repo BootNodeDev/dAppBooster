@@ -1,29 +1,34 @@
-import { withWalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
-import { useTransactionNotification } from '@/src/providers/TransactionNotificationProvider'
 import { type ButtonProps, chakra } from '@chakra-ui/react'
-import type { FC } from 'react'
+import type { FC, ReactElement } from 'react'
 import { useSignMessage } from 'wagmi'
+import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainButton'
+import { useWalletStatus } from '@/src/hooks/useWalletStatus'
+import type { ChainsIds } from '@/src/lib/networks.config'
+import { useTransactionNotification } from '@/src/providers/TransactionNotificationProvider'
+import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 
 interface SignButtonProps extends Omit<ButtonProps, 'onError'> {
-  label?: string
+  /** Target chain ID for wallet status verification. */
+  chainId?: ChainsIds
+  /** Custom fallback when wallet needs connection. Defaults to ConnectWalletButton. */
+  fallback?: ReactElement
+  /** Button label while signing. Defaults to 'Signing...'. */
   labelSigning?: string
+  /** The message to sign. */
   message: string
+  /** Callback function called when an error occurs. */
   onError?: (error: Error) => void
+  /** Callback function called when the message is signed. */
   onSign?: (signature: string) => void
+  /** Label for the switch chain button. Defaults to 'Switch to'. */
+  switchChainLabel?: string
 }
 
 /**
- * SignButton component that allows users to sign a message.
+ * Self-contained message signing button with wallet verification.
  *
- * @param {SignButtonProps} props - SignButton component props.
- * @param {string} props.message - The message to sign.
- * @param {string|ReactNode} [props.children='Sign Message'] - The content to display in the button.
- * @param {boolean} [props.disabled] - Whether the button is disabled.
- * @param {(signature: string) => void} [props.onSign] - Callback function called when the message is signed.
- * @param {(error: Error) => void} [props.onError] - Callback function called when an error occurs.
- * @param {string} [props.label='Sign Message'] - The label for the button (alternative to children).
- * @param {string} [props.labelSigning='Signing...'] - The label for the button when the message is being signed.
- * @param {ButtonProps} [props.restProps] - Additional props inherited from Chakra UI ButtonProps.
+ * Handles wallet connection status internally — shows a connect button if not connected,
+ * a switch chain button if on the wrong chain, or the sign button when ready.
  *
  * @example
  * ```tsx
@@ -34,44 +39,59 @@ interface SignButtonProps extends Omit<ButtonProps, 'onError'> {
  * />
  * ```
  */
-const SignButton: FC<SignButtonProps> = withWalletStatusVerifier(
-  ({
-    children = 'Sign Message',
-    disabled,
-    labelSigning = 'Signing...',
-    message,
-    onError,
-    onSign,
-    ...restProps
-  }: SignButtonProps) => {
-    const { watchSignature } = useTransactionNotification()
+const SignButton: FC<SignButtonProps> = ({
+  chainId,
+  children = 'Sign Message',
+  disabled,
+  fallback = <ConnectWalletButton />,
+  labelSigning = 'Signing...',
+  message,
+  onError,
+  onSign,
+  switchChainLabel = 'Switch to',
+  ...restProps
+}) => {
+  const { needsConnect, needsChainSwitch, targetChain, targetChainId, switchChain } =
+    useWalletStatus({ chainId })
+  const { watchSignature } = useTransactionNotification()
 
-    const { isPending, signMessageAsync } = useSignMessage({
-      mutation: {
-        onSuccess(data) {
-          onSign?.(data)
-        },
-        onError(error) {
-          onError?.(error)
-        },
+  const { isPending, signMessageAsync } = useSignMessage({
+    mutation: {
+      onSuccess(data) {
+        onSign?.(data)
       },
-    })
+      onError(error) {
+        onError?.(error)
+      },
+    },
+  })
 
+  if (needsConnect) {
+    return fallback
+  }
+
+  if (needsChainSwitch) {
     return (
-      <chakra.button
-        disabled={disabled || isPending}
-        onClick={() => {
-          watchSignature({
-            message: 'Signing message...',
-            signaturePromise: signMessageAsync({ message }),
-          })
-        }}
-        {...restProps}
-      >
-        {isPending ? labelSigning : children}
-      </chakra.button>
+      <SwitchChainButton onClick={() => switchChain(targetChainId)}>
+        {switchChainLabel} {targetChain.name}
+      </SwitchChainButton>
     )
-  },
-)
+  }
+
+  return (
+    <chakra.button
+      disabled={disabled || isPending}
+      onClick={() => {
+        watchSignature({
+          message: 'Signing message...',
+          signaturePromise: signMessageAsync({ message }),
+        })
+      }}
+      {...restProps}
+    >
+      {isPending ? labelSigning : children}
+    </chakra.button>
+  )
+}
 
 export default SignButton

@@ -1,11 +1,11 @@
-import type { Token } from '@/src/types/token'
-import tokenListsCache, { updateTokenListsCache } from '@/src/utils/tokenListsCache'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { renderHook } from '@testing-library/react'
-import { createElement } from 'react'
 import type { ReactNode } from 'react'
+import { createElement } from 'react'
 import { zeroAddress } from 'viem'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { type Token, tokenSchema } from '@/src/types/token'
+import tokenListsCache, { updateTokenListsCache } from '@/src/utils/tokenListsCache'
 
 vi.mock('@/src/utils/tokenListsCache', () => {
   const cache = { tokens: [] as Token[], tokensByChainId: {} as Record<number, Token[]> }
@@ -28,6 +28,7 @@ vi.mock('@/src/env', () => ({
 
 vi.mock('@/src/constants/tokenLists', () => ({
   tokenLists: {},
+  bundledTokenLists: [],
 }))
 
 vi.mock('@tanstack/react-query', async (importActual) => {
@@ -36,7 +37,10 @@ vi.mock('@tanstack/react-query', async (importActual) => {
 })
 
 import * as tanstackQuery from '@tanstack/react-query'
-import { useTokenLists } from './useTokenLists'
+import { fetchTokenList, useTokenLists } from './useTokenLists'
+
+const mockFetch = vi.fn()
+vi.stubGlobal('fetch', mockFetch)
 
 const mockToken1: Token = {
   address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
@@ -70,6 +74,110 @@ beforeEach(() => {
   vi.mocked(updateTokenListsCache).mockImplementation((map) => {
     tokenListsCache.tokens = map.tokens
     tokenListsCache.tokensByChainId = map.tokensByChainId
+  })
+})
+
+describe('fetchTokenList', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('returns empty token list on HTTP error', async () => {
+    mockFetch.mockResolvedValue({
+      ok: false,
+      status: 504,
+      statusText: 'Gateway Timeout',
+    })
+
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toEqual([])
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('Token list fetch failed'))
+    warnSpy.mockRestore()
+  })
+
+  it('returns empty token list on network error', async () => {
+    mockFetch.mockRejectedValue(new Error('Network error'))
+
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toEqual([])
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Token list fetch failed'),
+      'Network error',
+    )
+    warnSpy.mockRestore()
+  })
+
+  it('returns empty token list on invalid JSON schema', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ error: 'not a token list' }),
+    })
+
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toEqual([])
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('invalid schema'))
+    warnSpy.mockRestore()
+  })
+
+  it('returns token list on valid response', async () => {
+    const validTokenList = {
+      name: 'Test',
+      timestamp: '2026-01-01',
+      version: { major: 1, minor: 0, patch: 0 },
+      tokens: [{ symbol: 'ETH', name: 'Ether', address: '0x0', chainId: 1, decimals: 18 }],
+    }
+
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve(validTokenList),
+    })
+
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toHaveLength(1)
+    expect(result.tokens[0].symbol).toBe('ETH')
+  })
+
+  it('returns empty token list when tokens field is not an array', async () => {
+    mockFetch.mockResolvedValue({
+      ok: true,
+      json: () => Promise.resolve({ tokens: 'not an array' }),
+    })
+
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const result = await fetchTokenList('https://example.com/tokens.json')
+
+    expect(result.tokens).toEqual([])
+    warnSpy.mockRestore()
+  })
+
+  describe("'default' bundled token list", () => {
+    it('returns a non-empty tokens array', async () => {
+      const result = await fetchTokenList('default')
+
+      expect(result.tokens.length).toBeGreaterThan(0)
+      expect(mockFetch).not.toHaveBeenCalled()
+    })
+
+    it('every EVM token conforms to tokenSchema', async () => {
+      const result = await fetchTokenList('default')
+
+      // The bundled list includes non-EVM tokens (e.g. Solana with base58 addresses)
+      // alongside EVM tokens. Non-EVM entries are filtered out downstream by useTokenLists
+      // via safeParse. Here we validate only the EVM-addressable subset.
+      const evmTokens = result.tokens.filter(({ address }) => /^0x[a-fA-F0-9]{40}$/.test(address))
+      expect(evmTokens.length).toBeGreaterThan(0)
+      for (const token of evmTokens) {
+        expect(() => tokenSchema.parse(token)).not.toThrow()
+      }
+      expect(mockFetch).not.toHaveBeenCalled()
+    })
   })
 })
 
@@ -112,6 +220,30 @@ describe('useTokenLists', () => {
     const nativeToken = result.current.tokensByChainId[1]?.[0]
     expect(nativeToken?.address).toBe(zeroAddress.toLowerCase())
     expect(nativeToken?.symbol).toBe('ETH')
+  })
+
+  it('filters out tokens whose chainId is not present in viem/chains and does not log', () => {
+    // biome-ignore lint/suspicious/noExplicitAny: mocking internal combine param
+    vi.mocked(tanstackQuery.useSuspenseQueries).mockImplementation(({ combine }: any) => {
+      const ropstenToken: Token = {
+        address: '0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6',
+        chainId: 3,
+        decimals: 18,
+        name: 'Wrapped Ether (Ropsten)',
+        symbol: 'WETH',
+      }
+      return combine([mockSuspenseQueryResult([mockToken1, ropstenToken])])
+    })
+
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const { result } = renderHook(() => useTokenLists(), { wrapper })
+
+    expect(result.current.tokens.some((t) => t.chainId === 3)).toBe(false)
+    expect(result.current.tokensByChainId[3]).toBeUndefined()
+    expect(errorSpy).not.toHaveBeenCalled()
+    expect(result.current.tokens.some((t) => t.address === mockToken1.address)).toBe(true)
+
+    errorSpy.mockRestore()
   })
 
   it('filters out tokens that fail schema validation', () => {

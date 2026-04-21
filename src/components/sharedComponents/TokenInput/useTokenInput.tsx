@@ -1,10 +1,11 @@
-import { useErc20Balance } from '@/src/hooks/useErc20Balance'
-import type { Token } from '@/src/types/token'
-import { isNativeToken } from '@/src/utils/address'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { getAddress } from 'viem'
 import { useAccount, usePublicClient } from 'wagmi'
+import { useErc20Balance } from '@/src/hooks/useErc20Balance'
+import { useTokens } from '@/src/hooks/useTokens'
+import type { Token } from '@/src/types/token'
+import { isNativeToken } from '@/src/utils/address'
 
 export type UseTokenInputReturnType = ReturnType<typeof useTokenInput>
 
@@ -25,6 +26,8 @@ export type UseTokenInputReturnType = ReturnType<typeof useTokenInput>
  * @returns {bigint} returns.balance - Current token balance (ERC20 or native)
  * @returns {Error|null} returns.balanceError - Error from balance fetching
  * @returns {boolean} returns.isLoadingBalance - Loading state for balance
+ * @returns {string|undefined} returns.priceUSD - USD price of the selected token (from useTokens)
+ * @returns {boolean} returns.isLoadingPrice - Loading state for the selected token's USD price
  * @returns {Token|undefined} returns.selectedToken - Currently selected token
  * @returns {function} returns.setTokenSelected - Function to update selected token
  *
@@ -49,12 +52,22 @@ export function useTokenInput(token?: Token) {
   }, [token])
 
   const { address: userWallet } = useAccount()
+  const { tokensByChainId, isLoadingPrices: isLoadingPrice } = useTokens({
+    chainId: selectedToken?.chainId,
+    withBalance: true,
+  })
+  const priceUSD = selectedToken
+    ? (tokensByChainId[selectedToken.chainId]?.find(
+        (t) => t.address.toLowerCase() === selectedToken.address.toLowerCase(),
+      )?.extensions?.priceUSD as string | undefined)
+    : undefined
+
   const { balance, balanceError, isLoadingBalance } = useErc20Balance({
     address: userWallet ? getAddress(userWallet) : undefined,
     token: selectedToken,
   })
 
-  const publicClient = usePublicClient({ chainId: token?.chainId })
+  const publicClient = usePublicClient({ chainId: selectedToken?.chainId })
 
   const isNative = selectedToken?.address ? isNativeToken(selectedToken.address) : false
   const {
@@ -64,7 +77,7 @@ export function useTokenInput(token?: Token) {
   } = useQuery({
     queryKey: ['nativeBalance', selectedToken?.address, selectedToken?.chainId, userWallet],
     queryFn: () => publicClient?.getBalance({ address: getAddress(userWallet ?? '') }),
-    enabled: isNative,
+    enabled: isNative && !!userWallet,
   })
 
   return {
@@ -75,6 +88,8 @@ export function useTokenInput(token?: Token) {
     balance: isNative ? nativeBalance : balance,
     balanceError: isNative ? nativeBalanceError : balanceError,
     isLoadingBalance: isNative ? isLoadingNativeBalance : isLoadingBalance,
+    isLoadingPrice,
+    priceUSD,
     selectedToken,
     setTokenSelected,
   }

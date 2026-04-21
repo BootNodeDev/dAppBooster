@@ -1,11 +1,11 @@
+import { Flex } from '@chakra-ui/react'
+import { useState } from 'react'
+import { sepolia } from 'wagmi/chains'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import ERC20ApproveAndTransferButton from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/ERC20ApproveAndTransferButton'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Icon'
 import NativeToken from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/NativeToken'
 import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
-import { Flex } from '@chakra-ui/react'
-import { useState } from 'react'
-import { sepolia } from 'wagmi/chains'
 
 type Options = 'erc20' | 'native'
 
@@ -18,20 +18,18 @@ const TransactionButton = () => {
 
   return (
     <WalletStatusVerifier chainId={sepolia.id}>
-      <>
-        <OptionsDropdown items={items} />
-        <Flex
-          alignItems="center"
-          display="flex"
-          flexDirection="column"
-          justifyContent="center"
-          paddingTop={{ base: 2, lg: 6 }}
-          width="100%"
-        >
-          {currentTokenInput === 'erc20' && <ERC20ApproveAndTransferButton />}
-          {currentTokenInput === 'native' && <NativeToken />}
-        </Flex>
-      </>
+      <OptionsDropdown items={items} />
+      <Flex
+        alignItems="center"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        paddingTop={{ base: 2, lg: 6 }}
+        width="100%"
+      >
+        {currentTokenInput === 'erc20' && <ERC20ApproveAndTransferButton />}
+        {currentTokenInput === 'native' && <NativeToken />}
+      </Flex>
     </WalletStatusVerifier>
   )
 }

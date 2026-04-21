@@ -1,3 +1,7 @@
+import { Dialog, type FlexProps, Portal } from '@chakra-ui/react'
+import { type FC, useMemo, useState } from 'react'
+import { type NumberFormatValues, NumericFormat } from 'react-number-format'
+import { formatUnits } from 'viem'
 import {
   BigNumberInput,
   type BigNumberInputProps,
@@ -23,11 +27,10 @@ import type { UseTokenInputReturnType } from '@/src/components/sharedComponents/
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
+import { NO_PRICE_DATA_LABEL } from '@/src/constants/common'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { chains } from '@/src/lib/networks.config'
 import type { Token } from '@/src/types/token'
-import { Dialog, type FlexProps, Portal } from '@chakra-ui/react'
-import { type FC, useMemo, useState } from 'react'
-import { type NumberFormatValues, NumericFormat } from 'react-number-format'
-import { formatUnits } from 'viem'
 import styles from './styles'
 
 interface TokenInputProps extends Omit<TokenSelectProps, 'onTokenSelect'> {
@@ -55,8 +58,9 @@ type Props = FlexProps & TokenInputProps
  * @param {number} [props.iconSize=32] - Optional size of the token icon in the list. Default is 32.
  * @param {number} [props.itemHeight=64] - Optional height of each item in the list. Default is 64.
  * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
- * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
+ * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance column in each row. Default is false.
  * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
+ * @param {boolean} [props.sortByBalance] - Sort tokens with a positive balance to the top, ordered by USD value descending. Defaults to true when a wallet is connected.
  */
 const TokenInput: FC<Props> = ({
   containerHeight,
@@ -70,6 +74,7 @@ const TokenInput: FC<Props> = ({
   showBalance,
   showTopTokens,
   singleToken,
+  sortByBalance,
   thousandSeparator = true,
   title,
   tokenInput,
@@ -82,6 +87,8 @@ const TokenInput: FC<Props> = ({
     balance,
     balanceError,
     isLoadingBalance,
+    isLoadingPrice,
+    priceUSD,
     selectedToken,
     setAmount,
     setAmountError,
@@ -92,6 +99,21 @@ const TokenInput: FC<Props> = ({
     () => (balance && selectedToken ? balance : BigInt(0)),
     [balance, selectedToken],
   )
+
+  const { appChainId, walletChainId } = useWeb3Status()
+  const activeChainId = selectedToken?.chainId ?? currentNetworkId ?? walletChainId ?? appChainId
+  const isTestnetChain = useMemo(
+    () => chains.find((c) => c.id === activeChainId)?.testnet === true,
+    [activeChainId],
+  )
+
+  const estimatedUSDValue = useMemo(() => {
+    if (isTestnetChain) return null
+    if (!selectedToken || !priceUSD || !balance) return 0
+    const tokenBalance = Number.parseFloat(formatUnits(balance, selectedToken.decimals ?? 0))
+    return Number.parseFloat(priceUSD) * tokenBalance
+  }, [isTestnetChain, selectedToken, priceUSD, balance])
+
   const selectIconSize = 24
   const decimals = selectedToken ? selectedToken.decimals : 2
 
@@ -102,6 +124,7 @@ const TokenInput: FC<Props> = ({
   }
 
   const handleSetMax = () => {
+    setAmountError(null)
     setAmount(max)
   }
 
@@ -166,7 +189,15 @@ const TokenInput: FC<Props> = ({
           )}
         </TopRow>
         <BottomRow>
-          <EstimatedUSDValue>~$0.00</EstimatedUSDValue>
+          <EstimatedUSDValue>
+            {estimatedUSDValue === null ? (
+              NO_PRICE_DATA_LABEL
+            ) : selectedToken && (isLoadingPrice || isLoadingBalance) ? (
+              <Spinner size="sm" />
+            ) : (
+              `~$${estimatedUSDValue.toFixed(2)}`
+            )}
+          </EstimatedUSDValue>
           <Balance>
             <BalanceValue>
               {balanceError && 'Error...'}
@@ -201,6 +232,7 @@ const TokenInput: FC<Props> = ({
               showAddTokenButton={showAddTokenButton}
               showBalance={showBalance}
               showTopTokens={showTopTokens}
+              sortByBalance={sortByBalance}
             >
               <CloseButton
                 aria-label="Close"
@@ -228,7 +260,7 @@ function TokenAmountField({
   const { onChange, inputRef, ...restProps } = renderInputProps
 
   const isAllowed = ({ value }: NumberFormatValues) => {
-    const [inputDecimals] = value.toString().split('.')
+    const [, inputDecimals] = value.toString().split('.')
 
     if (!inputDecimals) {
       return true

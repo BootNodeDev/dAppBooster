@@ -1,7 +1,4 @@
-import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
-import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
-import { Flex, Spinner } from '@chakra-ui/react'
-import { Dialog, Portal } from '@chakra-ui/react'
+import { Dialog, Flex, Portal, Spinner } from '@chakra-ui/react'
 import { QueryErrorResetBoundary } from '@tanstack/react-query'
 import { type ComponentType, type JSX, type ReactNode, Suspense } from 'react'
 import {
@@ -9,6 +6,9 @@ import {
   type ErrorBoundaryPropsWithRender,
   type FallbackProps,
 } from 'react-error-boundary'
+import { GeneralMessage } from '@/src/components/sharedComponents/ui/GeneralMessage'
+import PrimaryButton from '@/src/components/sharedComponents/ui/PrimaryButton'
+import { DeveloperError } from '@/src/utils/DeveloperError'
 
 export type DefaultFallbackFormat = 'dialog' | 'default'
 
@@ -41,10 +41,7 @@ const DefaultFallback = ({
  * A generic wrapper for all the components that use suspense
  *
  * @param WrappedComponent - a component that will be wrapped inside ErrorBoundary and Suspense
- * @param {ReactNode} [errorFallback] - a custom fallback for ErrorBoundary
- * @param {ReactNode} [suspenseFallback] - a custom fallback for Suspense
- * @param {DefaultFallbackFormat} [defaultFallbackFormat] - Optional. Can be a dialog or just text or custom component (default).
- * @returns {ComponentType}
+ * @returns {ComponentType} component accepting {@link WithSuspenseProps}
  */
 export const withSuspense = <WrappedProps extends object>(
   WrappedComponent: ComponentType<WrappedProps>,
@@ -101,6 +98,10 @@ const defaultFallbackRender: ErrorBoundaryPropsWithRender['fallbackRender'] = ({
 }: FallbackProps): ReactNode => {
   const message = error instanceof Error ? error.message : 'Something went wrong.'
 
+  if (error instanceof DeveloperError) {
+    return <div>{message}</div>
+  }
+
   return (
     <>
       <div>{message}</div>
@@ -122,6 +123,7 @@ const defaultFallbackRenderDialog: ErrorBoundaryPropsWithRender['fallbackRender'
   resetErrorBoundary,
 }: FallbackProps): ReactNode => {
   const message = error instanceof Error ? error.message : 'Something went wrong.'
+  const isDeveloperError = error instanceof DeveloperError
 
   return (
     <Dialog.Root
@@ -133,7 +135,11 @@ const defaultFallbackRenderDialog: ErrorBoundaryPropsWithRender['fallbackRender'
         <Dialog.Positioner>
           <Dialog.Content>
             <GeneralMessage
-              actionButton={<PrimaryButton onClick={resetErrorBoundary}>Try again</PrimaryButton>}
+              actionButton={
+                isDeveloperError ? undefined : (
+                  <PrimaryButton onClick={resetErrorBoundary}>Try again</PrimaryButton>
+                )
+              }
               message={message}
             />
           </Dialog.Content>
@@ -154,11 +160,7 @@ export type WithSuspenseAndRetryProps = {
  * A wrapper for a component that uses suspense, with the capacity to retry if a useSuspenseQuery fails
  *
  * @param WrappedComponent - a component wrapped inside a tanstack's QueryErrorResetBoundary, ErrorBoundary, and a Suspense
- * @param {ReactNode} [fallbackRender] - a custom fallback render for ErrorBoundary
- * @param {DefaultFallbackFormat} [defaultFallbackFormat] - Optional. Can be a dialog or just text (default). Has no effect if `fallbackRender` is provided
- * @param {ReactNode} [suspenseFallback] - a custom fallback for Suspense
- *  @param {'xs' | 'sm' | 'md' | 'lg' | 'xl'} [spinnerSize] - Optional. Sets the size of the default spinner shown during suspense loading. Default is 'lg'.
- * @returns {ComponentType}
+ * @returns {ComponentType} component accepting {@link WithSuspenseAndRetryProps}
  */
 export const withSuspenseAndRetry = <WrappedProps extends object>(
   WrappedComponent: ComponentType<WrappedProps>,

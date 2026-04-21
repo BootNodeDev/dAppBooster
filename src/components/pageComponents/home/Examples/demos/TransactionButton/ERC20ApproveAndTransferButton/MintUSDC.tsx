@@ -1,9 +1,9 @@
-import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
-import { AaveFaucetABI } from '@/src/constants/contracts/abis/AaveFaucet'
-import { getContract } from '@/src/constants/contracts/contracts'
-import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { sepolia } from 'viem/chains'
 import { useWriteContract } from 'wagmi'
+import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
+import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { AaveFaucetABI } from '@/src/constants/contracts/abis/AaveFaucet'
+import { getContract } from '@/src/constants/contracts/contracts'
 
 export default function MintUSDC({ onSuccess }: { onSuccess: () => void }) {
   const { address } = useWeb3StatusConnected()

@@ -1,21 +1,23 @@
-import OptionsDropdown from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
-import Icon from '@/src/components/pageComponents/home/Examples/demos/TokenInput/Icon'
-import BaseTokenInput from '@/src/components/sharedComponents/TokenInput'
-import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
-import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
-import { useTokenLists } from '@/src/hooks/useTokenLists'
-import { useTokenSearch } from '@/src/hooks/useTokenSearch'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 import { Box, Flex, Skeleton } from '@chakra-ui/react'
 import {
   NetworkArbitrumOne,
   NetworkEthereum,
   NetworkOptimism,
   NetworkPolygon,
+  NetworkSepolia,
 } from '@web3icons/react'
 import { useState } from 'react'
-import { arbitrum, mainnet, optimism, polygon } from 'viem/chains'
+import { arbitrum, mainnet, optimism, polygon, sepolia } from 'viem/chains'
+import OptionsDropdown from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
+import Icon from '@/src/components/pageComponents/home/Examples/demos/TokenInput/Icon'
+import BaseTokenInput from '@/src/components/sharedComponents/TokenInput'
+import { useTokenInput } from '@/src/components/sharedComponents/TokenInput/useTokenInput'
+import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
+import { includeTestnets } from '@/src/constants/common'
+import { useTokenLists } from '@/src/hooks/useTokenLists'
+import { useTokenSearch } from '@/src/hooks/useTokenSearch'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
 
 type Options = 'single' | 'multi'
 
@@ -105,6 +107,21 @@ const TokenInputMode = withSuspenseAndRetry(
         label: polygon.name,
         onClick: () => setCurrentNetworkId(polygon.id),
       },
+      ...(includeTestnets
+        ? [
+            {
+              icon: (
+                <NetworkSepolia
+                  size={24}
+                  variant="background"
+                />
+              ),
+              id: sepolia.id,
+              label: sepolia.name,
+              onClick: () => setCurrentNetworkId(sepolia.id),
+            },
+          ]
+        : []),
     ]
 
     return (
@@ -127,10 +144,10 @@ const TokenInputMode = withSuspenseAndRetry(
  * token or multi token mode.
  */
 const TokenInput = () => {
-  const [currentTokenInput, setCurrentTokenInput] = useState<Options>('single')
+  const [currentTokenInput, setCurrentTokenInput] = useState<Options>('multi')
   const dropdownItems = [
-    { label: 'Single token', onClick: () => setCurrentTokenInput('single') },
     { label: 'Multi token', onClick: () => setCurrentTokenInput('multi') },
+    { label: 'Single token', onClick: () => setCurrentTokenInput('single') },
   ]
 
   return (

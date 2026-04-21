@@ -10,6 +10,7 @@ export const MenuContent: FC<MenuContentProps> = ({ children, css, ...restProps 
     css={{ ...css, ...styles }}
     padding="0"
     display="flex"
+    flexDirection="column"
     alignItems="stretch"
     {...restProps}
   >
@@ -22,6 +23,11 @@ export const MenuItem: FC<MenuItemProps> = ({ children, css, ...restProps }) => 
     alignItems="center"
     backgroundColor="var(--item-background-color)"
     borderBottom="1px solid var(--item-border-color)"
+    _last={{
+      borderBottom: 'none',
+      _hover: { borderBottom: 'none' },
+      _active: { borderBottom: 'none' },
+    }}
     color="var(--item-color)"
     columnGap={2}
     cursor="pointer"

@@ -1,9 +1,9 @@
+import { Flex, type FlexProps, Link } from '@chakra-ui/react'
+import type { FC } from 'react'
 import Github from '@/src/components/sharedComponents/ui/Footer/Socials/assets/Github'
 import LinkedIn from '@/src/components/sharedComponents/ui/Footer/Socials/assets/LinkedIn'
 import Telegram from '@/src/components/sharedComponents/ui/Footer/Socials/assets/Telegram'
 import Twitter from '@/src/components/sharedComponents/ui/Footer/Socials/assets/Twitter'
-import { Flex, type FlexProps, Link } from '@chakra-ui/react'
-import type { FC } from 'react'
 
 const Socials: FC<FlexProps> = ({ ...restProps }) => {
   const items = [

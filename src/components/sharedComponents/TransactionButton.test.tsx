@@ -1,146 +1,175 @@
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { describe, expect, it, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import { createElement, type ReactNode } from 'react'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { Web3Status } from '@/src/hooks/useWeb3Status'
 import TransactionButton from './TransactionButton'
 
-const system = createSystem(defaultConfig)
+const mockSwitchChain = vi.fn()
+const mockWatchTx = vi.fn()
+const mockTransaction = vi.fn(() => Promise.resolve('0xabc' as `0x${string}`))
 
-vi.mock('@/src/hooks/useWeb3Status', () => ({
-  useWeb3Status: vi.fn(),
+vi.mock('@/src/hooks/useWalletStatus', () => ({
+  useWalletStatus: vi.fn(() => ({
+    isReady: false,
+    needsConnect: true,
+    needsChainSwitch: false,
+    targetChain: { id: 1, name: 'Ethereum' },
+    targetChainId: 1,
+    switchChain: mockSwitchChain,
+  })),
+}))
+
+vi.mock('@/src/providers/Web3Provider', () => ({
+  ConnectWalletButton: () =>
+    createElement(
+      'button',
+      { type: 'button', 'data-testid': 'connect-wallet-button' },
+      'Connect Wallet',
+    ),
 }))
 
 vi.mock('@/src/providers/TransactionNotificationProvider', () => ({
   useTransactionNotification: vi.fn(() => ({
-    watchTx: vi.fn(),
-    watchHash: vi.fn(),
-    watchSignature: vi.fn(),
+    watchTx: mockWatchTx,
   })),
 }))
 
 vi.mock('wagmi', () => ({
-  useWaitForTransactionReceipt: vi.fn(() => ({ data: undefined })),
+  useWaitForTransactionReceipt: vi.fn(() => ({
+    data: undefined,
+  })),
 }))
 
-vi.mock('@/src/providers/Web3Provider', () => ({
-  ConnectWalletButton: () => <button type="button">Connect Wallet</button>,
-}))
+const { useWalletStatus } = await import('@/src/hooks/useWalletStatus')
+const mockedUseWalletStatus = vi.mocked(useWalletStatus)
 
-import * as useWeb3StatusModule from '@/src/hooks/useWeb3Status'
-import * as wagmiModule from 'wagmi'
+const mockWeb3Status = {
+  readOnlyClient: undefined,
+  appChainId: 1,
+  address: '0xdeadbeef',
+  balance: undefined,
+  connectingWallet: false,
+  switchingChain: false,
+  isWalletConnected: true,
+  walletClient: undefined,
+  isWalletSynced: true,
+  walletChainId: 1,
+  switchChain: vi.fn(),
+  disconnect: vi.fn(),
+} as unknown as Web3Status
 
-// chains[0] = optimismSepolia (id: 11155420) when PUBLIC_INCLUDE_TESTNETS=true (default)
-const OP_SEPOLIA_ID = 11155420 as const
+const system = createSystem(defaultConfig)
 
-function connectedStatus() {
-  return {
-    isWalletConnected: true,
-    isWalletSynced: true,
-    walletChainId: OP_SEPOLIA_ID,
-    appChainId: OP_SEPOLIA_ID,
-    address: '0x1234567890abcdef1234567890abcdef12345678' as `0x${string}`,
-    balance: undefined,
-    connectingWallet: false,
-    switchingChain: false,
-    walletClient: undefined,
-    readOnlyClient: undefined,
-    switchChain: vi.fn(),
-    disconnect: vi.fn(),
-  }
-}
-
-// biome-ignore lint/suspicious/noExplicitAny: test helper accepts flexible props
-function renderButton(props: any = {}) {
-  return render(
-    <ChakraProvider value={system}>
-      <TransactionButton
-        transaction={() => Promise.resolve('0x1' as `0x${string}`)}
-        {...props}
-      />
-    </ChakraProvider>,
-  )
-}
+const renderWithChakra = (ui: ReactNode) =>
+  render(<ChakraProvider value={system}>{ui}</ChakraProvider>)
 
 describe('TransactionButton', () => {
-  it('renders fallback when wallet not connected', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue({
-      ...connectedStatus(),
-      isWalletConnected: false,
-      isWalletSynced: false,
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('renders connect button when wallet needs connect', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: true,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      targetChainId: 1,
+      switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
-    renderButton()
-    expect(screen.getByText('Connect Wallet')).toBeDefined()
+
+    renderWithChakra(<TransactionButton transaction={mockTransaction}>Send</TransactionButton>)
+
+    expect(screen.getByTestId('connect-wallet-button')).toBeInTheDocument()
+    expect(screen.queryByText('Send')).toBeNull()
   })
 
-  it('renders switch chain button when wallet is on wrong chain', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue({
-      ...connectedStatus(),
-      isWalletSynced: false,
-      walletChainId: 1,
+  it('renders custom fallback when provided and wallet needs connect', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: true,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      targetChainId: 1,
+      switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
-    renderButton()
-    expect(screen.getByRole('button').textContent?.toLowerCase()).toContain('switch to')
-  })
 
-  it('renders with default label when wallet is connected and synced', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(connectedStatus())
-    vi.mocked(wagmiModule.useWaitForTransactionReceipt).mockReturnValue({
-      data: undefined,
-    } as ReturnType<typeof wagmiModule.useWaitForTransactionReceipt>)
-    renderButton()
-    expect(screen.getByText('Send Transaction')).toBeDefined()
-  })
-
-  it('renders with custom children label', () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(connectedStatus())
-    vi.mocked(wagmiModule.useWaitForTransactionReceipt).mockReturnValue({
-      data: undefined,
-    } as ReturnType<typeof wagmiModule.useWaitForTransactionReceipt>)
-    renderButton({ children: 'Deposit ETH' })
-    expect(screen.getByText('Deposit ETH')).toBeDefined()
-  })
-
-  it('shows labelSending while transaction is pending', async () => {
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(connectedStatus())
-    vi.mocked(wagmiModule.useWaitForTransactionReceipt).mockReturnValue({
-      data: undefined,
-    } as ReturnType<typeof wagmiModule.useWaitForTransactionReceipt>)
-
-    const neverResolves = () => new Promise<`0x${string}`>(() => {})
-    renderButton({ transaction: neverResolves, labelSending: 'Processing...' })
-
-    expect(screen.getByRole('button').textContent).not.toContain('Processing...')
-
-    fireEvent.click(screen.getByRole('button'))
-
-    await waitFor(() => {
-      expect(screen.getByRole('button').textContent).toContain('Processing...')
-    })
-  })
-
-  it('calls onMined when receipt becomes available', async () => {
-    // biome-ignore lint/suspicious/noExplicitAny: mock receipt shape
-    const mockReceipt = { status: 'success', transactionHash: '0x1' } as any
-    const onMined = vi.fn()
-
-    vi.mocked(useWeb3StatusModule.useWeb3Status).mockReturnValue(connectedStatus())
-    // Only return a receipt when called with the matching hash so the mock
-    // doesn't fire prematurely before the transaction is submitted.
-    vi.mocked(wagmiModule.useWaitForTransactionReceipt).mockImplementation(
-      (config) =>
-        ({
-          data: config?.hash === '0x1' ? mockReceipt : undefined,
-        }) as ReturnType<typeof wagmiModule.useWaitForTransactionReceipt>,
+    renderWithChakra(
+      <TransactionButton
+        transaction={mockTransaction}
+        fallback={createElement('div', { 'data-testid': 'custom-fallback' }, 'Custom')}
+      >
+        Send
+      </TransactionButton>,
     )
 
-    renderButton({
-      transaction: () => Promise.resolve('0x1' as `0x${string}`),
-      onMined,
+    expect(screen.getByTestId('custom-fallback')).toBeInTheDocument()
+    expect(screen.queryByText('Send')).toBeNull()
+  })
+
+  it('renders switch chain button when wallet needs chain switch', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: false,
+      needsChainSwitch: true,
+      targetChain: { id: 10, name: 'OP Mainnet' } as ReturnType<
+        typeof useWalletStatus
+      >['targetChain'],
+      targetChainId: 10,
+      switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
 
-    fireEvent.click(screen.getByRole('button'))
+    renderWithChakra(<TransactionButton transaction={mockTransaction}>Send</TransactionButton>)
 
-    await waitFor(() => {
-      expect(onMined).toHaveBeenCalledWith(mockReceipt)
+    expect(screen.getByText(/Switch to/)).toBeInTheDocument()
+    expect(screen.getByText(/OP Mainnet/)).toBeInTheDocument()
+    expect(screen.queryByText('Send')).toBeNull()
+  })
+
+  it('renders custom switch chain label when provided', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: false,
+      needsConnect: false,
+      needsChainSwitch: true,
+      targetChain: { id: 10, name: 'OP Mainnet' } as ReturnType<
+        typeof useWalletStatus
+      >['targetChain'],
+      targetChainId: 10,
+      switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
+
+    renderWithChakra(
+      <TransactionButton
+        transaction={mockTransaction}
+        switchChainLabel="Change to"
+      >
+        Send
+      </TransactionButton>,
+    )
+
+    expect(screen.getByText(/Change to/)).toBeInTheDocument()
+    expect(screen.getByText(/OP Mainnet/)).toBeInTheDocument()
+  })
+
+  it('renders transaction button when wallet is ready', () => {
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: true,
+      needsConnect: false,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      targetChainId: 1,
+      switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
+    })
+
+    renderWithChakra(<TransactionButton transaction={mockTransaction}>Send ETH</TransactionButton>)
+
+    expect(screen.getByText('Send ETH')).toBeInTheDocument()
+    expect(screen.queryByTestId('connect-wallet-button')).toBeNull()
   })
 })

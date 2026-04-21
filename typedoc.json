@@ -25,7 +25,7 @@
     "./src/{vite-env.d.ts,main.tsx,routeTree.gen.ts}",
     "./src/lib/{wagmi,wallets}/**/*",
     "./src/routes/**/*",
-    "./src/utils/{logger,tokenListsCache}.ts",
+    "./src/utils/logger.ts",
     "./src/constants/contracts/**/*",
     "./src/hooks/generated.ts",
     "./src/subgraphs/**/*",
@@ -51,7 +51,16 @@
   "visibilityFilters": {
     "inherited": true
   },
-  "blockTags": ["@dev", "@source", "@name", "@description"],
+  "blockTags": [
+    "@dev",
+    "@source",
+    "@name",
+    "@description",
+    "@param",
+    "@returns",
+    "@example",
+    "@throws"
+  ],
   "validation": {
     "invalidLink": true,
     "notDocumented": false

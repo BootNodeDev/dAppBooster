@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
 
-import { type Address, type Hash, createPublicClient, encodeFunctionData } from 'viem'
+import { type Address, createPublicClient, encodeFunctionData, type Hash } from 'viem'
 import type { mainnet } from 'viem/chains'
 import { optimism, optimismSepolia, sepolia } from 'viem/chains'
 import { useWriteContract } from 'wagmi'
@@ -11,7 +11,6 @@ import {
   type ContractNames,
   getContract,
 } from '@/src/constants/contracts/contracts'
-import { useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
 import { transports } from '@/src/lib/networks.config'
 
 async function l2ContractCallInfo({
@@ -132,6 +131,7 @@ export function useL1CrossDomainMessengerProxy({
   functionName,
   args,
   value,
+  walletAddress,
 }: {
   fromChain: typeof sepolia | typeof mainnet
   l2ContractAddress: Address
@@ -139,8 +139,8 @@ export function useL1CrossDomainMessengerProxy({
   functionName: ContractFunctionName<typeof contractName>
   args: ContractFunctionArgs<typeof contractName, typeof functionName>
   value: bigint
-}) {
-  const { address: walletAddress } = useWeb3StatusConnected()
+  walletAddress: Address
+}): () => Promise<Hash> {
   const contract = getContract('OPL1CrossDomainMessengerProxy', fromChain.id)
   const { writeContractAsync } = useWriteContract()
 

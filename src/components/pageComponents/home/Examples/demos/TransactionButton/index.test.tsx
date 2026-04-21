@@ -1,6 +1,6 @@
-import { createMockWeb3Status, renderWithProviders } from '@/src/test-utils'
 import { screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
+import { createMockWeb3Status, renderWithProviders } from '@/src/test-utils'
 import transactionButton from './index'
 
 vi.mock('@/src/hooks/useWeb3Status', () => ({

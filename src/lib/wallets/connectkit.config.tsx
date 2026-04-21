@@ -1,14 +1,13 @@
+import type { ButtonProps } from '@chakra-ui/react'
+import { ConnectKitButton, ConnectKitProvider, getDefaultConfig, type Types } from 'connectkit'
+import type { FC, ReactNode } from 'react'
+import type { Address } from 'viem'
+import { normalize } from 'viem/ens'
+import { createConfig, useEnsAvatar, useEnsName } from 'wagmi'
 import Avatar from '@/src/components/sharedComponents/Avatar'
 import ConnectButton from '@/src/components/sharedComponents/ConnectButton'
 import { env } from '@/src/env'
 import { chains, transports } from '@/src/lib/networks.config'
-import type { ButtonProps } from '@chakra-ui/react'
-import { ConnectKitButton, ConnectKitProvider, type Types, getDefaultConfig } from 'connectkit'
-import type { FC, ReactNode } from 'react'
-import type { Address } from 'viem'
-import { normalize } from 'viem/ens'
-
-import { createConfig, useEnsAvatar, useEnsName } from 'wagmi'
 
 interface Props {
   address: Address
@@ -92,7 +91,7 @@ const defaultConfig = {
 
   // Optional App Info
   appDescription: env.PUBLIC_APP_DESCRIPTION,
-  appUrl: env.PUBLIC_APP_URL,
+  appUrl: typeof window !== 'undefined' ? window.location.origin : env.PUBLIC_APP_URL,
   appIcon: env.PUBLIC_APP_LOGO,
 } as const
 

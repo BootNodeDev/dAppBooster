@@ -16,12 +16,32 @@ const allChains = [...devChains, ...prodChains] as const
 export const chains = includeTestnets ? allChains : prodChains
 export type ChainsIds = (typeof chains)[number]['id']
 
+export const rpcUrls = {
+  [mainnet.id]: env.PUBLIC_RPC_MAINNET || 'https://ethereum-rpc.publicnode.com',
+  [arbitrum.id]: env.PUBLIC_RPC_ARBITRUM || 'https://arbitrum-one-rpc.publicnode.com',
+  [optimism.id]: env.PUBLIC_RPC_OPTIMISM || 'https://optimism-rpc.publicnode.com',
+  [optimismSepolia.id]:
+    env.PUBLIC_RPC_OPTIMISM_SEPOLIA || 'https://optimism-sepolia-rpc.publicnode.com',
+  [polygon.id]: env.PUBLIC_RPC_POLYGON || 'https://polygon-bor-rpc.publicnode.com',
+  [sepolia.id]: env.PUBLIC_RPC_SEPOLIA || 'https://ethereum-sepolia-rpc.publicnode.com',
+} as const satisfies Record<ChainsIds, string>
+
+/** RPC URL map in the shape expected by LI.FI's `createConfig({ rpcUrls })`. */
+export const lifiRpcUrls: Record<ChainsIds, string[]> = {
+  [mainnet.id]: [rpcUrls[mainnet.id]],
+  [arbitrum.id]: [rpcUrls[arbitrum.id]],
+  [optimism.id]: [rpcUrls[optimism.id]],
+  [optimismSepolia.id]: [rpcUrls[optimismSepolia.id]],
+  [polygon.id]: [rpcUrls[polygon.id]],
+  [sepolia.id]: [rpcUrls[sepolia.id]],
+}
+
 type RestrictedTransports = Record<ChainsIds, Transport>
 export const transports: RestrictedTransports = {
-  [mainnet.id]: http(env.PUBLIC_RPC_MAINNET),
-  [arbitrum.id]: http(env.PUBLIC_RPC_ARBITRUM),
-  [optimism.id]: http(env.PUBLIC_RPC_OPTIMISM),
-  [optimismSepolia.id]: http(env.PUBLIC_RPC_OPTIMISM_SEPOLIA),
-  [polygon.id]: http(env.PUBLIC_RPC_POLYGON),
-  [sepolia.id]: http(env.PUBLIC_RPC_SEPOLIA),
+  [mainnet.id]: http(rpcUrls[mainnet.id]),
+  [arbitrum.id]: http(rpcUrls[arbitrum.id]),
+  [optimism.id]: http(rpcUrls[optimism.id]),
+  [optimismSepolia.id]: http(rpcUrls[optimismSepolia.id]),
+  [polygon.id]: http(rpcUrls[polygon.id]),
+  [sepolia.id]: http(rpcUrls[sepolia.id]),
 }

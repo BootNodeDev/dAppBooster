@@ -1,3 +1,7 @@
+import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
+import { Box, Flex, Skeleton, Span, Text } from '@chakra-ui/react'
+import { type FC, useState } from 'react'
+import { arbitrum, base, type Chain, optimism, polygon } from 'viem/chains'
 import { OptionsDropdown } from '@/src/components/pageComponents/home/Examples/demos/OptionsDropdown'
 import { getNetworkIcon } from '@/src/components/pageComponents/home/Examples/demos/subgraphs/Subgraph'
 import {
@@ -11,10 +15,6 @@ import Icon from '@/src/components/pageComponents/home/Examples/demos/subgraphs/
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
 import { env } from '@/src/env'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
-import { type SchemaMappingConfig, useSubgraphIndexingStatus } from '@bootnodedev/db-subgraph'
-import { Box, Flex, Skeleton, Span, Text } from '@chakra-ui/react'
-import { type FC, useState } from 'react'
-import { type Chain, arbitrum, base, optimism, polygon } from 'viem/chains'
 
 export const SkeletonLoadingItem = () => (
   <Flex

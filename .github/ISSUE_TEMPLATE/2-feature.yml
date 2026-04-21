@@ -1,0 +1,88 @@
+name: Feature
+description: Propose a new feature or enhancement.
+title: ""
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before opening a feature request, please check if a similar one already exists.
+
+  - type: markdown
+    attributes:
+      value: |
+        > **Programmatic creation:** When using `gh` CLI or REST API, apply `priority: <level>` labels instead of using the Priority dropdown (e.g., `--label "priority: high"`). See the Label Conventions section in `CLAUDE.md` for the full table.
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgently does this need to be addressed?
+      options:
+        - Critical — blocking work, system down, or security issue
+        - High — must be addressed in current sprint
+        - Medium — should be addressed soon
+        - Low — nice to have, can wait
+    validations:
+      required: false
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User story / Problem statement
+      description: 'Who needs this and why? Pick the format that fits: "As a [role]..." for new capabilities with a clear user beneficiary; "Currently..." for UX fixes, missing feedback, or when the user role is implicit.'
+      placeholder: |
+        As a [role], I want [goal], so that [benefit].
+
+        — or —
+
+        Currently, ... This is a problem because ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-outcome
+    attributes:
+      label: Expected outcome
+      description: What does success look like? Describe the desired end state from the user's perspective, not the implementation approach.
+      placeholder: |
+        When this is done, a user should be able to...
+        The system should behave as follows...
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: Specific, testable conditions that verify the expected outcome was achieved. These will be mirrored in the PR checklist.
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Other approaches you explored and why they were discarded.
+    validations:
+      required: false
+
+  - type: textarea
+    id: technical-notes
+    attributes:
+      label: Technical notes
+      description: Architecture considerations, dependencies, migration concerns, or anything the implementer should know.
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Mockups, screenshots, references, or related issues.
+    validations:
+      required: false

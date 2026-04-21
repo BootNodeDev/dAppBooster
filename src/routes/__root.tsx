@@ -1,3 +1,6 @@
+import { chakra, Flex } from '@chakra-ui/react'
+import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { Analytics } from '@vercel/analytics/react'
 import { TanStackReactQueryDevtools } from '@/src/components/sharedComponents/dev/TanStackReactQueryDevtools'
 import { TanStackRouterDevtools } from '@/src/components/sharedComponents/dev/TanStackRouterDevtools'
 import { Footer } from '@/src/components/sharedComponents/ui/Footer'
@@ -6,21 +9,11 @@ import { Provider } from '@/src/components/ui/provider'
 import { Toaster } from '@/src/components/ui/toaster'
 import { TransactionNotificationProvider } from '@/src/providers/TransactionNotificationProvider'
 import { Web3Provider } from '@/src/providers/Web3Provider'
-import { printAppInfo } from '@/src/utils/printAppInfo'
-import { Flex, chakra } from '@chakra-ui/react'
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { Analytics } from '@vercel/analytics/react'
-import { useEffect } from 'react'
-
 export const Route = createRootRoute({
   component: Root,
 })
 
 function Root() {
-  useEffect(() => {
-    printAppInfo()
-  }, [])
-
   return (
     <Provider>
       <Web3Provider>

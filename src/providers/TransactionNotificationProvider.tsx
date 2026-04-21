@@ -1,16 +1,16 @@
-import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
-import {
-  NotificationToast,
-  notificationToaster,
-} from '@/src/components/sharedComponents/NotificationToast'
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { type FC, type PropsWithChildren, type ReactNode, createContext, useContext } from 'react'
+import { createContext, type FC, type PropsWithChildren, type ReactNode, useContext } from 'react'
 import type {
   Hash,
   ReplacementReturnType,
   SignMessageErrorType,
   TransactionExecutionError,
 } from 'viem'
+import { ExplorerLink } from '@/src/components/sharedComponents/ExplorerLink'
+import {
+  NotificationToast,
+  notificationToaster,
+} from '@/src/components/sharedComponents/NotificationToast'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 
 type WatchSignatureArgs = {
   successMessage?: string
@@ -89,7 +89,7 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
 
       notificationToaster.create({
         description: message,
-        type: 'success',
+        type: 'error',
         id: toastId,
       })
     }
@@ -122,8 +122,9 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       let replacedTx = null as ReplacementReturnType | null
       const receipt = await readOnlyClient.waitForTransactionReceipt({
         hash,
-        // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
-        onReplaced: (replacedTxData) => (replacedTx = replacedTxData),
+        onReplaced: (replacedTxData) => {
+          replacedTx = replacedTxData
+        },
       })
 
       if (replacedTx !== null) {
@@ -201,8 +202,9 @@ export const TransactionNotificationProvider: FC<PropsWithChildren> = ({ childre
       message: `Signature requested: ${transactionMessage}`,
       signaturePromise: txPromise,
       showSuccessToast: false,
-      // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
-      onToastId: (id) => (toastId = id),
+      onToastId: (id) => {
+        toastId = id
+      },
     })
 
     const hash = await txPromise

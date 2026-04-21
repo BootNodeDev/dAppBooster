@@ -1,7 +1,9 @@
 import { renderHook } from '@testing-library/react'
+import { createElement } from 'react'
 import type { Address } from 'viem'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { useWeb3Status, useWeb3StatusConnected } from './useWeb3Status'
+import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { useWeb3Status } from './useWeb3Status'
 
 const mockDisconnect = vi.fn()
 const mockSwitchChain = vi.fn()
@@ -21,7 +23,27 @@ vi.mock('wagmi', () => ({
   useDisconnect: vi.fn(() => ({ disconnect: mockDisconnect })),
 }))
 
+vi.mock('@/src/hooks/useWalletStatus', () => ({
+  useWalletStatus: vi.fn(() => ({
+    isReady: false,
+    needsConnect: true,
+    needsChainSwitch: false,
+    targetChain: { id: 1, name: 'Ethereum' },
+    targetChainId: 1,
+    switchChain: vi.fn(),
+  })),
+}))
+
+vi.mock('@/src/providers/Web3Provider', () => ({
+  ConnectWalletButton: () =>
+    createElement('button', { type: 'button', 'data-testid': 'connect-wallet-button' }, 'Connect'),
+}))
+
 import * as wagmi from 'wagmi'
+import { WalletStatusVerifier } from '@/src/components/sharedComponents/WalletStatusVerifier'
+
+const { useWalletStatus } = await import('@/src/hooks/useWalletStatus')
+const mockedUseWalletStatus = vi.mocked(useWalletStatus)
 
 type MockAccount = ReturnType<typeof wagmi.useAccount>
 type MockSwitchChain = ReturnType<typeof wagmi.useSwitchChain>
@@ -107,20 +129,39 @@ describe('useWeb3Status', () => {
 describe('useWeb3StatusConnected', () => {
   it('throws when wallet is not connected', () => {
     expect(() => renderHook(() => useWeb3StatusConnected())).toThrow(
-      'Use useWeb3StatusConnected only when a wallet is connected',
+      'useWeb3StatusConnected must be used inside a <WalletStatusVerifier> component.',
     )
   })
 
   it('returns status when wallet is connected', () => {
-    const mock = {
-      address: '0xdeadbeef' as Address,
-      chainId: 1,
-      isConnected: true,
-      isConnecting: false,
-    } as unknown as MockAccount
-    // useWeb3StatusConnected calls useWeb3Status twice; both calls must see connected state
-    vi.mocked(wagmi.useAccount).mockReturnValueOnce(mock).mockReturnValueOnce(mock)
-    const { result } = renderHook(() => useWeb3StatusConnected())
+    mockedUseWalletStatus.mockReturnValue({
+      isReady: true,
+      needsConnect: false,
+      needsChainSwitch: false,
+      targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
+      targetChainId: 1,
+      switchChain: vi.fn(),
+      web3Status: {
+        address: '0xdeadbeef' as Address,
+        appChainId: 1,
+        balance: undefined,
+        connectingWallet: false,
+        disconnect: vi.fn(),
+        isWalletConnected: true,
+        isWalletSynced: true,
+        readOnlyClient: undefined,
+        switchChain: vi.fn(),
+        switchingChain: false,
+        walletChainId: 1,
+        walletClient: undefined,
+      } as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
+    })
+
+    const wrapper = ({ children }: { children: React.ReactNode }) =>
+      createElement(WalletStatusVerifier, null, children)
+
+    const { result } = renderHook(() => useWeb3StatusConnected(), { wrapper })
+    expect(result.current.address).toBe('0xdeadbeef')
     expect(result.current.isWalletConnected).toBe(true)
   })
 })

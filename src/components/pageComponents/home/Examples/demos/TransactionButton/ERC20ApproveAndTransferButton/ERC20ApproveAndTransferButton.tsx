@@ -1,13 +1,14 @@
-import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
-import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
-import { useSuspenseReadErc20Allowance } from '@/src/hooks/generated'
-import { useWeb3Status, useWeb3StatusConnected } from '@/src/hooks/useWeb3Status'
-import type { Token } from '@/src/types/token'
-import { getExplorerLink } from '@/src/utils/getExplorerLink'
 import type { FC } from 'react'
-import { type Address, type Hash, type TransactionReceipt, erc20Abi } from 'viem'
+import { type Address, erc20Abi, type Hash, type TransactionReceipt } from 'viem'
 import * as chains from 'viem/chains'
 import { useWriteContract } from 'wagmi'
+import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
+import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
+import { useWeb3StatusConnected } from '@/src/components/sharedComponents/WalletStatusVerifier'
+import { useSuspenseReadErc20Allowance } from '@/src/hooks/generated'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import type { Token } from '@/src/types/token'
+import { getExplorerLink } from '@/src/utils/getExplorerLink'
 
 interface Props {
   amount: bigint

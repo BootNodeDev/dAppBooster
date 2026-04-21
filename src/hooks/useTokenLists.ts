@@ -1,18 +1,22 @@
-import { useMemo } from 'react'
-
 import {
   type UseSuspenseQueryOptions,
   type UseSuspenseQueryResult,
   useSuspenseQueries,
 } from '@tanstack/react-query'
 import defaultTokens from '@uniswap/default-token-list'
+import { useMemo } from 'react'
 import * as chains from 'viem/chains'
 
-import { tokenLists } from '@/src/constants/tokenLists'
+import { bundledTokenLists, tokenLists } from '@/src/constants/tokenLists'
 import { env } from '@/src/env'
 import { type Token, type TokenList, tokenSchema } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
-import tokenListsCache, { updateTokenListsCache, type TokensMap } from '@/src/utils/tokenListsCache'
+import tokenListsCache, { type TokensMap, updateTokenListsCache } from '@/src/utils/tokenListsCache'
+
+const chainsById: Map<number, (typeof chains)[keyof typeof chains]> = new Map()
+for (const chain of Object.values(chains)) {
+  if (!chainsById.has(chain.id)) chainsById.set(chain.id, chain)
+}
 
 /**
  * Loads and processes token lists from configured sources
@@ -59,13 +63,23 @@ export const useTokenLists = (): TokensMap => {
     return env.PUBLIC_USE_DEFAULT_TOKENS ? ['default', ...urls] : urls
   }, [])
 
+  const enabledBundledLists = useMemo(() => bundledTokenLists.filter((b) => b.enabled), [])
+
   return useSuspenseQueries({
-    queries: tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
-      queryKey: ['tokens-list', url],
-      queryFn: () => fetchTokenList(url),
-      staleTime: Number.POSITIVE_INFINITY,
-      gcTime: Number.POSITIVE_INFINITY,
-    })),
+    queries: [
+      ...tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
+        queryKey: ['tokens-list', url],
+        queryFn: () => fetchTokenList(url),
+        staleTime: 60 * 60 * 1000,
+        gcTime: 60 * 60 * 1000,
+      })),
+      ...enabledBundledLists.map<UseSuspenseQueryOptions<TokenList>>((b) => ({
+        queryKey: ['tokens-list', b.key],
+        queryFn: () => Promise.resolve(b.list),
+        staleTime: Number.POSITIVE_INFINITY,
+        gcTime: Number.POSITIVE_INFINITY,
+      })),
+    ],
     combine: combineTokenLists,
   })
 }
@@ -99,12 +113,11 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
     new Map(
       results
         .flatMap((result) => result.data.tokens)
-        // ensure that only valid tokens are consumed in runtime
-        .filter((token) => {
-          const result = tokenSchema.safeParse(token)
-
-          return result.success
-        })
+        // tokenSchema enforces EVM address format, so non-EVM entries (e.g. Solana in
+        // @uniswap/default-token-list v18+) are dropped. Tokens on chainIds absent from
+        // viem/chains are also dropped, so buildNativeToken cannot throw and
+        // tokensByChainId never accumulates unreachable buckets.
+        .filter((token) => tokenSchema.safeParse(token).success && chainsById.has(token.chainId))
         .map((token) => [tokenKey(token), token]),
     ).values(),
   )
@@ -114,18 +127,9 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
   const tokensMap = uniqueTokens.reduce<TokensMap>(
     (acc, token) => {
       if (!acc.tokensByChainId[token.chainId]) {
-        try {
-          // if there's a native token for the chain
-          const nativeToken = buildNativeToken(token.chainId)
-
-          // add it to the list
-          acc.tokensByChainId[token.chainId] = [nativeToken]
-          acc.tokens.push(nativeToken)
-        } catch (err) {
-          console.error(err)
-          // if there's no native token for the chain, ignore the error
-          acc.tokensByChainId[token.chainId] = []
-        }
+        const nativeToken = buildNativeToken(token.chainId)
+        acc.tokensByChainId[token.chainId] = [nativeToken]
+        acc.tokens.push(nativeToken)
       }
 
       acc.tokens.push(token)
@@ -145,26 +149,48 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
   return tokensMap
 }
 
+const emptyTokenList: TokenList = {
+  name: '',
+  timestamp: '',
+  version: { major: 0, minor: 0, patch: 0 },
+  tokens: [],
+}
+
 /**
- * A wrapper around fetch, to return the parsed JSON or throw an error if something goes wrong
+ * Fetches a token list from a URL. Returns an empty token list on failure
+ * instead of throwing, so one broken source doesn't block the entire app.
  *
- * @param url - a link to a list of tokens or 'default' to use the list added as a dependency to the project
- * @returns {Promise<TokenList>} a token list
+ * @param url - a link to a list of tokens or 'default' to use the bundled list
+ * @returns a token list (empty on failure)
  */
-async function fetchTokenList(url: string): Promise<TokenList> {
+export async function fetchTokenList(url: string): Promise<TokenList> {
   if (url === 'default') {
     return defaultTokens as TokenList
   }
 
-  const result = await fetch(url)
+  try {
+    const result = await fetch(url)
 
-  if (!result.ok) {
-    throw new Error(
-      `Something went wrong. HTTP status code: ${result.status}. Status Message: ${result.statusText}`,
+    if (!result.ok) {
+      console.warn(`Token list fetch failed for ${url}: HTTP ${result.status} ${result.statusText}`)
+      return emptyTokenList
+    }
+
+    const data = await result.json()
+
+    if (!data || typeof data !== 'object' || !Array.isArray(data.tokens)) {
+      console.warn(`Token list fetch for ${url} returned invalid schema; expected a tokens array.`)
+      return emptyTokenList
+    }
+
+    return data as TokenList
+  } catch (error) {
+    console.warn(
+      `Token list fetch failed for ${url}:`,
+      error instanceof Error ? error.message : error,
     )
+    return emptyTokenList
   }
-
-  return result.json()
 }
 
 /**
@@ -174,7 +200,7 @@ async function fetchTokenList(url: string): Promise<TokenList> {
  * @returns The native token object.
  */
 function buildNativeToken(chainId: Token['chainId']): Token {
-  const tokenInfo = Object.values(chains).find((chain) => chain.id === chainId)?.nativeCurrency
+  const tokenInfo = chainsById.get(chainId)?.nativeCurrency
 
   if (!tokenInfo) {
     throw new Error(`Native token not found for chain ID: ${chainId}`)

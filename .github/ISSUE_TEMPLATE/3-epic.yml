@@ -1,0 +1,116 @@
+name: Epic
+description: Define a large body of work that will be broken into smaller issues.
+title: ""
+labels: ["epic"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Epics capture the vision and scope of a significant effort. They get decomposed into smaller, independently deliverable issues. Invest time here — the quality of the epic sets the ceiling for everything downstream.
+
+  - type: markdown
+    attributes:
+      value: |
+        > **Programmatic creation:** When using `gh` CLI or REST API, apply `priority: <level>` labels instead of using the Priority dropdown (e.g., `--label "priority: high"`). See the Label Conventions section in `CLAUDE.md` for the full table.
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How urgently does this need to be addressed?
+      options:
+        - Critical — blocking work, system down, or security issue
+        - High — must be addressed in current sprint
+        - Medium — should be addressed soon
+        - Low — nice to have, can wait
+    validations:
+      required: false
+
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What are we trying to achieve? The high-level goal in one or two sentences.
+      placeholder: Enable users to...
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why does this matter? Business value, user impact, or technical justification.
+      placeholder: This is important because...
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What is in scope and, just as importantly, what is out of scope.
+      placeholder: |
+        **In scope:**
+        - ...
+
+        **Out of scope:**
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: architecture
+    attributes:
+      label: Architecture & technical considerations
+      description: Key technical decisions, patterns, constraints, or risks. Link to ADRs or design docs if they exist.
+    validations:
+      required: false
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: What blocks this epic or what does this epic block? External services, other teams, infrastructure, etc.
+    validations:
+      required: false
+
+  - type: textarea
+    id: issues
+    attributes:
+      label: Issue breakdown
+      description: Checklist of sub-issues that compose this epic. Can start as a rough draft — the agent or the team will refine and create the actual issues.
+      placeholder: |
+        - [ ] #issue or description
+        - [ ] #issue or description
+        - [ ] #issue or description
+    validations:
+      required: false
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: How do we know this epic is done? High-level conditions, not per-issue details.
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+
+  - type: input
+    id: owner
+    attributes:
+      label: Owner / DRI
+      description: Who is responsible for driving this epic to completion?
+      placeholder: "@username"
+    validations:
+      required: false
+
+  - type: input
+    id: milestone
+    attributes:
+      label: Target milestone
+      description: Which milestone or release is this epic targeting?
+      placeholder: v1.0, Q2 2026, Sprint 5...
+    validations:
+      required: false

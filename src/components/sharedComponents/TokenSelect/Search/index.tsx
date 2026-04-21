@@ -1,9 +1,9 @@
+import { Box, Flex, type FlexProps, Menu } from '@chakra-ui/react'
+import type { Dispatch, FC, SetStateAction } from 'react'
 import SearchInput from '@/src/components/sharedComponents/TokenSelect/Search/Input'
 import NetworkButton from '@/src/components/sharedComponents/TokenSelect/Search/NetworkButton'
 import type { Networks } from '@/src/components/sharedComponents/TokenSelect/types'
 import { MenuContent, MenuItem } from '@/src/components/sharedComponents/ui/Menu'
-import { Box, Flex, type FlexProps, Menu } from '@chakra-ui/react'
-import type { Dispatch, FC, SetStateAction } from 'react'
 
 interface SearchProps extends FlexProps {
   currentNetworkId: number

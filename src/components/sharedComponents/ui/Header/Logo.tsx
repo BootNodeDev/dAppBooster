@@ -1,4 +1,4 @@
-import { type ImageProps, chakra } from '@chakra-ui/react'
+import { chakra, type ImageProps } from '@chakra-ui/react'
 import type { FC } from 'react'
 
 const LogoDark =
@@ -15,7 +15,6 @@ const LogoLight =
 const Logo: FC<ImageProps> = ({ ...restProps }) => (
   <chakra.img
     width={193}
-    height={77}
     content="var(--base-logo)"
     display="block"
     flexShrink="0"
