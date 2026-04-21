@@ -110,12 +110,14 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
         .flatMap((result) => result.data.tokens)
         // tokenSchema enforces EVM address format (0x + 40 hex chars), so non-EVM entries
         // (e.g. Solana tokens from @uniswap/default-token-list v18+) are silently dropped here.
+        // Tokens whose chainId is not present in viem/chains (e.g. deprecated testnets like
+        // Ropsten/Rinkeby still shipped by @uniswap/default-token-list) are also dropped so
+        // buildNativeToken never throws and tokensByChainId stays free of unreachable buckets.
         // Supporting non-EVM chains would require changes to the address schema, chain config,
         // wallet integration, and contract lookup -- out of scope for this EVM-focused starter kit.
         .filter((token) => {
-          const result = tokenSchema.safeParse(token)
-
-          return result.success
+          if (!tokenSchema.safeParse(token).success) return false
+          return supportedChainIds.has(token.chainId)
         })
         .map((token) => [tokenKey(token), token]),
     ).values(),
@@ -200,6 +202,8 @@ export async function fetchTokenList(url: string): Promise<TokenList> {
     return emptyTokenList
   }
 }
+
+const supportedChainIds = new Set<number>(Object.values(chains).map((c) => c.id))
 
 /**
  * Builds a native token object based on the chain ID.
