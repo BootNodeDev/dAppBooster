@@ -1,6 +1,7 @@
 import { Dialog } from '@chakra-ui/react'
 import { type ReactElement, useState } from 'react'
 import { type Hash, parseEther, type TransactionReceipt } from 'viem'
+import { sepolia } from 'viem/chains'
 import { useSendTransaction } from 'wagmi'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
@@ -47,6 +48,7 @@ const NativeToken = () => {
         title="Native token demo"
       >
         <TransactionButton
+          chainId={sepolia.id}
           labelSending="Sending 0.1 ETH..."
           onMined={handleOnMined}
           transaction={handleSendTransaction}

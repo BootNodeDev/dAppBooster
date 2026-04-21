@@ -21,7 +21,7 @@ export const useWalletStatus = (options?: UseWalletStatusOptions): WalletStatus 
   const { appChainId, isWalletConnected, isWalletSynced, switchChain, walletChainId } =
     useWeb3Status()
 
-  const targetChainId = options?.chainId || appChainId || chains[0].id
+  const targetChainId = options?.chainId ?? appChainId ?? chains[0].id
   const targetChain = extractChain({ chains, id: targetChainId })
 
   const needsConnect = !isWalletConnected
