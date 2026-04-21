@@ -134,7 +134,7 @@ export const useTokens = (
       tokensBalances &&
       tokensPricesByChain
     ) {
-      return udpateTokensBalances(tokensData.tokens, [tokensBalances, tokensPricesByChain])
+      return updateTokensBalances(tokensData.tokens, [tokensBalances, tokensPricesByChain])
     }
     return tokensData
   }, [
@@ -160,7 +160,7 @@ export const useTokens = (
  * @param results - The results containing the balance tokens and prices.
  * @returns An object containing the updated tokens and tokens grouped by chain ID.
  */
-export function udpateTokensBalances(
+export function updateTokensBalances(
   tokens: Tokens,
   results: [Array<TokenAmount>, TokensResponse],
 ) {

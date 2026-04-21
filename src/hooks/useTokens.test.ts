@@ -2,7 +2,7 @@ import type { TokenAmount, TokensResponse } from '@lifi/sdk'
 import { zeroAddress } from 'viem'
 import { describe, expect, it, vi } from 'vitest'
 import type { Token, Tokens } from '@/src/types/token'
-import { udpateTokensBalances } from './useTokens'
+import { updateTokensBalances } from './useTokens'
 
 // Mimic a setup that overrides PUBLIC_NATIVE_TOKEN_ADDRESS to the Aave-style sentinel
 // (0xEeee...), which env.ts lowercases. The merge must bridge this back to LI.FI's
@@ -31,7 +31,7 @@ const makeLifiToken = (address: string, symbol: string, decimals: number, priceU
   priceUSD,
 })
 
-describe('udpateTokensBalances', () => {
+describe('updateTokensBalances', () => {
   it('merges LI.FI native balance onto a local native token that uses a non-zero sentinel', () => {
     const prices: TokensResponse = {
       tokens: {
@@ -46,7 +46,7 @@ describe('udpateTokensBalances', () => {
       { ...makeLifiToken(usdcAddress, 'USDC', 6, '1'), amount: 5_000_000n },
     ]
 
-    const { tokens } = udpateTokensBalances(localTokens, [balances, prices])
+    const { tokens } = updateTokensBalances(localTokens, [balances, prices])
 
     const eth = tokens.find((t: Token) => t.address === LOCAL_NATIVE)
     const usdc = tokens.find((t: Token) => t.address === usdcAddress)
@@ -61,7 +61,7 @@ describe('udpateTokensBalances', () => {
     const prices: TokensResponse = { tokens: { 1: [] } }
     const balances: TokenAmount[] = []
 
-    const { tokens } = udpateTokensBalances(localTokens, [balances, prices])
+    const { tokens } = updateTokensBalances(localTokens, [balances, prices])
 
     for (const token of tokens) {
       expect(token.extensions?.balance).toBe(0n)

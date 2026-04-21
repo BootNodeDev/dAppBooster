@@ -8,11 +8,12 @@ import { useTokenInput } from './useTokenInput'
 
 const walletAddress = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F' as const
 
+const mockUseAccount = vi.fn()
 const mockUsePublicClient = vi.fn()
 const mockGetBalance = vi.fn()
 
 vi.mock('wagmi', () => ({
-  useAccount: () => ({ address: walletAddress }),
+  useAccount: () => mockUseAccount(),
   usePublicClient: (args: { chainId?: number } = {}) => {
     mockUsePublicClient(args)
     return { getBalance: mockGetBalance }
@@ -52,6 +53,7 @@ const wrapper = ({ children }: { children: ReactNode }) =>
 
 describe('useTokenInput', () => {
   beforeEach(() => {
+    mockUseAccount.mockReturnValue({ address: walletAddress })
     mockUsePublicClient.mockClear()
     mockGetBalance.mockReset()
   })
@@ -84,5 +86,16 @@ describe('useTokenInput', () => {
       expect(mockUsePublicClient).toHaveBeenLastCalledWith({ chainId: sepoliaEth.chainId }),
     )
     await waitFor(() => expect(result.current.balance).toBe(7n))
+  })
+
+  it('does not fetch native balance when wallet is disconnected', () => {
+    mockUseAccount.mockReturnValue({ address: undefined })
+
+    const { result } = renderHook(() => useTokenInput(sepoliaEth), { wrapper })
+
+    expect(result.current.balance).toBeUndefined()
+    expect(result.current.balanceError).toBeNull()
+    expect(result.current.isLoadingBalance).toBe(false)
+    expect(mockGetBalance).not.toHaveBeenCalled()
   })
 })
