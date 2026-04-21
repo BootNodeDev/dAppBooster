@@ -230,6 +230,7 @@ export function updateTokensBalances(
     },
     {} as TokensMap['tokensByChainId'],
   )
+  logger.timeEnd('updating tokens cache')
 
   return { tokens: tokensWithBalances, tokensByChainId: tokensByChain }
 }
