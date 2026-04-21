@@ -1,6 +1,10 @@
 import { Flex } from '@chakra-ui/react'
 import { type ComponentProps, type FC, useCallback, useEffect, useState } from 'react'
+
+import { nativeTokenIcons } from '@/src/components/sharedComponents/TokenLogo/nativeTokenIcons'
+import type { ChainsIds } from '@/src/lib/networks.config'
 import type { Token } from '@/src/types/token'
+import { isNativeToken } from '@/src/utils/address'
 
 interface PlaceholderProps extends ComponentProps<'div'> {
   size: number
@@ -75,10 +79,14 @@ interface TokenLogoProps {
 /**
  * TokenLogo component, displays a token logo based on the provided token object.
  *
+ * Native tokens (detected via `token.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS`)
+ * render the chain-specific icon from `@web3icons/react` when the chain is mapped
+ * in `nativeTokenIcons`. Otherwise the component renders `logoURI` as an image,
+ * falling back to the colored-letter Placeholder on load failure or missing URI.
+ *
  * @param {TokenLogoProps} props - TokenLogo component props.
  * @param {Token} props.token - The token object to display the logo for.
  * @param {number} [props.size=24] - The size of the logo in pixels.
- * @param {ComponentProps<'img'>} [props.restProps] - Additional props for the img element.
  *
  * @example
  * ```tsx
@@ -96,6 +104,19 @@ const TokenLogo: FC<TokenLogoProps> = ({ size = 24, token }) => {
   useEffect(() => {
     setHasError(false)
   }, [logoURI])
+
+  const NativeIcon = isNativeToken(token.address)
+    ? nativeTokenIcons[token.chainId as ChainsIds]
+    : undefined
+
+  if (NativeIcon) {
+    return (
+      <NativeIcon
+        size={size}
+        variant="background"
+      />
+    )
+  }
 
   return logoURI && !hasError ? (
     <img

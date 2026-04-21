@@ -1,8 +1,9 @@
 import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
 import { fireEvent, render, screen } from '@testing-library/react'
+import { zeroAddress } from 'viem'
 import { describe, expect, it } from 'vitest'
 import type { Token } from '@/src/types/token'
-import TokenLogo from './TokenLogo'
+import TokenLogo from '.'
 
 const system = createSystem(defaultConfig)
 
@@ -71,5 +72,46 @@ describe('TokenLogo', () => {
     renderTokenLogo(ipfsToken)
     const img = screen.getByRole('img')
     expect(img.getAttribute('src')).toBe('https://ipfs.io/ipfs/QmHash123')
+  })
+
+  it('renders the chain icon (not the img or placeholder) for a native token on a mapped chain', () => {
+    const nativeEthToken: Token = {
+      address: zeroAddress,
+      chainId: 1,
+      decimals: 18,
+      name: 'Ether',
+      symbol: 'ETH',
+    }
+    const { container } = renderTokenLogo(nativeEthToken)
+    expect(screen.queryByRole('img')).toBeNull()
+    expect(screen.queryByText('E')).toBeNull()
+    expect(container.querySelector('svg')).not.toBeNull()
+  })
+
+  it('renders the chain icon for the native POL on Polygon (chainId 137)', () => {
+    const nativePolToken: Token = {
+      address: zeroAddress,
+      chainId: 137,
+      decimals: 18,
+      name: 'POL',
+      symbol: 'POL',
+    }
+    const { container } = renderTokenLogo(nativePolToken)
+    expect(screen.queryByRole('img')).toBeNull()
+    expect(screen.queryByText('P')).toBeNull()
+    expect(container.querySelector('svg')).not.toBeNull()
+  })
+
+  it('falls back to placeholder for a native token on an unmapped chain', () => {
+    const nativeUnknownToken: Token = {
+      address: zeroAddress,
+      chainId: 999999,
+      decimals: 18,
+      name: 'Unknown',
+      symbol: 'XXX',
+    }
+    renderTokenLogo(nativeUnknownToken)
+    expect(screen.queryByRole('img')).toBeNull()
+    expect(screen.getByText('X')).toBeDefined()
   })
 })
