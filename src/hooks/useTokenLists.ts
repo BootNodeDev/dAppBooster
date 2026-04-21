@@ -108,17 +108,11 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
     new Map(
       results
         .flatMap((result) => result.data.tokens)
-        // tokenSchema enforces EVM address format (0x + 40 hex chars), so non-EVM entries
-        // (e.g. Solana tokens from @uniswap/default-token-list v18+) are silently dropped here.
-        // Tokens whose chainId is not present in viem/chains (e.g. deprecated testnets like
-        // Ropsten/Rinkeby still shipped by @uniswap/default-token-list) are also dropped so
-        // buildNativeToken never throws and tokensByChainId stays free of unreachable buckets.
-        // Supporting non-EVM chains would require changes to the address schema, chain config,
-        // wallet integration, and contract lookup -- out of scope for this EVM-focused starter kit.
-        .filter((token) => {
-          if (!tokenSchema.safeParse(token).success) return false
-          return supportedChainIds.has(token.chainId)
-        })
+        // tokenSchema enforces EVM address format, so non-EVM entries (e.g. Solana in
+        // @uniswap/default-token-list v18+) are dropped. Tokens on chainIds absent from
+        // viem/chains are also dropped, so buildNativeToken cannot throw and
+        // tokensByChainId never accumulates unreachable buckets.
+        .filter((token) => tokenSchema.safeParse(token).success && chainsById.has(token.chainId))
         .map((token) => [tokenKey(token), token]),
     ).values(),
   )
@@ -203,7 +197,7 @@ export async function fetchTokenList(url: string): Promise<TokenList> {
   }
 }
 
-const supportedChainIds = new Set<number>(Object.values(chains).map((c) => c.id))
+const chainsById = new Map(Object.values(chains).map((c) => [c.id, c]))
 
 /**
  * Builds a native token object based on the chain ID.
@@ -212,7 +206,7 @@ const supportedChainIds = new Set<number>(Object.values(chains).map((c) => c.id)
  * @returns The native token object.
  */
 function buildNativeToken(chainId: Token['chainId']): Token {
-  const tokenInfo = Object.values(chains).find((chain) => chain.id === chainId)?.nativeCurrency
+  const tokenInfo = chainsById.get(chainId)?.nativeCurrency
 
   if (!tokenInfo) {
     throw new Error(`Native token not found for chain ID: ${chainId}`)
