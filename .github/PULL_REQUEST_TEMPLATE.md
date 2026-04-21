@@ -1,8 +1,9 @@
 ## Summary
 
-<!-- Why this change? What problem does it solve? Link motivation, not just mechanics. -->
-
 Closes #
+<!-- Or: No related issue. <motivation> -->
+
+<!-- Why this change? What problem does it solve? Link motivation, not just mechanics. -->
 
 ## Changes
 
@@ -13,16 +14,19 @@ Closes #
 ## Acceptance criteria
 
 <!-- Mirror the criteria from the linked issue. Check them off as you go. -->
+<!-- If criteria diverged from the issue (new discoveries, scope splits, etc.), note what changed and why. -->
 
 - [ ]
 
 ## Test plan
 
-<!-- How was this tested? Commands, screenshots, recordings — show your work. -->
+<!-- How was this tested? Include both automated and manual verification. -->
+
+### Automated tests
+
+### Manual verification
 
 ## Breaking changes
-
-<!-- If none, delete this section. If any, describe what breaks and migration steps. -->
 
 None.
 
@@ -32,3 +36,7 @@ None.
 - [ ] Tests added or updated
 - [ ] Docs updated (if applicable)
 - [ ] No unrelated changes bundled in
+
+## Screenshots
+
+None.

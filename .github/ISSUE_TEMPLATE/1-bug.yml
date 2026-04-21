@@ -66,18 +66,18 @@ body:
   - type: markdown
     attributes:
       value: |
-        > **Programmatic creation:** When using `gh` CLI or REST API, apply `severity: <level>` labels instead of using the Severity dropdown (e.g., `--label "severity: high"`). See the Label Conventions section in `CLAUDE.md` for the full table.
+        > **Programmatic creation:** When using `gh` CLI or REST API, apply `priority: <level>` labels instead of using the Priority dropdown (e.g., `--label "priority: high"`). See the Label Conventions section in `CLAUDE.md` for the full table.
 
   - type: dropdown
-    id: severity
+    id: priority
     attributes:
-      label: Severity
-      description: How much does this impact your work?
+      label: Priority
+      description: How urgently does this need to be addressed?
       options:
-        - Low — cosmetic or minor inconvenience
-        - Medium — broken feature, workaround exists
-        - High — broken feature, no workaround
-        - Critical — system down, data loss, or security issue
+        - Critical — blocking work, system down, or security issue
+        - High — must be addressed in current sprint
+        - Medium — should be addressed soon
+        - Low — nice to have, can wait
     validations:
       required: false
 
