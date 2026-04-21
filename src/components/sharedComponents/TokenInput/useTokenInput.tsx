@@ -26,6 +26,8 @@ export type UseTokenInputReturnType = ReturnType<typeof useTokenInput>
  * @returns {bigint} returns.balance - Current token balance (ERC20 or native)
  * @returns {Error|null} returns.balanceError - Error from balance fetching
  * @returns {boolean} returns.isLoadingBalance - Loading state for balance
+ * @returns {string|undefined} returns.priceUSD - USD price of the selected token (from useTokens)
+ * @returns {boolean} returns.isLoadingPrice - Loading state for the selected token's USD price
  * @returns {Token|undefined} returns.selectedToken - Currently selected token
  * @returns {function} returns.setTokenSelected - Function to update selected token
  *
