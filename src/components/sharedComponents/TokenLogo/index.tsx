@@ -70,10 +70,11 @@ interface TokenLogoProps {
 /**
  * TokenLogo component, displays a token logo based on the provided token object.
  *
- * Native tokens (detected via `token.address === env.PUBLIC_NATIVE_TOKEN_ADDRESS`)
- * render the chain-specific icon from `@web3icons/react` when the chain is mapped
- * in `nativeTokenIcons`. Otherwise the component renders `logoURI` as an image,
- * falling back to the colored-letter Placeholder on load failure or missing URI.
+ * Native tokens (detected via `isNativeToken(token.address)`, a case-insensitive
+ * match against `env.PUBLIC_NATIVE_TOKEN_ADDRESS`) render the chain-specific icon
+ * from `@web3icons/react` when the chain is mapped in `nativeTokenIcons`. Otherwise
+ * the component renders `logoURI` as an image, falling back to the colored-letter
+ * Placeholder on load failure or missing URI.
  *
  * @param {TokenLogoProps} props - TokenLogo component props.
  * @param {Token} props.token - The token object to display the logo for.
