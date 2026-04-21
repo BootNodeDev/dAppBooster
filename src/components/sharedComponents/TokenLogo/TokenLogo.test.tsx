@@ -1,10 +1,10 @@
-import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import { fireEvent, render, screen } from '@testing-library/react'
+import { zeroAddress } from 'viem'
 import { describe, expect, it } from 'vitest'
+import { system } from '@/src/components/ui/provider'
 import type { Token } from '@/src/types/token'
-import TokenLogo from './TokenLogo'
-
-const system = createSystem(defaultConfig)
+import TokenLogo from '.'
 
 const mockToken: Token = {
   address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
@@ -71,5 +71,47 @@ describe('TokenLogo', () => {
     renderTokenLogo(ipfsToken)
     const img = screen.getByRole('img')
     expect(img.getAttribute('src')).toBe('https://ipfs.io/ipfs/QmHash123')
+  })
+
+  it('renders the chain icon (not the img or placeholder) for a native token on a mapped chain', () => {
+    const nativeEthToken: Token = {
+      address: zeroAddress,
+      chainId: 1,
+      decimals: 18,
+      name: 'Ether',
+      symbol: 'ETH',
+    }
+    const { container } = renderTokenLogo(nativeEthToken)
+    expect(screen.queryByRole('img')).toBeNull()
+    expect(screen.queryByText('E')).toBeNull()
+    expect(container.querySelector('svg')).not.toBeNull()
+  })
+
+  it('renders the chain icon for the native POL on Polygon (chainId 137)', () => {
+    const nativePolToken: Token = {
+      address: zeroAddress,
+      chainId: 137,
+      decimals: 18,
+      name: 'POL',
+      symbol: 'POL',
+    }
+    const { container } = renderTokenLogo(nativePolToken)
+    expect(screen.queryByRole('img')).toBeNull()
+    expect(screen.queryByText('P')).toBeNull()
+    expect(container.querySelector('svg')).not.toBeNull()
+  })
+
+  it('falls back to placeholder for a native token on an unmapped chain', () => {
+    const nativeUnknownToken: Token = {
+      address: zeroAddress,
+      chainId: 999999,
+      decimals: 18,
+      name: 'Unknown',
+      symbol: 'XXX',
+    }
+    const { container } = renderTokenLogo(nativeUnknownToken)
+    expect(screen.queryByRole('img')).toBeNull()
+    expect(container.querySelector('svg')).toBeNull()
+    expect(screen.getByText('X')).toBeDefined()
   })
 })
