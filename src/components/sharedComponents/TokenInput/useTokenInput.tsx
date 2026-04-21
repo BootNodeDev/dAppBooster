@@ -54,7 +54,7 @@ export function useTokenInput(token?: Token) {
     token: selectedToken,
   })
 
-  const publicClient = usePublicClient({ chainId: token?.chainId })
+  const publicClient = usePublicClient({ chainId: selectedToken?.chainId })
 
   const isNative = selectedToken?.address ? isNativeToken(selectedToken.address) : false
   const {
@@ -64,7 +64,7 @@ export function useTokenInput(token?: Token) {
   } = useQuery({
     queryKey: ['nativeBalance', selectedToken?.address, selectedToken?.chainId, userWallet],
     queryFn: () => publicClient?.getBalance({ address: getAddress(userWallet ?? '') }),
-    enabled: isNative,
+    enabled: isNative && !!userWallet,
   })
 
   return {

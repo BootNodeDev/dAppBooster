@@ -1,69 +1,103 @@
 import { Box, Flex } from '@chakra-ui/react'
 import { formatUnits } from 'viem'
+import { useBalance } from 'wagmi'
+import { NO_PRICE_DATA_LABEL } from '@/src/constants/common'
+import { useErc20Balance } from '@/src/hooks/useErc20Balance'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { Token } from '@/src/types/token'
+import { isNativeToken } from '@/src/utils/address'
 import { withSuspenseAndRetry } from '@/src/utils/suspenseWrapper'
+import BalanceLoading from './BalanceLoading'
 
 interface TokenBalanceProps {
   isLoading?: boolean
   token: Token
 }
 
+const balanceBoxProps = {
+  color: 'var(--row-token-balance-color)',
+  fontSize: '16px',
+  fontWeight: '400',
+  lineHeight: '1.2',
+  _groupHover: { color: 'var(--row-token-balance-color-hover, var(--row-token-balance-color))' },
+} as const
+
+const valueBoxProps = {
+  color: 'var(--row-token-value-color)',
+  fontSize: '12px',
+  fontWeight: '400',
+  lineHeight: '1.2',
+  _groupHover: { color: 'var(--row-token-value-color-hover, var(--row-token-value-color))' },
+} as const
+
+const flexProps = {
+  alignItems: 'flex-end',
+  display: 'flex',
+  flexDirection: 'column',
+  rowGap: 1,
+} as const
+
 /**
- * Renders the token balance in the token list row.
+ * Renders the token balance and USD value in a token list row.
  *
- * @param {object} props - The component props.
- * @param {boolean} props.isLoading - Indicates if the token balance is currently being loaded.
- * @param {Token} props.token - The token object containing the amount, decimals, and price in USD.
+ * When LI.FI price/balance data is available (`token.extensions`), it displays
+ * the enriched balance and computed USD value. On chains LI.FI does not support
+ * (e.g. Sepolia), it falls back to on-chain balance via wagmi and renders "N/A"
+ * for the USD value.
  *
- * @throws {Promise} If the token balance is still loading or if the token does not have balance information.
- * @returns {JSX.Element} The rendered token balance component.
+ * @param {object} props
+ * @param {boolean} props.isLoading - True while the LI.FI price/balance fetch is in flight.
+ * @param {Token} props.token - The token to display.
  *
- * @example
- * ```tsx
- * <TokenBalance isLoading={false} token={token} />
- * ```
+ * @throws {Promise} While loading (triggers Suspense skeleton).
  */
 const TokenBalance = withSuspenseAndRetry<TokenBalanceProps>(({ isLoading, token }) => {
-  const tokenHasBalanceInfo = !!token.extensions
+  const { address } = useWeb3Status()
+  const isNative = isNativeToken(token.address)
+  const hasExtensions = !!token.extensions
 
-  if (isLoading || !tokenHasBalanceInfo) {
+  const { data: nativeBalanceData, isLoading: isLoadingNative } = useBalance({
+    address,
+    chainId: token.chainId,
+    query: { enabled: !!address && isNative && !hasExtensions },
+  })
+
+  const { balance: erc20Balance, isLoadingBalance: isLoadingErc20 } = useErc20Balance({
+    address: !isNative && !hasExtensions ? address : undefined,
+    token: !isNative && !hasExtensions ? token : undefined,
+  })
+
+  if (isLoading) {
     throw Promise.reject()
   }
 
-  const balance = formatUnits((token.extensions?.balance ?? 0n) as bigint, token.decimals)
-  const value = (
-    Number.parseFloat((token.extensions?.priceUSD ?? '0') as string) * Number.parseFloat(balance)
-  ).toFixed(2)
+  if (hasExtensions) {
+    const balance = formatUnits((token.extensions?.balance ?? 0n) as bigint, token.decimals)
+    const value = (
+      Number.parseFloat((token.extensions?.priceUSD ?? '0') as string) * Number.parseFloat(balance)
+    ).toFixed(2)
+
+    return (
+      <Flex {...flexProps}>
+        <Box {...balanceBoxProps}>{balance}</Box>
+        <Box {...valueBoxProps}>$ {value}</Box>
+      </Flex>
+    )
+  }
+
+  const isLoadingFallback = isNative ? isLoadingNative : isLoadingErc20
+  if (isLoadingFallback) {
+    return <BalanceLoading />
+  }
+
+  const fallbackBalance = isNative
+    ? formatUnits(nativeBalanceData?.value ?? 0n, token.decimals)
+    : formatUnits(erc20Balance ?? 0n, token.decimals)
 
   return (
-    <Flex
-      alignItems="flex-end"
-      display="flex"
-      flexDirection="column"
-      rowGap={1}
-    >
-      <Box
-        color="var(--row-token-balance-color)"
-        fontSize="16px"
-        fontWeight="400"
-        lineHeight="1.2"
-        _groupHover={{
-          color: 'var(--row-token-balance-color-hover, var(--row-token-balance-color)',
-        }}
-      >
-        {balance}
-      </Box>
-      <Box
-        color="var(--row-token-value-color)"
-        fontSize="12px"
-        fontWeight="400"
-        lineHeight="1.2"
-        _groupHover={{
-          color: 'var(--row-token-value-color-hover, var(--row-token-value-color)',
-        }}
-      >
-        $ {value}
-      </Box>
+    <Flex {...flexProps}>
+      <Box {...balanceBoxProps}>{fallbackBalance}</Box>
+      <Box {...valueBoxProps}>{NO_PRICE_DATA_LABEL}</Box>
     </Flex>
   )
 })

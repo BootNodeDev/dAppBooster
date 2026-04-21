@@ -15,6 +15,7 @@ import { env } from '@/src/env'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
 import type { Token, Tokens } from '@/src/types/token'
+import { toLocalNativeAddress } from '@/src/utils/address'
 import { logger } from '@/src/utils/logger'
 import type { TokensMap } from '@/src/utils/tokenListsCache'
 
@@ -104,7 +105,7 @@ export const useTokens = (
     staleTime: BALANCE_EXPIRATION_TIME,
     refetchInterval: BALANCE_EXPIRATION_TIME,
     gcTime: Number.POSITIVE_INFINITY,
-    enabled: canFetchBalance && !!chains,
+    enabled: canFetchBalance && chainsToFetch.length > 0,
   })
 
   const { data: tokensBalances, isLoading: isLoadingBalances } = useQuery({
@@ -121,7 +122,7 @@ export const useTokens = (
     staleTime: BALANCE_EXPIRATION_TIME,
     refetchInterval: BALANCE_EXPIRATION_TIME,
     gcTime: Number.POSITIVE_INFINITY,
-    enabled: canFetchBalance && !!tokensPricesByChain,
+    enabled: canFetchBalance && !!tokensPricesByChain && chainsToFetch.length > 0,
   })
 
   const cache = useMemo(() => {
@@ -133,7 +134,7 @@ export const useTokens = (
       tokensBalances &&
       tokensPricesByChain
     ) {
-      return udpateTokensBalances(tokensData.tokens, [tokensBalances, tokensPricesByChain])
+      return updateTokensBalances(tokensData.tokens, [tokensBalances, tokensPricesByChain])
     }
     return tokensData
   }, [
@@ -159,7 +160,10 @@ export const useTokens = (
  * @param results - The results containing the balance tokens and prices.
  * @returns An object containing the updated tokens and tokens grouped by chain ID.
  */
-function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, TokensResponse]) {
+export function updateTokensBalances(
+  tokens: Tokens,
+  results: [Array<TokenAmount>, TokensResponse],
+) {
   const [balanceTokens, prices] = results
 
   logger.time('extending tokens with balance info')
@@ -168,7 +172,7 @@ function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, Toke
       acc[chainId] = {}
 
       tokens.forEach((token) => {
-        acc[chainId][token.address] = token.priceUSD ?? '0'
+        acc[chainId][toLocalNativeAddress(token.address)] = token.priceUSD ?? '0'
       })
 
       return acc
@@ -182,7 +186,8 @@ function udpateTokensBalances(tokens: Tokens, results: [Array<TokenAmount>, Toke
         acc[balanceToken.chainId] = {}
       }
 
-      acc[balanceToken.chainId][balanceToken.address] = balanceToken.amount ?? 0n
+      acc[balanceToken.chainId][toLocalNativeAddress(balanceToken.address)] =
+        balanceToken.amount ?? 0n
 
       return acc
     },

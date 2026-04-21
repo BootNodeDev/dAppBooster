@@ -152,6 +152,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
         overflow="hidden"
         {...restProps}
       >
+        {children}
         <Search
           currentNetworkId={chainId}
           disabled={!tokensByChainId[chainId]?.length}
@@ -176,7 +177,6 @@ const TokenSelect = withSuspenseAndRetry<Props>(
           showBalance={showBalance}
           tokenList={searchResult}
         />
-        {children}
       </Flex>
     )
   },

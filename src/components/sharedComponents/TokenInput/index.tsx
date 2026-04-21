@@ -27,6 +27,9 @@ import type { UseTokenInputReturnType } from '@/src/components/sharedComponents/
 import TokenLogo from '@/src/components/sharedComponents/TokenLogo'
 import TokenSelect, { type TokenSelectProps } from '@/src/components/sharedComponents/TokenSelect'
 import Spinner from '@/src/components/sharedComponents/ui/Spinner'
+import { NO_PRICE_DATA_LABEL } from '@/src/constants/common'
+import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { chains } from '@/src/lib/networks.config'
 import type { Token } from '@/src/types/token'
 import styles from './styles'
 
@@ -92,6 +95,23 @@ const TokenInput: FC<Props> = ({
     () => (balance && selectedToken ? balance : BigInt(0)),
     [balance, selectedToken],
   )
+
+  const { appChainId, walletChainId } = useWeb3Status()
+  const activeChainId = selectedToken?.chainId ?? currentNetworkId ?? walletChainId ?? appChainId
+  const isTestnetChain = useMemo(
+    () => chains.find((c) => c.id === activeChainId)?.testnet === true,
+    [activeChainId],
+  )
+
+  const estimatedUSDValue = useMemo(() => {
+    if (isTestnetChain) return null
+    if (!selectedToken) return 0
+    const priceUSD = selectedToken.extensions?.priceUSD
+    if (priceUSD === undefined || priceUSD === null) return 0
+    const tokenAmount = Number.parseFloat(formatUnits(amount, selectedToken.decimals ?? 0))
+    return Number.parseFloat(priceUSD as string) * tokenAmount
+  }, [isTestnetChain, selectedToken, amount])
+
   const selectIconSize = 24
   const decimals = selectedToken ? selectedToken.decimals : 2
 
@@ -167,7 +187,9 @@ const TokenInput: FC<Props> = ({
           )}
         </TopRow>
         <BottomRow>
-          <EstimatedUSDValue>~$0.00</EstimatedUSDValue>
+          <EstimatedUSDValue>
+            {estimatedUSDValue === null ? NO_PRICE_DATA_LABEL : `~$${estimatedUSDValue.toFixed(2)}`}
+          </EstimatedUSDValue>
           <Balance>
             <BalanceValue>
               {balanceError && 'Error...'}

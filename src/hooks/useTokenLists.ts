@@ -7,7 +7,7 @@ import defaultTokens from '@uniswap/default-token-list'
 import { useMemo } from 'react'
 import * as chains from 'viem/chains'
 
-import { tokenLists } from '@/src/constants/tokenLists'
+import { bundledTokenLists, tokenLists } from '@/src/constants/tokenLists'
 import { env } from '@/src/env'
 import { type Token, type TokenList, tokenSchema } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
@@ -58,13 +58,23 @@ export const useTokenLists = (): TokensMap => {
     return env.PUBLIC_USE_DEFAULT_TOKENS ? ['default', ...urls] : urls
   }, [])
 
+  const enabledBundledLists = useMemo(() => bundledTokenLists.filter((b) => b.enabled), [])
+
   return useSuspenseQueries({
-    queries: tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
-      queryKey: ['tokens-list', url],
-      queryFn: () => fetchTokenList(url),
-      staleTime: 60 * 60 * 1000,
-      gcTime: 60 * 60 * 1000,
-    })),
+    queries: [
+      ...tokenListUrls.map<UseSuspenseQueryOptions<TokenList>>((url) => ({
+        queryKey: ['tokens-list', url],
+        queryFn: () => fetchTokenList(url),
+        staleTime: 60 * 60 * 1000,
+        gcTime: 60 * 60 * 1000,
+      })),
+      ...enabledBundledLists.map<UseSuspenseQueryOptions<TokenList>>((b) => ({
+        queryKey: ['tokens-list', b.key],
+        queryFn: () => Promise.resolve(b.list),
+        staleTime: Number.POSITIVE_INFINITY,
+        gcTime: Number.POSITIVE_INFINITY,
+      })),
+    ],
     combine: combineTokenLists,
   })
 }
