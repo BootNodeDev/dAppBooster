@@ -10,7 +10,7 @@ import {
 
 import type { ChainsIds } from '@/src/lib/networks.config'
 
-export const nativeTokenIcons: Record<ChainsIds, IconComponent> = {
+export const nativeTokenIcons: Partial<Record<ChainsIds, IconComponent>> = {
   1: NetworkEthereum,
   10: NetworkOptimism,
   137: NetworkPolygon,
