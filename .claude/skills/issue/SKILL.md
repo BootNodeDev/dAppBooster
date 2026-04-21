@@ -70,7 +70,8 @@ EOF
 gh issue create \
   --title "<title>" \
   --label "<type-label>" \
-  --label "<priority-label>" \  # omit for spikes
+  # omit the next label for spikes
+  --label "<priority-label>" \
   --body-file "$BODY_FILE"
 ```
 
