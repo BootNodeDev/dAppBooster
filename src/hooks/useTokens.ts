@@ -14,7 +14,7 @@ import { type Address, type Chain, formatUnits } from 'viem'
 import { env } from '@/src/env'
 import { useTokenLists } from '@/src/hooks/useTokenLists'
 import { useWeb3Status } from '@/src/hooks/useWeb3Status'
-import { rpcUrls } from '@/src/lib/networks.config'
+import { lifiRpcUrls } from '@/src/lib/networks.config'
 import type { Token, Tokens } from '@/src/types/token'
 import { toLocalNativeAddress } from '@/src/utils/address'
 import { logger } from '@/src/utils/logger'
@@ -26,9 +26,7 @@ const BALANCE_EXPIRATION_TIME = 32_000
 export const lifiConfig = createConfig({
   integrator: env.PUBLIC_APP_NAME,
   providers: [EVM()],
-  rpcUrls: Object.fromEntries(
-    Object.entries(rpcUrls).map(([chainId, url]) => [Number(chainId), [url]]),
-  ),
+  rpcUrls: lifiRpcUrls,
 })
 
 /**

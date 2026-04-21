@@ -26,6 +26,16 @@ export const rpcUrls = {
   [sepolia.id]: env.PUBLIC_RPC_SEPOLIA || 'https://ethereum-sepolia-rpc.publicnode.com',
 } as const satisfies Record<ChainsIds, string>
 
+/** RPC URL map in the shape expected by LI.FI's `createConfig({ rpcUrls })`. */
+export const lifiRpcUrls: Record<ChainsIds, string[]> = {
+  [mainnet.id]: [rpcUrls[mainnet.id]],
+  [arbitrum.id]: [rpcUrls[arbitrum.id]],
+  [optimism.id]: [rpcUrls[optimism.id]],
+  [optimismSepolia.id]: [rpcUrls[optimismSepolia.id]],
+  [polygon.id]: [rpcUrls[polygon.id]],
+  [sepolia.id]: [rpcUrls[sepolia.id]],
+}
+
 type RestrictedTransports = Record<ChainsIds, Transport>
 export const transports: RestrictedTransports = {
   [mainnet.id]: http(rpcUrls[mainnet.id]),
