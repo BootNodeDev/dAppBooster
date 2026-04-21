@@ -35,6 +35,8 @@ vi.mock('@/src/components/sharedComponents/TokenInput/useTokenInput', () => ({
     balance: 0n,
     balanceError: null,
     isLoadingBalance: false,
+    isLoadingPrice: false,
+    priceUSD: undefined,
     selectedToken: undefined,
     setTokenSelected: vi.fn(),
   })),
@@ -47,6 +49,7 @@ vi.mock('@/src/hooks/useTokens', () => ({
     tokens: [],
     tokensByChainId: { 1: [], 10: [], 42161: [], 137: [], 11155111: [] },
     isLoadingBalances: false,
+    isLoadingPrices: false,
   })),
 }))
 

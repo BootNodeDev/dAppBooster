@@ -11,6 +11,7 @@ const walletAddress = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F' as const
 const mockUseAccount = vi.fn()
 const mockUsePublicClient = vi.fn()
 const mockGetBalance = vi.fn()
+const mockUseTokens = vi.fn()
 
 vi.mock('wagmi', () => ({
   useAccount: () => mockUseAccount(),
@@ -22,6 +23,10 @@ vi.mock('wagmi', () => ({
 
 vi.mock('@/src/hooks/useErc20Balance', () => ({
   useErc20Balance: () => ({ balance: undefined, balanceError: null, isLoadingBalance: false }),
+}))
+
+vi.mock('@/src/hooks/useTokens', () => ({
+  useTokens: (args: unknown) => mockUseTokens(args),
 }))
 
 vi.mock('@/src/env', () => ({
@@ -56,6 +61,12 @@ describe('useTokenInput', () => {
     mockUseAccount.mockReturnValue({ address: walletAddress })
     mockUsePublicClient.mockClear()
     mockGetBalance.mockReset()
+    mockUseTokens.mockReturnValue({
+      tokensByChainId: {},
+      isLoadingBalances: false,
+      isLoadingPrices: false,
+      tokens: [],
+    })
   })
 
   it('rebinds the native public client to the selected token chain when the user switches chains', async () => {
@@ -97,5 +108,60 @@ describe('useTokenInput', () => {
     expect(result.current.balanceError).toBeNull()
     expect(result.current.isLoadingBalance).toBe(false)
     expect(mockGetBalance).not.toHaveBeenCalled()
+  })
+
+  it('exposes priceUSD for the selected token from useTokens', async () => {
+    mockUseTokens.mockReturnValue({
+      tokensByChainId: {
+        1: [{ ...mainnetUsdc, extensions: { priceUSD: '1.00' } }],
+      },
+      isLoadingBalances: false,
+      isLoadingPrices: false,
+      tokens: [],
+    })
+
+    const { result } = renderHook(() => useTokenInput(mainnetUsdc), { wrapper })
+
+    await waitFor(() => expect(result.current.priceUSD).toBe('1.00'))
+  })
+
+  it('exposes isLoadingPrice as true while useTokens is loading', () => {
+    mockUseTokens.mockReturnValue({
+      tokensByChainId: {},
+      isLoadingBalances: true,
+      isLoadingPrices: true,
+      tokens: [],
+    })
+
+    const { result } = renderHook(() => useTokenInput(mainnetUsdc), { wrapper })
+
+    expect(result.current.isLoadingPrice).toBe(true)
+  })
+
+  it('updates priceUSD when a different token is selected', async () => {
+    const mainnetEth: Token = {
+      address: zeroAddress,
+      chainId: 1,
+      decimals: 18,
+      name: 'Ether',
+      symbol: 'ETH',
+    }
+    mockUseTokens.mockReturnValue({
+      tokensByChainId: {
+        1: [{ ...mainnetEth, extensions: { priceUSD: '3000.00' } }],
+      },
+      isLoadingBalances: false,
+      isLoadingPrices: false,
+      tokens: [],
+    })
+    mockGetBalance.mockResolvedValue(1000000000000000000n)
+
+    const { result } = renderHook(() => useTokenInput(mainnetUsdc), { wrapper })
+
+    act(() => {
+      result.current.setTokenSelected(mainnetEth)
+    })
+
+    await waitFor(() => expect(result.current.priceUSD).toBe('3000.00'))
   })
 })
