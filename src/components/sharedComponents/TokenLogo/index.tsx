@@ -1,5 +1,5 @@
 import { Flex } from '@chakra-ui/react'
-import { type ComponentProps, type FC, useCallback, useEffect, useState } from 'react'
+import { type ComponentProps, type FC, useEffect, useMemo, useState } from 'react'
 
 import { nativeTokenIcons } from '@/src/components/sharedComponents/TokenLogo/nativeTokenIcons'
 import type { ChainsIds } from '@/src/lib/networks.config'
@@ -11,40 +11,31 @@ interface PlaceholderProps extends ComponentProps<'div'> {
   symbol: string
 }
 
+const generateHexColor = (symbol: string): string => {
+  let hash = 0
+  for (let i = 0; i < symbol.length; i++) {
+    hash = symbol.charCodeAt(i) + ((hash << 5) - hash)
+  }
+
+  const baseColor =
+    ((hash >> 24) & 0xff).toString(16).padStart(2, '0') +
+    ((hash >> 16) & 0xff).toString(16).padStart(2, '0') +
+    ((hash >> 8) & 0xff).toString(16).padStart(2, '0')
+
+  const r = Number.parseInt(baseColor.slice(0, 2), 16) % 196
+  const g = Number.parseInt(baseColor.slice(2, 4), 16) % 196
+  const b = Number.parseInt(baseColor.slice(4, 6), 16) % 196
+
+  const color =
+    r.toString(16).padStart(2, '0') +
+    g.toString(16).padStart(2, '0') +
+    b.toString(16).padStart(2, '0')
+
+  return `#${color}`
+}
+
 const Placeholder: FC<PlaceholderProps> = ({ size, symbol, ...restProps }) => {
-  const [backgroundColor, setBackgroundColor] = useState<string>('')
-
-  const generateHexColor = useCallback((symbol: string): string => {
-    // Convert symbol to a hash number
-    let hash = 0
-    for (let i = 0; i < symbol.length; i++) {
-      hash = symbol.charCodeAt(i) + ((hash << 5) - hash)
-    }
-
-    // Convert hash to a hexadecimal string and ensure it is 6 characters long
-    const baseColor =
-      ((hash >> 24) & 0xff).toString(16).padStart(2, '0') +
-      ((hash >> 16) & 0xff).toString(16).padStart(2, '0') +
-      ((hash >> 8) & 0xff).toString(16).padStart(2, '0')
-
-    // Ensure the baseColor is dark-ish by making sure each component is less than 196
-    const r = Number.parseInt(baseColor.slice(0, 2), 16) % 196
-    const g = Number.parseInt(baseColor.slice(2, 4), 16) % 196
-    const b = Number.parseInt(baseColor.slice(4, 6), 16) % 196
-
-    // Convert back to hex string and pad with leading 6s if necessary and also
-    // because I love Satan
-    const color =
-      r.toString(16).padStart(2, '6') +
-      g.toString(16).padStart(2, '6') +
-      b.toString(16).padStart(2, '6')
-
-    return `#${color}`
-  }, [])
-
-  useEffect(() => {
-    setBackgroundColor(generateHexColor(symbol))
-  }, [symbol, generateHexColor])
+  const backgroundColor = useMemo(() => generateHexColor(symbol), [symbol])
 
   return (
     <Flex

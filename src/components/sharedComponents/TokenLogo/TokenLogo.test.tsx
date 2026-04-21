@@ -1,11 +1,10 @@
-import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import { zeroAddress } from 'viem'
 import { describe, expect, it } from 'vitest'
+import { system } from '@/src/components/ui/provider'
 import type { Token } from '@/src/types/token'
 import TokenLogo from '.'
-
-const system = createSystem(defaultConfig)
 
 const mockToken: Token = {
   address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
