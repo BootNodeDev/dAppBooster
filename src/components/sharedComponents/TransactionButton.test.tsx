@@ -61,6 +61,7 @@ describe('TransactionButton', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
 
     renderWithChakra(<TransactionButton transaction={mockTransaction}>Send</TransactionButton>)
@@ -77,6 +78,7 @@ describe('TransactionButton', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
 
     renderWithChakra(
@@ -102,6 +104,7 @@ describe('TransactionButton', () => {
       >['targetChain'],
       targetChainId: 10,
       switchChain: mockSwitchChain,
+      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
 
     renderWithChakra(<TransactionButton transaction={mockTransaction}>Send</TransactionButton>)
@@ -121,6 +124,7 @@ describe('TransactionButton', () => {
       >['targetChain'],
       targetChainId: 10,
       switchChain: mockSwitchChain,
+      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
 
     renderWithChakra(
@@ -144,6 +148,7 @@ describe('TransactionButton', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
 
     renderWithChakra(<TransactionButton transaction={mockTransaction}>Send ETH</TransactionButton>)

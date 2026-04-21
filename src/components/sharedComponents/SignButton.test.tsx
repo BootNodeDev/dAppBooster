@@ -63,6 +63,7 @@ describe('SignButton', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
 
     renderWithChakra(<SignButton message="Hello" />)
@@ -79,6 +80,7 @@ describe('SignButton', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
 
     renderWithChakra(
@@ -102,6 +104,7 @@ describe('SignButton', () => {
       >['targetChain'],
       targetChainId: 10,
       switchChain: mockSwitchChain,
+      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
 
     renderWithChakra(<SignButton message="Hello" />)
@@ -119,6 +122,7 @@ describe('SignButton', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
 
     renderWithChakra(<SignButton message="Hello" />)

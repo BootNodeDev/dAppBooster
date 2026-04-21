@@ -110,6 +110,9 @@ describe('useWalletStatus', () => {
     expect(result.current.needsConnect).toBe(false)
     expect(result.current.needsChainSwitch).toBe(false)
     expect(result.current.isReady).toBe(true)
+    expect(result.current.web3Status).toBeDefined()
+    expect(result.current.web3Status.appChainId).toBe(1)
+    expect(result.current.web3Status.isWalletConnected).toBe(true)
   })
 
   it('uses provided chainId over appChainId', () => {

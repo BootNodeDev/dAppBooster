@@ -47,6 +47,8 @@ const NativeToken = () => {
         text="Demo transaction that sends 0.1 Sepolia ETH from / to your wallet."
         title="Native token demo"
       >
+        {/* chainId must be explicit: the parent WalletStatusVerifier already verified Sepolia,
+            but TransactionButton checks against appChainId without it. */}
         <TransactionButton
           chainId={sepolia.id}
           labelSending="Sending 0.1 ETH..."

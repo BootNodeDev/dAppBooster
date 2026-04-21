@@ -1,7 +1,7 @@
 import { createContext, type FC, type ReactElement, type ReactNode, useContext } from 'react'
 import SwitchChainButton from '@/src/components/sharedComponents/ui/SwitchChainButton'
 import { useWalletStatus } from '@/src/hooks/useWalletStatus'
-import { useWeb3Status, type Web3Status } from '@/src/hooks/useWeb3Status'
+import type { Web3Status } from '@/src/hooks/useWeb3Status'
 import type { ChainsIds } from '@/src/lib/networks.config'
 import { ConnectWalletButton } from '@/src/providers/Web3Provider'
 import type { RequiredNonNull } from '@/src/types/utils'
@@ -51,9 +51,8 @@ const WalletStatusVerifier: FC<WalletStatusVerifierProps> = ({
   fallback = <ConnectWalletButton />,
   switchChainLabel = 'Switch to',
 }: WalletStatusVerifierProps) => {
-  const { needsConnect, needsChainSwitch, targetChain, targetChainId, switchChain } =
+  const { needsConnect, needsChainSwitch, targetChain, targetChainId, switchChain, web3Status } =
     useWalletStatus({ chainId })
-  const web3Status = useWeb3Status()
 
   if (needsConnect) {
     return fallback

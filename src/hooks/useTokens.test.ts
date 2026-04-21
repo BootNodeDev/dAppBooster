@@ -33,13 +33,12 @@ const makeLifiToken = (address: string, symbol: string, decimals: number, priceU
 
 const daiAddress = '0x6B175474E89094C44Da98b954EedeAC495271d0F'
 
-const threeTokens: Tokens = [
-  { chainId: 1, address: LOCAL_NATIVE, name: 'Ether', symbol: 'ETH', decimals: 18 },
-  { chainId: 1, address: usdcAddress, name: 'USD Coin', symbol: 'USDC', decimals: 6 },
-  { chainId: 1, address: daiAddress, name: 'Dai', symbol: 'DAI', decimals: 18 },
-]
-
 describe('updateTokensBalances', () => {
+  const threeTokens: Tokens = [
+    { chainId: 1, address: LOCAL_NATIVE, name: 'Ether', symbol: 'ETH', decimals: 18 },
+    { chainId: 1, address: usdcAddress, name: 'USD Coin', symbol: 'USDC', decimals: 6 },
+    { chainId: 1, address: daiAddress, name: 'Dai', symbol: 'DAI', decimals: 18 },
+  ]
   it('merges LI.FI native balance onto a local native token that uses a non-zero sentinel', () => {
     const prices: TokensResponse = {
       tokens: {

@@ -41,6 +41,10 @@ export const lifiConfig = createConfig({
  * - Automatic sorting by token value (balance × price)
  * - Periodic refetching for up-to-date balances and prices
  *
+ * On chains not covered by LI.FI (e.g. Sepolia), balance fetching falls back to a
+ * direct on-chain multicall. In this mode `priceUSD` is absent from token extensions,
+ * so any UI that reads `extensions.priceUSD` should treat `undefined` as "N/A".
+ *
  * @param {Object} params - Parameters for tokens fetching
  * @param {Address} [params.account] - Account address for balance fetching (defaults to connected wallet)
  * @param {Chain['id']} [params.chainId] - Specific chain ID to filter tokens (defaults to all supported chains)
@@ -153,7 +157,7 @@ export const useTokens = (
         ),
       )
       for (const { t, b } of nativeResults) {
-        balances[t.address] = b
+        balances[t.address.toLowerCase()] = b
       }
 
       if (erc20Tokens.length > 0) {
@@ -168,7 +172,7 @@ export const useTokens = (
           })),
         })
         results.forEach((result, i) => {
-          balances[erc20Tokens[i].address] =
+          balances[erc20Tokens[i].address.toLowerCase()] =
             result.status === 'success' ? (result.result as bigint) : 0n
         })
       }
@@ -307,7 +311,7 @@ export function updateTokensWithRawBalances(
     (token): Token => ({
       ...token,
       extensions: {
-        balance: rawBalances[token.chainId]?.[token.address] ?? 0n,
+        balance: rawBalances[token.chainId]?.[token.address.toLowerCase()] ?? 0n,
       },
     }),
   )
