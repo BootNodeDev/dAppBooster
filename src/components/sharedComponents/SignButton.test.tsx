@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { createElement } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { Web3Status } from '@/src/hooks/useWeb3Status'
 import SignButton from './SignButton'
 
 const mockSwitchChain = vi.fn()
@@ -45,6 +46,21 @@ vi.mock('wagmi', () => ({
 const { useWalletStatus } = await import('@/src/hooks/useWalletStatus')
 const mockedUseWalletStatus = vi.mocked(useWalletStatus)
 
+const mockWeb3Status = {
+  readOnlyClient: undefined,
+  appChainId: 1,
+  address: '0xdeadbeef',
+  balance: undefined,
+  connectingWallet: false,
+  switchingChain: false,
+  isWalletConnected: true,
+  walletClient: undefined,
+  isWalletSynced: true,
+  walletChainId: 1,
+  switchChain: vi.fn(),
+  disconnect: vi.fn(),
+} as unknown as Web3Status
+
 const system = createSystem(defaultConfig)
 
 const renderWithChakra = (ui: ReactNode) =>
@@ -63,7 +79,7 @@ describe('SignButton', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
-      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
+      web3Status: mockWeb3Status,
     })
 
     renderWithChakra(<SignButton message="Hello" />)
@@ -80,7 +96,7 @@ describe('SignButton', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
-      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
+      web3Status: mockWeb3Status,
     })
 
     renderWithChakra(
@@ -104,7 +120,7 @@ describe('SignButton', () => {
       >['targetChain'],
       targetChainId: 10,
       switchChain: mockSwitchChain,
-      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
+      web3Status: mockWeb3Status,
     })
 
     renderWithChakra(<SignButton message="Hello" />)
@@ -122,7 +138,7 @@ describe('SignButton', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
-      web3Status: undefined as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
+      web3Status: mockWeb3Status,
     })
 
     renderWithChakra(<SignButton message="Hello" />)
