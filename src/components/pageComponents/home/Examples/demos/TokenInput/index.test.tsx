@@ -49,6 +49,7 @@ vi.mock('@/src/hooks/useTokens', () => ({
     tokens: [],
     tokensByChainId: { 1: [], 10: [], 42161: [], 137: [], 11155111: [] },
     isLoadingBalances: false,
+    isLoadingPrices: false,
   })),
 }))
 

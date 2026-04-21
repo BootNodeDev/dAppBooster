@@ -61,7 +61,12 @@ describe('useTokenInput', () => {
     mockUseAccount.mockReturnValue({ address: walletAddress })
     mockUsePublicClient.mockClear()
     mockGetBalance.mockReset()
-    mockUseTokens.mockReturnValue({ tokensByChainId: {}, isLoadingBalances: false, tokens: [] })
+    mockUseTokens.mockReturnValue({
+      tokensByChainId: {},
+      isLoadingBalances: false,
+      isLoadingPrices: false,
+      tokens: [],
+    })
   })
 
   it('rebinds the native public client to the selected token chain when the user switches chains', async () => {
@@ -111,6 +116,7 @@ describe('useTokenInput', () => {
         1: [{ ...mainnetUsdc, extensions: { priceUSD: '1.00' } }],
       },
       isLoadingBalances: false,
+      isLoadingPrices: false,
       tokens: [],
     })
 
@@ -120,7 +126,12 @@ describe('useTokenInput', () => {
   })
 
   it('exposes isLoadingPrice as true while useTokens is loading', () => {
-    mockUseTokens.mockReturnValue({ tokensByChainId: {}, isLoadingBalances: true, tokens: [] })
+    mockUseTokens.mockReturnValue({
+      tokensByChainId: {},
+      isLoadingBalances: true,
+      isLoadingPrices: true,
+      tokens: [],
+    })
 
     const { result } = renderHook(() => useTokenInput(mainnetUsdc), { wrapper })
 
@@ -140,6 +151,7 @@ describe('useTokenInput', () => {
         1: [{ ...mainnetEth, extensions: { priceUSD: '3000.00' } }],
       },
       isLoadingBalances: false,
+      isLoadingPrices: false,
       tokens: [],
     })
     mockGetBalance.mockResolvedValue(1000000000000000000n)

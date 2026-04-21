@@ -47,6 +47,7 @@ export const lifiConfig = createConfig({
  * @returns {Token[]} returns.tokens - Array of tokens with price and balance information
  * @returns {Record<number, Token[]>} returns.tokensByChainId - Tokens organized by chain ID
  * @returns {boolean} returns.isLoadingBalances - Loading state for token balances and prices
+ * @returns {boolean} returns.isLoadingPrices - Loading state for token prices only
  *
  * @example
  * ```tsx
@@ -150,6 +151,7 @@ export const useTokens = (
   return {
     ...cache,
     isLoadingBalances: Boolean(isLoadingChains || isLoadingBalances || isLoadingPrices),
+    isLoadingPrices: Boolean(isLoadingChains || isLoadingPrices),
   }
 }
 

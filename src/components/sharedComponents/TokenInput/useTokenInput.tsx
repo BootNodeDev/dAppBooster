@@ -50,7 +50,7 @@ export function useTokenInput(token?: Token) {
   }, [token])
 
   const { address: userWallet } = useAccount()
-  const { tokensByChainId, isLoadingBalances: isLoadingPrice } = useTokens({
+  const { tokensByChainId, isLoadingPrices: isLoadingPrice } = useTokens({
     chainId: selectedToken?.chainId,
     withBalance: true,
   })
