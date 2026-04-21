@@ -141,14 +141,21 @@ describe('useWeb3StatusConnected', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: vi.fn(),
+      web3Status: {
+        address: '0xdeadbeef' as Address,
+        appChainId: 1,
+        balance: undefined,
+        connectingWallet: false,
+        disconnect: vi.fn(),
+        isWalletConnected: true,
+        isWalletSynced: true,
+        readOnlyClient: undefined,
+        switchChain: vi.fn(),
+        switchingChain: false,
+        walletChainId: 1,
+        walletClient: undefined,
+      } as unknown as ReturnType<typeof useWalletStatus>['web3Status'],
     })
-
-    vi.mocked(wagmi.useAccount).mockReturnValueOnce({
-      address: '0xdeadbeef' as Address,
-      chainId: 1,
-      isConnected: true,
-      isConnecting: false,
-    } as unknown as ReturnType<typeof wagmi.useAccount>)
 
     const wrapper = ({ children }: { children: React.ReactNode }) =>
       createElement(WalletStatusVerifier, null, children)

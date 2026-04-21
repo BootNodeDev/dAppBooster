@@ -1,7 +1,7 @@
 import type { Chain } from 'viem'
 import { extractChain } from 'viem'
 
-import { useWeb3Status } from '@/src/hooks/useWeb3Status'
+import { useWeb3Status, type Web3Status } from '@/src/hooks/useWeb3Status'
 import { type ChainsIds, chains } from '@/src/lib/networks.config'
 
 interface UseWalletStatusOptions {
@@ -15,13 +15,14 @@ interface WalletStatus {
   targetChain: Chain
   targetChainId: ChainsIds
   switchChain: (chainId: ChainsIds) => void
+  web3Status: Web3Status
 }
 
 export const useWalletStatus = (options?: UseWalletStatusOptions): WalletStatus => {
-  const { appChainId, isWalletConnected, isWalletSynced, switchChain, walletChainId } =
-    useWeb3Status()
+  const web3Status = useWeb3Status()
+  const { appChainId, isWalletConnected, isWalletSynced, switchChain, walletChainId } = web3Status
 
-  const targetChainId = options?.chainId || appChainId || chains[0].id
+  const targetChainId = options?.chainId ?? appChainId ?? chains[0].id
   const targetChain = extractChain({ chains, id: targetChainId })
 
   const needsConnect = !isWalletConnected
@@ -35,5 +36,6 @@ export const useWalletStatus = (options?: UseWalletStatusOptions): WalletStatus 
     targetChain,
     targetChainId,
     switchChain,
+    web3Status,
   }
 }

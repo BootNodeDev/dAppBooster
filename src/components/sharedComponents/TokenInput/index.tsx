@@ -58,8 +58,9 @@ type Props = FlexProps & TokenInputProps
  * @param {number} [props.iconSize=32] - Optional size of the token icon in the list. Default is 32.
  * @param {number} [props.itemHeight=64] - Optional height of each item in the list. Default is 64.
  * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
- * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
+ * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance column in each row. Default is false.
  * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
+ * @param {boolean} [props.sortByBalance] - Sort tokens with a positive balance to the top, ordered by USD value descending. Defaults to true when a wallet is connected.
  */
 const TokenInput: FC<Props> = ({
   containerHeight,
@@ -73,6 +74,7 @@ const TokenInput: FC<Props> = ({
   showBalance,
   showTopTokens,
   singleToken,
+  sortByBalance,
   thousandSeparator = true,
   title,
   tokenInput,
@@ -230,6 +232,7 @@ const TokenInput: FC<Props> = ({
               showAddTokenButton={showAddTokenButton}
               showBalance={showBalance}
               showTopTokens={showTopTokens}
+              sortByBalance={sortByBalance}
             >
               <CloseButton
                 aria-label="Close"

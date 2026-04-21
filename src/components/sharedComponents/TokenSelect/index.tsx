@@ -25,6 +25,7 @@ export interface TokenSelectProps {
   showAddTokenButton?: boolean
   showTopTokens?: boolean
   showBalance?: boolean
+  sortByBalance?: boolean
 }
 
 /** @ignore */
@@ -42,8 +43,9 @@ type Props = FlexProps & TokenSelectProps
  * @param {number} [props.iconSize=32] - Optional size of the token icon in the list. Default is 32.
  * @param {number} [props.itemHeight=64] - Optional height of each item in the list. Default is 64.
  * @param {boolean} [props.showAddTokenButton=false] - Optional flag to allow adding a token. Default is false.
- * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance in the list. Default is false.
+ * @param {boolean} [props.showBalance=false] - Optional flag to show the token balance column in each row. Default is false.
  * @param {boolean} [props.showTopTokens=false] - Optional flag to show the top tokens in the list. Default is false.
+ * @param {boolean} [props.sortByBalance] - Sort tokens with a positive balance to the top, ordered by USD value descending. Defaults to true when a wallet is connected.
  */
 const TokenSelect = withSuspenseAndRetry<Props>(
   ({
@@ -59,9 +61,10 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     showAddTokenButton = false,
     showBalance = false,
     showTopTokens = false,
+    sortByBalance,
     ...restProps
   }) => {
-    const { appChainId, walletChainId } = useWeb3Status()
+    const { appChainId, isWalletConnected, walletChainId } = useWeb3Status()
 
     const [chainId, setChainId] = useState<Chain['id']>(() =>
       getValidChainId({
@@ -122,9 +125,12 @@ const TokenSelect = withSuspenseAndRetry<Props>(
       previousDepsRef.current = [appChainId, currentNetworkId, walletChainId]
     }, [appChainId, currentNetworkId, networks, walletChainId])
 
+    const resolvedSortByBalance = sortByBalance ?? isWalletConnected
+
     const { isLoadingBalances, tokensByChainId } = useTokens({
       chainId,
-      withBalance: showBalance,
+      withBalance: showBalance || resolvedSortByBalance,
+      sortByBalance: resolvedSortByBalance,
     })
 
     const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(

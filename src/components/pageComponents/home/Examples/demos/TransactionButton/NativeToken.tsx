@@ -1,6 +1,7 @@
 import { Dialog } from '@chakra-ui/react'
 import { type ReactElement, useState } from 'react'
 import { type Hash, parseEther, type TransactionReceipt } from 'viem'
+import { sepolia } from 'viem/chains'
 import { useSendTransaction } from 'wagmi'
 import Wrapper from '@/src/components/pageComponents/home/Examples/demos/TransactionButton/Wrapper'
 import TransactionButton from '@/src/components/sharedComponents/TransactionButton'
@@ -46,7 +47,10 @@ const NativeToken = () => {
         text="Demo transaction that sends 0.1 Sepolia ETH from / to your wallet."
         title="Native token demo"
       >
+        {/* chainId must be explicit: the parent WalletStatusVerifier already verified Sepolia,
+            but TransactionButton checks against appChainId without it. */}
         <TransactionButton
+          chainId={sepolia.id}
           labelSending="Sending 0.1 ETH..."
           onMined={handleOnMined}
           transaction={handleSendTransaction}

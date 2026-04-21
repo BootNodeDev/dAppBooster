@@ -3,9 +3,25 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { createElement, type ReactNode } from 'react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { Web3Status } from '@/src/hooks/useWeb3Status'
 import { useWeb3StatusConnected, WalletStatusVerifier } from './WalletStatusVerifier'
 
 const mockSwitchChain = vi.fn()
+
+const mockWeb3Status = {
+  readOnlyClient: undefined,
+  appChainId: 1,
+  address: '0xdeadbeef',
+  balance: undefined,
+  connectingWallet: false,
+  switchingChain: false,
+  isWalletConnected: true,
+  walletClient: undefined,
+  isWalletSynced: true,
+  walletChainId: 1,
+  switchChain: vi.fn(),
+  disconnect: vi.fn(),
+} as unknown as Web3Status
 
 vi.mock('@/src/hooks/useWalletStatus', () => ({
   useWalletStatus: vi.fn(() => ({
@@ -15,23 +31,7 @@ vi.mock('@/src/hooks/useWalletStatus', () => ({
     targetChain: { id: 1, name: 'Ethereum' },
     targetChainId: 1,
     switchChain: mockSwitchChain,
-  })),
-}))
-
-vi.mock('@/src/hooks/useWeb3Status', () => ({
-  useWeb3Status: vi.fn(() => ({
-    readOnlyClient: {},
-    appChainId: 1,
-    address: '0xdeadbeef',
-    balance: undefined,
-    connectingWallet: false,
-    switchingChain: false,
-    isWalletConnected: true,
-    walletClient: undefined,
-    isWalletSynced: true,
-    walletChainId: 1,
-    switchChain: vi.fn(),
-    disconnect: vi.fn(),
+    web3Status: mockWeb3Status,
   })),
 }))
 
@@ -65,6 +65,7 @@ describe('WalletStatusVerifier', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
 
     renderWithChakra(
@@ -87,6 +88,7 @@ describe('WalletStatusVerifier', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
 
     renderWithChakra(
@@ -111,6 +113,7 @@ describe('WalletStatusVerifier', () => {
       >['targetChain'],
       targetChainId: 10,
       switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
 
     renderWithChakra(
@@ -134,6 +137,7 @@ describe('WalletStatusVerifier', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
 
     renderWithChakra(
@@ -159,6 +163,7 @@ describe('WalletStatusVerifier', () => {
       >['targetChain'],
       targetChainId: 10,
       switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
 
     renderWithChakra(
@@ -179,6 +184,7 @@ describe('WalletStatusVerifier', () => {
       targetChain: { id: 1, name: 'Ethereum' } as ReturnType<typeof useWalletStatus>['targetChain'],
       targetChainId: 1,
       switchChain: mockSwitchChain,
+      web3Status: mockWeb3Status,
     })
 
     const ChildComponent = () => {
