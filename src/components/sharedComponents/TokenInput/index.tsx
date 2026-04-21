@@ -85,6 +85,8 @@ const TokenInput: FC<Props> = ({
     balance,
     balanceError,
     isLoadingBalance,
+    isLoadingPrice,
+    priceUSD,
     selectedToken,
     setAmount,
     setAmountError,
@@ -105,12 +107,10 @@ const TokenInput: FC<Props> = ({
 
   const estimatedUSDValue = useMemo(() => {
     if (isTestnetChain) return null
-    if (!selectedToken) return 0
-    const priceUSD = selectedToken.extensions?.priceUSD
-    if (priceUSD === undefined || priceUSD === null) return 0
-    const tokenAmount = Number.parseFloat(formatUnits(amount, selectedToken.decimals ?? 0))
-    return Number.parseFloat(priceUSD as string) * tokenAmount
-  }, [isTestnetChain, selectedToken, amount])
+    if (!selectedToken || !priceUSD || !balance) return 0
+    const tokenBalance = Number.parseFloat(formatUnits(balance, selectedToken.decimals ?? 0))
+    return Number.parseFloat(priceUSD) * tokenBalance
+  }, [isTestnetChain, selectedToken, priceUSD, balance])
 
   const selectIconSize = 24
   const decimals = selectedToken ? selectedToken.decimals : 2
@@ -188,7 +188,13 @@ const TokenInput: FC<Props> = ({
         </TopRow>
         <BottomRow>
           <EstimatedUSDValue>
-            {estimatedUSDValue === null ? NO_PRICE_DATA_LABEL : `~$${estimatedUSDValue.toFixed(2)}`}
+            {estimatedUSDValue === null ? (
+              NO_PRICE_DATA_LABEL
+            ) : selectedToken && !isTestnetChain && (isLoadingPrice || isLoadingBalance) ? (
+              <Spinner size="sm" />
+            ) : (
+              `~$${(estimatedUSDValue as number).toFixed(2)}`
+            )}
           </EstimatedUSDValue>
           <Balance>
             <BalanceValue>

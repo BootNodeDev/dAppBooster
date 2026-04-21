@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { getAddress } from 'viem'
 import { useAccount, usePublicClient } from 'wagmi'
 import { useErc20Balance } from '@/src/hooks/useErc20Balance'
+import { useTokens } from '@/src/hooks/useTokens'
 import type { Token } from '@/src/types/token'
 import { isNativeToken } from '@/src/utils/address'
 
@@ -49,6 +50,15 @@ export function useTokenInput(token?: Token) {
   }, [token])
 
   const { address: userWallet } = useAccount()
+  const { tokensByChainId, isLoadingBalances: isLoadingPrice } = useTokens({
+    chainId: selectedToken?.chainId,
+    withBalance: true,
+  })
+  const priceUSD = selectedToken
+    ? (tokensByChainId[selectedToken.chainId]?.find((t) => t.address === selectedToken.address)
+        ?.extensions?.priceUSD as string | undefined)
+    : undefined
+
   const { balance, balanceError, isLoadingBalance } = useErc20Balance({
     address: userWallet ? getAddress(userWallet) : undefined,
     token: selectedToken,
@@ -75,6 +85,8 @@ export function useTokenInput(token?: Token) {
     balance: isNative ? nativeBalance : balance,
     balanceError: isNative ? nativeBalanceError : balanceError,
     isLoadingBalance: isNative ? isLoadingNativeBalance : isLoadingBalance,
+    isLoadingPrice,
+    priceUSD,
     selectedToken,
     setTokenSelected,
   }
