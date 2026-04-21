@@ -13,6 +13,11 @@ import { type Token, type TokenList, tokenSchema } from '@/src/types/token'
 import { logger } from '@/src/utils/logger'
 import tokenListsCache, { type TokensMap, updateTokenListsCache } from '@/src/utils/tokenListsCache'
 
+const chainsById: Map<number, (typeof chains)[keyof typeof chains]> = new Map()
+for (const chain of Object.values(chains)) {
+  if (!chainsById.has(chain.id)) chainsById.set(chain.id, chain)
+}
+
 /**
  * Loads and processes token lists from configured sources
  *
@@ -108,15 +113,11 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
     new Map(
       results
         .flatMap((result) => result.data.tokens)
-        // tokenSchema enforces EVM address format (0x + 40 hex chars), so non-EVM entries
-        // (e.g. Solana tokens from @uniswap/default-token-list v18+) are silently dropped here.
-        // Supporting non-EVM chains would require changes to the address schema, chain config,
-        // wallet integration, and contract lookup -- out of scope for this EVM-focused starter kit.
-        .filter((token) => {
-          const result = tokenSchema.safeParse(token)
-
-          return result.success
-        })
+        // tokenSchema enforces EVM address format, so non-EVM entries (e.g. Solana in
+        // @uniswap/default-token-list v18+) are dropped. Tokens on chainIds absent from
+        // viem/chains are also dropped, so buildNativeToken cannot throw and
+        // tokensByChainId never accumulates unreachable buckets.
+        .filter((token) => tokenSchema.safeParse(token).success && chainsById.has(token.chainId))
         .map((token) => [tokenKey(token), token]),
     ).values(),
   )
@@ -126,18 +127,9 @@ function combineTokenLists(results: Array<UseSuspenseQueryResult<TokenList>>): T
   const tokensMap = uniqueTokens.reduce<TokensMap>(
     (acc, token) => {
       if (!acc.tokensByChainId[token.chainId]) {
-        try {
-          // if there's a native token for the chain
-          const nativeToken = buildNativeToken(token.chainId)
-
-          // add it to the list
-          acc.tokensByChainId[token.chainId] = [nativeToken]
-          acc.tokens.push(nativeToken)
-        } catch (err) {
-          console.error(err)
-          // if there's no native token for the chain, ignore the error
-          acc.tokensByChainId[token.chainId] = []
-        }
+        const nativeToken = buildNativeToken(token.chainId)
+        acc.tokensByChainId[token.chainId] = [nativeToken]
+        acc.tokens.push(nativeToken)
       }
 
       acc.tokens.push(token)
@@ -208,7 +200,7 @@ export async function fetchTokenList(url: string): Promise<TokenList> {
  * @returns The native token object.
  */
 function buildNativeToken(chainId: Token['chainId']): Token {
-  const tokenInfo = Object.values(chains).find((chain) => chain.id === chainId)?.nativeCurrency
+  const tokenInfo = chainsById.get(chainId)?.nativeCurrency
 
   if (!tokenInfo) {
     throw new Error(`Native token not found for chain ID: ${chainId}`)
