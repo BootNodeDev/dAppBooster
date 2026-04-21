@@ -130,6 +130,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
     const { isLoadingBalances, tokensByChainId } = useTokens({
       chainId,
       withBalance: showBalance || resolvedSortByBalance,
+      sortByBalance: resolvedSortByBalance,
     })
 
     const { searchResult, searchTerm, setSearchTerm } = useTokenSearch(

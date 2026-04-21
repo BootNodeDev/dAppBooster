@@ -117,6 +117,31 @@ describe('updateTokensBalances', () => {
     expect(tokens[1].symbol).toBe('USDC')
     expect(tokens[2].symbol).toBe('DAI')
   })
+
+  it('preserves source order when sortByBalance is false', () => {
+    const prices: TokensResponse = {
+      tokens: {
+        1: [
+          makeLifiToken(LOCAL_NATIVE, 'ETH', 18, '2300'),
+          makeLifiToken(usdcAddress, 'USDC', 6, '1'),
+          makeLifiToken(daiAddress, 'DAI', 18, '1'),
+        ],
+      },
+    }
+    const balances: TokenAmount[] = [
+      { ...makeLifiToken(LOCAL_NATIVE, 'ETH', 18, '2300'), amount: 0n },
+      { ...makeLifiToken(usdcAddress, 'USDC', 6, '1'), amount: 5_000_000n },
+      { ...makeLifiToken(daiAddress, 'DAI', 18, '1'), amount: 0n },
+    ]
+
+    const { tokens } = updateTokensBalances(threeTokens, [balances, prices], {
+      sortByBalance: false,
+    })
+
+    expect(tokens[0].symbol).toBe('ETH')
+    expect(tokens[1].symbol).toBe('USDC')
+    expect(tokens[2].symbol).toBe('DAI')
+  })
 })
 
 describe('updateTokensWithRawBalances', () => {
@@ -171,5 +196,25 @@ describe('updateTokensWithRawBalances', () => {
 
     expect(tokens[0].extensions?.balance).toBe(500n)
     expect(tokens[0].extensions?.priceUSD).toBeUndefined()
+  })
+
+  it('preserves source order when sortByBalance is false', () => {
+    const rawBalances: Record<number, Record<string, bigint>> = {
+      11155111: {
+        [LOCAL_NATIVE]: 0n,
+        [usdcAddress]: 1_000_000n,
+      },
+    }
+    const sepoliaTokens: Tokens = [
+      { chainId: 11155111, address: LOCAL_NATIVE, name: 'Ether', symbol: 'ETH', decimals: 18 },
+      { chainId: 11155111, address: usdcAddress, name: 'USD Coin', symbol: 'USDC', decimals: 6 },
+    ]
+
+    const { tokens } = updateTokensWithRawBalances(sepoliaTokens, rawBalances, {
+      sortByBalance: false,
+    })
+
+    expect(tokens[0].symbol).toBe('ETH')
+    expect(tokens[1].symbol).toBe('USDC')
   })
 })

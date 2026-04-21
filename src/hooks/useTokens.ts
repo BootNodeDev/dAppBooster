@@ -49,6 +49,7 @@ export const lifiConfig = createConfig({
  * @param {Address} [params.account] - Account address for balance fetching (defaults to connected wallet)
  * @param {Chain['id']} [params.chainId] - Specific chain ID to filter tokens (defaults to all supported chains)
  * @param {boolean} [params.withBalance=true] - Whether to fetch token balances
+ * @param {boolean} [params.sortByBalance=true] - Whether to sort tokens by balance. When false, source order is preserved even if balances are fetched.
  *
  * @returns {Object} Token data and loading state
  * @returns {Token[]} returns.tokens - Array of tokens with price and balance information
@@ -78,12 +79,15 @@ export const useTokens = (
     account,
     chainId,
     withBalance,
+    sortByBalance = true,
   }: {
     account?: Address
     chainId?: Chain['id']
     withBalance?: boolean
+    sortByBalance?: boolean
   } = {
     withBalance: true,
+    sortByBalance: true,
   },
 ) => {
   const { address } = useWeb3Status()
@@ -188,10 +192,16 @@ export const useTokens = (
   const cache = useMemo(() => {
     if (withBalance && account) {
       if (!isLoadingPrices && !isLoadingBalances && tokensBalances && tokensPricesByChain) {
-        return updateTokensBalances(tokensData.tokens, [tokensBalances, tokensPricesByChain])
+        return updateTokensBalances(tokensData.tokens, [tokensBalances, tokensPricesByChain], {
+          sortByBalance,
+        })
       }
       if (useOnchainFallback && !isLoadingOnchainBalances && onchainBalances && chainId) {
-        return updateTokensWithRawBalances(tokensData.tokens, { [chainId]: onchainBalances })
+        return updateTokensWithRawBalances(
+          tokensData.tokens,
+          { [chainId]: onchainBalances },
+          { sortByBalance },
+        )
       }
     }
     return tokensData
@@ -202,6 +212,7 @@ export const useTokens = (
     isLoadingOnchainBalances,
     isLoadingPrices,
     onchainBalances,
+    sortByBalance,
     tokensBalances,
     tokensData,
     tokensPricesByChain,
@@ -228,6 +239,7 @@ export const useTokens = (
 export function updateTokensBalances(
   tokens: Tokens,
   results: [Array<TokenAmount>, TokensResponse],
+  { sortByBalance = true }: { sortByBalance?: boolean } = {},
 ) {
   const [balanceTokens, prices] = results
 
@@ -273,9 +285,11 @@ export function updateTokensBalances(
   })
   logger.timeEnd('extending tokens with balance info')
 
-  logger.time('sorting tokens by balance')
-  tokensWithBalances.sort(sortFn)
-  logger.timeEnd('sorting tokens by balance')
+  if (sortByBalance) {
+    logger.time('sorting tokens by balance')
+    tokensWithBalances.sort(sortFn)
+    logger.timeEnd('sorting tokens by balance')
+  }
 
   logger.time('updating tokens cache')
   const tokensByChain = tokensWithBalances.reduce(
@@ -306,6 +320,7 @@ export function updateTokensBalances(
 export function updateTokensWithRawBalances(
   tokens: Tokens,
   rawBalances: Record<number, Record<string, bigint>>,
+  { sortByBalance = true }: { sortByBalance?: boolean } = {},
 ) {
   const tokensWithBalances = tokens.map(
     (token): Token => ({
@@ -316,7 +331,9 @@ export function updateTokensWithRawBalances(
     }),
   )
 
-  tokensWithBalances.sort(sortByBalancePresenceFn)
+  if (sortByBalance) {
+    tokensWithBalances.sort(sortByBalancePresenceFn)
+  }
 
   const tokensByChainId = tokensWithBalances.reduce(
     (acc, token) => {
