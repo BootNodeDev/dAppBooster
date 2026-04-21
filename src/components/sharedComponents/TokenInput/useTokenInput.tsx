@@ -55,8 +55,9 @@ export function useTokenInput(token?: Token) {
     withBalance: true,
   })
   const priceUSD = selectedToken
-    ? (tokensByChainId[selectedToken.chainId]?.find((t) => t.address === selectedToken.address)
-        ?.extensions?.priceUSD as string | undefined)
+    ? (tokensByChainId[selectedToken.chainId]?.find(
+        (t) => t.address.toLowerCase() === selectedToken.address.toLowerCase(),
+      )?.extensions?.priceUSD as string | undefined)
     : undefined
 
   const { balance, balanceError, isLoadingBalance } = useErc20Balance({

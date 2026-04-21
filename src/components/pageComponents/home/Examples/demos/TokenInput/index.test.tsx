@@ -35,6 +35,8 @@ vi.mock('@/src/components/sharedComponents/TokenInput/useTokenInput', () => ({
     balance: 0n,
     balanceError: null,
     isLoadingBalance: false,
+    isLoadingPrice: false,
+    priceUSD: undefined,
     selectedToken: undefined,
     setTokenSelected: vi.fn(),
   })),
