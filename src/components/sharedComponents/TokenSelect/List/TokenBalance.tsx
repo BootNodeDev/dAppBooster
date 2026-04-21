@@ -73,14 +73,16 @@ const TokenBalance = withSuspenseAndRetry<TokenBalanceProps>(({ isLoading, token
 
   if (hasExtensions) {
     const balance = formatUnits((token.extensions?.balance ?? 0n) as bigint, token.decimals)
-    const value = (
-      Number.parseFloat((token.extensions?.priceUSD ?? '0') as string) * Number.parseFloat(balance)
-    ).toFixed(2)
+    const priceUSD = token.extensions?.priceUSD as string | undefined
+    const usdLabel =
+      priceUSD !== undefined
+        ? `$ ${(Number.parseFloat(priceUSD) * Number.parseFloat(balance)).toFixed(2)}`
+        : NO_PRICE_DATA_LABEL
 
     return (
       <Flex {...flexProps}>
         <Box {...balanceBoxProps}>{balance}</Box>
-        <Box {...valueBoxProps}>$ {value}</Box>
+        <Box {...valueBoxProps}>{usdLabel}</Box>
       </Flex>
     )
   }
