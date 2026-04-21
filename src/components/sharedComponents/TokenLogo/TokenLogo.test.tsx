@@ -110,8 +110,9 @@ describe('TokenLogo', () => {
       name: 'Unknown',
       symbol: 'XXX',
     }
-    renderTokenLogo(nativeUnknownToken)
+    const { container } = renderTokenLogo(nativeUnknownToken)
     expect(screen.queryByRole('img')).toBeNull()
+    expect(container.querySelector('svg')).toBeNull()
     expect(screen.getByText('X')).toBeDefined()
   })
 })
