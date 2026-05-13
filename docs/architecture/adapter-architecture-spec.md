@@ -63,8 +63,9 @@ The full spec is split into focused subdocuments for maintainability:
 | 5 | [EVM Adapter](./adapter-spec/05-evm-adapter.md) | `EvmWalletAdapter`, `EvmTransactionAdapter`, connector configs, codegen generalization |
 | 6 | [Use Cases](./adapter-spec/06-use-cases.md) | Agent integration, 14 reference use cases, validation, consumer error handling guide |
 | 7 | [Migration and Monorepo](./adapter-spec/07-migration-and-monorepo.md) | Phased migration path, monorepo directory structure, chain tier analysis |
+| 8 | [Versioning Policy](./adapter-spec/08-versioning.md) | Public surface, semver model, deprecation policy, Changesets workflow |
 
-See also: [Architecture overview](./adapter-architecture-overview.md) for a high-level summary.
+See also: [Architecture overview](./adapter-architecture-overview.md) for a high-level summary, [CONTRIBUTING.md](../../CONTRIBUTING.md) for external contributor guidance.
 
 ---
 
@@ -92,6 +93,11 @@ See also: [Architecture overview](./adapter-architecture-overview.md) for a high
 
 **Planning the monorepo extraction:**
 1. [Migration and Monorepo](./adapter-spec/07-migration-and-monorepo.md) — phased migration, directory structure, package boundaries
+2. [Versioning Policy](./adapter-spec/08-versioning.md) — semver model and Changesets workflow
+
+**Governance (publishing, contributing, planning version bumps):**
+1. [Versioning Policy](./adapter-spec/08-versioning.md) — what's stable, what evolves, how deprecations work
+2. [CONTRIBUTING.md](../../CONTRIBUTING.md) — external contributor expectations and communication channels
 
 ---
 
