@@ -348,6 +348,55 @@ CLI tools and agent scripts import `@dappbooster/evm-adapter` — viem only, no 
 
 ---
 
+## 14. Bundle-Size Targets
+
+The "Pay only for what you import" principle needs measurement to stay honest. `size-limit` runs against every sub-path entry point and fails the build when any entry exceeds its budget.
+
+### How peer deps are counted
+
+The budget for each entry counts **only what dAppBooster adds on top of the consumer's existing dependency set**. viem (a dependency of `@dappbooster/evm-adapter`), wagmi (peer dep of the `/wagmi` sub-path), and react (peer dep of every `/react` sub-path) are marked `ignore` in the size-limit config so they don't double-count.
+
+Concretely: if the EVM adapter root imports a viem function, that function's bytes do not count against the `@dappbooster/evm-adapter` budget — the consumer already has viem installed because they declared it as a peer dep.
+
+### The seven budgeted entries
+
+| Entry | Initial budget (brotli) | What it represents |
+|---|---|---|
+| `@dappbooster/core` | 3 KB | The contract layer — interfaces, types, error classes |
+| `@dappbooster/core/chain` | 1.5 KB | `ChainDescriptor`, `ChainRegistry`, `getExplorerUrl` |
+| `@dappbooster/evm-adapter` | 6 KB | viem-only EVM adapter (agent scripts, CLI, relayers) |
+| `@dappbooster/evm-adapter/wagmi` | 3 KB | wagmi/core wallet adapter layer |
+| `@dappbooster/evm-adapter/react` | 5 KB | Full React bundle (Provider + read-only hook) |
+| `@dappbooster/react/hooks` | 6 KB | Headless hooks consumed by every React dApp |
+| `@dappbooster/react/components` | 4 KB | Headless `ConnectWalletButton` and `WalletGuard` |
+
+Budgets are set at roughly 2x the captured baseline. Tight enough that accidental bloat surfaces in a single PR; loose enough to absorb normal feature work.
+
+### CI behavior
+
+- **During beta** (`3.0.0-beta.x`, `3.0.0-rc.x`): the GitHub Action runs on every PR and posts the size diff as a comment. Regressions warn but do not fail CI. The contract with consumers is "expect churn."
+- **Once stable** (`3.0.0`+): the same Action fails CI when any entry regresses by more than 5% versus the base branch, or exceeds its declared budget.
+
+The CI workflow YAML is wired up when CI infrastructure is set up; this section commits to WHAT is measured, not HOW the Action is configured.
+
+### Capturing a new baseline
+
+When a legitimate change grows a budgeted entry beyond its current limit:
+
+1. Run `pnpm size` locally and confirm the new number.
+2. Update the entry's `limit` in `.size-limit.ts` to roughly 2x the new size.
+3. Include a one-line note in the PR description explaining why the budget moved.
+4. The reviewer confirms the growth is intentional before merging.
+
+### Running locally
+
+```bash
+pnpm size           # check every entry against its budget
+pnpm size:why       # same, plus per-import contribution breakdown
+```
+
+---
+
 ## Appendix A: Chain Tier Analysis
 
 Research across 23+ blockchain ecosystems informed the ChainDescriptor design. Chains are tiered by ecosystem size, dApp demand, and architectural fit.
