@@ -41,14 +41,7 @@ const config: SizeLimitConfig = [
     name: '@dappbooster/evm-adapter/react',
     path: 'src/sdk/evm-adapter/react/index.ts',
     limit: '5 KB',
-    ignore: [
-      'viem',
-      'wagmi',
-      '@wagmi/core',
-      'react',
-      'react-dom',
-      '@tanstack/react-query',
-    ],
+    ignore: ['viem', 'wagmi', '@wagmi/core', 'react', 'react-dom', '@tanstack/react-query'],
   },
 
   // React SDK — headless hooks and components, peer-installed React only.

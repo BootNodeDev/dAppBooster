@@ -2,7 +2,7 @@
 
 A repository template / starter-kit for building decentralized applications (dApps). Built by BootNode based on 5+ years of dApp development. Docs: https://docs.dappbooster.dev/ Components: https://components.dappbooster.dev/
 
-System architecture, data flow, provider hierarchy, and structural conventions are documented in [architecture.md](./architecture.md). Read it when working on tasks that involve the system's structure or patterns.
+Repository shape and the application/template layer are documented in [architecture.md](./architecture.md). SDK architecture (interfaces, hooks, adapters, escape hatches, migration path, versioning policy) lives in [docs/architecture/adapter-architecture-spec.md](./docs/architecture/adapter-architecture-spec.md) and the focused subdocuments under [docs/architecture/adapter-spec/](./docs/architecture/adapter-spec/). Read the spec for any SDK question; read `architecture.md` to orient on what wraps the SDK in this repo.
 
 ## Requirements
 
