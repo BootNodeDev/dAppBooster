@@ -8,7 +8,7 @@ import {
   TanStackRouterDevtools,
   Toaster,
 } from '@/src/core/components'
-import { chains, transports } from '@/src/core/types'
+import { chains, endpoints, transports } from '@/src/core/types'
 import { createEvmTransactionAdapter } from '@/src/sdk/evm-adapter'
 import { createEvmWalletBundle } from '@/src/sdk/evm-adapter/react'
 import {
@@ -29,12 +29,14 @@ const evmWalletBundle = createEvmWalletBundle({
   connector,
   chains: evmChains,
   transports,
+  endpoints,
   wagmiConfig,
 })
 
 const evmTransactionAdapter = createEvmTransactionAdapter({
   chains: evmChains,
   transports,
+  endpoints,
 })
 
 const notificationLifecycle = createNotificationLifecycle({

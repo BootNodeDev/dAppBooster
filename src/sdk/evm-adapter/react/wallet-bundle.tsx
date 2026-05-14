@@ -21,6 +21,14 @@ export interface EvmWalletBundleConfig {
   connector: EvmConnectorConfig
   chains: Chain[]
   transports: Record<number, Transport>
+  /**
+   * RPC URLs per chain id. Forwarded to the underlying `createEvmWalletAdapter` so the
+   * `supportedChains` descriptors carry endpoints that `useReadOnly` / `useEvmReadOnly`
+   * can resolve. When omitted, descriptors fall back to viem's default RPC URL per chain.
+   *
+   * Typically these match the URLs used to build `transports`.
+   */
+  endpoints?: Record<number, string>
   /** Pre-created wagmi Config. If provided, used directly instead of calling connector.createConfig(). */
   wagmiConfig?: Config
 }
@@ -44,6 +52,7 @@ export function createEvmWalletBundle(config: EvmWalletBundleConfig): WalletAdap
     coreConnector: config.connector,
     chains: config.chains,
     transports: config.transports,
+    endpoints: config.endpoints,
     wagmiConfig: config.wagmiConfig,
   })
 

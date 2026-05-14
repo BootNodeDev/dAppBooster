@@ -26,6 +26,14 @@ export interface EvmServerWalletConfig {
   privateKey: Hex
   chain: Chain
   transport?: Transport
+  /**
+   * RPC URL used to populate the chain descriptor's `endpoints` array. Falls back to viem's
+   * default (`chain.rpcUrls.default.http[0]`) when omitted. The descriptor endpoint is
+   * independent from `transport` — `transport` is the wallet client's transport (for sending
+   * transactions), while `endpoints` is the metadata read by `useReadOnly` consumers.
+   * For most agent / CLI scripts these should match; supply the same URL for both.
+   */
+  rpcUrl?: string
 }
 
 /**
@@ -53,7 +61,7 @@ export function createEvmServerWallet(config: EvmServerWalletConfig): WalletAdap
     transport: config.transport ?? http(),
   })
 
-  const supportedChains = [fromViemChain(config.chain)]
+  const supportedChains = [fromViemChain(config.chain, config.rpcUrl)]
 
   const adapter: WalletAdapter<'evm'> = {
     chainType: 'evm',

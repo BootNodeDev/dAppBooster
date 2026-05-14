@@ -51,6 +51,15 @@ export interface EvmWalletConfig {
   coreConnector: EvmCoreConnectorConfig
   chains: Chain[]
   transports: Record<number, Transport>
+  /**
+   * RPC URLs per chain id, used to populate `supportedChains[*].endpoints` on the resulting
+   * descriptors. These flow through to `useReadOnly` / `useEvmReadOnly` so read-only consumers
+   * hit the same RPC as the wallet layer. When omitted for a given chain id, `fromViemChain`
+   * falls back to viem's default RPC URL (`chain.rpcUrls.default.http[0]`).
+   *
+   * Typically the URLs match the same values used to build `transports`.
+   */
+  endpoints?: Record<number, string>
   /** Pre-created wagmi Config. If provided, used directly instead of calling coreConnector.createConfig(). */
   wagmiConfig?: Config
 }
@@ -132,7 +141,9 @@ export function createEvmWalletAdapter(config: EvmWalletConfig): EvmWalletAdapte
   }
   const wagmiConfig =
     config.wagmiConfig ?? config.coreConnector.createConfig(config.chains, config.transports)
-  const supportedChains = config.chains.map(fromViemChain)
+  const supportedChains = config.chains.map((chain) =>
+    fromViemChain(chain, config.endpoints?.[chain.id]),
+  )
 
   const adapter: WalletAdapter<'evm'> = {
     chainType: 'evm',

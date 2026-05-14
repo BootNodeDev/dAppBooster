@@ -34,3 +34,19 @@ export const transports: RestrictedTransports = {
   [sepolia.id]: http(env.PUBLIC_RPC_SEPOLIA),
   [baseSepolia.id]: http(env.PUBLIC_RPC_BASE_SEPOLIA),
 }
+
+/**
+ * RPC URLs paired with `transports`, used to populate chain descriptors so the SDK's
+ * read-only path (`useEvmReadOnly`) hits the same RPC as the transaction layer. When a
+ * `PUBLIC_RPC_*` env var is unset, falls back to viem's default RPC URL for that chain.
+ */
+type RestrictedEndpoints = Record<ChainsIds, string>
+export const endpoints: RestrictedEndpoints = {
+  [mainnet.id]: env.PUBLIC_RPC_MAINNET ?? mainnet.rpcUrls.default.http[0],
+  [arbitrum.id]: env.PUBLIC_RPC_ARBITRUM ?? arbitrum.rpcUrls.default.http[0],
+  [optimism.id]: env.PUBLIC_RPC_OPTIMISM ?? optimism.rpcUrls.default.http[0],
+  [optimismSepolia.id]: env.PUBLIC_RPC_OPTIMISM_SEPOLIA ?? optimismSepolia.rpcUrls.default.http[0],
+  [polygon.id]: env.PUBLIC_RPC_POLYGON ?? polygon.rpcUrls.default.http[0],
+  [sepolia.id]: env.PUBLIC_RPC_SEPOLIA ?? sepolia.rpcUrls.default.http[0],
+  [baseSepolia.id]: env.PUBLIC_RPC_BASE_SEPOLIA ?? baseSepolia.rpcUrls.default.http[0],
+}

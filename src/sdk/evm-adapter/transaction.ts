@@ -29,6 +29,15 @@ import type { EvmContractCall, EvmRawTransaction, EvmTransactionPayload } from '
 export interface EvmTransactionConfig {
   chains: Chain[]
   transports: Record<number, Transport>
+  /**
+   * RPC URLs per chain id, used to populate `supportedChains[*].endpoints` on the resulting
+   * descriptors. These flow through to `useReadOnly` / `useEvmReadOnly` so read-only consumers
+   * hit the same RPC as the transaction layer. When omitted for a given chain id, `fromViemChain`
+   * falls back to viem's default RPC URL (`chain.rpcUrls.default.http[0]`).
+   *
+   * Typically the URLs match the same values used to build `transports`.
+   */
+  endpoints?: Record<number, string>
 }
 
 function isEvmContractCall(payload: EvmTransactionPayload): payload is EvmContractCall {
@@ -75,7 +84,9 @@ export function createEvmTransactionAdapter(
     ]),
   )
 
-  const supportedChains = config.chains.map(fromViemChain)
+  const supportedChains = config.chains.map((chain) =>
+    fromViemChain(chain, config.endpoints?.[chain.id]),
+  )
 
   function getPublicClient(chainId: string | number): PublicClient {
     const numericId = typeof chainId === 'string' ? Number.parseInt(chainId, 10) : chainId

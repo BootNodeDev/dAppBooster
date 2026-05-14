@@ -135,4 +135,30 @@ describe('fromViemChain', () => {
       expect(descriptor.testnet).toBe(true)
     })
   })
+
+  describe('endpoints', () => {
+    it('populates endpoints with the supplied rpcUrl', () => {
+      const descriptor = fromViemChain(mainnet, 'https://example.com/rpc')
+      expect(descriptor.endpoints).toEqual([
+        { url: 'https://example.com/rpc', protocol: 'json-rpc', purpose: 'default' },
+      ])
+    })
+
+    it('falls back to chain.rpcUrls.default.http[0] when rpcUrl is omitted', () => {
+      const descriptor = fromViemChain(mainnet)
+      expect(descriptor.endpoints?.[0]?.url).toBe(mainnet.rpcUrls.default.http[0])
+    })
+
+    it('marks the protocol as json-rpc and purpose as default', () => {
+      const descriptor = fromViemChain(mainnet, 'https://example.com/rpc')
+      expect(descriptor.endpoints?.[0]?.protocol).toBe('json-rpc')
+      expect(descriptor.endpoints?.[0]?.purpose).toBe('default')
+    })
+
+    it('overrides the viem default when rpcUrl is supplied', () => {
+      const descriptor = fromViemChain(mainnet, 'https://example.com/rpc')
+      expect(descriptor.endpoints?.[0]?.url).not.toBe(mainnet.rpcUrls.default.http[0])
+      expect(descriptor.endpoints?.[0]?.url).toBe('https://example.com/rpc')
+    })
+  })
 })
