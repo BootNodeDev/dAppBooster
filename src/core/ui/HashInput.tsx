@@ -8,11 +8,11 @@ import {
   useState,
 } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
-import type { Chain } from 'viem'
+import type { PublicClient } from 'viem'
 import detectHash, { type DetectedHash } from '../utils/hash'
 
 interface HashInputProps extends InputProps {
-  chain: Chain
+  publicClient: PublicClient
   debounceTime?: number
   onLoading?: (loading: boolean) => void
   onSearch: (result: DetectedHash | null) => void
@@ -23,12 +23,14 @@ interface HashInputProps extends InputProps {
 /**
  * HashInput component for entering and detecting blockchain addresses, transaction hashes, or ENS names.
  *
- * This component provides an input field that processes user input to detect its type
- * (address, transaction hash, or ENS name) on a specified blockchain network.
- * It uses debounced search to prevent excessive requests and can be customized with a custom input renderer.
+ * Processes user input to detect its type (address, transaction hash, or ENS name) against the
+ * caller-supplied PublicClient — typically created by `useEvmReadOnly()` so the app's configured
+ * RPC is used rather than viem's default public endpoint (which often lacks transaction history).
+ *
+ * Uses debounced search to limit lookups and can be customized with a custom input renderer.
  *
  * @param {HashInputProps} props - The props for the HashInput component.
- * @param {Chain} props.chain - The blockchain network to use for detection (from viem chains).
+ * @param {PublicClient} props.publicClient - The viem PublicClient used for chain lookups.
  * @param {number} [props.debounceTime=500] - Delay in milliseconds before triggering search after input changes.
  * @param {(loading: boolean) => void} [props.onLoading] - Callback fired when loading state changes.
  * @param {(result: DetectedHash | null) => void} props.onSearch - Callback fired with detection results.
@@ -38,16 +40,21 @@ interface HashInputProps extends InputProps {
  *
  * @example
  * ```tsx
- * <HashInput
- *   chain={mainnet}
- *   onSearch={(result) => console.log(result)}
- *   debounceTime={300}
- *   placeholder="Enter address, ENS name or transaction hash"
- * />
+ * const { client } = useEvmReadOnly({ chainId: 1 })
+ * if (client) {
+ *   return (
+ *     <HashInput
+ *       publicClient={client}
+ *       onSearch={(result) => console.log(result)}
+ *       debounceTime={300}
+ *       placeholder="Enter address, ENS name or transaction hash"
+ *     />
+ *   )
+ * }
  * ```
  */
 const HashInput: FC<HashInputProps> = ({
-  chain,
+  publicClient,
   debounceTime = 500,
   onLoading,
   onSearch,
@@ -62,14 +69,14 @@ const HashInput: FC<HashInputProps> = ({
     async (value: string) => {
       if (value) {
         setLoading(true)
-        const detected = await detectHash({ chain, hashOrString: value })
+        const detected = await detectHash({ publicClient, hashOrString: value })
         setLoading(false)
         onSearch(detected)
       } else {
         onSearch(null)
       }
     },
-    [chain, onSearch],
+    [publicClient, onSearch],
   )
 
   const debouncedHandleChange = useDebouncedCallback(handleSearch, debounceTime)

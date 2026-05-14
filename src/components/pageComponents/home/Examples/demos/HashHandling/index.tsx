@@ -7,6 +7,7 @@ import Icon from '@/src/components/pageComponents/home/Examples/demos/HashHandli
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import { HashInput, Spinner } from '@/src/core/components'
 import type { DetectedHash } from '@/src/core/utils'
+import { useEvmReadOnly } from '@/src/sdk/evm-adapter/react'
 import { useWallet } from '@/src/sdk/react/hooks'
 
 const AlertIcon = () => (
@@ -69,11 +70,18 @@ const HashHandling = ({ ...restProps }) => {
     setLoading(isLoading)
   }
 
-  const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
+  // Target the wallet's chain when connected, otherwise mainnet. The SDK
+  // registry resolves to the app-configured RPC for that chain, so historical
+  // queries like getTransaction work reliably (viem's default public endpoints
+  // do not, which is what previously broke tx-hash lookups).
+  const targetChainId = isWalletConnected && walletChainId ? walletChainId : chains.mainnet.id
 
-  // mainnet is the default chain if not connected or the chain is not found
-  const currentChain =
-    isWalletConnected && walletChainId ? findChain(walletChainId) || chains.mainnet : chains.mainnet
+  const { client: publicClient } = useEvmReadOnly({ chainId: targetChainId })
+
+  // The Hash component needs a viem Chain object for the explorer link helper.
+  // Look it up from viem/chains using the same id we passed to useEvmReadOnly.
+  const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
+  const currentChain = findChain(targetChainId) ?? chains.mainnet
 
   return (
     <Box
@@ -111,44 +119,59 @@ const HashHandling = ({ ...restProps }) => {
             position="relative"
             width="100%"
           >
-            <HashInput
-              chain={currentChain}
-              onLoading={onLoading}
-              onSearch={setSearchResult}
-              renderInput={({ ...props }) => (
-                <Input
-                  backgroundColor="var(--theme-textfield-background-color)"
-                  borderColor="var(--theme-textfield-border-color)"
-                  borderRadius="8px"
-                  color="var(--theme-textfield-color)"
-                  display="block"
-                  fontSize="14px"
-                  height="50px"
-                  minWidth="0"
-                  outline="none"
-                  padding={{ base: 2, lg: 4 }}
-                  paddingRight={12}
-                  position="relative"
-                  transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
-                  type="text"
-                  width="100%"
-                  zIndex={10}
-                  _active={{
-                    backgroundColor: 'var(--theme-textfield-background-color-active)',
-                    color: 'var(--theme-textfield-color)',
-                  }}
-                  _focus={{
-                    backgroundColor: 'var(--theme-textfield-background-color-active)',
-                    color: 'var(--theme-textfield-color)',
-                  }}
-                  _placeholder={{
-                    color: 'var(--theme-textfield-placeholder-color)',
-                  }}
-                  placeholder="Address / Tx Hash"
-                  {...props}
-                />
-              )}
-            />
+            {publicClient ? (
+              <HashInput
+                publicClient={publicClient}
+                onLoading={onLoading}
+                onSearch={setSearchResult}
+                renderInput={({ ...props }) => (
+                  <Input
+                    backgroundColor="var(--theme-textfield-background-color)"
+                    borderColor="var(--theme-textfield-border-color)"
+                    borderRadius="8px"
+                    color="var(--theme-textfield-color)"
+                    display="block"
+                    fontSize="14px"
+                    height="50px"
+                    minWidth="0"
+                    outline="none"
+                    padding={{ base: 2, lg: 4 }}
+                    paddingRight={12}
+                    position="relative"
+                    transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
+                    type="text"
+                    width="100%"
+                    zIndex={10}
+                    _active={{
+                      backgroundColor: 'var(--theme-textfield-background-color-active)',
+                      color: 'var(--theme-textfield-color)',
+                    }}
+                    _focus={{
+                      backgroundColor: 'var(--theme-textfield-background-color-active)',
+                      color: 'var(--theme-textfield-color)',
+                    }}
+                    _placeholder={{
+                      color: 'var(--theme-textfield-placeholder-color)',
+                    }}
+                    placeholder="Address / Tx Hash"
+                    {...props}
+                  />
+                )}
+              />
+            ) : (
+              <Input
+                backgroundColor="var(--theme-textfield-background-color)"
+                borderColor="var(--theme-textfield-border-color)"
+                borderRadius="8px"
+                color="var(--theme-textfield-color)"
+                disabled
+                display="block"
+                fontSize="14px"
+                height="50px"
+                minWidth="0"
+                placeholder="Chain not configured — connect to a supported network"
+              />
+            )}
 
             {loading && (
               <Flex

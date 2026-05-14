@@ -1,6 +1,5 @@
-import type { Chain, Transaction } from 'viem'
+import type { PublicClient, Transaction } from 'viem'
 import * as viemActions from 'viem/actions'
-import { mainnet } from 'viem/chains'
 import { describe, expect, it, type Mock, vi } from 'vitest'
 
 import detectHash from '@/src/core/utils/hash'
@@ -18,16 +17,18 @@ vi.mock('viem/actions', async () => {
   }
 })
 
-describe('detectHash', () => {
-  const chain: Chain = mainnet
+// viem actions are mocked at the module level, so the PublicClient passed here
+// only needs to satisfy the type system — no real RPC contact happens.
+const publicClient = {} as unknown as PublicClient
 
+describe('detectHash', () => {
   it('should detect a valid ENS name', async () => {
     const ensName = 'test.eth'
 
     const address = '0x1234567890abcdef1234567890abcdef12345678'
     ;(viemActions.getEnsAddress as Mock).mockResolvedValueOnce(address)
 
-    const result = await detectHash({ chain, hashOrString: ensName })
+    const result = await detectHash({ publicClient, hashOrString: ensName })
 
     expect(result).toEqual({
       type: 'ENS',
@@ -40,7 +41,7 @@ describe('detectHash', () => {
     const transaction = { hash: txHash } as unknown as Transaction
     ;(viemActions.getTransaction as Mock).mockResolvedValueOnce(transaction)
 
-    const result = await detectHash({ chain, hashOrString: txHash })
+    const result = await detectHash({ publicClient, hashOrString: txHash })
 
     expect(result).toEqual({
       type: 'transaction',
@@ -52,7 +53,7 @@ describe('detectHash', () => {
     const contractAddress = '0x1234567890abcdef1234567890abcdef12345678'
     ;(viemActions.getBytecode as Mock).mockResolvedValueOnce('0x1234')
 
-    const result = await detectHash({ chain, hashOrString: contractAddress })
+    const result = await detectHash({ publicClient, hashOrString: contractAddress })
 
     expect(result).toEqual({
       type: 'contract',
@@ -67,7 +68,7 @@ describe('detectHash', () => {
     ;(viemActions.getBytecode as Mock).mockResolvedValueOnce('0x')
     ;(viemActions.getEnsName as Mock).mockResolvedValueOnce(ensName)
 
-    const result = await detectHash({ chain, hashOrString: eoaAddress })
+    const result = await detectHash({ publicClient, hashOrString: eoaAddress })
 
     expect(result).toEqual({
       type: 'EOA',
@@ -77,7 +78,7 @@ describe('detectHash', () => {
 
   it('should return null for invalid input', async () => {
     const invalidInput = 'invalid-input'
-    const result = await detectHash({ chain, hashOrString: invalidInput })
+    const result = await detectHash({ publicClient, hashOrString: invalidInput })
 
     expect(result).toEqual({
       type: null,

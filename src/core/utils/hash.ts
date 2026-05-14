@@ -1,18 +1,16 @@
 import {
   type Address,
-  type Chain,
-  createPublicClient,
   type Hash,
-  http,
   isAddress,
   isHex,
+  type PublicClient,
   type Transaction,
 } from 'viem'
 import { getBytecode, getEnsAddress, getTransaction } from 'viem/actions'
 import { normalize } from 'viem/ens'
 
 export type DetectHash = {
-  chain: Chain
+  publicClient: PublicClient
   hashOrString: string
 }
 
@@ -24,12 +22,6 @@ export type DetectedHash = {
   type: HashType
   data: HashData
 }
-
-export const createPublicClientInstance = (chain: Chain) =>
-  createPublicClient({
-    chain,
-    transport: http(),
-  })
 
 const invalidHashReturn = {
   type: null,
@@ -62,7 +54,7 @@ export const isValidTransactionHash = (str: string) => str.length === 66 && isHe
  * ENS standards, and attempts to resolve it to an Ethereum address using the provided
  * public client. It returns both the resolved address and a type classification.
  *
- * @param {ReturnType<typeof createPublicClientInstance>} publicClient - The Viem public client instance
+ * @param {PublicClient} publicClient - The Viem public client instance
  * @param {string} ensName - The ENS name to resolve
  * @returns {Promise<{ type: HashType; data: HashData }>} Object containing the type ('ENS' if valid, null if invalid)
  * and data (resolved address if valid, null if invalid)
@@ -70,7 +62,7 @@ export const isValidTransactionHash = (str: string) => str.length === 66 && isHe
  * @example
  * ```tsx
  * // For a valid ENS name
- * const client = createPublicClientInstance(mainnet);
+ * const { client } = useEvmReadOnly({ chainId: 1 });
  * const result = await detectEnsName(client, 'vitalik.eth');
  * console.log(result);
  * // { type: 'ENS', data: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045' }
@@ -85,7 +77,7 @@ export const isValidTransactionHash = (str: string) => str.length === 66 && isHe
  * ```
  */
 export const detectEnsName = async (
-  publicClient: ReturnType<typeof createPublicClientInstance>,
+  publicClient: PublicClient,
   ensName: string,
 ): Promise<{ type: HashType; data: HashData }> => {
   // try to normalize the ENS name
@@ -124,7 +116,7 @@ export const detectEnsName = async (
  * if the hash corresponds to a valid transaction. If found, returns transaction
  * data along with its type classification.
  *
- * @param {ReturnType<typeof createPublicClientInstance>} publicClient - The Viem public client instance
+ * @param {PublicClient} publicClient - The Viem public client instance
  * @param {Hash} hash - The transaction hash to verify and retrieve
  * @returns {Promise<{ type: HashType; data: HashData }>} Object containing the type ('transaction' if valid, null if invalid)
  * and data (transaction object if valid, null if invalid)
@@ -132,7 +124,7 @@ export const detectEnsName = async (
  * @example
  * ```tsx
  * // For a valid transaction hash
- * const client = createPublicClientInstance(mainnet);
+ * const { client } = useEvmReadOnly({ chainId: 1 });
  * const result = await detectTransactionHash(client, '0x4a81638d3cc0d169cb559d165c166f832e2e749847b91d96094f958e8c2b9f91');
  * console.log(result);
  * // { type: 'transaction', data: { blockHash: '0x...', blockNumber: 14000000n, ... } }
@@ -147,7 +139,7 @@ export const detectEnsName = async (
  * ```
  */
 export const detectTransactionHash = async (
-  publicClient: ReturnType<typeof createPublicClientInstance>,
+  publicClient: PublicClient,
   hash: Hash,
 ): Promise<{ type: HashType; data: HashData }> => {
   try {
@@ -175,14 +167,14 @@ export const detectTransactionHash = async (
  * The function queries the blockchain to check if there is bytecode deployed at the given address.
  * If bytecode exists, the address is classified as a contract. Otherwise, it's considered an EOA.
  *
- * @param {ReturnType<typeof createPublicClientInstance>} publicClient - The Viem public client instance
+ * @param {PublicClient} publicClient - The Viem public client instance
  * @param {Address} address - The blockchain address to check
  * @returns {Promise<{ type: HashType; data: HashData }>} Object containing the address type ('contract' or 'EOA') and the address itself
  *
  * @example
  * ```tsx
  * // For a contract address
- * const client = createPublicClientInstance(mainnet);
+ * const { client } = useEvmReadOnly({ chainId: 1 });
  * const result = await detectAddressType(client, '0x6B175474E89094C44Da98b954EedeAC495271d0F');
  * console.log(result); // { type: 'contract', data: '0x6B175474E89094C44Da98b954EedeAC495271d0F' }
  * ```
@@ -195,7 +187,7 @@ export const detectTransactionHash = async (
  * ```
  */
 export const detectAddressType = async (
-  publicClient: ReturnType<typeof createPublicClientInstance>,
+  publicClient: PublicClient,
   address: Address,
 ): Promise<{ type: HashType; data: HashData }> => {
   try {
@@ -214,27 +206,29 @@ export const detectAddressType = async (
 }
 
 /**
- * Detects the type of a given hash or string.
+ * Detects the type of a given hash or string against a caller-supplied PublicClient.
+ *
  * The function checks if the input is a valid address, transaction hash, or ENS name.
  * If the input is a valid address, it checks if it's a contract or an EOA.
- * If the input is an EOA, it fetches the associated ENS name.
  * If the input is a valid transaction hash, it fetches the transaction details.
- * If the input is a valid ENS name, it fetches the address associated with the name.
+ * If the input is a valid ENS name, it resolves it to an address.
  *
- * @param {chain} - The chain to use for detection
- * @param {hashOrString} - The hash or string to detect
- * @returns {Promise<DetectedHash>} The detected hash type and data
+ * The caller owns client creation — typically via the SDK's read-only hook
+ * (`useEvmReadOnly`) so the configured RPC is used rather than viem's default
+ * public endpoints.
+ *
+ * @expects publicClient is a non-null viem PublicClient
+ * @postcondition returns DetectedHash with type=null and data=null on lookup failure
+ *
  * @example
  * ```tsx
- * const chain = mainnet;
- * const hashOrString = '0x87885aaeeded51c7e3858a782644f5d89759f245';
- * const detected = await detectHash({ chain, hashOrString });
- * { type: 'EOA', data: 'my-ens-name.eth' }
+ * const { client } = useEvmReadOnly({ chainId: 1 })
+ * if (client) {
+ *   const detected = await detectHash({ publicClient: client, hashOrString })
+ * }
  * ```
- **/
-const detectHash = async ({ chain, hashOrString }: DetectHash): Promise<DetectedHash> => {
-  const publicClient = createPublicClientInstance(chain)
-
+ */
+const detectHash = async ({ publicClient, hashOrString }: DetectHash): Promise<DetectedHash> => {
   // Check if it's a transaction hash
   if (isValidTransactionHash(hashOrString)) {
     return detectTransactionHash(publicClient, hashOrString as Hash)
