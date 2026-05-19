@@ -54,7 +54,7 @@ export default defineConfig(({ mode }) => {
     },
     test: {
       environment: 'jsdom',
-      exclude: ['**/node_modules/**', '.worktrees/**'],
+      exclude: ['**/node_modules/**', '.worktrees/**', '.stryker-tmp/**', 'reports/**'],
       globals: true,
       setupFiles: ['./setupTests.ts'],
     },

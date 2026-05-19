@@ -2,6 +2,7 @@
 export default {
   packageManager: 'pnpm',
   testRunner: 'vitest',
+  plugins: ['@stryker-mutator/vitest-runner'],
   testRunnerNodeArgs: ['--experimental-vm-modules'],
   reporters: ['html', 'clear-text', 'progress'],
   htmlReporter: { fileName: 'reports/mutation/index.html' },

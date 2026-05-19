@@ -58,3 +58,7 @@ docs/superpowers/
 /PR_DESCRIPTION.md
 /FOLLOWUPS.md
 docs/architecture/address-config-spec.md
+
+# Stryker mutation testing
+reports/
+.stryker-tmp/
