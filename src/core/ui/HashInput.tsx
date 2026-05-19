@@ -9,13 +9,13 @@ import {
 } from 'react'
 import { useDebouncedCallback } from 'use-debounce'
 import type { PublicClient } from 'viem'
-import detectHash, { type DetectedHash } from '../utils/hash'
+import detectHash, { type DetectionResult } from '../utils/hash'
 
 interface HashInputProps extends InputProps {
   publicClient: PublicClient
   debounceTime?: number
   onLoading?: (loading: boolean) => void
-  onSearch: (result: DetectedHash | null) => void
+  onSearch: (result: DetectionResult | null) => void
   renderInput?: (props: InputProps) => ReactElement
   value?: string
 }
@@ -33,7 +33,7 @@ interface HashInputProps extends InputProps {
  * @param {PublicClient} props.publicClient - The viem PublicClient used for chain lookups.
  * @param {number} [props.debounceTime=500] - Delay in milliseconds before triggering search after input changes.
  * @param {(loading: boolean) => void} [props.onLoading] - Callback fired when loading state changes.
- * @param {(result: DetectedHash | null) => void} props.onSearch - Callback fired with detection results.
+ * @param {(result: DetectionResult | null) => void} props.onSearch - Callback fired with detection results.
  * @param {(props: InputProps) => ReactElement} [props.renderInput] - Custom input renderer function.
  * @param {string} [props.value] - Controlled input value.
  * @param {InputProps} [props.restProps] - Additional props inherited from Chakra UI InputProps.

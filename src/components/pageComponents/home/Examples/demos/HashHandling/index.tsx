@@ -1,12 +1,12 @@
 import { Box, chakra, Flex, Input } from '@chakra-ui/react'
 import { useState } from 'react'
-import type { Address } from 'viem'
+import type { Address, Transaction } from 'viem'
 import * as chains from 'viem/chains'
 import Hash from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Hash'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Icon'
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
 import { HashInput, Spinner } from '@/src/core/components'
-import type { DetectedHash } from '@/src/core/utils'
+import type { DetectionResult } from '@/src/core/utils'
 import { useEvmReadOnly } from '@/src/sdk/evm-adapter/react'
 import { useWallet } from '@/src/sdk/react/hooks'
 
@@ -58,10 +58,10 @@ const IconOK = ({ ...restProps }) => (
  * user to copy it or open it in an block explorer.
  */
 const HashHandling = ({ ...restProps }) => {
-  const [searchResult, setSearchResult] = useState<DetectedHash | null>(null)
+  const [searchResult, setSearchResult] = useState<DetectionResult | null>(null)
   const [loading, setLoading] = useState<boolean | undefined>()
-  const notFound = searchResult && searchResult.type === null
-  const found = searchResult && searchResult.type !== null
+  const notFound = searchResult && searchResult.status === 'not-found'
+  const found = searchResult && searchResult.status === 'found'
   const { status } = useWallet()
   const isWalletConnected = status.connected
   const walletChainId = status.connectedChainIds[0] as number | undefined
@@ -211,12 +211,11 @@ const HashHandling = ({ ...restProps }) => {
           <Hash
             chain={currentChain}
             hash={
-              searchResult?.type === 'transaction' &&
-              searchResult.data &&
-              typeof searchResult.data === 'object' &&
-              'hash' in searchResult.data
-                ? (searchResult.data.hash as Address)
-                : (searchResult?.data as Address)
+              searchResult?.status === 'found' && searchResult.type === 'transaction'
+                ? ((searchResult.data as Transaction).hash as Address)
+                : searchResult?.status === 'found'
+                  ? (searchResult.data as Address)
+                  : undefined
             }
             truncatedHashLength="disabled"
           />
