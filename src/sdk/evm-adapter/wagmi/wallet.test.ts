@@ -21,6 +21,7 @@ import {
   WalletNotConnectedError,
   WalletNotInstalledError,
 } from '../../core/errors'
+import { runWalletAdapterConformance } from '../../core/testing'
 import type { EvmCoreConnectorConfig } from './types'
 import { createEvmWalletAdapter } from './wallet'
 
@@ -351,5 +352,39 @@ describe('createEvmWalletAdapter — unit tests', () => {
     // No bundle properties
     expect('Provider' in adapter).toBe(false)
     expect('useConnectModal' in adapter).toBe(false)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Core adapter conformance suite — proves the wagmi EVM adapter honors the
+// behavioral contract declared in src/sdk/core/adapters/wallet.ts.
+// ---------------------------------------------------------------------------
+
+describe('createEvmWalletAdapter — core conformance', () => {
+  beforeEach(() => {
+    vi.mocked(getAccount).mockReturnValue(makeDisconnectedAccount())
+    vi.mocked(watchAccount).mockReturnValue(() => undefined)
+    vi.mocked(watchChainId).mockReturnValue(() => undefined)
+    vi.mocked(getConnectors).mockReturnValue([])
+  })
+
+  const conformanceCoreConnector: EvmCoreConnectorConfig = {
+    createConfig(chains, transports) {
+      return createConfig({
+        chains: chains as [typeof mainnet],
+        transports,
+      })
+    },
+  }
+
+  runWalletAdapterConformance({
+    createAdapter: () =>
+      createEvmWalletAdapter({
+        coreConnector: conformanceCoreConnector,
+        chains: [mainnet],
+        transports: { [mainnet.id]: http() },
+        wagmiConfig: makeConfig(),
+      }),
+    expectedChainType: 'evm',
   })
 })
