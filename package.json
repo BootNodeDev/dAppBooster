@@ -25,6 +25,7 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
+    "mutation": "stryker run",
     "wagmi-generate": "pnpm codegen"
   },
   "dependencies": {
@@ -68,6 +69,8 @@
     "@parcel/watcher": "^2.5.1",
     "@size-limit/esbuild-why": "^12.1.0",
     "@size-limit/preset-small-lib": "^12.1.0",
+    "@stryker-mutator/core": "^9.6.1",
+    "@stryker-mutator/vitest-runner": "^9.6.1",
     "@tanstack/react-query-devtools": "^5.96.1",
     "@tanstack/react-router-devtools": "^1.166.11",
     "@tanstack/router-cli": "^1.166.25",
@@ -81,6 +84,7 @@
     "@vitest/coverage-v8": "^4.1.2",
     "@wagmi/cli": "^2.3.1",
     "change-case": "^5.4.4",
+    "fast-check": "^4.8.0",
     "husky": "^9.1.7",
     "jsdom": "^29.0.1",
     "lint-staged": "^16.4.0",
