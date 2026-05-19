@@ -92,4 +92,13 @@ describe('resolveReadClient', () => {
     const client = resolveReadClient(factories, registry, 999)
     expect(client).toBeNull()
   })
+
+  it('returns null when chain has no endpoints', () => {
+    const chainNoEndpoints = { ...mockEvmChain, endpoints: undefined }
+    const registry = createChainRegistry([chainNoEndpoints])
+    const factories: ReadClientFactory<unknown>[] = [evmFactory]
+
+    const client = resolveReadClient(factories, registry, 1)
+    expect(client).toBeNull()
+  })
 })

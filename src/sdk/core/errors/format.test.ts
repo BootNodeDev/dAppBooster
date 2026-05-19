@@ -115,4 +115,44 @@ describe('formatErrorMessage', () => {
     const outer = Object.assign(new Error('outer verbose'), { cause: inner })
     expect(formatErrorMessage(outer)).toBe('Connector not found.')
   })
+
+  it('classifies "execution reverted" without a parseable message', () => {
+    const error = Object.assign(new Error('something'), {
+      shortMessage: 'execution reverted',
+    })
+    expect(formatErrorMessage(error)).toBe('Transaction reverted')
+  })
+
+  it('classifies "nonce too low" errors', () => {
+    const error = Object.assign(new Error('verbose'), {
+      shortMessage: 'nonce too low for current account',
+    })
+    expect(formatErrorMessage(error)).toBe('Transaction nonce is too low. Please try again.')
+  })
+
+  it('classifies "already known" errors', () => {
+    const error = Object.assign(new Error('verbose'), {
+      shortMessage: 'transaction already known to the mempool',
+    })
+    expect(formatErrorMessage(error)).toBe('Transaction already submitted')
+  })
+
+  it('classifies "replacement transaction underpriced" errors', () => {
+    const error = Object.assign(new Error('verbose'), {
+      shortMessage: 'replacement transaction underpriced',
+    })
+    expect(formatErrorMessage(error)).toBe('Transaction replacement fee too low')
+  })
+
+  it('classifies "gas required exceeds allowance" errors', () => {
+    const error = Object.assign(new Error('verbose'), {
+      shortMessage: 'gas required exceeds allowance',
+    })
+    expect(formatErrorMessage(error)).toBe('Transaction requires more gas than allowed')
+  })
+
+  it('coerces non-string non-object primitives via String()', () => {
+    expect(formatErrorMessage(42)).toBe('42')
+    expect(formatErrorMessage(true)).toBe('true')
+  })
 })

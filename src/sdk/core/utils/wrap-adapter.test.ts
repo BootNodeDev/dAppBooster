@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 
 import { wrapAdapter } from './wrap-adapter'
 
@@ -61,6 +61,51 @@ describe('wrapAdapter', () => {
     })
     await expect(wrapped.failingMethod()).rejects.toThrow('boom')
     expect(errors).toContain('boom')
+  })
+
+  it('synchronous method throws → onError fires and error propagates', () => {
+    const onError = vi.fn()
+    const adapter = {
+      crashSync: () => {
+        throw new Error('boom')
+      },
+    }
+    const wrapped = wrapAdapter(adapter, { onError })
+
+    expect(() => wrapped.crashSync()).toThrow('boom')
+    expect(onError).toHaveBeenCalledTimes(1)
+    expect(onError).toHaveBeenCalledWith('crashSync', expect.objectContaining({ message: 'boom' }))
+  })
+
+  it('synchronous method throws non-Error → onError receives Error wrapper', () => {
+    const onError = vi.fn()
+    const adapter = {
+      crashSync: () => {
+        throw 'string boom'
+      },
+    }
+    const wrapped = wrapAdapter(adapter, { onError })
+
+    expect(() => wrapped.crashSync()).toThrow()
+    expect(onError).toHaveBeenCalledTimes(1)
+    expect(onError).toHaveBeenCalledWith(
+      'crashSync',
+      expect.objectContaining({ message: 'string boom' }),
+    )
+  })
+
+  it('synchronous method throws and onError itself throws → original error still propagates', () => {
+    const onError = vi.fn(() => {
+      throw new Error('hook crashed')
+    })
+    const adapter = {
+      crashSync: () => {
+        throw new Error('original')
+      },
+    }
+    const wrapped = wrapAdapter(adapter, { onError })
+
+    expect(() => wrapped.crashSync()).toThrow('original')
   })
 
   it('hook errors are silently swallowed — method still succeeds', async () => {
