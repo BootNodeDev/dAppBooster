@@ -1,42 +1,60 @@
 import { chakra, type LinkProps } from '@chakra-ui/react'
 import type { FC } from 'react'
-import { type GetExplorerUrlParams, getExplorerLink } from '../utils/getExplorerLink'
+import { getExplorerUrl } from '@/src/sdk/core/chain/explorer'
+import { useChainRegistry } from '@/src/sdk/react/hooks'
 
-interface ExplorerLinkProps extends GetExplorerUrlParams, LinkProps {
+type ExplorerLinkBaseProps = LinkProps & {
+  chainId: string | number
   text?: string
 }
+
+export type ExplorerLinkProps =
+  | (ExplorerLinkBaseProps & { tx: string; address?: never; block?: never })
+  | (ExplorerLinkBaseProps & { tx?: never; address: string; block?: never })
+  | (ExplorerLinkBaseProps & { tx?: never; address?: never; block: string | number })
 
 /**
  * Link to blockchain explorer for the specified network.
  *
- * This component renders a link to the appropriate blockchain explorer based on the provided chain
- * and hash/address, allowing users to view transactions, addresses, or other on-chain data.
+ * Renders a link to the chain's configured block explorer for a transaction,
+ * address, or block. The chain is resolved through the SDK's `ChainRegistry`,
+ * so the consumer only needs to provide a `chainId`.
  *
- * @param {ExplorerLinkProps} props - The props for the ExplorerLink component.
- * @param {Chain} props.chain - The blockchain network (from viem chains).
- * @param {string} [props.explorerUrl] - Optional custom explorer URL to override the default.
- * @param {Hash | Address} props.hashOrAddress - The transaction hash or address to view in the explorer.
- * @param {string} [props.text='View on explorer'] - The text displayed in the link.
- * @param {LinkProps} props.restProps - Additional props inherited from Chakra UI LinkProps.
+ * Exactly one of `tx`, `address`, or `block` must be provided (enforced via
+ * discriminated union).
  *
  * @example
  * ```tsx
- * <ExplorerLink
- *   chain={optimism}
- *   hashOrAddress="0x1234567890abcdef1234567890abcdef12345678"
- *   text="View transaction"
- * />
+ * <ExplorerLink chainId={10} tx="0x1234...abcd" text="View transaction" />
+ * <ExplorerLink chainId={1} address="0xabc...123" />
+ * <ExplorerLink chainId={1} block={18000000} />
  * ```
  */
 export const ExplorerLink: FC<ExplorerLinkProps> = ({
   text = 'View on explorer',
-  ...props
-}: ExplorerLinkProps) => {
+  chainId,
+  tx,
+  address,
+  block,
+  ...linkProps
+}) => {
+  const registry = useChainRegistry()
+
+  const params =
+    tx !== undefined
+      ? { chainId, tx }
+      : address !== undefined
+        ? { chainId, address }
+        : { chainId, block: block as string | number }
+
+  const url = getExplorerUrl(registry, params)
+
   return (
     <chakra.a
-      href={getExplorerLink(props) ?? '#'}
+      href={url ?? '#'}
       rel="noopener noreferrer"
       target="_blank"
+      {...linkProps}
     >
       {text}
     </chakra.a>

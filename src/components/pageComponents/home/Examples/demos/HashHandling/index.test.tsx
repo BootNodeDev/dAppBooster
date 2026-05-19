@@ -19,6 +19,7 @@ const walletStatusMock = {
 
 vi.mock('@/src/sdk/react/hooks', () => ({
   useWallet: () => walletStatusMock,
+  useChainRegistry: () => ({ getChain: () => null }),
 }))
 
 vi.mock('viem', async () => {

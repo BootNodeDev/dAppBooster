@@ -263,12 +263,13 @@ const HashHandling = ({ ...restProps }) => {
           )}
 
           <Hash
-            chain={findChainById(found?.chainId ?? primaryChainId) ?? mainnet}
+            chainId={found?.chainId}
             hash={
               found?.detection.type === 'transaction'
                 ? found.detection.data.hash
                 : found?.detection.data
             }
+            kind={found?.detection.type === 'transaction' ? 'tx' : found ? 'address' : undefined}
             truncatedHashLength="disabled"
           />
         </Box>

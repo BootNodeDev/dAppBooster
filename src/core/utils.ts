@@ -1,5 +1,4 @@
 export { isNativeToken } from './utils/address'
-export { type GetExplorerUrlParams, getExplorerLink } from './utils/getExplorerLink'
 export { type DetectionResult, default as detectHash } from './utils/hash'
 export { logger } from './utils/logger'
 export {
