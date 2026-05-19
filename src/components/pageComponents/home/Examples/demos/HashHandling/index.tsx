@@ -1,13 +1,18 @@
 import { Box, chakra, Flex, Input } from '@chakra-ui/react'
-import { useState } from 'react'
-import type { Address, Transaction } from 'viem'
-import * as chains from 'viem/chains'
+import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { useDebouncedCallback } from 'use-debounce'
+import { createPublicClient, type PublicClient } from 'viem'
+import { mainnet } from 'viem/chains'
+
 import Hash from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Hash'
 import Icon from '@/src/components/pageComponents/home/Examples/demos/HashHandling/Icon'
+import {
+  type LookupResult,
+  multiChainLookup,
+} from '@/src/components/pageComponents/home/Examples/demos/HashHandling/lookup'
 import Wrapper from '@/src/components/pageComponents/home/Examples/wrapper'
-import { HashInput, Spinner } from '@/src/core/components'
-import type { DetectionResult } from '@/src/core/utils'
-import { useEvmReadOnly } from '@/src/sdk/evm-adapter/react'
+import { Spinner } from '@/src/core/components'
+import { chains, transports } from '@/src/core/types'
 import { useWallet } from '@/src/sdk/react/hooks'
 
 const AlertIcon = () => (
@@ -51,37 +56,101 @@ const IconOK = ({ ...restProps }) => (
   </chakra.svg>
 )
 
+const StatusAlert = ({ children }: { children: ReactNode }) => (
+  <Flex
+    alignItems="center"
+    backgroundColor="var(--theme-hash-input-search-status-background-color)"
+    borderRadius="var(--base-textfield-border-radius)"
+    color="#fab754"
+    columnGap={2}
+    fontSize="14px"
+    minHeight="64px"
+    paddingTop={8}
+    paddingRight={{ base: 2, lg: 4 }}
+    paddingBottom={4}
+    paddingLeft={{ base: 2, lg: 4 }}
+    marginTop={-4}
+    width="100%"
+  >
+    <AlertIcon />
+    <span>{children}</span>
+  </Flex>
+)
+
 /**
- * This demo shows how to use the HashInput and Hash components.
+ * This demo shows how to look up an address, ENS name, or transaction hash across
+ * all configured chains.
  *
- * We use `HashInput` to validate an address or tx hash, and `Hash` to allow the
- * user to copy it or open it in an block explorer.
+ * For tx-hash inputs we use a hybrid strategy: query the primary chain first
+ * (wallet chain, else mainnet, else the first configured chain), and on a miss
+ * fan out across the remaining chains in parallel. Address and ENS lookups only
+ * hit the primary chain because the answer doesn't change per chain (addresses
+ * are always either contracts or EOAs; ENS is mainnet-anchored).
  */
 const HashHandling = ({ ...restProps }) => {
-  const [searchResult, setSearchResult] = useState<DetectionResult | null>(null)
-  const [loading, setLoading] = useState<boolean | undefined>()
-  const notFound = searchResult && searchResult.status === 'not-found'
-  const found = searchResult && searchResult.status === 'found'
   const { status } = useWallet()
   const isWalletConnected = status.connected
   const walletChainId = status.connectedChainIds[0] as number | undefined
 
-  const onLoading = (isLoading: boolean) => {
-    setLoading(isLoading)
-  }
+  const clientByChain = useMemo<Map<number, PublicClient>>(
+    () =>
+      new Map(
+        chains.map((chain) => [
+          chain.id,
+          createPublicClient({ chain, transport: transports[chain.id] }) as PublicClient,
+        ]),
+      ),
+    [],
+  )
 
-  // Target the wallet's chain when connected, otherwise mainnet. The SDK
-  // registry resolves to the app-configured RPC for that chain, so historical
-  // queries like getTransaction work reliably (viem's default public endpoints
-  // do not, which is what previously broke tx-hash lookups).
-  const targetChainId = isWalletConnected && walletChainId ? walletChainId : chains.mainnet.id
+  const primaryChainId =
+    isWalletConnected && walletChainId && clientByChain.has(walletChainId)
+      ? walletChainId
+      : clientByChain.has(mainnet.id)
+        ? mainnet.id
+        : chains[0].id
 
-  const { client: publicClient } = useEvmReadOnly({ chainId: targetChainId })
+  const findChainById = (id: number) => chains.find((chain) => chain.id === id)
+  const chainName = (id: number) => findChainById(id)?.name ?? `chain ${id}`
 
-  // The Hash component needs a viem Chain object for the explorer link helper.
-  // Look it up from viem/chains using the same id we passed to useEvmReadOnly.
-  const findChain = (chainId: number) => Object.values(chains).find((chain) => chain.id === chainId)
-  const currentChain = findChain(targetChainId) ?? chains.mainnet
+  const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<LookupResult | null>(null)
+
+  const lookupTokenRef = useRef(0)
+
+  const runLookup = useDebouncedCallback(async (value: string) => {
+    const token = ++lookupTokenRef.current
+
+    if (!value) {
+      if (token === lookupTokenRef.current) {
+        setResult(null)
+        setLoading(false)
+      }
+      return
+    }
+
+    setLoading(true)
+    try {
+      const lookup = await multiChainLookup(value, clientByChain, primaryChainId)
+      if (token === lookupTokenRef.current) {
+        setResult(lookup)
+      }
+    } finally {
+      if (token === lookupTokenRef.current) {
+        setLoading(false)
+      }
+    }
+  }, 500)
+
+  useEffect(() => {
+    runLookup(input)
+  }, [input, runLookup])
+
+  const found = result?.found
+  const totalChains = chains.length
+  const allErrored = result && !found && result.errors.length === totalChains
+  const notFoundAnywhere = result && !found && !allErrored
 
   return (
     <Box
@@ -97,7 +166,6 @@ const HashHandling = ({ ...restProps }) => {
           '--theme-textfield-placeholder-color': 'rgb(22 29 26 / 60%)',
           '--theme-hash-input-search-status-background-color': '#2e3048',
         },
-
         '.dark &': {
           '--theme-textfield-color': '#fff',
           '--theme-textfield-background-color': '#373954',
@@ -119,60 +187,38 @@ const HashHandling = ({ ...restProps }) => {
             position="relative"
             width="100%"
           >
-            {publicClient ? (
-              <HashInput
-                publicClient={publicClient}
-                onLoading={onLoading}
-                onSearch={setSearchResult}
-                renderInput={({ ...props }) => (
-                  <Input
-                    backgroundColor="var(--theme-textfield-background-color)"
-                    borderColor="var(--theme-textfield-border-color)"
-                    borderRadius="8px"
-                    color="var(--theme-textfield-color)"
-                    display="block"
-                    fontSize="14px"
-                    height="50px"
-                    minWidth="0"
-                    outline="none"
-                    padding={{ base: 2, lg: 4 }}
-                    paddingRight={12}
-                    position="relative"
-                    transition="border-color var({durations.slow}), color var({durations.slow}), background-color var({durations.slow})"
-                    type="text"
-                    width="100%"
-                    zIndex={10}
-                    _active={{
-                      backgroundColor: 'var(--theme-textfield-background-color-active)',
-                      color: 'var(--theme-textfield-color)',
-                    }}
-                    _focus={{
-                      backgroundColor: 'var(--theme-textfield-background-color-active)',
-                      color: 'var(--theme-textfield-color)',
-                    }}
-                    _placeholder={{
-                      color: 'var(--theme-textfield-placeholder-color)',
-                    }}
-                    placeholder="Address / Tx Hash"
-                    {...props}
-                  />
-                )}
-              />
-            ) : (
-              <Input
-                backgroundColor="var(--theme-textfield-background-color)"
-                borderColor="var(--theme-textfield-border-color)"
-                borderRadius="8px"
-                color="var(--theme-textfield-color)"
-                disabled
-                display="block"
-                fontSize="14px"
-                height="50px"
-                minWidth="0"
-                placeholder="Chain not configured — connect to a supported network"
-              />
-            )}
-
+            <Input
+              backgroundColor="var(--theme-textfield-background-color)"
+              borderColor="var(--theme-textfield-border-color)"
+              borderRadius="8px"
+              color="var(--theme-textfield-color)"
+              display="block"
+              fontSize="14px"
+              height="50px"
+              minWidth="0"
+              outline="none"
+              padding={{ base: 2, lg: 4 }}
+              paddingRight={12}
+              placeholder="Address / Tx Hash"
+              position="relative"
+              transition="border-color {durations.slow}, color {durations.slow}, background-color {durations.slow}"
+              type="search"
+              value={input}
+              width="100%"
+              zIndex={10}
+              _active={{
+                backgroundColor: 'var(--theme-textfield-background-color-active)',
+                color: 'var(--theme-textfield-color)',
+              }}
+              _focus={{
+                backgroundColor: 'var(--theme-textfield-background-color-active)',
+                color: 'var(--theme-textfield-color)',
+              }}
+              _placeholder={{
+                color: 'var(--theme-textfield-placeholder-color)',
+              }}
+              onChange={(e) => setInput(e.target.value)}
+            />
             {loading && (
               <Flex
                 alignItems="center"
@@ -189,33 +235,39 @@ const HashHandling = ({ ...restProps }) => {
             )}
             {found && !loading && <IconOK />}
           </Box>
-          {notFound && (
-            <Flex
-              alignItems="center"
-              backgroundColor="var(--theme-hash-input-search-status-background-color)"
-              borderRadius="var(--base-textfield-border-radius)"
-              color="#fab754"
-              columnGap={2}
-              fontSize="14px"
-              minHeight="64px"
-              paddingTop={8}
-              paddingRight={{ base: 2, lg: 4 }}
-              paddingBottom={4}
-              paddingLeft={{ base: 2, lg: 4 }}
-              marginTop={-4}
-              width="100%"
-            >
-              <AlertIcon /> <span>No results found</span>
-            </Flex>
+
+          {allErrored && (
+            <StatusAlert>
+              Couldn't check any chain. RPC errors on:{' '}
+              {result?.errors.map((entry) => chainName(entry.chainId)).join(', ')}
+            </StatusAlert>
           )}
+
+          {notFoundAnywhere && (
+            <StatusAlert>
+              Not found on any of {totalChains} chains.
+              {result?.errors.length
+                ? ` Couldn't reach: ${result.errors.map((entry) => chainName(entry.chainId)).join(', ')}.`
+                : ''}
+            </StatusAlert>
+          )}
+
+          {found && (
+            <Box
+              marginTop={2}
+              fontSize="14px"
+              color="var(--theme-textfield-placeholder-color)"
+            >
+              Found on {chainName(found.chainId)}
+            </Box>
+          )}
+
           <Hash
-            chain={currentChain}
+            chain={findChainById(found?.chainId ?? primaryChainId) ?? mainnet}
             hash={
-              searchResult?.status === 'found' && searchResult.type === 'transaction'
-                ? ((searchResult.data as Transaction).hash as Address)
-                : searchResult?.status === 'found'
-                  ? (searchResult.data as Address)
-                  : undefined
+              found?.detection.type === 'transaction'
+                ? found.detection.data.hash
+                : found?.detection.data
             }
             truncatedHashLength="disabled"
           />
@@ -231,8 +283,8 @@ const hashHandling = {
   icon: <Icon />,
   text: (
     <>
-      Validate an address or hash. Copy or open it in the block explorer for the chain your wallet
-      is connected to (defaults to mainnet).
+      Validate an address or hash. Lookup runs across all configured chains; the result tells you
+      which chain the tx was found on, and which chains couldn't be reached.
     </>
   ),
   title: 'Hash handling',
