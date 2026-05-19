@@ -117,4 +117,80 @@ describe('ChainRegistry — properties', () => {
       }),
     )
   })
+
+  // Kills chain/registry.ts:60-61 ConditionalExpression / EqualityOperator survivors.
+  // The string→number coercion guard returns null when Number(s) is NaN. If the guard is
+  // removed, `byChainId.get(NaN)` is called instead — which still returns undefined, BUT only
+  // because no chain is registered with NaN as a key. Probe with a registry that has a real
+  // numeric chain to make the difference observable: a NaN-coercing string must return null
+  // regardless of which numeric chains are registered.
+  it('NaN-coercion: any string that coerces to NaN returns null even with numeric chains registered', () => {
+    const numericDescriptorArb = descriptorArb.filter((d) => typeof d.chainId === 'number')
+    const nanStringArb = fc
+      .string({ minLength: 1, maxLength: 32 })
+      .filter((s) => Number.isNaN(Number(s)))
+    fc.assert(
+      fc.property(numericDescriptorArb, nanStringArb, (descriptor, nanString) => {
+        // Reject collisions with the registered descriptor's string keys.
+        fc.pre(nanString !== descriptor.caip2Id && nanString !== String(descriptor.chainId))
+        const registry = createChainRegistry([descriptor])
+        expect(registry.getChain(nanString)).toBeNull()
+        expect(registry.getChainType(nanString)).toBeNull()
+      }),
+    )
+  })
+
+  // Kills chain/registry.ts:36 StringLiteral survivor on `conflictOn: 'chainId'`.
+  // Existing example tests assert the error class but not the `conflictOn` payload, so the
+  // mutation `conflictOn: ''` survives. This property locks the payload value.
+  it('duplicate detection: chainId conflict produces error with conflictOn === "chainId"', () => {
+    fc.assert(
+      fc.property(descriptorArb, descriptorArb, (first, second) => {
+        const conflicting: ChainDescriptor = {
+          ...second,
+          chainId: first.chainId,
+          caip2Id: `${first.caip2Id}-dup`,
+        }
+        fc.pre(JSON.stringify(first) !== JSON.stringify(conflicting))
+        try {
+          createChainRegistry([first, conflicting])
+          expect.fail('should have thrown ChainRegistryConflictError')
+        } catch (error) {
+          expect(error).toBeInstanceOf(ChainRegistryConflictError)
+          const conflictError = error as ChainRegistryConflictError
+          expect(conflictError.conflictOn).toBe('chainId')
+        }
+      }),
+    )
+  })
+
+  // Kills chain/registry.ts:41,44 StringLiteral survivors on `conflictOn: 'caip2Id'`.
+  // Same shape as above but for the caip2Id branch. The second descriptor must share caip2Id
+  // with the first while having a distinct chainId, so the caip2Id check fires first.
+  it('duplicate detection: caip2Id conflict produces error with conflictOn === "caip2Id"', () => {
+    fc.assert(
+      fc.property(descriptorArb, descriptorArb, (first, second) => {
+        // Force shared caip2Id and a distinct chainId. Generate a chainId that cannot collide
+        // with first.chainId (numeric or string-equivalent).
+        const distinctChainId =
+          typeof first.chainId === 'number'
+            ? first.chainId + 1_000_000_000
+            : `${first.chainId}-distinct`
+        const conflicting: ChainDescriptor = {
+          ...second,
+          chainId: distinctChainId,
+          caip2Id: first.caip2Id,
+        }
+        fc.pre(JSON.stringify(first) !== JSON.stringify(conflicting))
+        try {
+          createChainRegistry([first, conflicting])
+          expect.fail('should have thrown ChainRegistryConflictError')
+        } catch (error) {
+          expect(error).toBeInstanceOf(ChainRegistryConflictError)
+          const conflictError = error as ChainRegistryConflictError
+          expect(conflictError.conflictOn).toBe('caip2Id')
+        }
+      }),
+    )
+  })
 })

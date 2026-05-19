@@ -7,6 +7,15 @@
  *
  * Transform hooks (`beforeCall`, `afterCall`) propagate errors and can modify args/results.
  * Returning `void` from a transform hook passes the original value through.
+ *
+ * Note on observation-hook invocation style. The fire-and-forget observation hooks below are
+ * invoked as `hooks.onX?.(...)` inside a `try { ... } catch {}` block. The optional-chaining
+ * call is defensive style: without `?.`, an undefined hook would throw a TypeError that the
+ * surrounding catch absorbs — so the observable behavior is identical whether `?.` is present
+ * or not. Stryker flags the `?.` removal as a survived OptionalChaining mutation; those mutants
+ * are equivalent (semantically indistinguishable from the original) rather than test gaps. We
+ * keep `?.` because it reads as "this call is optional" and avoids a useless throw round-trip
+ * through the catch.
  */
 
 /** Hook configuration for `wrapAdapter`. */

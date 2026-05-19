@@ -202,6 +202,25 @@ describe('createChainRegistry', () => {
         const conflictError = error as ChainRegistryConflictError
         expect(conflictError.chainId).toBe(1)
         expect(conflictError.caip2Id).toBe('eip155:1-dup')
+        expect(conflictError.conflictOn).toBe('chainId')
+      }
+    })
+
+    it('sets conflictOn to "caip2Id" when only the caip2Id collides', () => {
+      const duplicate: ChainDescriptor = {
+        ...ethereum,
+        chainId: 99999,
+        name: 'Ethereum Duplicate',
+      }
+      try {
+        createChainRegistry([ethereum, duplicate])
+        expect.fail('should have thrown')
+      } catch (error) {
+        expect(error).toBeInstanceOf(ChainRegistryConflictError)
+        const conflictError = error as ChainRegistryConflictError
+        expect(conflictError.chainId).toBe(99999)
+        expect(conflictError.caip2Id).toBe('eip155:1')
+        expect(conflictError.conflictOn).toBe('caip2Id')
       }
     })
   })
