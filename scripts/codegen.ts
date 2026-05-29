@@ -18,20 +18,44 @@ const projectRoot = resolve(import.meta.dirname, '..')
 async function main() {
   console.log('Discovering codegen plugins...\n')
 
+  const args = process.argv.slice(2)
+  const allowAll = args.includes('--all-packages')
+  const allowed = new Set(
+    args
+      .map((arg, index) => (arg === '--allow' ? args[index + 1] : null))
+      // a flag is never a valid --allow value (guards `--allow --all-packages` / trailing `--allow`)
+      .filter((name): name is string => typeof name === 'string' && !name.startsWith('--')),
+  )
+
   const { local, packages, diagnostics } = await discoverAllPlugins(projectRoot)
 
   for (const diagnostic of diagnostics) {
     console.warn(`  [skip] ${diagnostic.source}: ${diagnostic.path} — ${diagnostic.reason}`)
   }
 
-  const plugins = [...local, ...packages.map((pkg) => pkg.plugin)]
+  // Local plugins are the project's own source — always trusted and run.
+  // Package plugins require explicit enablement (--allow <name> or --all-packages).
+  const enabledPackages = packages.filter(
+    (pkg) =>
+      allowAll || allowed.has(pkg.packageName) || allowed.has(`@dappbooster/${pkg.packageName}`),
+  )
+  const gatedOut = packages.filter((pkg) => !enabledPackages.includes(pkg))
+
+  for (const pkg of gatedOut) {
+    console.warn(
+      `  [gated] @dappbooster/${pkg.packageName} declares a codegen plugin but is not enabled.\n` +
+        `          Review it, then run: pnpm codegen --allow @dappbooster/${pkg.packageName}`,
+    )
+  }
+
+  const plugins = [...local, ...enabledPackages.map((pkg) => pkg.plugin)]
 
   if (plugins.length === 0) {
-    console.log('No codegen plugins found.')
+    console.log('No codegen plugins to run.')
     return
   }
 
-  console.log(`Found ${plugins.length} plugin(s): ${plugins.map((p) => p.name).join(', ')}\n`)
+  console.log(`Running ${plugins.length} plugin(s): ${plugins.map((p) => p.name).join(', ')}\n`)
 
   const results = await runCodegen(plugins)
 
