@@ -42,11 +42,25 @@ export interface NotificationLifecycleOptions {
   messages?: NotificationLifecycleMessages
   /** When provided, explorer URLs are appended to confirm and replace toasts. */
   registry?: ChainRegistry
+  /**
+   * Formats an error into the toast description. Defaults to core's
+   * paradigm-agnostic `formatErrorMessage`. Inject a paradigm-specific formatter
+   * (e.g. `formatEvmErrorMessage` from the evm-adapter) to keep toasts polished
+   * for that paradigm without coupling this generic lifecycle to it.
+   */
+  formatError?: (error: unknown) => string
 }
 
 export interface SigningNotificationLifecycleOptions {
   toaster: ToasterAPI
   messages?: SigningNotificationMessages
+  /**
+   * Formats an error into the toast description. Defaults to core's
+   * paradigm-agnostic `formatErrorMessage`. Inject a paradigm-specific formatter
+   * (e.g. `formatEvmErrorMessage` from the evm-adapter) to keep toasts polished
+   * for that paradigm without coupling this generic lifecycle to it.
+   */
+  formatError?: (error: unknown) => string
 }
 
 /**
@@ -76,6 +90,7 @@ export function createNotificationLifecycle({
   toaster,
   messages = {},
   registry,
+  formatError = formatErrorMessage,
 }: NotificationLifecycleOptions): TransactionLifecycle {
   let toastId: string | undefined
 
@@ -108,7 +123,7 @@ export function createNotificationLifecycle({
     },
     onError(_phase, error) {
       toaster.create({
-        description: messages.error ?? formatErrorMessage(error),
+        description: messages.error ?? formatError(error),
         type: 'error',
         ...(toastId ? { id: toastId } : {}),
       })
@@ -126,6 +141,7 @@ export function createNotificationLifecycle({
 export function createSigningNotificationLifecycle({
   toaster,
   messages = {},
+  formatError = formatErrorMessage,
 }: SigningNotificationLifecycleOptions): WalletLifecycle {
   let toastId: string | undefined
 
@@ -146,7 +162,7 @@ export function createSigningNotificationLifecycle({
     },
     onSignError(error) {
       toaster.create({
-        description: messages.error ?? formatErrorMessage(error),
+        description: messages.error ?? formatError(error),
         type: 'error',
         ...(toastId ? { id: toastId } : {}),
       })

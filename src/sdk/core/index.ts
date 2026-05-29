@@ -33,7 +33,6 @@ export {
   CapabilityNotSupportedError,
   ChainNotSupportedError,
   ChainRegistryConflictError,
-  extractViemErrorMessage,
   formatErrorMessage,
   InsufficientFundsError,
   InvalidSignerError,

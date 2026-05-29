@@ -9,7 +9,7 @@ import {
   Toaster,
 } from '@/src/core/components'
 import { chains, endpoints, transports } from '@/src/core/types'
-import { createEvmTransactionAdapter } from '@/src/sdk/evm-adapter'
+import { createEvmTransactionAdapter, formatEvmErrorMessage } from '@/src/sdk/evm-adapter'
 import { createEvmWalletBundle } from '@/src/sdk/evm-adapter/react'
 import {
   createNotificationLifecycle,
@@ -41,10 +41,12 @@ const evmTransactionAdapter = createEvmTransactionAdapter({
 
 const notificationLifecycle = createNotificationLifecycle({
   toaster: notificationToaster,
+  formatError: formatEvmErrorMessage,
 })
 
 const signingLifecycle = createSigningNotificationLifecycle({
   toaster: notificationToaster,
+  formatError: formatEvmErrorMessage,
 })
 
 const dappboosterConfig = {

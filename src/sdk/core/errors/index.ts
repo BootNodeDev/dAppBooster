@@ -179,4 +179,4 @@ export class AmbiguousAdapterError extends Error {
 // Error formatting utilities
 // ---------------------------------------------------------------------------
 
-export { extractViemErrorMessage, formatErrorMessage, sanitizeErrorMessage } from './format'
+export { formatErrorMessage, sanitizeErrorMessage } from './format'

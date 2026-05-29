@@ -246,20 +246,20 @@ describe('createNotificationLifecycle', () => {
     })
   })
 
-  describe('shortMessage extraction for viem errors', () => {
-    it('uses formatErrorMessage to extract friendly message from viem errors', () => {
+  describe('error formatting (default generic formatter)', () => {
+    it('maps the cross-paradigm user-rejection pattern from a structured message', () => {
       const lifecycle = createNotificationLifecycle({ toaster: mockToaster })
       lifecycle.onSubmit?.({ chainType: 'evm', id: '0x1', chainId: 1 })
 
-      const viemError = Object.assign(new Error('Full verbose error'), {
+      const structuredError = Object.assign(new Error('Full verbose error'), {
         shortMessage: 'User rejected the request',
       })
-      lifecycle.onError?.('submit', viemError)
+      lifecycle.onError?.('submit', structuredError)
 
       expect(mockCreate).toHaveBeenNthCalledWith(
         2,
         expect.objectContaining({
-          description: 'Transaction rejected by user',
+          description: 'Request rejected',
           type: 'error',
         }),
       )
@@ -275,6 +275,24 @@ describe('createNotificationLifecycle', () => {
         2,
         expect.objectContaining({
           description: 'Plain error',
+          type: 'error',
+        }),
+      )
+    })
+
+    it('uses an injected formatError to produce paradigm-specific messages', () => {
+      const lifecycle = createNotificationLifecycle({
+        toaster: mockToaster,
+        formatError: () => 'Transaction rejected by user',
+      })
+      lifecycle.onSubmit?.({ chainType: 'evm', id: '0x1', chainId: 1 })
+
+      lifecycle.onError?.('submit', new Error('User rejected the request'))
+
+      expect(mockCreate).toHaveBeenNthCalledWith(
+        2,
+        expect.objectContaining({
+          description: 'Transaction rejected by user',
           type: 'error',
         }),
       )
@@ -356,14 +374,29 @@ describe('createSigningNotificationLifecycle', () => {
     )
   })
 
-  it('uses formatErrorMessage to extract friendly message from viem errors', () => {
+  it('maps the cross-paradigm user-rejection pattern from a structured message', () => {
     const lifecycle = createSigningNotificationLifecycle({ toaster: mockToaster })
     lifecycle.onSign?.('message', { message: 'Hello' })
 
-    const viemError = Object.assign(new Error('Long error'), {
+    const structuredError = Object.assign(new Error('Long error'), {
       shortMessage: 'User rejected',
     })
-    lifecycle.onSignError?.(viemError)
+    lifecycle.onSignError?.(structuredError)
+
+    expect(mockCreate).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({ description: 'Request rejected' }),
+    )
+  })
+
+  it('uses an injected formatError to produce paradigm-specific messages', () => {
+    const lifecycle = createSigningNotificationLifecycle({
+      toaster: mockToaster,
+      formatError: () => 'Transaction rejected by user',
+    })
+    lifecycle.onSign?.('message', { message: 'Hello' })
+
+    lifecycle.onSignError?.(new Error('User rejected'))
 
     expect(mockCreate).toHaveBeenNthCalledWith(
       2,

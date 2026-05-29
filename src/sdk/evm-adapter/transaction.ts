@@ -16,13 +16,9 @@ import type {
   TransactionResult,
 } from '../core/adapters/transaction'
 import type { ChainSigner } from '../core/adapters/wallet'
-import {
-  ChainNotSupportedError,
-  formatErrorMessage,
-  InsufficientFundsError,
-  InvalidSignerError,
-} from '../core/errors'
+import { ChainNotSupportedError, InsufficientFundsError, InvalidSignerError } from '../core/errors'
 import { fromViemChain } from './chains'
+import { formatEvmErrorMessage } from './errors'
 import type { EvmContractCall, EvmRawTransaction, EvmTransactionPayload } from './types'
 
 /** Configuration for the EVM transaction adapter. */
@@ -181,7 +177,7 @@ export function createEvmTransactionAdapter(
         if (error.message.includes('insufficient funds')) {
           throw new InsufficientFundsError()
         }
-        return { ready: false, reason: formatErrorMessage(error) }
+        return { ready: false, reason: formatEvmErrorMessage(error) }
       }
     },
 

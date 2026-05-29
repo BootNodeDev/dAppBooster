@@ -2,6 +2,7 @@
 // No wagmi, no React — suitable for agent scripts, CLI tools, relayers.
 
 export { fromViemChain } from './chains'
+export { formatEvmErrorMessage } from './errors'
 export type { ApprovalPreStepParams, PermitPreStepParams } from './pre-steps'
 export { createApprovalPreStep, createPermitPreStep } from './pre-steps'
 export { evmReadClientFactory } from './read-client'

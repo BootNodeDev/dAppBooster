@@ -1,43 +1,47 @@
 /**
- * User-friendly error message formatting for blockchain errors.
+ * Paradigm-agnostic, user-friendly error message formatting.
  *
- * Extracts clean messages from viem errors (shortMessage, details, cause chain),
- * sanitizes verbose technical output, and maps common patterns to friendly text.
- *
- * Ported from covenant-interface's error library — generic parts only,
- * no app-specific error selectors.
+ * Core keeps only NEUTRAL behavior: extracting a message from common error
+ * shapes, the cross-paradigm user-rejection pattern, PII/hex/version sanitizing,
+ * and a generic fallback. Paradigm-specific idioms (EVM gas/nonce/revert, viem
+ * branding, "Insufficient ETH", etc.) live in the corresponding adapter
+ * (see `evm-adapter/errors.ts`).
  */
 
 /**
- * Extracts shortMessage from viem errors, walking the cause chain if needed.
+ * Extracts a message from common structured-error shapes, walking the cause chain.
+ *
+ * Reads `shortMessage` then `details` — a widespread convention across error
+ * libraries (viem, ethers, and many SDKs surface a concise field alongside the
+ * verbose `message`). Neutral and paradigm-agnostic.
  *
  * @expects error is any value (null-safe)
  * @postcondition returns the first shortMessage or details found, or null
  */
-export function extractViemErrorMessage(error: unknown): string | null {
+function extractStructuredMessage(error: unknown): string | null {
   if (!error || typeof error !== 'object') {
     return null
   }
 
-  const e = error as Record<string, unknown>
+  const candidate = error as Record<string, unknown>
 
-  if (typeof e.shortMessage === 'string' && e.shortMessage) {
-    return e.shortMessage
+  if (typeof candidate.shortMessage === 'string' && candidate.shortMessage) {
+    return candidate.shortMessage
   }
 
-  if (typeof e.details === 'string' && e.details) {
-    return e.details
+  if (typeof candidate.details === 'string' && candidate.details) {
+    return candidate.details
   }
 
-  if (e.cause && typeof e.cause === 'object') {
-    return extractViemErrorMessage(e.cause)
+  if (candidate.cause && typeof candidate.cause === 'object') {
+    return extractStructuredMessage(candidate.cause)
   }
 
   return null
 }
 
 /**
- * Strips technical data (hex, addresses, viem internals) from error messages.
+ * Strips technical data (hex, addresses, version internals) from error messages.
  * Acts as a safety net so no raw data leaks to the user.
  *
  * @expects message is a non-empty string
@@ -73,15 +77,36 @@ export function sanitizeErrorMessage(message: string): string {
 }
 
 /**
- * Formats any error into a user-friendly message string.
+ * Maps the cross-paradigm user-rejection pattern to a neutral friendly message.
+ * Returns null when the message is not a rejection (caller falls back to sanitize).
+ *
+ * Wallet rejections are universal across paradigms — EVM (`user rejected`,
+ * `action_rejected`), Canton, Solana, etc. all surface the same intent.
+ */
+function mapUserRejection(message: string): string | null {
+  const lower = message.toLowerCase()
+
+  if (
+    lower.includes('user rejected') ||
+    lower.includes('user denied') ||
+    lower.includes('request was denied') ||
+    lower.includes('action_rejected')
+  ) {
+    return 'Request rejected'
+  }
+
+  return null
+}
+
+/**
+ * Formats any error into a user-friendly, paradigm-agnostic message string.
  *
  * Priority:
- * 1. Extract viem shortMessage (walks cause chain)
- * 2. Map common patterns (user rejection, insufficient funds, gas, nonce)
- * 3. Extract revert reason from "execution reverted: ..." pattern
- * 4. Sanitize remaining verbose messages (strip hex, addresses, technical blocks)
+ * 1. Extract a structured message from common shapes (shortMessage/details, cause chain)
+ * 2. Map the cross-paradigm user-rejection pattern
+ * 3. Sanitize remaining verbose messages (strip hex, addresses, technical blocks)
  *
- * @expects error is any value — string, Error, viem error, null, undefined
+ * @expects error is any value — string, Error, structured error, null, undefined
  * @postcondition returns a clean, user-friendly string (never empty, never throws)
  */
 export function formatErrorMessage(error: unknown): string {
@@ -90,67 +115,18 @@ export function formatErrorMessage(error: unknown): string {
   }
 
   if (typeof error === 'string') {
-    return mapCommonPatterns(error) ?? sanitizeErrorMessage(error)
+    return mapUserRejection(error) ?? sanitizeErrorMessage(error)
   }
 
   if (typeof error !== 'object') {
     return String(error)
   }
 
-  // Try viem's shortMessage first (cleanest source)
-  const viemMessage = extractViemErrorMessage(error)
-  if (viemMessage) {
-    return mapCommonPatterns(viemMessage) ?? sanitizeErrorMessage(viemMessage)
+  const structuredMessage = extractStructuredMessage(error)
+  if (structuredMessage) {
+    return mapUserRejection(structuredMessage) ?? sanitizeErrorMessage(structuredMessage)
   }
 
-  // Fall back to Error.message
   const message = error instanceof Error ? error.message : String(error)
-  return mapCommonPatterns(message) ?? sanitizeErrorMessage(message)
-}
-
-/**
- * Maps common error patterns to user-friendly messages.
- * Returns null if no pattern matches (caller should use sanitize as fallback).
- */
-function mapCommonPatterns(message: string): string | null {
-  const lower = message.toLowerCase()
-
-  if (lower.includes('insufficient funds')) {
-    return 'Insufficient ETH for gas fees'
-  }
-
-  if (
-    lower.includes('user rejected') ||
-    lower.includes('user denied') ||
-    lower.includes('request was denied') ||
-    lower.includes('action_rejected')
-  ) {
-    return 'Transaction rejected by user'
-  }
-
-  if (lower.includes('gas required exceeds allowance')) {
-    return 'Transaction requires more gas than allowed'
-  }
-
-  if (lower.includes('execution reverted')) {
-    const revertMatch = message.match(/execution reverted: (.+)/)
-    if (revertMatch) {
-      return `Transaction reverted: ${sanitizeErrorMessage(revertMatch[1])}`
-    }
-    return 'Transaction reverted'
-  }
-
-  if (lower.includes('nonce too low')) {
-    return 'Transaction nonce is too low. Please try again.'
-  }
-
-  if (lower.includes('already known')) {
-    return 'Transaction already submitted'
-  }
-
-  if (lower.includes('replacement transaction underpriced')) {
-    return 'Transaction replacement fee too low'
-  }
-
-  return null
+  return mapUserRejection(message) ?? sanitizeErrorMessage(message)
 }

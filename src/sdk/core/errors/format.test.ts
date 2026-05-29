@@ -1,37 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { extractViemErrorMessage, formatErrorMessage, sanitizeErrorMessage } from './format'
-
-describe('extractViemErrorMessage', () => {
-  it('returns shortMessage from a viem-like error', () => {
-    const error = Object.assign(new Error('verbose message'), {
-      shortMessage: 'User rejected the request.',
-    })
-    expect(extractViemErrorMessage(error)).toBe('User rejected the request.')
-  })
-
-  it('returns details when shortMessage is absent', () => {
-    const error = Object.assign(new Error('verbose'), { details: 'execution reverted: 51' })
-    expect(extractViemErrorMessage(error)).toBe('execution reverted: 51')
-  })
-
-  it('walks the cause chain', () => {
-    const inner = Object.assign(new Error('inner'), {
-      shortMessage: 'User rejected the request.',
-    })
-    const outer = Object.assign(new Error('outer'), { cause: inner })
-    expect(extractViemErrorMessage(outer)).toBe('User rejected the request.')
-  })
-
-  it('returns null for plain Error', () => {
-    expect(extractViemErrorMessage(new Error('plain'))).toBeNull()
-  })
-
-  it('returns null for non-object', () => {
-    expect(extractViemErrorMessage('string error')).toBeNull()
-    expect(extractViemErrorMessage(null)).toBeNull()
-    expect(extractViemErrorMessage(undefined)).toBeNull()
-  })
-})
+import { formatErrorMessage, sanitizeErrorMessage } from './format'
 
 describe('sanitizeErrorMessage', () => {
   it('strips Request Arguments block', () => {
@@ -68,29 +36,36 @@ describe('sanitizeErrorMessage', () => {
 })
 
 describe('formatErrorMessage', () => {
-  it('extracts shortMessage from viem errors and maps to friendly message', () => {
+  it('maps the cross-paradigm user-rejection pattern to a neutral message', () => {
+    expect(formatErrorMessage(new Error('User rejected the request.'))).toBe('Request rejected')
+    expect(formatErrorMessage(new Error('User denied transaction signature'))).toBe(
+      'Request rejected',
+    )
+    expect(formatErrorMessage(new Error('the request was denied'))).toBe('Request rejected')
+    expect(formatErrorMessage(new Error('ACTION_REJECTED'))).toBe('Request rejected')
+  })
+
+  it('extracts a structured message from a shortMessage field', () => {
     const error = Object.assign(new Error('verbose'), {
       shortMessage: 'User rejected the request.',
     })
-    expect(formatErrorMessage(error)).toBe('Transaction rejected by user')
+    expect(formatErrorMessage(error)).toBe('Request rejected')
   })
 
-  it('maps user rejection patterns to friendly message', () => {
-    const error = new Error('User rejected the request.')
-    expect(formatErrorMessage(error)).toBe('Transaction rejected by user')
+  it('extracts a structured message from a details field when shortMessage is absent', () => {
+    const error = Object.assign(new Error('verbose'), { details: 'Connector not found.' })
+    expect(formatErrorMessage(error)).toBe('Connector not found.')
   })
 
-  it('maps insufficient funds to friendly message', () => {
-    const error = new Error('insufficient funds for gas')
-    expect(formatErrorMessage(error)).toBe('Insufficient ETH for gas fees')
+  it('walks the cause chain for nested structured errors', () => {
+    const inner = Object.assign(new Error('inner'), {
+      shortMessage: 'Connector not found.',
+    })
+    const outer = Object.assign(new Error('outer verbose'), { cause: inner })
+    expect(formatErrorMessage(outer)).toBe('Connector not found.')
   })
 
-  it('extracts revert reason from execution reverted', () => {
-    const error = new Error('execution reverted: 51')
-    expect(formatErrorMessage(error)).toBe('Transaction reverted: 51')
-  })
-
-  it('sanitizes verbose viem messages as fallback', () => {
+  it('sanitizes verbose messages as fallback', () => {
     const error = new Error(
       'Something failed Request Arguments: from: 0xabc data: 0x1234 Contract Call: address: 0xdef',
     )
@@ -108,51 +83,16 @@ describe('formatErrorMessage', () => {
     expect(formatErrorMessage(undefined)).toBe('An unexpected error occurred')
   })
 
-  it('walks cause chain for nested viem errors', () => {
-    const inner = Object.assign(new Error('inner'), {
-      shortMessage: 'Connector not found.',
-    })
-    const outer = Object.assign(new Error('outer verbose'), { cause: inner })
-    expect(formatErrorMessage(outer)).toBe('Connector not found.')
-  })
-
-  it('classifies "execution reverted" without a parseable message', () => {
-    const error = Object.assign(new Error('something'), {
-      shortMessage: 'execution reverted',
-    })
-    expect(formatErrorMessage(error)).toBe('Transaction reverted')
-  })
-
-  it('classifies "nonce too low" errors', () => {
-    const error = Object.assign(new Error('verbose'), {
-      shortMessage: 'nonce too low for current account',
-    })
-    expect(formatErrorMessage(error)).toBe('Transaction nonce is too low. Please try again.')
-  })
-
-  it('classifies "already known" errors', () => {
-    const error = Object.assign(new Error('verbose'), {
-      shortMessage: 'transaction already known to the mempool',
-    })
-    expect(formatErrorMessage(error)).toBe('Transaction already submitted')
-  })
-
-  it('classifies "replacement transaction underpriced" errors', () => {
-    const error = Object.assign(new Error('verbose'), {
-      shortMessage: 'replacement transaction underpriced',
-    })
-    expect(formatErrorMessage(error)).toBe('Transaction replacement fee too low')
-  })
-
-  it('classifies "gas required exceeds allowance" errors', () => {
-    const error = Object.assign(new Error('verbose'), {
-      shortMessage: 'gas required exceeds allowance',
-    })
-    expect(formatErrorMessage(error)).toBe('Transaction requires more gas than allowed')
-  })
-
   it('coerces non-string non-object primitives via String()', () => {
     expect(formatErrorMessage(42)).toBe('42')
     expect(formatErrorMessage(true)).toBe('true')
+  })
+
+  it('does NOT map EVM-specific patterns (those belong to the evm-adapter)', () => {
+    expect(formatErrorMessage(new Error('insufficient funds for gas'))).not.toContain(
+      'Insufficient ETH',
+    )
+    expect(formatErrorMessage(new Error('execution reverted: 51'))).not.toBe('Transaction reverted')
+    expect(formatErrorMessage(new Error('nonce too low'))).not.toContain('nonce is too low')
   })
 })
