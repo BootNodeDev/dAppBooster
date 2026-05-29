@@ -51,9 +51,12 @@ export interface WalletGuardProps {
  * - **Single-chain** (chainId/chainType props): uses useWallet for one adapter
  * - **Multi-chain** (require prop): uses useMultiWallet, checks each requirement
  *
+ * @precondition Must be rendered inside a DAppBoosterProvider
  * @expects Either `require` or `chainId`/`chainType` should be provided, not both
- * @postcondition Renders children only when all wallet requirements are satisfied
- * @throws Never — renders fallback UI or null instead of throwing
+ * @postcondition When the precondition holds: renders children only when all wallet
+ *   requirements are satisfied, otherwise renders fallback UI or null (never throws for
+ *   an unsatisfied wallet state).
+ * @throws {Error} When rendered outside a DAppBoosterProvider (via the wallet hooks → useProviderContext)
  */
 export const WalletGuard: FC<WalletGuardProps> = (props) => {
   const { require: requirements, children } = props

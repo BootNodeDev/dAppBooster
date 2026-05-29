@@ -236,10 +236,20 @@ export function createEvmTransactionAdapter(
     /**
      * Waits for the transaction to be confirmed or times out.
      *
-     * @expects ref was returned by a previous execute() call on this adapter
+     * RPC/transport failures while polling for the receipt are mapped to a `'timeout'`
+     * result with the originating error on `result.error`, so callers handle one terminal
+     * shape regardless of whether the network was slow or unreachable. The only rejection
+     * path is the precondition violation below (an unconfigured chainId), which signals
+     * caller misuse rather than a runtime confirmation failure.
+     *
+     * @precondition ref.chainId is configured in this adapter — satisfied when ref was
+     *   returned by a previous execute()/prepare() call on this adapter
+     * @throws {Error} if ref.chainId is not configured in this adapter
+     * @postcondition for a configured chainId, resolves to a TransactionResult and never rejects
      * @postcondition result.status is 'success', 'reverted', or 'timeout'
      * @postcondition if 'success' -> result.receipt contains a viem TransactionReceipt
-     * @throws never (timeout returns TransactionResult with status: 'timeout')
+     * @postcondition RPC/transport failures during confirmation resolve as status 'timeout'
+     *   with result.error set to the originating error and result.receipt null
      */
     async confirm(ref: TransactionRef, options?: ConfirmOptions): Promise<TransactionResult> {
       const publicClient = getPublicClient(ref.chainId)
@@ -275,13 +285,19 @@ export function createEvmTransactionAdapter(
             receipt,
           }
         })
+        .catch((error): TransactionResult => ({ status: 'timeout', ref, receipt: null, error }))
 
       const timeoutResult: TransactionResult = { status: 'timeout', ref, receipt: null }
-      const timeoutPromise = new Promise<TransactionResult>((resolve) =>
-        setTimeout(() => resolve(timeoutResult), timeout),
-      )
+      let timeoutHandle: ReturnType<typeof setTimeout> | undefined
+      const timeoutPromise = new Promise<TransactionResult>((resolve) => {
+        timeoutHandle = setTimeout(() => resolve(timeoutResult), timeout)
+      })
 
-      return Promise.race([receiptPromise, timeoutPromise])
+      try {
+        return await Promise.race([receiptPromise, timeoutPromise])
+      } finally {
+        clearTimeout(timeoutHandle)
+      }
     },
   }
 }

@@ -327,4 +327,53 @@ describe('createEvmTransactionAdapter', () => {
 
     expect(result.status).toBe('timeout')
   })
+
+  it('resolves to a terminal "timeout" result (not an unhandled rejection) when the RPC rejects', async () => {
+    const rpcError = new Error('HTTP request failed: 503 Service Unavailable')
+    mockPublicClient.waitForTransactionReceipt = vi.fn().mockRejectedValue(rpcError)
+    const adapter = createEvmTransactionAdapter({
+      chains: [mainnet],
+      transports: { [mainnet.id]: http() },
+    })
+    const ref: TransactionRef = { chainType: 'evm', id: '0xhash', chainId: mainnet.id }
+
+    const result = await adapter.confirm(ref)
+
+    expect(result.status).toBe('timeout')
+    expect(result.ref).toEqual(ref)
+    expect(result.receipt).toBeNull()
+    expect(result.error).toBe(rpcError)
+  })
+
+  it('clears the timeout timer once the receipt wins the race (no dangling timer)', async () => {
+    vi.useFakeTimers()
+    try {
+      mockPublicClient.waitForTransactionReceipt = vi
+        .fn()
+        .mockResolvedValue({ status: 'success', transactionHash: '0xhash' })
+      const adapter = createEvmTransactionAdapter({
+        chains: [mainnet],
+        transports: { [mainnet.id]: http() },
+      })
+      const ref: TransactionRef = { chainType: 'evm', id: '0xhash', chainId: mainnet.id }
+
+      await adapter.confirm(ref)
+
+      // The 60s timeout timer must have actually been cleared — not merely "clearTimeout
+      // was called". A dangling fake timer would leave the count at 1.
+      expect(vi.getTimerCount()).toBe(0)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('rejects when ref.chainId is not configured in the adapter (precondition violation)', async () => {
+    const adapter = createEvmTransactionAdapter({
+      chains: [mainnet],
+      transports: { [mainnet.id]: http() },
+    })
+    const ref: TransactionRef = { chainType: 'evm', id: '0xhash', chainId: 999_999 }
+
+    await expect(adapter.confirm(ref)).rejects.toThrow()
+  })
 })

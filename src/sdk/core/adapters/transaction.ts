@@ -55,6 +55,12 @@ export interface TransactionResult {
   ref: TransactionRef
   /** Chain-specific receipt (e.g. viem TransactionReceipt for EVM). */
   receipt: unknown
+  /**
+   * Diagnostic error surfaced when confirmation could not complete normally — e.g. an
+   * RPC/transport failure while polling for the receipt. Present only on a non-success
+   * terminal result (typically status 'timeout'); undefined on success/reverted.
+   */
+  error?: unknown
 }
 
 /** Static metadata exposed by a TransactionAdapter implementation. */
