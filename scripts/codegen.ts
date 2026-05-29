@@ -18,7 +18,13 @@ const projectRoot = resolve(import.meta.dirname, '..')
 async function main() {
   console.log('Discovering codegen plugins...\n')
 
-  const plugins = await discoverAllPlugins(projectRoot)
+  const { local, packages, diagnostics } = await discoverAllPlugins(projectRoot)
+
+  for (const diagnostic of diagnostics) {
+    console.warn(`  [skip] ${diagnostic.source}: ${diagnostic.path} — ${diagnostic.reason}`)
+  }
+
+  const plugins = [...local, ...packages.map((pkg) => pkg.plugin)]
 
   if (plugins.length === 0) {
     console.log('No codegen plugins found.')

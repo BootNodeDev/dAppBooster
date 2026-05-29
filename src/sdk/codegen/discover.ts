@@ -1,20 +1,42 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs'
-import { join, resolve } from 'node:path'
-import type { CodegenPlugin } from './types'
+import { join, resolve, sep } from 'node:path'
+import type {
+  CodegenPlugin,
+  DiscoveryResult,
+  LocalDiscoveryResult,
+  PackageDiscoveryResult,
+  PluginDiscoveryDiagnostic,
+} from './types'
+
+function isValidPlugin(value: unknown): value is CodegenPlugin {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    typeof (value as CodegenPlugin).name === 'string' &&
+    typeof (value as CodegenPlugin).run === 'function'
+  )
+}
+
+function errorMessage(err: unknown): string {
+  return err instanceof Error ? err.message : String(err)
+}
 
 /**
  * Discovers local codegen plugins by scanning for codegen/index.ts files
  * inside adapter directories matching the convention:
  *   <sdkRoot>/<adapter-dir>/codegen/index.ts
  *
+ * Local plugins are the project's own source — trusted and auto-run.
+ *
  * @expects sdkRoot is an absolute path to the SDK source directory
- * @postcondition returns an array of CodegenPlugin instances (may be empty)
+ * @postcondition returns { plugins, diagnostics }; load failures appear in diagnostics, never swallowed
  */
-export async function discoverLocalPlugins(sdkRoot: string): Promise<CodegenPlugin[]> {
+export async function discoverLocalPlugins(sdkRoot: string): Promise<LocalDiscoveryResult> {
   const plugins: CodegenPlugin[] = []
+  const diagnostics: PluginDiscoveryDiagnostic[] = []
 
   if (!existsSync(sdkRoot)) {
-    return plugins
+    return { plugins, diagnostics }
   }
 
   const entries = readdirSync(sdkRoot, { withFileTypes: true })
@@ -31,44 +53,53 @@ export async function discoverLocalPlugins(sdkRoot: string): Promise<CodegenPlug
 
     try {
       const mod = await import(codegenPath)
-      if (
-        mod.default &&
-        typeof mod.default.name === 'string' &&
-        typeof mod.default.run === 'function'
-      ) {
+      if (isValidPlugin(mod.default)) {
         plugins.push(mod.default)
+      } else {
+        diagnostics.push({
+          source: 'local',
+          path: codegenPath,
+          reason: 'default export is not a valid CodegenPlugin shape (needs name + run())',
+        })
       }
-    } catch {
-      // Skip plugins that fail to load
+    } catch (err) {
+      diagnostics.push({ source: 'local', path: codegenPath, reason: errorMessage(err) })
     }
   }
 
-  return plugins
+  return { plugins, diagnostics }
 }
 
 /**
  * Discovers installed @dappbooster/* packages that declare a codegen plugin
  * via the "dappbooster.codegen" field in their package.json.
  *
+ * Package plugins are installed code — discovered here but NOT auto-run by the
+ * orchestrator; the caller gates execution behind explicit enablement. The
+ * resolved entry path is contained to the package directory; an escaping path
+ * is rejected with a diagnostic.
+ *
  * @expects projectRoot is an absolute path to the project root
- * @postcondition returns an array of CodegenPlugin instances (may be empty)
+ * @postcondition returns { packages, diagnostics }; every package plugin is tagged with its packageName; load/containment failures appear in diagnostics, never swallowed
  */
-export async function discoverPackagePlugins(projectRoot: string): Promise<CodegenPlugin[]> {
-  const plugins: CodegenPlugin[] = []
+export async function discoverPackagePlugins(projectRoot: string): Promise<PackageDiscoveryResult> {
+  const packages: PackageDiscoveryResult['packages'] = []
+  const diagnostics: PluginDiscoveryDiagnostic[] = []
   const nodeModulesScope = join(projectRoot, 'node_modules', '@dappbooster')
 
   if (!existsSync(nodeModulesScope)) {
-    return plugins
+    return { packages, diagnostics }
   }
 
-  const packages = readdirSync(nodeModulesScope, { withFileTypes: true })
+  const entries = readdirSync(nodeModulesScope, { withFileTypes: true })
 
-  for (const pkg of packages) {
+  for (const pkg of entries) {
     if (!pkg.isDirectory()) {
       continue
     }
 
-    const pkgJsonPath = join(nodeModulesScope, pkg.name, 'package.json')
+    const packageDir = join(nodeModulesScope, pkg.name)
+    const pkgJsonPath = join(packageDir, 'package.json')
     if (!existsSync(pkgJsonPath)) {
       continue
     }
@@ -81,37 +112,52 @@ export async function discoverPackagePlugins(projectRoot: string): Promise<Codeg
         continue
       }
 
-      const resolvedPath = resolve(nodeModulesScope, pkg.name, codegenPath)
-      const mod = await import(resolvedPath)
-
-      if (
-        mod.default &&
-        typeof mod.default.name === 'string' &&
-        typeof mod.default.run === 'function'
-      ) {
-        plugins.push(mod.default)
+      const resolvedPath = resolve(packageDir, codegenPath)
+      const containmentRoot = packageDir + sep
+      if (resolvedPath !== packageDir && !resolvedPath.startsWith(containmentRoot)) {
+        diagnostics.push({
+          source: 'package',
+          path: `${pkg.name} → ${codegenPath}`,
+          reason: `codegen entry resolves outside the package directory (${resolvedPath})`,
+        })
+        continue
       }
-    } catch {
-      // Skip packages that fail to load
+
+      const mod = await import(resolvedPath)
+      if (isValidPlugin(mod.default)) {
+        packages.push({ plugin: mod.default, packageName: pkg.name })
+      } else {
+        diagnostics.push({
+          source: 'package',
+          path: `${pkg.name} → ${codegenPath}`,
+          reason: 'default export is not a valid CodegenPlugin shape (needs name + run())',
+        })
+      }
+    } catch (err) {
+      diagnostics.push({ source: 'package', path: pkg.name, reason: errorMessage(err) })
     }
   }
 
-  return plugins
+  return { packages, diagnostics }
 }
 
 /**
- * Discovers all codegen plugins from both local and installed sources.
+ * Discovers all codegen plugins: local (trusted) and package (gated), separately.
  *
  * @expects projectRoot is an absolute path to the project root
- * @postcondition returns combined array of local + package plugins
+ * @postcondition returns { local, packages, diagnostics }; local plugins are trusted-and-runnable, package plugins require explicit enablement by the caller
  */
-export async function discoverAllPlugins(projectRoot: string): Promise<CodegenPlugin[]> {
+export async function discoverAllPlugins(projectRoot: string): Promise<DiscoveryResult> {
   const sdkRoot = join(projectRoot, 'src', 'sdk')
 
-  const [localPlugins, packagePlugins] = await Promise.all([
+  const [local, pkg] = await Promise.all([
     discoverLocalPlugins(sdkRoot),
     discoverPackagePlugins(projectRoot),
   ])
 
-  return [...localPlugins, ...packagePlugins]
+  return {
+    local: local.plugins,
+    packages: pkg.packages,
+    diagnostics: [...local.diagnostics, ...pkg.diagnostics],
+  }
 }
