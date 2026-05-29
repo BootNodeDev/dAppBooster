@@ -109,6 +109,35 @@ describe('ChainRegistry — properties', () => {
     )
   })
 
+  // Locks the chainId-normalization collision: two DISTINCT descriptors whose chainIds are
+  // string-equal under String() (e.g. number 1 vs string "1") must be rejected at construction,
+  // otherwise the coerced lookup fallback could return a foreign chain. The example generators
+  // above deliberately avoid this collision; here we force it and assert it throws.
+  it('normalized chainId collision: descriptors with String(a.chainId) === String(b.chainId) and distinct caip2Id throw', () => {
+    fc.assert(
+      fc.property(descriptorArb, descriptorArb, numericChainIdArb, (first, second, sharedId) => {
+        const a: ChainDescriptor = { ...first, chainId: sharedId, caip2Id: `eip155:${sharedId}` }
+        // Same id by string normalization, distinct caip2Id, supplied as a string so the raw
+        // Map keys differ but String() coerces them equal.
+        const b: ChainDescriptor = {
+          ...second,
+          chainId: String(sharedId),
+          caip2Id: `eip155:${sharedId}-dup`,
+        }
+        const conflictError = (() => {
+          try {
+            createChainRegistry([a, b])
+            return null
+          } catch (error) {
+            return error
+          }
+        })()
+        expect(conflictError).toBeInstanceOf(ChainRegistryConflictError)
+        expect((conflictError as ChainRegistryConflictError).conflictOn).toBe('chainId')
+      }),
+    )
+  })
+
   it('getChainType: returns the descriptor chainType for any registered chainId', () => {
     fc.assert(
       fc.property(descriptorArb, (descriptor) => {

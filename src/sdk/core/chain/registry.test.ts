@@ -223,5 +223,33 @@ describe('createChainRegistry', () => {
         expect(conflictError.conflictOn).toBe('caip2Id')
       }
     })
+
+    it('throws on a numeric chainId colliding with its string equivalent (distinct descriptors)', () => {
+      const numericId: ChainDescriptor = { ...ethereum, chainId: 1, caip2Id: 'eip155:1' }
+      const stringId: ChainDescriptor = { ...ethereum, chainId: '1', caip2Id: 'foo:1' }
+      try {
+        createChainRegistry([numericId, stringId])
+        expect.fail('should have thrown')
+      } catch (error) {
+        expect(error).toBeInstanceOf(ChainRegistryConflictError)
+        const conflictError = error as ChainRegistryConflictError
+        expect(conflictError.chainId).toBe('1')
+        expect(conflictError.caip2Id).toBe('foo:1')
+        expect(conflictError.conflictOn).toBe('chainId')
+      }
+    })
+
+    it('throws on two descriptors sharing the same numeric chainId with different caip2Id', () => {
+      const first: ChainDescriptor = { ...ethereum, chainId: 1, caip2Id: 'eip155:1' }
+      const second: ChainDescriptor = { ...ethereum, chainId: 1, caip2Id: 'eip155:1-other' }
+      try {
+        createChainRegistry([first, second])
+        expect.fail('should have thrown')
+      } catch (error) {
+        expect(error).toBeInstanceOf(ChainRegistryConflictError)
+        const conflictError = error as ChainRegistryConflictError
+        expect(conflictError.conflictOn).toBe('chainId')
+      }
+    })
   })
 })

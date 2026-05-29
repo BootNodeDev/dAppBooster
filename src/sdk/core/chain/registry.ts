@@ -18,18 +18,23 @@ export interface ChainRegistry {
 /**
  * Creates an immutable ChainRegistry from the provided descriptors.
  *
- * @precondition no two descriptors share the same chainId
+ * @precondition no two descriptors share the same string-normalized chainId (String(chainId)),
+ *   so the number/string variants of the same id (1 and "1") are rejected as a collision
  * @precondition no two descriptors share the same caip2Id
  * @postcondition registry is immutable — lookups never mutate internal state
  * @postcondition getAllChains() returns a copy of the input array
- * @throws {ChainRegistryConflictError} if any two descriptors share the same chainId or caip2Id
+ * @throws {ChainRegistryConflictError} if any two descriptors share a string-normalized chainId
+ *   or the same caip2Id
  */
 export function createChainRegistry(chains: ChainDescriptor[]): ChainRegistry {
   const byChainId = new Map<string | number, ChainDescriptor>()
   const byCaip2Id = new Map<string, ChainDescriptor>()
+  // String-normalized ids: 1 and "1" collide, so the coerced lookup can't resolve a foreign chain.
+  const normalizedChainIds = new Set<string>()
 
   for (const descriptor of chains) {
-    if (byChainId.has(descriptor.chainId)) {
+    const normalizedChainId = String(descriptor.chainId)
+    if (normalizedChainIds.has(normalizedChainId)) {
       throw new ChainRegistryConflictError({
         chainId: descriptor.chainId,
         caip2Id: descriptor.caip2Id,
@@ -45,6 +50,7 @@ export function createChainRegistry(chains: ChainDescriptor[]): ChainRegistry {
       })
     }
 
+    normalizedChainIds.add(normalizedChainId)
     byChainId.set(descriptor.chainId, descriptor)
     byCaip2Id.set(descriptor.caip2Id, descriptor)
   }
