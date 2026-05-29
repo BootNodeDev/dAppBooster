@@ -3,6 +3,7 @@ import { mainnet } from 'viem/chains'
 import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest'
 
 import { CapabilityNotSupportedError } from '../core/errors'
+import { runWalletAdapterConformance } from '../core/testing'
 import { createEvmServerWallet } from './server-wallet'
 
 vi.mock('viem', async (importOriginal) => {
@@ -145,5 +146,21 @@ describe('createEvmServerWallet', () => {
         chain: mainnet,
       }),
     ).toThrow('privateKey must be a 0x-prefixed 66-character hex string')
+  })
+
+  // -------------------------------------------------------------------------
+  // Core adapter conformance suite — proves the always-connected server wallet
+  // (no switchChain capability) honors the WalletAdapter contract declared in
+  // src/sdk/core/adapters/wallet.ts. Nested here to inherit the mock setup from
+  // the enclosing beforeEach.
+  // -------------------------------------------------------------------------
+
+  runWalletAdapterConformance({
+    createAdapter: () =>
+      createEvmServerWallet({
+        privateKey: MOCK_PRIVATE_KEY,
+        chain: mockChain as never,
+      }).adapter,
+    expectedChainType: 'evm',
   })
 })

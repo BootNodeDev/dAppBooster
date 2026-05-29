@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { TransactionRef } from '../core/adapters/transaction'
 import { ChainNotSupportedError, InsufficientFundsError, InvalidSignerError } from '../core/errors'
+import { runTransactionAdapterConformance } from '../core/testing'
 import { createEvmTransactionAdapter } from './transaction'
 import type { EvmContractCall, EvmRawTransaction } from './types'
 
@@ -375,5 +376,25 @@ describe('createEvmTransactionAdapter', () => {
     const ref: TransactionRef = { chainType: 'evm', id: '0xhash', chainId: 999_999 }
 
     await expect(adapter.confirm(ref)).rejects.toThrow()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Core adapter conformance suite — proves the EVM transaction adapter honors the
+// behavioral contract declared in src/sdk/core/adapters/transaction.ts.
+// ---------------------------------------------------------------------------
+
+describe('createEvmTransactionAdapter — core conformance', () => {
+  beforeEach(() => {
+    vi.mocked(createPublicClient).mockReturnValue(makePublicClient() as never)
+  })
+
+  runTransactionAdapterConformance({
+    createAdapter: () =>
+      createEvmTransactionAdapter({
+        chains: [mainnet],
+        transports: { [mainnet.id]: http() },
+      }),
+    expectedChainType: 'evm',
   })
 })
