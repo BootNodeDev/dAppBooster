@@ -212,6 +212,55 @@ describe('useTransaction', () => {
     expect(result.current.preStepResults).toHaveLength(1)
   })
 
+  it('resets preStepResults per execute() run instead of accumulating across runs', async () => {
+    const txAdapter = makeMockTxAdapter()
+    const preStep: PreStep = { label: 'Approve', params: { chainId: 1, payload: {} } }
+
+    const { result } = renderHook(() => useTransaction(), { wrapper: makeWrapper({ txAdapter }) })
+
+    await act(async () => {
+      await result.current.execute({ ...testParams, preSteps: [preStep] })
+    })
+
+    expect(result.current.preStepResults).toHaveLength(1)
+
+    // Second auto execute() with the same single pre-step — without reset() in between.
+    await act(async () => {
+      await result.current.execute({ ...testParams, preSteps: [preStep] })
+    })
+
+    // preStepResults should contain ONLY the second run's entries, not concatenated.
+    expect(result.current.preStepResults).toHaveLength(1)
+  })
+
+  it('prepare() clears a stale error from a prior failed run', async () => {
+    const prepare = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('prepare failed'))
+      .mockResolvedValueOnce({ ready: true })
+    const txAdapter = makeMockTxAdapter({ prepare })
+
+    const { result } = renderHook(() => useTransaction({ autoPreSteps: false }), {
+      wrapper: makeWrapper({ txAdapter }),
+    })
+
+    await act(async () => {
+      try {
+        await result.current.execute(testParams)
+      } catch {
+        // expected to throw — leaves error set
+      }
+    })
+
+    expect(result.current.error).not.toBeNull()
+
+    await act(async () => {
+      await result.current.prepare(testParams)
+    })
+
+    expect(result.current.error).toBeNull()
+  })
+
   it('sets error and resets to idle phase when execute throws', async () => {
     const txAdapter = makeMockTxAdapter({
       prepare: vi.fn(async () => {

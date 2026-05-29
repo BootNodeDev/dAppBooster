@@ -246,6 +246,8 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
             // All pre-steps already completed manually — skip to main tx
           } else {
             setPhase('preStep')
+            // Reset so a repeated execute() reports only this run, not concatenated history.
+            setPreStepResults([])
             for (const [index, preStep] of params.preSteps.entries()) {
               fireLifecycle('onPreStep', globalLifecycle, localLifecycle, preStep, index)
               const preStepRef = await transactionAdapter.execute(preStep.params, signer)
@@ -311,6 +313,8 @@ export function useTransaction(options: UseTransactionOptions = {}): UseTransact
    */
   const prepare = useCallback(
     async (params: TransactionParams): Promise<PrepareResult> => {
+      // Clear any stale error from a prior failed run so a fresh prepare() starts clean.
+      setError(null)
       try {
         const resolvedTxAdapter = findTransactionAdapter(params.chainId)
 
