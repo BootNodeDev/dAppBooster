@@ -365,6 +365,8 @@ It wraps `@wagmi/cli`, which is configured to emit Suspense-friendly React hooks
 - **Per-plugin error isolation** — a broken EVM codegen plugin does not stop an SVM plugin from running. The orchestrator reports per-plugin status and exits non-zero if any failed.
 - **Framework-agnostic by default** — non-EVM adapters (SVM Anchor IDL, Cosmos Telescope, etc.) already emit framework-agnostic typed clients. Their plugins fit this contract trivially.
 
+Local plugins like this one are auto-run; installed `@dappbooster/*` package plugins are gated behind explicit enablement. See the [codegen trust & enablement model](./07-migration-and-monorepo.md#codegen-trust--enablement-model) for how the orchestrator decides what to execute.
+
 ### Codegen is optional
 
 Even without generated code, viem provides typed contract interaction:

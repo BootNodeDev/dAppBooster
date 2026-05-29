@@ -454,3 +454,24 @@ Sei exposes both an EVM interface (chainId 1329) and a Cosmos interface (chainId
 ```
 
 Each gets its own adapter. The shared infrastructure is transparent to the SDK.
+
+---
+
+## Codegen trust & enablement model
+
+The codegen orchestrator (`pnpm codegen`) discovers two kinds of plugins: local plugins under `src/sdk/<adapter>/codegen/index.ts`, and package plugins declared by installed `@dappbooster/*` packages via the `dappbooster.codegen` field (see [08-versioning.md](./08-versioning.md)). The two are not equally trusted.
+
+**The real trust boundary is `npm`/`pnpm install`, not codegen discovery.** Lifecycle scripts (`postinstall` and friends) execute when a package is installed, long before the codegen scan runs. The codegen gate described here only controls whether *the orchestrator* auto-executes a plugin's entrypoint — it is defense-in-depth, not a guarantee that an installed package is safe. The guarantees that actually matter live at install time (provenance attestations, lockfile integrity, `--ignore-scripts`); this gate is layered on top of those, not a substitute for them.
+
+Against that backdrop the orchestrator treats the two plugin sources differently:
+
+- **Local plugins** (`src/sdk/<adapter>/codegen/index.ts`) are the project's own source — reviewed and version-controlled. They are inherently trusted and **auto-run**.
+- **Package plugins** (`node_modules/@dappbooster/*` via `dappbooster.codegen`) are installed code. They are discovered and listed, but **run only when explicitly enabled**: `pnpm codegen --allow <name>` opts a specific package in (repeatable), and `pnpm codegen --all-packages` opts all discovered packages in. A package that is discovered but not enabled prints an actionable `[gated]` message and is skipped. Today no `@dappbooster/*` packages exist, so this path is dormant — but the safe default (no third-party auto-run) ships now.
+
+Discovery **never swallows failures.** A package whose entry throws on import, whose `package.json` is malformed, whose default export lacks a valid plugin shape (`name` + `run()`), or whose `dappbooster.codegen` path escapes the package directory surfaces as a `[skip]` diagnostic rather than silently disappearing.
+
+**Path containment:** the `dappbooster.codegen` entry must resolve *inside* the declaring package's directory. An entry that resolves outside (for example via `../../../`) is rejected with a diagnostic and never imported.
+
+**Recommended user-side hardening** — the layer that actually stops install-time execution — is to keep the lockfile authoritative, run `pnpm audit signatures` (and publish first-party packages with `--provenance` from CI), and install untrusted adapters with `--ignore-scripts`.
+
+**Forward note:** the full allow-list, a persistent `dappbooster` config enablement registry, and Zod-schema validation of the `dappbooster.codegen` field land in Phase 5 (cross-ref [08-versioning.md](./08-versioning.md)'s field-convention bullet). They are spec'd now and built when `@dappbooster/*` packages are real.

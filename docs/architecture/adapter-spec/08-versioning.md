@@ -26,7 +26,7 @@ The contract is **medium**: stable enough to plan around, narrow enough to leave
 ### Evolving surface (changes here ship with deprecation, not a major bump)
 
 - **Sub-path import paths** — `@dappbooster/evm-adapter/wagmi`, `@dappbooster/react/hooks`, and so on. Renaming a sub-path during stable triggers a deprecation window (see below); during beta, sub-paths can change between releases with notes.
-- **The `dappbooster.codegen` package.json field convention** — the shape of the field that adapter packages declare for plugin discovery. Same deprecation rules as sub-paths.
+- **The `dappbooster.codegen` package.json field convention** — the shape of the field that adapter packages declare for plugin discovery. Same deprecation rules as sub-paths. How the orchestrator trusts and gates plugins declared via this field is covered by the [codegen trust & enablement model](./07-migration-and-monorepo.md#codegen-trust--enablement-model); Zod-schema validation of the field is a Phase 5 deliverable.
 
 ### Internal (no guarantee)
 
