@@ -8,13 +8,12 @@
     "node": ">=24.15.0"
   },
   "scripts": {
-    "build": "tsc --noEmit --pretty && vite build",
+    "build": "pnpm typecheck && vite build",
     "dev": "vite",
     "dev:watch": "routes:watch & vite",
     "docs:build": "cd docs && vocs build && if [ -d .vercel/output ]; then rm -rf ../.vercel/output && mkdir -p ../.vercel && mv .vercel/output ../.vercel/output && rmdir .vercel; fi",
     "docs:dev": "cd docs && vocs dev",
     "docs:preview": "cd docs && vocs preview",
-    "typedoc:build": "typedoc",
     "lint": "pnpm biome check",
     "lint:fix": "pnpm biome check --write",
     "postinstall": "pnpm wagmi-generate",
@@ -26,6 +25,8 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
+    "typecheck": "tsc --noEmit --pretty",
+    "typedoc:build": "typedoc",
     "wagmi-generate": "wagmi generate --config src/lib/wagmi/config.ts"
   },
   "dependencies": {
