@@ -6,9 +6,11 @@ allowBuilds:
   '@reown/appkit': true
   '@swc/core': true
   bufferutil: true
+  es5-ext: false
   esbuild: true
   keccak: true
   utf-8-validate: true
+  vue-demi: false
 
 overrides:
   '@graphql-codegen/cli': ^7
