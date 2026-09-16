@@ -1,3 +1,5 @@
+<!-- starter-kit: v2026.09 -->
+
 # dAppBooster
 
 A repository template / starter-kit for building decentralized applications (dApps). Built by BootNode based on 5+ years of dApp development. Docs: https://docs.dappbooster.dev/ Components: https://components.dappbooster.dev/
@@ -85,7 +87,7 @@ GitHub form dropdowns (like the Priority field in issue templates) only work thr
 
 Labels are queryable: `gh issue list --label "priority: high"`.
 
-The `/sdlc:issue` skill applies these labels automatically when creating issues via CLI. Bug, feature, and epic templates include a Priority dropdown for web UI users, but labels are the source of truth for programmatic workflows.
+The `/sdlc:create-issue` skill applies these labels automatically when creating issues via CLI. Bug, feature, and epic templates include a Priority dropdown for web UI users, but labels are the source of truth for programmatic workflows.
 
 ## Code Style
 
