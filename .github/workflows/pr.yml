@@ -1,0 +1,122 @@
+name: pr
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+concurrency:
+  group: pr-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  HUSKY: 0
+
+jobs:
+  biome:
+    name: 1 - biome
+    runs-on: ubuntu-latest
+    if: github.event.action != 'edited'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: corepack enable
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+
+  typecheck-build:
+    name: 2 - typecheck + build + knip
+    runs-on: ubuntu-latest
+    if: github.event.action != 'edited' && github.event.pull_request.head.repo.full_name == github.repository
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: corepack enable
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm subgraph-codegen
+        env:
+          PUBLIC_SUBGRAPHS_API_KEY: ${{ secrets.PUBLIC_SUBGRAPHS_API_KEY }}
+          PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS: ${{ secrets.PUBLIC_SUBGRAPHS_CHAINS_RESOURCE_IDS }}
+          PUBLIC_SUBGRAPHS_ENVIRONMENT: production
+          PUBLIC_SUBGRAPHS_PRODUCTION_URL: ${{ secrets.PUBLIC_SUBGRAPHS_PRODUCTION_URL }}
+      - run: pnpm build
+      - run: pnpm knip
+      - run: pnpm typedoc:build
+      - run: pnpm docs:build
+
+  test:
+    name: 3 - test
+    runs-on: ubuntu-latest
+    if: github.event.action != 'edited'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: corepack enable
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+  test-node-26:
+    name: 3 - test (node 26)
+    runs-on: ubuntu-latest
+    if: github.event.action != 'edited'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - run: corepack enable
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 26
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+  commitlint:
+    name: 4 - commitlint
+    runs-on: ubuntu-latest
+    env:
+      PR_TITLE: ${{ github.event.pull_request.title }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - run: corepack enable
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint PR commit range
+        if: github.event.action != 'edited'
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: >-
+          pnpm exec commitlint --verbose
+          --from "$BASE_SHA"
+          --to "$HEAD_SHA"
+      - name: Lint PR title
+        run: printf '%s' "$PR_TITLE" | pnpm exec commitlint --verbose
+
+  gitleaks:
+    name: 5 - gitleaks
+    runs-on: ubuntu-latest
+    if: github.event.action != 'edited'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Scan git history for secrets
+        run: |
+          set -euo pipefail
+          ./scripts/install-gitleaks.sh
+          ./bin/gitleaks git --redact --verbose --exit-code 1 .
