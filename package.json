@@ -10,7 +10,7 @@
   "scripts": {
     "build": "pnpm typecheck && vite build",
     "dev": "vite",
-    "dev:watch": "routes:watch & vite",
+    "dev:watch": "pnpm routes:watch & vite",
     "docs:build": "cd docs && vocs build",
     "docs:dev": "cd docs && vocs dev",
     "docs:preview": "cd docs && vocs preview",
