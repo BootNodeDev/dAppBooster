@@ -1,4 +1,4 @@
-export const styles = {
+const styles = {
   'html.light &': {
     '--background-color': '#fff',
     '--button-active-state-left': 'var(--button-left-end)',
