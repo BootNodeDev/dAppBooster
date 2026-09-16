@@ -1,0 +1,42 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests", ":semanticCommits"],
+  "schedule": ["before 6am on monday"],
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
+  "dependencyDashboard": true,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on monday"]
+  },
+  "packageRules": [
+    {
+      "description": "Batch non-major updates into one weekly PR.",
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "groupName": "weekly non-major"
+    },
+    {
+      "description": "wagmi 3 has no connectkit or rainbowkit release to go with it. Holding the major until both ship one.",
+      "matchPackageNames": ["wagmi"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Pinned in pnpm-workspace.yaml to the exact versions wagmi 2 depends on, because @reown/appkit-adapter-wagmi and porto leave them as open peers and pnpm otherwise installs a second copy. They move when wagmi moves, not on their own.",
+      "matchPackageNames": ["@wagmi/core", "@wagmi/connectors"],
+      "enabled": false
+    },
+    {
+      "description": "@bootnodedev/db-subgraph asks for graphql ^16. A second copy of graphql in the tree breaks schema identity checks at runtime.",
+      "matchPackageNames": ["graphql"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "TypeScript 7 is the Go-native compiler and no longer ships the JS compiler API typedoc reads, so pnpm typedoc:build cannot run on it. Hold the major until typedoc supports it.",
+      "matchPackageNames": ["typescript"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
+  ]
+}
