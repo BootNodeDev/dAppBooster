@@ -11,6 +11,6 @@ allowBuilds:
   utf-8-validate: true
 
 overrides:
-  '@graphql-codegen/cli': ^6
+  '@graphql-codegen/cli': ^7
   '@wagmi/core': ^2.22.1
   '@wagmi/connectors': ^6.2.0

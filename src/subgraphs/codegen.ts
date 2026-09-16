@@ -33,7 +33,7 @@ const env = loadEnv('subgraphs', process.cwd(), '')
  * })
  * ```
  */
-export default generateCodegenConfig({
+const codegenConfig = generateCodegenConfig({
   subgraphs: [
     {
       apiKey: env.PUBLIC_SUBGRAPHS_API_KEY,
@@ -44,3 +44,17 @@ export default generateCodegenConfig({
     },
   ],
 })
+
+export default {
+  ...codegenConfig,
+  config: {
+    ...codegenConfig.config,
+    scalars: {
+      BigDecimal: 'string',
+      BigInt: 'string',
+      Bytes: 'string',
+      Int8: 'number',
+      Timestamp: 'string',
+    },
+  },
+}
