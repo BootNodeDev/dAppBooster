@@ -14,6 +14,7 @@ tsconfig.tsbuildinfo
 .tool-versions
 
 # Project folders
+/bin
 typedoc
 coverage
 src/subgraphs/gql
@@ -47,3 +48,4 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 .worktrees
+.vercel
