@@ -14,5 +14,5 @@ allowBuilds:
 
 overrides:
   '@graphql-codegen/cli': ^7
-  '@wagmi/core': ^2.22.1
-  '@wagmi/connectors': ^6.2.0
+  '@wagmi/core': 2.22.1
+  '@wagmi/connectors': 6.2.0
