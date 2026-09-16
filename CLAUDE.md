@@ -6,7 +6,7 @@ System architecture, data flow, provider hierarchy, and structural conventions a
 
 ## Requirements
 
-- Node 24+ (see `.nvmrc`)
+- Node 24.15.0+ (enforced via `engines.node` in package.json; `.nvmrc` names the version we develop and test on)
 - pnpm 10.30.2+ (enforced via `packageManager` in package.json; corepack will block npm/yarn)
 
 ## Setup

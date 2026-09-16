@@ -3,6 +3,10 @@
   "private": true,
   "version": "2.5.1",
   "type": "module",
+  "packageManager": "pnpm@10.33.0",
+  "engines": {
+    "node": ">=24.15.0"
+  },
   "scripts": {
     "build": "tsc --noEmit --pretty && vite build",
     "dev": "vite",
@@ -91,7 +95,6 @@
     "vitest": "^4.1.2",
     "vocs": "1.4.1"
   },
-  "packageManager": "pnpm@10.33.0",
   "pnpm": {
     "overrides": {
       "@graphql-codegen/cli": "^6"

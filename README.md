@@ -10,7 +10,7 @@
 
 ## Requirements
 
-- Node v20+ from https://nodejs.org/
+- Node v24.15.0+ from https://nodejs.org/ (see `.nvmrc` for the version we develop and test on)
 - pnpm from https://pnpm.io/
 
 ## Installation

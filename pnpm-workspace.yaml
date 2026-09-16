@@ -1,3 +1,7 @@
+# Refuse to install on a Node older than engines.node in package.json, instead of
+# failing later with an unrelated error.
+engineStrict: true
+
 onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@parcel/watcher'
