@@ -1,20 +1,27 @@
-#!/bin/sh
+set -e
 
-# Run the TypeScript compiler to check for TypeScript errors
-# We have to do this here (as opossed to running it with lint-staged) because whithin
-# lint-staged using the configuration from tsconfig.json is not possible and in consequence
-# ignored. Ideally move this to lint-staged if / when that's supported so we don't have to
-# check all the files every time we push to the repo...
-# For the time being: added --incremental (compiles everything only the first time, and just
-# the modified files after that) and some other parameters to make compiling faster.
-echo "Running TypeScript checks..."
-pnpm tsc --noEmit --pretty --skipLibCheck --incremental --maxNodeModuleJsDepth 0
+echo "Running TypeScript checks"
+pnpm typecheck
 
-# Check result
-if [ $? -ne 0 ]; then
-  echo "TypeScript checks failed. Push aborted."
-  exit 1
-fi
+echo "Scanning outgoing commits for secrets"
+. "$(dirname "$0")/gitleaks.sh"
 
-echo "TypeScript checks passed. Proceeding with push."
-exit 0
+remote="$1"
+z=0000000000000000000000000000000000000000
+rc=0
+while read -r local_ref local_sha remote_ref remote_sha; do
+  if [ "$local_sha" = "$z" ]; then
+    continue
+  fi
+  if [ "$remote_sha" = "$z" ] || ! git cat-file -e "$remote_sha^{commit}" 2>/dev/null; then
+    range="$local_sha --not --remotes=$remote"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+  if ! git rev-list $range >/dev/null 2>&1; then
+    echo "pre-push: cannot resolve the range to scan ($range), refusing the push" >&2
+    exit 1
+  fi
+  gitleaks git --redact --verbose --log-opts="$range" . || rc=1
+done
+exit "$rc"
