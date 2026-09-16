@@ -7,7 +7,7 @@ description: Use when creating a pull request -- reads the PR template, auto-fil
 
 Create a well-structured GitHub pull request by reading the repo's PR template and filling it from context.
 
-**Core principle:** Templates own the format. Context owns the content. User owns the final word.
+**Core principle:** Templates own the format. Context owns the content. A human has to read this -- keep it short.
 
 ## Template Location
 
@@ -15,32 +15,121 @@ Read `.github/PULL_REQUEST_TEMPLATE.md` relative to the project root on every in
 
 ## Core Pattern
 
-1. **Gather** -- Collect all inputs silently. Ask only when auto-derivation fails.
-2. **Draft** -- Fill every template section from the gathered context.
-3. **Confirm** -- Show the full draft. Wait for explicit approval. Iterate.
+0. **Scope check** -- Compare the diff against the issue. Settle any split *before* the wizard starts.
+1. **Gather** -- Derive everything derivable. Ask one batched round of questions, nothing more.
+2. **Draft** -- Fill every template section inside the body budget.
+3. **Confirm** -- Show the full draft. Everything is editable here. Wait for explicit approval.
 4. **Create** -- Run `gh pr create` with `--body-file`. Report the URL.
+
+## Body Budget
+
+The reader is a person with several PRs to review today. Optimise for their time, not for completeness.
+
+| Rule | Limit |
+|------|-------|
+| Prose (every paragraph in the body, combined) | 150 words target, **200 words hard cap** |
+| Deviations section prose | **100 words hard cap**, counted inside the 200 |
+| Any list item | one ultra brief line, no sub-bullets, no trailing period |
+
+The word limits above are hard caps, not guidelines. A body that exceeds one is not ready to post.
+
+- Cut anything GitHub already shows: file names, paths, diff stats, commit hashes, branch names.
+- Cut restatement. If a bullet re-says the summary in other words, delete the bullet.
+- No preamble. `This PR adds...` → `Adds...`, then delete that too if the bullet below says it.
+- Over a hard cap means delete content, never compress it into one long sentence.
+
+## Writing Style
+
+Avoid dense technical writing. Use clear, concise, and non-redundant prose. Examples: Simple English Wikipedia, Mr. Rogers, Ernest Hemingway.
+
+Banned vocabulary: do not invent abbreviations, compound labels, framework names, or domain terms.
+
+List of usual words to avoid:
+
+- load-bearing
+- blast radius
+- footgun
+- yak shaving
+- belt-and-suspenders
+- smoking gun
+- spine
+- seams
+- gate
+- substrate
+
+If writing documentation pay special attention to use words a maintainer would search for in the codebase.
+
+If something can be made a list, make it a list. It's easier to read. Prefer avoiding walls of text.
+
+## Step 0: Scope Check
+
+Run this first. A developer must never discover at the end of the wizard that the branch should have been split.
+
+1. Resolve the issue: branch name `type/NNN-description` → `#NNN`; else a `#NNN` in the commit messages. Found nothing? Ask once -- the 5 most recent open issues (`gh issue list --state open --limit 5 --json number,title`) plus "None". The scope check needs this answer, so it cannot wait for Step 1.
+2. Read `git log <base>..HEAD --oneline` and `git diff <base>...HEAD --stat`, then the diff itself.
+3. Sort every change into **in scope** (traceable to the issue's acceptance criteria or stated problem) or **deviation**. Deviations come in two kinds:
+   - **Better judgment** -- the issue's own work, delivered differently than written: a criterion met by another mechanism, a renamed concept, a decision the issue got wrong. There is nothing to move to another branch. Report it in the Deviations section and move on. Where it proves the issue itself wrong, say so and suggest editing the issue.
+   - **Extra scope** -- work that would still exist had the issue been followed to the letter: drive-by refactors, unrelated fixes, formatting sweeps, dependency bumps, renames nobody requested.
+
+No linked issue: everything is in scope. Skip to Step 1.
+
+### When to suggest a split
+
+Only extra scope counts. Better judgment never triggers this, whatever its size.
+
+Stop when either holds:
+
+- Two or more distinct extra-scope concerns, each of which would merit its own issue
+- Any single extra-scope concern that changes runtime behavior or public API
+
+Size is not a trigger. A large formatting sweep costs a reviewer one glance; two unrelated fixes cost two review contexts, two rollback decisions, and two reasons for the PR to sit unmerged.
+
+Neither trigger fires? Say nothing. Record the deviations for the Deviations section and continue.
+
+### How to present the split
+
+The explanation goes in the printed message, where it has room. The question carries only the decision.
+
+Print, in this order:
+
+- One line: how many extra-scope changes, and which trigger fired
+- One ultra brief line per extra-scope change
+- One or two sentences on what the reviewer pays for by having them here
+- `Splitting is your call. Nothing has been created yet.`
+
+Then ask, two options only:
+
+1. **Keep everything in this PR** -- continue to the draft; the deviations land in the Deviations section
+2. **Stop, I'll split it myself** -- halt the skill; create nothing
+
+The split is the developer's to perform, not the skill's. Never cherry-pick, rebase, rewrite history, or create branches here. Stopping means stopping.
 
 ## Step 1: Gather
 
-**Auto-derive (no user interaction):**
+### Auto-derived -- never ask
 
-- Read `.github/PULL_REQUEST_TEMPLATE.md`
-- Run `git diff <base>...HEAD` -- the branch diff
-- Run `git log <base>..HEAD --oneline` -- the commit history
-- Extract issue number from branch name (pattern: `type/NNN-description`, e.g., `feat/17-add-skill` → `#17`)
-- If issue number found, run `gh issue view NNN --json title,body,labels` and extract acceptance criteria from the body
+| Input | Source |
+|-------|--------|
+| Template | `.github/PULL_REQUEST_TEMPLATE.md`, read every time |
+| Diff and commits | `git diff <base>...HEAD`, `git log <base>..HEAD --oneline` |
+| Linked issue | Number from branch or commits, then `gh issue view NNN --json title,body,labels` |
+| Base branch | `get-base-branch.sh` (below) |
+| Assignee | `gh api user --jq '.login'` -- the author is the assignee |
+| Checklist | Derived from the diff, see Checklist in Step 2 |
+| Screenshots | Yes only when the diff changes something visible on screen |
+| Title | Conventional commit derived from branch name and commits |
 
-**Ask when needed (use multiple-choice where possible):**
+### Asked -- one `AskUserQuestion` round, batched
 
-| Question | When | Options |
-|----------|------|---------|
-| "Which issue does this PR close?" | Branch name has no issue number | List of recent open issues (via `gh issue list --state open --limit 5 --json number,title`) + "None" + Other |
-| "PR type?" | Always; pre-select "Ready for review" | "Ready for review" / "Draft" |
-| "Base branch?" | Always; **must be asked even when auto-detected** -- the auto-detected value is the pre-selected default, not a reason to skip | Branch we branched from (auto-detected via `git merge-base` against known remote branches; pre-selected as default) / `develop` (if present in remote) / `main` / Other |
-| "Who should review this PR?" | Always; multi-select | All reviewers returned by script (see below), in order, plus "Other" as the last option |
-| "Who should this PR be assigned to?" | Always; pre-select "Me" | "Me" (resolved via `gh api user --jq '.login'`) / "Nobody" (default if "Me" feels presumptuous) / Other |
-| "Which checklist items have you completed?" | Always; multi-select; zero selections is valid (means none completed yet) | "Self-reviewed my own diff" / "Tests added or updated" / "Docs updated (if applicable)" / "No unrelated changes bundled in" |
-| "Will you add screenshots to this PR?" | Always | "Yes, I'll add them after creation" / "No" (default) |
+| Question | Ask when | Options |
+|----------|----------|---------|
+| Who should review this PR? | Always; multi-select | Every login from `get-reviewers.sh`, in order, plus "Other" last |
+| Ready or draft? | Always | "Ready for review" (default) / "Draft" |
+| Base branch? | `get-base-branch.sh` fails, or returns a branch that is not `main`/`master`/`develop`/`staging` | Script's answer (default) / `develop` / `main` / Other |
+
+The linked issue was already settled in Step 0. Do not ask again.
+
+**The filter:** never ask a question whose answer the user could fix just as fast in Step 3. The draft is the question. Auto-detection is an answer, not a default to confirm.
 
 ### Helper scripts
 
@@ -52,7 +141,7 @@ Auto-detect base branch:
 if [[ -f .claude/skills/create-pr/get-base-branch.sh ]]; then bash .claude/skills/create-pr/get-base-branch.sh; elif [[ -f "$HOME/.claude/skills/create-pr/get-base-branch.sh" ]]; then bash "$HOME/.claude/skills/create-pr/get-base-branch.sh"; fi
 ```
 
-It outputs the branch name (e.g., `main`, `develop`) whose merge-base with HEAD is most recent -- i.e., the branch we most likely forked from. Present it as the pre-selected default in the base branch question.
+It outputs the branch name (e.g., `main`, `develop`) whose merge-base with HEAD is most recent -- i.e., the branch we most likely forked from.
 
 Fetch recent reviewers:
 
@@ -84,70 +173,95 @@ Fill every section in template order. Strip all HTML comments (`<!-- ... -->`).
 
 #### Summary
 
-First line: `Closes #`
+First line: `Closes #NNN`. No linked issue: `No related issue.`
 
-If no linked issue, first line: `No related issue. <one sentence motivation>`
-
-Followed by 1-3 sentences synthesizing commits and issue description, focused on *why* not *what*. If no issue is linked, derive from commits and branch name only.
+Then one or two sentences on why this exists -- the problem, not the mechanics. If the title already says it, one sentence is enough.
 
 #### Changes
 
-Bullet list. Each bullet = one discrete change from the diff or commit messages.
+One ultra brief line per change. What the software does differently now.
+
+- No file names or paths -- GitHub's Files tab covers that
+- Describe behaviour, not edits: `Header links to the block explorer`, not `Updated Header.tsx to add a link`
+- Merge near-identical bullets into one
+
+#### Deviations
+
+Everything the reviewer would otherwise flag as a surprise, carried over from Step 0: extra scope the issue never asked for, and its own work delivered differently than it worded it.
+
+- One ultra brief line each, prose **100 words hard cap** for the section (usually zero prose needed)
+- Each bullet: what changed, and why it rode along or why the issue's version was not followed
+- **Nothing to report: delete the whole section, heading included.** This is the one section that disappears when empty
+- **Something to report but the template has no such heading: add it anyway, after Changes.** Older templates predate this section, and dropping the content silently is worse than adding a heading
 
 #### Acceptance criteria
 
-- **Issue has AC:** Mirror as checkboxes. Check off items the diff demonstrates are fulfilled.
-- **Issue has no AC, or no issue:** Suggest AC based on the changes made. Present as unchecked checkboxes.
-- **AC diverged from issue:** Note it explicitly. Example: "Note: criterion X was moved to #M" or "Added: Y discovered during implementation."
+- **Issue has AC:** mirror it verbatim as checkboxes, in the issue's own words. Check off what the diff demonstrably fulfils.
+- **No AC, or no issue:** write one-line criteria derived from the change, unchecked.
+- **A criterion was met differently:** keep the issue's wording, check it off, and explain the difference in one Deviations bullet. Never silently reword the issue.
+- Do not restate criteria that the Changes bullets already cover word for word -- cut the bullet, keep the criterion.
 
 #### Test plan
 
-Two subsections, always present:
+Both subsections are **instructions a human executes**: numbered, imperative, one ultra brief line per step, no prior knowledge assumed. The final step states what they should observe.
 
 ##### Automated tests
-List test files added/modified in the diff and the command to run them. If none: `No automated tests added.`
+
+Steps to run the checks covering this PR:
+
+```
+1. Run `pnpm install`
+2. Run `pnpm test src/components/Header`
+3. Expect 4 passing tests, no warnings
+```
+
+No test tooling in the repo, or nothing runnable: `None.`
 
 ##### Manual verification
-If the change has user-facing or integration behavior, list manual steps. If purely internal: `No manual steps required.`
+
+Steps to see the change working. Step 1 is normally checkout plus start command; the last step is the observable result:
+
+```
+1. Check out this branch and run `pnpm dev`
+2. Open http://localhost:3000 and connect a wallet
+3. Click the transaction hash in the activity list
+4. Expect the explorer to open in a new tab on that transaction
+```
+
+Purely internal change with nothing to look at: `No manual steps required.`
 
 #### Breaking changes
 
-If breaking changes detected (API changes, removed exports, schema changes): describe what breaks and migration steps.
-
-If none: `None.`
+`None.` unless the diff removes or renames a public export, changes an API contract, alters a schema, or requires a new env var. If it does: one line for what breaks, one line for the migration.
 
 #### Checklist
 
-Render all four items based on the user's selections from the Gather step:
+Pre-mark every item from the diff. Do not ask -- Step 3 is where the user corrects them.
 
-- Items selected by the user → `- [x] <item>`
-- Items not selected → `- [ ] <item>`
+| Item | Checked when |
+|------|--------------|
+| Self-reviewed my own diff | Always -- the full diff was read while drafting, and the user approves it in Step 3 |
+| Tests added or updated | The diff touches test files |
+| Docs updated (if applicable) | The diff touches docs, **or** the change needs none (no user-facing or API surface) |
+| No unrelated changes bundled in | Step 0 found no extra scope; better-judgment deviations do not uncheck it |
 
-The four items, in order:
-
-1. Self-reviewed my own diff
-2. Tests added or updated
-3. Docs updated (if applicable)
-4. No unrelated changes bundled in
+Render checked items as `- [x] <item>`, unchecked as `- [ ] <item>`, always all four, always in template order.
 
 #### Screenshots
 
-Based on the Step 1 answer:
-
-- "Yes": `To be added after PR creation.` (remind user to attach via GitHub UI)
-- "No" (default): `None.`
-
-**The section is always present.**
+- Something visible changed: `To be added before review.` and remind the user after creation
+- Otherwise: `None.`
 
 ## Step 3: Confirm
 
-Show to the user:
-- PR title
-- Complete body (all sections, no HTML comments)
-- Target base branch
-- The exact `gh pr create` command that will run
+Show:
+- One header line: PR title, base branch, reviewers, assignee, draft status
+- The complete body, exactly as it will be posted
+- The prose word count against the 150-word target and the 200-word hard cap, whenever it exceeds 150
 
-Wait for explicit approval. Accept edits to any section. Loop until approved.
+**Never print the `gh pr create` command.** Every value in it is already in the header line, and showing it invites the developer to review flag syntax instead of the body. They approve content; the skill handles mechanics.
+
+Call out the two things users most often change: the **pre-marked checklist** and the **Deviations** section. Accept edits to any section. Loop until approved.
 
 ## Step 4: Create
 
@@ -167,9 +281,9 @@ gh pr create \
   [--assignee <handle>]
 ```
 
-Add `--draft` if user selected "Draft" in Step 1. Add one `--reviewer <handle>` flag per reviewer selected in Step 1; if "Other" was selected, use the handle the user provided. Add `--assignee <handle>` using the resolved login if "Me" or "Other" was selected; omit if "Nobody".
+Add `--draft` if the user selected "Draft". Add one `--reviewer <handle>` flag per reviewer selected; if "Other" was selected, use the handle the user provided. Add `--assignee` with the resolved login.
 
-After reporting the PR URL: if the user selected "Yes" for screenshots in Step 1, remind them to attach screenshots via the GitHub UI.
+After reporting the PR URL: if Screenshots says `To be added before review.`, remind the user to attach them via the GitHub UI.
 
 ## Edge Cases
 
@@ -186,13 +300,18 @@ Stop. "No commits ahead of `<base>`. Nothing to create a PR from."
 ## Common Mistakes
 
 - **Reconstructing the template from memory** -- read `.github/PULL_REQUEST_TEMPLATE.md` every time.
-- **Generating an ad-hoc format** -- every section from the template must appear, in template order.
+- **Asking what the diff already answers** -- base branch, assignee, checklist, and screenshots are derived, not asked.
+- **Running the scope check late** -- it is Step 0 because a split after drafting wastes the developer's time.
+- **Offering a split over better judgment** -- delivering the issue's own work a smarter way cannot be moved to another branch. Only extra scope can.
+- **Performing the split** -- the skill suggests and stops. Branch surgery belongs to the developer.
+- **Printing the `gh` command at confirmation** -- the header line already carries every value in it.
+- **Listing file paths in Changes** -- the Files tab does that better.
+- **Test plans that are not steps** -- "Tested manually" and a list of test file names are both failures. Write what the reader types and clicks.
+- **Blowing the word budget** -- 200 words of prose is a hard cap, not a target to fill.
 - **Creating before confirmation** -- never run `gh pr create` without explicit user approval.
 - **Leaving HTML comments** -- strip all `<!-- ... -->` from the output.
 - **Silently omitting `Closes #`** -- if no issue, say so explicitly on the first line.
-- **Deleting empty sections** -- Breaking changes and Screenshots are always present; use `None.`
-- **Ignoring AC divergence** -- note explicitly when PR criteria differ from the issue's.
-- **Skipping the base-branch question** -- always present it. Auto-detection provides the default, not the answer.
+- **Deleting empty sections** -- Breaking changes and Screenshots always render with `None.`; only Deviations disappears.
 
 ## Installation
 
