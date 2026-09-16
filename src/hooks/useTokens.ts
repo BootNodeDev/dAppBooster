@@ -1,12 +1,12 @@
 import {
-  createConfig,
-  EVM,
+  createClient,
   getChains,
   getTokenBalances,
   getTokens,
   type TokenAmount,
   type TokensResponse,
 } from '@lifi/sdk'
+import { EthereumProvider } from '@lifi/sdk-provider-ethereum'
 import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { type Address, type Chain, erc20Abi, formatUnits, getAddress } from 'viem'
@@ -24,9 +24,9 @@ import type { TokensMap } from '@/src/utils/tokenListsCache'
 const BALANCE_EXPIRATION_TIME = 32_000
 
 /** @ignore */
-export const lifiConfig = createConfig({
+export const lifiClient = createClient({
   integrator: env.PUBLIC_APP_NAME,
-  providers: [EVM()],
+  providers: [EthereumProvider()],
   rpcUrls: lifiRpcUrls,
 })
 
@@ -98,7 +98,7 @@ export const useTokens = (
 
   const { data: chains, isLoading: isLoadingChains } = useQuery({
     queryKey: ['lifi', 'chains'],
-    queryFn: () => getChains(),
+    queryFn: () => getChains(lifiClient),
     staleTime: Number.POSITIVE_INFINITY,
     refetchInterval: Number.POSITIVE_INFINITY,
     gcTime: Number.POSITIVE_INFINITY,
@@ -113,7 +113,7 @@ export const useTokens = (
 
   const { data: tokensPricesByChain, isLoading: isLoadingPrices } = useQuery({
     queryKey: ['lifi', 'tokens', 'prices', chainsToFetch],
-    queryFn: () => getTokens({ chains: chainsToFetch }),
+    queryFn: () => getTokens(lifiClient, { chains: chainsToFetch }),
     staleTime: BALANCE_EXPIRATION_TIME,
     refetchInterval: BALANCE_EXPIRATION_TIME,
     gcTime: Number.POSITIVE_INFINITY,
@@ -124,6 +124,7 @@ export const useTokens = (
     queryKey: ['lifi', 'tokens', 'balances', account, chainsToFetch],
     queryFn: () =>
       getTokenBalances(
+        lifiClient,
         // biome-ignore lint/style/noNonNullAssertion: guarded by enabled: canFetchBalance && !!tokensPricesByChain
         account!,
         // biome-ignore lint/style/noNonNullAssertion: guarded by enabled: canFetchBalance && !!tokensPricesByChain
