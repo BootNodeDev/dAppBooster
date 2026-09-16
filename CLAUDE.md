@@ -8,8 +8,8 @@ System architecture, data flow, provider hierarchy, and structural conventions a
 
 ## Requirements
 
-- Node 24.15.0+ (enforced via `engines.node` in package.json; `.nvmrc` names the version we develop and test on)
-- pnpm 10.30.2+ (enforced via `packageManager` in package.json; corepack will block npm/yarn)
+- Node 24.15.0+ (enforced via `engines.node` in package.json; `.nvmrc` names the version we develop and test on). `pnpm-workspace.yaml` sets `engineStrict: true`, so `pnpm install` refuses to run on anything older.
+- pnpm 12.4.2 (enforced via `packageManager` in package.json; corepack will block npm/yarn)
 
 ## Setup
 
@@ -27,9 +27,9 @@ System architecture, data flow, provider hierarchy, and structural conventions a
 
 Three hooks run automatically and will block on failure:
 
-- **pre-commit:** lint-staged runs Biome check + Vitest on related files for staged changes
+- **pre-commit:** lint-staged in two passes, then gitleaks on the staged changes. The first pass (`.lintstagedrc.format.mjs`) writes: Biome formats and fixes. The second (`.lintstagedrc.mjs`) only reads: Vitest runs the tests related to the staged files. They are split because lint-staged runs globs concurrently, so a single pass let a reformat land while another task was reading the same file.
 - **commit-msg:** commitlint enforces conventional commit format. Valid types: `feat`, `fix`, `docs`, `test`, `ci`, `refactor`, `perf`, `chore`, `revert`, `style`, `build`, `hotfix`, `wip`, `release`. PR titles are also validated via CI.
-- **pre-push:** full `tsc --noEmit` type check (pushes with type errors will be rejected)
+- **pre-push:** `pnpm typecheck`, then gitleaks over the commits being pushed. The second scan is the backstop for a bypassed pre-commit.
 
 ## Commit Standards
 
@@ -157,6 +157,29 @@ These files are gitignored and regenerated from source:
 - `src/routeTree.gen.ts` -- regenerate with `pnpm routes:generate`
 - `src/subgraphs/gql/` -- regenerate with `pnpm subgraph-codegen`
 
+## Dependency Policy
+
+`pnpm-workspace.yaml` holds parts of the tree to one version, and `renovate.json` disables the matching major updates so nobody re-proposes them by accident. Each hold has a reason:
+
+- **wagmi stays on 2.** connectkit and rainbowkit have no wagmi 3 release. `@reown/appkit-adapter-wagmi` and `porto` leave `@wagmi/core` and `@wagmi/connectors` as open peers, which pnpm fills with 3.x and 8.x on a fresh resolve, so the `overrides` block pins both to the exact versions wagmi 2 depends on. Two copies means two connector registries and a build that cannot resolve `@wagmi/core/tempo`. Renovate leaves those two alone entirely: they move when wagmi moves.
+- **graphql stays on 16.** `@bootnodedev/db-subgraph` asks for `^16`, and a second copy of graphql in the tree breaks schema identity checks at runtime.
+- **TypeScript stays on 6.** TypeScript 7 is the Go-native compiler and no longer ships the JS compiler API typedoc reads, so `pnpm typedoc:build` cannot run on it.
+- **`@graphql-codegen/cli` is overridden to `^7`** so `@bootnodedev/db-subgraph`, which asks for `^5`, uses the copy we do.
+
+Renovate itself opens one batched pull request a week, waits three days after a release before proposing it, and never auto-merges. It does nothing until the Renovate GitHub App is installed on the repo.
+
+## Secret Scanning (gitleaks)
+
+`scripts/install-gitleaks.sh` downloads the version named in `.gitleaks-version` into `bin/` (gitignored) and checks its sha256. The git hooks and CI all call it, so everyone runs the same version against the same rules.
+
+Accepted findings live in `.gitleaksignore`, one fingerprint per line. Today there is one: the published Anvil test account private key, in a test file on an old branch. A new secret produces a new fingerprint and still fails the scan.
+
+## Dead Code (knip)
+
+`pnpm knip` reports files, exports and dependencies nothing reaches. `knip.json` treats the template's public surface as entry points -- shared components, hooks, the wagmi CLI config, the alternative wallet configs -- because those are meant to be unused until a project picks them up.
+
+Unused files, unused dependencies and unlisted dependencies fail. Unused exports, unused types and duplicate named/default exports are reported as warnings: what is left is components and helpers the template offers on purpose, plus the `export const X` / `export default X` pair those components use.
+
 ## Testing
 
 - Framework: Vitest with jsdom environment
@@ -187,8 +210,12 @@ These files are gitignored and regenerated from source:
 Run before declaring work done:
 
 - `pnpm lint`
+- `pnpm typecheck`
 - `pnpm test`
+- `pnpm knip`
 - `pnpm build` (when feasible for runtime-impacting changes)
+
+CI runs the same commands on every pull request, plus a gitleaks scan of the whole history and commitlint over the PR's commits and title. The typecheck job also builds the typedoc reference and the docs site, and is skipped on pull requests from forks because it needs the subgraph secrets.
 
 ## References
 
