@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.5.1",
   "type": "module",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@12.4.2",
   "engines": {
     "node": ">=24.15.0"
   },
@@ -94,10 +94,5 @@
     "vite-plugin-sitemap": "^0.8.2",
     "vitest": "^4.1.2",
     "vocs": "1.4.1"
-  },
-  "pnpm": {
-    "overrides": {
-      "@graphql-codegen/cli": "^6"
-    }
   }
 }
