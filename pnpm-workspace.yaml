@@ -1,8 +1,5 @@
-# Refuse to install on a Node older than engines.node in package.json, instead of
-# failing later with an unrelated error.
 engineStrict: true
 
-# Packages allowed to run install scripts. Everything not listed here is blocked.
 allowBuilds:
   '@biomejs/biome': true
   '@parcel/watcher': true
@@ -13,7 +10,7 @@ allowBuilds:
   keccak: true
   utf-8-validate: true
 
-# @bootnodedev/db-subgraph still asks for @graphql-codegen/cli ^5. Pull it up to the
-# version we use so the subgraph codegen runs on one copy.
 overrides:
   '@graphql-codegen/cli': ^6
+  '@wagmi/core': ^2.22.1
+  '@wagmi/connectors': ^6.2.0
