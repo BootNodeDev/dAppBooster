@@ -62,6 +62,8 @@ Use [Conventional Commits](https://www.conventionalcommits.org/):
 
 ## PR Workflow
 
+- `main` is the only long-lived branch. Branch off it, open the PR against it, delete the branch after merge. There is no `develop`.
+- Releases are a tag on `main` plus a GitHub release, not a separate branch
 - Every PR must reference an issue (`Closes #N`)
 
   > No related issue? Use `No related issue.` as the first line of the Summary section.

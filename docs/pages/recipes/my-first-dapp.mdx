@@ -12,7 +12,7 @@ This guide will walk you through developing your first dApp using dappBooster. Y
 
 ## Network configuration
 
-The Sepolia network is pre-configured in [src/lib/networks.config.ts](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/lib/networks.config.ts). Review this file if you're interested in adding more networks by following the existing pattern.
+The Sepolia network is pre-configured in [src/lib/networks.config.ts](https://github.com/BootNodeDev/dAppBooster/blob/main/src/lib/networks.config.ts). Review this file if you're interested in adding more networks by following the existing pattern.
 
 ## Contract configuration
 
@@ -50,7 +50,7 @@ export const contracts = {
 
 ## Generate the hooks
 
-Use the wagmi utility to generate React hooks for the WETH contract. We have [configured](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/lib/wagmi/config.ts) wagmi to generate hooks with both suspense and promised hooks.
+Use the wagmi utility to generate React hooks for the WETH contract. We have [configured](https://github.com/BootNodeDev/dAppBooster/blob/main/src/lib/wagmi/config.ts) wagmi to generate hooks with both suspense and promised hooks.
 
 ```bash [Terminal]
 pnpm wagmi-generate
@@ -136,12 +136,12 @@ Now, all the token related utilities will make use of this new list.
 :::info
 **Get the tokens**
 
-Use the [useTokenLists](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/hooks/useTokenLists.ts) hook it to obtain all the tokens configured.
+Use the [useTokenLists](https://github.com/BootNodeDev/dAppBooster/blob/main/src/hooks/useTokenLists.ts) hook it to obtain all the tokens configured.
 :::
 
 ## The TokenInput component
 
-We will use the [TokenInput](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/components/sharedComponents/TokenInput/index.tsx) component. This component has this useful features:
+We will use the [TokenInput](https://github.com/BootNodeDev/dAppBooster/blob/main/src/components/sharedComponents/TokenInput/index.tsx) component. This component has this useful features:
 
 * Show the user the token they are interacting with (ETH when wrapping and WETH when unwrapping).
 * It will allow the user to enter the token amount in decimal format and will return the parsed amount in wei.
@@ -212,7 +212,7 @@ Now it's time to develop the functionality for deposit and withdrawal.
 
 We will consume different hooks that will take care of triggering the transactions for deposit, approve and withdraw.
 
-Also, we will make use of another special hook [useWeb3Status()](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/hooks/useWeb3Status.tsx) provided by dappBooster. This hook will return important information of the context of the connected wallet and selected chain.
+Also, we will make use of another special hook [useWeb3Status()](https://github.com/BootNodeDev/dAppBooster/blob/main/src/hooks/useWeb3Status.tsx) provided by dappBooster. This hook will return important information of the context of the connected wallet and selected chain.
 
 ```tsx [index.tsx] showLineNumbers
 import { Card } from '@chakra-ui/react'
@@ -281,7 +281,7 @@ export const Weth = () => (
 
 ## Deposit, approve and withdraw
 
-After the user enters a valid value, we need a button to trigger one of the possible actions. We will make use of  the [TransactionButton](https://github.com/BootNodeDev/dAppBooster/blob/develop/src/components/sharedComponents/TransactionButton.tsx) component to handle the transaction lifecycle. We will only pass two properties `transaction`, which receives a function returning a promise with a transaction hash, and `onMined` where we will refetch the user balance once the transaction has been mined.
+After the user enters a valid value, we need a button to trigger one of the possible actions. We will make use of  the [TransactionButton](https://github.com/BootNodeDev/dAppBooster/blob/main/src/components/sharedComponents/TransactionButton.tsx) component to handle the transaction lifecycle. We will only pass two properties `transaction`, which receives a function returning a promise with a transaction hash, and `onMined` where we will refetch the user balance once the transaction has been mined.
 
 ```tsx [index.tsx] showLineNumbers
 import { ChangeEvent, useState } from 'react' // [!code focus]

@@ -19,15 +19,9 @@ git clone git@github.com:BootNodeDev/dAppBooster.git dAppName
 cd dAppName
 ```
 
-### Branch checkout
+### Checkout the last tag
 
-The default branch is `develop`, which is fine if you're developing new features or fixing bugs, but if you're developing a new product you probably want to checkout the production-ready `main` branch:
-
-```bash [Terminal]
-git checkout main
-```
-
-Or you can get the last tag (usually, but not always, in sync with `main`), which is what the install script does.
+Start from the last tag. It is the current released version and the only starting point we consider valid for a new project. This is what the install script does.
 
 ```bash [Terminal]
 # fetch tags
@@ -37,6 +31,8 @@ git checkout $(git describe --tags `git rev-list --tags --max-count=1`)
 # create a new branch from the tag
 git checkout -b new-branch
 ```
+
+`main` is the only branch, and it moves. Build on it if you want the newest work, but the last tag is the version we stand behind.
 
 ### Create the .env file
 
