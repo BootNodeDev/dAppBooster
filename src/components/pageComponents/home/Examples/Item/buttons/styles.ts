@@ -1,4 +1,4 @@
-export const styles = {
+const styles = {
   '.light &': {
     '--background-color': '#F7F7F7',
     '--background-color-hover': '#e8e8e8',

@@ -1,9 +1,18 @@
-onlyBuiltDependencies:
-  - '@biomejs/biome'
-  - '@parcel/watcher'
-  - '@reown/appkit'
-  - '@swc/core'
-  - bufferutil
-  - esbuild
-  - keccak
-  - utf-8-validate
+engineStrict: true
+
+allowBuilds:
+  '@biomejs/biome': true
+  '@parcel/watcher': true
+  '@reown/appkit': true
+  '@swc/core': true
+  bufferutil: true
+  es5-ext: false
+  esbuild: true
+  keccak: true
+  utf-8-validate: true
+  vue-demi: false
+
+overrides:
+  '@graphql-codegen/cli': ^7
+  '@wagmi/core': 2.22.1
+  '@wagmi/connectors': 6.2.0

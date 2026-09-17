@@ -14,6 +14,7 @@ tsconfig.tsbuildinfo
 .tool-versions
 
 # Project folders
+/bin
 typedoc
 coverage
 src/subgraphs/gql
@@ -33,6 +34,7 @@ CLAUDE.local.md
 # Builds
 /dist
 /docs/dist
+/docs/pages.gen.ts
 /docs/superpowers
 /docs/plan
 dist-ssr
@@ -46,3 +48,4 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 .worktrees
+.vercel

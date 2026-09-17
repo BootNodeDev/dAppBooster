@@ -1,0 +1,20 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreExportsUsedInFile": true,
+  "entry": [
+    "src/**/*.test.{ts,tsx}",
+    "src/components/sharedComponents/**/index.{ts,tsx}",
+    "src/hooks/**/*.{ts,tsx}",
+    "src/lib/wagmi/config.ts",
+    "src/lib/wallets/*.config.tsx",
+    ".lintstagedrc.format.mjs",
+    "docs/vocs.config.ts"
+  ],
+  "project": ["src/**/*.{ts,tsx}", "*.{ts,mjs}", "docs/*.{ts,tsx}"],
+  "ignoreDependencies": ["@graphql-typed-document-node/core", "@rainbow-me/rainbowkit", "buffer"],
+  "rules": {
+    "duplicates": "warn",
+    "exports": "warn",
+    "types": "warn"
+  }
+}

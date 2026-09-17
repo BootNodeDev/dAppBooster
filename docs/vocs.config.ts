@@ -1,6 +1,8 @@
-import { defineConfig, type SidebarItem } from 'vocs'
+import { defineConfig } from 'vocs/config'
 
 export default defineConfig({
+  srcDir: '.',
+  renderStrategy: 'full-static',
   title: 'dAppBooster',
   description:
     'A modern starter kit built with React to quickly get started with your next web3 project.',
@@ -90,5 +92,5 @@ export default defineConfig({
         },
       ],
     },
-  ] as Array<SidebarItem>,
+  ],
 })
