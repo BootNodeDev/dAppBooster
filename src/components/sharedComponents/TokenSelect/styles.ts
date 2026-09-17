@@ -1,4 +1,4 @@
-export const styles = {
+const styles = {
   'html.light &': {
     '--background-color': '#fff',
     '--border-color': '#fff',

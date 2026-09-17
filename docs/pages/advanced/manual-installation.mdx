@@ -82,12 +82,12 @@ Keep reading if you want to remove some or all of these packages.
 If you don't need subgraph support, remove these packages:
 
 ```bash [Terminal]
-pnpm remove @bootnodedev/db-subgraph graphql graphql-request @graphql-codegen/cli @graphql-typed-document-node/core
+pnpm remove @bootnodedev/db-subgraph graphql graphql-request @graphql-codegen/cli @graphql-codegen/client-preset @graphql-typed-document-node/core
 ```
 
-Also consider removing the related files and folders: `src/subgraph`, `src/components/pageComponents/home/Examples/demos/subgraphs` and the references in `/src/components/pageComponents/home/Examples/index.tsx`
+Also consider removing the related files and folders: `src/subgraphs`, `src/components/pageComponents/home/Examples/demos/subgraphs` and the references in `/src/components/pageComponents/home/Examples/index.tsx`
 
-Finally remove the subgraph-related scripts from `package.json`
+Finally remove the subgraph-related scripts from `package.json`, the `@graphql-codegen/cli` entry from `overrides` in `pnpm-workspace.yaml`, and the `pnpm subgraph-codegen` step from `.github/workflows/pr.yml`
 
 ### Typedoc
 
@@ -104,10 +104,10 @@ And remove the `typedoc.json` file, `typedoc` folder, and related scripts from `
 If you don't need [Vocs](https://vocs.dev/):
 
 ```bash [Terminal]
-pnpm remove vocs
+pnpm remove vocs waku
 ```
 
-And remove the `vocs.config.ts` file, `docs` folder, and related scripts from `package.json`
+And remove the `docs` folder, which holds both `vocs.config.ts` and the site content, plus the `docs:*` scripts in `package.json` and the `pnpm docs:build` step in `.github/workflows/pr.yml`
 
 ### Husky
 
@@ -118,6 +118,12 @@ pnpm remove husky
 ```
 
 And remove the `.husky` folder and related scripts from `package.json`
+
+:::warning
+**Secret scanning**
+
+The hooks also run [gitleaks](https://github.com/gitleaks/gitleaks) over your staged changes and over the commits you push. Removing Husky removes that. If you want it gone entirely, delete `scripts/install-gitleaks.sh`, `.gitleaks-version`, `.gitleaksignore` and the `gitleaks` job in `.github/workflows/pr.yml`.
+:::
 
 :::warning
 **Git hooks**
@@ -137,7 +143,21 @@ If you don't need [Biome](https://biomejs.dev/):
 pnpm remove @biomejs/biome
 ```
 
-And remove the `biome.json` file and related scripts from `package.json`
+And remove the `biome.json` file, the `.lintstagedrc.format.mjs` file, and related scripts from `package.json`
+
+### Knip
+
+If you don't need [Knip](https://knip.dev/):
+
+```bash [Terminal]
+pnpm remove knip
+```
+
+And remove the `knip.json` file, the `knip` script from `package.json`, and the `pnpm knip` step in `.github/workflows/pr.yml`
+
+### Renovate
+
+If you don't want [Renovate](https://docs.renovatebot.com/) proposing dependency updates, remove the `renovate.json` file. It does nothing until the Renovate GitHub App is installed on your repository.
 
 ### Vercel analytics
 

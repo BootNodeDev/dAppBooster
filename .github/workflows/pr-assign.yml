@@ -1,0 +1,21 @@
+name: pr-assign
+
+on:
+  pull_request:
+    types: [opened]
+
+permissions:
+  pull-requests: write
+
+jobs:
+  assign-author:
+    name: assign author
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository && !endsWith(github.event.pull_request.user.login, '[bot]') }}
+    steps:
+      - name: Assign the author
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: gh pr edit "$PR_URL" --add-assignee "$AUTHOR"

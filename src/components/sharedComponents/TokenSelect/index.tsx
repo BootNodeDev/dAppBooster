@@ -94,7 +94,7 @@ const TokenSelect = withSuspenseAndRetry<Props>(
         if (previousDep !== currentDep) {
           const currentChainId = currentDeps[1]
 
-          if (index === 1 && !!currentChainId) {
+          if (index === 1 && currentChainId) {
             // currentNetworkId changed, we stick with it
             setChainId(currentChainId)
           } else {
