@@ -34,10 +34,16 @@ const SuspendedComponent = () => {
   throw new Promise(() => {})
 }
 
-function makeErrorComponent(message: string) {
-  return function ErrorComponent() {
-    throw new Error(message)
-  }
+const ErrorComponent = () => {
+  throw new Error('Fetch failed')
+}
+
+// Use an external flag so React 19 retries also throw (React retries after first throw
+// before giving up to the error boundary, which would reset renderCount-based approaches)
+const recoveryState = { shouldThrow: true }
+const RecoveryComponent = () => {
+  if (recoveryState.shouldThrow) throw new Error('Persistent error')
+  return <div>Recovered</div>
 }
 
 describe('withSuspense', () => {
@@ -54,7 +60,7 @@ describe('withSuspense', () => {
   })
 
   it('shows default error message when component throws', async () => {
-    const Wrapped = withSuspense(makeErrorComponent('boom'))
+    const Wrapped = withSuspense(ErrorComponent)
     wrap(<Wrapped />)
     await waitFor(() => {
       expect(screen.getByText('Something went wrong...')).toBeDefined()
@@ -62,7 +68,7 @@ describe('withSuspense', () => {
   })
 
   it('shows custom errorFallback text when provided', async () => {
-    const Wrapped = withSuspense(makeErrorComponent('boom'))
+    const Wrapped = withSuspense(ErrorComponent)
     wrap(<Wrapped errorFallback="Custom error text" />)
     await waitFor(() => {
       expect(screen.getByText('Custom error text')).toBeDefined()
@@ -84,7 +90,7 @@ describe('withSuspenseAndRetry', () => {
   })
 
   it('shows error message and Try Again button when component throws', async () => {
-    const Wrapped = withSuspenseAndRetry(makeErrorComponent('Fetch failed'))
+    const Wrapped = withSuspenseAndRetry(ErrorComponent)
     wrap(<Wrapped />, true)
     await waitFor(() => {
       expect(screen.getByText('Fetch failed')).toBeDefined()
@@ -93,14 +99,6 @@ describe('withSuspenseAndRetry', () => {
   })
 
   it('resets error boundary when Try Again is clicked', async () => {
-    // Use an external flag so React 19 retries also throw (React retries after first throw
-    // before giving up to the error boundary, which would reset renderCount-based approaches)
-    const state = { shouldThrow: true }
-    const RecoveryComponent = () => {
-      if (state.shouldThrow) throw new Error('Persistent error')
-      return <div>Recovered</div>
-    }
-
     const Wrapped = withSuspenseAndRetry(RecoveryComponent)
     wrap(<Wrapped />, true)
 
@@ -108,7 +106,7 @@ describe('withSuspenseAndRetry', () => {
       expect(screen.getByText('Persistent error')).toBeDefined()
     })
 
-    state.shouldThrow = false
+    recoveryState.shouldThrow = false
     fireEvent.click(screen.getByText('Try Again'))
 
     await waitFor(() => {
