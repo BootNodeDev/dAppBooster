@@ -71,7 +71,7 @@ export const getTruncatedHash = (hash: string, length = 6): string => {
     const min = 1
     const max = 16
 
-    return length < min ? min : length > max ? max : length
+    return Math.min(Math.max(length, min), max)
   }
 
   const sanitizedLength = sanitizeLength(length)

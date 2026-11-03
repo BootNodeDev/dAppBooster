@@ -132,20 +132,19 @@ const TokenInput: FC<Props> = ({
     setAmountError(error?.message)
   }
 
-  const CurrentToken = () =>
-    selectedToken ? (
-      <>
-        <Icon $iconSize={selectIconSize}>
-          <TokenLogo
-            size={selectIconSize}
-            token={selectedToken}
-          />
-        </Icon>
-        {selectedToken.symbol}
-      </>
-    ) : (
-      'Select'
-    )
+  const currentToken = selectedToken ? (
+    <>
+      <Icon $iconSize={selectIconSize}>
+        <TokenLogo
+          size={selectIconSize}
+          token={selectedToken}
+        />
+      </Icon>
+      {selectedToken.symbol}
+    </>
+  ) : (
+    'Select'
+  )
 
   return singleToken && !selectedToken ? (
     <div>When single token is true, a token is required.</div>
@@ -177,14 +176,10 @@ const TokenInput: FC<Props> = ({
             value={amount}
           />
           {singleToken ? (
-            <SingleToken>
-              <CurrentToken />
-            </SingleToken>
+            <SingleToken>{currentToken}</SingleToken>
           ) : (
             <Dialog.Trigger asChild>
-              <DropdownButton>
-                <CurrentToken />
-              </DropdownButton>
+              <DropdownButton>{currentToken}</DropdownButton>
             </Dialog.Trigger>
           )}
         </TopRow>

@@ -52,6 +52,11 @@ const system = createSystem(defaultConfig)
 const renderWithChakra = (ui: ReactNode) =>
   render(<ChakraProvider value={system}>{ui}</ChakraProvider>)
 
+const ChildComponent = () => {
+  const { address } = useWeb3StatusConnected()
+  return createElement('div', { 'data-testid': 'address' }, address)
+}
+
 describe('WalletStatusVerifier', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -186,11 +191,6 @@ describe('WalletStatusVerifier', () => {
       switchChain: mockSwitchChain,
       web3Status: mockWeb3Status,
     })
-
-    const ChildComponent = () => {
-      const { address } = useWeb3StatusConnected()
-      return createElement('div', { 'data-testid': 'address' }, address)
-    }
 
     renderWithChakra(createElement(WalletStatusVerifier, null, createElement(ChildComponent)))
 
