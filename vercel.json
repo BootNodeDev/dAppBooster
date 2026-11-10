@@ -36,6 +36,14 @@
       ]
     }
   ],
+  "redirects": [
+    {
+      "source": "/plugins/subgraphs",
+      "has": [{ "type": "host", "value": "docs\\.dappbooster\\.dev" }],
+      "destination": "/advanced/subgraph-plugin",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
