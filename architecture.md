@@ -244,6 +244,8 @@ Three Vercel projects build from this repo, all with root directory `.`, so they
 
 Everything host-specific lives in those two fields, not in `package.json`, so the scripts stay the ones a developer runs.
 
+Rules in `vercel.json` that belong to one site match on its production host. The catch-all rewrite to `/` serves the demo's client-side routes, so it skips `docs.dappbooster.dev` and `components.dappbooster.dev`, where an unknown path must return a real 404. Preview deployments on `*.vercel.app` match neither host, so these rules can only be checked in production.
+
 The demo project names the two code generators in its install command rather than leaning on `postinstall`. Vercel restores a build cache, so `pnpm install` can report "Already up to date" and never run `postinstall`, and `src/hooks/generated.ts` is generated and gitignored, so it is in neither the repo nor the cache. The build then fails on `Cannot find module '@/src/hooks/generated'`. The other two projects do not need it: typedoc produces identical output with or without those hooks, and the docs site never touches `src/`.
 
 When `VERCEL` is set, vocs builds through waku's Vercel adapter and writes a [Build Output API](https://vercel.com/docs/build-output-api/v3) directory instead of a plain folder of files. Vercel uses that in preference to the project's output directory setting, so the docs project's setting no longer matters.

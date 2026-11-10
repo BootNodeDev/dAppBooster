@@ -39,6 +39,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
+      "missing": [{ "type": "host", "value": "(docs|components)\\.dappbooster\\.dev" }],
       "destination": "/"
     }
   ]
