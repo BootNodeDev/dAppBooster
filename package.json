@@ -84,7 +84,7 @@
     "@wagmi/cli": "^2.10.0",
     "change-case": "^5.4.4",
     "husky": "^9.1.7",
-    "jsdom": "^30.0.1",
+    "jsdom": "^31.0.0",
     "knip": "^6.35.1",
     "lint-staged": "^17.5.1",
     "typedoc": "^0.28.20",
