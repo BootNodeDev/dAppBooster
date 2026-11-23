@@ -74,7 +74,7 @@
     "@tanstack/react-router-devtools": "^1.167.2",
     "@tanstack/router-cli": "^1.167.36",
     "@tanstack/router-plugin": "^1.168.38",
-    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/jest-dom": "^8.0.0",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.7",
     "@types/react": "^19.3.0",
