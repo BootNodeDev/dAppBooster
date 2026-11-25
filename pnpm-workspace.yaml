@@ -13,6 +13,6 @@ allowBuilds:
   vue-demi: false
 
 overrides:
-  '@graphql-codegen/cli': ^7
+  '@graphql-codegen/cli': ^8.0.0
   '@wagmi/core': 2.22.1
   '@wagmi/connectors': 6.2.0
